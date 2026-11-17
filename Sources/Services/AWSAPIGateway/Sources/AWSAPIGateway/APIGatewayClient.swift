@@ -2365,7 +2365,7 @@ extension APIGatewayClient {
 
     /// Performs the `DeleteDomainNameAccessAssociation` operation on the `APIGateway` service.
     ///
-    /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+    /// Deletes the DomainNameAccessAssociation resource. Only the Amazon Web Services account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another Amazon Web Services account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameAccessAssociationInput`)
     ///
@@ -3564,7 +3564,7 @@ extension APIGatewayClient {
     ///
     /// - Parameter input: Requests API Gateway to get information about the current Account resource. (Type: `GetAccountInput`)
     ///
-    /// - Returns: Represents an AWS account that is associated with API Gateway. (Type: `GetAccountOutput`)
+    /// - Returns: Represents an Amazon Web Services account that is associated with API Gateway. (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6634,7 +6634,7 @@ extension APIGatewayClient {
     ///
     /// - Parameter input: The GET request to get all the usage plans of the caller's account. (Type: `GetUsagePlansInput`)
     ///
-    /// - Returns: Represents a collection of usage plans for an AWS account. (Type: `GetUsagePlansOutput`)
+    /// - Returns: Represents a collection of usage plans for an Amazon Web Services account. (Type: `GetUsagePlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7509,7 +7509,7 @@ extension APIGatewayClient {
 
     /// Performs the `RejectDomainNameAccessAssociation` operation on the `APIGateway` service.
     ///
-    /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+    /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another Amazon Web Services account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `RejectDomainNameAccessAssociationInput`)
     ///
@@ -7874,7 +7874,7 @@ extension APIGatewayClient {
     ///
     /// - Parameter input: Requests API Gateway to change information about the current Account resource. (Type: `UpdateAccountInput`)
     ///
-    /// - Returns: Represents an AWS account that is associated with API Gateway. (Type: `UpdateAccountOutput`)
+    /// - Returns: Represents an Amazon Web Services account that is associated with API Gateway. (Type: `UpdateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8018,7 +8018,7 @@ extension APIGatewayClient {
 
     /// Performs the `UpdateAuthorizer` operation on the `APIGateway` service.
     ///
-    /// Updates an existing Authorizer resource.
+    /// Updates an existing Authorizer resource. For a JWT authorizer, the only JWT patch operation is replace on the path /jwtConfiguration. Its value is the complete configuration as a JSON string in the JwtConfigurationInput shape. This replaces the entire configuration; nothing from the previous configuration is retained. A replace operation on the path /type is supported in both directions.
     ///
     /// - Parameter input: Request to update an existing Authorizer resource. (Type: `UpdateAuthorizerInput`)
     ///

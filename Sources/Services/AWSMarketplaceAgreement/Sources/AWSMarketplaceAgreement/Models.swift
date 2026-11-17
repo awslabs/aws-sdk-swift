@@ -88,9 +88,11 @@ extension MarketplaceAgreementClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agreement
+        case agreementApproval
         case agreementCancellationRequest
         case agreementProposal
         case agreementRequest
+        case agreementRequestApprovalPlan
         case billingAdjustmentRequest
         case charge
         case invoice
@@ -100,9 +102,11 @@ extension MarketplaceAgreementClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .agreement,
+                .agreementApproval,
                 .agreementCancellationRequest,
                 .agreementProposal,
                 .agreementRequest,
+                .agreementRequestApprovalPlan,
                 .billingAdjustmentRequest,
                 .charge,
                 .invoice,
@@ -118,9 +122,11 @@ extension MarketplaceAgreementClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .agreement: return "Agreement"
+            case .agreementApproval: return "AgreementApproval"
             case .agreementCancellationRequest: return "AgreementCancellationRequest"
             case .agreementProposal: return "AgreementProposal"
             case .agreementRequest: return "AgreementRequest"
+            case .agreementRequestApprovalPlan: return "AgreementRequestApprovalPlan"
             case .billingAdjustmentRequest: return "BillingAdjustmentRequest"
             case .charge: return "Charge"
             case .invoice: return "Invoice"
@@ -284,18 +290,26 @@ extension MarketplaceAgreementClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case billingAdjustmentsLimitExceeded
+        case closedAgreementApproval
+        case closedAgreementRequest
         case duplicateAgreementInOrganization
         case duplicateCharges
+        case duplicatePlanReference
         case exceededMaximumAdjustmentAmount
         case expiredAgreementProposal
         case inactiveAgreement
+        case incompatibleAgreementRequest
         case incompatibleTerms
+        case invalidAcceptorContact
         case invalidAdjustmentAmount
+        case invalidAgreementApprovalId
         case invalidAgreementCancellationRequestId
         case invalidAgreementId
         case invalidAgreementProposalIdentifier
         case invalidAgreementRequestId
         case invalidAgreementType
+        case invalidApprovalType
+        case invalidApproverOutcomeIdToOverride
         case invalidCatalog
         case invalidChargeAmount
         case invalidChargeId
@@ -312,9 +326,11 @@ extension MarketplaceAgreementClientTypes {
         case invalidMaxResults
         case invalidName
         case invalidNextToken
+        case invalidNote
         case invalidPartyType
         case invalidPaymentRequestId
         case invalidPaymentRequestStatus
+        case invalidPlanInputs
         case invalidPurchaseOrders
         case invalidPurchaseOrderReference
         case invalidReason
@@ -323,6 +339,7 @@ extension MarketplaceAgreementClientTypes {
         case invalidRequestedTerms
         case invalidRequestedTermConfiguration
         case invalidRequestedTermId
+        case invalidResourceId
         case invalidSortBy
         case invalidSortOrder
         case invalidSourceAgreementIdentifier
@@ -330,10 +347,12 @@ extension MarketplaceAgreementClientTypes {
         case invalidTermId
         case missingAccountAddress
         case missingAdjustmentAmount
+        case missingAgreementApprovalId
         case missingAgreementCancellationRequestId
         case missingAgreementId
         case missingAgreementProposalIdentifier
         case missingAgreementRequestId
+        case missingAwsLicenseManagerUserSubscriptionsSlr
         case missingBillingAdjustments
         case missingBillingAdjustmentRequestEntry
         case missingChargeAmount
@@ -347,8 +366,10 @@ extension MarketplaceAgreementClientTypes {
         case missingInvoiceId
         case missingMandatoryTerms
         case missingName
+        case missingNote
         case missingPartyType
         case missingPaymentRequestId
+        case missingPlanInputs
         case missingPurchaseOrders
         case missingPurchaseOrderReference
         case missingReason
@@ -356,11 +377,15 @@ extension MarketplaceAgreementClientTypes {
         case missingRequestedTerms
         case missingRequestedTermConfiguration
         case missingRequestedTermId
+        case missingSortBy
         case missingSourceAgreementIdentifier
         case missingTermId
         case missingUsageAgreement
         case multipleAgreementIds
         case other
+        case pendingApprovalAgreementRequest
+        case queuedAgreementApproval
+        case rejectedByAgreementApprovalPolicy
         case supersededAgreementProposal
         case unsupportedAccountPlan
         case unsupportedAction
@@ -370,18 +395,26 @@ extension MarketplaceAgreementClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .billingAdjustmentsLimitExceeded,
+                .closedAgreementApproval,
+                .closedAgreementRequest,
                 .duplicateAgreementInOrganization,
                 .duplicateCharges,
+                .duplicatePlanReference,
                 .exceededMaximumAdjustmentAmount,
                 .expiredAgreementProposal,
                 .inactiveAgreement,
+                .incompatibleAgreementRequest,
                 .incompatibleTerms,
+                .invalidAcceptorContact,
                 .invalidAdjustmentAmount,
+                .invalidAgreementApprovalId,
                 .invalidAgreementCancellationRequestId,
                 .invalidAgreementId,
                 .invalidAgreementProposalIdentifier,
                 .invalidAgreementRequestId,
                 .invalidAgreementType,
+                .invalidApprovalType,
+                .invalidApproverOutcomeIdToOverride,
                 .invalidCatalog,
                 .invalidChargeAmount,
                 .invalidChargeId,
@@ -398,9 +431,11 @@ extension MarketplaceAgreementClientTypes {
                 .invalidMaxResults,
                 .invalidName,
                 .invalidNextToken,
+                .invalidNote,
                 .invalidPartyType,
                 .invalidPaymentRequestId,
                 .invalidPaymentRequestStatus,
+                .invalidPlanInputs,
                 .invalidPurchaseOrders,
                 .invalidPurchaseOrderReference,
                 .invalidReason,
@@ -409,6 +444,7 @@ extension MarketplaceAgreementClientTypes {
                 .invalidRequestedTerms,
                 .invalidRequestedTermConfiguration,
                 .invalidRequestedTermId,
+                .invalidResourceId,
                 .invalidSortBy,
                 .invalidSortOrder,
                 .invalidSourceAgreementIdentifier,
@@ -416,10 +452,12 @@ extension MarketplaceAgreementClientTypes {
                 .invalidTermId,
                 .missingAccountAddress,
                 .missingAdjustmentAmount,
+                .missingAgreementApprovalId,
                 .missingAgreementCancellationRequestId,
                 .missingAgreementId,
                 .missingAgreementProposalIdentifier,
                 .missingAgreementRequestId,
+                .missingAwsLicenseManagerUserSubscriptionsSlr,
                 .missingBillingAdjustments,
                 .missingBillingAdjustmentRequestEntry,
                 .missingChargeAmount,
@@ -433,8 +471,10 @@ extension MarketplaceAgreementClientTypes {
                 .missingInvoiceId,
                 .missingMandatoryTerms,
                 .missingName,
+                .missingNote,
                 .missingPartyType,
                 .missingPaymentRequestId,
+                .missingPlanInputs,
                 .missingPurchaseOrders,
                 .missingPurchaseOrderReference,
                 .missingReason,
@@ -442,11 +482,15 @@ extension MarketplaceAgreementClientTypes {
                 .missingRequestedTerms,
                 .missingRequestedTermConfiguration,
                 .missingRequestedTermId,
+                .missingSortBy,
                 .missingSourceAgreementIdentifier,
                 .missingTermId,
                 .missingUsageAgreement,
                 .multipleAgreementIds,
                 .other,
+                .pendingApprovalAgreementRequest,
+                .queuedAgreementApproval,
+                .rejectedByAgreementApprovalPolicy,
                 .supersededAgreementProposal,
                 .unsupportedAccountPlan,
                 .unsupportedAction,
@@ -462,18 +506,26 @@ extension MarketplaceAgreementClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .billingAdjustmentsLimitExceeded: return "BILLING_ADJUSTMENTS_LIMIT_EXCEEDED"
+            case .closedAgreementApproval: return "CLOSED_AGREEMENT_APPROVAL"
+            case .closedAgreementRequest: return "CLOSED_AGREEMENT_REQUEST"
             case .duplicateAgreementInOrganization: return "DUPLICATE_AGREEMENT_IN_ORGANIZATION"
             case .duplicateCharges: return "DUPLICATE_CHARGES"
+            case .duplicatePlanReference: return "DUPLICATE_PLAN_REFERENCE"
             case .exceededMaximumAdjustmentAmount: return "EXCEEDED_MAXIMUM_ADJUSTMENT_AMOUNT"
             case .expiredAgreementProposal: return "EXPIRED_AGREEMENT_PROPOSAL"
             case .inactiveAgreement: return "INACTIVE_AGREEMENT"
+            case .incompatibleAgreementRequest: return "INCOMPATIBLE_AGREEMENT_REQUEST"
             case .incompatibleTerms: return "INCOMPATIBLE_TERMS"
+            case .invalidAcceptorContact: return "INVALID_ACCEPTOR_CONTACT"
             case .invalidAdjustmentAmount: return "INVALID_ADJUSTMENT_AMOUNT"
+            case .invalidAgreementApprovalId: return "INVALID_AGREEMENT_APPROVAL_ID"
             case .invalidAgreementCancellationRequestId: return "INVALID_AGREEMENT_CANCELLATION_REQUEST_ID"
             case .invalidAgreementId: return "INVALID_AGREEMENT_ID"
             case .invalidAgreementProposalIdentifier: return "INVALID_AGREEMENT_PROPOSAL_IDENTIFIER"
             case .invalidAgreementRequestId: return "INVALID_AGREEMENT_REQUEST_ID"
             case .invalidAgreementType: return "INVALID_AGREEMENT_TYPE"
+            case .invalidApprovalType: return "INVALID_APPROVAL_TYPE"
+            case .invalidApproverOutcomeIdToOverride: return "INVALID_APPROVER_OUTCOME_ID_TO_OVERRIDE"
             case .invalidCatalog: return "INVALID_CATALOG"
             case .invalidChargeAmount: return "INVALID_CHARGE_AMOUNT"
             case .invalidChargeId: return "INVALID_CHARGE_ID"
@@ -490,9 +542,11 @@ extension MarketplaceAgreementClientTypes {
             case .invalidMaxResults: return "INVALID_MAX_RESULTS"
             case .invalidName: return "INVALID_NAME"
             case .invalidNextToken: return "INVALID_NEXT_TOKEN"
+            case .invalidNote: return "INVALID_NOTE"
             case .invalidPartyType: return "INVALID_PARTY_TYPE"
             case .invalidPaymentRequestId: return "INVALID_PAYMENT_REQUEST_ID"
             case .invalidPaymentRequestStatus: return "INVALID_PAYMENT_REQUEST_STATUS"
+            case .invalidPlanInputs: return "INVALID_PLAN_INPUTS"
             case .invalidPurchaseOrders: return "INVALID_PURCHASE_ORDERS"
             case .invalidPurchaseOrderReference: return "INVALID_PURCHASE_ORDER_REFERENCE"
             case .invalidReason: return "INVALID_REASON"
@@ -501,6 +555,7 @@ extension MarketplaceAgreementClientTypes {
             case .invalidRequestedTerms: return "INVALID_REQUESTED_TERMS"
             case .invalidRequestedTermConfiguration: return "INVALID_REQUESTED_TERM_CONFIGURATION"
             case .invalidRequestedTermId: return "INVALID_REQUESTED_TERM_ID"
+            case .invalidResourceId: return "INVALID_RESOURCE_ID"
             case .invalidSortBy: return "INVALID_SORT_BY"
             case .invalidSortOrder: return "INVALID_SORT_ORDER"
             case .invalidSourceAgreementIdentifier: return "INVALID_SOURCE_AGREEMENT_IDENTIFIER"
@@ -508,10 +563,12 @@ extension MarketplaceAgreementClientTypes {
             case .invalidTermId: return "INVALID_TERM_ID"
             case .missingAccountAddress: return "MISSING_ACCOUNT_ADDRESS"
             case .missingAdjustmentAmount: return "MISSING_ADJUSTMENT_AMOUNT"
+            case .missingAgreementApprovalId: return "MISSING_AGREEMENT_APPROVAL_ID"
             case .missingAgreementCancellationRequestId: return "MISSING_AGREEMENT_CANCELLATION_REQUEST_ID"
             case .missingAgreementId: return "MISSING_AGREEMENT_ID"
             case .missingAgreementProposalIdentifier: return "MISSING_AGREEMENT_PROPOSAL_IDENTIFIER"
             case .missingAgreementRequestId: return "MISSING_AGREEMENT_REQUEST_ID"
+            case .missingAwsLicenseManagerUserSubscriptionsSlr: return "MISSING_AWS_LICENSE_MANAGER_USER_SUBSCRIPTIONS_SLR"
             case .missingBillingAdjustments: return "MISSING_BILLING_ADJUSTMENTS"
             case .missingBillingAdjustmentRequestEntry: return "MISSING_BILLING_ADJUSTMENT_REQUEST_ENTRY"
             case .missingChargeAmount: return "MISSING_CHARGE_AMOUNT"
@@ -525,8 +582,10 @@ extension MarketplaceAgreementClientTypes {
             case .missingInvoiceId: return "MISSING_INVOICE_ID"
             case .missingMandatoryTerms: return "MISSING_MANDATORY_TERMS"
             case .missingName: return "MISSING_NAME"
+            case .missingNote: return "MISSING_NOTE"
             case .missingPartyType: return "MISSING_PARTY_TYPE"
             case .missingPaymentRequestId: return "MISSING_PAYMENT_REQUEST_ID"
+            case .missingPlanInputs: return "MISSING_PLAN_INPUTS"
             case .missingPurchaseOrders: return "MISSING_PURCHASE_ORDERS"
             case .missingPurchaseOrderReference: return "MISSING_PURCHASE_ORDER_REFERENCE"
             case .missingReason: return "MISSING_REASON"
@@ -534,11 +593,15 @@ extension MarketplaceAgreementClientTypes {
             case .missingRequestedTerms: return "MISSING_REQUESTED_TERMS"
             case .missingRequestedTermConfiguration: return "MISSING_REQUESTED_TERM_CONFIGURATION"
             case .missingRequestedTermId: return "MISSING_REQUESTED_TERM_ID"
+            case .missingSortBy: return "MISSING_SORT_BY"
             case .missingSourceAgreementIdentifier: return "MISSING_SOURCE_AGREEMENT_IDENTIFIER"
             case .missingTermId: return "MISSING_TERM_ID"
             case .missingUsageAgreement: return "MISSING_USAGE_AGREEMENT"
             case .multipleAgreementIds: return "MULTIPLE_AGREEMENT_IDS"
             case .other: return "OTHER"
+            case .pendingApprovalAgreementRequest: return "PENDING_APPROVAL_AGREEMENT_REQUEST"
+            case .queuedAgreementApproval: return "QUEUED_AGREEMENT_APPROVAL"
+            case .rejectedByAgreementApprovalPolicy: return "REJECTED_BY_AGREEMENT_APPROVAL_POLICY"
             case .supersededAgreementProposal: return "SUPERSEDED_AGREEMENT_PROPOSAL"
             case .unsupportedAccountPlan: return "UNSUPPORTED_ACCOUNT_PLAN"
             case .unsupportedAction: return "UNSUPPORTED_ACTION"
@@ -583,6 +646,70 @@ public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.Ser
         self.properties.reason = reason
         self.properties.requestId = requestId
     }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A purchase order reference for a charge on the agreement request.
+    public struct AgreementApprovalPurchaseOrder: Swift.Sendable {
+        /// The unique identifier of the charge to associate the purchase order with. Use GetAgreementRequest to retrieve the charges of the agreement request.
+        /// This member is required.
+        public var chargeId: Swift.String?
+        /// The purchase order reference to associate with the charge.
+        public var purchaseOrderReference: Swift.String?
+
+        public init(
+            chargeId: Swift.String? = nil,
+            purchaseOrderReference: Swift.String? = nil
+        ) {
+            self.chargeId = chargeId
+            self.purchaseOrderReference = purchaseOrderReference
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The approval decision for an agreement approval.
+    public struct BuyerAgreementApprovalApproverInput: Swift.Sendable {
+        /// The unique identifier of the agreement approval to approve.
+        /// This member is required.
+        public var agreementApprovalId: Swift.String?
+        /// The approverOutcomeId of the approver to decide on behalf of. You must be the management account or a delegated administrator of your AWS organization to set this field. Use GetAgreementApproval to retrieve the approverOutcomeId of each approver.
+        public var approverOutcomeIdToOverride: Swift.String?
+        /// An optional note that explains the decision (1-1000 characters).
+        public var note: Swift.String?
+        /// An optional list of purchase order references to associate with charges on the agreement request.
+        public var purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]?
+
+        public init(
+            agreementApprovalId: Swift.String? = nil,
+            approverOutcomeIdToOverride: Swift.String? = nil,
+            note: Swift.String? = nil,
+            purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]? = nil
+        ) {
+            self.agreementApprovalId = agreementApprovalId
+            self.approverOutcomeIdToOverride = approverOutcomeIdToOverride
+            self.note = note
+            self.purchaseOrders = purchaseOrders
+        }
+    }
+}
+
+public struct AcceptAgreementApprovalInput: Swift.Sendable {
+    /// The approval decision for an agreement approval that the buyer's organization requires.
+    public var buyerAgreementApprovalApproverInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalApproverInput?
+
+    public init(
+        buyerAgreementApprovalApproverInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalApproverInput? = nil
+    ) {
+        self.buyerAgreementApprovalApproverInput = buyerAgreementApprovalApproverInput
+    }
+}
+
+public struct AcceptAgreementApprovalOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct AcceptAgreementCancellationRequestInput: Swift.Sendable {
@@ -827,6 +954,50 @@ public struct AcceptAgreementPaymentRequestOutput: Swift.Sendable {
     }
 }
 
+/// Request exceeded the maximum allowed limit (quota) for a specific resource or API operation.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Description of the error.
+        public internal(set) var message: Swift.String? = nil
+        /// The code of the quota that was exceeded.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The unique identifier for the error.
+        public internal(set) var requestId: Swift.String? = nil
+        /// The unique identifier of the resource that exceeded the quota.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that exceeded the quota.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The code of the service whose quota was exceeded.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.requestId = requestId
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
+    }
+}
+
 extension MarketplaceAgreementClientTypes {
 
     /// Contains information about a purchase order association to a charge within an agreement.
@@ -968,7 +1139,7 @@ extension MarketplaceAgreementClientTypes {
     public struct RateCardItem: Swift.Sendable {
         /// Dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public var dimensionKey: Swift.String?
-        /// Per unit price for the product dimension that’s used for calculating the amount to be charged.
+        /// Per unit price for the product dimension that's used for calculating the amount to be charged.
         public var price: Swift.String?
 
         public init(
@@ -1035,7 +1206,7 @@ extension MarketplaceAgreementClientTypes {
         public var id: Swift.String?
         /// A rate card defines the per unit rates for product dimensions.
         public var rateCards: [MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem]?
-        /// Category of selector.
+        /// Category of the term.
         public var type: Swift.String?
 
         public init(
@@ -1110,7 +1281,7 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
-    /// Defines a short-term free pricing model where the buyers aren’t charged anything within a specified limit.
+    /// Defines a short-term free pricing model where the buyers aren't charged anything within a specified limit.
     public struct FreeTrialPricingTerm: Swift.Sendable {
         /// Duration of the free trial period. The allowed duration depends on the product type. For SaaS products, the free trial lasts 7 to 90 days.
         public var duration: Swift.String?
@@ -1145,9 +1316,9 @@ extension MarketplaceAgreementClientTypes {
         ///
         /// * CustomDsa – A custom Data Subscription Agreement (DSA) provided by you as seller. A URL for a DSA stored in an accessible Amazon S3 bucket is required for this document type.
         ///
-        /// * StandardEula – The Standard Contract for AWS Marketplace (SCMP). For more information about SCMP, see the AWS Marketplace Seller Guide. You don’t provide a URL for this type because it’s managed by AWS Marketplace.
+        /// * StandardEula – The Standard Contract for AWS Marketplace (SCMP). For more information about SCMP, see the AWS Marketplace Seller Guide. You don't provide a URL for this type because it's managed by AWS Marketplace.
         ///
-        /// * StandardDsa – DSA for AWS Marketplace. For more information about the DSA, see the AWS Data Exchange User Guide. You don’t provide a URL for this type because it’s managed by AWS Marketplace.
+        /// * StandardDsa – DSA for AWS Marketplace. For more information about the DSA, see the AWS Data Exchange User Guide. You don't provide a URL for this type because it's managed by AWS Marketplace.
         public var type: Swift.String?
         /// A URL to the legal document for buyers to read. Required when Type is CustomEula.
         public var url: Swift.String?
@@ -1172,7 +1343,7 @@ extension MarketplaceAgreementClientTypes {
     public struct LegalTerm: Swift.Sendable {
         /// List of references to legal resources proposed to the buyers. An example is the EULA.
         public var documents: [MarketplaceAgreementClientTypes.DocumentItem]?
-        /// The unique identifer for the term.
+        /// The unique identifier for the term.
         public var id: Swift.String?
         /// Category of the term being updated.
         public var type: Swift.String?
@@ -1515,11 +1686,11 @@ extension MarketplaceAgreementClientTypes {
 
     /// Defines the conditions that will keep an agreement created from this offer valid.
     public struct ValidityTerm: Swift.Sendable {
-        /// Defines the duration that the agreement remains active. If AgreementStartDate isn’t provided, the agreement duration is relative to the agreement signature time. The duration is represented in the ISO_8601 format.
+        /// Defines the duration that the agreement remains active. If AgreementStartDate isn't provided, the agreement duration is relative to the agreement signature time. The duration is represented in the ISO_8601 format.
         public var agreementDuration: Swift.String?
-        /// Defines the date when the agreement ends. The agreement ends at 23:59:59.999 UTC on the date provided. If AgreementEndDate isn’t provided, the agreement end date is determined by the validity of individual terms.
+        /// Defines the date when the agreement ends. The agreement ends at 23:59:59.999 UTC on the date provided. If AgreementEndDate isn't provided, the agreement end date is determined by the validity of individual terms.
         public var agreementEndDate: Foundation.Date?
-        /// Defines the date when agreement starts. The agreement starts at 00:00:00.000 UTC on the date provided. If AgreementStartDate isn’t provided, the agreement start date is determined based on agreement signature time.
+        /// Defines the date when agreement starts. The agreement starts at 00:00:00.000 UTC on the date provided. If AgreementStartDate isn't provided, the agreement start date is determined based on agreement signature time.
         public var agreementStartDate: Foundation.Date?
         /// The unique identifier for the term.
         public var id: Swift.String?
@@ -1575,7 +1746,7 @@ extension MarketplaceAgreementClientTypes {
 
     /// Additional parameters specified by the acceptor while accepting the variable payment term.
     public struct VariablePaymentTermConfiguration: Swift.Sendable {
-        /// Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION. The duration is represented in the ISO_8601 format (e.g., P10D for 10 days).
+        /// Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION. The duration is represented in the ISO_8601 format (for example, P10D for 10 days).
         public var expirationDuration: Swift.String?
         /// Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL
         /// This member is required.
@@ -1644,7 +1815,7 @@ extension MarketplaceAgreementClientTypes {
         case validityterm(MarketplaceAgreementClientTypes.ValidityTerm)
         /// Defines an installment-based pricing model where customers are charged a fixed price on different dates during the agreement validity period. This is used most commonly for flexible payment schedule pricing.
         case paymentscheduleterm(MarketplaceAgreementClientTypes.PaymentScheduleTerm)
-        /// Defines a short-term free pricing model where the buyers aren’t charged anything within a specified limit.
+        /// Defines a short-term free pricing model where the buyers aren't charged anything within a specified limit.
         case freetrialpricingterm(MarketplaceAgreementClientTypes.FreeTrialPricingTerm)
         /// Defines a pre-paid pricing model where the customers are charged a fixed upfront amount.
         case fixedupfrontpricingterm(MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm)
@@ -1667,6 +1838,507 @@ extension MarketplaceAgreementClientTypes {
             accountId: Swift.String? = nil
         ) {
             self.accountId = accountId
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The contact information of the acceptor.
+    public struct AcceptorContact: Swift.Sendable {
+        /// The name of the company that the acceptor contact represents.
+        /// This member is required.
+        public var companyName: Swift.String?
+        /// The ISO-3166 two-letter country code for the acceptor contact.
+        /// This member is required.
+        public var countryCode: Swift.String?
+        /// The email address of the acceptor contact.
+        /// This member is required.
+        public var emailAddress: Swift.String?
+        /// The first name of the acceptor contact.
+        /// This member is required.
+        public var firstName: Swift.String?
+        /// The last name of the acceptor contact.
+        /// This member is required.
+        public var lastName: Swift.String?
+
+        public init(
+            companyName: Swift.String? = nil,
+            countryCode: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
+            firstName: Swift.String? = nil,
+            lastName: Swift.String? = nil
+        ) {
+            self.companyName = companyName
+            self.countryCode = countryCode
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastName = lastName
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum AgreementApprovalPartyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOrganizationAdmin
+        case requester
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementApprovalPartyType] {
+            return [
+                .awsOrganizationAdmin,
+                .requester
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOrganizationAdmin: return "AWS_ORGANIZATION_ADMIN"
+            case .requester: return "REQUESTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The approval criteria for a group of approvers.
+    public struct BuyerAgreementApprovalCriteria: Swift.Sendable {
+        /// The number of approvers in the group who must approve before the level is approved.
+        /// This member is required.
+        public var requiredApprovalCount: Swift.Int?
+
+        public init(
+            requiredApprovalCount: Swift.Int? = nil
+        ) {
+            self.requiredApprovalCount = requiredApprovalCount
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approver that represents the administrators of the buyer's AWS organization. The management account or a delegated administrator of the organization can decide for this approver.
+    public struct AwsOrganizationAdminApprover: Swift.Sendable {
+        /// The ID of the AWS organization.
+        /// This member is required.
+        public var organizationId: Swift.String?
+
+        public init(
+            organizationId: Swift.String? = nil
+        ) {
+            self.organizationId = organizationId
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approver who is identified by an email address.
+    public struct EmailApprover: Swift.Sendable {
+        /// The email address of the approver.
+        /// This member is required.
+        public var emailAddress: Swift.String?
+        /// The name of the approver.
+        public var name: Swift.String?
+
+        public init(
+            emailAddress: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.emailAddress = emailAddress
+            self.name = name
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A procurement system that approves through the buyer's procurement integration.
+    public struct ProcurementToolApprover: Swift.Sendable {
+        /// The name of the procurement system.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approver in an approval plan.
+    public enum Approver: Swift.Sendable {
+        /// An approver who is identified by an email address.
+        case emailapprover(MarketplaceAgreementClientTypes.EmailApprover)
+        /// A procurement system that approves through the buyer's procurement integration.
+        case procurementtoolapprover(MarketplaceAgreementClientTypes.ProcurementToolApprover)
+        /// The administrators of the buyer's AWS organization.
+        case awsorganizationadminapprover(MarketplaceAgreementClientTypes.AwsOrganizationAdminApprover)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A group of approvers and the number of approvals the group requires.
+    public struct BuyerAgreementApprovalPlanGroup: Swift.Sendable {
+        /// The number of approvers in the group who must approve.
+        /// This member is required.
+        public var approvalCriteria: MarketplaceAgreementClientTypes.BuyerAgreementApprovalCriteria?
+        /// The approvers in the group.
+        /// This member is required.
+        public var approvers: [MarketplaceAgreementClientTypes.Approver]?
+
+        public init(
+            approvalCriteria: MarketplaceAgreementClientTypes.BuyerAgreementApprovalCriteria? = nil,
+            approvers: [MarketplaceAgreementClientTypes.Approver]? = nil
+        ) {
+            self.approvalCriteria = approvalCriteria
+            self.approvers = approvers
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A level of an approval plan.
+    public struct BuyerAgreementApprovalPlanLevel: Swift.Sendable {
+        /// The group of approvers at this level.
+        /// This member is required.
+        public var groups: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanGroup]?
+        /// The name of the level.
+        public var name: Swift.String?
+
+        public init(
+            groups: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanGroup]? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.groups = groups
+            self.name = name
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approval plan that the buyer's organization requires, with its approval levels and the approvers at each level.
+    public struct BuyerAgreementApprovalPlan: Swift.Sendable {
+        /// The approval levels of the plan, in the order they are evaluated. Approvers at a level can act only after the previous level is approved.
+        /// This member is required.
+        public var levels: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanLevel]?
+        /// The name of the approval plan.
+        public var name: Swift.String?
+        /// The identifier of the approval plan. Pass it in StartAgreementApprovals to start an agreement approval for this plan.
+        /// This member is required.
+        public var planReference: Swift.String?
+
+        public init(
+            levels: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanLevel]? = nil,
+            name: Swift.String? = nil,
+            planReference: Swift.String? = nil
+        ) {
+            self.levels = levels
+            self.name = name
+            self.planReference = planReference
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approval plan that applies to an agreement request.
+    public enum AgreementApprovalPlan: Swift.Sendable {
+        /// An approval plan that the buyer's organization requires.
+        case buyeragreementapprovalplan(MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlan)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The approval plan to start an agreement approval for, and an optional note for the approvers.
+    public struct BuyerAgreementApprovalPlanInput: Swift.Sendable {
+        /// The identifier of the approval plan. Use GetAgreementRequestApprovalPlans to retrieve the approval plans of the agreement request.
+        /// This member is required.
+        public var planReference: Swift.String?
+        /// An optional note for the approvers, such as the business reason for the purchase (1-1000 characters).
+        public var requesterNote: Swift.String?
+
+        public init(
+            planReference: Swift.String? = nil,
+            requesterNote: Swift.String? = nil
+        ) {
+            self.planReference = planReference
+            self.requesterNote = requesterNote
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The approval plan to start an agreement approval for.
+    public enum AgreementApprovalPlanInput: Swift.Sendable {
+        /// An approval plan that the buyer's organization requires.
+        case buyeragreementapprovalplaninput(MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A resource involved in the agreement, such as a product.
+    public struct AgreementApprovalResource: Swift.Sendable {
+        /// Whether the product is deployed on AWS (for example, DEPLOYED).
+        public var deployedOnAws: Swift.String?
+        /// The unique identifier of the resource.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the product.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Type of the resource, which is the product (for example, SaaSProduct, AmiProduct, ContainerProduct).
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            deployedOnAws: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.deployedOnAws = deployedOnAws
+            self.id = id
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum OfferVisibilityScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferVisibilityScope] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A summary of the proposal received from the proposer.
+    public struct AgreementApprovalProposalSummary: Swift.Sendable {
+        /// The unique identifier of the offer in AWS Marketplace.
+        /// This member is required.
+        public var offerId: Swift.String?
+        /// A unique identifier for the offer set containing this offer.
+        public var offerSetId: Swift.String?
+        /// The list of resources involved in the agreement.
+        public var resources: [MarketplaceAgreementClientTypes.AgreementApprovalResource]?
+        /// The visibility of the offer. Valid values are PUBLIC and PRIVATE.
+        /// This member is required.
+        public var visibilityScope: MarketplaceAgreementClientTypes.OfferVisibilityScope?
+
+        public init(
+            offerId: Swift.String? = nil,
+            offerSetId: Swift.String? = nil,
+            resources: [MarketplaceAgreementClientTypes.AgreementApprovalResource]? = nil,
+            visibilityScope: MarketplaceAgreementClientTypes.OfferVisibilityScope? = nil
+        ) {
+            self.offerId = offerId
+            self.offerSetId = offerSetId
+            self.resources = resources
+            self.visibilityScope = visibilityScope
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
+    public struct AgreementApprovalProposer: Swift.Sendable {
+        /// The AWS account ID of the proposer.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The legal name of the proposer.
+        /// This member is required.
+        public var legalName: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            legalName: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.legalName = legalName
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The account that started an agreement approval.
+    public struct AgreementApprovalRequester: Swift.Sendable {
+        /// The AWS account ID of the requester, which is the buyer of the agreement request.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum AgreementApprovalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case cancelled
+        case expired
+        case pendingApproval
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementApprovalStatus] {
+            return [
+                .approved,
+                .cancelled,
+                .expired,
+                .pendingApproval,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .expired: return "EXPIRED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum AgreementApprovalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buyerAgreementApproval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementApprovalType] {
+            return [
+                .buyerAgreementApproval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buyerAgreementApproval: return "BUYER_AGREEMENT_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Summary view of an agreement approval.
+    public struct AgreementApprovalSummary: Swift.Sendable {
+        /// The unique identifier of the agreement approval.
+        /// This member is required.
+        public var agreementApprovalId: Swift.String?
+        /// The unique identifier of the agreement request that the agreement approval is for.
+        /// This member is required.
+        public var agreementRequestId: Swift.String?
+        /// The date and time by which the agreement approval must be completed.
+        /// This member is required.
+        public var approvalNeededBy: Foundation.Date?
+        /// The type of the agreement approval. The only value is BUYER_AGREEMENT_APPROVAL, an approval that the buyer's organization requires before the agreement request can be accepted.
+        /// This member is required.
+        public var approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType?
+        /// The date and time when the agreement approval was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The date and time when the agreement approval expires if it isn't approved or rejected.
+        public var expiresAt: Foundation.Date?
+        /// The descriptive name of the agreement approval.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The date and time when approvers could start acting on the agreement approval.
+        public var startedAt: Foundation.Date?
+        /// The current status of the agreement approval. Possible values include PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and CANCELLED.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.AgreementApprovalStatus?
+        /// The date and time when the agreement approval was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agreementApprovalId: Swift.String? = nil,
+            agreementRequestId: Swift.String? = nil,
+            approvalNeededBy: Foundation.Date? = nil,
+            approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: MarketplaceAgreementClientTypes.AgreementApprovalStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agreementApprovalId = agreementApprovalId
+            self.agreementRequestId = agreementRequestId
+            self.approvalNeededBy = approvalNeededBy
+            self.approvalType = approvalType
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.name = name
+            self.startedAt = startedAt
+            self.status = status
+            self.updatedAt = updatedAt
         }
     }
 }
@@ -1931,7 +2603,7 @@ extension MarketplaceAgreementClientTypes {
     public struct PricingCurrencyAmount: Swift.Sendable {
         /// The monetary amount before tax.
         public var amount: Swift.String?
-        /// The 3-letter ISO 4217 currency code (e.g., USD, EUR, JPY).
+        /// The 3-letter ISO 4217 currency code (for example, USD, EUR, JPY).
         public var currencyCode: Swift.String?
         /// The maximum refundable amount as a string representation of a decimal number.
         public var maxAdjustmentAmount: Swift.String?
@@ -1984,6 +2656,135 @@ extension MarketplaceAgreementClientTypes {
             self.issuedTime = issuedTime
             self.pricingCurrencyAmount = pricingCurrencyAmount
         }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum AgreementRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case approved
+        case cancelled
+        case draft
+        case pendingApproval
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementRequestStatus] {
+            return [
+                .accepted,
+                .approved,
+                .cancelled,
+                .draft,
+                .pendingApproval,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .draft: return "DRAFT"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A summary of the proposal received from the proposer.
+    public struct ProposalSummary: Swift.Sendable {
+        /// The unique identifier of the offer in AWS Marketplace.
+        public var offerId: Swift.String?
+        /// A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+        public var offerSetId: Swift.String?
+        /// The list of resources involved in the agreement.
+        public var resources: [MarketplaceAgreementClientTypes.Resource]?
+
+        public init(
+            offerId: Swift.String? = nil,
+            offerSetId: Swift.String? = nil,
+            resources: [MarketplaceAgreementClientTypes.Resource]? = nil
+        ) {
+            self.offerId = offerId
+            self.offerSetId = offerSetId
+            self.resources = resources
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Summary view of an agreement request.
+    public struct AgreementRequestSummary: Swift.Sendable {
+        /// The unique identifier of the agreement that the agreement request is for.
+        public var agreementId: Swift.String?
+        /// The unique identifier of the agreement request.
+        public var agreementRequestId: Swift.String?
+        /// The type of agreement (for example, PurchaseAgreement).
+        public var agreementType: Swift.String?
+        /// A summary of the proposal received from the proposer.
+        public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
+        /// The current status of the agreement request. Possible values include DRAFT, PENDING_APPROVAL, APPROVED, ACCEPTED, REJECTED, and CANCELLED.
+        public var status: MarketplaceAgreementClientTypes.AgreementRequestStatus?
+
+        public init(
+            agreementId: Swift.String? = nil,
+            agreementRequestId: Swift.String? = nil,
+            agreementType: Swift.String? = nil,
+            proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
+            status: MarketplaceAgreementClientTypes.AgreementRequestStatus? = nil
+        ) {
+            self.agreementId = agreementId
+            self.agreementRequestId = agreementRequestId
+            self.agreementType = agreementType
+            self.proposalSummary = proposalSummary
+            self.status = status
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A subset of terms proposed by the proposer, which have been requested by the acceptor as part of the agreement request.
+    public enum AgreementRequestTerm: Swift.Sendable {
+        /// Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).
+        case legalterm(MarketplaceAgreementClientTypes.LegalTerm)
+        /// Defines the customer support available for the acceptors when they purchase the software.
+        case supportterm(MarketplaceAgreementClientTypes.SupportTerm)
+        /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. The acceptor will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. The acceptor can also change this flag from True to False or False to True, within the limits set by LockoutPeriod and MaxRenewals. Setting the flag to True doesn't by itself guarantee that the agreement renews, because the proposer can also opt out.
+        case renewalterm(MarketplaceAgreementClientTypes.RenewalTerm)
+        /// Defines a usage-based pricing model (typically, pay-as-you-go pricing), where the customers are charged based on product usage.
+        case usagebasedpricingterm(MarketplaceAgreementClientTypes.UsageBasedPricingTerm)
+        /// Defines a prepaid payment model that allows buyers to configure the entitlements they want to purchase and the duration.
+        case configurableupfrontpricingterm(MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm)
+        /// Enables you and your customers to move your existing agreements to AWS Marketplace. The customer won't be charged for product usage in AWS Marketplace because they already paid for the product outside of AWS Marketplace.
+        case byolpricingterm(MarketplaceAgreementClientTypes.ByolPricingTerm)
+        /// Defines a pricing model where customers are charged a fixed recurring price at the end of each billing period.
+        case recurringpaymentterm(MarketplaceAgreementClientTypes.RecurringPaymentTerm)
+        /// Defines the conditions that will keep an agreement created from this offer valid.
+        case validityterm(MarketplaceAgreementClientTypes.ValidityTerm)
+        /// Defines an installment-based pricing model where customers are charged a fixed price on different dates during the agreement validity period. This is used most commonly for flexible payment schedule pricing.
+        case paymentscheduleterm(MarketplaceAgreementClientTypes.PaymentScheduleTerm)
+        /// Defines a short-term free pricing model where the buyers aren't charged anything within a specified limit.
+        case freetrialpricingterm(MarketplaceAgreementClientTypes.FreeTrialPricingTerm)
+        /// Defines a pre-paid pricing model where the customers are charged a fixed upfront amount.
+        case fixedupfrontpricingterm(MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm)
+        /// Defines a payment model where sellers can submit variable payment requests up to a maximum charge amount, with configurable approval strategies and expiration timelines.
+        case variablepaymentterm(MarketplaceAgreementClientTypes.VariablePaymentTerm)
+        /// Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.
+        case netpaymentterm(MarketplaceAgreementClientTypes.NetPaymentTerm)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2121,23 +2922,26 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
-    /// A summary of the proposal received from the proposer.
-    public struct ProposalSummary: Swift.Sendable {
-        /// The unique identifier of the offer in AWS Marketplace.
-        public var offerId: Swift.String?
-        /// A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
-        public var offerSetId: Swift.String?
-        /// The list of resources involved in the agreement.
-        public var resources: [MarketplaceAgreementClientTypes.Resource]?
+    public enum ContactType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acceptor
+        case sdkUnknown(Swift.String)
 
-        public init(
-            offerId: Swift.String? = nil,
-            offerSetId: Swift.String? = nil,
-            resources: [MarketplaceAgreementClientTypes.Resource]? = nil
-        ) {
-            self.offerId = offerId
-            self.offerSetId = offerSetId
-            self.resources = resources
+        public static var allCases: [ContactType] {
+            return [
+                .acceptor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acceptor: return "ACCEPTOR"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2169,7 +2973,7 @@ extension MarketplaceAgreementClientTypes {
         public var agreementId: Swift.String?
         /// The type of agreement.
         public var agreementType: Swift.String?
-        /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
+        /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don't have end dates.
         public var endTime: Foundation.Date?
         /// The reason why the agreement doesn't renew at its end date. The field is null when the agreement renews. More than one reason can apply to the same agreement. When that happens, the operation returns only one reason code, and PROPOSER_RENEW_OPTED_OUT takes precedence over all others. The EnableAutoRenew field reflects only the acceptor's preference, and doesn't reflect the other reasons an agreement might not renew. Reason codes include:
         ///
@@ -2193,6 +2997,8 @@ extension MarketplaceAgreementClientTypes {
         public var entitlements: [MarketplaceAgreementClientTypes.Entitlement]?
         /// The date and time when the free trial of the agreement ends. This field is present only when the agreement includes a free trial. For an agreement that includes both a free trial and usage-based pricing, the agreement converts to paid usage at this time.
         public var freeTrialEndTime: Foundation.Date?
+        /// The types of contact information on file for the agreement. For example, ACCEPTOR indicates that the acceptor's contact information is on file, which you can retrieve with GetAgreementContacts.
+        public var includesContactOfType: [MarketplaceAgreementClientTypes.ContactType]?
         /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. You can also use it as the InitialAgreementId filter value to return every agreement in the same chain.
         public var initialAgreementId: Swift.String?
         /// The date and time when the agreement was last updated. An agreement is updated when any of its attributes or accepted terms change. Amendments, renewals, and a party changing whether the agreement renews are all examples. Use the BeforeLastUpdateTime and AfterLastUpdateTime filters to search on this value, and LastUpdateTime as the SortBy value to sort by it. Sorting by LastUpdateTime is supported only when PartyType is Proposer.
@@ -2216,6 +3022,7 @@ extension MarketplaceAgreementClientTypes {
             endTimeBehaviorType: MarketplaceAgreementClientTypes.EndTimeBehaviorType? = nil,
             entitlements: [MarketplaceAgreementClientTypes.Entitlement]? = nil,
             freeTrialEndTime: Foundation.Date? = nil,
+            includesContactOfType: [MarketplaceAgreementClientTypes.ContactType]? = nil,
             initialAgreementId: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
@@ -2232,6 +3039,7 @@ extension MarketplaceAgreementClientTypes {
             self.endTimeBehaviorType = endTimeBehaviorType
             self.entitlements = entitlements
             self.freeTrialEndTime = freeTrialEndTime
+            self.includesContactOfType = includesContactOfType
             self.initialAgreementId = initialAgreementId
             self.lastUpdateTime = lastUpdateTime
             self.proposalSummary = proposalSummary
@@ -2239,6 +3047,227 @@ extension MarketplaceAgreementClientTypes {
             self.startTime = startTime
             self.status = status
         }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum ApprovalRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notRequired
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApprovalRequirement] {
+            return [
+                .notRequired,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRequired: return "NOT_REQUIRED"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum ApproverOutcomeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case expired
+        case pendingApproval
+        case queued
+        case rejected
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApproverOutcomeStatus] {
+            return [
+                .approved,
+                .expired,
+                .pendingApproval,
+                .queued,
+                .rejected,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .expired: return "EXPIRED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .queued: return "QUEUED"
+            case .rejected: return "REJECTED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The decision of the administrators of the buyer's AWS organization. The management account or a delegated administrator of the organization makes this decision.
+    public struct AwsOrganizationApproverOutcome: Swift.Sendable {
+        /// The unique identifier of this approver in the agreement approval.
+        public var approverOutcomeId: Swift.String?
+        /// The note that the approver provided with the decision.
+        public var note: Swift.String?
+        /// The purchase order references that the approver provided with the decision.
+        public var purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]?
+        /// The decision status of the approver. Possible values include QUEUED, PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and SKIPPED.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus?
+        /// The date and time when the decision was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            approverOutcomeId: Swift.String? = nil,
+            note: Swift.String? = nil,
+            purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]? = nil,
+            status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.approverOutcomeId = approverOutcomeId
+            self.note = note
+            self.purchaseOrders = purchaseOrders
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The identity of a caller.
+    public struct CallerIdentity: Swift.Sendable {
+        /// The ARN of the IAM principal that made the call.
+        /// This member is required.
+        public var principalArn: Swift.String?
+
+        public init(
+            principalArn: Swift.String? = nil
+        ) {
+            self.principalArn = principalArn
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The decision of an approver who is identified by an email address.
+    public struct EmailApproverOutcome: Swift.Sendable {
+        /// The unique identifier of this approver in the agreement approval. An administrator of the buyer's AWS organization passes it as approverOutcomeIdToOverride to decide on the approver's behalf.
+        public var approverOutcomeId: Swift.String?
+        /// The email address of the approver.
+        /// This member is required.
+        public var emailAddress: Swift.String?
+        /// The name of the approver.
+        public var name: Swift.String?
+        /// The note that the approver provided with the decision.
+        public var note: Swift.String?
+        /// The identity that decided on the approver's behalf. This field is empty unless an administrator of the buyer's AWS organization decided for the approver.
+        public var overriddenBy: MarketplaceAgreementClientTypes.CallerIdentity?
+        /// The purchase order references that the approver provided with the decision.
+        public var purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]?
+        /// The decision status of the approver. Possible values include QUEUED, PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and SKIPPED.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus?
+        /// The date and time when the decision was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            approverOutcomeId: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
+            name: Swift.String? = nil,
+            note: Swift.String? = nil,
+            overriddenBy: MarketplaceAgreementClientTypes.CallerIdentity? = nil,
+            purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]? = nil,
+            status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.approverOutcomeId = approverOutcomeId
+            self.emailAddress = emailAddress
+            self.name = name
+            self.note = note
+            self.overriddenBy = overriddenBy
+            self.purchaseOrders = purchaseOrders
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The decision of a procurement system.
+    public struct ProcurementToolApproverOutcome: Swift.Sendable {
+        /// The unique identifier of this approver in the agreement approval. An administrator of the buyer's AWS organization passes it as approverOutcomeIdToOverride to decide on the approver's behalf.
+        public var approverOutcomeId: Swift.String?
+        /// The name of the procurement system.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The note that the approver provided with the decision.
+        public var note: Swift.String?
+        /// The identity that decided on the procurement system's behalf. This field is empty unless an administrator of the buyer's AWS organization decided for the procurement system.
+        public var overriddenBy: MarketplaceAgreementClientTypes.CallerIdentity?
+        /// The purchase order references that the approver provided with the decision.
+        public var purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]?
+        /// The decision status of the approver. Possible values include QUEUED, PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and SKIPPED.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus?
+        /// The date and time when the decision was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            approverOutcomeId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            note: Swift.String? = nil,
+            overriddenBy: MarketplaceAgreementClientTypes.CallerIdentity? = nil,
+            purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]? = nil,
+            status: MarketplaceAgreementClientTypes.ApproverOutcomeStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.approverOutcomeId = approverOutcomeId
+            self.name = name
+            self.note = note
+            self.overriddenBy = overriddenBy
+            self.purchaseOrders = purchaseOrders
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// An approver in an agreement approval and the approver's decision.
+    public enum ApproverOutcome: Swift.Sendable {
+        /// The decision of an approver who is identified by an email address.
+        case emailapproveroutcome(MarketplaceAgreementClientTypes.EmailApproverOutcome)
+        /// The decision of a procurement system.
+        case procurementtoolapproveroutcome(MarketplaceAgreementClientTypes.ProcurementToolApproverOutcome)
+        /// The decision of the administrators of the buyer's AWS organization.
+        case awsorganizationapproveroutcome(MarketplaceAgreementClientTypes.AwsOrganizationApproverOutcome)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2580,48 +3609,21 @@ public struct CancelAgreementPaymentRequestOutput: Swift.Sendable {
     }
 }
 
-/// Request exceeded the maximum allowed limit (quota) for a specific resource or API operation.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Description of the error.
-        public internal(set) var message: Swift.String? = nil
-        /// The code of the quota that was exceeded.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The unique identifier for the error.
-        public internal(set) var requestId: Swift.String? = nil
-        /// The unique identifier of the resource that exceeded the quota.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that exceeded the quota.
-        public internal(set) var resourceType: Swift.String? = nil
-        /// The code of the service whose quota was exceeded.
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+public struct CancelAgreementRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement request to cancel.
+    /// This member is required.
+    public var agreementRequestId: Swift.String?
 
     public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
+        agreementRequestId: Swift.String? = nil
     ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.requestId = requestId
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-        self.properties.serviceCode = serviceCode
+        self.agreementRequestId = agreementRequestId
     }
+}
+
+public struct CancelAgreementRequestOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension MarketplaceAgreementClientTypes {
@@ -2735,6 +3737,8 @@ extension MarketplaceAgreementClientTypes {
 }
 
 public struct CreateAgreementRequestInput: Swift.Sendable {
+    /// The contact information of the acceptor. Don't provide this parameter if the intent is AMEND.
+    public var acceptorContact: MarketplaceAgreementClientTypes.AcceptorContact?
     /// The agreement proposal signed by the proposer. The proposal includes the requested resources and the terms that outline an agreement outcome. This parameter is required if the intent is not AMEND.
     public var agreementProposalIdentifier: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2757,6 +3761,7 @@ public struct CreateAgreementRequestInput: Swift.Sendable {
     public var taxConfiguration: MarketplaceAgreementClientTypes.TaxConfiguration?
 
     public init(
+        acceptorContact: MarketplaceAgreementClientTypes.AcceptorContact? = nil,
         agreementProposalIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         intent: MarketplaceAgreementClientTypes.Intent? = nil,
@@ -2764,6 +3769,7 @@ public struct CreateAgreementRequestInput: Swift.Sendable {
         sourceAgreementIdentifier: Swift.String? = nil,
         taxConfiguration: MarketplaceAgreementClientTypes.TaxConfiguration? = nil
     ) {
+        self.acceptorContact = acceptorContact
         self.agreementProposalIdentifier = agreementProposalIdentifier
         self.clientToken = clientToken
         self.intent = intent
@@ -2819,6 +3825,7 @@ extension MarketplaceAgreementClientTypes {
 
     public enum Timing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case billingPeriod
+        case notApplicable
         case onAcceptance
         case scheduled
         case sdkUnknown(Swift.String)
@@ -2826,6 +3833,7 @@ extension MarketplaceAgreementClientTypes {
         public static var allCases: [Timing] {
             return [
                 .billingPeriod,
+                .notApplicable,
                 .onAcceptance,
                 .scheduled
             ]
@@ -2839,6 +3847,7 @@ extension MarketplaceAgreementClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .billingPeriod: return "BILLING_PERIOD"
+            case .notApplicable: return "NOT_APPLICABLE"
             case .onAcceptance: return "ON_ACCEPTANCE"
             case .scheduled: return "SCHEDULED"
             case let .sdkUnknown(s): return s
@@ -2859,6 +3868,8 @@ extension MarketplaceAgreementClientTypes {
         public var estimatedTaxes: MarketplaceAgreementClientTypes.EstimatedTaxes?
         /// Unique identifier of the charge for a given agreement.
         public var id: Swift.String?
+        /// The purchase order reference associated with the charge, if any.
+        public var purchaseOrderReference: Swift.String?
         /// The date and time when the charge is due to be invoiced. This is available only when the charge date is known.
         public var time: Foundation.Date?
         /// Indicates when the charge amount will be incurred. Values include ON_ACCEPTANCE (charged immediately when the agreement request is accepted), BILLING_PERIOD (charged on each billing period), and SCHEDULED (charged at a predetermined future date).
@@ -2869,6 +3880,7 @@ extension MarketplaceAgreementClientTypes {
             amountAfterTax: Swift.String? = nil,
             estimatedTaxes: MarketplaceAgreementClientTypes.EstimatedTaxes? = nil,
             id: Swift.String? = nil,
+            purchaseOrderReference: Swift.String? = nil,
             time: Foundation.Date? = nil,
             timing: MarketplaceAgreementClientTypes.Timing? = nil
         ) {
@@ -2876,6 +3888,7 @@ extension MarketplaceAgreementClientTypes {
             self.amountAfterTax = amountAfterTax
             self.estimatedTaxes = estimatedTaxes
             self.id = id
+            self.purchaseOrderReference = purchaseOrderReference
             self.time = time
             self.timing = timing
         }
@@ -2921,7 +3934,7 @@ extension MarketplaceAgreementClientTypes {
     ///
     /// * The charge timing is BILLING_PERIOD, so the charge amount is not determined at request time. In this case, the tax breakdown may still include the tax rate and type.
     public struct ChargeSummary: Swift.Sendable {
-        /// The three-letter currency code for all charges (e.g., USD).
+        /// The three-letter currency code for all charges (for example, USD).
         public var currencyCode: Swift.String?
         /// Provides an aggregated view of estimated tax information for the agreement.
         public var estimatedTaxes: MarketplaceAgreementClientTypes.EstimatedTaxes?
@@ -2959,15 +3972,43 @@ extension MarketplaceAgreementClientTypes {
 public struct CreateAgreementRequestOutput: Swift.Sendable {
     /// The unique identifier of the agreement request created. Use this identifier with AcceptAgreementRequest to accept the agreement.
     public var agreementRequestId: Swift.String?
+    /// The type of agreement (for example, PurchaseAgreement).
+    public var agreementType: Swift.String?
+    /// Indicates whether the agreement request requires approval before it can be accepted. Values are REQUIRED and NOT_REQUIRED.
+    public var approvalRequirement: MarketplaceAgreementClientTypes.ApprovalRequirement?
     /// Provides details of the charges associated with the agreement request. This is only applicable when a request is created for PurchaseAgreement.
     public var chargeSummary: MarketplaceAgreementClientTypes.ChargeSummary?
+    /// The date and time when the agreement request was created.
+    public var createdAt: Foundation.Date?
+    /// The current status of the agreement request. Possible values include:
+    ///
+    /// * DRAFT – The agreement request has been created but not yet submitted for approval.
+    ///
+    /// * PENDING_APPROVAL – The agreement request is waiting for one or more approvers to decide.
+    ///
+    /// * APPROVED – All required approvals have been granted, but the agreement request wasn't accepted automatically. Call AcceptAgreementRequest to accept it. If the call fails, its error explains why.
+    ///
+    /// * ACCEPTED – The agreement request has been accepted and the resulting agreement has been created.
+    ///
+    /// * REJECTED – At least one approver rejected the agreement request. It won't proceed.
+    ///
+    /// * CANCELLED – The agreement request was cancelled before completion, by the acceptor or because the acceptor's account left its AWS organization.
+    public var status: MarketplaceAgreementClientTypes.AgreementRequestStatus?
 
     public init(
         agreementRequestId: Swift.String? = nil,
-        chargeSummary: MarketplaceAgreementClientTypes.ChargeSummary? = nil
+        agreementType: Swift.String? = nil,
+        approvalRequirement: MarketplaceAgreementClientTypes.ApprovalRequirement? = nil,
+        chargeSummary: MarketplaceAgreementClientTypes.ChargeSummary? = nil,
+        createdAt: Foundation.Date? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementRequestStatus? = nil
     ) {
         self.agreementRequestId = agreementRequestId
+        self.agreementType = agreementType
+        self.approvalRequirement = approvalRequirement
         self.chargeSummary = chargeSummary
+        self.createdAt = createdAt
+        self.status = status
     }
 }
 
@@ -3141,6 +4182,154 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     }
 }
 
+public struct GetAgreementApprovalInput: Swift.Sendable {
+    /// The unique identifier of the agreement approval to retrieve.
+    /// This member is required.
+    public var agreementApprovalId: Swift.String?
+
+    public init(
+        agreementApprovalId: Swift.String? = nil
+    ) {
+        self.agreementApprovalId = agreementApprovalId
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A group of approvers, the number of approvals the group requires, and the decision of each approver.
+    public struct BuyerAgreementApprovalGroup: Swift.Sendable {
+        /// The number of approvers in the group who must approve.
+        /// This member is required.
+        public var approvalCriteria: MarketplaceAgreementClientTypes.BuyerAgreementApprovalCriteria?
+        /// The approvers in the group and the decision of each one.
+        /// This member is required.
+        public var approvers: [MarketplaceAgreementClientTypes.ApproverOutcome]?
+
+        public init(
+            approvalCriteria: MarketplaceAgreementClientTypes.BuyerAgreementApprovalCriteria? = nil,
+            approvers: [MarketplaceAgreementClientTypes.ApproverOutcome]? = nil
+        ) {
+            self.approvalCriteria = approvalCriteria
+            self.approvers = approvers
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A level of an agreement approval, with the decision of each approver.
+    public struct BuyerAgreementApprovalLevel: Swift.Sendable {
+        /// The group of approvers at this level.
+        /// This member is required.
+        public var groups: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalGroup]?
+        /// The name of the level.
+        public var name: Swift.String?
+
+        public init(
+            groups: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalGroup]? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.groups = groups
+            self.name = name
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The details of an approval that the buyer's organization requires before the agreement request can be accepted, including the approval levels and the decision of each approver.
+    public struct BuyerAgreementApproval: Swift.Sendable {
+        /// The unique identifier of the agreement approval.
+        /// This member is required.
+        public var agreementApprovalId: Swift.String?
+        /// The unique identifier of the agreement request that the agreement approval is for. Use GetAgreementRequest to retrieve the agreement request details.
+        /// This member is required.
+        public var agreementRequestId: Swift.String?
+        /// The date and time by which the agreement approval must be completed.
+        /// This member is required.
+        public var approvalNeededBy: Foundation.Date?
+        /// The type of the agreement approval, which is BUYER_AGREEMENT_APPROVAL.
+        /// This member is required.
+        public var approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType?
+        /// The date and time when the agreement approval was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The date and time when the agreement approval expires if it isn't approved or rejected.
+        public var expiresAt: Foundation.Date?
+        /// The approval levels, in the order they are evaluated. Approvers at a level can act only after the previous level is approved. Each level lists its approvers and the decision of each one.
+        /// This member is required.
+        public var levels: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalLevel]?
+        /// The descriptive name of the agreement approval.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The approval plan and the note that the requester provided in StartAgreementApprovals.
+        /// This member is required.
+        public var planInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanInput?
+        /// A summary of the proposal received from the proposer.
+        /// This member is required.
+        public var proposalSummary: MarketplaceAgreementClientTypes.AgreementApprovalProposalSummary?
+        /// The details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
+        /// This member is required.
+        public var proposer: MarketplaceAgreementClientTypes.AgreementApprovalProposer?
+        /// The account that started the agreement approval.
+        /// This member is required.
+        public var requester: MarketplaceAgreementClientTypes.AgreementApprovalRequester?
+        /// The date and time when approvers could start acting on the agreement approval.
+        public var startedAt: Foundation.Date?
+        /// The current status of the agreement approval. Possible values include PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and CANCELLED.
+        /// This member is required.
+        public var status: MarketplaceAgreementClientTypes.AgreementApprovalStatus?
+        /// The date and time when the agreement approval was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agreementApprovalId: Swift.String? = nil,
+            agreementRequestId: Swift.String? = nil,
+            approvalNeededBy: Foundation.Date? = nil,
+            approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            levels: [MarketplaceAgreementClientTypes.BuyerAgreementApprovalLevel]? = nil,
+            name: Swift.String? = nil,
+            planInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalPlanInput? = nil,
+            proposalSummary: MarketplaceAgreementClientTypes.AgreementApprovalProposalSummary? = nil,
+            proposer: MarketplaceAgreementClientTypes.AgreementApprovalProposer? = nil,
+            requester: MarketplaceAgreementClientTypes.AgreementApprovalRequester? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: MarketplaceAgreementClientTypes.AgreementApprovalStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agreementApprovalId = agreementApprovalId
+            self.agreementRequestId = agreementRequestId
+            self.approvalNeededBy = approvalNeededBy
+            self.approvalType = approvalType
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.levels = levels
+            self.name = name
+            self.planInput = planInput
+            self.proposalSummary = proposalSummary
+            self.proposer = proposer
+            self.requester = requester
+            self.startedAt = startedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetAgreementApprovalOutput: Swift.Sendable {
+    /// The details of the agreement approval, when it is a BUYER_AGREEMENT_APPROVAL.
+    public var buyerAgreementApproval: MarketplaceAgreementClientTypes.BuyerAgreementApproval?
+
+    public init(
+        buyerAgreementApproval: MarketplaceAgreementClientTypes.BuyerAgreementApproval? = nil
+    ) {
+        self.buyerAgreementApproval = buyerAgreementApproval
+    }
+}
+
 public struct GetAgreementCancellationRequestInput: Swift.Sendable {
     /// The unique identifier of the cancellation request.
     /// This member is required.
@@ -3194,6 +4383,29 @@ public struct GetAgreementCancellationRequestOutput: Swift.Sendable {
         self.status = status
         self.statusMessage = statusMessage
         self.updatedAt = updatedAt
+    }
+}
+
+public struct GetAgreementContactsInput: Swift.Sendable {
+    /// The unique identifier of the agreement.
+    /// This member is required.
+    public var agreementId: Swift.String?
+
+    public init(
+        agreementId: Swift.String? = nil
+    ) {
+        self.agreementId = agreementId
+    }
+}
+
+public struct GetAgreementContactsOutput: Swift.Sendable {
+    /// The contact information that the acceptor provided when creating the agreement.
+    public var acceptorContact: MarketplaceAgreementClientTypes.AcceptorContact?
+
+    public init(
+        acceptorContact: MarketplaceAgreementClientTypes.AcceptorContact? = nil
+    ) {
+        self.acceptorContact = acceptorContact
     }
 }
 
@@ -3309,6 +4521,155 @@ public struct GetAgreementPaymentRequestOutput: Swift.Sendable {
         self.status = status
         self.statusMessage = statusMessage
         self.updatedAt = updatedAt
+    }
+}
+
+public struct GetAgreementRequestInput: Swift.Sendable {
+    /// The unique identifier of the agreement request.
+    /// This member is required.
+    public var agreementRequestId: Swift.String?
+
+    public init(
+        agreementRequestId: Swift.String? = nil
+    ) {
+        self.agreementRequestId = agreementRequestId
+    }
+}
+
+public struct GetAgreementRequestOutput: Swift.Sendable {
+    /// The unique identifier of the agreement that the agreement request is for.
+    public var agreementId: Swift.String?
+    /// The unique identifier of the agreement request.
+    public var agreementRequestId: Swift.String?
+    /// The type of agreement (for example, PurchaseAgreement).
+    public var agreementType: Swift.String?
+    /// Indicates whether the agreement request requires approval before it can be accepted. Values are REQUIRED and NOT_REQUIRED.
+    public var approvalRequirement: MarketplaceAgreementClientTypes.ApprovalRequirement?
+    /// Provides details of the charges associated with the agreement request. This is only applicable when a request is created for PurchaseAgreement.
+    public var chargeSummary: MarketplaceAgreementClientTypes.ChargeSummary?
+    /// The date and time when the agreement request was created.
+    public var createdAt: Foundation.Date?
+    /// The purpose and desired outcome of the agreement request.
+    ///
+    /// * NEW – Creates a new agreement for terms in the request.
+    ///
+    /// * AMEND – Modifies an existing agreement with terms that are accepted in the request.
+    ///
+    /// * REPLACE – Creates a new agreement with accepted terms and replaces the existing agreement.
+    public var intent: MarketplaceAgreementClientTypes.Intent?
+    /// A summary of the proposal received from the proposer.
+    public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
+    /// The details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
+    public var proposer: MarketplaceAgreementClientTypes.Proposer?
+    /// The current status of the agreement request. Possible values include:
+    ///
+    /// * DRAFT – The agreement request has been created but not yet submitted for approval.
+    ///
+    /// * PENDING_APPROVAL – The agreement request is waiting for one or more approvers to decide.
+    ///
+    /// * APPROVED – All required approvals have been granted, but the agreement request wasn't accepted automatically. Call AcceptAgreementRequest to accept it. If the call fails, its error explains why.
+    ///
+    /// * ACCEPTED – The agreement request has been accepted and the resulting agreement has been created.
+    ///
+    /// * REJECTED – At least one approver rejected the agreement request. It won't proceed.
+    ///
+    /// * CANCELLED – The agreement request was cancelled before completion, by the acceptor or because the acceptor's account left its AWS organization.
+    public var status: MarketplaceAgreementClientTypes.AgreementRequestStatus?
+
+    public init(
+        agreementId: Swift.String? = nil,
+        agreementRequestId: Swift.String? = nil,
+        agreementType: Swift.String? = nil,
+        approvalRequirement: MarketplaceAgreementClientTypes.ApprovalRequirement? = nil,
+        chargeSummary: MarketplaceAgreementClientTypes.ChargeSummary? = nil,
+        createdAt: Foundation.Date? = nil,
+        intent: MarketplaceAgreementClientTypes.Intent? = nil,
+        proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
+        proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementRequestStatus? = nil
+    ) {
+        self.agreementId = agreementId
+        self.agreementRequestId = agreementRequestId
+        self.agreementType = agreementType
+        self.approvalRequirement = approvalRequirement
+        self.chargeSummary = chargeSummary
+        self.createdAt = createdAt
+        self.intent = intent
+        self.proposalSummary = proposalSummary
+        self.proposer = proposer
+        self.status = status
+    }
+}
+
+public struct GetAgreementRequestApprovalPlansInput: Swift.Sendable {
+    /// The unique identifier of the agreement request to retrieve the approval plans for.
+    /// This member is required.
+    public var agreementRequestId: Swift.String?
+    /// The maximum number of approval plans to return in a single response (1-50). Default is 10.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        agreementRequestId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agreementRequestId = agreementRequestId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetAgreementRequestApprovalPlansOutput: Swift.Sendable {
+    /// An array of AgreementApprovalPlan objects, one for each approval plan that applies to the agreement request.
+    /// This member is required.
+    public var items: [MarketplaceAgreementClientTypes.AgreementApprovalPlan]?
+    /// The token used for pagination. The field is null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.AgreementApprovalPlan]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetAgreementRequestTermsInput: Swift.Sendable {
+    /// The unique identifier of the agreement request.
+    /// This member is required.
+    public var agreementRequestId: Swift.String?
+    /// The maximum number of terms to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        agreementRequestId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agreementRequestId = agreementRequestId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetAgreementRequestTermsOutput: Swift.Sendable {
+    /// The token used for pagination. The field is null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The terms proposed for the agreement request. The terms are fixed when the agreement request is created.
+    /// This member is required.
+    public var terms: [MarketplaceAgreementClientTypes.AgreementRequestTerm]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        terms: [MarketplaceAgreementClientTypes.AgreementRequestTerm]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.terms = terms
     }
 }
 
@@ -3453,6 +4814,58 @@ public struct GetBillingAdjustmentRequestOutput: Swift.Sendable {
         self.status = status
         self.statusMessage = statusMessage
         self.updatedAt = updatedAt
+    }
+}
+
+public struct ListAgreementApprovalsInput: Swift.Sendable {
+    /// An optional parameter to filter agreement approvals for a specific agreement request.
+    public var agreementRequestId: Swift.String?
+    /// An optional parameter to filter agreement approvals by type. The only valid value is BUYER_AGREEMENT_APPROVAL.
+    public var approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType?
+    /// An optional parameter to filter agreement approvals by catalog (for example, AWSMarketplace).
+    public var catalog: Swift.String?
+    /// The maximum number of agreement approvals to return in a single response (1-50). Default is 20.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination.
+    public var nextToken: Swift.String?
+    /// The party type for the agreement approvals. Required parameter. Use REQUESTER to list agreement approvals for agreement requests that you created, or AWS_ORGANIZATION_ADMIN to list agreement approvals as an AWS Organizations administrator.
+    /// This member is required.
+    public var partyType: MarketplaceAgreementClientTypes.AgreementApprovalPartyType?
+    /// An optional parameter to filter agreement approvals by status. Valid values include PENDING_APPROVAL, APPROVED, REJECTED, EXPIRED, and CANCELLED. If you don't specify a status, agreement approvals of all statuses are returned.
+    public var status: MarketplaceAgreementClientTypes.AgreementApprovalStatus?
+
+    public init(
+        agreementRequestId: Swift.String? = nil,
+        approvalType: MarketplaceAgreementClientTypes.AgreementApprovalType? = nil,
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        partyType: MarketplaceAgreementClientTypes.AgreementApprovalPartyType? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementApprovalStatus? = nil
+    ) {
+        self.agreementRequestId = agreementRequestId
+        self.approvalType = approvalType
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.partyType = partyType
+        self.status = status
+    }
+}
+
+public struct ListAgreementApprovalsOutput: Swift.Sendable {
+    /// An array of AgreementApprovalSummary objects containing summary information about each agreement approval.
+    /// This member is required.
+    public var items: [MarketplaceAgreementClientTypes.AgreementApprovalSummary]?
+    /// The token used for pagination. The field is null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.AgreementApprovalSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -3777,6 +5190,48 @@ public struct ListAgreementPaymentRequestsOutput: Swift.Sendable {
     }
 }
 
+public struct ListAgreementRequestsInput: Swift.Sendable {
+    /// An optional parameter to list agreement requests by catalog (for example, AWSMarketplace).
+    public var catalog: Swift.String?
+    /// The maximum number of agreement requests to return in a single response (1-50). Default is 20.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start pagination.
+    public var nextToken: Swift.String?
+    /// An optional parameter to list agreement requests for a specific resource, such as a product.
+    public var resourceId: Swift.String?
+    /// An optional parameter to list agreement requests by status. Valid values include DRAFT, PENDING_APPROVAL, APPROVED, ACCEPTED, REJECTED, and CANCELLED. If you don't specify a status, agreement requests of all statuses are returned.
+    public var status: MarketplaceAgreementClientTypes.AgreementRequestStatus?
+
+    public init(
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        status: MarketplaceAgreementClientTypes.AgreementRequestStatus? = nil
+    ) {
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceId = resourceId
+        self.status = status
+    }
+}
+
+public struct ListAgreementRequestsOutput: Swift.Sendable {
+    /// An array of AgreementRequestSummary objects containing summary information about each agreement request.
+    public var items: [MarketplaceAgreementClientTypes.AgreementRequestSummary]?
+    /// The token used for pagination. The field is null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MarketplaceAgreementClientTypes.AgreementRequestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListBillingAdjustmentRequestsInput: Swift.Sendable {
     /// The unique identifier of the agreement to list billing adjustment requests for.
     public var agreementId: Swift.String?
@@ -3891,6 +5346,47 @@ public struct ListBillingAdjustmentRequestsOutput: Swift.Sendable {
         self.items = items
         self.nextToken = nextToken
     }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The rejection decision for an agreement approval.
+    public struct BuyerAgreementApprovalRejectionInput: Swift.Sendable {
+        /// The unique identifier of the agreement approval to reject.
+        /// This member is required.
+        public var agreementApprovalId: Swift.String?
+        /// The approverOutcomeId of the approver to decide on behalf of. You must be the management account or a delegated administrator of your AWS organization to set this field. Use GetAgreementApproval to retrieve the approverOutcomeId of each approver.
+        public var approverOutcomeIdToOverride: Swift.String?
+        /// The reason for the rejection.
+        /// This member is required.
+        public var note: Swift.String?
+
+        public init(
+            agreementApprovalId: Swift.String? = nil,
+            approverOutcomeIdToOverride: Swift.String? = nil,
+            note: Swift.String? = nil
+        ) {
+            self.agreementApprovalId = agreementApprovalId
+            self.approverOutcomeIdToOverride = approverOutcomeIdToOverride
+            self.note = note
+        }
+    }
+}
+
+public struct RejectAgreementApprovalInput: Swift.Sendable {
+    /// The rejection decision for an agreement approval that the buyer's organization requires.
+    public var buyerAgreementApprovalRejectionInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalRejectionInput?
+
+    public init(
+        buyerAgreementApprovalRejectionInput: MarketplaceAgreementClientTypes.BuyerAgreementApprovalRejectionInput? = nil
+    ) {
+        self.buyerAgreementApprovalRejectionInput = buyerAgreementApprovalRejectionInput
+    }
+}
+
+public struct RejectAgreementApprovalOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct RejectAgreementCancellationRequestInput: Swift.Sendable {
@@ -4130,6 +5626,8 @@ public struct SearchAgreementsInput: Swift.Sendable {
     ///
     /// * LicenseArn – The Amazon Resource Name (ARN) of the AWS License Manager license associated with an entitlement granted by the agreement.
     ///
+    /// * IncludesContactOfType – The type of contact information on file for the agreement. Supported value includes ACCEPTOR.
+    ///
     ///
     /// A proposer can use any combination of the preceding filters along with AgreementType, which is required. The following filter combinations are supported when the PartyType is Acceptor:
     ///
@@ -4340,6 +5838,39 @@ public struct SendAgreementPaymentRequestOutput: Swift.Sendable {
         self.name = name
         self.paymentRequestId = paymentRequestId
         self.status = status
+    }
+}
+
+public struct StartAgreementApprovalsInput: Swift.Sendable {
+    /// The unique identifier of the agreement request to start approvals for.
+    /// This member is required.
+    public var agreementRequestId: Swift.String?
+    /// The approval plans to start agreement approvals for.
+    /// This member is required.
+    public var planInputs: [MarketplaceAgreementClientTypes.AgreementApprovalPlanInput]?
+    /// An optional list of purchase order references to associate with charges on the agreement request.
+    public var purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]?
+
+    public init(
+        agreementRequestId: Swift.String? = nil,
+        planInputs: [MarketplaceAgreementClientTypes.AgreementApprovalPlanInput]? = nil,
+        purchaseOrders: [MarketplaceAgreementClientTypes.AgreementApprovalPurchaseOrder]? = nil
+    ) {
+        self.agreementRequestId = agreementRequestId
+        self.planInputs = planInputs
+        self.purchaseOrders = purchaseOrders
+    }
+}
+
+public struct StartAgreementApprovalsOutput: Swift.Sendable {
+    /// An array of AgreementApprovalSummary objects, one for each agreement approval that was started.
+    /// This member is required.
+    public var approvalSummaries: [MarketplaceAgreementClientTypes.AgreementApprovalSummary]?
+
+    public init(
+        approvalSummaries: [MarketplaceAgreementClientTypes.AgreementApprovalSummary]? = nil
+    ) {
+        self.approvalSummaries = approvalSummaries
     }
 }
 

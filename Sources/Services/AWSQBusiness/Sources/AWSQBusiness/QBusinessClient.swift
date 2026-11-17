@@ -963,7 +963,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChatInput, ChatOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ChatInput, ChatOutput>(ChatInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChatInput, ChatOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<ChatInput, ChatOutput, QBusinessClientTypes.ChatInputStream>(keyPath: \.inputStream, defaultBody: "{}", marshalClosure: QBusinessClientTypes.ChatInputStream.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<ChatInput, ChatOutput, QBusinessClientTypes.ChatInputStream>(keyPath: \.inputStream, defaultBody: "{}", marshalClosure: QBusinessClientTypes.ChatInputStream.marshal, errorMarshalClosure: QBusinessClientTypes.ChatInputStream.marshalError))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChatInput, ChatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChatOutput>(ChatOutput.httpOutput(from:), ChatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChatInput, ChatOutput>(clientLogMode: config.clientLogMode))

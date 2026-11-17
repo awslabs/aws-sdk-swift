@@ -195,10 +195,13 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum AggregationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case artifactregistryGoogleapisComDockerImage
         case awsEc2Instance
         case awsEcrContainerImage
         case awsLambdaFunction
+        case cloudfunctionsGoogleapisComFunction
         case codeRepository
+        case computeGoogleapisComInstance
         case microsoftComputeVirtualMachines
         case microsoftContainerRegistryRegistryContainerImage
         case microsoftWebSites
@@ -206,10 +209,13 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [AggregationResourceType] {
             return [
+                .artifactregistryGoogleapisComDockerImage,
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsLambdaFunction,
+                .cloudfunctionsGoogleapisComFunction,
                 .codeRepository,
+                .computeGoogleapisComInstance,
                 .microsoftComputeVirtualMachines,
                 .microsoftContainerRegistryRegistryContainerImage,
                 .microsoftWebSites
@@ -223,10 +229,13 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .artifactregistryGoogleapisComDockerImage: return "artifactregistry.googleapis.com/DockerImage"
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .cloudfunctionsGoogleapisComFunction: return "cloudfunctions.googleapis.com/Function"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .computeGoogleapisComInstance: return "compute.googleapis.com/Instance"
             case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
             case .microsoftContainerRegistryRegistryContainerImage: return "Microsoft.ContainerRegistry/registry/containerImage"
             case .microsoftWebSites: return "Microsoft.Web/sites"
@@ -303,7 +312,7 @@ extension Inspector2ClientTypes {
     public struct AccountAggregation: Swift.Sendable {
         /// The type of finding.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
-        /// The type of resource.
+        /// The type of resource. For Google Cloud Platform (GCP) resources, the resource type is compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: Inspector2ClientTypes.AggregationResourceType?
         /// The value to sort by.
         public var sortBy: Inspector2ClientTypes.AccountSortBy?
@@ -987,12 +996,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
         /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
         /// The image digests to aggregate findings for.
         public var imageDigests: [Inspector2ClientTypes.StringFilter]?
@@ -1208,7 +1221,7 @@ extension Inspector2ClientTypes {
     public struct FindingTypeAggregation: Swift.Sendable {
         /// The finding type to aggregate.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
-        /// The resource type to aggregate.
+        /// The resource type to aggregate. For Google Cloud Platform (GCP) resources, the resource type is compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: Inspector2ClientTypes.AggregationResourceType?
         /// The value to sort results by.
         public var sortBy: Inspector2ClientTypes.FindingTypeSortBy?
@@ -1284,12 +1297,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
         /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
         /// The hashes associated with the layers.
         public var layerHashes: [Inspector2ClientTypes.StringFilter]?
@@ -1626,12 +1643,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
         /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
         /// The function names to aggregate findings for.
         public var functionNames: [Inspector2ClientTypes.StringFilter]?
@@ -1712,7 +1733,7 @@ extension Inspector2ClientTypes {
     public struct TitleAggregation: Swift.Sendable {
         /// The type of finding to aggregate on.
         public var findingType: Inspector2ClientTypes.AggregationFindingType?
-        /// The resource type to aggregate on.
+        /// The resource type to aggregate on. For Google Cloud Platform (GCP) resources, the resource type is compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: Inspector2ClientTypes.AggregationResourceType?
         /// The value to sort results by.
         public var sortBy: Inspector2ClientTypes.TitleSortBy?
@@ -1799,12 +1820,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProviders: [Inspector2ClientTypes.StringFilter]?
         /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegions: [Inspector2ClientTypes.StringFilter]?
         /// The instance tags to aggregate findings for.
         public var instanceTags: [Inspector2ClientTypes.MapFilter]?
@@ -1890,12 +1915,14 @@ extension Inspector2ClientTypes {
     public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Provider] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -1908,6 +1935,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1944,12 +1972,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.Provider?
         /// The cloud Region associated with this AMI aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The source of the scan that generated the findings for the Amazon Machine Image (AMI).
         public var scanSource: Inspector2ClientTypes.ScanSource?
@@ -2097,12 +2129,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.Provider?
         /// The cloud Region associated with this container image aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The number of active findings with an exploit available for the container image.
         public var exploitAvailableActiveFindingsCount: Swift.Int?
@@ -2231,12 +2267,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Swift.String?
         /// The cloud Region associated with this finding type aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The number of findings that have an exploit available.
         public var exploitAvailableCount: Swift.Int?
@@ -2295,12 +2335,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Swift.String?
         /// The cloud Region associated with this image layer aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The layer hash.
         /// This member is required.
@@ -2466,12 +2510,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.Provider?
         /// The cloud Region associated with this repository aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The name of the repository associated with the findings.
         /// This member is required.
@@ -2528,12 +2576,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.Provider?
         /// The cloud Region associated with this serverless function aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The number of active findings with an exploit available for the serverless function.
         public var exploitAvailableActiveFindingsCount: Swift.Int?
@@ -2640,12 +2692,16 @@ extension Inspector2ClientTypes {
         /// * AWS – Findings from Amazon Web Services resources.
         ///
         /// * AZURE – Findings from Microsoft Azure resources.
+        ///
+        /// * GCP – Findings from Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.Provider?
         /// The cloud Region associated with this VM instance aggregation. The value format depends on the cloud provider:
         ///
         /// * An Amazon Web Services Region, such as us-east-1.
         ///
         /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudRegion: Swift.String?
         /// The number of active findings with an exploit available for the VM instance.
         public var exploitAvailableActiveFindingsCount: Swift.Int?
@@ -3813,12 +3869,16 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum ScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organization
+        case project
         case subscription
         case tenant
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScopeType] {
             return [
+                .organization,
+                .project,
                 .subscription,
                 .tenant
             ]
@@ -3831,6 +3891,8 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .organization: return "ORGANIZATION"
+            case .project: return "PROJECT"
             case .subscription: return "SUBSCRIPTION"
             case .tenant: return "TENANT"
             case let .sdkUnknown(s): return s
@@ -3843,7 +3905,7 @@ extension Inspector2ClientTypes {
 
     /// The scope of resources to scan for a single scanning type. Provide this as part of an AzureScopeConfigurationInput when you create or update a connector.
     public struct ScopeConfigurationInput: Swift.Sendable {
-        /// The type of scope. Valid values are TENANT, which scans all resources in the Azure tenant, and SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
+        /// The type of scope: TENANT, which scans all resources in the Azure tenant, or SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
         /// This member is required.
         public var scopeType: Inspector2ClientTypes.ScopeType?
         /// The list of scope values. For subscription-level scope, these are Azure subscription IDs.
@@ -4665,6 +4727,7 @@ extension Inspector2ClientTypes {
     public enum CloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case notApplicable
         case sdkUnknown(Swift.String)
 
@@ -4672,6 +4735,7 @@ extension Inspector2ClientTypes {
             return [
                 .aws,
                 .azure,
+                .gcp,
                 .notApplicable
             ]
         }
@@ -4685,6 +4749,7 @@ extension Inspector2ClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case .notApplicable: return "NOT_APPLICABLE"
             case let .sdkUnknown(s): return s
             }
@@ -4775,7 +4840,13 @@ extension Inspector2ClientTypes {
 
     /// An object that contains information about the Amazon Inspector free trial for an account.
     public struct FreeTrialInfo: Swift.Sendable {
-        /// The cloud provider associated with the free trial information.
+        /// The cloud provider associated with the free trial information. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.CloudProvider?
         /// The date and time that the Amazon Inspector free trail ends for a given account.
         /// This member is required.
@@ -7505,6 +7576,57 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// The scope of Google Cloud Platform (GCP) resources that Amazon Inspector scans for a single scanning type, including the scope level, the targeted resources, and the current state.
+    public struct GcpCapabilityScope: Swift.Sendable {
+        /// The type of scope: ORGANIZATION, which scans all projects in the GCP organization, or PROJECT, which scans only the specified GCP projects.
+        /// This member is required.
+        public var scopeType: Inspector2ClientTypes.ScopeType?
+        /// The GCP project IDs to scan when scopeType is PROJECT. Not used when scopeType is ORGANIZATION. Amazon Inspector scans the organization of the Amazon Web Services Config connector.
+        public var scopeValues: [Swift.String]?
+        /// The current state of the scope configuration.
+        public var state: Inspector2ClientTypes.ScopeState?
+        /// The reason for the current state of the scope configuration.
+        public var stateReason: Swift.String?
+
+        public init(
+            scopeType: Inspector2ClientTypes.ScopeType? = nil,
+            scopeValues: [Swift.String]? = nil,
+            state: Inspector2ClientTypes.ScopeState? = nil,
+            stateReason: Swift.String? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+            self.state = state
+            self.stateReason = stateReason
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of Google Cloud Platform (GCP) resources that Amazon Inspector scans, defined separately for VM, container image, and serverless scanning. Returned as part of a connector's configuration.
+    public struct GcpScopeConfiguration: Swift.Sendable {
+        /// The scope configuration for container image scanning.
+        public var containerImageScanning: Inspector2ClientTypes.GcpCapabilityScope?
+        /// The scope configuration for serverless scanning.
+        public var serverlessScanning: Inspector2ClientTypes.GcpCapabilityScope?
+        /// The scope configuration for VM scanning.
+        public var vmScanning: Inspector2ClientTypes.GcpCapabilityScope?
+
+        public init(
+            containerImageScanning: Inspector2ClientTypes.GcpCapabilityScope? = nil,
+            serverlessScanning: Inspector2ClientTypes.GcpCapabilityScope? = nil,
+            vmScanning: Inspector2ClientTypes.GcpCapabilityScope? = nil
+        ) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum ConnectorHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connected
         case degraded
@@ -7573,11 +7695,13 @@ extension Inspector2ClientTypes {
 
     public enum ConnectorCloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectorCloudProvider] {
             return [
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -7589,6 +7713,7 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7617,6 +7742,10 @@ extension Inspector2ClientTypes {
         public var enablementStatus: Inspector2ClientTypes.EnablementStatus?
         /// Additional information about the current enablement status of the connector.
         public var enablementStatusReason: Swift.String?
+        /// The Google Cloud Platform (GCP) locations configured for the connector.
+        public var gcpRegions: [Swift.String]?
+        /// The Google Cloud Platform (GCP) scope configuration for the connector.
+        public var gcpScopeConfiguration: Inspector2ClientTypes.GcpScopeConfiguration?
         /// The health of the connector, which indicates whether Amazon Inspector can reach and scan the connected resources.
         public var health: Inspector2ClientTypes.ConnectorHealth?
         /// The name of the connector.
@@ -7641,6 +7770,8 @@ extension Inspector2ClientTypes {
             description: Swift.String? = nil,
             enablementStatus: Inspector2ClientTypes.EnablementStatus? = nil,
             enablementStatusReason: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            gcpScopeConfiguration: Inspector2ClientTypes.GcpScopeConfiguration? = nil,
             health: Inspector2ClientTypes.ConnectorHealth? = nil,
             name: Swift.String? = nil,
             provider: Inspector2ClientTypes.ConnectorCloudProvider? = nil,
@@ -7656,6 +7787,8 @@ extension Inspector2ClientTypes {
             self.description = description
             self.enablementStatus = enablementStatus
             self.enablementStatusReason = enablementStatusReason
+            self.gcpRegions = gcpRegions
+            self.gcpScopeConfiguration = gcpScopeConfiguration
             self.health = health
             self.name = name
             self.provider = provider
@@ -8299,13 +8432,37 @@ extension Inspector2ClientTypes {
         public var cloudContainerRegistryName: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The cloud container repository name to filter coverage results by.
         public var cloudContainerRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The cloud provider to filter coverage results by.
+        /// The cloud provider to filter coverage results by. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var cloudProvider: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The cloud provider account ID to filter coverage results by.
+        /// The cloud provider account ID to filter coverage results by. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services account ID.
+        ///
+        /// * An Azure subscription ID.
+        ///
+        /// * A Google Cloud Platform (GCP) project ID, such as my-project.
         public var cloudProviderAccountId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The cloud provider organization ID to filter coverage results by.
+        /// The cloud provider organization ID to filter coverage results by. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Organizations organization ID.
+        ///
+        /// * An Azure tenant ID.
+        ///
+        /// * A numeric Google Cloud Platform (GCP) organization ID.
         public var cloudProviderOrgId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The cloud provider region to filter coverage results by.
+        /// The cloud provider region to filter coverage results by. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudProviderRegion: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The cloud serverless function name to filter coverage results by.
         public var cloudServerlessFunctionName: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -8347,7 +8504,13 @@ extension Inspector2ClientTypes {
         public var machineImageTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
+        /// An array of resource types to return coverage statistics for. Valid values:
+        ///
+        /// * Amazon Web Services – AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY, MACHINE_IMAGE, CODE_REPOSITORY, or AWS_ACCOUNT.
+        ///
+        /// * Microsoft Azure – Microsoft.Compute/virtualMachines, Microsoft.ContainerRegistry/registries, Microsoft.ContainerRegistry/registry/containerRepository, Microsoft.ContainerRegistry/registry/containerImage, or Microsoft.Web/sites.
+        ///
+        /// * Google Cloud Platform (GCP) – compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, artifactregistry.googleapis.com/Repository, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED, EC2_AGENTLESS, and EC2_INSPECTOR_AGENT_BASED.
         public var scanMode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -8433,11 +8596,15 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum CoverageResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case artifactregistryGoogleapisComDockerImage
+        case artifactregistryGoogleapisComRepository
         case awsEc2Instance
         case awsEcrContainerImage
         case awsEcrRepository
         case awsLambdaFunction
+        case cloudfunctionsGoogleapisComFunction
         case codeRepository
+        case computeGoogleapisComInstance
         case machineImage
         case microsoftComputeVirtualMachines
         case microsoftContainerRegistryRegistries
@@ -8448,11 +8615,15 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CoverageResourceType] {
             return [
+                .artifactregistryGoogleapisComDockerImage,
+                .artifactregistryGoogleapisComRepository,
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
                 .awsLambdaFunction,
+                .cloudfunctionsGoogleapisComFunction,
                 .codeRepository,
+                .computeGoogleapisComInstance,
                 .machineImage,
                 .microsoftComputeVirtualMachines,
                 .microsoftContainerRegistryRegistries,
@@ -8469,11 +8640,15 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .artifactregistryGoogleapisComDockerImage: return "artifactregistry.googleapis.com/DockerImage"
+            case .artifactregistryGoogleapisComRepository: return "artifactregistry.googleapis.com/Repository"
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .cloudfunctionsGoogleapisComFunction: return "cloudfunctions.googleapis.com/Function"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .computeGoogleapisComInstance: return "compute.googleapis.com/Instance"
             case .machineImage: return "MACHINE_IMAGE"
             case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
             case .microsoftContainerRegistryRegistries: return "Microsoft.ContainerRegistry/registries"
@@ -8913,22 +9088,52 @@ extension Inspector2ClientTypes {
         public var accountId: Swift.String?
         /// The date and time the resource was last checked for vulnerabilities.
         public var lastScannedAt: Foundation.Date?
-        /// The cloud provider of the covered resource.
+        /// The cloud provider of the covered resource. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var provider: Inspector2ClientTypes.Provider?
-        /// The cloud provider account ID of the covered resource.
+        /// The cloud provider account ID of the covered resource. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services account ID.
+        ///
+        /// * An Azure subscription ID.
+        ///
+        /// * A Google Cloud Platform (GCP) project ID, such as my-project.
         public var providerAccountId: Swift.String?
-        /// The cloud provider organization ID of the covered resource.
+        /// The cloud provider organization ID of the covered resource. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Organizations organization ID.
+        ///
+        /// * An Azure tenant ID.
+        ///
+        /// * A numeric Google Cloud Platform (GCP) organization ID.
         public var providerOrgId: Swift.String?
         /// The cloud provider partition of the covered resource.
         public var providerPartition: Swift.String?
-        /// The cloud provider region of the covered resource.
+        /// The cloud provider region of the covered resource. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var providerRegion: Swift.String?
         /// The ID of the covered resource.
         /// This member is required.
         public var resourceId: Swift.String?
         /// An object that contains details about the metadata.
         public var resourceMetadata: Inspector2ClientTypes.ResourceScanMetadata?
-        /// The type of the covered resource.
+        /// The type of the covered resource. Valid values:
+        ///
+        /// * Amazon Web Services – AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY, MACHINE_IMAGE, CODE_REPOSITORY, or AWS_ACCOUNT.
+        ///
+        /// * Microsoft Azure – Microsoft.Compute/virtualMachines, Microsoft.ContainerRegistry/registries, Microsoft.ContainerRegistry/registry/containerRepository, Microsoft.ContainerRegistry/registry/containerImage, or Microsoft.Web/sites.
+        ///
+        /// * Google Cloud Platform (GCP) – compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, artifactregistry.googleapis.com/Repository, or artifactregistry.googleapis.com/DockerImage.
         /// This member is required.
         public var resourceType: Inspector2ClientTypes.CoverageResourceType?
         /// The scan method that is applied to the instance.
@@ -9165,10 +9370,85 @@ public struct CreateCodeSecurityScanConfigurationOutput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    /// The scope of Google Cloud Platform (GCP) resources to scan for a single scanning type. Provide this as part of a GcpScopeConfigurationInput when you create or update a connector.
+    public struct GcpCapabilityScopeInput: Swift.Sendable {
+        /// The type of scope: ORGANIZATION, which scans all projects in the GCP organization, or PROJECT, which scans only the specified GCP projects.
+        /// This member is required.
+        public var scopeType: Inspector2ClientTypes.ScopeType?
+        /// The GCP project IDs to scan. Required when scopeType is PROJECT. Don't specify scope values when scopeType is ORGANIZATION. Amazon Inspector scans the organization of the Amazon Web Services Config connector.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            scopeType: Inspector2ClientTypes.ScopeType? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The scope of Google Cloud Platform (GCP) resources to scan, defined separately for VM, container image, and serverless scanning. Provide this when you create or update a GCP connector.
+    public struct GcpScopeConfigurationInput: Swift.Sendable {
+        /// The scope configuration input for container image scanning.
+        public var containerImageScanning: Inspector2ClientTypes.GcpCapabilityScopeInput?
+        /// The scope configuration input for serverless scanning.
+        public var serverlessScanning: Inspector2ClientTypes.GcpCapabilityScopeInput?
+        /// The scope configuration input for VM scanning.
+        public var vmScanning: Inspector2ClientTypes.GcpCapabilityScopeInput?
+
+        public init(
+            containerImageScanning: Inspector2ClientTypes.GcpCapabilityScopeInput? = nil,
+            serverlessScanning: Inspector2ClientTypes.GcpCapabilityScopeInput? = nil,
+            vmScanning: Inspector2ClientTypes.GcpCapabilityScopeInput? = nil
+        ) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The configuration details specific to Google Cloud Platform (GCP) for creating a connector, including the Amazon Web Services Config connector association, scan scope, and locations to scan.
+    public struct GcpProviderDetailCreate: Swift.Sendable {
+        /// Specifies whether to automatically install the VM scanner on connected GCP resources. Defaults to true.
+        public var autoInstallVMScanner: Swift.Bool?
+        /// The ARN of the Amazon Web Services Config connector to associate with this connector.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The GCP locations to scan, such as regions, zones, multi-regions, or dual-regions. Specify ALL to scan all locations.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The scope configuration that defines which GCP resources to scan.
+        /// This member is required.
+        public var scopeConfiguration: Inspector2ClientTypes.GcpScopeConfigurationInput?
+
+        public init(
+            autoInstallVMScanner: Swift.Bool? = true,
+            awsConfigConnectorArn: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: Inspector2ClientTypes.GcpScopeConfigurationInput? = nil
+        ) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// The provider-specific configuration details for creating a connector.
     public enum ProviderDetailCreate: Swift.Sendable {
         /// The Azure-specific details for creating a connector.
         case azure(Inspector2ClientTypes.AzureProviderDetailCreate)
+        /// The details specific to Google Cloud Platform (GCP) for creating a connector.
+        case gcp(Inspector2ClientTypes.GcpProviderDetailCreate)
         case sdkUnknown(Swift.String)
     }
 }
@@ -9436,7 +9716,7 @@ extension Inspector2ClientTypes {
         public var resourceId: [Inspector2ClientTypes.StringFilter]?
         /// Details on the resource tags used to filter findings.
         public var resourceTags: [Inspector2ClientTypes.MapFilter]?
-        /// Details on the resource types used to filter findings.
+        /// Details on the resource types used to filter findings. For Google Cloud Platform (GCP) resources, the resource type is compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: [Inspector2ClientTypes.StringFilter]?
         /// Details on the severity used to filter findings.
         public var severity: [Inspector2ClientTypes.StringFilter]?
@@ -9875,13 +10155,37 @@ extension Inspector2ClientTypes {
         public var cloudContainerRegistryName: [Inspector2ClientTypes.ResourceStringFilter]?
         /// The cloud container repository names used as resource filter criteria.
         public var cloudContainerRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The cloud providers used as resource filter criteria.
+        /// The cloud providers used as resource filter criteria. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var cloudProvider: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The cloud provider account IDs used as resource filter criteria.
+        /// The cloud provider account IDs used as resource filter criteria. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services account ID.
+        ///
+        /// * An Azure subscription ID.
+        ///
+        /// * A Google Cloud Platform (GCP) project ID.
         public var cloudProviderAccountId: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The cloud provider organization IDs used as resource filter criteria.
+        /// The cloud provider organization IDs used as resource filter criteria. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Organizations organization ID.
+        ///
+        /// * An Azure tenant ID.
+        ///
+        /// * A Google Cloud Platform (GCP) organization ID.
         public var cloudProviderOrgId: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The cloud provider regions used as resource filter criteria.
+        /// The cloud provider regions used as resource filter criteria. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Region, such as us-east-1.
+        ///
+        /// * An Azure region, such as eastus.
+        ///
+        /// * A Google Cloud Platform (GCP) location, such as the region us-central1 or the zone us-central1-a.
         public var cloudProviderRegion: [Inspector2ClientTypes.ResourceStringFilter]?
         /// The cloud serverless function names used as resource filter criteria.
         public var cloudServerlessFunctionName: [Inspector2ClientTypes.ResourceStringFilter]?
@@ -9903,7 +10207,13 @@ extension Inspector2ClientTypes {
         public var lambdaFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]?
         /// The resource IDs used as resource filter criteria.
         public var resourceId: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The resource types used as resource filter criteria.
+        /// The resource types used as resource filter criteria. Valid values:
+        ///
+        /// * Amazon Web Services – AWS_EC2_INSTANCE, AWS_ECR_CONTAINER_IMAGE, AWS_LAMBDA_FUNCTION, or MACHINE_IMAGE.
+        ///
+        /// * Microsoft Azure – Microsoft.Compute/virtualMachines, Microsoft.ContainerRegistry/registry/containerImage, or Microsoft.Web/sites.
+        ///
+        /// * Google Cloud Platform (GCP) – compute.googleapis.com/Instance, cloudfunctions.googleapis.com/Function, or artifactregistry.googleapis.com/DockerImage.
         public var resourceType: [Inspector2ClientTypes.ResourceStringFilter]?
 
         public init(
@@ -11809,11 +12119,14 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case artifactregistryGoogleapisComDockerImage
         case awsEc2Instance
         case awsEcrContainerImage
         case awsEcrRepository
         case awsLambdaFunction
+        case cloudfunctionsGoogleapisComFunction
         case codeRepository
+        case computeGoogleapisComInstance
         case machineImage
         case microsoftComputeVirtualMachines
         case microsoftContainerRegistryRegistryContainerImage
@@ -11822,11 +12135,14 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .artifactregistryGoogleapisComDockerImage,
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
                 .awsLambdaFunction,
+                .cloudfunctionsGoogleapisComFunction,
                 .codeRepository,
+                .computeGoogleapisComInstance,
                 .machineImage,
                 .microsoftComputeVirtualMachines,
                 .microsoftContainerRegistryRegistryContainerImage,
@@ -11841,11 +12157,14 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .artifactregistryGoogleapisComDockerImage: return "artifactregistry.googleapis.com/DockerImage"
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .cloudfunctionsGoogleapisComFunction: return "cloudfunctions.googleapis.com/Function"
             case .codeRepository: return "CODE_REPOSITORY"
+            case .computeGoogleapisComInstance: return "compute.googleapis.com/Instance"
             case .machineImage: return "MACHINE_IMAGE"
             case .microsoftComputeVirtualMachines: return "Microsoft.Compute/virtualMachines"
             case .microsoftContainerRegistryRegistryContainerImage: return "Microsoft.ContainerRegistry/registry/containerImage"
@@ -11867,11 +12186,29 @@ extension Inspector2ClientTypes {
         public var id: Swift.String?
         /// The partition of the resource.
         public var partition: Swift.String?
-        /// The cloud provider of the resource.
+        /// The cloud provider of the resource. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var provider: Inspector2ClientTypes.Provider?
-        /// The cloud provider account ID of the resource.
+        /// The cloud provider account ID of the resource. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services account ID.
+        ///
+        /// * An Azure subscription ID.
+        ///
+        /// * A Google Cloud Platform (GCP) project ID, such as my-project.
         public var providerAccountId: Swift.String?
-        /// The cloud provider organization ID of the resource.
+        /// The cloud provider organization ID of the resource. The value format depends on the cloud provider:
+        ///
+        /// * An Amazon Web Services Organizations organization ID.
+        ///
+        /// * An Azure tenant ID.
+        ///
+        /// * A numeric Google Cloud Platform (GCP) organization ID.
         public var providerOrgId: Swift.String?
         /// The Amazon Web Services Region the impacted resource is located in.
         public var region: Swift.String?
@@ -12111,6 +12448,29 @@ extension Inspector2ClientTypes {
             self.title = title
             self.type = type
             self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The configuration details specific to Google Cloud Platform (GCP) for updating a connector, including the scan scope and locations to scan.
+    public struct GcpProviderDetailUpdate: Swift.Sendable {
+        /// Specifies whether to automatically install the VM scanner on connected GCP resources.
+        public var autoInstallVMScanner: Swift.Bool?
+        /// The updated GCP locations to scan, such as regions, zones, multi-regions, or dual-regions. Specify ALL to scan all locations.
+        public var gcpRegions: [Swift.String]?
+        /// The updated scope configuration that defines which GCP resources to scan.
+        public var scopeConfiguration: Inspector2ClientTypes.GcpScopeConfigurationInput?
+
+        public init(
+            autoInstallVMScanner: Swift.Bool? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: Inspector2ClientTypes.GcpScopeConfigurationInput? = nil
+        ) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
         }
     }
 }
@@ -13557,7 +13917,7 @@ public struct ListCoverageOutput: Swift.Sendable {
 public struct ListCoverageStatisticsInput: Swift.Sendable {
     /// An object that contains details on the filters to apply to the coverage data for your environment.
     public var filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
-    /// The value to group the results by.
+    /// The value to group the results by. For multi-cloud resources, use PROVIDER, PROVIDER_ACCOUNT_ID (Azure subscription ID or Google Cloud Platform (GCP) project ID), PROVIDER_ORG_ID (Azure tenant ID or Google Cloud Platform (GCP) organization ID), or PROVIDER_REGION.
     public var groupBy: Inspector2ClientTypes.GroupKey?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
@@ -14016,9 +14376,14 @@ extension Inspector2ClientTypes {
         case codeRepositorySca
         case ec2AgentlessInstanceHours
         case ec2AmiHours
+        case ec2AmiOneShotScan
         case ec2InstanceHours
         case ecrInitialScan
         case ecrRescan
+        case gcpCloudRunHours
+        case gcpContainerImageInitialScan
+        case gcpContainerImageRescan
+        case gcpVmAgentBasedInstanceHours
         case lambdaFunctionCodeHours
         case lambdaFunctionHours
         case sdkUnknown(Swift.String)
@@ -14034,9 +14399,14 @@ extension Inspector2ClientTypes {
                 .codeRepositorySca,
                 .ec2AgentlessInstanceHours,
                 .ec2AmiHours,
+                .ec2AmiOneShotScan,
                 .ec2InstanceHours,
                 .ecrInitialScan,
                 .ecrRescan,
+                .gcpCloudRunHours,
+                .gcpContainerImageInitialScan,
+                .gcpContainerImageRescan,
+                .gcpVmAgentBasedInstanceHours,
                 .lambdaFunctionCodeHours,
                 .lambdaFunctionHours
             ]
@@ -14058,9 +14428,14 @@ extension Inspector2ClientTypes {
             case .codeRepositorySca: return "CODE_REPOSITORY_SCA"
             case .ec2AgentlessInstanceHours: return "EC2_AGENTLESS_INSTANCE_HOURS"
             case .ec2AmiHours: return "EC2_AMI_HOURS"
+            case .ec2AmiOneShotScan: return "EC2_AMI_ONE_SHOT_SCAN"
             case .ec2InstanceHours: return "EC2_INSTANCE_HOURS"
             case .ecrInitialScan: return "ECR_INITIAL_SCAN"
             case .ecrRescan: return "ECR_RESCAN"
+            case .gcpCloudRunHours: return "GCP_CLOUD_RUN_HOURS"
+            case .gcpContainerImageInitialScan: return "GCP_CONTAINER_IMAGE_INITIAL_SCAN"
+            case .gcpContainerImageRescan: return "GCP_CONTAINER_IMAGE_RESCAN"
+            case .gcpVmAgentBasedInstanceHours: return "GCP_VM_AGENT_BASED_INSTANCE_HOURS"
             case .lambdaFunctionCodeHours: return "LAMBDA_FUNCTION_CODE_HOURS"
             case .lambdaFunctionHours: return "LAMBDA_FUNCTION_HOURS"
             case let .sdkUnknown(s): return s
@@ -14073,7 +14448,13 @@ extension Inspector2ClientTypes {
 
     /// Contains usage information about the cost of Amazon Inspector operation.
     public struct Usage: Swift.Sendable {
-        /// The cloud provider associated with the usage information.
+        /// The cloud provider associated with the usage information. Valid values:
+        ///
+        /// * AWS – Amazon Web Services resources.
+        ///
+        /// * AZURE – Microsoft Azure resources.
+        ///
+        /// * GCP – Google Cloud Platform (GCP) resources.
         public var cloudProvider: Inspector2ClientTypes.CloudProvider?
         /// The currency type used when calculating usage data.
         public var currency: Inspector2ClientTypes.Currency?
@@ -14081,7 +14462,13 @@ extension Inspector2ClientTypes {
         public var estimatedMonthlyCost: Swift.Double
         /// The total of usage.
         public var total: Swift.Double
-        /// The type scan.
+        /// The type of scan. Valid values:
+        ///
+        /// * Amazon Web Services – EC2_INSTANCE_HOURS, EC2_AGENTLESS_INSTANCE_HOURS, EC2_AMI_HOURS, EC2_AMI_ONE_SHOT_SCAN, ECR_INITIAL_SCAN, ECR_RESCAN, LAMBDA_FUNCTION_HOURS, LAMBDA_FUNCTION_CODE_HOURS, CODE_REPOSITORY_SAST, CODE_REPOSITORY_IAC, or CODE_REPOSITORY_SCA.
+        ///
+        /// * Microsoft Azure – AZURE_VM_AGENT_BASED_INSTANCE_HOURS, AZURE_CONTAINER_IMAGE_INITIAL_SCAN, AZURE_CONTAINER_IMAGE_RESCAN, or AZURE_SERVERLESS_FUNCTION_HOURS.
+        ///
+        /// * Google Cloud Platform (GCP) – GCP_VM_AGENT_BASED_INSTANCE_HOURS, GCP_CONTAINER_IMAGE_INITIAL_SCAN, GCP_CONTAINER_IMAGE_RESCAN, or GCP_CLOUD_RUN_HOURS (Cloud Run functions).
         public var type: Inspector2ClientTypes.UsageType?
 
         public init(
@@ -14892,6 +15279,8 @@ extension Inspector2ClientTypes {
     public enum ProviderDetailUpdate: Swift.Sendable {
         /// The Azure-specific details for updating a connector.
         case azure(Inspector2ClientTypes.AzureProviderDetailUpdate)
+        /// The details specific to Google Cloud Platform (GCP) for updating a connector.
+        case gcp(Inspector2ClientTypes.GcpProviderDetailUpdate)
         case sdkUnknown(Swift.String)
     }
 }
@@ -20141,6 +20530,8 @@ extension Inspector2ClientTypes.Connector {
         value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: Inspector2ClientTypes.AzureScopeConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.autoInstallVMScanner = try reader["autoInstallVMScanner"].readIfPresent()
+        value.gcpRegions = try reader["gcpRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gcpScopeConfiguration = try reader["gcpScopeConfiguration"].readIfPresent(with: Inspector2ClientTypes.GcpScopeConfiguration.read(from:))
         return value
     }
 }
@@ -21144,6 +21535,71 @@ extension Inspector2ClientTypes.FreeTrialInfoError {
     }
 }
 
+extension Inspector2ClientTypes.GcpCapabilityScope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.GcpCapabilityScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.GcpCapabilityScope()
+        value.scopeType = try reader["scopeType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeValues = try reader["scopeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        value.stateReason = try reader["stateReason"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.GcpCapabilityScopeInput {
+
+    static func write(value: Inspector2ClientTypes.GcpCapabilityScopeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scopeType"].write(value.scopeType)
+        try writer["scopeValues"].writeList(value.scopeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.GcpProviderDetailCreate {
+
+    static func write(value: Inspector2ClientTypes.GcpProviderDetailCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoInstallVMScanner"].write(value.autoInstallVMScanner)
+        try writer["awsConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["gcpRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scopeConfiguration"].write(value.scopeConfiguration, with: Inspector2ClientTypes.GcpScopeConfigurationInput.write(value:to:))
+    }
+}
+
+extension Inspector2ClientTypes.GcpProviderDetailUpdate {
+
+    static func write(value: Inspector2ClientTypes.GcpProviderDetailUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoInstallVMScanner"].write(value.autoInstallVMScanner)
+        try writer["gcpRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scopeConfiguration"].write(value.scopeConfiguration, with: Inspector2ClientTypes.GcpScopeConfigurationInput.write(value:to:))
+    }
+}
+
+extension Inspector2ClientTypes.GcpScopeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.GcpScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.GcpScopeConfiguration()
+        value.vmScanning = try reader["vmScanning"].readIfPresent(with: Inspector2ClientTypes.GcpCapabilityScope.read(from:))
+        value.containerImageScanning = try reader["containerImageScanning"].readIfPresent(with: Inspector2ClientTypes.GcpCapabilityScope.read(from:))
+        value.serverlessScanning = try reader["serverlessScanning"].readIfPresent(with: Inspector2ClientTypes.GcpCapabilityScope.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.GcpScopeConfigurationInput {
+
+    static func write(value: Inspector2ClientTypes.GcpScopeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerImageScanning"].write(value.containerImageScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
+        try writer["serverlessScanning"].write(value.serverlessScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
+        try writer["vmScanning"].write(value.vmScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
+    }
+}
+
 extension Inspector2ClientTypes.Image {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Image {
@@ -21651,6 +22107,8 @@ extension Inspector2ClientTypes.ProviderDetailCreate {
         switch value {
             case let .azure(azure):
                 try writer["azure"].write(azure, with: Inspector2ClientTypes.AzureProviderDetailCreate.write(value:to:))
+            case let .gcp(gcp):
+                try writer["gcp"].write(gcp, with: Inspector2ClientTypes.GcpProviderDetailCreate.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -21664,6 +22122,8 @@ extension Inspector2ClientTypes.ProviderDetailUpdate {
         switch value {
             case let .azure(azure):
                 try writer["azure"].write(azure, with: Inspector2ClientTypes.AzureProviderDetailUpdate.write(value:to:))
+            case let .gcp(gcp):
+                try writer["gcp"].write(gcp, with: Inspector2ClientTypes.GcpProviderDetailUpdate.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }

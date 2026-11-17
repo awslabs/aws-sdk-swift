@@ -43,6 +43,37 @@ extension PaginatorSequence where OperationStackInput == ListChannelsInput, Oper
     }
 }
 extension KinesisClient {
+    /// Paginate over `[ListQueuesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListQueuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueuesOutput`
+    public func listQueuesPaginated(input: ListQueuesInput) -> ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueues(input:))
+    }
+}
+
+extension ListQueuesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListQueuesInput {
+        return ListQueuesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            streamFilter: self.streamFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListQueuesInput, OperationStackOutput == ListQueuesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listQueuesPaginated`
+    /// to access the nested member `[KinesisClientTypes.QueueSummary]`
+    /// - Returns: `[KinesisClientTypes.QueueSummary]`
+    public func queueSummaries() async throws -> [KinesisClientTypes.QueueSummary] {
+        return try await self.asyncCompactMap { item in item.queueSummaries }
+    }
+}
+extension KinesisClient {
     /// Paginate over `[ListStreamConsumersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

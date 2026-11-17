@@ -6828,6 +6828,60 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A container for the selection criteria used by the S3 Storage Lens Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR) publish configuration. The selection criteria specifies the minimum and maximum prefix depth (both inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither; MinDepth must be less than or equal to MaxDepth, and the difference must not exceed 4. If neither is provided, MinDepth defaults to 1 and MaxDepth defaults to 3.
+    public struct StorageLensCostAndUsageReportsSelectionCriteria: Swift.Sendable {
+        /// The maximum prefix depth (inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither. If neither is provided, MaxDepth defaults to 3.
+        public var maxDepth: Swift.Int?
+        /// The minimum prefix depth (inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither. If neither is provided, MinDepth defaults to 1.
+        public var minDepth: Swift.Int?
+
+        public init(
+            maxDepth: Swift.Int? = nil,
+            minDepth: Swift.Int? = nil
+        ) {
+            self.maxDepth = maxDepth
+            self.minDepth = minDepth
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A container for the prefix-level configuration that determines the prefixes for which S3 Storage Lens publishes cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+    public struct StorageLensCostAndUsageReportsPrefixLevel: Swift.Sendable {
+        /// Indicates whether prefix-level cost data publishing to Amazon Web Services CUR is enabled.
+        /// This member is required.
+        public var isEnabled: Swift.Bool
+        /// A container for the selection criteria that determines the prefix depths for which cost data is published to Amazon Web Services CUR.
+        public var selectionCriteria: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria?
+
+        public init(
+            isEnabled: Swift.Bool = false,
+            selectionCriteria: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria? = nil
+        ) {
+            self.isEnabled = isEnabled
+            self.selectionCriteria = selectionCriteria
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A container for the configuration used to publish S3 Storage Lens cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+    public struct StorageLensCostAndUsageReportsPublish: Swift.Sendable {
+        /// A container for the prefix-level configuration that determines the prefixes for which S3 Storage Lens publishes cost data to Amazon Web Services CUR.
+        public var prefixLevel: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel?
+
+        public init(
+            prefixLevel: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel? = nil
+        ) {
+            self.prefixLevel = prefixLevel
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics. For more information about publishing S3 Storage Lens metrics to CloudWatch, see [Monitor S3 Storage Lens metrics in CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html) in the Amazon S3 User Guide.
     public struct CloudWatchMetrics: Swift.Sendable {
         /// A container that indicates whether CloudWatch publishing for S3 Storage Lens metrics is enabled. A value of true indicates that CloudWatch publishing for S3 Storage Lens metrics is enabled.
@@ -7082,6 +7136,21 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// The container for S3 Storage Lens Intelligent-Tiering access tier metrics. When enabled, S3 Storage Lens produces metrics for each individual S3 Intelligent-Tiering access tier instead of reporting a single aggregate value for the INTELLIGENT_TIERING storage class. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct IntAccessTiers: Swift.Sendable {
+        /// A container that indicates whether S3 Storage Lens Intelligent-Tiering access tier metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init(
+            isEnabled: Swift.Bool = false
+        ) {
+            self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// A container for the Amazon S3 Storage Lens configuration.
     public struct StorageLensConfiguration: Swift.Sendable {
         /// A container for all the account-level configurations of your S3 Storage Lens configuration.
@@ -7089,6 +7158,8 @@ extension S3ControlClientTypes {
         public var accountLevel: S3ControlClientTypes.AccountLevel?
         /// A container for the Amazon Web Services organization for this S3 Storage Lens configuration.
         public var awsOrg: S3ControlClientTypes.StorageLensAwsOrg?
+        /// A container for the configuration used to publish S3 Storage Lens cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+        public var costAndUsageReportsPublish: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish?
         /// A container to specify the properties of your S3 Storage Lens metrics export including, the destination, schema and format.
         public var dataExport: S3ControlClientTypes.StorageLensDataExport?
         /// A container for what is excluded in this configuration. This container can only be valid if there is no Include container submitted, and it's not empty.
@@ -7100,6 +7171,8 @@ extension S3ControlClientTypes {
         public var id: Swift.String?
         /// A container for what is included in this configuration. This container can only be valid if there is no Exclude container submitted, and it's not empty.
         public var include: S3ControlClientTypes.Include?
+        /// A container element for S3 Storage Lens Intelligent-Tiering access tier metrics.
+        public var intAccessTiers: S3ControlClientTypes.IntAccessTiers?
         /// A container for whether the S3 Storage Lens configuration is enabled.
         /// This member is required.
         public var isEnabled: Swift.Bool
@@ -7117,22 +7190,26 @@ extension S3ControlClientTypes {
         public init(
             accountLevel: S3ControlClientTypes.AccountLevel? = nil,
             awsOrg: S3ControlClientTypes.StorageLensAwsOrg? = nil,
+            costAndUsageReportsPublish: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish? = nil,
             dataExport: S3ControlClientTypes.StorageLensDataExport? = nil,
             exclude: S3ControlClientTypes.Exclude? = nil,
             expandedPrefixesDataExport: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport? = nil,
             id: Swift.String? = nil,
             include: S3ControlClientTypes.Include? = nil,
+            intAccessTiers: S3ControlClientTypes.IntAccessTiers? = nil,
             isEnabled: Swift.Bool = false,
             prefixDelimiter: Swift.String? = nil,
             storageLensArn: Swift.String? = nil
         ) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
+            self.costAndUsageReportsPublish = costAndUsageReportsPublish
             self.dataExport = dataExport
             self.exclude = exclude
             self.expandedPrefixesDataExport = expandedPrefixesDataExport
             self.id = id
             self.include = include
+            self.intAccessTiers = intAccessTiers
             self.isEnabled = isEnabled
             self.prefixDelimiter = prefixDelimiter
             self.storageLensArn = storageLensArn
@@ -14377,6 +14454,21 @@ extension S3ControlClientTypes.Include {
     }
 }
 
+extension S3ControlClientTypes.IntAccessTiers {
+
+    static func write(value: S3ControlClientTypes.IntAccessTiers?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.IntAccessTiers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.IntAccessTiers()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension S3ControlClientTypes.JobDescriptor {
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobDescriptor {
@@ -16105,11 +16197,13 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         guard let value else { return }
         try writer["AccountLevel"].write(value.accountLevel, with: S3ControlClientTypes.AccountLevel.write(value:to:))
         try writer["AwsOrg"].write(value.awsOrg, with: S3ControlClientTypes.StorageLensAwsOrg.write(value:to:))
+        try writer["CostAndUsageReportsPublish"].write(value.costAndUsageReportsPublish, with: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish.write(value:to:))
         try writer["DataExport"].write(value.dataExport, with: S3ControlClientTypes.StorageLensDataExport.write(value:to:))
         try writer["Exclude"].write(value.exclude, with: S3ControlClientTypes.Exclude.write(value:to:))
         try writer["ExpandedPrefixesDataExport"].write(value.expandedPrefixesDataExport, with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Include"].write(value.include, with: S3ControlClientTypes.Include.write(value:to:))
+        try writer["IntAccessTiers"].write(value.intAccessTiers, with: S3ControlClientTypes.IntAccessTiers.write(value:to:))
         try writer["IsEnabled"].write(value.isEnabled)
         try writer["PrefixDelimiter"].write(value.prefixDelimiter)
         try writer["StorageLensArn"].write(value.storageLensArn)
@@ -16124,10 +16218,61 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         value.exclude = try reader["Exclude"].readIfPresent(with: S3ControlClientTypes.Exclude.read(from:))
         value.dataExport = try reader["DataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExport.read(from:))
         value.expandedPrefixesDataExport = try reader["ExpandedPrefixesDataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.read(from:))
+        value.costAndUsageReportsPublish = try reader["CostAndUsageReportsPublish"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish.read(from:))
         value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         value.awsOrg = try reader["AwsOrg"].readIfPresent(with: S3ControlClientTypes.StorageLensAwsOrg.read(from:))
         value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
         value.prefixDelimiter = try reader["PrefixDelimiter"].readIfPresent()
+        value.intAccessTiers = try reader["IntAccessTiers"].readIfPresent(with: S3ControlClientTypes.IntAccessTiers.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+        try writer["SelectionCriteria"].write(value.selectionCriteria, with: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsPublish {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PrefixLevel"].write(value.prefixLevel, with: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsPublish {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsPublish()
+        value.prefixLevel = try reader["PrefixLevel"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDepth"].write(value.maxDepth)
+        try writer["MinDepth"].write(value.minDepth)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria()
+        value.minDepth = try reader["MinDepth"].readIfPresent()
+        value.maxDepth = try reader["MaxDepth"].readIfPresent()
         return value
     }
 }

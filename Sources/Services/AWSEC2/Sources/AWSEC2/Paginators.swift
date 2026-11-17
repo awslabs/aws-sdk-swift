@@ -228,6 +228,7 @@ extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
             endDateRange: self.endDateRange,
             instanceCount: self.instanceCount,
             instanceType: self.instanceType,
+            instanceTypePreferences: self.instanceTypePreferences,
             maxResults: self.maxResults,
             nextToken: token,
             startDateRange: self.startDateRange,

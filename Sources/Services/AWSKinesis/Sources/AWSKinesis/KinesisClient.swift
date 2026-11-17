@@ -628,6 +628,164 @@ extension KinesisClient {
 }
 
 extension KinesisClient {
+    /// Performs the `AcknowledgeDeadLetterQueueRecords` operation on the `Kinesis` service.
+    ///
+    /// Acknowledges up to 10 dead-letter records in the specified queue, so the queue doesn't return them again. The result for each entry is reported individually in the response. Acknowledging a record does not affect the record in the data stream. That record remains available to stream consumers and to other queues on the same stream for the rest of its retention period. Because the request can result in a combination of successful and unsuccessful entries, check the Failed list even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AcknowledgeDeadLetterQueueRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AcknowledgeDeadLetterQueueRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func acknowledgeDeadLetterQueueRecords(input: AcknowledgeDeadLetterQueueRecordsInput) async throws -> AcknowledgeDeadLetterQueueRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.acknowledgeDeadLetterQueueRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acknowledgeDeadLetterQueueRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcknowledgeDeadLetterQueueRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcknowledgeDeadLetterQueueRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.AcknowledgeDeadLetterQueueRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcknowledgeDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcknowledgeDeadLetterQueueRecordsInput, AcknowledgeDeadLetterQueueRecordsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcknowledgeDeadLetterQueueRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AcknowledgeQueueRecords` operation on the `Kinesis` service.
+    ///
+    /// Acknowledges up to 10 records from the specified queue. After a record is acknowledged, the queue does not deliver it again. The result for each entry is reported individually in the response. Acknowledging a record does not affect the record in the data stream. That record remains available to stream consumers and to other queues on the same stream for the rest of its retention period. Because the request can result in a combination of successful and unsuccessful entries, check the Failed list even when the call returns an HTTP status code of 200. On rare occasions, you can receive a record again after you acknowledge it. Design your queue consumer to be idempotent, so that processing the same record more than once is safe.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AcknowledgeQueueRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AcknowledgeQueueRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func acknowledgeQueueRecords(input: AcknowledgeQueueRecordsInput) async throws -> AcknowledgeQueueRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.acknowledgeQueueRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acknowledgeQueueRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcknowledgeQueueRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcknowledgeQueueRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.AcknowledgeQueueRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcknowledgeQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcknowledgeQueueRecordsInput, AcknowledgeQueueRecordsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcknowledgeQueueRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AddTagsToStream` operation on the `Kinesis` service.
     ///
     /// Adds or updates tags for the specified Kinesis data stream. You can assign up to 50 tags to a data stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream overwrites any existing tags that correspond to the specified tag keys. [AddTagsToStream] has a limit of five transactions per second per account.
@@ -721,7 +879,7 @@ extension KinesisClient {
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
@@ -729,7 +887,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -793,6 +951,87 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateQueue` operation on the `Kinesis` service.
+    ///
+    /// Creates a queue on the specified data stream. A queue delivers records from the stream to a queue consumer, tracks the delivery state of each record, and redelivers any record that is not acknowledged before its visibility timeout expires. A queue does not extend how long the stream keeps a record. When a record reaches the end of the data stream's retention period, the queue stops delivering it. Your queue consumer calls [ReceiveQueueRecords] to receive up to 10 records at a time. After it processes records, it calls [AcknowledgeQueueRecords] so the queue does not deliver them again. Queues are supported only on data streams in on-demand capacity mode. Creating a queue does not change how producers write to the stream, and it does not change how existing stream consumers read from it. A queue counts as a registered consumer on the stream and shares the stream's registered consumer limit with enhanced fan-out consumers: 20 on On-demand Standard and 50 on On-demand Advantage. Use StartingPosition to set the position in the stream where delivery begins. The default is LATEST. CreateQueue is an asynchronous operation. Upon receiving a CreateQueue request, Amazon Kinesis Data Streams immediately returns a queue description with a QueueStatus of CREATING. After the queue is created, Kinesis Data Streams sets the QueueStatus to ACTIVE. You can begin receiving records after the queue is ACTIVE. Use [DescribeQueue] to check the status of the queue. Each queue has built-in dead-letter handling. When a record has been received MaxReceiveCount times without being acknowledged, it becomes a dead-letter record, and [ReceiveQueueRecords] no longer returns it. You work with dead-letter records through a separate set of operations that use the same queue ARN: [ReceiveDeadLetterQueueRecords], [AcknowledgeDeadLetterQueueRecords], [UpdateDeadLetterQueueRecordsVisibility], and [RestoreDeadLetterQueueRecords]. Dead-letter handling is enabled by default, with a MaxReceiveCount of 6. To use a different value, or to turn dead-letter handling off, specify DeadLetterConfiguration in QueueAttributes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
+    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.createQueueOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createQueue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateQueueInput, CreateQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateQueueInput, CreateQueueOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.CreateQueue"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateQueueInput, CreateQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateQueueInput, CreateQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateQueueInput, CreateQueueOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQueue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateStream` operation on the `Kinesis` service.
     ///
     /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers. Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes. For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards. The stream name identifies the stream. The name is scoped to the Amazon Web Services account used by the application. It is also scoped by Amazon Web Services Region. That is, two streams in two different accounts can have the same name, and two streams in the same account, but in two different Regions, can have the same name. CreateStream is an asynchronous operation. Upon receiving a CreateStream request, Kinesis Data Streams immediately returns and sets the stream status to CREATING. After the stream is created, Kinesis Data Streams sets the stream status to ACTIVE. You should perform read and write operations only on an ACTIVE stream. You receive a LimitExceededException when making a CreateStream request when you try to do one of the following:
@@ -814,7 +1053,7 @@ extension KinesisClient {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -972,7 +1211,7 @@ extension KinesisClient {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1036,13 +1275,95 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteQueue` operation on the `Kinesis` service.
+    ///
+    /// Deletes the specified queue. Records that are in flight when you delete the queue are not delivered again, and receipt handles issued by the queue stop being valid. Deleting a queue does not delete the data stream the queue was created on, and does not delete any records in that stream. Those records remain available to stream consumers and to other queues on the same stream for the rest of their retention period. DeleteQueue is an asynchronous operation. Upon receiving a DeleteQueue request, Amazon Kinesis Data Streams sets the QueueStatus to DELETING. The queue is deleted when the operation completes. A queue in the DELETING state does not deliver records. You must delete every queue on a data stream before you can delete the stream, or switch it from on-demand to provisioned capacity mode.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
+    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.deleteQueueOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteQueue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteQueueInput, DeleteQueueOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.DeleteQueue"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteQueueInput, DeleteQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteQueueInput, DeleteQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQueueInput, DeleteQueueOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteResourcePolicy` operation on the `Kinesis` service.
     ///
-    /// Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:
+    /// Delete a policy for the specified data stream, consumer, or queue. Request patterns can be one of the following:
     ///
     /// * Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+
     ///
     /// * Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
+    ///
+    /// * Queue pattern: arn:aws.*:kinesis:.*:\d{12}:queue/\S+
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
@@ -1052,10 +1373,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1121,7 +1444,7 @@ extension KinesisClient {
 
     /// Performs the `DeleteStream` operation on the `Kinesis` service.
     ///
-    /// Deletes a Kinesis data stream and all its shards and data. You must shut down any applications that are operating on the stream before you delete the stream. If an application attempts to operate on a deleted stream, it receives the exception ResourceNotFoundException. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If the stream is in the ACTIVE state, you can delete it. After a DeleteStream request, the specified stream is in the DELETING state until Kinesis Data Streams completes the deletion. Note: Kinesis Data Streams might continue to accept data read and write operations, such as [PutRecord], [PutRecords], and [GetRecords], on a stream in the DELETING state until the stream deletion is complete. When you delete a stream, any shards in that stream are also deleted, and any tags are dissociated from the stream. You can use the [DescribeStreamSummary] operation to check the state of the stream, which is returned in StreamStatus. [DeleteStream] has a limit of five transactions per second per account.
+    /// Deletes a Kinesis data stream and all its shards and data. You must shut down any applications that are operating on the stream before you delete the stream. If an application attempts to operate on a deleted stream, it receives the exception ResourceNotFoundException. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If the stream is in the ACTIVE state, you can delete it. After a DeleteStream request, the specified stream is in the DELETING state until Kinesis Data Streams completes the deletion. Note: Kinesis Data Streams might continue to accept data read and write operations, such as [PutRecord], [PutRecords], and [GetRecords], on a stream in the DELETING state until the stream deletion is complete. When you delete a stream, any shards in that stream are also deleted, and any tags are dissociated from the stream. Before you can delete a data stream that has queues, you must delete every queue on the stream with [DeleteQueue]. You can use the [DescribeStreamSummary] operation to check the state of the stream, which is returned in StreamStatus. [DeleteStream] has a limit of five transactions per second per account.
     ///
     /// - Parameter input: Represents the input for [DeleteStream]. (Type: `DeleteStreamInput`)
     ///
@@ -1365,7 +1688,7 @@ extension KinesisClient {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1492,6 +1815,86 @@ extension KinesisClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLimits")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeQueue` operation on the `Kinesis` service.
+    ///
+    /// Returns a description of the specified queue, including its status, the data stream it delivers records from, and its configuration attributes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeQueueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
+    public func describeQueue(input: DescribeQueueInput) async throws -> DescribeQueueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.describeQueueOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeQueue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQueueInput, DescribeQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueueInput, DescribeQueueOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueueInput, DescribeQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeQueueInput, DescribeQueueOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.DescribeQueue"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeQueueInput, DescribeQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeQueueInput, DescribeQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeQueueInput, DescribeQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeQueueInput, DescribeQueueOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeQueue")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1912,7 +2315,7 @@ extension KinesisClient {
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
@@ -1984,11 +2387,13 @@ extension KinesisClient {
 
     /// Performs the `GetResourcePolicy` operation on the `Kinesis` service.
     ///
-    /// Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following:
+    /// Returns a policy attached to the specified data stream, consumer, or queue. Request patterns can be one of the following:
     ///
     /// * Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+
     ///
     /// * Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
+    ///
+    /// * Queue pattern: arn:aws.*:kinesis:.*:\d{12}:queue/\S+
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
@@ -1998,10 +2403,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2239,7 +2646,7 @@ extension KinesisClient {
     /// - `ExpiredNextTokenException` : The pagination token passed to the operation is expired.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2291,6 +2698,86 @@ extension KinesisClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListChannels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListQueues` operation on the `Kinesis` service.
+    ///
+    /// Returns a summary of each queue in the Amazon Web Services account and Region used by the request. Use StreamFilter to list only the queues on a particular data stream. If the response contains a NextToken, more queues are available. Call ListQueues again with that value to retrieve the next page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `ExpiredNextTokenException` : The pagination token passed to the operation is expired.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
+    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.listQueuesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listQueues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListQueuesInput, ListQueuesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListQueuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueuesInput, ListQueuesOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.ListQueues"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListQueuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQueuesInput, ListQueuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQueuesInput, ListQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueuesInput, ListQueuesOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueues")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2541,7 +3028,7 @@ extension KinesisClient {
 
     /// Performs the `ListTagsForResource` operation on the `Kinesis` service.
     ///
-    /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. For more information about tagging Kinesis resources, see [Tag your Amazon Kinesis Data Streams resources](https://docs.aws.amazon.com/streams/latest/dev/tagging.html).
+    /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. The Kinesis resource can be a data stream, a queue, or an enhanced fan-out consumer. For more information about tagging Kinesis resources, see [Tag your Amazon Kinesis Data Streams resources](https://docs.aws.amazon.com/streams/latest/dev/tagging.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -2551,10 +3038,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2712,7 +3201,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func mergeShards(input: MergeShardsInput) async throws -> MergeShardsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2792,7 +3281,7 @@ extension KinesisClient {
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
@@ -2878,7 +3367,7 @@ extension KinesisClient {
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
@@ -2950,11 +3439,13 @@ extension KinesisClient {
 
     /// Performs the `PutResourcePolicy` operation on the `Kinesis` service.
     ///
-    /// Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling identity must have the PutResourcePolicy permissions on the specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error. If you receive a ResourceNotFoundException, check to see if you passed a valid stream or consumer resource. Request patterns can be one of the following:
+    /// Attaches a resource-based policy to a data stream, a queue, or an enhanced fan-out consumer. If you are using an identity other than the root user of the Amazon Web Services account that owns the resource, the calling identity must have the PutResourcePolicy permissions on the specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation. If you don't have PutResourcePolicy permissions, Amazon Kinesis Data Streams returns a 403 Access Denied error. If you receive a ResourceNotFoundException, check to see if you passed a valid stream or consumer resource. Request patterns can be one of the following:
     ///
     /// * Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+
     ///
     /// * Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
+    ///
+    /// * Queue pattern: arn:aws.*:kinesis:.*:\d{12}:queue/\S+
     ///
     ///
     /// For more information, see [Controlling Access to Amazon Kinesis Data Streams Resources Using IAM](https://docs.aws.amazon.com/streams/latest/dev/controlling-access.html).
@@ -2967,10 +3458,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3034,9 +3527,179 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ReceiveDeadLetterQueueRecords` operation on the `Kinesis` service.
+    ///
+    /// Receives up to 10 dead-letter records from the specified queue. Each queue has built-in dead-letter handling: when a record has been received MaxReceiveCount times without being acknowledged, it becomes a dead-letter record, which usually means your queue consumer could not process it. The dead-letter record stays in the same queue, and [ReceiveQueueRecords] no longer returns it. Dead-letter records carry the same data and partition key as when they were first delivered, and are returned with a receipt handle. Use the receipt handle to acknowledge the record with [AcknowledgeDeadLetterQueueRecords], which discards it, to change its visibility with [UpdateDeadLetterQueueRecordsVisibility], or to restore it with [RestoreDeadLetterQueueRecords], which returns it to the normal receive path so that [ReceiveQueueRecords] can return it again. Use this operation to inspect the records your queue consumer could not process, so you can correct the cause and then either acknowledge or restore them. A queue delivers dead-letter records while it is in the ACTIVE state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ReceiveDeadLetterQueueRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ReceiveDeadLetterQueueRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
+    /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
+    /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
+    /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func receiveDeadLetterQueueRecords(input: ReceiveDeadLetterQueueRecordsInput) async throws -> ReceiveDeadLetterQueueRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.receiveDeadLetterQueueRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "receiveDeadLetterQueueRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveDeadLetterQueueRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReceiveDeadLetterQueueRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.ReceiveDeadLetterQueueRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReceiveDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReceiveDeadLetterQueueRecordsInput, ReceiveDeadLetterQueueRecordsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReceiveDeadLetterQueueRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ReceiveQueueRecords` operation on the `Kinesis` service.
+    ///
+    /// Receives up to 10 records from the specified queue. Each record is returned with a receipt handle, which is the identifier you use to acknowledge the record or change its visibility. A record returned by ReceiveQueueRecords becomes in flight: it is not visible to any consumer instance for the duration of its visibility timeout, so subsequent receive requests do not return it while your queue consumer processes it. Acknowledge the record with [AcknowledgeQueueRecords] when you finish processing it. A record that is not acknowledged before its visibility timeout expires becomes visible in the queue again and can be received by any consumer instance. Use WaitTimeSeconds to control how long the call waits for a record to become visible before returning. If a record becomes visible sooner, the call returns sooner. If the wait time expires and no records are visible, the call returns an empty list of records. Records are not necessarily received in the order they were written to the data stream. A queue delivers records while it is in the ACTIVE state. On rare occasions, a queue can deliver a record more than once. Design your queue consumer to be idempotent, so that processing the same record more than once is safe.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ReceiveQueueRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ReceiveQueueRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
+    /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
+    /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
+    /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func receiveQueueRecords(input: ReceiveQueueRecordsInput) async throws -> ReceiveQueueRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.receiveQueueRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "receiveQueueRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveQueueRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReceiveQueueRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.ReceiveQueueRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReceiveQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReceiveQueueRecordsInput, ReceiveQueueRecordsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReceiveQueueRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RegisterStreamConsumer` operation on the `Kinesis` service.
     ///
-    /// Registers a consumer with a Kinesis data stream. When you use this operation, the consumer you register can then call [SubscribeToShard] to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaffected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a RegisterStreamConsumer request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:RegisterStreamConsumer permission, you must also have the kinesis:TagResource permission for the consumer that will be registered. Tags will take effect from the CREATING status of the consumer. With On-demand Advantage streams, you can register up to 50 consumers per stream to use Enhanced Fan-out. With On-demand Standard and Provisioned streams, you can register up to 20 consumers per stream to use Enhanced Fan-out. A given consumer can only be registered with one stream at a time. For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html). The use of this operation has a limit of five transactions per second per account. Also, only 5 consumers can be created simultaneously. In other words, you cannot have more than 5 consumers in a CREATING status at the same time. Registering a 6th consumer while there are 5 in a CREATING status results in a LimitExceededException.
+    /// Registers a consumer with a Kinesis data stream. When you use this operation, the consumer you register can then call [SubscribeToShard] to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaffected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a RegisterStreamConsumer request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:RegisterStreamConsumer permission, you must also have the kinesis:TagResource permission for the consumer that will be registered. Tags will take effect from the CREATING status of the consumer. With On-demand Advantage streams, you can register up to 50 consumers per stream to use enhanced fan-out. With On-demand Standard and Provisioned streams, you can register up to 20 consumers per stream to use enhanced fan-out. Queues share this limit with enhanced fan-out consumers: both count as registered consumers on the stream. A given consumer can only be registered with one stream at a time. For an example of how to use this operation, see [Develop enhanced fan-out consumers with the Amazon Web Services SDK for Java](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html). The use of this operation has a limit of five transactions per second per account. Also, only 5 consumers can be created simultaneously. In other words, you cannot have more than 5 consumers in a CREATING status at the same time. Registering a 6th consumer while there are 5 in a CREATING status results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `RegisterStreamConsumerInput`)
     ///
@@ -3191,6 +3854,85 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RestoreDeadLetterQueueRecords` operation on the `Kinesis` service.
+    ///
+    /// Restores up to 10 dead-letter records in the specified queue. Restoring a record clears its dead-letter state and resets its receive count, so [ReceiveQueueRecords] can return it again, up to MaxReceiveCount times before it becomes a dead-letter record again. The result for each entry is reported individually in the response. Restore records after you have corrected the condition that prevented your queue consumer from processing them. Because the request can result in a combination of successful and unsuccessful entries, check the Failed list even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestoreDeadLetterQueueRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestoreDeadLetterQueueRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func restoreDeadLetterQueueRecords(input: RestoreDeadLetterQueueRecordsInput) async throws -> RestoreDeadLetterQueueRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.restoreDeadLetterQueueRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restoreDeadLetterQueueRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDeadLetterQueueRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreDeadLetterQueueRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.RestoreDeadLetterQueueRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreDeadLetterQueueRecordsInput, RestoreDeadLetterQueueRecordsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreDeadLetterQueueRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SplitShard` operation on the `Kinesis` service.
     ///
     /// Splits a shard into two new shards in the Kinesis data stream, to increase the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You can also use SplitShard when a shard appears to be approaching its maximum utilization; for example, the producers sending data into the specific shard are suddenly sending more than previously anticipated. You can also call SplitShard to increase stream capacity, so that more Kinesis Data Streams applications can simultaneously read data from the stream for real-time processing. You must specify the shard to be split and the new hash key, which is the position in the shard where the shard gets split in two. In many cases, the new hash key might be the average of the beginning and ending hash key, but it can be any hash key value in the range being mapped into the shard. For more information, see [Split a Shard](https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-split.html) in the Amazon Kinesis Data Streams Developer Guide. You can use [DescribeStreamSummary] and the [ListShards] APIs to determine the shard ID and hash key values for the ShardToSplit and NewStartingHashKey parameters that are specified in the SplitShard request. SplitShard is an asynchronous operation. Upon receiving a SplitShard request, Kinesis Data Streams immediately returns a response and sets the stream status to UPDATING. After the operation is completed, Kinesis Data Streams sets the stream status to ACTIVE. Read and write operations continue to work while the stream is in the UPDATING state. You can use [DescribeStreamSummary] to check the status of the stream, which is returned in StreamStatus. If the stream is in the ACTIVE state, you can call SplitShard. If the specified stream does not exist, [DescribeStreamSummary] returns a ResourceNotFoundException. If you try to create more shards than are authorized for your account, you receive a LimitExceededException. For the default shard limit for an Amazon Web Services account, see [Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html). If you try to operate on too many streams simultaneously using [CreateStream], [DeleteStream], [MergeShards], and/or [SplitShard], you receive a LimitExceededException. SplitShard has a limit of five transactions per second per account.
@@ -3207,7 +3949,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func splitShard(input: SplitShardInput) async throws -> SplitShardOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3285,7 +4027,7 @@ extension KinesisClient {
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSDisabledException` : The request was rejected because the specified KMS key isn't enabled.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
@@ -3437,7 +4179,7 @@ extension KinesisClient {
 
     /// Performs the `SubscribeToShard` operation on the `Kinesis` service.
     ///
-    /// This operation establishes an HTTP/2 connection between the consumer you specify in the ConsumerARN parameter and the shard you specify in the ShardId parameter. After the connection is successfully established, Kinesis Data Streams pushes records from the shard to the consumer over this connection. Before you call this operation, call [RegisterStreamConsumer] to register the consumer with Kinesis Data Streams. When the SubscribeToShard call succeeds, your consumer starts receiving events of type [SubscribeToShardEvent] over the HTTP/2 connection for up to 5 minutes, after which time you need to call SubscribeToShard again to renew the subscription if you want to continue to receive records. You can make one call to SubscribeToShard per second per registered consumer per shard. For example, if you have a 4000 shard stream and two registered stream consumers, you can make one SubscribeToShard request per second for each combination of shard and registered consumer, allowing you to subscribe both consumers to all 4000 shards in one second. If you call SubscribeToShard again with the same ConsumerARN and ShardId within 5 seconds of a successful call, you'll get a ResourceInUseException. If you call SubscribeToShard 5 seconds or more after a successful call, the second call takes over the subscription and the previous connection expires or fails with a ResourceInUseException. For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
+    /// This operation establishes an HTTP/2 connection between the consumer you specify in the ConsumerARN parameter and the shard you specify in the ShardId parameter. After the connection is successfully established, Kinesis Data Streams pushes records from the shard to the consumer over this connection. Before you call this operation, call [RegisterStreamConsumer] to register the consumer with Kinesis Data Streams. When the SubscribeToShard call succeeds, your consumer starts receiving events of type [SubscribeToShardEvent] over the HTTP/2 connection for up to 5 minutes, after which time you need to call SubscribeToShard again to renew the subscription if you want to continue to receive records. You can make one call to SubscribeToShard per second per registered consumer per shard. For example, if you have a 4000 shard stream and two registered stream consumers, you can make one SubscribeToShard request per second for each combination of shard and registered consumer, allowing you to subscribe both consumers to all 4000 shards in one second. If you call SubscribeToShard again with the same ConsumerARN and ShardId within 5 seconds of a successful call, you'll get a ResourceInUseException. If you call SubscribeToShard 5 seconds or more after a successful call, the second call takes over the subscription and the previous connection expires or fails with a ResourceInUseException. For an example of how to use this operation, see [Develop enhanced fan-out consumers with the Amazon Web Services SDK for Java](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `SubscribeToShardInput`)
     ///
@@ -3517,7 +4259,7 @@ extension KinesisClient {
 
     /// Performs the `TagResource` operation on the `Kinesis` service.
     ///
-    /// Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
+    /// Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource. The Kinesis resource can be a data stream, a queue, or an enhanced fan-out consumer.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -3527,10 +4269,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3596,7 +4340,7 @@ extension KinesisClient {
 
     /// Performs the `UntagResource` operation on the `Kinesis` service.
     ///
-    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
+    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully. The Kinesis resource can be a data stream, a queue, or an enhanced fan-out consumer.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
@@ -3606,10 +4350,12 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3690,7 +4436,7 @@ extension KinesisClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3770,7 +4516,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3834,6 +4580,85 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateDeadLetterQueueRecordsVisibility` operation on the `Kinesis` service.
+    ///
+    /// Changes the visibility timeout of up to 10 dead-letter records that you have received from the specified queue but not yet acknowledged. The result for each entry is reported individually in the response. Because the request can result in a combination of successful and unsuccessful entries, check the Failed list even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeadLetterQueueRecordsVisibilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateDeadLetterQueueRecordsVisibilityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func updateDeadLetterQueueRecordsVisibility(input: UpdateDeadLetterQueueRecordsVisibilityInput) async throws -> UpdateDeadLetterQueueRecordsVisibilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.updateDeadLetterQueueRecordsVisibilityOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDeadLetterQueueRecordsVisibility")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeadLetterQueueRecordsVisibilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDeadLetterQueueRecordsVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.UpdateDeadLetterQueueRecordsVisibility"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeadLetterQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDeadLetterQueueRecordsVisibilityInput, UpdateDeadLetterQueueRecordsVisibilityOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDeadLetterQueueRecordsVisibility")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateMaxRecordSize` operation on the `Kinesis` service.
     ///
     /// This allows you to update the MaxRecordSize of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
@@ -3850,7 +4675,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateMaxRecordSize(input: UpdateMaxRecordSizeInput) async throws -> UpdateMaxRecordSizeOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3914,6 +4739,166 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateQueue` operation on the `Kinesis` service.
+    ///
+    /// Updates the configuration attributes of the specified queue. You can change the queue's visibility timeout, its dead-letter handling configuration, or both. A new visibility timeout applies to records received after the update completes. Records that are already in flight keep the visibility timeout they were received with. To change the visibility timeout of a record that is already in flight, use [UpdateQueueRecordsVisibility]. UpdateQueue is an asynchronous operation. Upon receiving an UpdateQueue request, Amazon Kinesis Data Streams sets the QueueStatus to UPDATING, and sets it back to ACTIVE when the update is complete. You can continue to receive and acknowledge records while the queue is UPDATING. You can't change the data stream or the starting position of a queue after you create it. To read from a different stream or position, create a new queue.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
+    public func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.updateQueueOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateQueue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateQueueInput, UpdateQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateQueueInput, UpdateQueueOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.UpdateQueue"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQueueInput, UpdateQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateQueueInput, UpdateQueueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateQueueInput, UpdateQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateQueueInput, UpdateQueueOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateQueue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateQueueRecordsVisibility` operation on the `Kinesis` service.
+    ///
+    /// Changes the visibility timeout of up to 10 records that you have received from the specified queue but not yet acknowledged. The result for each entry is reported individually in the response. Extend the visibility timeout of a record when your queue consumer needs more time to finish processing it, so the record does not become visible and get redelivered while it is still being processed. Set the visibility timeout to 0 to make a record visible in the queue immediately, so that it can be received again without waiting for its current timeout to expire. Because the request can result in a combination of successful and unsuccessful entries, check the Failed list even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueRecordsVisibilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateQueueRecordsVisibilityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ThrottlingException` : The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+    public func updateQueueRecordsVisibility(input: UpdateQueueRecordsVisibilityInput) async throws -> UpdateQueueRecordsVisibilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.updateQueueRecordsVisibilityOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateQueueRecordsVisibility")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueRecordsVisibilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "data", queueARN: input.queueARN, region: config.region, resourceType: "queue", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateQueueRecordsVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.UpdateQueueRecordsVisibility"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateQueueRecordsVisibilityInput, UpdateQueueRecordsVisibilityOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateQueueRecordsVisibility")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateShardCount` operation on the `Kinesis` service.
     ///
     /// Updates the shard count of the specified stream to the specified number of shards. This API is only supported for the data streams with the provisioned capacity mode. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the shard count is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. To update the shard count, Kinesis Data Streams performs splits or merges on individual shards. This can cause short-lived shards to be created, in addition to the final shards. These short-lived shards count towards your total shard limit for your account in the Region. When using this operation, we recommend that you specify a target shard count that is a multiple of 25% (25%, 50%, 75%, 100%). You can specify any target value within your shard limit. However, if you specify a target that isn't a multiple of 25%, the scaling action might take longer to complete. This operation has the following default limits. By default, you cannot do the following:
@@ -3947,7 +4932,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateShardCount(input: UpdateShardCountInput) async throws -> UpdateShardCountOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4013,7 +4998,7 @@ extension KinesisClient {
 
     /// Performs the `UpdateStreamMode` operation on the `Kinesis` service.
     ///
-    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
+    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes. You can't switch a data stream from on-demand to provisioned capacity mode while the stream has one or more queues. Delete the queues with [DeleteQueue] before you change the capacity mode.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateStreamModeInput`)
     ///
@@ -4026,7 +5011,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateStreamMode(input: UpdateStreamModeInput) async throws -> UpdateStreamModeOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4113,7 +5098,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateStreamRecordDistributionStrategy(input: UpdateStreamRecordDistributionStrategyInput) async throws -> UpdateStreamRecordDistributionStrategyOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -4200,7 +5185,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
-    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    /// - `ValidationException` : The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
     public func updateStreamWarmThroughput(input: UpdateStreamWarmThroughputInput) async throws -> UpdateStreamWarmThroughputOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]

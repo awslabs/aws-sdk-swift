@@ -6210,16 +6210,28 @@ extension ConnectClientTypes {
 
     public enum EvaluationFormItemSourceValuesComparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allIn
+        case equalTo
         case exact
+        case greaterThan
+        case greaterThanOrEqualTo
         case `in`
+        case lessThan
+        case lessThanOrEqualTo
+        case notEqualTo
         case notIn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormItemSourceValuesComparator] {
             return [
                 .allIn,
+                .equalTo,
                 .exact,
+                .greaterThan,
+                .greaterThanOrEqualTo,
                 .in,
+                .lessThan,
+                .lessThanOrEqualTo,
+                .notEqualTo,
                 .notIn
             ]
         }
@@ -6232,8 +6244,14 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .allIn: return "ALL_IN"
+            case .equalTo: return "EQUAL_TO"
             case .exact: return "EXACT"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualTo: return "GREATER_THAN_OR_EQUAL_TO"
             case .in: return "IN"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualTo: return "LESS_THAN_OR_EQUAL_TO"
+            case .notEqualTo: return "NOT_EQUAL_TO"
             case .notIn: return "NOT_IN"
             case let .sdkUnknown(s): return s
             }
@@ -6243,12 +6261,185 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum EvaluationFormAiMetricsField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiAgentMaxPromptLatency
+        case aiSessionCompletenessScore
+        case aiSessionFaithfulnessScore
+        case aiSessionGoalSuccessRate
+        case aiSessionIsHandedOff
+        case aiSessionSelfServiceDuration
+        case aiToolMaxLatency
+        case aiToolParameterAccuracy
+        case aiToolSelectionAccuracy
+        case aiToolUtilizationAccuracy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormAiMetricsField] {
+            return [
+                .aiAgentMaxPromptLatency,
+                .aiSessionCompletenessScore,
+                .aiSessionFaithfulnessScore,
+                .aiSessionGoalSuccessRate,
+                .aiSessionIsHandedOff,
+                .aiSessionSelfServiceDuration,
+                .aiToolMaxLatency,
+                .aiToolParameterAccuracy,
+                .aiToolSelectionAccuracy,
+                .aiToolUtilizationAccuracy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aiAgentMaxPromptLatency: return "AI_AGENT_MAX_PROMPT_LATENCY"
+            case .aiSessionCompletenessScore: return "AI_SESSION_COMPLETENESS_SCORE"
+            case .aiSessionFaithfulnessScore: return "AI_SESSION_FAITHFULNESS_SCORE"
+            case .aiSessionGoalSuccessRate: return "AI_SESSION_GOAL_SUCCESS_RATE"
+            case .aiSessionIsHandedOff: return "AI_SESSION_IS_HANDED_OFF"
+            case .aiSessionSelfServiceDuration: return "AI_SESSION_SELF_SERVICE_DURATION"
+            case .aiToolMaxLatency: return "AI_TOOL_MAX_LATENCY"
+            case .aiToolParameterAccuracy: return "AI_TOOL_PARAMETER_ACCURACY"
+            case .aiToolSelectionAccuracy: return "AI_TOOL_SELECTION_ACCURACY"
+            case .aiToolUtilizationAccuracy: return "AI_TOOL_UTILIZATION_ACCURACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormContactField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentArn
+        case agentInteractionAndHoldDuration
+        case agentInteractionDuration
+        case categories
+        case channel
+        case contactDuration
+        case customerHoldTime
+        case customerSentimentScoreWithoutAgent
+        case customerSentimentScoreWithAgent
+        case initiationMethod
+        case isQueued
+        case longestHoldDuration
+        case nonTalkTime
+        case nonTalkTimePercentage
+        case numberOfHolds
+        case numberOfInterruptions
+        case overallAgentSentimentScore
+        case overallCustomerSentimentScore
+        case queueArn
+        case recordingMediaStreamTypes
+        case routingProfileArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormContactField] {
+            return [
+                .agentArn,
+                .agentInteractionAndHoldDuration,
+                .agentInteractionDuration,
+                .categories,
+                .channel,
+                .contactDuration,
+                .customerHoldTime,
+                .customerSentimentScoreWithoutAgent,
+                .customerSentimentScoreWithAgent,
+                .initiationMethod,
+                .isQueued,
+                .longestHoldDuration,
+                .nonTalkTime,
+                .nonTalkTimePercentage,
+                .numberOfHolds,
+                .numberOfInterruptions,
+                .overallAgentSentimentScore,
+                .overallCustomerSentimentScore,
+                .queueArn,
+                .recordingMediaStreamTypes,
+                .routingProfileArn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentArn: return "AGENT_ARN"
+            case .agentInteractionAndHoldDuration: return "AGENT_INTERACTION_AND_HOLD_DURATION"
+            case .agentInteractionDuration: return "AGENT_INTERACTION_DURATION"
+            case .categories: return "CATEGORIES"
+            case .channel: return "CHANNEL"
+            case .contactDuration: return "CONTACT_DURATION"
+            case .customerHoldTime: return "CUSTOMER_HOLD_TIME"
+            case .customerSentimentScoreWithoutAgent: return "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT"
+            case .customerSentimentScoreWithAgent: return "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT"
+            case .initiationMethod: return "INITIATION_METHOD"
+            case .isQueued: return "IS_QUEUED"
+            case .longestHoldDuration: return "LONGEST_HOLD_DURATION"
+            case .nonTalkTime: return "NON_TALK_TIME"
+            case .nonTalkTimePercentage: return "NON_TALK_TIME_PERCENTAGE"
+            case .numberOfHolds: return "NUMBER_OF_HOLDS"
+            case .numberOfInterruptions: return "NUMBER_OF_INTERRUPTIONS"
+            case .overallAgentSentimentScore: return "OVERALL_AGENT_SENTIMENT_SCORE"
+            case .overallCustomerSentimentScore: return "OVERALL_CUSTOMER_SENTIMENT_SCORE"
+            case .queueArn: return "QUEUE_ARN"
+            case .recordingMediaStreamTypes: return "RECORDING_MEDIA_STREAM_TYPES"
+            case .routingProfileArn: return "ROUTING_PROFILE_ARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormEvaluationMetadataField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evaluationType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormEvaluationMetadataField] {
+            return [
+                .evaluationType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .evaluationType: return "EVALUATION_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum EvaluationFormItemEnablementSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiMetrics
+        case contact
+        case evaluationMetadata
+        case formMetadata
         case questionRefId
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormItemEnablementSourceType] {
             return [
+                .aiMetrics,
+                .contact,
+                .evaluationMetadata,
+                .formMetadata,
                 .questionRefId
             ]
         }
@@ -6260,6 +6451,10 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aiMetrics: return "AI_METRICS"
+            case .contact: return "CONTACT"
+            case .evaluationMetadata: return "EVALUATION_METADATA"
+            case .formMetadata: return "FORM_METADATA"
             case .questionRefId: return "QUESTION_REF_ID"
             case let .sdkUnknown(s): return s
             }
@@ -6271,17 +6466,45 @@ extension ConnectClientTypes {
 
     /// An enablement expression source item.
     public struct EvaluationFormItemEnablementSource: Swift.Sendable {
-        /// A referenceId of the source item.
+        /// The AI metrics field to use as the source. Use when Type is AI_METRICS.
+        public var aiMetricsField: ConnectClientTypes.EvaluationFormAiMetricsField?
+        /// The key of the contact attribute to use as the source. Use when Type is CONTACT.
+        public var contactAttributeKey: Swift.String?
+        /// The contact field to use as the source, such as CHANNEL, QUEUE_ARN, OVERALL_CUSTOMER_SENTIMENT_SCORE, or RECORDING_MEDIA_STREAM_TYPES. Use when Type is CONTACT.
+        public var contactField: ConnectClientTypes.EvaluationFormContactField?
+        /// The evaluation metadata field to use as the source. Use when Type is EVALUATION_METADATA.
+        public var evaluationMetadataField: ConnectClientTypes.EvaluationFormEvaluationMetadataField?
+        /// A referenceId of the source item. Use when Type is QUESTION_REF_ID.
         public var refId: Swift.String?
-        /// A type of source item.
+        /// The key of the contact segment attribute to use as the source. Use when Type is CONTACT.
+        public var segmentAttributeKey: Swift.String?
+        /// A type of source item. Valid values:
+        ///
+        /// * QUESTION_REF_ID - The answer to another question in the evaluation form.
+        ///
+        /// * CONTACT - Data from the evaluated contact.
+        ///
+        /// * EVALUATION_METADATA - Metadata of the evaluation, such as the evaluation type.
+        ///
+        /// * AI_METRICS - Metrics about AI agents, AI sessions, and AI tools on the contact.
         /// This member is required.
         public var type: ConnectClientTypes.EvaluationFormItemEnablementSourceType?
 
         public init(
+            aiMetricsField: ConnectClientTypes.EvaluationFormAiMetricsField? = nil,
+            contactAttributeKey: Swift.String? = nil,
+            contactField: ConnectClientTypes.EvaluationFormContactField? = nil,
+            evaluationMetadataField: ConnectClientTypes.EvaluationFormEvaluationMetadataField? = nil,
             refId: Swift.String? = nil,
+            segmentAttributeKey: Swift.String? = nil,
             type: ConnectClientTypes.EvaluationFormItemEnablementSourceType? = nil
         ) {
+            self.aiMetricsField = aiMetricsField
+            self.contactAttributeKey = contactAttributeKey
+            self.contactField = contactField
+            self.evaluationMetadataField = evaluationMetadataField
             self.refId = refId
+            self.segmentAttributeKey = segmentAttributeKey
             self.type = type
         }
     }
@@ -6290,12 +6513,20 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormItemEnablementSourceValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case booleanValue
+        case datetimeValue
+        case numericValue
         case optionRefId
+        case stringValue
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormItemEnablementSourceValueType] {
             return [
-                .optionRefId
+                .booleanValue,
+                .datetimeValue,
+                .numericValue,
+                .optionRefId,
+                .stringValue
             ]
         }
 
@@ -6306,7 +6537,11 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .booleanValue: return "BOOLEAN_VALUE"
+            case .datetimeValue: return "DATETIME_VALUE"
+            case .numericValue: return "NUMERIC_VALUE"
             case .optionRefId: return "OPTION_REF_ID"
+            case .stringValue: return "STRING_VALUE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6315,19 +6550,35 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// An enablement expression source value.
+    /// An enablement expression source value. Provide only the value member that matches the specified Type.
     public struct EvaluationFormItemEnablementSourceValue: Swift.Sendable {
-        /// A referenceId of the source value.
+        /// A Boolean value to compare against the source. Use when Type is BOOLEAN_VALUE.
+        public var booleanValue: Swift.Bool?
+        /// A date and time value to compare against the source. Use when Type is DATETIME_VALUE.
+        public var dateTimeValue: Foundation.Date?
+        /// A numeric value to compare against the source. Use when Type is NUMERIC_VALUE.
+        public var numericValue: Swift.Double?
+        /// A referenceId of the source value. Use when Type is OPTION_REF_ID.
         public var refId: Swift.String?
-        /// A type of source item value.
+        /// A string value to compare against the source. Use when Type is STRING_VALUE.
+        public var stringValue: Swift.String?
+        /// A type of source item value. Valid values: OPTION_REF_ID | STRING_VALUE | NUMERIC_VALUE | BOOLEAN_VALUE | DATETIME_VALUE.
         /// This member is required.
         public var type: ConnectClientTypes.EvaluationFormItemEnablementSourceValueType?
 
         public init(
+            booleanValue: Swift.Bool? = nil,
+            dateTimeValue: Foundation.Date? = nil,
+            numericValue: Swift.Double? = nil,
             refId: Swift.String? = nil,
+            stringValue: Swift.String? = nil,
             type: ConnectClientTypes.EvaluationFormItemEnablementSourceValueType? = nil
         ) {
+            self.booleanValue = booleanValue
+            self.dateTimeValue = dateTimeValue
+            self.numericValue = numericValue
             self.refId = refId
+            self.stringValue = stringValue
             self.type = type
         }
     }
@@ -6337,7 +6588,7 @@ extension ConnectClientTypes {
 
     /// An expression that defines a basic building block of conditional enablement.
     public struct EvaluationFormItemEnablementExpression: Swift.Sendable {
-        /// A comparator to be used against list of values.
+        /// A comparator to be used against a list of values. IN, NOT_IN, ALL_IN, and EXACT compare sets of values. GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL_TO, and LESS_THAN_OR_EQUAL_TO compare a single numeric or date and time value. EQUAL_TO and NOT_EQUAL_TO compare a single value.
         /// This member is required.
         public var comparator: ConnectClientTypes.EvaluationFormItemSourceValuesComparator?
         /// A source item of enablement expression.
@@ -6486,12 +6737,14 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormQuestionAutomationAnswerSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case condition
         case contactLensData
         case genAi
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormQuestionAutomationAnswerSourceType] {
             return [
+                .condition,
                 .contactLensData,
                 .genAi
             ]
@@ -6504,6 +6757,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .condition: return "CONDITION"
             case .contactLensData: return "CONTACT_LENS_DATA"
             case .genAi: return "GEN_AI"
             case let .sdkUnknown(s): return s
@@ -6516,7 +6770,13 @@ extension ConnectClientTypes {
 
     /// A question automation answer.
     public struct EvaluationFormQuestionAutomationAnswerSource: Swift.Sendable {
-        /// The automation answer source type.
+        /// The automation answer source type. Valid values:
+        ///
+        /// * CONTACT_LENS_DATA - The answer is based on Contact Lens data, such as rule categories and metrics.
+        ///
+        /// * GEN_AI - The answer is generated by generative AI.
+        ///
+        /// * CONDITION - The answer is determined by evaluating the conditions defined in the automation rules of the question.
         /// This member is required.
         public var sourceType: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSourceType?
 
@@ -6597,7 +6857,7 @@ extension ConnectClientTypes {
 
     /// Automation configuration for multi-select questions.
     public struct EvaluationFormMultiSelectQuestionAutomation: Swift.Sendable {
-        /// A question automation answer.
+        /// Automation answer source.
         public var answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?
         /// Reference IDs of default options.
         public var defaultOptionRefIds: [Swift.String]?
@@ -6746,6 +7006,15 @@ extension ConnectClientTypes {
     public enum NumericQuestionPropertyAutomationLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentInteractionAndHoldDuration
         case agentInteractionDuration
+        case aiAgentMaxPromptLatency
+        case aiSessionCompletenessScore
+        case aiSessionFaithfulnessScore
+        case aiSessionGoalSuccessRate
+        case aiSessionSelfServiceDuration
+        case aiToolMaxLatency
+        case aiToolParameterAccuracy
+        case aiToolSelectionAccuracy
+        case aiToolUtilizationAccuracy
         case contactDuration
         case customerHoldTime
         case customerSentimentScoreWithoutAgent
@@ -6763,6 +7032,15 @@ extension ConnectClientTypes {
             return [
                 .agentInteractionAndHoldDuration,
                 .agentInteractionDuration,
+                .aiAgentMaxPromptLatency,
+                .aiSessionCompletenessScore,
+                .aiSessionFaithfulnessScore,
+                .aiSessionGoalSuccessRate,
+                .aiSessionSelfServiceDuration,
+                .aiToolMaxLatency,
+                .aiToolParameterAccuracy,
+                .aiToolSelectionAccuracy,
+                .aiToolUtilizationAccuracy,
                 .contactDuration,
                 .customerHoldTime,
                 .customerSentimentScoreWithoutAgent,
@@ -6786,6 +7064,15 @@ extension ConnectClientTypes {
             switch self {
             case .agentInteractionAndHoldDuration: return "AGENT_INTERACTION_AND_HOLD_DURATION"
             case .agentInteractionDuration: return "AGENT_INTERACTION_DURATION"
+            case .aiAgentMaxPromptLatency: return "AI_AGENT_MAX_PROMPT_LATENCY"
+            case .aiSessionCompletenessScore: return "AI_SESSION_COMPLETENESS_SCORE"
+            case .aiSessionFaithfulnessScore: return "AI_SESSION_FAITHFULNESS_SCORE"
+            case .aiSessionGoalSuccessRate: return "AI_SESSION_GOAL_SUCCESS_RATE"
+            case .aiSessionSelfServiceDuration: return "AI_SESSION_SELF_SERVICE_DURATION"
+            case .aiToolMaxLatency: return "AI_TOOL_MAX_LATENCY"
+            case .aiToolParameterAccuracy: return "AI_TOOL_PARAMETER_ACCURACY"
+            case .aiToolSelectionAccuracy: return "AI_TOOL_SELECTION_ACCURACY"
+            case .aiToolUtilizationAccuracy: return "AI_TOOL_UTILIZATION_ACCURACY"
             case .contactDuration: return "CONTACT_DURATION"
             case .customerHoldTime: return "CUSTOMER_HOLD_TIME"
             case .customerSentimentScoreWithoutAgent: return "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT"
@@ -6805,7 +7092,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about the property value used in automation of a numeric questions. Label values are associated with minimum and maximum values for the numeric question.
+    /// Information about the property value used in automation of a numeric question. Label values are associated with minimum and maximum values for the numeric question.
     ///
     /// * Sentiment scores have a minimum value of -5 and maximum value of 5.
     ///
@@ -6962,39 +7249,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about the automation option of a single select question.
-    public enum EvaluationFormSingleSelectQuestionAutomationOption: Swift.Sendable {
-        /// The automation option based on a rule category for the single select question.
-        case rulecategory(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Information about the automation configuration in single select questions. Automation options are evaluated in order, and the first matched option is applied. If no automation option matches, and there is a default option, then the default option is applied.
-    public struct EvaluationFormSingleSelectQuestionAutomation: Swift.Sendable {
-        /// Automation answer source.
-        public var answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?
-        /// The identifier of the default answer option, when none of the automation options match the criteria.
-        public var defaultOptionRefId: Swift.String?
-        /// The automation options of the single select question.
-        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]?
-
-        public init(
-            answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource? = nil,
-            defaultOptionRefId: Swift.String? = nil,
-            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = []
-        ) {
-            self.answerSource = answerSource
-            self.defaultOptionRefId = defaultOptionRefId
-            self.options = options
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     public enum EvaluationFormSingleSelectQuestionDisplayMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dropdown
         case radio
@@ -7061,30 +7315,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about the options in single select questions.
-    public struct EvaluationFormSingleSelectQuestionProperties: Swift.Sendable {
-        /// The display mode of the single select question.
-        public var automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation?
-        /// The display mode of the single select question.
-        public var displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode?
-        /// The answer options of the single select question.
-        /// This member is required.
-        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]?
-
-        public init(
-            automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation? = nil,
-            displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode? = nil,
-            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
-        ) {
-            self.automation = automation
-            self.displayAs = displayAs
-            self.options = options
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// Information about the automation configuration in text questions.
     public struct EvaluationFormTextQuestionAutomation: Swift.Sendable {
         /// Automation answer source.
@@ -7110,22 +7340,6 @@ extension ConnectClientTypes {
         ) {
             self.automation = automation
         }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Information about properties for a question in an evaluation form. The question type properties must be either for a numeric question or a single select question.
-    public enum EvaluationFormQuestionTypeProperties: Swift.Sendable {
-        /// The properties of the numeric question.
-        case numeric(ConnectClientTypes.EvaluationFormNumericQuestionProperties)
-        /// The properties of the numeric question.
-        case singleselect(ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties)
-        /// The properties of the text question.
-        case text(ConnectClientTypes.EvaluationFormTextQuestionProperties)
-        /// Properties for multi-select question types.
-        case multiselect(ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -15643,12 +15857,14 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationQuestionAnswerAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case condition
         case contactLensData
         case genAi
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationQuestionAnswerAnalysisType] {
             return [
+                .condition,
                 .contactLensData,
                 .genAi
             ]
@@ -15661,6 +15877,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .condition: return "CONDITION"
             case .contactLensData: return "CONTACT_LENS_DATA"
             case .genAi: return "GEN_AI"
             case let .sdkUnknown(s): return s
@@ -15769,7 +15986,7 @@ extension ConnectClientTypes {
     public struct EvaluationSuggestedAnswer: Swift.Sendable {
         /// Detailed analysis results.
         public var analysisDetails: ConnectClientTypes.EvaluationQuestionAnswerAnalysisDetails?
-        /// Type of analysis used to provide suggested answer.
+        /// Type of analysis used to provide suggested answer. Valid values: CONTACT_LENS_DATA | GEN_AI | CONDITION.
         /// This member is required.
         public var analysisType: ConnectClientTypes.EvaluationQuestionAnswerAnalysisType?
         /// Details about the input used to question automation.
@@ -15842,6 +16059,35 @@ extension ConnectClientTypes {
             switch self {
             case .calibration: return "CALIBRATION"
             case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationEnablementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationEnablementStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -16149,6 +16395,69 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum EvaluationItemResolutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationItemResolutionStatus] {
+            return [
+                .failed,
+                .pending,
+                .resolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The resolved value of an external source that is used by the conditions in an evaluation form.
+    public struct EvaluationResolvedSource: Swift.Sendable {
+        /// The external source, such as contact data, evaluation metadata, form metadata, or AI metrics.
+        /// This member is required.
+        public var source: ConnectClientTypes.EvaluationFormItemEnablementSource?
+        /// The status of resolving the source. Valid values:
+        ///
+        /// * PENDING - The source has not been resolved yet.
+        ///
+        /// * RESOLVED - The source has been resolved.
+        ///
+        /// * FAILED - The source could not be resolved.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationItemResolutionStatus?
+        /// The resolved values of the source. Present when Status is RESOLVED. Contains one value for a single-valued source, any number of values for a multi-valued source, and no values when the source is not present on the contact.
+        public var values: [ConnectClientTypes.EvaluationFormItemEnablementSourceValue]?
+
+        public init(
+            source: ConnectClientTypes.EvaluationFormItemEnablementSource? = nil,
+            status: ConnectClientTypes.EvaluationItemResolutionStatus? = nil,
+            values: [ConnectClientTypes.EvaluationFormItemEnablementSourceValue]? = nil
+        ) {
+            self.source = source
+            self.status = status
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum EvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case draft
         case reviewRequested
@@ -16200,6 +16509,8 @@ extension ConnectClientTypes {
         public var evaluationId: Swift.String?
         /// Type of the evaluation.
         public var evaluationType: ConnectClientTypes.EvaluationType?
+        /// A map of item (section or question) identifiers to their enablement status, computed by the service from each item's conditional enablement configuration. Disabled items are excluded from scoring. Valid values: ENABLED | DISABLED.
+        public var itemEnablementStatus: [Swift.String: ConnectClientTypes.EvaluationEnablementStatus]?
         /// The timestamp for when the evaluation was last updated.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -16211,6 +16522,16 @@ extension ConnectClientTypes {
         public var notes: [Swift.String: ConnectClientTypes.EvaluationNote]?
         /// A map of item (section or question) identifiers to score value.
         public var scores: [Swift.String: ConnectClientTypes.EvaluationScore]?
+        /// The aggregate status of resolving the external source data (such as Contact Lens analysis and AI metrics) that is used by conditional enablement in the evaluation. Source data is resolved asynchronously after the evaluation is started. While a source is pending or after it fails to resolve, conditions that depend on it evaluate to the item's DefaultAction. Valid values:
+        ///
+        /// * PENDING - One or more sources have not been resolved yet. Call DescribeContactEvaluation again to get updated ItemEnablementStatus values.
+        ///
+        /// * RESOLVED - All sources have been resolved.
+        ///
+        /// * FAILED - One or more sources could not be resolved. Dependent conditions use the item's DefaultAction.
+        public var sourceResolutionStatus: ConnectClientTypes.EvaluationItemResolutionStatus?
+        /// The resolved values of the external sources (such as contact data, evaluation metadata, form metadata, and AI metrics) that are used by the conditions in the evaluation form. You can use these values to evaluate the conditions against the current answers without calling DescribeContactEvaluation again.
+        public var sourceValues: [ConnectClientTypes.EvaluationResolvedSource]?
         /// The status of the contact evaluation.
         /// This member is required.
         public var status: ConnectClientTypes.EvaluationStatus?
@@ -16223,10 +16544,13 @@ extension ConnectClientTypes {
             evaluationArn: Swift.String? = nil,
             evaluationId: Swift.String? = nil,
             evaluationType: ConnectClientTypes.EvaluationType? = nil,
+            itemEnablementStatus: [Swift.String: ConnectClientTypes.EvaluationEnablementStatus]? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             metadata: ConnectClientTypes.EvaluationMetadata? = nil,
             notes: [Swift.String: ConnectClientTypes.EvaluationNote]? = nil,
             scores: [Swift.String: ConnectClientTypes.EvaluationScore]? = nil,
+            sourceResolutionStatus: ConnectClientTypes.EvaluationItemResolutionStatus? = nil,
+            sourceValues: [ConnectClientTypes.EvaluationResolvedSource]? = nil,
             status: ConnectClientTypes.EvaluationStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -16235,10 +16559,13 @@ extension ConnectClientTypes {
             self.evaluationArn = evaluationArn
             self.evaluationId = evaluationId
             self.evaluationType = evaluationType
+            self.itemEnablementStatus = itemEnablementStatus
             self.lastModifiedTime = lastModifiedTime
             self.metadata = metadata
             self.notes = notes
             self.scores = scores
+            self.sourceResolutionStatus = sourceResolutionStatus
+            self.sourceValues = sourceValues
             self.status = status
             self.tags = tags
         }
@@ -38690,7 +39017,7 @@ extension ConnectClientTypes {
         /// Operands of the enablement condition.
         /// This member is required.
         public var operands: [ConnectClientTypes.EvaluationFormItemEnablementConditionOperand]?
-        /// The operator to be used to be applied to operands if more than one provided.
+        /// The operator to apply to the operands when more than one operand is provided.
         public var `operator`: ConnectClientTypes.EvaluationFormItemEnablementOperator?
 
         public init(
@@ -38854,13 +39181,13 @@ extension ConnectClientTypes {
 
     /// An item enablement configuration.
     public struct EvaluationFormItemEnablementConfiguration: Swift.Sendable {
-        /// An enablement action that if condition is satisfied.
+        /// The enablement action to apply if the condition is satisfied.
         /// This member is required.
         public var action: ConnectClientTypes.EvaluationFormItemEnablementAction?
         /// A condition for item enablement configuration.
         /// This member is required.
         public var condition: ConnectClientTypes.EvaluationFormItemEnablementCondition?
-        /// An enablement action that if condition is not satisfied.
+        /// The enablement action to apply if the condition is not satisfied. This action is also applied when the condition depends on an external source that is still pending or could not be resolved.
         public var defaultAction: ConnectClientTypes.EvaluationFormItemEnablementAction?
 
         public init(
@@ -39274,6 +39601,27 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about a condition-based automation rule for a single select question. When the condition is satisfied, the specified answer option is selected.
+    public struct SingleSelectQuestionAutomationRule: Swift.Sendable {
+        /// The condition that must be satisfied for the answer option to be selected. The condition uses the same sources, comparators, and operators as item enablement conditions.
+        /// This member is required.
+        public var condition: ConnectClientTypes.EvaluationFormItemEnablementCondition?
+        /// The identifier of the answer option to select when the condition is satisfied.
+        /// This member is required.
+        public var optionRefId: Swift.String?
+
+        public init(
+            condition: ConnectClientTypes.EvaluationFormItemEnablementCondition? = nil,
+            optionRefId: Swift.String? = nil
+        ) {
+            self.condition = condition
+            self.optionRefId = optionRefId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The search criteria to be used to return test cases.
     public struct TestCaseSearchCriteria: Swift.Sendable {
         /// A list of conditions which would be applied together with an AND condition.
@@ -39432,55 +39780,13 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about a question from an evaluation form.
-    public struct EvaluationFormQuestion: Swift.Sendable {
-        /// A question conditional enablement.
-        public var enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration?
-        /// The instructions of the section.
-        public var instructions: Swift.String?
-        /// The metric configuration for the question. Use this to associate a business outcome metric with the question.
-        public var metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration?
-        /// The flag to enable not applicable answers to the question.
-        public var notApplicableEnabled: Swift.Bool
-        /// The type of the question.
-        /// This member is required.
-        public var questionType: ConnectClientTypes.EvaluationFormQuestionType?
-        /// The properties of the type of question. Text questions do not have to define question type properties.
-        public var questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties?
-        /// The identifier of the question. An identifier must be unique within the evaluation form.
-        /// This member is required.
-        public var refId: Swift.String?
-        /// The scoring configuration of the question.
-        public var scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?
-        /// The title of the question.
-        /// This member is required.
-        public var title: Swift.String?
-        /// The scoring weight of the section.
-        public var weight: Swift.Double
-
-        public init(
-            enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration? = nil,
-            instructions: Swift.String? = nil,
-            metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration? = nil,
-            notApplicableEnabled: Swift.Bool = false,
-            questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
-            questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
-            refId: Swift.String? = nil,
-            scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration? = nil,
-            title: Swift.String? = nil,
-            weight: Swift.Double = 0.0
-        ) {
-            self.enablement = enablement
-            self.instructions = instructions
-            self.metricConfiguration = metricConfiguration
-            self.notApplicableEnabled = notApplicableEnabled
-            self.questionType = questionType
-            self.questionTypeProperties = questionTypeProperties
-            self.refId = refId
-            self.scoringConfiguration = scoringConfiguration
-            self.title = title
-            self.weight = weight
-        }
+    /// Information about the automation option of a single select question.
+    public indirect enum EvaluationFormSingleSelectQuestionAutomationOption: Swift.Sendable {
+        /// The automation option based on a rule category for the single select question.
+        case rulecategory(ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation)
+        /// The automation option based on a condition for the single select question. Use with the CONDITION answer source type.
+        case automationrule(ConnectClientTypes.SingleSelectQuestionAutomationRule)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -40213,6 +40519,53 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// Information about the automation configuration in single select questions. Automation options are evaluated in order, and the first matched option is applied. If no automation option matches, and there is a default option, then the default option is applied.
+    public struct EvaluationFormSingleSelectQuestionAutomation: Swift.Sendable {
+        /// Automation answer source.
+        public var answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource?
+        /// The identifier of the default answer option, when none of the automation options match the criteria.
+        public var defaultOptionRefId: Swift.String?
+        /// The automation options of the single select question.
+        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]?
+
+        public init(
+            answerSource: ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource? = nil,
+            defaultOptionRefId: Swift.String? = nil,
+            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = []
+        ) {
+            self.answerSource = answerSource
+            self.defaultOptionRefId = defaultOptionRefId
+            self.options = options
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the options in single select questions.
+    public struct EvaluationFormSingleSelectQuestionProperties: Swift.Sendable {
+        /// The display mode of the single select question.
+        public var automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation?
+        /// The display mode of the single select question.
+        public var displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode?
+        /// The answer options of the single select question.
+        /// This member is required.
+        public var options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]?
+
+        public init(
+            automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation? = nil,
+            displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode? = nil,
+            options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
+        ) {
+            self.automation = automation
+            self.displayAs = displayAs
+            self.options = options
+        }
+    }
+}
+
 public struct CreateContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
@@ -40723,12 +41076,16 @@ extension UpdateContactInput: Swift.CustomDebugStringConvertible {
 
 extension ConnectClientTypes {
 
-    /// Information about an item from an evaluation form. The item must be either a section or a question.
-    public indirect enum EvaluationFormItem: Swift.Sendable {
-        /// The information of the section.
-        case section(ConnectClientTypes.EvaluationFormSection)
-        /// The information of the question.
-        case question(ConnectClientTypes.EvaluationFormQuestion)
+    /// Information about properties for a question in an evaluation form. The question type properties must be either for a numeric question or a single select question.
+    public indirect enum EvaluationFormQuestionTypeProperties: Swift.Sendable {
+        /// The properties of the numeric question.
+        case numeric(ConnectClientTypes.EvaluationFormNumericQuestionProperties)
+        /// The properties of the numeric question.
+        case singleselect(ConnectClientTypes.EvaluationFormSingleSelectQuestionProperties)
+        /// The properties of the text question.
+        case text(ConnectClientTypes.EvaluationFormTextQuestionProperties)
+        /// Properties for multi-select question types.
+        case multiselect(ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties)
         case sdkUnknown(Swift.String)
     }
 }
@@ -40771,280 +41128,6 @@ extension ConnectClientTypes {
     }
 }
 
-extension ConnectClientTypes {
-
-    /// Information about a section from an evaluation form. A section can contain sections and/or questions. Evaluation forms can only contain sections and subsections (two level nesting).
-    public struct EvaluationFormSection: Swift.Sendable {
-        /// The instructions of the section.
-        public var instructions: Swift.String?
-        /// The flag to exclude the section from scoring.
-        public var isExcludedFromScoring: Swift.Bool
-        /// The items of the section.
-        /// This member is required.
-        public var items: [ConnectClientTypes.EvaluationFormItem]?
-        /// The identifier of the section. An identifier must be unique within the evaluation form.
-        /// This member is required.
-        public var refId: Swift.String?
-        /// The score thresholds for performance categories.
-        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
-        /// The title of the section.
-        /// This member is required.
-        public var title: Swift.String?
-        /// The scoring weight of the section.
-        public var weight: Swift.Double
-
-        public init(
-            instructions: Swift.String? = nil,
-            isExcludedFromScoring: Swift.Bool = false,
-            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
-            refId: Swift.String? = nil,
-            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
-            title: Swift.String? = nil,
-            weight: Swift.Double = 0.0
-        ) {
-            self.instructions = instructions
-            self.isExcludedFromScoring = isExcludedFromScoring
-            self.items = items
-            self.refId = refId
-            self.scoreThresholds = scoreThresholds
-            self.title = title
-            self.weight = weight
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Information about the evaluation form.
-    public struct EvaluationForm: Swift.Sendable {
-        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
-        public var aiVersion: Swift.String?
-        /// The automatic evaluation configuration of an evaluation form.
-        public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
-        /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
-        /// This member is required.
-        public var createdBy: Swift.String?
-        /// The timestamp for when the evaluation form was created.
-        /// This member is required.
-        public var createdTime: Foundation.Date?
-        /// The description of the evaluation form.
-        public var description: Swift.String?
-        /// The Amazon Resource Name (ARN) for the evaluation form resource.
-        /// This member is required.
-        public var evaluationFormArn: Swift.String?
-        /// The unique identifier for the evaluation form.
-        /// This member is required.
-        public var evaluationFormId: Swift.String?
-        /// A version of the evaluation form.
-        /// This member is required.
-        public var evaluationFormVersion: Swift.Int
-        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
-        /// This member is required.
-        public var items: [ConnectClientTypes.EvaluationFormItem]?
-        /// Configuration for language settings of this evaluation form.
-        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
-        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
-        /// This member is required.
-        public var lastModifiedBy: Swift.String?
-        /// The timestamp for when the evaluation form was last updated.
-        /// This member is required.
-        public var lastModifiedTime: Foundation.Date?
-        /// The timestamp when the most recent validation was started for this evaluation form.
-        public var lastValidationTime: Foundation.Date?
-        /// The status of the most recent validation run for this evaluation form. Valid values: IN_PROGRESS, COMPLETED, FAILED.
-        public var latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus?
-        /// The flag indicating whether the evaluation form is locked for changes.
-        /// This member is required.
-        public var locked: Swift.Bool
-        /// Configuration for evaluation review settings of this evaluation form.
-        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
-        /// A scoring strategy of the evaluation form.
-        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
-        /// The status of the evaluation form.
-        /// This member is required.
-        public var status: ConnectClientTypes.EvaluationFormVersionStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
-        public var tags: [Swift.String: Swift.String]?
-        /// Configuration that specifies the target for this evaluation form.
-        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
-        /// A title of the evaluation form.
-        /// This member is required.
-        public var title: Swift.String?
-
-        public init(
-            aiVersion: Swift.String? = nil,
-            autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
-            createdBy: Swift.String? = nil,
-            createdTime: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            evaluationFormArn: Swift.String? = nil,
-            evaluationFormId: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int = 0,
-            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
-            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
-            lastModifiedBy: Swift.String? = nil,
-            lastModifiedTime: Foundation.Date? = nil,
-            lastValidationTime: Foundation.Date? = nil,
-            latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus? = nil,
-            locked: Swift.Bool = false,
-            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
-            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
-            status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
-            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
-            title: Swift.String? = nil
-        ) {
-            self.aiVersion = aiVersion
-            self.autoEvaluationConfiguration = autoEvaluationConfiguration
-            self.createdBy = createdBy
-            self.createdTime = createdTime
-            self.description = description
-            self.evaluationFormArn = evaluationFormArn
-            self.evaluationFormId = evaluationFormId
-            self.evaluationFormVersion = evaluationFormVersion
-            self.items = items
-            self.languageConfiguration = languageConfiguration
-            self.lastModifiedBy = lastModifiedBy
-            self.lastModifiedTime = lastModifiedTime
-            self.lastValidationTime = lastValidationTime
-            self.latestValidationStatus = latestValidationStatus
-            self.locked = locked
-            self.reviewConfiguration = reviewConfiguration
-            self.scoringStrategy = scoringStrategy
-            self.status = status
-            self.tags = tags
-            self.targetConfiguration = targetConfiguration
-            self.title = title
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Information about an evaluation form used in a contact evaluation.
-    public struct EvaluationFormContent: Swift.Sendable {
-        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
-        public var aiVersion: Swift.String?
-        /// The configuration of the automated evaluation.
-        public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
-        /// The description of the evaluation form.
-        public var description: Swift.String?
-        /// The Amazon Resource Name (ARN) for the evaluation form resource.
-        /// This member is required.
-        public var evaluationFormArn: Swift.String?
-        /// The unique identifier for the evaluation form.
-        /// This member is required.
-        public var evaluationFormId: Swift.String?
-        /// A version of the evaluation form.
-        /// This member is required.
-        public var evaluationFormVersion: Swift.Int
-        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
-        /// This member is required.
-        public var items: [ConnectClientTypes.EvaluationFormItem]?
-        /// Configuration for language settings of this evaluation form content.
-        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
-        /// Configuration for evaluation review settings of this evaluation form content.
-        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
-        /// A scoring strategy of the evaluation form.
-        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
-        /// Configuration that specifies the target for this evaluation form content.
-        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
-        /// A title of the evaluation form.
-        /// This member is required.
-        public var title: Swift.String?
-
-        public init(
-            aiVersion: Swift.String? = nil,
-            autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
-            description: Swift.String? = nil,
-            evaluationFormArn: Swift.String? = nil,
-            evaluationFormId: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int = 0,
-            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
-            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
-            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
-            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
-            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
-            title: Swift.String? = nil
-        ) {
-            self.aiVersion = aiVersion
-            self.autoEvaluationConfiguration = autoEvaluationConfiguration
-            self.description = description
-            self.evaluationFormArn = evaluationFormArn
-            self.evaluationFormId = evaluationFormId
-            self.evaluationFormVersion = evaluationFormVersion
-            self.items = items
-            self.languageConfiguration = languageConfiguration
-            self.reviewConfiguration = reviewConfiguration
-            self.scoringStrategy = scoringStrategy
-            self.targetConfiguration = targetConfiguration
-            self.title = title
-        }
-    }
-}
-
-public struct CreateEvaluationFormInput: Swift.Sendable {
-    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
-    public var aiVersion: Swift.String?
-    /// A boolean flag indicating whether to create evaluation form in draft state.
-    public var asDraft: Swift.Bool?
-    /// Configuration information about automated evaluations.
-    public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The description of the evaluation form.
-    public var description: Swift.String?
-    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
-    /// This member is required.
-    public var items: [ConnectClientTypes.EvaluationFormItem]?
-    /// Configuration for language settings of the evaluation form.
-    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
-    /// Configuration information about evaluation reviews.
-    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
-    /// A scoring strategy of the evaluation form.
-    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
-    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
-    public var tags: [Swift.String: Swift.String]?
-    /// Configuration that specifies the target for the evaluation form.
-    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
-    /// A title of the evaluation form.
-    /// This member is required.
-    public var title: Swift.String?
-
-    public init(
-        aiVersion: Swift.String? = nil,
-        asDraft: Swift.Bool? = false,
-        autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
-        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
-        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
-        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
-        tags: [Swift.String: Swift.String]? = nil,
-        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
-        title: Swift.String? = nil
-    ) {
-        self.aiVersion = aiVersion
-        self.asDraft = asDraft
-        self.autoEvaluationConfiguration = autoEvaluationConfiguration
-        self.clientToken = clientToken
-        self.description = description
-        self.instanceId = instanceId
-        self.items = items
-        self.languageConfiguration = languageConfiguration
-        self.reviewConfiguration = reviewConfiguration
-        self.scoringStrategy = scoringStrategy
-        self.tags = tags
-        self.targetConfiguration = targetConfiguration
-        self.title = title
-    }
-}
-
 public struct UpdateContactRoutingDataInput: Swift.Sendable {
     /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
@@ -41074,104 +41157,57 @@ public struct UpdateContactRoutingDataInput: Swift.Sendable {
     }
 }
 
-public struct UpdateEvaluationFormInput: Swift.Sendable {
-    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
-    public var aiVersion: Swift.String?
-    /// A boolean flag indicating whether to update evaluation form to draft state.
-    public var asDraft: Swift.Bool?
-    /// Whether automated evaluations are enabled.
-    public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// A flag indicating whether the operation must create a new version.
-    public var createNewVersion: Swift.Bool?
-    /// The description of the evaluation form.
-    public var description: Swift.String?
-    /// The unique identifier for the evaluation form.
-    /// This member is required.
-    public var evaluationFormId: Swift.String?
-    /// A version of the evaluation form to update.
-    /// This member is required.
-    public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
-    /// This member is required.
-    public var items: [ConnectClientTypes.EvaluationFormItem]?
-    /// Configuration for language settings of the evaluation form.
-    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
-    /// Configuration for evaluation review settings of the evaluation form.
-    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
-    /// A scoring strategy of the evaluation form.
-    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
-    /// Configuration that specifies the target for the evaluation form.
-    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
-    /// A title of the evaluation form.
-    /// This member is required.
-    public var title: Swift.String?
+extension ConnectClientTypes {
 
-    public init(
-        aiVersion: Swift.String? = nil,
-        asDraft: Swift.Bool? = false,
-        autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
-        clientToken: Swift.String? = nil,
-        createNewVersion: Swift.Bool? = nil,
-        description: Swift.String? = nil,
-        evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = 0,
-        instanceId: Swift.String? = nil,
-        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
-        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
-        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
-        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
-        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
-        title: Swift.String? = nil
-    ) {
-        self.aiVersion = aiVersion
-        self.asDraft = asDraft
-        self.autoEvaluationConfiguration = autoEvaluationConfiguration
-        self.clientToken = clientToken
-        self.createNewVersion = createNewVersion
-        self.description = description
-        self.evaluationFormId = evaluationFormId
-        self.evaluationFormVersion = evaluationFormVersion
-        self.instanceId = instanceId
-        self.items = items
-        self.languageConfiguration = languageConfiguration
-        self.reviewConfiguration = reviewConfiguration
-        self.scoringStrategy = scoringStrategy
-        self.targetConfiguration = targetConfiguration
-        self.title = title
-    }
-}
+    /// Information about a question from an evaluation form.
+    public struct EvaluationFormQuestion: Swift.Sendable {
+        /// A question conditional enablement.
+        public var enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration?
+        /// The instructions of the section.
+        public var instructions: Swift.String?
+        /// The metric configuration for the question. Use this to associate a business outcome metric with the question.
+        public var metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration?
+        /// The flag to enable not applicable answers to the question.
+        public var notApplicableEnabled: Swift.Bool
+        /// The type of the question.
+        /// This member is required.
+        public var questionType: ConnectClientTypes.EvaluationFormQuestionType?
+        /// The properties of the type of question. Text questions do not have to define question type properties.
+        public var questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties?
+        /// The identifier of the question. An identifier must be unique within the evaluation form.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// The scoring configuration of the question.
+        public var scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?
+        /// The title of the question.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The scoring weight of the section.
+        public var weight: Swift.Double
 
-public struct DescribeContactEvaluationOutput: Swift.Sendable {
-    /// Information about the evaluation form completed for a specific contact.
-    /// This member is required.
-    public var evaluation: ConnectClientTypes.Evaluation?
-    /// Information about the evaluation form.
-    /// This member is required.
-    public var evaluationForm: ConnectClientTypes.EvaluationFormContent?
-
-    public init(
-        evaluation: ConnectClientTypes.Evaluation? = nil,
-        evaluationForm: ConnectClientTypes.EvaluationFormContent? = nil
-    ) {
-        self.evaluation = evaluation
-        self.evaluationForm = evaluationForm
-    }
-}
-
-public struct DescribeEvaluationFormOutput: Swift.Sendable {
-    /// Information about the evaluation form.
-    /// This member is required.
-    public var evaluationForm: ConnectClientTypes.EvaluationForm?
-
-    public init(
-        evaluationForm: ConnectClientTypes.EvaluationForm? = nil
-    ) {
-        self.evaluationForm = evaluationForm
+        public init(
+            enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration? = nil,
+            instructions: Swift.String? = nil,
+            metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration? = nil,
+            notApplicableEnabled: Swift.Bool = false,
+            questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
+            questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
+            refId: Swift.String? = nil,
+            scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration? = nil,
+            title: Swift.String? = nil,
+            weight: Swift.Double = 0.0
+        ) {
+            self.enablement = enablement
+            self.instructions = instructions
+            self.metricConfiguration = metricConfiguration
+            self.notApplicableEnabled = notApplicableEnabled
+            self.questionType = questionType
+            self.questionTypeProperties = questionTypeProperties
+            self.refId = refId
+            self.scoringConfiguration = scoringConfiguration
+            self.title = title
+            self.weight = weight
+        }
     }
 }
 
@@ -41486,6 +41522,64 @@ public struct DescribeContactOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// Information about an item from an evaluation form. The item must be either a section or a question.
+    public indirect enum EvaluationFormItem: Swift.Sendable {
+        /// The information of the section.
+        case section(ConnectClientTypes.EvaluationFormSection)
+        /// The information of the question.
+        case question(ConnectClientTypes.EvaluationFormQuestion)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a section from an evaluation form. A section can contain sections and/or questions. Evaluation forms can only contain sections and subsections (two level nesting).
+    public struct EvaluationFormSection: Swift.Sendable {
+        /// The conditional enablement configuration of the section. Sections use the same enablement model as questions.
+        public var enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration?
+        /// The instructions of the section.
+        public var instructions: Swift.String?
+        /// The flag to exclude the section from scoring.
+        public var isExcludedFromScoring: Swift.Bool
+        /// The items of the section.
+        /// This member is required.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// The identifier of the section. An identifier must be unique within the evaluation form.
+        /// This member is required.
+        public var refId: Swift.String?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
+        /// The title of the section.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The scoring weight of the section.
+        public var weight: Swift.Double
+
+        public init(
+            enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration? = nil,
+            instructions: Swift.String? = nil,
+            isExcludedFromScoring: Swift.Bool = false,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            refId: Swift.String? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
+            title: Swift.String? = nil,
+            weight: Swift.Double = 0.0
+        ) {
+            self.enablement = enablement
+            self.instructions = instructions
+            self.isExcludedFromScoring = isExcludedFromScoring
+            self.items = items
+            self.refId = refId
+            self.scoreThresholds = scoreThresholds
+            self.title = title
+            self.weight = weight
+        }
+    }
+}
+
 public struct SearchContactsOutput: Swift.Sendable {
     /// Information about the contacts.
     /// This member is required.
@@ -41503,6 +41597,339 @@ public struct SearchContactsOutput: Swift.Sendable {
         self.contacts = contacts
         self.nextToken = nextToken
         self.totalCount = totalCount
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the evaluation form.
+    public struct EvaluationForm: Swift.Sendable {
+        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+        public var aiVersion: Swift.String?
+        /// The automatic evaluation configuration of an evaluation form.
+        public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
+        /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp for when the evaluation form was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The description of the evaluation form.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A version of the evaluation form.
+        /// This member is required.
+        public var evaluationFormVersion: Swift.Int
+        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+        /// This member is required.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// Configuration for language settings of this evaluation form.
+        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+        /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
+        /// This member is required.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp for when the evaluation form was last updated.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The timestamp when the most recent validation was started for this evaluation form.
+        public var lastValidationTime: Foundation.Date?
+        /// The status of the most recent validation run for this evaluation form. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+        public var latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus?
+        /// The flag indicating whether the evaluation form is locked for changes.
+        /// This member is required.
+        public var locked: Swift.Bool
+        /// Configuration for evaluation review settings of this evaluation form.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
+        /// A scoring strategy of the evaluation form.
+        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+        /// The status of the evaluation form.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationFormVersionStatus?
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String: Swift.String]?
+        /// Configuration that specifies the target for this evaluation form.
+        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            aiVersion: Swift.String? = nil,
+            autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormVersion: Swift.Int = 0,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lastValidationTime: Foundation.Date? = nil,
+            latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus? = nil,
+            locked: Swift.Bool = false,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
+            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+            status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.aiVersion = aiVersion
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.items = items
+            self.languageConfiguration = languageConfiguration
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.lastValidationTime = lastValidationTime
+            self.latestValidationStatus = latestValidationStatus
+            self.locked = locked
+            self.reviewConfiguration = reviewConfiguration
+            self.scoringStrategy = scoringStrategy
+            self.status = status
+            self.tags = tags
+            self.targetConfiguration = targetConfiguration
+            self.title = title
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about an evaluation form used in a contact evaluation.
+    public struct EvaluationFormContent: Swift.Sendable {
+        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+        public var aiVersion: Swift.String?
+        /// The configuration of the automated evaluation.
+        public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
+        /// The description of the evaluation form.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        /// This member is required.
+        public var evaluationFormArn: Swift.String?
+        /// The unique identifier for the evaluation form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+        /// A version of the evaluation form.
+        /// This member is required.
+        public var evaluationFormVersion: Swift.Int
+        /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+        /// This member is required.
+        public var items: [ConnectClientTypes.EvaluationFormItem]?
+        /// Configuration for language settings of this evaluation form content.
+        public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+        /// Configuration for evaluation review settings of this evaluation form content.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
+        /// A scoring strategy of the evaluation form.
+        public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+        /// Configuration that specifies the target for this evaluation form content.
+        public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
+        /// A title of the evaluation form.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            aiVersion: Swift.String? = nil,
+            autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
+            description: Swift.String? = nil,
+            evaluationFormArn: Swift.String? = nil,
+            evaluationFormId: Swift.String? = nil,
+            evaluationFormVersion: Swift.Int = 0,
+            items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+            languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
+            scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+            targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.aiVersion = aiVersion
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
+            self.description = description
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.items = items
+            self.languageConfiguration = languageConfiguration
+            self.reviewConfiguration = reviewConfiguration
+            self.scoringStrategy = scoringStrategy
+            self.targetConfiguration = targetConfiguration
+            self.title = title
+        }
+    }
+}
+
+public struct CreateEvaluationFormInput: Swift.Sendable {
+    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+    public var aiVersion: Swift.String?
+    /// A boolean flag indicating whether to create evaluation form in draft state.
+    public var asDraft: Swift.Bool?
+    /// Configuration information about automated evaluations.
+    public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the evaluation form.
+    public var description: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+    /// This member is required.
+    public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// Configuration for language settings of the evaluation form.
+    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration information about evaluation reviews.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
+    /// A scoring strategy of the evaluation form.
+    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
+    /// Configuration that specifies the target for the evaluation form.
+    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
+    /// A title of the evaluation form.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        aiVersion: Swift.String? = nil,
+        asDraft: Swift.Bool? = false,
+        autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
+        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.aiVersion = aiVersion
+        self.asDraft = asDraft
+        self.autoEvaluationConfiguration = autoEvaluationConfiguration
+        self.clientToken = clientToken
+        self.description = description
+        self.instanceId = instanceId
+        self.items = items
+        self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
+        self.scoringStrategy = scoringStrategy
+        self.tags = tags
+        self.targetConfiguration = targetConfiguration
+        self.title = title
+    }
+}
+
+public struct UpdateEvaluationFormInput: Swift.Sendable {
+    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+    public var aiVersion: Swift.String?
+    /// A boolean flag indicating whether to update evaluation form to draft state.
+    public var asDraft: Swift.Bool?
+    /// Whether automated evaluations are enabled.
+    public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A flag indicating whether the operation must create a new version.
+    public var createNewVersion: Swift.Bool?
+    /// The description of the evaluation form.
+    public var description: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form to update.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
+    /// This member is required.
+    public var items: [ConnectClientTypes.EvaluationFormItem]?
+    /// Configuration for language settings of the evaluation form.
+    public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration for evaluation review settings of the evaluation form.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
+    /// A scoring strategy of the evaluation form.
+    public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
+    /// Configuration that specifies the target for the evaluation form.
+    public var targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration?
+    /// A title of the evaluation form.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        aiVersion: Swift.String? = nil,
+        asDraft: Swift.Bool? = false,
+        autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
+        clientToken: Swift.String? = nil,
+        createNewVersion: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
+        instanceId: Swift.String? = nil,
+        items: [ConnectClientTypes.EvaluationFormItem]? = nil,
+        languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
+        scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
+        targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.aiVersion = aiVersion
+        self.asDraft = asDraft
+        self.autoEvaluationConfiguration = autoEvaluationConfiguration
+        self.clientToken = clientToken
+        self.createNewVersion = createNewVersion
+        self.description = description
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+        self.items = items
+        self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
+        self.scoringStrategy = scoringStrategy
+        self.targetConfiguration = targetConfiguration
+        self.title = title
+    }
+}
+
+public struct DescribeContactEvaluationOutput: Swift.Sendable {
+    /// Information about the evaluation form completed for a specific contact.
+    /// This member is required.
+    public var evaluation: ConnectClientTypes.Evaluation?
+    /// Information about the evaluation form.
+    /// This member is required.
+    public var evaluationForm: ConnectClientTypes.EvaluationFormContent?
+
+    public init(
+        evaluation: ConnectClientTypes.Evaluation? = nil,
+        evaluationForm: ConnectClientTypes.EvaluationFormContent? = nil
+    ) {
+        self.evaluation = evaluation
+        self.evaluationForm = evaluationForm
+    }
+}
+
+public struct DescribeEvaluationFormOutput: Swift.Sendable {
+    /// Information about the evaluation form.
+    /// This member is required.
+    public var evaluationForm: ConnectClientTypes.EvaluationForm?
+
+    public init(
+        evaluationForm: ConnectClientTypes.EvaluationForm? = nil
+    ) {
+        self.evaluationForm = evaluationForm
     }
 }
 
@@ -65228,6 +65655,9 @@ extension ConnectClientTypes.Evaluation {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.itemEnablementStatus = try reader["ItemEnablementStatus"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectClientTypes.EvaluationEnablementStatus>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sourceResolutionStatus = try reader["SourceResolutionStatus"].readIfPresent()
+        value.sourceValues = try reader["SourceValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationResolvedSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -65553,7 +65983,12 @@ extension ConnectClientTypes.EvaluationFormItemEnablementSource {
 
     static func write(value: ConnectClientTypes.EvaluationFormItemEnablementSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AiMetricsField"].write(value.aiMetricsField)
+        try writer["ContactAttributeKey"].write(value.contactAttributeKey)
+        try writer["ContactField"].write(value.contactField)
+        try writer["EvaluationMetadataField"].write(value.evaluationMetadataField)
         try writer["RefId"].write(value.refId)
+        try writer["SegmentAttributeKey"].write(value.segmentAttributeKey)
         try writer["Type"].write(value.type)
     }
 
@@ -65562,6 +65997,11 @@ extension ConnectClientTypes.EvaluationFormItemEnablementSource {
         var value = ConnectClientTypes.EvaluationFormItemEnablementSource()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.refId = try reader["RefId"].readIfPresent()
+        value.contactField = try reader["ContactField"].readIfPresent()
+        value.contactAttributeKey = try reader["ContactAttributeKey"].readIfPresent()
+        value.segmentAttributeKey = try reader["SegmentAttributeKey"].readIfPresent()
+        value.evaluationMetadataField = try reader["EvaluationMetadataField"].readIfPresent()
+        value.aiMetricsField = try reader["AiMetricsField"].readIfPresent()
         return value
     }
 }
@@ -65570,7 +66010,11 @@ extension ConnectClientTypes.EvaluationFormItemEnablementSourceValue {
 
     static func write(value: ConnectClientTypes.EvaluationFormItemEnablementSourceValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BooleanValue"].write(value.booleanValue)
+        try writer["DateTimeValue"].writeTimestamp(value.dateTimeValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["NumericValue"].write(value.numericValue)
         try writer["RefId"].write(value.refId)
+        try writer["StringValue"].write(value.stringValue)
         try writer["Type"].write(value.type)
     }
 
@@ -65579,6 +66023,10 @@ extension ConnectClientTypes.EvaluationFormItemEnablementSourceValue {
         var value = ConnectClientTypes.EvaluationFormItemEnablementSourceValue()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.refId = try reader["RefId"].readIfPresent()
+        value.stringValue = try reader["StringValue"].readIfPresent()
+        value.numericValue = try reader["NumericValue"].readIfPresent()
+        value.booleanValue = try reader["BooleanValue"].readIfPresent()
+        value.dateTimeValue = try reader["DateTimeValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -65969,6 +66417,7 @@ extension ConnectClientTypes.EvaluationFormSection {
 
     static func write(value: ConnectClientTypes.EvaluationFormSection?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Enablement"].write(value.enablement, with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.write(value:to:))
         try writer["Instructions"].write(value.instructions)
         try writer["IsExcludedFromScoring"].write(value.isExcludedFromScoring)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -65988,6 +66437,7 @@ extension ConnectClientTypes.EvaluationFormSection {
         value.weight = try reader["Weight"].readIfPresent() ?? 0
         value.isExcludedFromScoring = try reader["IsExcludedFromScoring"].readIfPresent() ?? false
         value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enablement = try reader["Enablement"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.read(from:))
         return value
     }
 }
@@ -66016,6 +66466,8 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption 
     static func write(value: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .automationrule(automationrule):
+                try writer["AutomationRule"].write(automationrule, with: ConnectClientTypes.SingleSelectQuestionAutomationRule.write(value:to:))
             case let .rulecategory(rulecategory):
                 try writer["RuleCategory"].write(rulecategory, with: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -66029,6 +66481,8 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption 
         switch name {
             case "RuleCategory":
                 return .rulecategory(try reader["RuleCategory"].read(with: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation.read(from:)))
+            case "AutomationRule":
+                return .automationrule(try reader["AutomationRule"].read(with: ConnectClientTypes.SingleSelectQuestionAutomationRule.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -66254,6 +66708,18 @@ extension ConnectClientTypes.EvaluationQuestionInputDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationQuestionInputDetails()
         value.transcriptType = try reader["TranscriptType"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationResolvedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationResolvedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationResolvedSource()
+        value.source = try reader["Source"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementSource.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItemEnablementSourceValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -70140,6 +70606,23 @@ extension ConnectClientTypes.SignInDistribution {
         var value = ConnectClientTypes.SignInDistribution()
         value.region = try reader["Region"].readIfPresent() ?? ""
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.SingleSelectQuestionAutomationRule {
+
+    static func write(value: ConnectClientTypes.SingleSelectQuestionAutomationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition, with: ConnectClientTypes.EvaluationFormItemEnablementCondition.write(value:to:))
+        try writer["OptionRefId"].write(value.optionRefId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SingleSelectQuestionAutomationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.SingleSelectQuestionAutomationRule()
+        value.condition = try reader["Condition"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementCondition.read(from:))
+        value.optionRefId = try reader["OptionRefId"].readIfPresent() ?? ""
         return value
     }
 }

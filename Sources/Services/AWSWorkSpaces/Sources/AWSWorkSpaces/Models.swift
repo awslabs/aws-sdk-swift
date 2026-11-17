@@ -5463,8 +5463,12 @@ extension WorkSpacesClientTypes {
     public struct SelfservicePermissions: Swift.Sendable {
         /// Specifies whether users can change the compute type (bundle) for their WorkSpace.
         public var changeComputeType: WorkSpacesClientTypes.ReconnectEnum?
+        /// Specifies whether users can use End User Advisor in the WorkSpaces client for Windows to see their session health and get recommended actions for common issues. The default value is ENABLED. For more information, see Proactive troubleshooting for your WorkSpaces users.
+        public var enableEndUserAdvisor: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can increase the volume size of the drives on their WorkSpace.
         public var increaseVolumeSize: WorkSpacesClientTypes.ReconnectEnum?
+        /// Specifies whether users can enable or disable nested virtualization on their WorkSpace. The default value is DISABLED. For more information, see [Nested virtualization for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/nested-virtualization.html).
+        public var nestedVirtualization: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can rebuild the operating system of a WorkSpace to its original state.
         public var rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can restart their WorkSpace.
@@ -5474,13 +5478,17 @@ extension WorkSpacesClientTypes {
 
         public init(
             changeComputeType: WorkSpacesClientTypes.ReconnectEnum? = nil,
+            enableEndUserAdvisor: WorkSpacesClientTypes.ReconnectEnum? = nil,
             increaseVolumeSize: WorkSpacesClientTypes.ReconnectEnum? = nil,
+            nestedVirtualization: WorkSpacesClientTypes.ReconnectEnum? = nil,
             rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             restartWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             switchRunningMode: WorkSpacesClientTypes.ReconnectEnum? = nil
         ) {
             self.changeComputeType = changeComputeType
+            self.enableEndUserAdvisor = enableEndUserAdvisor
             self.increaseVolumeSize = increaseVolumeSize
+            self.nestedVirtualization = nestedVirtualization
             self.rebuildWorkspace = rebuildWorkspace
             self.restartWorkspace = restartWorkspace
             self.switchRunningMode = switchRunningMode

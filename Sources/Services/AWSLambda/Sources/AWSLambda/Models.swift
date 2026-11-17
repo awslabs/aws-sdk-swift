@@ -2305,7 +2305,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Specifies how long to pause the durable execution.
+    /// Specifies how long the durable execution waits.
     public struct WaitOptions: Swift.Sendable {
         /// The duration to wait, in seconds.
         public var waitSeconds: Swift.Int?
@@ -2715,6 +2715,30 @@ public struct CheckpointDurableExecutionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+    }
+}
+
+public struct DeleteDurableExecutionOutput: Swift.Sendable {
+    /// The timestamp when Lambda accepted the deletion request (ISO 8601 format).
+    /// This member is required.
+    public var deletionRequestTimestamp: Foundation.Date?
+
+    public init(
+        deletionRequestTimestamp: Foundation.Date? = nil
+    ) {
+        self.deletionRequestTimestamp = deletionRequestTimestamp
+    }
+}
+
 public struct GetDurableExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
@@ -2756,8 +2780,41 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that is pausing or paused.
+    public struct PauseDetails: Swift.Sendable {
+        /// Specifies whether the pause also pauses the execution timeout.
+        /// This member is required.
+        public var executionTimeoutPaused: Swift.Bool?
+        /// The date and time when you requested the pause, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var pauseRequestTimestamp: Foundation.Date?
+        /// The reason that you provided when you paused the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var reason: Swift.String?
+
+        public init(
+            executionTimeoutPaused: Swift.Bool? = nil,
+            pauseRequestTimestamp: Foundation.Date? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.executionTimeoutPaused = executionTimeoutPaused
+            self.pauseRequestTimestamp = pauseRequestTimestamp
+            self.reason = reason
+        }
+    }
+}
+
+extension LambdaClientTypes.PauseDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PauseDetails(executionTimeoutPaused: \(Swift.String(describing: executionTimeoutPaused)), pauseRequestTimestamp: \(Swift.String(describing: pauseRequestTimestamp)), reason: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
     public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleting
         case failed
+        case paused
+        case pausing
         case running
         case stopped
         case succeeded
@@ -2766,7 +2823,10 @@ extension LambdaClientTypes {
 
         public static var allCases: [ExecutionStatus] {
             return [
+                .deleting,
                 .failed,
+                .paused,
+                .pausing,
                 .running,
                 .stopped,
                 .succeeded,
@@ -2781,7 +2841,10 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .paused: return "PAUSED"
+            case .pausing: return "PAUSING"
             case .running: return "RUNNING"
             case .stopped: return "STOPPED"
             case .succeeded: return "SUCCEEDED"
@@ -2823,17 +2886,37 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var error: LambdaClientTypes.ErrorObject?
     /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
     public var executionDataIncluded: Swift.Bool?
+    /// The date and time when the durable execution will time out, in Unix timestamp format. This value includes any extension from time the execution spent paused. While the execution is paused with its execution timeout paused, this value is 366 days after the start time. This field isn't present for completed executions.
+    public var expectedExecutionTimeoutTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
     /// This member is required.
     public var functionArn: Swift.String?
     /// The JSON input payload that you provided when you started the durable execution. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var inputPayload: Swift.String?
+    /// The details of the pause, including when you requested it and whether it pauses the execution timeout. This field is only present when the execution status is PAUSING or PAUSED.
+    public var pauseDetails: LambdaClientTypes.PauseDetails?
     /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var result: Swift.String?
     /// The date and time when the durable execution started, in Unix timestamp format.
     /// This member is required.
     public var startTimestamp: Foundation.Date?
-    /// The current status of the durable execution. Valid values are RUNNING, SUCCEEDED, FAILED, TIMED_OUT, and STOPPED.
+    /// The durable execution has one of the following statuses:
+    ///
+    /// * RUNNING – The execution is running or waiting for pending operations to complete.
+    ///
+    /// * PAUSING – The execution is waiting for an in-progress invocation to reach its next checkpoint before it pauses.
+    ///
+    /// * PAUSED – The execution is paused, and Lambda doesn't invoke your function.
+    ///
+    /// * SUCCEEDED – The execution completed successfully.
+    ///
+    /// * FAILED – The execution completed with an error.
+    ///
+    /// * TIMED_OUT – The execution exceeded its execution timeout.
+    ///
+    /// * STOPPED – A StopDurableExecution request stopped the execution.
+    ///
+    /// * DELETING – A DeleteDurableExecution request is deleting the execution and its data.
     /// This member is required.
     public var status: LambdaClientTypes.ExecutionStatus?
     /// The trace headers associated with the durable execution.
@@ -2848,8 +2931,10 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
         endTimestamp: Foundation.Date? = nil,
         error: LambdaClientTypes.ErrorObject? = nil,
         executionDataIncluded: Swift.Bool? = nil,
+        expectedExecutionTimeoutTimestamp: Foundation.Date? = nil,
         functionArn: Swift.String? = nil,
         inputPayload: Swift.String? = nil,
+        pauseDetails: LambdaClientTypes.PauseDetails? = nil,
         result: Swift.String? = nil,
         startTimestamp: Foundation.Date? = nil,
         status: LambdaClientTypes.ExecutionStatus? = nil,
@@ -2862,8 +2947,10 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
         self.endTimestamp = endTimestamp
         self.error = error
         self.executionDataIncluded = executionDataIncluded
+        self.expectedExecutionTimeoutTimestamp = expectedExecutionTimeoutTimestamp
         self.functionArn = functionArn
         self.inputPayload = inputPayload
+        self.pauseDetails = pauseDetails
         self.result = result
         self.startTimestamp = startTimestamp
         self.status = status
@@ -2874,7 +2961,7 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
 
 extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
+        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), expectedExecutionTimeoutTimestamp: \(Swift.String(describing: expectedExecutionTimeoutTimestamp)), functionArn: \(Swift.String(describing: functionArn)), pauseDetails: \(Swift.String(describing: pauseDetails)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDurableExecutionHistoryInput: Swift.Sendable {
@@ -3197,6 +3284,8 @@ extension LambdaClientTypes {
         case contextstarted
         case contextsucceeded
         case executionfailed
+        case executionpaused
+        case executionresumed
         case executionstarted
         case executionstopped
         case executionsucceeded
@@ -3225,6 +3314,8 @@ extension LambdaClientTypes {
                 .contextstarted,
                 .contextsucceeded,
                 .executionfailed,
+                .executionpaused,
+                .executionresumed,
                 .executionstarted,
                 .executionstopped,
                 .executionsucceeded,
@@ -3259,6 +3350,8 @@ extension LambdaClientTypes {
             case .contextstarted: return "ContextStarted"
             case .contextsucceeded: return "ContextSucceeded"
             case .executionfailed: return "ExecutionFailed"
+            case .executionpaused: return "ExecutionPaused"
+            case .executionresumed: return "ExecutionResumed"
             case .executionstarted: return "ExecutionStarted"
             case .executionstopped: return "ExecutionStopped"
             case .executionsucceeded: return "ExecutionSucceeded"
@@ -3288,6 +3381,99 @@ extension LambdaClientTypes {
             error: LambdaClientTypes.EventError? = nil
         ) {
             self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The reason for pausing a durable execution, as recorded in the execution history.
+    public struct EventPauseReason: Swift.Sendable {
+        /// The reason that you provided when you paused the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var payload: Swift.String?
+        /// Specifies whether Lambda omitted the reason from the response because IncludeExecutionData is false.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventPauseReason: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventPauseReason(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that paused. The event timestamp is when the execution paused.
+    public struct ExecutionPausedDetails: Swift.Sendable {
+        /// Specifies whether the pause also paused the execution timeout.
+        /// This member is required.
+        public var executionTimeoutPaused: Swift.Bool?
+        /// The date and time when you requested the pause, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var pauseRequestTimestamp: Foundation.Date?
+        /// The reason that you provided when you paused the execution.
+        public var reason: LambdaClientTypes.EventPauseReason?
+
+        public init(
+            executionTimeoutPaused: Swift.Bool? = nil,
+            pauseRequestTimestamp: Foundation.Date? = nil,
+            reason: LambdaClientTypes.EventPauseReason? = nil
+        ) {
+            self.executionTimeoutPaused = executionTimeoutPaused
+            self.pauseRequestTimestamp = pauseRequestTimestamp
+            self.reason = reason
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The reason for resuming a durable execution, as recorded in the execution history.
+    public struct EventResumeReason: Swift.Sendable {
+        /// The reason that you provided when you resumed the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var payload: Swift.String?
+        /// Specifies whether Lambda omitted the reason from the response because IncludeExecutionData is false.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventResumeReason: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventResumeReason(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that resumed. The event timestamp is when the execution resumed.
+    public struct ExecutionResumedDetails: Swift.Sendable {
+        /// The reason that you provided when you resumed the execution.
+        public var reason: LambdaClientTypes.EventResumeReason?
+        /// The date and time when you requested the resume, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var resumeRequestTimestamp: Foundation.Date?
+
+        public init(
+            reason: LambdaClientTypes.EventResumeReason? = nil,
+            resumeRequestTimestamp: Foundation.Date? = nil
+        ) {
+            self.reason = reason
+            self.resumeRequestTimestamp = resumeRequestTimestamp
         }
     }
 }
@@ -3547,6 +3733,10 @@ extension LambdaClientTypes {
         public var eventType: LambdaClientTypes.EventType?
         /// Details about an execution that failed.
         public var executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails?
+        /// The details of an ExecutionPaused event.
+        public var executionPausedDetails: LambdaClientTypes.ExecutionPausedDetails?
+        /// The details of an ExecutionResumed event.
+        public var executionResumedDetails: LambdaClientTypes.ExecutionResumedDetails?
         /// Details about an execution that started.
         public var executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails?
         /// Details about an execution that was stopped.
@@ -3595,6 +3785,8 @@ extension LambdaClientTypes {
             eventTimestamp: Foundation.Date? = nil,
             eventType: LambdaClientTypes.EventType? = nil,
             executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails? = nil,
+            executionPausedDetails: LambdaClientTypes.ExecutionPausedDetails? = nil,
+            executionResumedDetails: LambdaClientTypes.ExecutionResumedDetails? = nil,
             executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails? = nil,
             executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails? = nil,
             executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails? = nil,
@@ -3627,6 +3819,8 @@ extension LambdaClientTypes {
             self.eventTimestamp = eventTimestamp
             self.eventType = eventType
             self.executionFailedDetails = executionFailedDetails
+            self.executionPausedDetails = executionPausedDetails
+            self.executionResumedDetails = executionResumedDetails
             self.executionStartedDetails = executionStartedDetails
             self.executionStoppedDetails = executionStoppedDetails
             self.executionSucceededDetails = executionSucceededDetails
@@ -3703,6 +3897,70 @@ public struct GetDurableExecutionStateOutput: Swift.Sendable {
         self.nextMarker = nextMarker
         self.operations = operations
     }
+}
+
+public struct PauseDurableExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request completes no more than one time. If you repeat a request with the same client token and parameters within 15 minutes, Lambda doesn't pause the execution again and returns a successful response instead of an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Specifies whether to pause the execution timeout while the execution is paused. If true, Lambda extends the execution timeout by the time the execution spends paused. An execution with a paused timeout still times out 366 days after it started. The default value is true.
+    public var executionTimeoutPaused: Swift.Bool?
+    /// A description of why you're pausing the execution. Lambda records the reason in the execution history.
+    public var reason: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        executionTimeoutPaused: Swift.Bool? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.durableExecutionArn = durableExecutionArn
+        self.executionTimeoutPaused = executionTimeoutPaused
+        self.reason = reason
+    }
+}
+
+extension PauseDurableExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PauseDurableExecutionInput(clientToken: \(Swift.String(describing: clientToken)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), executionTimeoutPaused: \(Swift.String(describing: executionTimeoutPaused)), reason: \"CONTENT_REDACTED\")"}
+}
+
+public struct PauseDurableExecutionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ResumeDurableExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request completes no more than one time. If you repeat a request with the same client token and parameters within 15 minutes, Lambda doesn't resume the execution again and returns a successful response instead of an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// A description of why you're resuming the execution. Lambda records the reason in the execution history.
+    public var reason: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.durableExecutionArn = durableExecutionArn
+        self.reason = reason
+    }
+}
+
+extension ResumeDurableExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResumeDurableExecutionInput(clientToken: \(Swift.String(describing: clientToken)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), reason: \"CONTENT_REDACTED\")"}
+}
+
+public struct ResumeDurableExecutionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StopDurableExecutionInput: Swift.Sendable {
@@ -9668,7 +9926,23 @@ public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
     public var startedAfter: Foundation.Date?
     /// Filter executions that started before this timestamp (ISO 8601 format).
     public var startedBefore: Foundation.Date?
-    /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    /// Filters the executions by status. Specify one of the following values:
+    ///
+    /// * RUNNING – The execution is running or waiting for pending operations to complete.
+    ///
+    /// * PAUSING – The execution is waiting for an in-progress invocation to reach its next checkpoint before it pauses.
+    ///
+    /// * PAUSED – The execution is paused, and Lambda doesn't invoke your function.
+    ///
+    /// * SUCCEEDED – The execution completed successfully.
+    ///
+    /// * FAILED – The execution completed with an error.
+    ///
+    /// * TIMED_OUT – The execution exceeded its execution timeout.
+    ///
+    /// * STOPPED – A StopDurableExecution request stopped the execution.
+    ///
+    /// * DELETING – A DeleteDurableExecution request is deleting the execution and its data.
     public var statuses: [LambdaClientTypes.ExecutionStatus]?
 
     public init(
@@ -12856,6 +13130,16 @@ extension DeleteCodeSigningConfigInput {
     }
 }
 
+extension DeleteDurableExecutionInput {
+
+    static func urlPathProvider(_ value: DeleteDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())"
+    }
+}
+
 extension DeleteEventSourceMappingInput {
 
     static func urlPathProvider(_ value: DeleteEventSourceMappingInput) -> Swift.String? {
@@ -13940,6 +14224,16 @@ extension ListVersionsByFunctionInput {
     }
 }
 
+extension PauseDurableExecutionInput {
+
+    static func urlPathProvider(_ value: PauseDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/pause"
+    }
+}
+
 extension PublishLayerVersionInput {
 
     static func urlPathProvider(_ value: PublishLayerVersionInput) -> Swift.String? {
@@ -14146,6 +14440,16 @@ extension RemovePermissionInput {
             items.append(revisionIdQueryItem)
         }
         return items
+    }
+}
+
+extension ResumeDurableExecutionInput {
+
+    static func urlPathProvider(_ value: ResumeDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/resume"
     }
 }
 
@@ -14514,6 +14818,16 @@ extension InvokeWithResponseStreamInput {
     }
 }
 
+extension PauseDurableExecutionInput {
+
+    static func write(value: PauseDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ExecutionTimeoutPaused"].write(value.executionTimeoutPaused)
+        try writer["Reason"].write(value.reason)
+    }
+}
+
 extension PublishLayerVersionInput {
 
     static func write(value: PublishLayerVersionInput?, to writer: SmithyJSON.Writer) throws {
@@ -14602,6 +14916,15 @@ extension PutRuntimeManagementConfigInput {
         guard let value else { return }
         try writer["RuntimeVersionArn"].write(value.runtimeVersionArn)
         try writer["UpdateRuntimeOn"].write(value.updateRuntimeOn)
+    }
+}
+
+extension ResumeDurableExecutionInput {
+
+    static func write(value: ResumeDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Reason"].write(value.reason)
     }
 }
 
@@ -14983,6 +15306,18 @@ extension DeleteCodeSigningConfigOutput {
     }
 }
 
+extension DeleteDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDurableExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDurableExecutionOutput()
+        value.deletionRequestTimestamp = try reader["DeletionRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension DeleteEventSourceMappingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventSourceMappingOutput {
@@ -15152,8 +15487,10 @@ extension GetDurableExecutionOutput {
         value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
         value.executionDataIncluded = try reader["ExecutionDataIncluded"].readIfPresent()
+        value.expectedExecutionTimeoutTimestamp = try reader["ExpectedExecutionTimeoutTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.inputPayload = try reader["InputPayload"].readIfPresent()
+        value.pauseDetails = try reader["PauseDetails"].readIfPresent(with: LambdaClientTypes.PauseDetails.read(from:))
         value.result = try reader["Result"].readIfPresent()
         value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
@@ -15750,6 +16087,13 @@ extension ListVersionsByFunctionOutput {
     }
 }
 
+extension PauseDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PauseDurableExecutionOutput {
+        return PauseDurableExecutionOutput()
+    }
+}
+
 extension PublishLayerVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishLayerVersionOutput {
@@ -15943,6 +16287,13 @@ extension RemovePermissionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemovePermissionOutput {
         return RemovePermissionOutput()
+    }
+}
+
+extension ResumeDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResumeDurableExecutionOutput {
+        return ResumeDurableExecutionOutput()
     }
 }
 
@@ -16438,6 +16789,24 @@ enum DeleteCodeSigningConfigOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17412,6 +17781,28 @@ enum ListVersionsByFunctionOutputError {
     }
 }
 
+enum PauseDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PublishLayerVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17629,6 +18020,28 @@ enum RemovePermissionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ResumeDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -19416,6 +19829,8 @@ extension LambdaClientTypes.Event {
         value.callbackFailedDetails = try reader["CallbackFailedDetails"].readIfPresent(with: LambdaClientTypes.CallbackFailedDetails.read(from:))
         value.callbackTimedOutDetails = try reader["CallbackTimedOutDetails"].readIfPresent(with: LambdaClientTypes.CallbackTimedOutDetails.read(from:))
         value.invocationCompletedDetails = try reader["InvocationCompletedDetails"].readIfPresent(with: LambdaClientTypes.InvocationCompletedDetails.read(from:))
+        value.executionPausedDetails = try reader["ExecutionPausedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionPausedDetails.read(from:))
+        value.executionResumedDetails = try reader["ExecutionResumedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionResumedDetails.read(from:))
         return value
     }
 }
@@ -19442,11 +19857,33 @@ extension LambdaClientTypes.EventInput {
     }
 }
 
+extension LambdaClientTypes.EventPauseReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventPauseReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventPauseReason()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.EventResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.EventResult()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.EventResumeReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResumeReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventResumeReason()
         value.payload = try reader["Payload"].readIfPresent()
         value.truncated = try reader["Truncated"].readIfPresent()
         return value
@@ -19557,6 +19994,29 @@ extension LambdaClientTypes.ExecutionFailedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.ExecutionFailedDetails()
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionPausedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionPausedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionPausedDetails()
+        value.pauseRequestTimestamp = try reader["PauseRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent(with: LambdaClientTypes.EventPauseReason.read(from:))
+        value.executionTimeoutPaused = try reader["ExecutionTimeoutPaused"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionResumedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionResumedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionResumedDetails()
+        value.resumeRequestTimestamp = try reader["ResumeRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent(with: LambdaClientTypes.EventResumeReason.read(from:))
         return value
     }
 }
@@ -20155,6 +20615,18 @@ extension LambdaClientTypes.OperationUpdate {
         try writer["SubType"].write(value.subType)
         try writer["Type"].write(value.type)
         try writer["WaitOptions"].write(value.waitOptions, with: LambdaClientTypes.WaitOptions.write(value:to:))
+    }
+}
+
+extension LambdaClientTypes.PauseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.PauseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.PauseDetails()
+        value.pauseRequestTimestamp = try reader["PauseRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent()
+        value.executionTimeoutPaused = try reader["ExecutionTimeoutPaused"].readIfPresent() ?? false
+        return value
     }
 }
 

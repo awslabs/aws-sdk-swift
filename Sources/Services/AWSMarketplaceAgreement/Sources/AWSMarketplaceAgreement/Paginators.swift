@@ -43,6 +43,68 @@ extension PaginatorSequence where OperationStackInput == GetAgreementEntitlement
     }
 }
 extension MarketplaceAgreementClient {
+    /// Paginate over `[GetAgreementRequestApprovalPlansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAgreementRequestApprovalPlansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAgreementRequestApprovalPlansOutput`
+    public func getAgreementRequestApprovalPlansPaginated(input: GetAgreementRequestApprovalPlansInput) -> ClientRuntime.PaginatorSequence<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput> {
+        return ClientRuntime.PaginatorSequence<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAgreementRequestApprovalPlans(input:))
+    }
+}
+
+extension GetAgreementRequestApprovalPlansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetAgreementRequestApprovalPlansInput {
+        return GetAgreementRequestApprovalPlansInput(
+            agreementRequestId: self.agreementRequestId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetAgreementRequestApprovalPlansInput, OperationStackOutput == GetAgreementRequestApprovalPlansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getAgreementRequestApprovalPlansPaginated`
+    /// to access the nested member `[MarketplaceAgreementClientTypes.AgreementApprovalPlan]`
+    /// - Returns: `[MarketplaceAgreementClientTypes.AgreementApprovalPlan]`
+    public func items() async throws -> [MarketplaceAgreementClientTypes.AgreementApprovalPlan] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension MarketplaceAgreementClient {
+    /// Paginate over `[GetAgreementRequestTermsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAgreementRequestTermsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAgreementRequestTermsOutput`
+    public func getAgreementRequestTermsPaginated(input: GetAgreementRequestTermsInput) -> ClientRuntime.PaginatorSequence<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput> {
+        return ClientRuntime.PaginatorSequence<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAgreementRequestTerms(input:))
+    }
+}
+
+extension GetAgreementRequestTermsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetAgreementRequestTermsInput {
+        return GetAgreementRequestTermsInput(
+            agreementRequestId: self.agreementRequestId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetAgreementRequestTermsInput, OperationStackOutput == GetAgreementRequestTermsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getAgreementRequestTermsPaginated`
+    /// to access the nested member `[MarketplaceAgreementClientTypes.AgreementRequestTerm]`
+    /// - Returns: `[MarketplaceAgreementClientTypes.AgreementRequestTerm]`
+    public func terms() async throws -> [MarketplaceAgreementClientTypes.AgreementRequestTerm] {
+        return try await self.asyncCompactMap { item in item.terms }
+    }
+}
+extension MarketplaceAgreementClient {
     /// Paginate over `[GetAgreementTermsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -71,6 +133,41 @@ extension PaginatorSequence where OperationStackInput == GetAgreementTermsInput,
     /// - Returns: `[MarketplaceAgreementClientTypes.AcceptedTerm]`
     public func acceptedTerms() async throws -> [MarketplaceAgreementClientTypes.AcceptedTerm] {
         return try await self.asyncCompactMap { item in item.acceptedTerms }
+    }
+}
+extension MarketplaceAgreementClient {
+    /// Paginate over `[ListAgreementApprovalsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgreementApprovalsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgreementApprovalsOutput`
+    public func listAgreementApprovalsPaginated(input: ListAgreementApprovalsInput) -> ClientRuntime.PaginatorSequence<ListAgreementApprovalsInput, ListAgreementApprovalsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgreementApprovals(input:))
+    }
+}
+
+extension ListAgreementApprovalsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgreementApprovalsInput {
+        return ListAgreementApprovalsInput(
+            agreementRequestId: self.agreementRequestId,
+            approvalType: self.approvalType,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            partyType: self.partyType,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgreementApprovalsInput, OperationStackOutput == ListAgreementApprovalsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgreementApprovalsPaginated`
+    /// to access the nested member `[MarketplaceAgreementClientTypes.AgreementApprovalSummary]`
+    /// - Returns: `[MarketplaceAgreementClientTypes.AgreementApprovalSummary]`
+    public func items() async throws -> [MarketplaceAgreementClientTypes.AgreementApprovalSummary] {
+        return try await self.asyncCompactMap { item in item.items }
     }
 }
 extension MarketplaceAgreementClient {
@@ -210,6 +307,39 @@ extension PaginatorSequence where OperationStackInput == ListAgreementPaymentReq
     /// to access the nested member `[MarketplaceAgreementClientTypes.PaymentRequestSummary]`
     /// - Returns: `[MarketplaceAgreementClientTypes.PaymentRequestSummary]`
     public func items() async throws -> [MarketplaceAgreementClientTypes.PaymentRequestSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension MarketplaceAgreementClient {
+    /// Paginate over `[ListAgreementRequestsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgreementRequestsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgreementRequestsOutput`
+    public func listAgreementRequestsPaginated(input: ListAgreementRequestsInput) -> ClientRuntime.PaginatorSequence<ListAgreementRequestsInput, ListAgreementRequestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgreementRequestsInput, ListAgreementRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgreementRequests(input:))
+    }
+}
+
+extension ListAgreementRequestsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgreementRequestsInput {
+        return ListAgreementRequestsInput(
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgreementRequestsInput, OperationStackOutput == ListAgreementRequestsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgreementRequestsPaginated`
+    /// to access the nested member `[MarketplaceAgreementClientTypes.AgreementRequestSummary]`
+    /// - Returns: `[MarketplaceAgreementClientTypes.AgreementRequestSummary]`
+    public func items() async throws -> [MarketplaceAgreementClientTypes.AgreementRequestSummary] {
         return try await self.asyncCompactMap { item in item.items }
     }
 }

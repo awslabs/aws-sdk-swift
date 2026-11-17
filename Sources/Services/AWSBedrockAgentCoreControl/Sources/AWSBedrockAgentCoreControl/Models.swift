@@ -1314,6 +1314,328 @@ public struct UpdateAgentRuntimeEndpointOutput: Swift.Sendable {
     }
 }
 
+public struct GetAgentInsightStoreInput: Swift.Sendable {
+    /// Specifies the unique identifier of the Agent Insight Store to retrieve.
+    /// This member is required.
+    public var agentInsightStoreId: Swift.String?
+
+    public init(
+        agentInsightStoreId: Swift.String? = nil
+    ) {
+        self.agentInsightStoreId = agentInsightStoreId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum AgentInsightStoreEnablementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentInsightStoreEnablementStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the encryption mode used to protect new Agent Insights. Valid values: AWS_OWNED_KMS_KEY Uses an AWS owned key. CUSTOMER_MANAGED_KMS Uses a customer managed AWS Key Management Service (AWS KMS) key.
+    public enum AgentInsightStoreEncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKmsKey
+        case customerManagedKms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentInsightStoreEncryptionMode] {
+            return [
+                .awsOwnedKmsKey,
+                .customerManagedKms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKmsKey: return "AWS_OWNED_KMS_KEY"
+            case .customerManagedKms: return "CUSTOMER_MANAGED_KMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the encryption mode and key configuration used to encrypt new Agent Insights in an Agent Insight Store.
+    public struct AgentInsightStoreEncryptionConfiguration: Swift.Sendable {
+        /// Specifies the Amazon Resource Name (ARN) of the customer managed AWS KMS key that you use to encrypt new Agent Insights. This field is required when mode is CUSTOMER_MANAGED_KMS and cannot be specified when mode is AWS_OWNED_KMS_KEY.
+        public var kmsKeyArn: Swift.String?
+        /// Specifies the encryption mode used to protect new Agent Insights.
+        /// This member is required.
+        public var mode: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionMode?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            mode: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionMode? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.mode = mode
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum AgentInsightStoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        /// The Store requires customer intervention, and failureReason says what failed. After a failed encryption update, another encryption update retries it and a disable is also accepted; after a failed disable, a disable retries it.
+        case error
+        /// The Store is retained but accepts no eligible output, and Insight cleanup is complete.
+        case inactive
+        /// The Store is applying a requested change asynchronously. After an encryption update, its existing Insights are being re-encrypted under its key, and they stay readable.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentInsightStoreStatus] {
+            return [
+                .active,
+                .error,
+                .inactive,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .error: return "ERROR"
+            case .inactive: return "INACTIVE"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetAgentInsightStoreOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Agent Insight Store.
+    /// This member is required.
+    public var agentInsightStoreArn: Swift.String?
+    /// The unique identifier of the Agent Insight Store.
+    /// This member is required.
+    public var agentInsightStoreId: Swift.String?
+    /// The date and time when the Agent Insight Store was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Specifies whether the Agent Insight Store accepts new Agent Insights. The default value is enabled.
+    /// This member is required.
+    public var enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus?
+    /// Specifies the encryption mode and key configuration that encrypts new Agent Insights and protects the data at rest.
+    /// This member is required.
+    public var encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration?
+    /// Describes the failure that prevented the Agent Insight Store from reaching its requested lifecycle status.
+    public var failureReason: Swift.String?
+    /// The current lifecycle status of the Agent Insight Store. Valid values: ACTIVE The store is available. UPDATING The service is applying a requested change. INACTIVE The store does not accept new Agent Insights. ERROR The store requires intervention.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus?
+    /// The date and time when the Agent Insight Store was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentInsightStoreArn: Swift.String? = nil,
+        agentInsightStoreId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus? = nil,
+        encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration? = nil,
+        failureReason: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentInsightStoreArn = agentInsightStoreArn
+        self.agentInsightStoreId = agentInsightStoreId
+        self.createdAt = createdAt
+        self.enablementStatus = enablementStatus
+        self.encryptionConfiguration = encryptionConfiguration
+        self.failureReason = failureReason
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetAgentInsightStoreOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAgentInsightStoreOutput(agentInsightStoreArn: \(Swift.String(describing: agentInsightStoreArn)), agentInsightStoreId: \(Swift.String(describing: agentInsightStoreId)), createdAt: \(Swift.String(describing: createdAt)), enablementStatus: \(Swift.String(describing: enablementStatus)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), failureReason: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListAgentInsightStoresInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about an Agent Insight Store.
+    public struct AgentInsightStoreSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Agent Insight Store.
+        /// This member is required.
+        public var agentInsightStoreArn: Swift.String?
+        /// The unique identifier of the Agent Insight Store.
+        /// This member is required.
+        public var agentInsightStoreId: Swift.String?
+        /// The date and time when the Agent Insight Store was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Specifies whether the Agent Insight Store accepts new Agent Insights. The default value is enabled.
+        /// This member is required.
+        public var enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus?
+        /// Specifies the encryption mode and key configuration that encrypts new Agent Insights and protects the data at rest.
+        /// This member is required.
+        public var encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration?
+        /// The current lifecycle status of the Agent Insight Store. Valid values: ACTIVE The store is available. UPDATING The service is applying a requested change. INACTIVE The store does not accept new Agent Insights. ERROR The store requires intervention.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus?
+        /// The date and time when the Agent Insight Store was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentInsightStoreArn: Swift.String? = nil,
+            agentInsightStoreId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus? = nil,
+            encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration? = nil,
+            status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentInsightStoreArn = agentInsightStoreArn
+            self.agentInsightStoreId = agentInsightStoreId
+            self.createdAt = createdAt
+            self.enablementStatus = enablementStatus
+            self.encryptionConfiguration = encryptionConfiguration
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListAgentInsightStoresOutput: Swift.Sendable {
+    /// The Agent Insight Store summaries.
+    /// This member is required.
+    public var agentInsightStores: [BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentInsightStores: [BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentInsightStores = agentInsightStores
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAgentInsightStoreInput: Swift.Sendable {
+    /// Specifies the unique identifier of the Agent Insight Store to update.
+    /// This member is required.
+    public var agentInsightStoreId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Specifies whether the Agent Insight Store accepts new Agent Insights. If you don't specify this parameter, the store's current enablement setting remains unchanged.
+    public var enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus?
+    /// Specifies the encryption mode and key configuration to use for new Agent Insights. If you don't specify this parameter, the store's current encryption configuration remains unchanged.
+    public var encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration?
+
+    public init(
+        agentInsightStoreId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus? = nil,
+        encryptionConfiguration: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration? = nil
+    ) {
+        self.agentInsightStoreId = agentInsightStoreId
+        self.clientToken = clientToken
+        self.enablementStatus = enablementStatus
+        self.encryptionConfiguration = encryptionConfiguration
+    }
+}
+
+public struct UpdateAgentInsightStoreOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated Agent Insight Store.
+    /// This member is required.
+    public var agentInsightStoreArn: Swift.String?
+    /// The unique identifier of the updated Agent Insight Store.
+    /// This member is required.
+    public var agentInsightStoreId: Swift.String?
+    /// Specifies whether the Agent Insight Store accepts new Agent Insights after the update request.
+    /// This member is required.
+    public var enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus?
+    /// Describes the failure that prevented the Agent Insight Store from reaching its requested lifecycle status.
+    public var failureReason: Swift.String?
+    /// The lifecycle status of the Agent Insight Store after the update request. Valid values: ACTIVE The store is available. UPDATING The service is applying a requested change. INACTIVE The store does not accept new Agent Insights. ERROR The store requires intervention.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus?
+    /// The date and time when the Agent Insight Store was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentInsightStoreArn: Swift.String? = nil,
+        agentInsightStoreId: Swift.String? = nil,
+        enablementStatus: BedrockAgentCoreControlClientTypes.AgentInsightStoreEnablementStatus? = nil,
+        failureReason: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.AgentInsightStoreStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentInsightStoreArn = agentInsightStoreArn
+        self.agentInsightStoreId = agentInsightStoreId
+        self.enablementStatus = enablementStatus
+        self.failureReason = failureReason
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateAgentInsightStoreOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentInsightStoreOutput(agentInsightStoreArn: \(Swift.String(describing: agentInsightStoreArn)), agentInsightStoreId: \(Swift.String(describing: agentInsightStoreId)), enablementStatus: \(Swift.String(describing: enablementStatus)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), failureReason: \"CONTENT_REDACTED\")"}
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     public enum AgentManagedRuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6819,10 +7141,8 @@ public struct CreateDatasetInput: Swift.Sendable {
     /// Optional KMS key ARN for server-side encryption on service Amazon S3 writes.
     public var kmsKeyArn: Swift.String?
     /// Versioned schema type governing the structure of examples. Immutable after creation.
-    /// This member is required.
     public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
     /// Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file.
-    /// This member is required.
     public var source: BedrockAgentCoreControlClientTypes.DataSourceType?
     /// A map of tag keys and values to assign to the dataset.
     public var tags: [Swift.String: Swift.String]?
@@ -7070,6 +7390,32 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The number of examples that have each field. An example can have more than one of these fields, so the counts can add up to more than exampleCount.
+    public struct ExampleCountByField: Swift.Sendable {
+        /// The number of examples that have actor_profile.
+        /// This member is required.
+        public var actorProfile: Swift.Int?
+        /// The number of examples that have input.
+        /// This member is required.
+        public var input: Swift.Int?
+        /// The number of examples that have turns.
+        /// This member is required.
+        public var turns: Swift.Int?
+
+        public init(
+            actorProfile: Swift.Int? = nil,
+            input: Swift.Int? = nil,
+            turns: Swift.Int? = nil
+        ) {
+            self.actorProfile = actorProfile
+            self.input = input
+            self.turns = turns
+        }
+    }
+}
+
 public struct GetDatasetOutput: Swift.Sendable {
     /// The timestamp when the dataset was created.
     /// This member is required.
@@ -7097,12 +7443,13 @@ public struct GetDatasetOutput: Swift.Sendable {
     /// The number of examples in the DRAFT.
     /// This member is required.
     public var exampleCount: Swift.Int?
+    /// The number of examples that have each field, for the resolved version. Absent when the counts are unknown.
+    public var exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField?
     /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED. Describes the reason for the failure.
     public var failureReason: Swift.String?
     /// KMS key ARN used for server-side encryption on service Amazon S3 writes, if configured.
     public var kmsKeyArn: Swift.String?
     /// The schema type declared at create time. Immutable after creation.
-    /// This member is required.
     public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
     /// The current status of the dataset.
     /// This member is required.
@@ -7124,6 +7471,7 @@ public struct GetDatasetOutput: Swift.Sendable {
         downloadUrlExpiresAt: Foundation.Date? = nil,
         draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus? = nil,
         exampleCount: Swift.Int? = nil,
+        exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField? = nil,
         failureReason: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType? = nil,
@@ -7141,6 +7489,7 @@ public struct GetDatasetOutput: Swift.Sendable {
         self.downloadUrlExpiresAt = downloadUrlExpiresAt
         self.draftStatus = draftStatus
         self.exampleCount = exampleCount
+        self.exampleCountByField = exampleCountByField
         self.failureReason = failureReason
         self.kmsKeyArn = kmsKeyArn
         self.schemaType = schemaType
@@ -7152,15 +7501,87 @@ public struct GetDatasetOutput: Swift.Sendable {
 
 extension GetDatasetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDatasetOutput(createdAt: \(Swift.String(describing: createdAt)), datasetArn: \(Swift.String(describing: datasetArn)), datasetId: \(Swift.String(describing: datasetId)), datasetName: \(Swift.String(describing: datasetName)), datasetVersion: \(Swift.String(describing: datasetVersion)), description: \(Swift.String(describing: description)), downloadUrlExpiresAt: \(Swift.String(describing: downloadUrlExpiresAt)), draftStatus: \(Swift.String(describing: draftStatus)), exampleCount: \(Swift.String(describing: exampleCount)), failureReason: \(Swift.String(describing: failureReason)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), schemaType: \(Swift.String(describing: schemaType)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), downloadUrl: \"CONTENT_REDACTED\")"}
+        "GetDatasetOutput(createdAt: \(Swift.String(describing: createdAt)), datasetArn: \(Swift.String(describing: datasetArn)), datasetId: \(Swift.String(describing: datasetId)), datasetName: \(Swift.String(describing: datasetName)), datasetVersion: \(Swift.String(describing: datasetVersion)), description: \(Swift.String(describing: description)), downloadUrlExpiresAt: \(Swift.String(describing: downloadUrlExpiresAt)), draftStatus: \(Swift.String(describing: draftStatus)), exampleCount: \(Swift.String(describing: exampleCount)), exampleCountByField: \(Swift.String(describing: exampleCountByField)), failureReason: \(Swift.String(describing: failureReason)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), schemaType: \(Swift.String(describing: schemaType)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), downloadUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A field that a dataset example can have.
+    public enum ExampleField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The example has actor_profile.
+        case actorProfile
+        /// The example has input.
+        case input
+        /// The example has turns.
+        case turns
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExampleField] {
+            return [
+                .actorProfile,
+                .input,
+                .turns
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actorProfile: return "ACTOR_PROFILE"
+            case .input: return "INPUT"
+            case .turns: return "TURNS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A condition on the fields of an example.
+    public struct ExampleFieldCondition: Swift.Sendable {
+        /// Matches examples that have at least one of these fields. Required.
+        public var anyOf: [BedrockAgentCoreControlClientTypes.ExampleField]?
+
+        public init(
+            anyOf: [BedrockAgentCoreControlClientTypes.ExampleField]? = nil
+        ) {
+            self.anyOf = anyOf
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A filter for ListDatasetExamples.
+    public struct ListDatasetExamplesFilter: Swift.Sendable {
+        /// Returns only examples that meet at least one of these conditions. Examples last written before example field filtering was available never match.
+        public var exampleFields: [BedrockAgentCoreControlClientTypes.ExampleFieldCondition]?
+        /// Returns only examples created by this dataset generation. Specify one ID.
+        public var generationIds: [Swift.String]?
+
+        public init(
+            exampleFields: [BedrockAgentCoreControlClientTypes.ExampleFieldCondition]? = nil,
+            generationIds: [Swift.String]? = nil
+        ) {
+            self.exampleFields = exampleFields
+            self.generationIds = generationIds
+        }
+    }
 }
 
 public struct ListDatasetExamplesInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token.
+    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent on the first request. With a pagination token, the version comes from the token: you can omit this member, and a value that differs from the token's version is rejected with a ValidationException.
     public var datasetVersion: Swift.String?
+    /// A filter to apply to the examples.
+    public var filter: BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter?
     /// Maximum number of examples to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -7169,11 +7590,13 @@ public struct ListDatasetExamplesInput: Swift.Sendable {
     public init(
         datasetId: Swift.String? = nil,
         datasetVersion: Swift.String? = nil,
+        filter: BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.datasetId = datasetId
         self.datasetVersion = datasetVersion
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7215,16 +7638,58 @@ extension ListDatasetExamplesOutput: Swift.CustomDebugStringConvertible {
         "ListDatasetExamplesOutput(datasetArn: \(Swift.String(describing: datasetArn)), datasetId: \(Swift.String(describing: datasetId)), datasetVersion: \(Swift.String(describing: datasetVersion)), nextToken: \(Swift.String(describing: nextToken)), examples: \"CONTENT_REDACTED\")"}
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A condition on the number of examples that have the given fields. The count includes each example that has at least one of the fields in anyOf.
+    public struct ExampleCountByFieldCondition: Swift.Sendable {
+        /// The fields to count. An example counts if it has at least one of these fields. Required.
+        public var anyOf: [BedrockAgentCoreControlClientTypes.ExampleField]?
+        /// The maximum count, inclusive.
+        public var max: Swift.Int?
+        /// The minimum count, inclusive.
+        public var min: Swift.Int?
+
+        public init(
+            anyOf: [BedrockAgentCoreControlClientTypes.ExampleField]? = nil,
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.anyOf = anyOf
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A filter for ListDatasets.
+    public struct ListDatasetsFilter: Swift.Sendable {
+        /// Returns only datasets whose DRAFT example counts meet at least one of these conditions.
+        public var exampleCountByField: [BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition]?
+
+        public init(
+            exampleCountByField: [BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition]? = nil
+        ) {
+            self.exampleCountByField = exampleCountByField
+        }
+    }
+}
+
 public struct ListDatasetsInput: Swift.Sendable {
+    /// A filter to apply to the datasets.
+    public var filter: BedrockAgentCoreControlClientTypes.ListDatasetsFilter?
     /// The maximum number of datasets to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init(
+        filter: BedrockAgentCoreControlClientTypes.ListDatasetsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7253,8 +7718,9 @@ extension BedrockAgentCoreControlClientTypes {
         /// The number of examples in the dataset.
         /// This member is required.
         public var exampleCount: Swift.Int?
+        /// The number of examples that have each field, for the DRAFT. Absent when the counts are unknown.
+        public var exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField?
         /// The schema type of the dataset.
-        /// This member is required.
         public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
         /// The current status of the dataset.
         /// This member is required.
@@ -7271,6 +7737,7 @@ extension BedrockAgentCoreControlClientTypes {
             description: Swift.String? = nil,
             draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus? = nil,
             exampleCount: Swift.Int? = nil,
+            exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField? = nil,
             schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType? = nil,
             status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
             updatedAt: Foundation.Date? = nil
@@ -7282,6 +7749,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.description = description
             self.draftStatus = draftStatus
             self.exampleCount = exampleCount
+            self.exampleCountByField = exampleCountByField
             self.schemaType = schemaType
             self.status = status
             self.updatedAt = updatedAt
@@ -7305,10 +7773,27 @@ public struct ListDatasetsOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A filter for ListDatasetVersions.
+    public struct ListDatasetVersionsFilter: Swift.Sendable {
+        /// Returns only versions whose example counts meet at least one of these conditions.
+        public var exampleCountByField: [BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition]?
+
+        public init(
+            exampleCountByField: [BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition]? = nil
+        ) {
+            self.exampleCountByField = exampleCountByField
+        }
+    }
+}
+
 public struct ListDatasetVersionsInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
+    /// A filter to apply to the dataset versions.
+    public var filter: BedrockAgentCoreControlClientTypes.ListDatasetVersionsFilter?
     /// The maximum number of versions to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -7316,10 +7801,12 @@ public struct ListDatasetVersionsInput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil,
+        filter: BedrockAgentCoreControlClientTypes.ListDatasetVersionsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.datasetId = datasetId
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7338,15 +7825,19 @@ extension BedrockAgentCoreControlClientTypes {
         /// The number of examples in this version.
         /// This member is required.
         public var exampleCount: Swift.Int?
+        /// The number of examples that have each field, for this version. Absent when the counts are unknown.
+        public var exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField?
 
         public init(
             createdAt: Foundation.Date? = nil,
             datasetVersion: Swift.String? = nil,
-            exampleCount: Swift.Int? = nil
+            exampleCount: Swift.Int? = nil,
+            exampleCountByField: BedrockAgentCoreControlClientTypes.ExampleCountByField? = nil
         ) {
             self.createdAt = createdAt
             self.datasetVersion = datasetVersion
             self.exampleCount = exampleCount
+            self.exampleCountByField = exampleCountByField
         }
     }
 }
@@ -25616,6 +26107,16 @@ extension DeleteWorkloadIdentityInput {
     }
 }
 
+extension GetAgentInsightStoreInput {
+
+    static func urlPathProvider(_ value: GetAgentInsightStoreInput) -> Swift.String? {
+        guard let agentInsightStoreId = value.agentInsightStoreId else {
+            return nil
+        }
+        return "/agent-insight-stores/\(agentInsightStoreId.urlPercentEncoding())"
+    }
+}
+
 extension GetAgentRuntimeInput {
 
     static func urlPathProvider(_ value: GetAgentRuntimeInput) -> Swift.String? {
@@ -26056,6 +26557,29 @@ extension GetWorkloadIdentityInput {
     }
 }
 
+extension ListAgentInsightStoresInput {
+
+    static func urlPathProvider(_ value: ListAgentInsightStoresInput) -> Swift.String? {
+        return "/agent-insight-stores"
+    }
+}
+
+extension ListAgentInsightStoresInput {
+
+    static func queryItemProvider(_ value: ListAgentInsightStoresInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListAgentRuntimeEndpointsInput {
 
     static func urlPathProvider(_ value: ListAgentRuntimeEndpointsInput) -> Swift.String? {
@@ -26326,50 +26850,14 @@ extension ListDatasetExamplesInput {
         guard let datasetId = value.datasetId else {
             return nil
         }
-        return "/datasets/\(datasetId.urlPercentEncoding())/examples"
-    }
-}
-
-extension ListDatasetExamplesInput {
-
-    static func queryItemProvider(_ value: ListDatasetExamplesInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let datasetVersion = value.datasetVersion {
-            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
-            items.append(datasetVersionQueryItem)
-        }
-        if let maxResults = value.maxResults {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        return items
+        return "/datasets/\(datasetId.urlPercentEncoding())/examples/list"
     }
 }
 
 extension ListDatasetsInput {
 
     static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
-        return "/datasets"
-    }
-}
-
-extension ListDatasetsInput {
-
-    static func queryItemProvider(_ value: ListDatasetsInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = value.maxResults {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
+        return "/datasets/list"
     }
 }
 
@@ -26379,23 +26867,7 @@ extension ListDatasetVersionsInput {
         guard let datasetId = value.datasetId else {
             return nil
         }
-        return "/datasets/\(datasetId.urlPercentEncoding())/versions"
-    }
-}
-
-extension ListDatasetVersionsInput {
-
-    static func queryItemProvider(_ value: ListDatasetVersionsInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let maxResults = value.maxResults {
-            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-        }
-        return items
+        return "/datasets/\(datasetId.urlPercentEncoding())/versions/list"
     }
 }
 
@@ -27067,6 +27539,16 @@ extension UntagResourceInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension UpdateAgentInsightStoreInput {
+
+    static func urlPathProvider(_ value: UpdateAgentInsightStoreInput) -> Swift.String? {
+        guard let agentInsightStoreId = value.agentInsightStoreId else {
+            return nil
+        }
+        return "/agent-insight-stores/\(agentInsightStoreId.urlPercentEncoding())"
     }
 }
 
@@ -27920,6 +28402,37 @@ extension ListConsentPortalsInput {
     }
 }
 
+extension ListDatasetExamplesInput {
+
+    static func write(value: ListDatasetExamplesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetVersion"].write(value.datasetVersion)
+        try writer["filter"].write(value.filter, with: BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDatasetsInput {
+
+    static func write(value: ListDatasetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: BedrockAgentCoreControlClientTypes.ListDatasetsFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDatasetVersionsInput {
+
+    static func write(value: ListDatasetVersionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: BedrockAgentCoreControlClientTypes.ListDatasetVersionsFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListMemoriesInput {
 
     static func write(value: ListMemoriesInput?, to writer: SmithyJSON.Writer) throws {
@@ -28014,6 +28527,16 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAgentInsightStoreInput {
+
+    static func write(value: UpdateAgentInsightStoreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["enablementStatus"].write(value.enablementStatus)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration.write(value:to:))
     }
 }
 
@@ -29271,6 +29794,25 @@ extension DeleteWorkloadIdentityOutput {
     }
 }
 
+extension GetAgentInsightStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentInsightStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentInsightStoreOutput()
+        value.agentInsightStoreArn = try reader["agentInsightStoreArn"].readIfPresent() ?? ""
+        value.agentInsightStoreId = try reader["agentInsightStoreId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.enablementStatus = try reader["enablementStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration.read(from:))
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetAgentRuntimeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentRuntimeOutput {
@@ -29521,9 +30063,10 @@ extension GetDatasetOutput {
         value.downloadUrlExpiresAt = try reader["downloadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.draftStatus = try reader["draftStatus"].readIfPresent()
         value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.exampleCountByField = try reader["exampleCountByField"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExampleCountByField.read(from:))
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.schemaType = try reader["schemaType"].readIfPresent() ?? .sdkUnknown("")
+        value.schemaType = try reader["schemaType"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -30012,6 +30555,19 @@ extension GetWorkloadIdentityOutput {
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListAgentInsightStoresOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentInsightStoresOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentInsightStoresOutput()
+        value.agentInsightStores = try reader["agentInsightStores"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -30653,6 +31209,23 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAgentInsightStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentInsightStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentInsightStoreOutput()
+        value.agentInsightStoreArn = try reader["agentInsightStoreArn"].readIfPresent() ?? ""
+        value.agentInsightStoreId = try reader["agentInsightStoreId"].readIfPresent() ?? ""
+        value.enablementStatus = try reader["enablementStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -32357,6 +32930,24 @@ enum DeleteWorkloadIdentityOutputError {
     }
 }
 
+enum GetAgentInsightStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAgentRuntimeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32992,6 +33583,23 @@ enum GetWorkloadIdentityOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentInsightStoresOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33880,6 +34488,26 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAgentInsightStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAgentRuntimeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34691,6 +35319,39 @@ extension BedrockAgentCoreControlClientTypes.AgentCardDefinition {
         var value = BedrockAgentCoreControlClientTypes.AgentCardDefinition()
         value.schemaVersion = try reader["schemaVersion"].readIfPresent()
         value.inlineContent = try reader["inlineContent"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AgentInsightStoreSummary()
+        value.agentInsightStoreArn = try reader["agentInsightStoreArn"].readIfPresent() ?? ""
+        value.agentInsightStoreId = try reader["agentInsightStoreId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.enablementStatus = try reader["enablementStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AgentInsightStoreEncryptionConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -36271,8 +36932,9 @@ extension BedrockAgentCoreControlClientTypes.DatasetSummary {
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.draftStatus = try reader["draftStatus"].readIfPresent()
-        value.schemaType = try reader["schemaType"].readIfPresent() ?? .sdkUnknown("")
+        value.schemaType = try reader["schemaType"].readIfPresent()
         value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.exampleCountByField = try reader["exampleCountByField"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExampleCountByField.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -36286,6 +36948,7 @@ extension BedrockAgentCoreControlClientTypes.DatasetVersionSummary {
         var value = BedrockAgentCoreControlClientTypes.DatasetVersionSummary()
         value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
         value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.exampleCountByField = try reader["exampleCountByField"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExampleCountByField.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -36792,6 +37455,36 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorSummary {
         value.lockedForModification = try reader["lockedForModification"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ExampleCountByField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ExampleCountByField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ExampleCountByField()
+        value.turns = try reader["turns"].readIfPresent() ?? 0
+        value.input = try reader["input"].readIfPresent() ?? 0
+        value.actorProfile = try reader["actorProfile"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.ExampleField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ExampleFieldCondition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ExampleFieldCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.ExampleField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -38936,6 +39629,31 @@ extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput 
         value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         value.clientId = try reader["clientId"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exampleFields"].writeList(value.exampleFields, memberWritingClosure: BedrockAgentCoreControlClientTypes.ExampleFieldCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["generationIds"].writeList(value.generationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ListDatasetsFilter {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ListDatasetsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exampleCountByField"].writeList(value.exampleCountByField, memberWritingClosure: BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ListDatasetVersionsFilter {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ListDatasetVersionsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exampleCountByField"].writeList(value.exampleCountByField, memberWritingClosure: BedrockAgentCoreControlClientTypes.ExampleCountByFieldCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
