@@ -64,6 +64,8 @@ class AWSRetryCustomizationIntegration : SwiftIntegration {
                 "SFN" to "GetActivityTask",
                 "SWF" to "PollForActivityTask",
                 "SWF" to "PollForDecisionTask",
+                "Kinesis" to "ReceiveQueueRecords",
+                "Kinesis" to "ReceiveDeadLetterQueueRecords",
             )
     }
 }
