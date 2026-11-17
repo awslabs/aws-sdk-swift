@@ -20,6 +20,7 @@ public actor AWSMessageSigner: MessageSigner {
     let signer: @Sendable () async throws -> MessageDataSigner
     let signingConfig: @Sendable () async throws -> AWSSigningConfig
     let requestSignature: @Sendable () -> String
+    let shouldSign: @Sendable () -> Bool
     // Attribute key used to save AWSSigningConfig into signingProperties argument
     //  for AWSSigV4Signer::signEvent call that conforms to Signer::signEvent.
     static let signingConfigKey = AttributeKey<AWSSigningConfig>(name: "EventStreamSigningConfig")
@@ -44,20 +45,32 @@ public actor AWSMessageSigner: MessageSigner {
         }
     }
 
+    /// Creates a message signer.
+    /// - Parameters:
+    ///   - encoder: The encoder used to encode messages before they are signed.
+    ///   - signer: Provides the signer for messages.
+    ///   - signingConfig: Provides the signing config for messages.
+    ///   - requestSignature: Provides the signature of the initial HTTP request.
+    ///   - shouldSign: Whether messages should be signed, evaluated each time a message is signed.
+    ///     When `false`, i.e. when the operation uses no auth, messages are passed through unsigned.
+    ///     Defaults to always signing.
     public init(encoder: MessageEncoder,
                 signer: @escaping @Sendable () async throws -> MessageDataSigner,
                 signingConfig: @escaping @Sendable () async throws -> AWSSigningConfig,
-                requestSignature: @escaping @Sendable () -> String) {
+                requestSignature: @escaping @Sendable () -> String,
+                shouldSign: @escaping @Sendable () -> Bool = { true }) {
         self.encoder = encoder
         self.signer = signer
         self.signingConfig = signingConfig
         self.requestSignature = requestSignature
+        self.shouldSign = shouldSign
     }
 
     /// Signs a `Message` using the AWS SigV4 signing algorithm
     /// - Parameter message: `Message` to sign
     /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
     public func sign(message: Message) async throws -> Message {
+        guard shouldSign() else { return message }
         // encode to bytes
         let encodedMessage = try encoder.encode(message: message)
         let signingConfig = try await self.signingConfig()
@@ -77,6 +90,7 @@ public actor AWSMessageSigner: MessageSigner {
     /// Signs an empty `Message` using the AWS SigV4 signing algorithm
     /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
     public func signEmpty() async throws -> Message {
+        guard shouldSign() else { return Message() }
         let signingConfig = try await self.signingConfig()
         // Fetch signer
         let signer = try await self.signer()

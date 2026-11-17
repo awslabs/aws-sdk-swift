@@ -21,7 +21,9 @@ public func setupBidirectionalStreaming(context: Context) {
         encoder: messageEncoder,
         signer: { try context.fetchMessageDataSigner },
         signingConfig: { try await context.makeEventStreamSigningConfig() },
-        requestSignature: { context.requestSignature }
+        requestSignature: { context.requestSignature },
+        // Event stream messages are not signed when the operation uses no auth.
+        shouldSign: { context.selectedAuthScheme?.schemeID != "smithy.api#noAuth" }
     )
     context.messageEncoder = messageEncoder
     context.messageSigner = messageSigner

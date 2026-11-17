@@ -105,6 +105,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "RPCV2CBORTestSDK", basePath: baseDir),
         .init(name: "RPCV2CBORTestQueryCompatSDK", basePath: baseDir),
         .init(name: "RPCV2CBORTestNonQueryCompatSDK", basePath: baseDir),
+        .init(name: "RPCV2CBORCorpusTestSDK", basePath: baseDir),
         .init(name: "AWSJson10TestQueryCompatSDK", basePath: baseDir),
     ]
     return protocolTests.flatMap { protocolTest in
