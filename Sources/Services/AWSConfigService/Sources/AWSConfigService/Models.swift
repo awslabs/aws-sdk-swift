@@ -4480,7 +4480,7 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
-    /// Input parameters in the form of key-value pairs for the conformance pack, both of which you define. Keys can have a maximum character length of 255 characters, and values can have a maximum length of 4096 characters.
+    /// Input parameters in the form of key-value pairs for the conformance pack, both of which you define. For managed conformance packs, keys can have a maximum character length of 255 characters, and values can have a maximum length of 1024 characters. For custom conformance packs, keys can have a maximum character length of 255 characters, and values can have a maximum length of 4096 characters.
     public struct ConformancePackInputParameter: Swift.Sendable {
         /// One part of a key-value pair.
         /// This member is required.
@@ -4501,6 +4501,42 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
+    /// Defines which resources trigger an evaluation for the Config rules in a conformance pack. The scope is a tag key, or a combination of a tag key and value, that is applied to every rule in the conformance pack. Specify a scope to constrain which resources trigger an evaluation for the rules. Otherwise, evaluations of rules in the conformance pack are triggered when any resource in your recording group changes in configuration.
+    public struct ConformancePackScope: Swift.Sendable {
+        /// The tag key that applies to only those Amazon Web Services resources that you want to trigger an evaluation for the rules in the conformance pack. Defines the [Scope$TagKey] of all Config rules in the conformance pack.
+        /// This member is required.
+        public var tagKey: Swift.String?
+        /// The tag value that applies to only those Amazon Web Services resources that you want to trigger an evaluation for the rules in the conformance pack. If you do not specify a value for TagValue, resources that have the tag key TagKey trigger an evaluation, regardless of the tag value. Defines the [Scope$TagValue] of all Config rules in the conformance pack.
+        public var tagValue: Swift.String?
+
+        public init(
+            tagKey: Swift.String? = nil,
+            tagValue: Swift.String? = nil
+        ) {
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Provides the identifier of the managed conformance pack that Config deploys in your account.
+    public struct ConformancePackSource: Swift.Sendable {
+        /// A predefined identifier for a managed conformance pack. The identifier specifies which managed conformance pack Config deploys in your account.
+        /// This member is required.
+        public var sourceIdentifier: Swift.String?
+
+        public init(
+            sourceIdentifier: Swift.String? = nil
+        ) {
+            self.sourceIdentifier = sourceIdentifier
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
     /// This API allows you to create a conformance pack template with an Amazon Web Services Systems Manager document (SSM document). To deploy a conformance pack using an SSM document, first create an SSM document with conformance pack content, and then provide the DocumentName in the [PutConformancePack API](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html). You can also provide the DocumentVersion. The TemplateSSMDocumentDetails object contains the name of the SSM document and the version of the SSM document.
     public struct TemplateSSMDocumentDetails: Swift.Sendable {
         /// The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack. If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document.
@@ -4515,6 +4551,35 @@ extension ConfigClientTypes {
         ) {
             self.documentName = documentName
             self.documentVersion = documentVersion
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    public enum ConformancePackType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConformancePackType] {
+            return [
+                .custom,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -4542,8 +4607,18 @@ extension ConfigClientTypes {
         public var deliveryS3KeyPrefix: Swift.String?
         /// The last time a conformation pack update was requested.
         public var lastUpdateRequestedTime: Foundation.Date?
+        /// An object of type ConformancePackScope, which contains the tag key and optional tag value that defines which resources trigger an evaluation for the Config rules in the managed conformance pack. Managed conformance packs with a scope populate this field. Custom conformance packs leave it empty.
+        public var scope: ConfigClientTypes.ConformancePackScope?
+        /// Contains the identifier of the managed conformance pack that Config deploys in your account. This field applies only to managed conformance packs. Custom conformance packs leave it empty.
+        public var source: ConfigClientTypes.ConformancePackSource?
         /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
         public var templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails?
+        /// The type of the conformance pack. Valid values:
+        ///
+        /// * CUSTOM – A custom conformance pack.
+        ///
+        /// * MANAGED – A managed conformance pack.
+        public var type: ConfigClientTypes.ConformancePackType?
 
         public init(
             conformancePackArn: Swift.String? = nil,
@@ -4554,7 +4629,10 @@ extension ConfigClientTypes {
             deliveryS3Bucket: Swift.String? = nil,
             deliveryS3KeyPrefix: Swift.String? = nil,
             lastUpdateRequestedTime: Foundation.Date? = nil,
-            templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil
+            scope: ConfigClientTypes.ConformancePackScope? = nil,
+            source: ConfigClientTypes.ConformancePackSource? = nil,
+            templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil,
+            type: ConfigClientTypes.ConformancePackType? = nil
         ) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
@@ -4564,7 +4642,10 @@ extension ConfigClientTypes {
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
             self.lastUpdateRequestedTime = lastUpdateRequestedTime
+            self.scope = scope
+            self.source = source
             self.templateSSMDocumentDetails = templateSSMDocumentDetails
+            self.type = type
         }
     }
 }
@@ -4662,6 +4743,9 @@ extension ConfigClientTypes {
         case createInProgress
         case deleteFailed
         case deleteInProgress
+        case updateComplete
+        case updateFailed
+        case updateInProgress
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConformancePackState] {
@@ -4670,7 +4754,10 @@ extension ConfigClientTypes {
                 .createFailed,
                 .createInProgress,
                 .deleteFailed,
-                .deleteInProgress
+                .deleteInProgress,
+                .updateComplete,
+                .updateFailed,
+                .updateInProgress
             ]
         }
 
@@ -4686,6 +4773,9 @@ extension ConfigClientTypes {
             case .createInProgress: return "CREATE_IN_PROGRESS"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4713,6 +4803,12 @@ extension ConfigClientTypes {
         ///
         /// * CREATE_FAILED when a conformance pack creation failed in your account.
         ///
+        /// * UPDATE_IN_PROGRESS when a conformance pack update is in progress for an account.
+        ///
+        /// * UPDATE_COMPLETE when a conformance pack has been successfully updated in your account.
+        ///
+        /// * UPDATE_FAILED when a conformance pack update failed in your account.
+        ///
         /// * DELETE_IN_PROGRESS when a conformance pack deletion is in progress.
         ///
         /// * DELETE_FAILED when a conformance pack deletion failed in your account.
@@ -4725,9 +4821,14 @@ extension ConfigClientTypes {
         /// Last time when conformation pack creation and update was requested.
         /// This member is required.
         public var lastUpdateRequestedTime: Foundation.Date?
-        /// Amazon Resource Name (ARN) of CloudFormation stack.
-        /// This member is required.
+        /// Amazon Resource Name (ARN) of CloudFormation stack. Custom conformance packs populate this field. Managed conformance packs leave it empty.
         public var stackArn: Swift.String?
+        /// The type of the conformance pack. Valid values:
+        ///
+        /// * CUSTOM – A custom conformance pack.
+        ///
+        /// * MANAGED – A managed conformance pack.
+        public var type: ConfigClientTypes.ConformancePackType?
 
         public init(
             conformancePackArn: Swift.String? = nil,
@@ -4737,7 +4838,8 @@ extension ConfigClientTypes {
             conformancePackStatusReason: Swift.String? = nil,
             lastUpdateCompletedTime: Foundation.Date? = nil,
             lastUpdateRequestedTime: Foundation.Date? = nil,
-            stackArn: Swift.String? = nil
+            stackArn: Swift.String? = nil,
+            type: ConfigClientTypes.ConformancePackType? = nil
         ) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
@@ -4747,6 +4849,7 @@ extension ConfigClientTypes {
             self.lastUpdateCompletedTime = lastUpdateCompletedTime
             self.lastUpdateRequestedTime = lastUpdateRequestedTime
             self.stackArn = stackArn
+            self.type = type
         }
     }
 }
@@ -6341,9 +6444,33 @@ public struct DescribeConformancePackComplianceOutput: Swift.Sendable {
     }
 }
 
+extension ConfigClientTypes {
+
+    /// Filters for filtering results from [DescribeConformancePacks] and [DescribeConformancePackStatus] by conformance pack type.
+    public struct DescribeConformancePacksFilters: Swift.Sendable {
+        /// Filters results by conformance pack type. Valid values:
+        ///
+        /// * CUSTOM – A custom conformance pack.
+        ///
+        /// * MANAGED – A managed conformance pack.
+        ///
+        ///
+        /// If you specify both values, Config returns conformance packs of either type.
+        public var types: [ConfigClientTypes.ConformancePackType]?
+
+        public init(
+            types: [ConfigClientTypes.ConformancePackType]? = nil
+        ) {
+            self.types = types
+        }
+    }
+}
+
 public struct DescribeConformancePacksInput: Swift.Sendable {
     /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, Config returns details for all your conformance packs.
     public var conformancePackNames: [Swift.String]?
+    /// Returns a filtered list of custom or managed conformance packs. By default, if the filter is not defined, Config returns details for all your conformance packs.
+    public var filters: ConfigClientTypes.DescribeConformancePacksFilters?
     /// The maximum number of conformance packs returned on each page.
     public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
@@ -6351,10 +6478,12 @@ public struct DescribeConformancePacksInput: Swift.Sendable {
 
     public init(
         conformancePackNames: [Swift.String]? = nil,
+        filters: ConfigClientTypes.DescribeConformancePacksFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.conformancePackNames = conformancePackNames
+        self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -6378,6 +6507,8 @@ public struct DescribeConformancePacksOutput: Swift.Sendable {
 public struct DescribeConformancePackStatusInput: Swift.Sendable {
     /// Comma-separated list of conformance pack names.
     public var conformancePackNames: [Swift.String]?
+    /// Returns a filtered list of custom or managed conformance pack statuses. By default, if the filter is not defined, Config returns details for all your conformance packs.
+    public var filters: ConfigClientTypes.DescribeConformancePacksFilters?
     /// The maximum number of conformance packs status returned on each page.
     public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
@@ -6385,10 +6516,12 @@ public struct DescribeConformancePackStatusInput: Swift.Sendable {
 
     public init(
         conformancePackNames: [Swift.String]? = nil,
+        filters: ConfigClientTypes.DescribeConformancePacksFilters? = nil,
         limit: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.conformancePackNames = conformancePackNames
+        self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -10556,7 +10689,7 @@ public struct PutConfigurationRecorderInput: Swift.Sendable {
 }
 
 public struct PutConformancePackInput: Swift.Sendable {
-    /// A list of ConformancePackInputParameter objects.
+    /// A list of ConformancePackInputParameter objects. Custom conformance packs can have at most 60 input parameters. Managed conformance packs can have at most 330 input parameters.
     public var conformancePackInputParameters: [ConfigClientTypes.ConformancePackInputParameter]?
     /// The unique name of the conformance pack you want to deploy.
     /// This member is required.
@@ -10565,6 +10698,10 @@ public struct PutConformancePackInput: Swift.Sendable {
     public var deliveryS3Bucket: Swift.String?
     /// The prefix for the Amazon S3 bucket. This field is optional.
     public var deliveryS3KeyPrefix: Swift.String?
+    /// An object of type ConformancePackScope that defines which resources can trigger an evaluation for Config rules in the conformance pack. The scope can include a tag key and optional tag value. Specify a scope to constrain the resources that can trigger an evaluation for rules in the conformance pack. If you do not specify a scope, all rules in the conformance pack are unscoped. This field is optional and is supported only for managed conformance packs. If you specify a scope, you must also specify Source.
+    public var scope: ConfigClientTypes.ConformancePackScope?
+    /// An object of type ConformancePackSource, which contains the identifier of the managed conformance pack that you want to deploy. If you specify a source, Config creates a managed conformance pack. Managed conformance packs are predefined collections of Config rules that are created and maintained by Amazon Web Services. If you specify a source, you cannot specify TemplateS3Uri, TemplateBody, TemplateSSMDocumentDetails, DeliveryS3Bucket, or DeliveryS3KeyPrefix. You cannot convert an existing conformance pack between a managed conformance pack and a custom conformance pack. You also cannot change the source of an existing managed conformance pack.
+    public var source: ConfigClientTypes.ConformancePackSource?
     /// The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [ConfigClientTypes.Tag]?
     /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
@@ -10579,6 +10716,8 @@ public struct PutConformancePackInput: Swift.Sendable {
         conformancePackName: Swift.String? = nil,
         deliveryS3Bucket: Swift.String? = nil,
         deliveryS3KeyPrefix: Swift.String? = nil,
+        scope: ConfigClientTypes.ConformancePackScope? = nil,
+        source: ConfigClientTypes.ConformancePackSource? = nil,
         tags: [ConfigClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil,
@@ -10588,6 +10727,8 @@ public struct PutConformancePackInput: Swift.Sendable {
         self.conformancePackName = conformancePackName
         self.deliveryS3Bucket = deliveryS3Bucket
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+        self.scope = scope
+        self.source = source
         self.tags = tags
         self.templateBody = templateBody
         self.templateS3Uri = templateS3Uri

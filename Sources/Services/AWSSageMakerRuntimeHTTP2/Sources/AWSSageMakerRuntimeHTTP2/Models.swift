@@ -510,6 +510,10 @@ extension SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent {
             return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
+
+    static var marshalError: (any Swift.Error) throws -> SmithyEventStreamsAPI.Message? {
+        { _ in nil }
+    }
 }
 
 extension SageMakerRuntimeHTTP2ClientTypes.ResponseStreamEvent {

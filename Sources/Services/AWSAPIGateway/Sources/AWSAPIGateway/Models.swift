@@ -400,9 +400,154 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+    /// A JSON Web Signature (JWS) signing algorithm. Valid values are RS256, RS384, RS512, ES256, ES384, and ES512. HMAC (HS256, HS384, HS512) and none are not valid values.
+    public enum JwtSigningAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case es256
+        case es384
+        case es512
+        case rs256
+        case rs384
+        case rs512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwtSigningAlgorithm] {
+            return [
+                .es256,
+                .es384,
+                .es512,
+                .rs256,
+                .rs384,
+                .rs512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .es256: return "ES256"
+            case .es384: return "ES384"
+            case .es512: return "ES512"
+            case .rs256: return "RS256"
+            case .rs384: return "RS384"
+            case .rs512: return "RS512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// The format of an additional claim value. The only valid value is SINGLE_STRING.
+    public enum JwtClaimFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case singleString
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwtClaimFormat] {
+            return [
+                .singleString
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .singleString: return "SINGLE_STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// An additional claim rule for an issuer.
+    public struct JwtAdditionalClaim: Swift.Sendable {
+        /// The name of the claim to check. The value cannot be empty and cannot be iss, aud, exp, nbf, iat, scope, or scp.
+        /// This member is required.
+        public var claimName: Swift.String?
+        /// The accepted value for the claim. The value cannot be empty. When a value is specified, the claim must match it exactly, and the match is case-sensitive. When no value is specified, the claim only has to be present.
+        public var expectedValues: [Swift.String]?
+        /// The format of the claim value. The only valid value is SINGLE_STRING.
+        /// This member is required.
+        public var format: APIGatewayClientTypes.JwtClaimFormat?
+        /// Specifies whether the claim must be present in the token. Defaults to false. When true, the token must contain the claim.
+        public var `required`: Swift.Bool
+
+        public init(
+            claimName: Swift.String? = nil,
+            expectedValues: [Swift.String]? = nil,
+            format: APIGatewayClientTypes.JwtClaimFormat? = nil,
+            `required`: Swift.Bool = false
+        ) {
+            self.claimName = claimName
+            self.expectedValues = expectedValues
+            self.format = format
+            self.`required` = `required`
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// A trusted issuer in the returned JWT configuration.
+    public struct JwtIssuer: Swift.Sendable {
+        /// The additional claim rules configured for this issuer.
+        public var additionalClaims: [APIGatewayClientTypes.JwtAdditionalClaim]?
+        /// The audiences that the issuer can issue tokens for.
+        public var audiences: [Swift.String]?
+        /// The OpenID Connect (OIDC) issuer URL.
+        public var issuer: Swift.String?
+        /// The JSON Web Key Set (JWKS) URI that API Gateway resolved from the issuer's OpenID Connect discovery document. This value is read-only and cannot be set.
+        public var jwksUri: Swift.String?
+
+        public init(
+            additionalClaims: [APIGatewayClientTypes.JwtAdditionalClaim]? = nil,
+            audiences: [Swift.String]? = nil,
+            issuer: Swift.String? = nil,
+            jwksUri: Swift.String? = nil
+        ) {
+            self.additionalClaims = additionalClaims
+            self.audiences = audiences
+            self.issuer = issuer
+            self.jwksUri = jwksUri
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// The JWT configuration returned for a JWT authorizer.
+    public struct JwtConfiguration: Swift.Sendable {
+        /// The signing algorithms configured for the authorizer.
+        public var defaultAlgorithms: [APIGatewayClientTypes.JwtSigningAlgorithm]?
+        /// The trusted issuers configured for the authorizer.
+        public var issuers: [APIGatewayClientTypes.JwtIssuer]?
+
+        public init(
+            defaultAlgorithms: [APIGatewayClientTypes.JwtSigningAlgorithm]? = nil,
+            issuers: [APIGatewayClientTypes.JwtIssuer]? = nil
+        ) {
+            self.defaultAlgorithms = defaultAlgorithms
+            self.issuers = issuers
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
     public enum AuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cognitoUserPools
+        case jwt
         case request
         case token
         case sdkUnknown(Swift.String)
@@ -410,6 +555,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [AuthorizerType] {
             return [
                 .cognitoUserPools,
+                .jwt,
                 .request,
                 .token
             ]
@@ -423,6 +569,7 @@ extension APIGatewayClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cognitoUserPools: return "COGNITO_USER_POOLS"
+            case .jwt: return "JWT"
             case .request: return "REQUEST"
             case .token: return "TOKEN"
             case let .sdkUnknown(s): return s
@@ -437,23 +584,25 @@ extension APIGatewayClientTypes {
     public struct Authorizer: Swift.Sendable {
         /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
         public var authType: Swift.String?
-        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+        /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. This property is not supported for JWT authorizers.
         public var authorizerCredentials: Swift.String?
-        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+        /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour. This property is not supported for JWT authorizers.
         public var authorizerResultTtlInSeconds: Swift.Int?
-        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+        /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. This property is not supported for JWT authorizers.
         public var authorizerUri: Swift.String?
         /// The identifier for the authorizer resource.
         public var id: Swift.String?
-        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional. For a JWT authorizer, this is required and must be a single request-header mapping expression, method.request.header., for example, method.request.header.Authorization. Query string parameters are not supported, and there is no default.
         public var identitySource: Swift.String?
-        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+        /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST or JWT authorizer.
         public var identityValidationExpression: Swift.String?
+        /// The configuration returned for a JWT authorizer. This field is present only when type is JWT.
+        public var jwtConfiguration: APIGatewayClientTypes.JwtConfiguration?
         /// The name of the authorizer.
         public var name: Swift.String?
-        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
+        /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. This property is not supported for JWT authorizers.
         public var providerARNs: [Swift.String]?
-        /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+        /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
         public var type: APIGatewayClientTypes.AuthorizerType?
 
         public init(
@@ -464,6 +613,7 @@ extension APIGatewayClientTypes {
             id: Swift.String? = nil,
             identitySource: Swift.String? = nil,
             identityValidationExpression: Swift.String? = nil,
+            jwtConfiguration: APIGatewayClientTypes.JwtConfiguration? = nil,
             name: Swift.String? = nil,
             providerARNs: [Swift.String]? = nil,
             type: APIGatewayClientTypes.AuthorizerType? = nil
@@ -475,6 +625,7 @@ extension APIGatewayClientTypes {
             self.id = id
             self.identitySource = identitySource
             self.identityValidationExpression = identityValidationExpression
+            self.jwtConfiguration = jwtConfiguration
             self.name = name
             self.providerARNs = providerARNs
             self.type = type
@@ -733,29 +884,77 @@ public struct CreateApiKeyOutput: Swift.Sendable {
     }
 }
 
+extension APIGatewayClientTypes {
+
+    /// A trusted issuer in the JWT configuration.
+    public struct JwtIssuerInput: Swift.Sendable {
+        /// The additional claim rules for this issuer. Claim names must be unique within the issuer.
+        public var additionalClaims: [APIGatewayClientTypes.JwtAdditionalClaim]?
+        /// The audiences that the issuer can issue tokens for. None can be empty. The token's aud claim must contain at least one of these values.
+        /// This member is required.
+        public var audiences: [Swift.String]?
+        /// The OpenID Connect (OIDC) issuer URL. The value must be an absolute https URL that includes a host and has no user information, query, or fragment. It must exactly match the iss claim of the token, and the issuer's OIDC discovery document must name this exact issuer.
+        /// This member is required.
+        public var issuer: Swift.String?
+
+        public init(
+            additionalClaims: [APIGatewayClientTypes.JwtAdditionalClaim]? = nil,
+            audiences: [Swift.String]? = nil,
+            issuer: Swift.String? = nil
+        ) {
+            self.additionalClaims = additionalClaims
+            self.audiences = audiences
+            self.issuer = issuer
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// The JWT configuration supplied for a JWT authorizer.
+    public struct JwtConfigurationInput: Swift.Sendable {
+        /// The signing algorithms that the authorizer accepts, applied to every issuer. Valid values are RS256, RS384, RS512, ES256, ES384, and ES512.
+        /// This member is required.
+        public var defaultAlgorithms: [APIGatewayClientTypes.JwtSigningAlgorithm]?
+        /// The issuers that the authorizer trusts. Issuer URLs must be unique.
+        /// This member is required.
+        public var issuers: [APIGatewayClientTypes.JwtIssuerInput]?
+
+        public init(
+            defaultAlgorithms: [APIGatewayClientTypes.JwtSigningAlgorithm]? = nil,
+            issuers: [APIGatewayClientTypes.JwtIssuerInput]? = nil
+        ) {
+            self.defaultAlgorithms = defaultAlgorithms
+            self.issuers = issuers
+        }
+    }
+}
+
 /// Request to add a new Authorizer to an existing RestApi resource.
 public struct CreateAuthorizerInput: Swift.Sendable {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. This property is not supported for JWT authorizers.
     public var authorizerCredentials: Swift.String?
-    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour. This property is not supported for JWT authorizers.
     public var authorizerResultTtlInSeconds: Swift.Int?
-    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. This property is not supported for JWT authorizers.
     public var authorizerUri: Swift.String?
-    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional. For a JWT authorizer, this is required and must be a single request-header mapping expression, method.request.header., for example, method.request.header.Authorization. Query string parameters are not supported, and there is no default.
     public var identitySource: Swift.String?
-    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST or JWT authorizer.
     public var identityValidationExpression: Swift.String?
+    /// The configuration for a JWT authorizer. Required for JWT authorizers.
+    public var jwtConfiguration: APIGatewayClientTypes.JwtConfigurationInput?
     /// The name of the authorizer.
     /// This member is required.
     public var name: Swift.String?
-    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
+    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. This property is not supported for JWT authorizers.
     public var providerARNs: [Swift.String]?
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
     /// This member is required.
     public var type: APIGatewayClientTypes.AuthorizerType?
 
@@ -766,6 +965,7 @@ public struct CreateAuthorizerInput: Swift.Sendable {
         authorizerUri: Swift.String? = nil,
         identitySource: Swift.String? = nil,
         identityValidationExpression: Swift.String? = nil,
+        jwtConfiguration: APIGatewayClientTypes.JwtConfigurationInput? = nil,
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         restApiId: Swift.String? = nil,
@@ -777,6 +977,7 @@ public struct CreateAuthorizerInput: Swift.Sendable {
         self.authorizerUri = authorizerUri
         self.identitySource = identitySource
         self.identityValidationExpression = identityValidationExpression
+        self.jwtConfiguration = jwtConfiguration
         self.name = name
         self.providerARNs = providerARNs
         self.restApiId = restApiId
@@ -788,23 +989,25 @@ public struct CreateAuthorizerInput: Swift.Sendable {
 public struct CreateAuthorizerOutput: Swift.Sendable {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. This property is not supported for JWT authorizers.
     public var authorizerCredentials: Swift.String?
-    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour. This property is not supported for JWT authorizers.
     public var authorizerResultTtlInSeconds: Swift.Int?
-    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. This property is not supported for JWT authorizers.
     public var authorizerUri: Swift.String?
     /// The identifier for the authorizer resource.
     public var id: Swift.String?
-    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional. For a JWT authorizer, this is required and must be a single request-header mapping expression, method.request.header., for example, method.request.header.Authorization. Query string parameters are not supported, and there is no default.
     public var identitySource: Swift.String?
-    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST or JWT authorizer.
     public var identityValidationExpression: Swift.String?
+    /// The configuration returned for a JWT authorizer. This field is present only when type is JWT.
+    public var jwtConfiguration: APIGatewayClientTypes.JwtConfiguration?
     /// The name of the authorizer.
     public var name: Swift.String?
-    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
+    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. This property is not supported for JWT authorizers.
     public var providerARNs: [Swift.String]?
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
     public var type: APIGatewayClientTypes.AuthorizerType?
 
     public init(
@@ -815,6 +1018,7 @@ public struct CreateAuthorizerOutput: Swift.Sendable {
         id: Swift.String? = nil,
         identitySource: Swift.String? = nil,
         identityValidationExpression: Swift.String? = nil,
+        jwtConfiguration: APIGatewayClientTypes.JwtConfiguration? = nil,
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
@@ -826,6 +1030,7 @@ public struct CreateAuthorizerOutput: Swift.Sendable {
         self.id = id
         self.identitySource = identitySource
         self.identityValidationExpression = identityValidationExpression
+        self.jwtConfiguration = jwtConfiguration
         self.name = name
         self.providerARNs = providerARNs
         self.type = type
@@ -1030,7 +1235,7 @@ extension APIGatewayClientTypes {
     public struct MethodSnapshot: Swift.Sendable {
         /// Specifies whether the method requires a valid ApiKey.
         public var apiKeyRequired: Swift.Bool
-        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public var authorizationType: Swift.String?
 
         public init(
@@ -1307,7 +1512,7 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
-    /// The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs.
+    /// The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from Amazon Web Services Region; and PRIVATE for private APIs.
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case edge
         case `private`
@@ -1624,7 +1829,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
-    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
@@ -1654,7 +1859,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var regionalCertificateName: Swift.String?
     /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
     public var regionalDomainName: Swift.String?
-    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
@@ -2085,13 +2290,13 @@ extension APIGatewayClientTypes {
         public var connectionType: APIGatewayClientTypes.ConnectionType?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
-        /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
+        /// Specifies the credentials required for the integration, if any. For Amazon Web Services integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
         public var credentials: Swift.String?
         /// Specifies the integration's HTTP method type. For the Type property, if you specify MOCK, this property is optional. For Lambda integrations, you must set the integration method to POST. For all other types, you must specify this property.
         public var httpMethod: Swift.String?
         /// Specifies the integration's responses.
         public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
-        /// The ALB or NLB listener to send the request to.
+        /// The ALB or NLB ARN to send the request to.
         public var integrationTarget: Swift.String?
         /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
         public var passthroughBehavior: Swift.String?
@@ -2179,9 +2384,9 @@ extension APIGatewayClientTypes {
     public struct Method: Swift.Sendable {
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public var apiKeyRequired: Swift.Bool?
-        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+        /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. The scopes are also used with a JWT authorizer. When scopes are configured, the scope (or scp) claim of the token must contain at least one of the configured scopes.
         public var authorizationScopes: [Swift.String]?
-        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, COGNITO_USER_POOLS for using a Cognito user pool, or JWT for using a JWT authorizer.
         public var authorizationType: Swift.String?
         /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
         public var authorizerId: Swift.String?
@@ -3523,7 +3728,7 @@ public struct GetAccountInput: Swift.Sendable {
     public init() { }
 }
 
-/// Represents an AWS account that is associated with API Gateway.
+/// Represents an Amazon Web Services account that is associated with API Gateway.
 public struct GetAccountOutput: Swift.Sendable {
     /// The version of the API keys used for the account.
     public var apiKeyVersion: Swift.String?
@@ -3682,23 +3887,25 @@ public struct GetAuthorizerInput: Swift.Sendable {
 public struct GetAuthorizerOutput: Swift.Sendable {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. This property is not supported for JWT authorizers.
     public var authorizerCredentials: Swift.String?
-    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour. This property is not supported for JWT authorizers.
     public var authorizerResultTtlInSeconds: Swift.Int?
-    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. This property is not supported for JWT authorizers.
     public var authorizerUri: Swift.String?
     /// The identifier for the authorizer resource.
     public var id: Swift.String?
-    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional. For a JWT authorizer, this is required and must be a single request-header mapping expression, method.request.header., for example, method.request.header.Authorization. Query string parameters are not supported, and there is no default.
     public var identitySource: Swift.String?
-    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST or JWT authorizer.
     public var identityValidationExpression: Swift.String?
+    /// The configuration returned for a JWT authorizer. This field is present only when type is JWT.
+    public var jwtConfiguration: APIGatewayClientTypes.JwtConfiguration?
     /// The name of the authorizer.
     public var name: Swift.String?
-    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
+    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. This property is not supported for JWT authorizers.
     public var providerARNs: [Swift.String]?
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
     public var type: APIGatewayClientTypes.AuthorizerType?
 
     public init(
@@ -3709,6 +3916,7 @@ public struct GetAuthorizerOutput: Swift.Sendable {
         id: Swift.String? = nil,
         identitySource: Swift.String? = nil,
         identityValidationExpression: Swift.String? = nil,
+        jwtConfiguration: APIGatewayClientTypes.JwtConfiguration? = nil,
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
@@ -3720,6 +3928,7 @@ public struct GetAuthorizerOutput: Swift.Sendable {
         self.id = id
         self.identitySource = identitySource
         self.identityValidationExpression = identityValidationExpression
+        self.jwtConfiguration = jwtConfiguration
         self.name = name
         self.providerARNs = providerARNs
         self.type = type
@@ -4359,7 +4568,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
-    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
@@ -4389,7 +4598,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var regionalCertificateName: Swift.String?
     /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
     public var regionalDomainName: Swift.String?
-    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
@@ -4483,7 +4692,7 @@ public struct GetDomainNameAccessAssociationsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
     public var position: Swift.String?
-    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts.
+    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other Amazon Web Services accounts.
     public var resourceOwner: APIGatewayClientTypes.ResourceOwner?
 
     public init(
@@ -4575,7 +4784,7 @@ extension APIGatewayClientTypes {
         public var certificateUploadDate: Foundation.Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public var distributionDomainName: Swift.String?
-        /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+        /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
         public var distributionHostedZoneId: Swift.String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public var domainName: Swift.String?
@@ -4605,7 +4814,7 @@ extension APIGatewayClientTypes {
         public var regionalCertificateName: Swift.String?
         /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
         public var regionalDomainName: Swift.String?
-        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
         public var regionalHostedZoneId: Swift.String?
         /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
         public var routingMode: APIGatewayClientTypes.RoutingMode?
@@ -4882,13 +5091,13 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var connectionType: APIGatewayClientTypes.ConnectionType?
     /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
-    /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
+    /// Specifies the credentials required for the integration, if any. For Amazon Web Services integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
     public var credentials: Swift.String?
     /// Specifies the integration's HTTP method type. For the Type property, if you specify MOCK, this property is optional. For Lambda integrations, you must set the integration method to POST. For all other types, you must specify this property.
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
-    /// The ALB or NLB listener to send the request to.
+    /// The ALB or NLB ARN to send the request to.
     public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
@@ -5029,9 +5238,9 @@ public struct GetMethodInput: Swift.Sendable {
 public struct GetMethodOutput: Swift.Sendable {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
-    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. The scopes are also used with a JWT authorizer. When scopes are configured, the scope (or scp) claim of the token must contain at least one of the configured scopes.
     public var authorizationScopes: [Swift.String]?
-    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, COGNITO_USER_POOLS for using a Cognito user pool, or JWT for using a JWT authorizer.
     public var authorizationType: Swift.String?
     /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
     public var authorizerId: Swift.String?
@@ -6403,7 +6612,7 @@ extension APIGatewayClientTypes {
     }
 }
 
-/// Represents a collection of usage plans for an AWS account.
+/// Represents a collection of usage plans for an Amazon Web Services account.
 public struct GetUsagePlansOutput: Swift.Sendable {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.UsagePlan]?
@@ -6826,7 +7035,7 @@ public struct PutIntegrationInput: Swift.Sendable {
     public var httpMethod: Swift.String?
     /// The HTTP method for the integration.
     public var integrationHttpMethod: Swift.String?
-    /// The ALB or NLB listener to send the request to.
+    /// The ALB or NLB ARN to send the request to.
     public var integrationTarget: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
     public var passthroughBehavior: Swift.String?
@@ -6907,13 +7116,13 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var connectionType: APIGatewayClientTypes.ConnectionType?
     /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
-    /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
+    /// Specifies the credentials required for the integration, if any. For Amazon Web Services integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
     public var credentials: Swift.String?
     /// Specifies the integration's HTTP method type. For the Type property, if you specify MOCK, this property is optional. For Lambda integrations, you must set the integration method to POST. For all other types, you must specify this property.
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
-    /// The ALB or NLB listener to send the request to.
+    /// The ALB or NLB ARN to send the request to.
     public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
@@ -7047,9 +7256,9 @@ public struct PutIntegrationResponseOutput: Swift.Sendable {
 public struct PutMethodInput: Swift.Sendable {
     /// Specifies whether the method required a valid ApiKey.
     public var apiKeyRequired: Swift.Bool?
-    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. The scopes are also used with a JWT authorizer. When scopes are configured, the scope (or scp) claim of the token must contain at least one of the configured scopes.
     public var authorizationScopes: [Swift.String]?
-    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, COGNITO_USER_POOLS for using a Cognito user pool, or JWT for using a JWT authorizer.
     /// This member is required.
     public var authorizationType: Swift.String?
     /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway when you created the authorizer.
@@ -7103,9 +7312,9 @@ public struct PutMethodInput: Swift.Sendable {
 public struct PutMethodOutput: Swift.Sendable {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
-    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. The scopes are also used with a JWT authorizer. When scopes are configured, the scope (or scp) claim of the token must contain at least one of the configured scopes.
     public var authorizationScopes: [Swift.String]?
-    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, COGNITO_USER_POOLS for using a Cognito user pool, or JWT for using a JWT authorizer.
     public var authorizationType: Swift.String?
     /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
     public var authorizerId: Swift.String?
@@ -7216,7 +7425,7 @@ public struct PutRestApiInput: Swift.Sendable {
     public var failOnWarnings: Swift.Bool?
     /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
     public var mode: APIGatewayClientTypes.PutMode?
-    /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'.
+    /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'.
     public var parameters: [Swift.String: Swift.String]?
     /// The string identifier of the associated RestApi.
     /// This member is required.
@@ -7578,7 +7787,7 @@ extension APIGatewayClientTypes {
         public var op: APIGatewayClientTypes.Op?
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
         public var path: Swift.String?
-        /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'.
+        /// The new target value of the update operation. It is applicable for the add or replace operation. When using CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'.
         public var value: Swift.String?
 
         public init(
@@ -7607,7 +7816,7 @@ public struct UpdateAccountInput: Swift.Sendable {
     }
 }
 
-/// Represents an AWS account that is associated with API Gateway.
+/// Represents an Amazon Web Services account that is associated with API Gateway.
 public struct UpdateAccountOutput: Swift.Sendable {
     /// The version of the API keys used for the account.
     public var apiKeyVersion: Swift.String?
@@ -7722,23 +7931,25 @@ public struct UpdateAuthorizerInput: Swift.Sendable {
 public struct UpdateAuthorizerOutput: Swift.Sendable {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null. This property is not supported for JWT authorizers.
     public var authorizerCredentials: Swift.String?
-    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
+    /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour. This property is not supported for JWT authorizers.
     public var authorizerResultTtlInSeconds: Swift.Int?
-    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
+    /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. This property is not supported for JWT authorizers.
     public var authorizerUri: Swift.String?
     /// The identifier for the authorizer resource.
     public var id: Swift.String?
-    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+    /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional. For a JWT authorizer, this is required and must be a single request-header mapping expression, method.request.header., for example, method.request.header.Authorization. Query string parameters are not supported, and there is no default.
     public var identitySource: Swift.String?
-    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
+    /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST or JWT authorizer.
     public var identityValidationExpression: Swift.String?
+    /// The configuration returned for a JWT authorizer. This field is present only when type is JWT.
+    public var jwtConfiguration: APIGatewayClientTypes.JwtConfiguration?
     /// The name of the authorizer.
     public var name: Swift.String?
-    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
+    /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. This property is not supported for JWT authorizers.
     public var providerARNs: [Swift.String]?
-    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+    /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, COGNITO_USER_POOLS for using an Amazon Cognito user pool, and JWT for using a native JWT authorizer with the trusted issuers, audiences, and signing algorithms that you declare.
     public var type: APIGatewayClientTypes.AuthorizerType?
 
     public init(
@@ -7749,6 +7960,7 @@ public struct UpdateAuthorizerOutput: Swift.Sendable {
         id: Swift.String? = nil,
         identitySource: Swift.String? = nil,
         identityValidationExpression: Swift.String? = nil,
+        jwtConfiguration: APIGatewayClientTypes.JwtConfiguration? = nil,
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
@@ -7760,6 +7972,7 @@ public struct UpdateAuthorizerOutput: Swift.Sendable {
         self.id = id
         self.identitySource = identitySource
         self.identityValidationExpression = identityValidationExpression
+        self.jwtConfiguration = jwtConfiguration
         self.name = name
         self.providerARNs = providerARNs
         self.type = type
@@ -8022,7 +8235,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
-    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized endpoint. The valid value is Z2FDTNDATAQYW2 for all the regions. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
@@ -8052,7 +8265,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var regionalCertificateName: Swift.String?
     /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
     public var regionalDomainName: Swift.String?
-    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
+    /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and Amazon Web Services Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
@@ -8201,13 +8414,13 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var connectionType: APIGatewayClientTypes.ConnectionType?
     /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
-    /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
+    /// Specifies the credentials required for the integration, if any. For Amazon Web Services integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported Amazon Web Services services, specify null.
     public var credentials: Swift.String?
     /// Specifies the integration's HTTP method type. For the Type property, if you specify MOCK, this property is optional. For Lambda integrations, you must set the integration method to POST. For all other types, you must specify this property.
     public var httpMethod: Swift.String?
     /// Specifies the integration's responses.
     public var integrationResponses: [Swift.String: APIGatewayClientTypes.IntegrationResponse]?
-    /// The ALB or NLB listener to send the request to.
+    /// The ALB or NLB ARN to send the request to.
     public var integrationTarget: Swift.String?
     /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
     public var passthroughBehavior: Swift.String?
@@ -8356,9 +8569,9 @@ public struct UpdateMethodInput: Swift.Sendable {
 public struct UpdateMethodOutput: Swift.Sendable {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
-    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. The scopes are also used with a JWT authorizer. When scopes are configured, the scope (or scp) claim of the token must contain at least one of the configured scopes.
     public var authorizationScopes: [Swift.String]?
-    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using Amazon Web Services IAM permissions, CUSTOM for using a custom authorizer, COGNITO_USER_POOLS for using a Cognito user pool, or JWT for using a JWT authorizer.
     public var authorizationType: Swift.String?
     /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
     public var authorizerId: Swift.String?
@@ -11118,6 +11331,7 @@ extension CreateAuthorizerInput {
         try writer["authorizerUri"].write(value.authorizerUri)
         try writer["identitySource"].write(value.identitySource)
         try writer["identityValidationExpression"].write(value.identityValidationExpression)
+        try writer["jwtConfiguration"].write(value.jwtConfiguration, with: APIGatewayClientTypes.JwtConfigurationInput.write(value:to:))
         try writer["name"].write(value.name)
         try writer["providerARNs"].writeList(value.providerARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
@@ -11655,6 +11869,7 @@ extension CreateAuthorizerOutput {
         value.id = try reader["id"].readIfPresent()
         value.identitySource = try reader["identitySource"].readIfPresent()
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
+        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: APIGatewayClientTypes.JwtConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.providerARNs = try reader["providerARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
@@ -12174,6 +12389,7 @@ extension GetAuthorizerOutput {
         value.id = try reader["id"].readIfPresent()
         value.identitySource = try reader["identitySource"].readIfPresent()
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
+        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: APIGatewayClientTypes.JwtConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.providerARNs = try reader["providerARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
@@ -13158,6 +13374,7 @@ extension UpdateAuthorizerOutput {
         value.id = try reader["id"].readIfPresent()
         value.identitySource = try reader["identitySource"].readIfPresent()
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
+        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: APIGatewayClientTypes.JwtConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.providerARNs = try reader["providerARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
@@ -15930,6 +16147,7 @@ extension APIGatewayClientTypes.Authorizer {
         value.identitySource = try reader["identitySource"].readIfPresent()
         value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
         value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent()
+        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: APIGatewayClientTypes.JwtConfiguration.read(from:))
         return value
     }
 }
@@ -16168,6 +16386,70 @@ extension APIGatewayClientTypes.IntegrationResponse {
         value.responseTemplates = try reader["responseTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.contentHandling = try reader["contentHandling"].readIfPresent()
         return value
+    }
+}
+
+extension APIGatewayClientTypes.JwtAdditionalClaim {
+
+    static func write(value: APIGatewayClientTypes.JwtAdditionalClaim?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["claimName"].write(value.claimName)
+        try writer["expectedValues"].writeList(value.expectedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["format"].write(value.format)
+        try writer["required"].write(value.`required`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.JwtAdditionalClaim {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = APIGatewayClientTypes.JwtAdditionalClaim()
+        value.claimName = try reader["claimName"].readIfPresent() ?? ""
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.`required` = try reader["required"].readIfPresent() ?? false
+        value.expectedValues = try reader["expectedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension APIGatewayClientTypes.JwtConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.JwtConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = APIGatewayClientTypes.JwtConfiguration()
+        value.issuers = try reader["issuers"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.JwtIssuer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAlgorithms = try reader["defaultAlgorithms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<APIGatewayClientTypes.JwtSigningAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension APIGatewayClientTypes.JwtConfigurationInput {
+
+    static func write(value: APIGatewayClientTypes.JwtConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultAlgorithms"].writeList(value.defaultAlgorithms, memberWritingClosure: SmithyReadWrite.WritingClosureBox<APIGatewayClientTypes.JwtSigningAlgorithm>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["issuers"].writeList(value.issuers, memberWritingClosure: APIGatewayClientTypes.JwtIssuerInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension APIGatewayClientTypes.JwtIssuer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.JwtIssuer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = APIGatewayClientTypes.JwtIssuer()
+        value.issuer = try reader["issuer"].readIfPresent()
+        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalClaims = try reader["additionalClaims"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.JwtAdditionalClaim.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jwksUri = try reader["jwksUri"].readIfPresent()
+        return value
+    }
+}
+
+extension APIGatewayClientTypes.JwtIssuerInput {
+
+    static func write(value: APIGatewayClientTypes.JwtIssuerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalClaims"].writeList(value.additionalClaims, memberWritingClosure: APIGatewayClientTypes.JwtAdditionalClaim.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["issuer"].write(value.issuer)
     }
 }
 

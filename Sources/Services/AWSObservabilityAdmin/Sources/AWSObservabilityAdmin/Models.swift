@@ -265,6 +265,645 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Selects every Azure subscription that Azure role-based access control (Azure RBAC) allows the connector to read. Subscriptions that the connector can read later are included automatically.
+    public struct AllSubscriptions: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration for Flow Log Storage Accounts that the setup creates, one in each Region that ingests Flow Logs.
+    public struct AzureAwsManagedFlowLogs: Swift.Sendable {
+        /// The number of days that the created Storage Accounts keep Flow Logs.
+        /// This member is required.
+        public var retentionDays: Swift.Int?
+
+        public init(
+            retentionDays: Swift.Int? = nil
+        ) {
+            self.retentionDays = retentionDays
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The configuration of a connector to Microsoft Azure.
+    public struct AzureConnectorConfiguration: Swift.Sendable {
+        /// The application (client) ID of the Azure app registration. The app registration must have a federated identity credential that trusts the Amazon Web Services OpenID Connect (OIDC) issuer for your account.
+        /// This member is required.
+        public var clientIdentifier: Swift.String?
+        /// The ID of the Microsoft Entra ID tenant.
+        /// This member is required.
+        public var tenantIdentifier: Swift.String?
+
+        public init(
+            clientIdentifier: Swift.String? = nil,
+            tenantIdentifier: Swift.String? = nil
+        ) {
+            self.clientIdentifier = clientIdentifier
+            self.tenantIdentifier = tenantIdentifier
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Limits a query to a management group or to specific subscriptions.
+    public struct AzureQueryScope: Swift.Sendable {
+        /// Limits the query to resources under this management group.
+        public var managementGroupId: Swift.String?
+        /// Limits the query to these subscriptions. You can specify 1–1000 subscriptions.
+        public var subscriptionIds: [Swift.String]?
+
+        public init(
+            managementGroupId: Swift.String? = nil,
+            subscriptionIds: [Swift.String]? = nil
+        ) {
+            self.managementGroupId = managementGroupId
+            self.subscriptionIds = subscriptionIds
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists Azure Event Hubs.
+    public struct AzureEventHubsQuery: Swift.Sendable {
+        /// Limits the results to Event Hubs in this namespace.
+        public var namespaceName: Swift.String?
+        /// Limits the results to one Azure Region, for example eastus.
+        public var region: Swift.String?
+        /// Limits the query to a management group or to specific subscriptions.
+        public var scope: ObservabilityAdminClientTypes.AzureQueryScope?
+
+        public init(
+            namespaceName: Swift.String? = nil,
+            region: Swift.String? = nil,
+            scope: ObservabilityAdminClientTypes.AzureQueryScope? = nil
+        ) {
+            self.namespaceName = namespaceName
+            self.region = region
+            self.scope = scope
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists Azure management groups.
+    public struct AzureManagementGroupsQuery: Swift.Sendable {
+        /// Lists the management groups under this management group. If you omit this value, the query starts at the tenant root group.
+        public var parentManagementGroupId: Swift.String?
+
+        public init(
+            parentManagementGroupId: Swift.String? = nil
+        ) {
+            self.parentManagementGroupId = parentManagementGroupId
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists the Azure Regions that have resources in scope.
+    public struct AzureRegionsQuery: Swift.Sendable {
+        /// Limits the query to a management group or to specific subscriptions.
+        public var scope: ObservabilityAdminClientTypes.AzureQueryScope?
+
+        public init(
+            scope: ObservabilityAdminClientTypes.AzureQueryScope? = nil
+        ) {
+            self.scope = scope
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A tag filter. A resource matches only if it has the tag. Filters for different tag keys must all match; for one tag key, any of the values can match.
+    public struct TagFilter: Swift.Sendable {
+        /// The tag key. Up to 512 characters. The characters < > % & \ ? / $ { } ' " ` and control characters aren't allowed.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag values to match. A resource matches if it has any of these values for the tag key.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists Azure resources.
+    public struct AzureResourceIdsQuery: Swift.Sendable {
+        /// Limits the results to one Azure Region, for example eastus.
+        public var region: Swift.String?
+        /// Limits the results to one Azure resource type, for example Microsoft.Compute/virtualMachines.
+        public var resourceType: Swift.String?
+        /// Limits the query to a management group or to specific subscriptions.
+        public var scope: ObservabilityAdminClientTypes.AzureQueryScope?
+        /// Limits the results to resources that have these tags. A resource must match the filters for all tag keys, and any of the values for each key. The service matches tag keys and values case-insensitively, as Azure does.
+        public var tagFilters: [ObservabilityAdminClientTypes.TagFilter]?
+
+        public init(
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            scope: ObservabilityAdminClientTypes.AzureQueryScope? = nil,
+            tagFilters: [ObservabilityAdminClientTypes.TagFilter]? = nil
+        ) {
+            self.region = region
+            self.resourceType = resourceType
+            self.scope = scope
+            self.tagFilters = tagFilters
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists the Azure resource types that have resources in scope.
+    public struct AzureResourceTypesQuery: Swift.Sendable {
+        /// Limits the query to a management group or to specific subscriptions.
+        public var scope: ObservabilityAdminClientTypes.AzureQueryScope?
+
+        public init(
+            scope: ObservabilityAdminClientTypes.AzureQueryScope? = nil
+        ) {
+            self.scope = scope
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A query that lists Azure subscriptions.
+    public struct AzureSubscriptionsQuery: Swift.Sendable {
+        /// Limits the results to subscriptions under this management group.
+        public var managementGroupId: Swift.String?
+
+        public init(
+            managementGroupId: Swift.String? = nil
+        ) {
+            self.managementGroupId = managementGroupId
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The type of Azure resource to list. Specify one type.
+    public enum AzureConnectorQuery: Swift.Sendable {
+        /// Lists Azure management groups.
+        case managementgroups(ObservabilityAdminClientTypes.AzureManagementGroupsQuery)
+        /// Lists Azure subscriptions.
+        case subscriptions(ObservabilityAdminClientTypes.AzureSubscriptionsQuery)
+        /// Lists the Azure resource types that have resources in scope.
+        case resourcetypes(ObservabilityAdminClientTypes.AzureResourceTypesQuery)
+        /// Lists the Azure Regions that have resources in scope.
+        case regions(ObservabilityAdminClientTypes.AzureRegionsQuery)
+        /// Lists Azure resources.
+        case resourceids(ObservabilityAdminClientTypes.AzureResourceIdsQuery)
+        /// Lists Azure Event Hubs.
+        case eventhubs(ObservabilityAdminClientTypes.AzureEventHubsQuery)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Information about an Azure Event Hub.
+    public struct AzureEventHubSummary: Swift.Sendable {
+        /// The name of the Event Hub.
+        /// This member is required.
+        public var eventHubName: Swift.String?
+        /// The fully qualified host name of the Event Hubs namespace, for example <namespace>.servicebus.windows.net. The suffix differs in sovereign clouds.
+        /// This member is required.
+        public var fullyQualifiedNamespace: Swift.String?
+        /// The name of the Event Hubs namespace that contains the Event Hub.
+        /// This member is required.
+        public var namespaceName: Swift.String?
+        /// The Azure Region of the Event Hub, for example eastus.
+        public var region: Swift.String?
+        /// The Azure Resource Manager ID of the Event Hub.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The Azure subscription that contains the Event Hub.
+        public var subscriptionId: Swift.String?
+
+        public init(
+            eventHubName: Swift.String? = nil,
+            fullyQualifiedNamespace: Swift.String? = nil,
+            namespaceName: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            subscriptionId: Swift.String? = nil
+        ) {
+            self.eventHubName = eventHubName
+            self.fullyQualifiedNamespace = fullyQualifiedNamespace
+            self.namespaceName = namespaceName
+            self.region = region
+            self.resourceId = resourceId
+            self.subscriptionId = subscriptionId
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Information about an Azure management group.
+    public struct AzureManagementGroupSummary: Swift.Sendable {
+        /// The display name of the management group.
+        public var displayName: Swift.String?
+        /// The ID of the management group.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the management group.
+        public var name: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.displayName = displayName
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Information about an Azure resource.
+    public struct AzureResourceIdentifierSummary: Swift.Sendable {
+        /// The Azure Region of the resource, for example eastus.
+        public var region: Swift.String?
+        /// The Azure Resource Manager ID of the resource.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The Azure resource type, for example Microsoft.Compute/virtualMachines.
+        public var resourceType: Swift.String?
+        /// The Azure subscription that contains the resource.
+        public var subscriptionId: Swift.String?
+        /// The tags on the resource. Absent if the resource has no tags.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            region: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            subscriptionId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.region = region
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.subscriptionId = subscriptionId
+            self.tags = tags
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Information about an Azure subscription.
+    public struct AzureSubscriptionSummary: Swift.Sendable {
+        /// The display name of the subscription.
+        public var displayName: Swift.String?
+        /// The ID of the management group that contains the subscription.
+        public var managementGroupId: Swift.String?
+        /// The state of the subscription in Azure, for example Enabled.
+        public var state: Swift.String?
+        /// The ID of the subscription.
+        /// This member is required.
+        public var subscriptionId: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            managementGroupId: Swift.String? = nil,
+            state: Swift.String? = nil,
+            subscriptionId: Swift.String? = nil
+        ) {
+            self.displayName = displayName
+            self.managementGroupId = managementGroupId
+            self.state = state
+            self.subscriptionId = subscriptionId
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The results of an Azure discovery query. The populated member matches the member of the query.
+    public enum AzureConnectorQueryResults: Swift.Sendable {
+        /// The Azure management groups.
+        case managementgroups([ObservabilityAdminClientTypes.AzureManagementGroupSummary])
+        /// The Azure subscriptions.
+        case subscriptions([ObservabilityAdminClientTypes.AzureSubscriptionSummary])
+        /// The Azure resource types.
+        case resourcetypes([Swift.String])
+        /// The Azure Regions.
+        case regions([Swift.String])
+        /// The Azure resources.
+        case resourceids([ObservabilityAdminClientTypes.AzureResourceIdentifierSummary])
+        /// The Azure Event Hubs.
+        case eventhubs([ObservabilityAdminClientTypes.AzureEventHubSummary])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The Azure Storage Accounts in one Azure Region that store Flow Logs.
+    public struct AzureFlowLogStorageAccountScope: Swift.Sendable {
+        /// The Azure Region of the Storage Accounts, for example eastus.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The Azure Resource Manager IDs of the Storage Accounts.
+        /// This member is required.
+        public var storageAccountIds: [Swift.String]?
+
+        public init(
+            region: Swift.String? = nil,
+            storageAccountIds: [Swift.String]? = nil
+        ) {
+            self.region = region
+            self.storageAccountIds = storageAccountIds
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration for existing Azure Storage Accounts that already receive your Flow Logs.
+    public struct AzureCustomerManagedFlowLogs: Swift.Sendable {
+        /// The Storage Accounts that store your Flow Logs, listed by Azure Region. Each Region can appear only once, and each Storage Account can appear only once across all Regions.
+        /// This member is required.
+        public var storageAccounts: [ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope]?
+
+        public init(
+            storageAccounts: [ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope]? = nil
+        ) {
+            self.storageAccounts = storageAccounts
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    public enum AzureEventHubTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case premium
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AzureEventHubTier] {
+            return [
+                .premium,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .premium: return "Premium"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration of the Azure Event Hubs that the setup creates to deliver resource logs.
+    public struct AzureEventHubConfiguration: Swift.Sendable {
+        /// The number of partitions in each Event Hub. The Standard tier allows 1–32 partitions and the Premium tier allows 1–100. On the Standard tier, you can't change this value after the setup creates the Event Hub.
+        /// This member is required.
+        public var partitionCount: Swift.Int?
+        /// The Event Hubs namespace tier.
+        /// This member is required.
+        public var tier: ObservabilityAdminClientTypes.AzureEventHubTier?
+
+        public init(
+            partitionCount: Swift.Int? = nil,
+            tier: ObservabilityAdminClientTypes.AzureEventHubTier? = nil
+        ) {
+            self.partitionCount = partitionCount
+            self.tier = tier
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The location of your Flow Logs: your existing Storage Accounts, or Storage Accounts that the setup creates. Specify one.
+    public enum AzureFlowLogsInfrastructure: Swift.Sendable {
+        /// Use your existing Storage Accounts that already store Flow Logs.
+        case customermanaged(ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs)
+        /// Create one Storage Account in each Azure Region that ingests Flow Logs, in the subscription specified by SubscriptionId.
+        case awsmanaged(ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The choices for the Azure infrastructure that the setup creates.
+    public struct AzureInfrastructure: Swift.Sendable {
+        /// The Event Hubs configuration. Specify exactly one entry, which applies to the Event Hubs in every Azure Region. This value applies only if an AzureScopeItem collects ResourceLogs. If you omit it, the setup uses default settings.
+        public var eventHubs: [ObservabilityAdminClientTypes.AzureEventHubConfiguration]?
+        /// The location of your Flow Logs. You must specify this value if an AzureScopeItem collects FlowLogs, and you can specify it only in that case.
+        public var flowLogs: ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure?
+        /// The Azure subscription in which the setup creates the Event Hubs namespaces and, for AwsManaged Flow Logs, the Storage Accounts. You must specify this value if an AzureScopeItem collects ResourceLogs, or if you specify EventHubs or AwsManaged Flow Logs.
+        public var subscriptionId: Swift.String?
+
+        public init(
+            eventHubs: [ObservabilityAdminClientTypes.AzureEventHubConfiguration]? = nil,
+            flowLogs: ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure? = nil,
+            subscriptionId: Swift.String? = nil
+        ) {
+            self.eventHubs = eventHubs
+            self.flowLogs = flowLogs
+            self.subscriptionId = subscriptionId
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Azure resources in one Azure Region.
+    public struct AzureResourceIdScope: Swift.Sendable {
+        /// The Azure Region of the resources, for example eastus. Required because an Azure resource ID doesn't include the Region.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The Azure Resource Manager IDs of the resources.
+        /// This member is required.
+        public var resourceIds: [Swift.String]?
+
+        public init(
+            region: Swift.String? = nil,
+            resourceIds: [Swift.String]? = nil
+        ) {
+            self.region = region
+            self.resourceIds = resourceIds
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The subscriptions to find resources in: all subscriptions that the connector can read, or a list of subscriptions. Specify one.
+    public enum AzureSubscriptionScope: Swift.Sendable {
+        /// All subscriptions that Azure role-based access control (Azure RBAC) allows the connector to read. Subscriptions that the connector can read later are included automatically.
+        case all(ObservabilityAdminClientTypes.AllSubscriptions)
+        /// A list of 1–1000 subscription IDs.
+        case ids([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The Azure resources to collect telemetry from. These are the resources found by Subscriptions, Regions, and ResourceTypes, optionally narrowed by TagFilters, plus any resources listed in Resources. You can specify:
+    ///
+    /// * Subscriptions, Regions, and ResourceTypes together
+    ///
+    /// * Resources
+    ///
+    /// * Both
+    public struct AzureScope: Swift.Sendable {
+        /// The Azure Regions to find resources in. Required when you use Subscriptions and ResourceTypes.
+        public var regions: [Swift.String]?
+        /// The Azure resource types to find. Required when you use Subscriptions and Regions.
+        public var resourceTypes: [Swift.String]?
+        /// Specific Azure resources, listed by Azure Region.
+        public var resources: [ObservabilityAdminClientTypes.AzureResourceIdScope]?
+        /// The subscriptions to find resources in: all subscriptions that the connector can read, or a list of subscriptions. Required when you use Regions and ResourceTypes.
+        public var subscriptions: ObservabilityAdminClientTypes.AzureSubscriptionScope?
+        /// Limits the resources found by Subscriptions, Regions, and ResourceTypes to those that have these tags. You can specify up to 50 filters.
+        public var tagFilters: [ObservabilityAdminClientTypes.TagFilter]?
+
+        public init(
+            regions: [Swift.String]? = nil,
+            resourceTypes: [Swift.String]? = nil,
+            resources: [ObservabilityAdminClientTypes.AzureResourceIdScope]? = nil,
+            subscriptions: ObservabilityAdminClientTypes.AzureSubscriptionScope? = nil,
+            tagFilters: [ObservabilityAdminClientTypes.TagFilter]? = nil
+        ) {
+            self.regions = regions
+            self.resourceTypes = resourceTypes
+            self.resources = resources
+            self.subscriptions = subscriptions
+            self.tagFilters = tagFilters
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    public enum AzureTelemetryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flowLogs
+        case metrics
+        case resourceLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AzureTelemetryType] {
+            return [
+                .flowLogs,
+                .metrics,
+                .resourceLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flowLogs: return "FlowLogs"
+            case .metrics: return "Metrics"
+            case .resourceLogs: return "ResourceLogs"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The telemetry types to collect from a set of Azure resources.
+    public struct AzureScopeItem: Swift.Sendable {
+        /// The Azure resources to collect telemetry from.
+        /// This member is required.
+        public var scope: ObservabilityAdminClientTypes.AzureScope?
+        /// The telemetry types to collect.
+        /// This member is required.
+        public var telemetryTypes: [ObservabilityAdminClientTypes.AzureTelemetryType]?
+
+        public init(
+            scope: ObservabilityAdminClientTypes.AzureScope? = nil,
+            telemetryTypes: [ObservabilityAdminClientTypes.AzureTelemetryType]? = nil
+        ) {
+            self.scope = scope
+            self.telemetryTypes = telemetryTypes
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The Microsoft Azure source configuration for a third-party telemetry enrichment.
+    public struct AzureTelemetrySourceConfigurationInput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Config connector for the Microsoft Azure tenant to collect resource metadata from.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The Microsoft Azure source configuration of a third-party telemetry enrichment.
+    public struct AzureTelemetrySourceConfigurationOutput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Config connector that the enrichment uses.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service-linked configuration recorder that CloudWatch created in your account for the enrichment.
+        public var serviceLinkedRecorderArn: Swift.String?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            serviceLinkedRecorderArn: Swift.String? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.serviceLinkedRecorderArn = serviceLinkedRecorderArn
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum CentralizationFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case destinationAccountNotInOrganization
         case internalServerError
@@ -621,6 +1260,37 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration for backing up centralized profiles data to a secondary Region.
+    public struct ProfilesBackupConfiguration: Swift.Sendable {
+        /// The backup Region for profiles, within the primary destination account, to which the service centralizes profiles data.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        ) {
+            self.region = region
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration for centralization destination profiles, including backup settings.
+    public struct DestinationProfilesConfiguration: Swift.Sendable {
+        /// Configuration that defines the backup Region for the profiles backup destination.
+        public var backupConfiguration: ObservabilityAdminClientTypes.ProfilesBackupConfiguration?
+
+        public init(
+            backupConfiguration: ObservabilityAdminClientTypes.ProfilesBackupConfiguration? = nil
+        ) {
+            self.backupConfiguration = backupConfiguration
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration specifying the primary destination for centralized telemetry data.
     public struct CentralizationRuleDestination: Swift.Sendable {
         /// The destination account (within the organization) to which the telemetry data should be centralized.
@@ -629,6 +1299,8 @@ extension ObservabilityAdminClientTypes {
         public var destinationLogsConfiguration: ObservabilityAdminClientTypes.DestinationLogsConfiguration?
         /// Metric specific configuration for centralization destination metrics.
         public var destinationMetricsConfiguration: ObservabilityAdminClientTypes.DestinationMetricsConfiguration?
+        /// Profile-specific configuration for centralization destination profiles.
+        public var destinationProfilesConfiguration: ObservabilityAdminClientTypes.DestinationProfilesConfiguration?
         /// The primary destination region to which telemetry data should be centralized.
         /// This member is required.
         public var region: Swift.String?
@@ -637,11 +1309,13 @@ extension ObservabilityAdminClientTypes {
             account: Swift.String? = nil,
             destinationLogsConfiguration: ObservabilityAdminClientTypes.DestinationLogsConfiguration? = nil,
             destinationMetricsConfiguration: ObservabilityAdminClientTypes.DestinationMetricsConfiguration? = nil,
+            destinationProfilesConfiguration: ObservabilityAdminClientTypes.DestinationProfilesConfiguration? = nil,
             region: Swift.String? = nil
         ) {
             self.account = account
             self.destinationLogsConfiguration = destinationLogsConfiguration
             self.destinationMetricsConfiguration = destinationMetricsConfiguration
+            self.destinationProfilesConfiguration = destinationProfilesConfiguration
             self.region = region
         }
     }
@@ -726,6 +1400,21 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration for selecting source profiles for centralization.
+    public struct SourceProfilesConfiguration: Swift.Sendable {
+        /// The filter expression that selects which source profiles to centralize.
+        public var profilesSelectionCriteria: Swift.String?
+
+        public init(
+            profilesSelectionCriteria: Swift.String? = nil
+        ) {
+            self.profilesSelectionCriteria = profilesSelectionCriteria
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration specifying the source of telemetry data to be centralized.
     public struct CentralizationRuleSource: Swift.Sendable {
         /// The list of source regions from which telemetry data should be centralized.
@@ -739,19 +1428,23 @@ extension ObservabilityAdminClientTypes {
         public var sourceLogsConfiguration: ObservabilityAdminClientTypes.SourceLogsConfiguration?
         /// Metric specific configuration for centralization source metrics.
         public var sourceMetricsConfiguration: ObservabilityAdminClientTypes.SourceMetricsConfiguration?
+        /// Profile-specific configuration for centralization source profiles.
+        public var sourceProfilesConfiguration: ObservabilityAdminClientTypes.SourceProfilesConfiguration?
 
         public init(
             regions: [Swift.String]? = nil,
             scope: Swift.String? = nil,
             sourceContextGraphConfiguration: ObservabilityAdminClientTypes.SourceContextGraphConfiguration? = nil,
             sourceLogsConfiguration: ObservabilityAdminClientTypes.SourceLogsConfiguration? = nil,
-            sourceMetricsConfiguration: ObservabilityAdminClientTypes.SourceMetricsConfiguration? = nil
+            sourceMetricsConfiguration: ObservabilityAdminClientTypes.SourceMetricsConfiguration? = nil,
+            sourceProfilesConfiguration: ObservabilityAdminClientTypes.SourceProfilesConfiguration? = nil
         ) {
             self.regions = regions
             self.scope = scope
             self.sourceContextGraphConfiguration = sourceContextGraphConfiguration
             self.sourceLogsConfiguration = sourceLogsConfiguration
             self.sourceMetricsConfiguration = sourceMetricsConfiguration
+            self.sourceProfilesConfiguration = sourceProfilesConfiguration
         }
     }
 }
@@ -1115,6 +1808,130 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+extension ObservabilityAdminClientTypes {
+
+    /// The configuration for connecting to a third-party cloud provider. Specify one provider.
+    public enum ConnectorConfiguration: Swift.Sendable {
+        /// The configuration of a connector to Microsoft Azure.
+        case azure(ObservabilityAdminClientTypes.AzureConnectorConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    public enum ConnectorProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorProvider] {
+            return [
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A connector to a third-party cloud provider.
+    public struct Connector: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The configuration for connecting to the third-party cloud provider.
+        /// This member is required.
+        public var connectorConfiguration: ObservabilityAdminClientTypes.ConnectorConfiguration?
+        /// The time when the connector was created, in milliseconds since the Unix epoch.
+        public var createdTimeStamp: Swift.Int?
+        /// The name of the connector.
+        public var name: Swift.String?
+        /// The cloud provider that the connector connects to.
+        /// This member is required.
+        public var provider: ObservabilityAdminClientTypes.ConnectorProvider?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that CloudWatch assumes to obtain credentials for the third-party cloud provider.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            connectorConfiguration: ObservabilityAdminClientTypes.ConnectorConfiguration? = nil,
+            createdTimeStamp: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            provider: ObservabilityAdminClientTypes.ConnectorProvider? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.connectorConfiguration = connectorConfiguration
+            self.createdTimeStamp = createdTimeStamp
+            self.name = name
+            self.provider = provider
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// What to list in a cloud provider. Specify one provider.
+    public enum ConnectorQuery: Swift.Sendable {
+        /// The type of Azure resource to list.
+        case azure(ObservabilityAdminClientTypes.AzureConnectorQuery)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The results of a query. The populated member matches the member of the query.
+    public enum ConnectorQueryResults: Swift.Sendable {
+        /// The results of an Azure discovery query.
+        case azure(ObservabilityAdminClientTypes.AzureConnectorQueryResults)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Summary information about a connector.
+    public struct ConnectorSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time when the connector was created, in milliseconds since the Unix epoch.
+        public var createdTimeStamp: Swift.Int?
+        /// The name of the connector.
+        public var name: Swift.String?
+        /// The cloud provider that the connector connects to.
+        /// This member is required.
+        public var provider: ObservabilityAdminClientTypes.ConnectorProvider?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTimeStamp: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            provider: ObservabilityAdminClientTypes.ConnectorProvider? = nil
+        ) {
+            self.arn = arn
+            self.createdTimeStamp = createdTimeStamp
+            self.name = name
+            self.provider = provider
+        }
+    }
+}
+
 /// Indicates the request has failed to process because of an unknown server error, exception, or failure.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1291,6 +2108,53 @@ public struct CreateCentralizationRuleForOrganizationOutput: Swift.Sendable {
         ruleArn: Swift.String? = nil
     ) {
         self.ruleArn = ruleArn
+    }
+}
+
+public struct CreateConnectorInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the operation completes no more than one time. If you use an Amazon Web Services SDK, the SDK generates this value and reuses it on retries. If this token matches a previous request with the same parameters, the service returns the connector from the first request without an error. If you use the same token with different parameters, including different tags, the service returns a ValidationException. This operation is idempotent when you use the same token and parameters.
+    public var clientToken: Swift.String?
+    /// The configuration for connecting to the third-party cloud provider.
+    /// This member is required.
+    public var connectorConfiguration: ObservabilityAdminClientTypes.ConnectorConfiguration?
+    /// The name of the connector. The name must be unique in the account and Region (case-sensitive). If another connector already uses the name, the request fails with a ConflictException. The name can contain letters, digits, hyphens (-), underscores (_) and periods (.), and must start with a letter.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that CloudWatch assumes to get credentials for the third-party cloud provider. The role must trust the Amazon CloudWatch Observability Admin service principal, observabilityadmin.amazonaws.com. The role must also allow sts:GetWebIdentityToken for the provider's token exchange audience.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The tags that you want to apply to the connector.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorConfiguration: ObservabilityAdminClientTypes.ConnectorConfiguration? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorConfiguration = connectorConfiguration
+        self.name = name
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+extension CreateConnectorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectorInput(connectorConfiguration: \(Swift.String(describing: connectorConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), clientToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateConnectorOutput: Swift.Sendable {
+    /// The connector that this request created.
+    /// This member is required.
+    public var connector: ObservabilityAdminClientTypes.Connector?
+
+    public init(
+        connector: ObservabilityAdminClientTypes.Connector? = nil
+    ) {
+        self.connector = connector
     }
 }
 
@@ -2141,7 +3005,7 @@ extension ObservabilityAdminClientTypes {
         public var selectionCriteria: Swift.String?
         /// The specific telemetry source types to configure for the resource, such as VPC_FLOW_LOGS or EKS_AUDIT_LOGS. TelemetrySourceTypes must be correlated with the specific resource type.
         public var telemetrySourceTypes: [ObservabilityAdminClientTypes.TelemetrySourceType]?
-        /// The type of telemetry to collect (Logs, Metrics, or Traces).
+        /// The type of telemetry to collect (Logs, Metrics, Traces, or Insights).
         /// This member is required.
         public var telemetryType: ObservabilityAdminClientTypes.TelemetryType?
 
@@ -2304,18 +3168,6 @@ public struct DeleteCentralizationRuleForOrganizationInput: Swift.Sendable {
     }
 }
 
-public struct DeleteDatasetIntegrationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the dataset integration to delete.
-    /// This member is required.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    ) {
-        self.arn = arn
-    }
-}
-
 /// The requested operation cannot be completed on the specified resource in the current state.
 public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2336,6 +3188,39 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct DeleteConnectorInput: Swift.Sendable {
+    /// The connector to delete. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+
+    public init(
+        connectorIdentifier: Swift.String? = nil
+    ) {
+        self.connectorIdentifier = connectorIdentifier
+    }
+}
+
+public struct DeleteConnectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteDatasetIntegrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset integration to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -2456,6 +3341,216 @@ public struct GetCentralizationRuleForOrganizationOutput: Swift.Sendable {
         self.ruleName = ruleName
         self.tagPropagationFailureReason = tagPropagationFailureReason
         self.tagPropagationStatus = tagPropagationStatus
+    }
+}
+
+public struct GetConnectorInput: Swift.Sendable {
+    /// The connector. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+
+    public init(
+        connectorIdentifier: Swift.String? = nil
+    ) {
+        self.connectorIdentifier = connectorIdentifier
+    }
+}
+
+public struct GetConnectorOutput: Swift.Sendable {
+    /// The connector.
+    /// This member is required.
+    public var connector: ObservabilityAdminClientTypes.Connector?
+
+    public init(
+        connector: ObservabilityAdminClientTypes.Connector? = nil
+    ) {
+        self.connector = connector
+    }
+}
+
+public struct GetConnectorTelemetryManifestInput: Swift.Sendable {
+    /// The connector. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+
+    public init(
+        connectorIdentifier: Swift.String? = nil
+    ) {
+        self.connectorIdentifier = connectorIdentifier
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The choices for the infrastructure that the setup creates. Specify one provider, which must match the provider in Source.
+    public enum TelemetryManifestInfrastructure: Swift.Sendable {
+        /// The choices for the Azure infrastructure that the setup creates.
+        case azure(ObservabilityAdminClientTypes.AzureInfrastructure)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The resources to collect telemetry from, for one cloud provider. Specify one provider.
+    public enum TelemetryManifestSource: Swift.Sendable {
+        /// The Azure scope items. Each AzureScopeItem specifies a set of Azure resources and the telemetry types to collect from them. You can specify up to 100 scope items.
+        case azure([ObservabilityAdminClientTypes.AzureScopeItem])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Declares which resources in a cloud provider to collect telemetry from and which telemetry types to collect.
+    public struct TelemetryManifest: Swift.Sendable {
+        /// The choices for the infrastructure that the setup creates in your cloud provider, such as the subscription that contains the Event Hubs and their size. If you omit this value, the setup uses default settings. If an AzureScopeItem collects ResourceLogs, you must specify at least the Azure SubscriptionId.
+        public var infrastructure: ObservabilityAdminClientTypes.TelemetryManifestInfrastructure?
+        /// The resources to collect telemetry from and the telemetry types to collect.
+        /// This member is required.
+        public var source: ObservabilityAdminClientTypes.TelemetryManifestSource?
+
+        public init(
+            infrastructure: ObservabilityAdminClientTypes.TelemetryManifestInfrastructure? = nil,
+            source: ObservabilityAdminClientTypes.TelemetryManifestSource? = nil
+        ) {
+            self.infrastructure = infrastructure
+            self.source = source
+        }
+    }
+}
+
+public struct GetConnectorTelemetryManifestOutput: Swift.Sendable {
+    /// The time when the telemetry manifest was last updated, in milliseconds since the Unix epoch.
+    public var lastUpdateTimeStamp: Swift.Int?
+    /// The telemetry manifest.
+    /// This member is required.
+    public var manifest: ObservabilityAdminClientTypes.TelemetryManifest?
+    /// The current version of the telemetry manifest. Pass this value as ExpectedVersion when you next call PutConnectorTelemetryManifest.
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        lastUpdateTimeStamp: Swift.Int? = nil,
+        manifest: ObservabilityAdminClientTypes.TelemetryManifest? = nil,
+        version: Swift.Int? = nil
+    ) {
+        self.lastUpdateTimeStamp = lastUpdateTimeStamp
+        self.manifest = manifest
+        self.version = version
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    public enum SetupFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bicep
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SetupFormat] {
+            return [
+                .bicep
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bicep: return "BICEP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetConnectorTelemetrySetupInput: Swift.Sendable {
+    /// The connector whose telemetry manifest you want to generate the setup from. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+    /// The format of the setup artifacts. If you omit this value, the service uses the default format for the connector's provider (BICEP for an Azure connector). If the provider doesn't support the format, the service returns a ValidationException.
+    public var format: ObservabilityAdminClientTypes.SetupFormat?
+
+    public init(
+        connectorIdentifier: Swift.String? = nil,
+        format: ObservabilityAdminClientTypes.SetupFormat? = nil
+    ) {
+        self.connectorIdentifier = connectorIdentifier
+        self.format = format
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A setup artifact, which is one file in the requested format.
+    public struct SetupArtifact: Swift.Sendable {
+        /// The content of the artifact.
+        /// This member is required.
+        public var content: Swift.String?
+        /// The content type of the artifact, for example text/plain.
+        public var contentType: Swift.String?
+        /// The suggested file name, for example main.bicep.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The format of the artifact.
+        /// This member is required.
+        public var format: ObservabilityAdminClientTypes.SetupFormat?
+
+        public init(
+            content: Swift.String? = nil,
+            contentType: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            format: ObservabilityAdminClientTypes.SetupFormat? = nil
+        ) {
+            self.content = content
+            self.contentType = contentType
+            self.fileName = fileName
+            self.format = format
+        }
+    }
+}
+
+public struct GetConnectorTelemetrySetupOutput: Swift.Sendable {
+    /// The setup artifacts to apply in your cloud provider.
+    /// This member is required.
+    public var artifacts: [ObservabilityAdminClientTypes.SetupArtifact]?
+    /// The format of the setup artifacts.
+    /// This member is required.
+    public var format: ObservabilityAdminClientTypes.SetupFormat?
+    /// The version of the telemetry manifest that the service generated the setup artifacts from.
+    public var manifestVersion: Swift.Int?
+    /// The cloud provider that the setup artifacts are for.
+    public var provider: ObservabilityAdminClientTypes.ConnectorProvider?
+    /// The permissions or roles in your cloud provider that you need to apply the artifacts, for example Azure Contributor and User Access Administrator.
+    public var requiredPermissionsToApply: [Swift.String]?
+
+    public init(
+        artifacts: [ObservabilityAdminClientTypes.SetupArtifact]? = nil,
+        format: ObservabilityAdminClientTypes.SetupFormat? = nil,
+        manifestVersion: Swift.Int? = nil,
+        provider: ObservabilityAdminClientTypes.ConnectorProvider? = nil,
+        requiredPermissionsToApply: [Swift.String]? = nil
+    ) {
+        self.artifacts = artifacts
+        self.format = format
+        self.manifestVersion = manifestVersion
+        self.provider = provider
+        self.requiredPermissionsToApply = requiredPermissionsToApply
     }
 }
 
@@ -2744,6 +3839,25 @@ public struct GetTelemetryPipelineInput: Swift.Sendable {
 
 extension ObservabilityAdminClientTypes {
 
+    /// A summary of source activation for an external-cloud telemetry pipeline, with the number of active sources and the total number of discovered sources.
+    public struct SourceProgress: Swift.Sendable {
+        /// The number of discovered sources that are active and sending telemetry to the pipeline.
+        public var active: Swift.Int?
+        /// The total number of sources discovered for the pipeline.
+        public var total: Swift.Int?
+
+        public init(
+            active: Swift.Int? = nil,
+            total: Swift.Int? = nil
+        ) {
+            self.active = active
+            self.total = total
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum TelemetryPipelineStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -2806,12 +3920,18 @@ extension ObservabilityAdminClientTypes {
         public var arn: Swift.String?
         /// The configuration that defines how the telemetry pipeline processes data.
         public var configuration: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration?
+        /// A summary of the pipeline configuration components.
+        public var configurationSummary: ObservabilityAdminClientTypes.ConfigurationSummary?
         /// The timestamp when the telemetry pipeline was created.
         public var createdTimeStamp: Swift.Int?
+        /// The timestamp when the most recent refresh of the telemetry pipeline started. This field is only present for external-cloud pipelines that you have refreshed.
+        public var lastRefreshTimeStamp: Swift.Int?
         /// The timestamp when the telemetry pipeline was last updated.
         public var lastUpdateTimeStamp: Swift.Int?
         /// The name of the telemetry pipeline.
         public var name: Swift.String?
+        /// The progress of source activation for the telemetry pipeline. This field is only present for external-cloud pipelines.
+        public var sourceProgress: ObservabilityAdminClientTypes.SourceProgress?
         /// The current status of the telemetry pipeline.
         public var status: ObservabilityAdminClientTypes.TelemetryPipelineStatus?
         /// Additional information about the pipeline status, including reasons for failure states.
@@ -2822,18 +3942,24 @@ extension ObservabilityAdminClientTypes {
         public init(
             arn: Swift.String? = nil,
             configuration: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration? = nil,
+            configurationSummary: ObservabilityAdminClientTypes.ConfigurationSummary? = nil,
             createdTimeStamp: Swift.Int? = nil,
+            lastRefreshTimeStamp: Swift.Int? = nil,
             lastUpdateTimeStamp: Swift.Int? = nil,
             name: Swift.String? = nil,
+            sourceProgress: ObservabilityAdminClientTypes.SourceProgress? = nil,
             status: ObservabilityAdminClientTypes.TelemetryPipelineStatus? = nil,
             statusReason: ObservabilityAdminClientTypes.TelemetryPipelineStatusReason? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.configuration = configuration
+            self.configurationSummary = configurationSummary
             self.createdTimeStamp = createdTimeStamp
+            self.lastRefreshTimeStamp = lastRefreshTimeStamp
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
             self.name = name
+            self.sourceProgress = sourceProgress
             self.status = status
             self.statusReason = statusReason
             self.tags = tags
@@ -2954,6 +4080,114 @@ public struct GetTelemetryRuleForOrganizationOutput: Swift.Sendable {
     }
 }
 
+public struct GetThirdPartyTelemetryEnrichmentInput: Swift.Sendable {
+    /// The identifier of the enrichment to return. You can specify one of the following:
+    ///
+    /// * The name of the enrichment.
+    ///
+    /// * The Amazon Resource Name (ARN) of the enrichment.
+    /// This member is required.
+    public var telemetryEnrichmentIdentifier: Swift.String?
+
+    public init(
+        telemetryEnrichmentIdentifier: Swift.String? = nil
+    ) {
+        self.telemetryEnrichmentIdentifier = telemetryEnrichmentIdentifier
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The status of a third-party telemetry enrichment.
+    public enum ThirdPartyTelemetryEnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The enrichment has a problem that prevents it from working as expected. StatusReason describes the problem.
+        case impaired
+        /// CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+        case initializing
+        /// The enrichment is active. CloudWatch adds resource metadata from the telemetry source to your telemetry.
+        case running
+        /// The enrichment is stopped. CloudWatch no longer adds resource metadata from the telemetry source to your telemetry.
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThirdPartyTelemetryEnrichmentStatus] {
+            return [
+                .impaired,
+                .initializing,
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "Impaired"
+            case .initializing: return "Initializing"
+            case .running: return "Running"
+            case .stopped: return "Stopped"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The third-party source configuration of an enrichment.
+    public enum TelemetrySourceConfigurationOutput: Swift.Sendable {
+        /// The configuration of the Microsoft Azure source.
+        case azure(ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetThirdPartyTelemetryEnrichmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the enrichment.
+    public var arn: Swift.String?
+    /// The name of the enrichment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current status of the enrichment. Valid values:
+    ///
+    /// * Initializing - CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+    ///
+    /// * Running - The enrichment is active.
+    ///
+    /// * Stopped - The enrichment is stopped.
+    ///
+    /// * Impaired - The enrichment has a problem. StatusReason describes the problem.
+    /// This member is required.
+    public var status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus?
+    /// The reason for the current status. This field is present when the status is Impaired.
+    public var statusReason: Swift.String?
+    /// The tags associated with the enrichment.
+    public var tags: [Swift.String: Swift.String]?
+    /// The source configuration of the enrichment.
+    /// This member is required.
+    public var telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.telemetrySourceConfiguration = telemetrySourceConfiguration
+    }
+}
+
 extension ObservabilityAdminClientTypes {
 
     /// Contains summary information about an S3 Table integration for listing operations.
@@ -3011,6 +4245,47 @@ public struct ListCentralizationRulesForOrganizationOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectorsInput: Swift.Sendable {
+    /// The maximum number of connectors to return in one call. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results, returned by a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListConnectorsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorsInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListConnectorsOutput: Swift.Sendable {
+    /// The connectors in the account and Region.
+    /// This member is required.
+    public var connectorSummaries: [ObservabilityAdminClientTypes.ConnectorSummary]?
+    /// The token to use in the next call to get the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorSummaries: [ObservabilityAdminClientTypes.ConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorSummaries = connectorSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension ListConnectorsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListConnectorsOutput(connectorSummaries: \(Swift.String(describing: connectorSummaries)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListDatasetIntegrationsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
@@ -3040,6 +4315,61 @@ public struct ListDatasetIntegrationsOutput: Swift.Sendable {
         self.datasetIntegrationSummaries = datasetIntegrationSummaries
         self.nextToken = nextToken
     }
+}
+
+public struct ListResourcesByConnectorInput: Swift.Sendable {
+    /// The connector to use for the query. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+    /// The maximum number of results to return in one call. For an EventHubs query, a page can contain more results than this value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results, returned by a previous call.
+    public var nextToken: Swift.String?
+    /// What to list: one cloud provider, and one type of resource in that provider.
+    /// This member is required.
+    public var selector: ObservabilityAdminClientTypes.ConnectorQuery?
+
+    public init(
+        connectorIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        selector: ObservabilityAdminClientTypes.ConnectorQuery? = nil
+    ) {
+        self.connectorIdentifier = connectorIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.selector = selector
+    }
+}
+
+extension ListResourcesByConnectorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListResourcesByConnectorInput(connectorIdentifier: \(Swift.String(describing: connectorIdentifier)), maxResults: \(Swift.String(describing: maxResults)), selector: \(Swift.String(describing: selector)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListResourcesByConnectorOutput: Swift.Sendable {
+    /// The token to use in the next call to get the next page of results. Absent when there are no more results.
+    public var nextToken: Swift.String?
+    /// The results, in the same shape as the Selector that you specified.
+    /// This member is required.
+    public var results: ObservabilityAdminClientTypes.ConnectorQueryResults?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: ObservabilityAdminClientTypes.ConnectorQueryResults? = nil
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+extension ListResourcesByConnectorOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListResourcesByConnectorOutput(results: \(Swift.String(describing: results)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
 extension ObservabilityAdminClientTypes {
@@ -3131,7 +4461,7 @@ extension ObservabilityAdminClientTypes {
         public var resourceTags: [Swift.String: Swift.String]?
         /// The type of resource, for example Amazon Web Services::EC2::Instance, or Amazon Web Services::EKS::Cluster, etc.
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
-        /// The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
+        /// The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; Insights: NotApplicable; }.
         public var telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]?
         /// Specifies the type of telemetry source for a resource, such as EKS cluster logs.
         public var telemetrySourceType: ObservabilityAdminClientTypes.TelemetrySourceType?
@@ -3391,7 +4721,7 @@ extension ObservabilityAdminClientTypes {
         public var ruleName: Swift.String?
         /// The types of telemetry sources configured for this rule, such as VPC Flow Logs or EKS audit logs. TelemetrySourceTypes must be correlated with the specific resource type.
         public var telemetrySourceTypes: [ObservabilityAdminClientTypes.TelemetrySourceType]?
-        /// The type of telemetry (Logs, Metrics, or Traces) the rule configures.
+        /// The type of telemetry (Logs, Metrics, Traces, or Insights) the rule configures.
         public var telemetryType: ObservabilityAdminClientTypes.TelemetryType?
 
         public init(
@@ -3471,6 +4801,157 @@ public struct ListTelemetryRulesForOrganizationOutput: Swift.Sendable {
     }
 }
 
+extension ObservabilityAdminClientTypes {
+
+    /// A third-party telemetry source that can provide resource metadata.
+    public enum ThirdPartyTelemetrySource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// AZURE - Microsoft Azure.
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThirdPartyTelemetrySource] {
+            return [
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "Azure"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListThirdPartyTelemetryEnrichmentsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. If you omit this parameter, the operation returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. A previous call generates this token. If you omit this parameter, the operation returns the first page of results.
+    public var nextToken: Swift.String?
+    /// Returns only the enrichments that have this status. Valid values:
+    ///
+    /// * Initializing - CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+    ///
+    /// * Running - The enrichment is active.
+    ///
+    /// * Stopped - The enrichment is stopped.
+    ///
+    /// * Impaired - The enrichment has a problem. StatusReason describes the problem.
+    public var status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus?
+    /// Returns only the enrichments for this third-party telemetry source.
+    public var telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus? = nil,
+        telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.telemetrySource = telemetrySource
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Summary information about a third-party telemetry enrichment, as returned by ListThirdPartyTelemetryEnrichments.
+    public struct ThirdPartyTelemetryEnrichmentSummary: Swift.Sendable {
+        /// The name of the enrichment.
+        public var name: Swift.String?
+        /// The current status of the enrichment. Valid values:
+        ///
+        /// * Initializing - CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+        ///
+        /// * Running - The enrichment is active.
+        ///
+        /// * Stopped - The enrichment is stopped.
+        ///
+        /// * Impaired - The enrichment has a problem. StatusReason describes the problem.
+        public var status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus?
+        /// The third-party telemetry source of the enrichment.
+        public var telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource?
+
+        public init(
+            name: Swift.String? = nil,
+            status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus? = nil,
+            telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource? = nil
+        ) {
+            self.name = name
+            self.status = status
+            self.telemetrySource = telemetrySource
+        }
+    }
+}
+
+public struct ListThirdPartyTelemetryEnrichmentsOutput: Swift.Sendable {
+    /// A token to resume pagination of results.
+    public var nextToken: Swift.String?
+    /// The enrichments in your account and Region.
+    public var telemetryEnrichments: [ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        telemetryEnrichments: [ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.telemetryEnrichments = telemetryEnrichments
+    }
+}
+
+public struct PutConnectorTelemetryManifestInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the operation completes no more than one time. If you use an Amazon Web Services SDK, the SDK generates this value and reuses it on retries. If this token matches a previous request with the same telemetry manifest, the service returns the stored version without an error. If you use the same token with a different telemetry manifest, the service returns a ValidationException. This operation is idempotent when you use the same token and parameters.
+    public var clientToken: Swift.String?
+    /// The connector. Specify one of the following:
+    ///
+    /// * The Amazon Resource Name (ARN) of the connector
+    ///
+    /// * The ID of the connector
+    /// This member is required.
+    public var connectorIdentifier: Swift.String?
+    /// The version of the telemetry manifest that you expect to replace, as returned by GetConnectorTelemetryManifest. Omit this value when you create the first telemetry manifest. If the value doesn't match the current version, the request fails with a ConflictException.
+    public var expectedVersion: Swift.Int?
+    /// The telemetry manifest.
+    /// This member is required.
+    public var manifest: ObservabilityAdminClientTypes.TelemetryManifest?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorIdentifier: Swift.String? = nil,
+        expectedVersion: Swift.Int? = nil,
+        manifest: ObservabilityAdminClientTypes.TelemetryManifest? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorIdentifier = connectorIdentifier
+        self.expectedVersion = expectedVersion
+        self.manifest = manifest
+    }
+}
+
+extension PutConnectorTelemetryManifestInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutConnectorTelemetryManifestInput(connectorIdentifier: \(Swift.String(describing: connectorIdentifier)), expectedVersion: \(Swift.String(describing: expectedVersion)), manifest: \(Swift.String(describing: manifest)), clientToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutConnectorTelemetryManifestOutput: Swift.Sendable {
+    /// The version of the telemetry manifest after this update.
+    /// This member is required.
+    public var version: Swift.Int?
+
+    public init(
+        version: Swift.Int? = nil
+    ) {
+        self.version = version
+    }
+}
+
 public struct StartTelemetryEnrichmentOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Resource Explorer managed view created for resource tags for telemetry.
     public var awsResourceExplorerManagedViewArn: Swift.String?
@@ -3516,6 +4997,80 @@ public struct StartTelemetryEvaluationForOrganizationInput: Swift.Sendable {
     }
 }
 
+extension ObservabilityAdminClientTypes {
+
+    /// The configuration of the third-party telemetry source that a new enrichment collects resource metadata from. Specify exactly one member.
+    public enum TelemetrySourceConfigurationInput: Swift.Sendable {
+        /// The configuration for a Microsoft Azure source.
+        case azure(ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartThirdPartyTelemetryEnrichmentInput: Swift.Sendable {
+    /// A name for the enrichment. The name must be unique in your account and Region. You can use the name instead of the ARN to identify the enrichment in other operations.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to associate with the enrichment resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The third-party telemetry source to collect resource metadata from. Specify exactly one telemetry source.
+    /// This member is required.
+    public var telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationInput?
+
+    public init(
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationInput? = nil
+    ) {
+        self.name = name
+        self.tags = tags
+        self.telemetrySourceConfiguration = telemetrySourceConfiguration
+    }
+}
+
+public struct StartThirdPartyTelemetryEnrichmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the enrichment.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the enrichment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the enrichment after the start operation. Valid values:
+    ///
+    /// * Initializing - CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+    ///
+    /// * Running - The enrichment is active.
+    ///
+    /// * Stopped - The enrichment is stopped.
+    ///
+    /// * Impaired - The enrichment has a problem. StatusReason describes the problem.
+    /// This member is required.
+    public var status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus?
+    /// The reason for the current status. This field is present when the status is Impaired.
+    public var statusReason: Swift.String?
+    /// The tags associated with the enrichment.
+    public var tags: [Swift.String: Swift.String]?
+    /// The source configuration of the enrichment.
+    /// This member is required.
+    public var telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        telemetrySourceConfiguration: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.telemetrySourceConfiguration = telemetrySourceConfiguration
+    }
+}
+
 public struct StopTelemetryEnrichmentOutput: Swift.Sendable {
     /// The status of the resource tags for telemetry feature after the stop operation (Running, Stopped, or Impaired).
     public var status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus?
@@ -3524,6 +5079,56 @@ public struct StopTelemetryEnrichmentOutput: Swift.Sendable {
         status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus? = nil
     ) {
         self.status = status
+    }
+}
+
+public struct StopThirdPartyTelemetryEnrichmentInput: Swift.Sendable {
+    /// The identifier of the enrichment to stop. You can specify one of the following:
+    ///
+    /// * The name of the enrichment.
+    ///
+    /// * The Amazon Resource Name (ARN) of the enrichment.
+    /// This member is required.
+    public var telemetryEnrichmentIdentifier: Swift.String?
+
+    public init(
+        telemetryEnrichmentIdentifier: Swift.String? = nil
+    ) {
+        self.telemetryEnrichmentIdentifier = telemetryEnrichmentIdentifier
+    }
+}
+
+public struct StopThirdPartyTelemetryEnrichmentOutput: Swift.Sendable {
+    /// The name of the enrichment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the enrichment after the stop operation. Valid values:
+    ///
+    /// * Initializing - CloudWatch is setting up the enrichment. Some telemetry can be enriched before setup completes.
+    ///
+    /// * Running - The enrichment is active.
+    ///
+    /// * Stopped - The enrichment is stopped.
+    ///
+    /// * Impaired - The enrichment has a problem. StatusReason describes the problem.
+    /// This member is required.
+    public var status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus?
+    /// The reason for the current status. This field is present when the status is Impaired.
+    public var statusReason: Swift.String?
+    /// The third-party telemetry source of the enrichment.
+    /// This member is required.
+    public var telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource?
+
+    public init(
+        name: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentStatus? = nil,
+        statusReason: Swift.String? = nil,
+        telemetrySource: ObservabilityAdminClientTypes.ThirdPartyTelemetrySource? = nil
+    ) {
+        self.name = name
+        self.status = status
+        self.statusReason = statusReason
+        self.telemetrySource = telemetrySource
     }
 }
 
@@ -3542,6 +5147,23 @@ public struct TagResourceInput: Swift.Sendable {
         self.resourceARN = resourceARN
         self.tags = tags
     }
+}
+
+public struct StartTelemetryPipelineRefreshInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the telemetry pipeline to refresh.
+    /// This member is required.
+    public var pipelineIdentifier: Swift.String?
+
+    public init(
+        pipelineIdentifier: Swift.String? = nil
+    ) {
+        self.pipelineIdentifier = pipelineIdentifier
+    }
+}
+
+public struct StartTelemetryPipelineRefreshOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateTelemetryPipelineInput: Swift.Sendable {
@@ -3886,6 +5508,13 @@ extension CreateCentralizationRuleForOrganizationInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func urlPathProvider(_ value: CreateConnectorInput) -> Swift.String? {
+        return "/CreateConnector"
+    }
+}
+
 extension CreateDatasetIntegrationInput {
 
     static func urlPathProvider(_ value: CreateDatasetIntegrationInput) -> Swift.String? {
@@ -3928,6 +5557,13 @@ extension DeleteCentralizationRuleForOrganizationInput {
     }
 }
 
+extension DeleteConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorInput) -> Swift.String? {
+        return "/DeleteConnector"
+    }
+}
+
 extension DeleteDatasetIntegrationInput {
 
     static func urlPathProvider(_ value: DeleteDatasetIntegrationInput) -> Swift.String? {
@@ -3967,6 +5603,27 @@ extension GetCentralizationRuleForOrganizationInput {
 
     static func urlPathProvider(_ value: GetCentralizationRuleForOrganizationInput) -> Swift.String? {
         return "/GetCentralizationRuleForOrganization"
+    }
+}
+
+extension GetConnectorInput {
+
+    static func urlPathProvider(_ value: GetConnectorInput) -> Swift.String? {
+        return "/GetConnector"
+    }
+}
+
+extension GetConnectorTelemetryManifestInput {
+
+    static func urlPathProvider(_ value: GetConnectorTelemetryManifestInput) -> Swift.String? {
+        return "/GetConnectorTelemetryManifest"
+    }
+}
+
+extension GetConnectorTelemetrySetupInput {
+
+    static func urlPathProvider(_ value: GetConnectorTelemetrySetupInput) -> Swift.String? {
+        return "/GetConnectorTelemetrySetup"
     }
 }
 
@@ -4026,6 +5683,13 @@ extension GetTelemetryRuleForOrganizationInput {
     }
 }
 
+extension GetThirdPartyTelemetryEnrichmentInput {
+
+    static func urlPathProvider(_ value: GetThirdPartyTelemetryEnrichmentInput) -> Swift.String? {
+        return "/GetThirdPartyTelemetryEnrichment"
+    }
+}
+
 extension ListCentralizationRulesForOrganizationInput {
 
     static func urlPathProvider(_ value: ListCentralizationRulesForOrganizationInput) -> Swift.String? {
@@ -4033,10 +5697,24 @@ extension ListCentralizationRulesForOrganizationInput {
     }
 }
 
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
+        return "/ListConnectors"
+    }
+}
+
 extension ListDatasetIntegrationsInput {
 
     static func urlPathProvider(_ value: ListDatasetIntegrationsInput) -> Swift.String? {
         return "/ListDatasetIntegrations"
+    }
+}
+
+extension ListResourcesByConnectorInput {
+
+    static func urlPathProvider(_ value: ListResourcesByConnectorInput) -> Swift.String? {
+        return "/ListResourcesByConnector"
     }
 }
 
@@ -4089,6 +5767,20 @@ extension ListTelemetryRulesForOrganizationInput {
     }
 }
 
+extension ListThirdPartyTelemetryEnrichmentsInput {
+
+    static func urlPathProvider(_ value: ListThirdPartyTelemetryEnrichmentsInput) -> Swift.String? {
+        return "/ListThirdPartyTelemetryEnrichments"
+    }
+}
+
+extension PutConnectorTelemetryManifestInput {
+
+    static func urlPathProvider(_ value: PutConnectorTelemetryManifestInput) -> Swift.String? {
+        return "/PutConnectorTelemetryManifest"
+    }
+}
+
 extension StartTelemetryEnrichmentInput {
 
     static func urlPathProvider(_ value: StartTelemetryEnrichmentInput) -> Swift.String? {
@@ -4110,6 +5802,20 @@ extension StartTelemetryEvaluationForOrganizationInput {
     }
 }
 
+extension StartTelemetryPipelineRefreshInput {
+
+    static func urlPathProvider(_ value: StartTelemetryPipelineRefreshInput) -> Swift.String? {
+        return "/StartTelemetryPipelineRefresh"
+    }
+}
+
+extension StartThirdPartyTelemetryEnrichmentInput {
+
+    static func urlPathProvider(_ value: StartThirdPartyTelemetryEnrichmentInput) -> Swift.String? {
+        return "/StartThirdPartyTelemetryEnrichment"
+    }
+}
+
 extension StopTelemetryEnrichmentInput {
 
     static func urlPathProvider(_ value: StopTelemetryEnrichmentInput) -> Swift.String? {
@@ -4128,6 +5834,13 @@ extension StopTelemetryEvaluationForOrganizationInput {
 
     static func urlPathProvider(_ value: StopTelemetryEvaluationForOrganizationInput) -> Swift.String? {
         return "/StopTelemetryEvaluationForOrganization"
+    }
+}
+
+extension StopThirdPartyTelemetryEnrichmentInput {
+
+    static func urlPathProvider(_ value: StopThirdPartyTelemetryEnrichmentInput) -> Swift.String? {
+        return "/StopThirdPartyTelemetryEnrichment"
     }
 }
 
@@ -4204,6 +5917,18 @@ extension CreateCentralizationRuleForOrganizationInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func write(value: CreateConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ConnectorConfiguration"].write(value.connectorConfiguration, with: ObservabilityAdminClientTypes.ConnectorConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateDatasetIntegrationInput {
 
     static func write(value: CreateDatasetIntegrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4261,6 +5986,14 @@ extension DeleteCentralizationRuleForOrganizationInput {
     }
 }
 
+extension DeleteConnectorInput {
+
+    static func write(value: DeleteConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+    }
+}
+
 extension DeleteDatasetIntegrationInput {
 
     static func write(value: DeleteDatasetIntegrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4309,6 +6042,31 @@ extension GetCentralizationRuleForOrganizationInput {
     }
 }
 
+extension GetConnectorInput {
+
+    static func write(value: GetConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+    }
+}
+
+extension GetConnectorTelemetryManifestInput {
+
+    static func write(value: GetConnectorTelemetryManifestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+    }
+}
+
+extension GetConnectorTelemetrySetupInput {
+
+    static func write(value: GetConnectorTelemetrySetupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+        try writer["Format"].write(value.format)
+    }
+}
+
 extension GetDatasetIntegrationInput {
 
     static func write(value: GetDatasetIntegrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4349,6 +6107,14 @@ extension GetTelemetryRuleForOrganizationInput {
     }
 }
 
+extension GetThirdPartyTelemetryEnrichmentInput {
+
+    static func write(value: GetThirdPartyTelemetryEnrichmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TelemetryEnrichmentIdentifier"].write(value.telemetryEnrichmentIdentifier)
+    }
+}
+
 extension ListCentralizationRulesForOrganizationInput {
 
     static func write(value: ListCentralizationRulesForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4360,12 +6126,32 @@ extension ListCentralizationRulesForOrganizationInput {
     }
 }
 
+extension ListConnectorsInput {
+
+    static func write(value: ListConnectorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListDatasetIntegrationsInput {
 
     static func write(value: ListDatasetIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListResourcesByConnectorInput {
+
+    static func write(value: ListResourcesByConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Selector"].write(value.selector, with: ObservabilityAdminClientTypes.ConnectorQuery.write(value:to:))
     }
 }
 
@@ -4444,6 +6230,28 @@ extension ListTelemetryRulesForOrganizationInput {
     }
 }
 
+extension ListThirdPartyTelemetryEnrichmentsInput {
+
+    static func write(value: ListThirdPartyTelemetryEnrichmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
+        try writer["TelemetrySource"].write(value.telemetrySource)
+    }
+}
+
+extension PutConnectorTelemetryManifestInput {
+
+    static func write(value: PutConnectorTelemetryManifestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ConnectorIdentifier"].write(value.connectorIdentifier)
+        try writer["ExpectedVersion"].write(value.expectedVersion)
+        try writer["Manifest"].write(value.manifest, with: ObservabilityAdminClientTypes.TelemetryManifest.write(value:to:))
+    }
+}
+
 extension StartTelemetryEvaluationInput {
 
     static func write(value: StartTelemetryEvaluationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4459,6 +6267,32 @@ extension StartTelemetryEvaluationForOrganizationInput {
         guard let value else { return }
         try writer["AllRegions"].write(value.allRegions)
         try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartTelemetryPipelineRefreshInput {
+
+    static func write(value: StartTelemetryPipelineRefreshInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PipelineIdentifier"].write(value.pipelineIdentifier)
+    }
+}
+
+extension StartThirdPartyTelemetryEnrichmentInput {
+
+    static func write(value: StartThirdPartyTelemetryEnrichmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TelemetrySourceConfiguration"].write(value.telemetrySourceConfiguration, with: ObservabilityAdminClientTypes.TelemetrySourceConfigurationInput.write(value:to:))
+    }
+}
+
+extension StopThirdPartyTelemetryEnrichmentInput {
+
+    static func write(value: StopThirdPartyTelemetryEnrichmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TelemetryEnrichmentIdentifier"].write(value.telemetryEnrichmentIdentifier)
     }
 }
 
@@ -4555,6 +6389,18 @@ extension CreateCentralizationRuleForOrganizationOutput {
     }
 }
 
+extension CreateConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectorOutput()
+        value.connector = try reader["Connector"].readIfPresent(with: ObservabilityAdminClientTypes.Connector.read(from:))
+        return value
+    }
+}
+
 extension CreateDatasetIntegrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDatasetIntegrationOutput {
@@ -4625,6 +6471,13 @@ extension DeleteCentralizationRuleForOrganizationOutput {
     }
 }
 
+extension DeleteConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorOutput {
+        return DeleteConnectorOutput()
+    }
+}
+
 extension DeleteDatasetIntegrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDatasetIntegrationOutput {
@@ -4679,6 +6532,48 @@ extension GetCentralizationRuleForOrganizationOutput {
         value.ruleName = try reader["RuleName"].readIfPresent()
         value.tagPropagationFailureReason = try reader["TagPropagationFailureReason"].readIfPresent()
         value.tagPropagationStatus = try reader["TagPropagationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GetConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorOutput()
+        value.connector = try reader["Connector"].readIfPresent(with: ObservabilityAdminClientTypes.Connector.read(from:))
+        return value
+    }
+}
+
+extension GetConnectorTelemetryManifestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorTelemetryManifestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorTelemetryManifestOutput()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.manifest = try reader["Manifest"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryManifest.read(from:))
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GetConnectorTelemetrySetupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorTelemetrySetupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorTelemetrySetupOutput()
+        value.artifacts = try reader["Artifacts"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.SetupArtifact.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.manifestVersion = try reader["ManifestVersion"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
+        value.requiredPermissionsToApply = try reader["RequiredPermissionsToApply"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4808,6 +6703,23 @@ extension GetTelemetryRuleForOrganizationOutput {
     }
 }
 
+extension GetThirdPartyTelemetryEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetThirdPartyTelemetryEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetThirdPartyTelemetryEnrichmentOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.telemetrySourceConfiguration = try reader["TelemetrySourceConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput.read(from:))
+        return value
+    }
+}
+
 extension ListCentralizationRulesForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCentralizationRulesForOrganizationOutput {
@@ -4816,6 +6728,19 @@ extension ListCentralizationRulesForOrganizationOutput {
         let reader = responseReader
         var value = ListCentralizationRulesForOrganizationOutput()
         value.centralizationRuleSummaries = try reader["CentralizationRuleSummaries"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.CentralizationRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorsOutput()
+        value.connectorSummaries = try reader["ConnectorSummaries"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.ConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -4830,6 +6755,19 @@ extension ListDatasetIntegrationsOutput {
         var value = ListDatasetIntegrationsOutput()
         value.datasetIntegrationSummaries = try reader["DatasetIntegrationSummaries"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.DatasetIntegrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListResourcesByConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourcesByConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourcesByConnectorOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.results = try reader["Results"].readIfPresent(with: ObservabilityAdminClientTypes.ConnectorQueryResults.read(from:))
         return value
     }
 }
@@ -4924,6 +6862,31 @@ extension ListTelemetryRulesForOrganizationOutput {
     }
 }
 
+extension ListThirdPartyTelemetryEnrichmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThirdPartyTelemetryEnrichmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThirdPartyTelemetryEnrichmentsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.telemetryEnrichments = try reader["TelemetryEnrichments"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutConnectorTelemetryManifestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutConnectorTelemetryManifestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutConnectorTelemetryManifestOutput()
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension StartTelemetryEnrichmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTelemetryEnrichmentOutput {
@@ -4951,6 +6914,30 @@ extension StartTelemetryEvaluationForOrganizationOutput {
     }
 }
 
+extension StartTelemetryPipelineRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTelemetryPipelineRefreshOutput {
+        return StartTelemetryPipelineRefreshOutput()
+    }
+}
+
+extension StartThirdPartyTelemetryEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartThirdPartyTelemetryEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartThirdPartyTelemetryEnrichmentOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.telemetrySourceConfiguration = try reader["TelemetrySourceConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput.read(from:))
+        return value
+    }
+}
+
 extension StopTelemetryEnrichmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopTelemetryEnrichmentOutput {
@@ -4974,6 +6961,21 @@ extension StopTelemetryEvaluationForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopTelemetryEvaluationForOrganizationOutput {
         return StopTelemetryEvaluationForOrganizationOutput()
+    }
+}
+
+extension StopThirdPartyTelemetryEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopThirdPartyTelemetryEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopThirdPartyTelemetryEnrichmentOutput()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.telemetrySource = try reader["TelemetrySource"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -5074,6 +7076,25 @@ extension ValidateTelemetryPipelineConfigurationOutput {
 }
 
 enum CreateCentralizationRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConnectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5204,6 +7225,25 @@ enum DeleteCentralizationRuleForOrganizationOutputError {
     }
 }
 
+enum DeleteConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDatasetIntegrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5297,6 +7337,60 @@ enum DeleteTelemetryRuleForOrganizationOutputError {
 }
 
 enum GetCentralizationRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorTelemetryManifestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorTelemetrySetupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5454,7 +7548,42 @@ enum GetTelemetryRuleForOrganizationOutputError {
     }
 }
 
+enum GetThirdPartyTelemetryEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCentralizationRulesForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5481,6 +7610,24 @@ enum ListDatasetIntegrationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourcesByConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5608,6 +7755,42 @@ enum ListTelemetryRulesForOrganizationOutputError {
     }
 }
 
+enum ListThirdPartyTelemetryEnrichmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutConnectorTelemetryManifestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartTelemetryEnrichmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5659,6 +7842,44 @@ enum StartTelemetryEvaluationForOrganizationOutputError {
     }
 }
 
+enum StartTelemetryPipelineRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartThirdPartyTelemetryEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopTelemetryEnrichmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5703,6 +7924,25 @@ enum StopTelemetryEvaluationForOrganizationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopThirdPartyTelemetryEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6062,6 +8302,414 @@ extension ObservabilityAdminClientTypes.AdvancedFieldSelector {
     }
 }
 
+extension ObservabilityAdminClientTypes.AllSubscriptions {
+
+    static func write(value: ObservabilityAdminClientTypes.AllSubscriptions?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AllSubscriptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ObservabilityAdminClientTypes.AllSubscriptions()
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionDays"].write(value.retentionDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs()
+        value.retentionDays = try reader["RetentionDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureConnectorConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientIdentifier"].write(value.clientIdentifier)
+        try writer["TenantIdentifier"].write(value.tenantIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureConnectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureConnectorConfiguration()
+        value.tenantIdentifier = try reader["TenantIdentifier"].readIfPresent() ?? ""
+        value.clientIdentifier = try reader["ClientIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureConnectorQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureConnectorQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .eventhubs(eventhubs):
+                try writer["EventHubs"].write(eventhubs, with: ObservabilityAdminClientTypes.AzureEventHubsQuery.write(value:to:))
+            case let .managementgroups(managementgroups):
+                try writer["ManagementGroups"].write(managementgroups, with: ObservabilityAdminClientTypes.AzureManagementGroupsQuery.write(value:to:))
+            case let .regions(regions):
+                try writer["Regions"].write(regions, with: ObservabilityAdminClientTypes.AzureRegionsQuery.write(value:to:))
+            case let .resourceids(resourceids):
+                try writer["ResourceIds"].write(resourceids, with: ObservabilityAdminClientTypes.AzureResourceIdsQuery.write(value:to:))
+            case let .resourcetypes(resourcetypes):
+                try writer["ResourceTypes"].write(resourcetypes, with: ObservabilityAdminClientTypes.AzureResourceTypesQuery.write(value:to:))
+            case let .subscriptions(subscriptions):
+                try writer["Subscriptions"].write(subscriptions, with: ObservabilityAdminClientTypes.AzureSubscriptionsQuery.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureConnectorQueryResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureConnectorQueryResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ManagementGroups":
+                return .managementgroups(try reader["ManagementGroups"].readList(memberReadingClosure: ObservabilityAdminClientTypes.AzureManagementGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "Subscriptions":
+                return .subscriptions(try reader["Subscriptions"].readList(memberReadingClosure: ObservabilityAdminClientTypes.AzureSubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "ResourceTypes":
+                return .resourcetypes(try reader["ResourceTypes"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "Regions":
+                return .regions(try reader["Regions"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "ResourceIds":
+                return .resourceids(try reader["ResourceIds"].readList(memberReadingClosure: ObservabilityAdminClientTypes.AzureResourceIdentifierSummary.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "EventHubs":
+                return .eventhubs(try reader["EventHubs"].readList(memberReadingClosure: ObservabilityAdminClientTypes.AzureEventHubSummary.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StorageAccounts"].writeList(value.storageAccounts, memberWritingClosure: ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs()
+        value.storageAccounts = try reader["StorageAccounts"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureEventHubConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureEventHubConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionCount"].write(value.partitionCount)
+        try writer["Tier"].write(value.tier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureEventHubConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureEventHubConfiguration()
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.partitionCount = try reader["PartitionCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureEventHubsQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureEventHubsQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NamespaceName"].write(value.namespaceName)
+        try writer["Region"].write(value.region)
+        try writer["Scope"].write(value.scope, with: ObservabilityAdminClientTypes.AzureQueryScope.write(value:to:))
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureEventHubSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureEventHubSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureEventHubSummary()
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.eventHubName = try reader["EventHubName"].readIfPresent() ?? ""
+        value.namespaceName = try reader["NamespaceName"].readIfPresent() ?? ""
+        value.fullyQualifiedNamespace = try reader["FullyQualifiedNamespace"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent()
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsmanaged(awsmanaged):
+                try writer["AwsManaged"].write(awsmanaged, with: ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs.write(value:to:))
+            case let .customermanaged(customermanaged):
+                try writer["CustomerManaged"].write(customermanaged, with: ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CustomerManaged":
+                return .customermanaged(try reader["CustomerManaged"].read(with: ObservabilityAdminClientTypes.AzureCustomerManagedFlowLogs.read(from:)))
+            case "AwsManaged":
+                return .awsmanaged(try reader["AwsManaged"].read(with: ObservabilityAdminClientTypes.AzureAwsManagedFlowLogs.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+        try writer["StorageAccountIds"].writeList(value.storageAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureFlowLogStorageAccountScope()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.storageAccountIds = try reader["StorageAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureInfrastructure {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureInfrastructure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventHubs"].writeList(value.eventHubs, memberWritingClosure: ObservabilityAdminClientTypes.AzureEventHubConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FlowLogs"].write(value.flowLogs, with: ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure.write(value:to:))
+        try writer["SubscriptionId"].write(value.subscriptionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureInfrastructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureInfrastructure()
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent()
+        value.eventHubs = try reader["EventHubs"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.AzureEventHubConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowLogs = try reader["FlowLogs"].readIfPresent(with: ObservabilityAdminClientTypes.AzureFlowLogsInfrastructure.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureManagementGroupsQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureManagementGroupsQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParentManagementGroupId"].write(value.parentManagementGroupId)
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureManagementGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureManagementGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureManagementGroupSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureQueryScope {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureQueryScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManagementGroupId"].write(value.managementGroupId)
+        try writer["SubscriptionIds"].writeList(value.subscriptionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureRegionsQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureRegionsQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope, with: ObservabilityAdminClientTypes.AzureQueryScope.write(value:to:))
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureResourceIdentifierSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureResourceIdentifierSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureResourceIdentifierSummary()
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureResourceIdScope {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureResourceIdScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureResourceIdScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureResourceIdScope()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceIds = try reader["ResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureResourceIdsQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureResourceIdsQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Scope"].write(value.scope, with: ObservabilityAdminClientTypes.AzureQueryScope.write(value:to:))
+        try writer["TagFilters"].writeList(value.tagFilters, memberWritingClosure: ObservabilityAdminClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureResourceTypesQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureResourceTypesQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope, with: ObservabilityAdminClientTypes.AzureQueryScope.write(value:to:))
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureScope {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: ObservabilityAdminClientTypes.AzureResourceIdScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subscriptions"].write(value.subscriptions, with: ObservabilityAdminClientTypes.AzureSubscriptionScope.write(value:to:))
+        try writer["TagFilters"].writeList(value.tagFilters, memberWritingClosure: ObservabilityAdminClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureScope()
+        value.subscriptions = try reader["Subscriptions"].readIfPresent(with: ObservabilityAdminClientTypes.AzureSubscriptionScope.read(from:))
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagFilters = try reader["TagFilters"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.AzureResourceIdScope.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureScopeItem {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureScopeItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope, with: ObservabilityAdminClientTypes.AzureScope.write(value:to:))
+        try writer["TelemetryTypes"].writeList(value.telemetryTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.AzureTelemetryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureScopeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureScopeItem()
+        value.telemetryTypes = try reader["TelemetryTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.AzureTelemetryType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scope = try reader["Scope"].readIfPresent(with: ObservabilityAdminClientTypes.AzureScope.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureSubscriptionScope {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureSubscriptionScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .all(all):
+                try writer["All"].write(all, with: ObservabilityAdminClientTypes.AllSubscriptions.write(value:to:))
+            case let .ids(ids):
+                try writer["Ids"].writeList(ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureSubscriptionScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "All":
+                return .all(try reader["All"].read(with: ObservabilityAdminClientTypes.AllSubscriptions.read(from:)))
+            case "Ids":
+                return .ids(try reader["Ids"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureSubscriptionsQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureSubscriptionsQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManagementGroupId"].write(value.managementGroupId)
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureSubscriptionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureSubscriptionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureSubscriptionSummary()
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.managementGroupId = try reader["ManagementGroupId"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationInput {
+
+    static func write(value: ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsConfigConnectorArn"].write(value.awsConfigConnectorArn)
+    }
+}
+
+extension ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationOutput()
+        value.awsConfigConnectorArn = try reader["AwsConfigConnectorArn"].readIfPresent()
+        value.serviceLinkedRecorderArn = try reader["ServiceLinkedRecorderArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.CentralizationRule {
 
     static func write(value: ObservabilityAdminClientTypes.CentralizationRule?, to writer: SmithyJSON.Writer) throws {
@@ -6086,6 +8734,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
         try writer["Account"].write(value.account)
         try writer["DestinationLogsConfiguration"].write(value.destinationLogsConfiguration, with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.write(value:to:))
         try writer["DestinationMetricsConfiguration"].write(value.destinationMetricsConfiguration, with: ObservabilityAdminClientTypes.DestinationMetricsConfiguration.write(value:to:))
+        try writer["DestinationProfilesConfiguration"].write(value.destinationProfilesConfiguration, with: ObservabilityAdminClientTypes.DestinationProfilesConfiguration.write(value:to:))
         try writer["Region"].write(value.region)
     }
 
@@ -6096,6 +8745,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
         value.account = try reader["Account"].readIfPresent()
         value.destinationLogsConfiguration = try reader["DestinationLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.read(from:))
         value.destinationMetricsConfiguration = try reader["DestinationMetricsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationMetricsConfiguration.read(from:))
+        value.destinationProfilesConfiguration = try reader["DestinationProfilesConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationProfilesConfiguration.read(from:))
         return value
     }
 }
@@ -6109,6 +8759,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSource {
         try writer["SourceContextGraphConfiguration"].write(value.sourceContextGraphConfiguration, with: ObservabilityAdminClientTypes.SourceContextGraphConfiguration.write(value:to:))
         try writer["SourceLogsConfiguration"].write(value.sourceLogsConfiguration, with: ObservabilityAdminClientTypes.SourceLogsConfiguration.write(value:to:))
         try writer["SourceMetricsConfiguration"].write(value.sourceMetricsConfiguration, with: ObservabilityAdminClientTypes.SourceMetricsConfiguration.write(value:to:))
+        try writer["SourceProfilesConfiguration"].write(value.sourceProfilesConfiguration, with: ObservabilityAdminClientTypes.SourceProfilesConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleSource {
@@ -6118,6 +8769,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSource {
         value.scope = try reader["Scope"].readIfPresent()
         value.sourceLogsConfiguration = try reader["SourceLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceLogsConfiguration.read(from:))
         value.sourceMetricsConfiguration = try reader["SourceMetricsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceMetricsConfiguration.read(from:))
+        value.sourceProfilesConfiguration = try reader["SourceProfilesConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceProfilesConfiguration.read(from:))
         value.sourceContextGraphConfiguration = try reader["SourceContextGraphConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceContextGraphConfiguration.read(from:))
         return value
     }
@@ -6191,6 +8843,85 @@ extension ObservabilityAdminClientTypes.ConfigurationSummary {
     }
 }
 
+extension ObservabilityAdminClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Connector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.Connector()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.provider = try reader["Provider"].readIfPresent() ?? .sdkUnknown("")
+        value.connectorConfiguration = try reader["ConnectorConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.ConnectorConfiguration.read(from:))
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.ConnectorConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.ConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: ObservabilityAdminClientTypes.AzureConnectorConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ConnectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: ObservabilityAdminClientTypes.AzureConnectorConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.ConnectorQuery {
+
+    static func write(value: ObservabilityAdminClientTypes.ConnectorQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: ObservabilityAdminClientTypes.AzureConnectorQuery.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.ConnectorQueryResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ConnectorQueryResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: ObservabilityAdminClientTypes.AzureConnectorQueryResults.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.ConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.ConnectorSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.provider = try reader["Provider"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.DatasetIntegrationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DatasetIntegrationSummary {
@@ -6249,6 +8980,21 @@ extension ObservabilityAdminClientTypes.DestinationMetricsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ObservabilityAdminClientTypes.DestinationMetricsConfiguration()
         value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.MetricsBackupConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.DestinationProfilesConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.DestinationProfilesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.ProfilesBackupConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DestinationProfilesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.DestinationProfilesConfiguration()
+        value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.ProfilesBackupConfiguration.read(from:))
         return value
     }
 }
@@ -6489,6 +9235,21 @@ extension ObservabilityAdminClientTypes.PipelineOutputError {
     }
 }
 
+extension ObservabilityAdminClientTypes.ProfilesBackupConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.ProfilesBackupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ProfilesBackupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.ProfilesBackupConfiguration()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.Record {
 
     static func write(value: ObservabilityAdminClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
@@ -6515,6 +9276,19 @@ extension ObservabilityAdminClientTypes.RegionStatus {
         value.status = try reader["Status"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.SetupArtifact {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SetupArtifact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SetupArtifact()
+        value.fileName = try reader["FileName"].readIfPresent() ?? ""
+        value.content = try reader["Content"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.contentType = try reader["ContentType"].readIfPresent()
         return value
     }
 }
@@ -6591,6 +9365,49 @@ extension ObservabilityAdminClientTypes.SourceMetricsConfiguration {
     }
 }
 
+extension ObservabilityAdminClientTypes.SourceProfilesConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.SourceProfilesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfilesSelectionCriteria"].write(value.profilesSelectionCriteria)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceProfilesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SourceProfilesConfiguration()
+        value.profilesSelectionCriteria = try reader["ProfilesSelectionCriteria"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.SourceProgress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SourceProgress()
+        value.active = try reader["Active"].readIfPresent()
+        value.total = try reader["Total"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TagFilter {
+
+    static func write(value: ObservabilityAdminClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TagFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TagFilter()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.TagPropagationConfiguration {
 
     static func write(value: ObservabilityAdminClientTypes.TagPropagationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -6657,6 +9474,71 @@ extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
     }
 }
 
+extension ObservabilityAdminClientTypes.TelemetryManifest {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Infrastructure"].write(value.infrastructure, with: ObservabilityAdminClientTypes.TelemetryManifestInfrastructure.write(value:to:))
+        try writer["Source"].write(value.source, with: ObservabilityAdminClientTypes.TelemetryManifestSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryManifest()
+        value.source = try reader["Source"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryManifestSource.read(from:))
+        value.infrastructure = try reader["Infrastructure"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryManifestInfrastructure.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryManifestInfrastructure {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryManifestInfrastructure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: ObservabilityAdminClientTypes.AzureInfrastructure.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryManifestInfrastructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: ObservabilityAdminClientTypes.AzureInfrastructure.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryManifestSource {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryManifestSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].writeList(azure, memberWritingClosure: ObservabilityAdminClientTypes.AzureScopeItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryManifestSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].readList(memberReadingClosure: ObservabilityAdminClientTypes.AzureScopeItem.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ObservabilityAdminClientTypes.TelemetryPipeline {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipeline {
@@ -6670,6 +9552,9 @@ extension ObservabilityAdminClientTypes.TelemetryPipeline {
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryPipelineStatusReason.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastRefreshTimeStamp = try reader["LastRefreshTimeStamp"].readIfPresent()
+        value.sourceProgress = try reader["SourceProgress"].readIfPresent(with: ObservabilityAdminClientTypes.SourceProgress.read(from:))
+        value.configurationSummary = try reader["ConfigurationSummary"].readIfPresent(with: ObservabilityAdminClientTypes.ConfigurationSummary.read(from:))
         return value
     }
 }
@@ -6758,6 +9643,45 @@ extension ObservabilityAdminClientTypes.TelemetryRuleSummary {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.telemetryType = try reader["TelemetryType"].readIfPresent()
         value.telemetrySourceTypes = try reader["TelemetrySourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetrySourceConfigurationInput {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetrySourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetrySourceConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: ObservabilityAdminClientTypes.AzureTelemetrySourceConfigurationOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.telemetrySource = try reader["TelemetrySource"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }

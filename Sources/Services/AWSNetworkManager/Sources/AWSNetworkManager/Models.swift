@@ -2473,6 +2473,54 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes {
 
+    public enum MultipathResilienceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bestEffort
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultipathResilienceMode] {
+            return [
+                .bestEffort,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bestEffort: return "best-effort"
+            case .disabled: return "disabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Information about a change in multipath resilience.
+    public struct MultipathResilienceChangeValues: Swift.Sendable {
+        /// A set of two edge locations.
+        public var edgeSets: [[Swift.String]]?
+        /// The mode (best-effort/disabled) of multipath resilience.
+        public var mode: NetworkManagerClientTypes.MultipathResilienceMode?
+
+        public init(
+            edgeSets: [[Swift.String]]? = nil,
+            mode: NetworkManagerClientTypes.MultipathResilienceMode? = nil
+        ) {
+            self.edgeSets = edgeSets
+            self.mode = mode
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
     /// Information about a routing policy association.
     public struct RoutingPolicyAssociationDetail: Swift.Sendable {
         /// The names of the routing policies in the association.
@@ -2690,6 +2738,8 @@ extension NetworkManagerClientTypes {
         public var edgeLocations: [Swift.String]?
         /// The inside IP addresses used for core network change values.
         public var insideCidrBlocks: [Swift.String]?
+        /// The change in multipath resilience configuration in the core network change values.
+        public var multipathResilience: NetworkManagerClientTypes.MultipathResilienceChangeValues?
         /// The network function group name if the change event is associated with a network function group.
         public var networkFunctionGroupName: Swift.String?
         /// The edge locations of peers in the core network change values.
@@ -2719,6 +2769,7 @@ extension NetworkManagerClientTypes {
             dnsSupport: Swift.Bool = false,
             edgeLocations: [Swift.String]? = nil,
             insideCidrBlocks: [Swift.String]? = nil,
+            multipathResilience: NetworkManagerClientTypes.MultipathResilienceChangeValues? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             peerEdgeLocations: [Swift.String]? = nil,
             routingPolicy: Swift.String? = nil,
@@ -2737,6 +2788,7 @@ extension NetworkManagerClientTypes {
             self.dnsSupport = dnsSupport
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
+            self.multipathResilience = multipathResilience
             self.networkFunctionGroupName = networkFunctionGroupName
             self.peerEdgeLocations = peerEdgeLocations
             self.routingPolicy = routingPolicy
@@ -14863,6 +14915,7 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues {
         value.peerEdgeLocations = try reader["PeerEdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multipathResilience = try reader["MultipathResilience"].readIfPresent(with: NetworkManagerClientTypes.MultipathResilienceChangeValues.read(from:))
         return value
     }
 }
@@ -15138,6 +15191,17 @@ extension NetworkManagerClientTypes.Location {
         value.address = try reader["Address"].readIfPresent()
         value.latitude = try reader["Latitude"].readIfPresent()
         value.longitude = try reader["Longitude"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.MultipathResilienceChangeValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.MultipathResilienceChangeValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.MultipathResilienceChangeValues()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.edgeSets = try reader["EdgeSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

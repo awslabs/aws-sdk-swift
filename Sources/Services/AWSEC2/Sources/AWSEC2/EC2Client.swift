@@ -1120,7 +1120,7 @@ extension EC2Client {
 
     /// Performs the `AcceptVpcPeeringConnection` operation on the `EC2` service.
     ///
-    /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use [DescribeVpcPeeringConnections] to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
+    /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use [DescribeVpcPeeringConnections] to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC. If the requester allows multipath resilience, accepting the request also allows multipath resilience for the accepter VPC, and the multipathResilienceStatus of the VPC peering connection becomes enabled. Additional charges apply. For more information, see [Amazon VPC pricing](http://aws.amazon.com/vpc/pricing/). To stop allowing multipath resilience for the accepter VPC, use [ModifyVpcPeeringConnectionOptions] and set AllowMultipathResilience to false.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptVpcPeeringConnectionInput`)
     ///
@@ -11936,7 +11936,7 @@ extension EC2Client {
 
     /// Performs the `CreateVpcPeeringConnection` operation on the `EC2` service.
     ///
-    /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another Amazon Web Services account and can be in a different Region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. Limitations and rules apply to a VPC peering connection. For more information, see the [VPC peering limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations) in the VPC Peering Guide. The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
+    /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another Amazon Web Services account and can be in a different Region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. Limitations and rules apply to a VPC peering connection. For more information, see the [VPC peering limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations) in the VPC Peering Guide. The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. Multipath resilience replicates the traffic of an inter-Region VPC peering connection across multiple network paths. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringConnectionInput`)
     ///
@@ -46477,6 +46477,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyTransitGatewayPeeringAttachment` operation on the `EC2` service.
+    ///
+    /// Modifies the options for a transit gateway peering attachment. The peering attachment must be in the available state. You can allow multipath resilience for your side of an inter-Region transit gateway peering attachment between supported Regions. Multipath resilience isn't supported for transit gateway peering attachments in the same Region. It takes effect only when both the requester and the accepter allow it. To modify the requester side, send the request in the Region of the requester transit gateway. To modify the accepter side, send the request in the Region of the accepter transit gateway. To check whether multipath resilience is in effect, use [DescribeTransitGatewayPeeringAttachments] and check multipathResilienceStatus.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayPeeringAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayPeeringAttachmentOutput`)
+    public func modifyTransitGatewayPeeringAttachment(input: ModifyTransitGatewayPeeringAttachmentInput) async throws -> ModifyTransitGatewayPeeringAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyTransitGatewayPeeringAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>(ModifyTransitGatewayPeeringAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayPeeringAttachmentOutput>(ModifyTransitGatewayPeeringAttachmentOutput.httpOutput(from:), ModifyTransitGatewayPeeringAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayPeeringAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyTransitGatewayPeeringAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyTransitGatewayPeeringAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyTransitGatewayPeeringAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyTransitGatewayPeeringAttachmentInput, ModifyTransitGatewayPeeringAttachmentOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayPeeringAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyTransitGatewayPolicyTableEntry` operation on the `EC2` service.
     ///
     /// Modifies the specified transit gateway policy table entry.
@@ -47872,7 +47935,7 @@ extension EC2Client {
 
     /// Performs the `ModifyVpcPeeringConnectionOptions` operation on the `EC2` service.
     ///
-    /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command.
+    /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command. Multipath resilience replicates the traffic of an inter-Region VPC peering connection across multiple network paths. You can allow multipath resilience for your side of the connection if both of its Regions are supported. It takes effect only when both the requester and the accepter allow it. Additional charges apply when multipath resilience is in effect. For more information, see [Amazon VPC pricing](http://aws.amazon.com/vpc/pricing/). To check whether multipath resilience is in effect, use [DescribeVpcPeeringConnections] and check multipathResilienceStatus.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyVpcPeeringConnectionOptionsInput`)
     ///

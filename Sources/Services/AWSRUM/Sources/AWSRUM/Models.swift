@@ -1752,6 +1752,8 @@ public struct PutRumEventsInput: Swift.Sendable {
     /// An array of structures that contain the telemetry event data.
     /// This member is required.
     public var rumEvents: [RUMClientTypes.RumEvent]?
+    /// A JSON serialization of attributes that apply to every event in this batch, such as the browser, device, and operating system of the end user. CloudWatch RUM merges these attributes into each event in the batch, so you send them once for the batch instead of once for each event. If an attribute appears both here and in an individual event's metadata, CloudWatch RUM uses the value in the event's metadata.
+    public var sessionMetadata: Swift.String?
     /// A structure that contains information about the user session that this batch of events was collected from.
     /// This member is required.
     public var userDetails: RUMClientTypes.UserDetails?
@@ -1762,6 +1764,7 @@ public struct PutRumEventsInput: Swift.Sendable {
         batchId: Swift.String? = nil,
         id: Swift.String? = nil,
         rumEvents: [RUMClientTypes.RumEvent]? = nil,
+        sessionMetadata: Swift.String? = nil,
         userDetails: RUMClientTypes.UserDetails? = nil
     ) {
         self.alias = alias
@@ -1769,6 +1772,7 @@ public struct PutRumEventsInput: Swift.Sendable {
         self.batchId = batchId
         self.id = id
         self.rumEvents = rumEvents
+        self.sessionMetadata = sessionMetadata
         self.userDetails = userDetails
     }
 }
@@ -2200,6 +2204,7 @@ extension PutRumEventsInput {
         try writer["AppMonitorDetails"].write(value.appMonitorDetails, with: RUMClientTypes.AppMonitorDetails.write(value:to:))
         try writer["BatchId"].write(value.batchId)
         try writer["RumEvents"].writeList(value.rumEvents, memberWritingClosure: RUMClientTypes.RumEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SessionMetadata"].write(value.sessionMetadata)
         try writer["UserDetails"].write(value.userDetails, with: RUMClientTypes.UserDetails.write(value:to:))
     }
 }

@@ -2553,15 +2553,54 @@ public struct GetCaseEventConfigurationInput: Swift.Sendable {
 
 extension ConnectCasesClientTypes {
 
-    /// Details of what case data is published through the case event stream.
+    public enum AutoIncludeFields: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// All fields on the case
+        case all
+        /// Custom fields only
+        case custom
+        /// System fields only
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoIncludeFields] {
+            return [
+                .all,
+                .custom,
+                .system
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .custom: return "Custom"
+            case .system: return "System"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Details of what case data is published through the case event stream. Use fields to include a specific list of fields, and use autoIncludeFields to automatically include a category of fields. When both are set, the effective field set is the union of the two.
     public struct CaseEventIncludedData: Swift.Sendable {
-        /// List of field identifiers.
+        /// Automatically include a category of fields in case event data, combined as a union with any fields specified in fields. Valid values are All (include all fields on the case), System (include all system fields), and Custom (include all custom fields). When this attribute is set, new fields added to the domain are picked up automatically without another call to PutCaseEventConfiguration. For the full behavior matrix and IAM requirements, see [Case event streams in Connect Customer Cases](https://docs.aws.amazon.com/connect/latest/adminguide/case-event-streams.html) in the Connect Customer Administrator Guide.
+        public var autoIncludeFields: ConnectCasesClientTypes.AutoIncludeFields?
+        /// List of field identifiers to include in case event data.
         /// This member is required.
         public var fields: [ConnectCasesClientTypes.FieldIdentifier]?
 
         public init(
+            autoIncludeFields: ConnectCasesClientTypes.AutoIncludeFields? = nil,
             fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil
         ) {
+            self.autoIncludeFields = autoIncludeFields
             self.fields = fields
         }
     }
@@ -7211,6 +7250,7 @@ extension ConnectCasesClientTypes.CaseEventIncludedData {
 
     static func write(value: ConnectCasesClientTypes.CaseEventIncludedData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoIncludeFields"].write(value.autoIncludeFields)
         try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -7218,6 +7258,7 @@ extension ConnectCasesClientTypes.CaseEventIncludedData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCasesClientTypes.CaseEventIncludedData()
         value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.autoIncludeFields = try reader["autoIncludeFields"].readIfPresent()
         return value
     }
 }

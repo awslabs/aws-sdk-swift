@@ -1212,7 +1212,7 @@ extension PollyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput>(StartSpeechSynthesisStreamInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput, PollyClientTypes.StartSpeechSynthesisStreamActionStream>(keyPath: \.actionStream, defaultBody: "{}", marshalClosure: PollyClientTypes.StartSpeechSynthesisStreamActionStream.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput, PollyClientTypes.StartSpeechSynthesisStreamActionStream>(keyPath: \.actionStream, defaultBody: "{}", marshalClosure: PollyClientTypes.StartSpeechSynthesisStreamActionStream.marshal, errorMarshalClosure: PollyClientTypes.StartSpeechSynthesisStreamActionStream.marshalError))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSpeechSynthesisStreamOutput>(StartSpeechSynthesisStreamOutput.httpOutput(from:), StartSpeechSynthesisStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSpeechSynthesisStreamInput, StartSpeechSynthesisStreamOutput>(clientLogMode: config.clientLogMode))

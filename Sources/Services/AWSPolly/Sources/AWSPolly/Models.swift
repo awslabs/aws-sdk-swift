@@ -3385,6 +3385,10 @@ extension PollyClientTypes.StartSpeechSynthesisStreamActionStream {
             return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
+
+    static var marshalError: (any Swift.Error) throws -> SmithyEventStreamsAPI.Message? {
+        { _ in nil }
+    }
 }
 
 extension PollyClientTypes.StartSpeechSynthesisStreamEventStream {

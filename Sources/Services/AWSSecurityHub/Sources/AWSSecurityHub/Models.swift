@@ -19931,6 +19931,8 @@ extension SecurityHubClientTypes {
         public var codeRepository: SecurityHubClientTypes.CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
         public var container: SecurityHubClientTypes.ContainerDetails?
+        /// Details about a GCP resource that is related to a finding.
+        public var gcpResource: Smithy.Document?
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.
         ///
         /// * The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.
@@ -20039,6 +20041,7 @@ extension SecurityHubClientTypes {
             azureResource: Smithy.Document? = nil,
             codeRepository: SecurityHubClientTypes.CodeRepositoryDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
+            gcpResource: Smithy.Document? = nil,
             other: [Swift.String: Swift.String]? = nil
         ) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
@@ -20141,6 +20144,7 @@ extension SecurityHubClientTypes {
             self.azureResource = azureResource
             self.codeRepository = codeRepository
             self.container = container
+            self.gcpResource = gcpResource
             self.other = other
         }
     }
@@ -20241,12 +20245,14 @@ extension SecurityHubClientTypes {
     public enum CloudProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CloudProviderName] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -20259,6 +20265,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -21862,12 +21869,14 @@ extension SecurityHubClientTypes {
     public enum StandardsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StandardsProvider] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -21880,6 +21889,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22008,7 +22018,7 @@ extension SecurityHubClientTypes {
 
     /// A resource that represents your subscription to a supported standard.
     public struct StandardsSubscription: Swift.Sendable {
-        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the standard evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         /// This member is required.
@@ -22390,12 +22400,14 @@ extension SecurityHubClientTypes {
     public enum SecurityControlsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SecurityControlsProvider] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -22408,6 +22420,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22518,7 +22531,7 @@ extension SecurityHubClientTypes {
         public var lastUpdateReason: Swift.String?
         /// An object that identifies the name of a control parameter, its current value, and whether it has been customized.
         public var parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]?
-        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the security control evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
@@ -24297,6 +24310,7 @@ extension SecurityHubClientTypes {
 
     public enum ConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case jiraCloud
         case servicenow
         case sdkUnknown(Swift.String)
@@ -24304,6 +24318,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [ConnectorProviderName] {
             return [
                 .azure,
+                .gcp,
                 .jiraCloud,
                 .servicenow
             ]
@@ -24317,6 +24332,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case .jiraCloud: return "JIRA_CLOUD"
             case .servicenow: return "SERVICENOW"
             case let .sdkUnknown(s): return s
@@ -24412,6 +24428,82 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// The type of scope for a GCP connector. Valid values are ORGANIZATION (monitor all projects in the organization) and PROJECT (monitor specific projects).
+    public enum GcpScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organization
+        case project
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GcpScopeType] {
+            return [
+                .organization,
+                .project
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .organization: return "ORGANIZATION"
+            case .project: return "PROJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The scope configuration for a GCP connector, defining the organization or project scope.
+    public struct GcpScopeConfiguration: Swift.Sendable {
+        /// The type of scope. Valid values are ORGANIZATION and PROJECT.
+        /// This member is required.
+        public var scopeType: SecurityHubClientTypes.GcpScopeType?
+        /// The list of scope values. Use an organization ID when the scope type is ORGANIZATION, or project IDs when the scope type is PROJECT.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            scopeType: SecurityHubClientTypes.GcpScopeType? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The detailed GCP configuration for a connector.
+    public struct GcpDetail: Swift.Sendable {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to GCP.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of GCP regions being monitored.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The scope configuration that defines which GCP resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Information about the configuration and status of a Jira Cloud integration.
     public struct JiraCloudDetail: Swift.Sendable {
         /// The status of the authorization between Jira Cloud and the service.
@@ -24476,6 +24568,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowDetail)
         /// Details about a Microsoft Azure CSPM integration.
         case azure(SecurityHubClientTypes.AzureDetail)
+        /// Details about a Google Cloud Platform (GCP) CSPM integration.
+        case gcp(SecurityHubClientTypes.GcpDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25210,10 +25304,38 @@ public struct CreateConfigurationPolicyOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// The cloud provider configuration for creating a connector. This is a union type that currently supports Azure.
+    /// The configuration for connecting to a GCP environment.
+    public struct GcpProviderConfiguration: Swift.Sendable {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to GCP.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of GCP regions to monitor.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The scope configuration that defines which GCP resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The cloud provider configuration for creating a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderConfiguration: Swift.Sendable {
         /// The Azure provider configuration.
         case azure(SecurityHubClientTypes.AzureProviderConfiguration)
+        /// The GCP provider configuration.
+        case gcp(SecurityHubClientTypes.GcpProviderConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25390,6 +25512,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowProviderConfiguration)
         /// The configuration settings required to establish a CSPM integration with Microsoft Azure.
         case azure(SecurityHubClientTypes.AzureProviderConfiguration)
+        /// The configuration settings required to establish a CSPM integration with Google Cloud Platform (GCP).
+        case gcp(SecurityHubClientTypes.GcpProviderConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25651,6 +25775,8 @@ extension SecurityHubClientTypes {
 
     public enum CriticalitySourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automationRule
+        case cloudwatchTelemetryInference
+        case installedSoftwareAndPackageInference
         case resourceName
         case tagInference
         case sdkUnknown(Swift.String)
@@ -25658,6 +25784,8 @@ extension SecurityHubClientTypes {
         public static var allCases: [CriticalitySourceType] {
             return [
                 .automationRule,
+                .cloudwatchTelemetryInference,
+                .installedSoftwareAndPackageInference,
                 .resourceName,
                 .tagInference
             ]
@@ -25671,6 +25799,8 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .automationRule: return "AutomationRule"
+            case .cloudwatchTelemetryInference: return "CloudWatchTelemetryInference"
+            case .installedSoftwareAndPackageInference: return "InstalledSoftwareAndPackageInference"
             case .resourceName: return "ResourceName"
             case .tagInference: return "TagInference"
             case let .sdkUnknown(s): return s
@@ -25705,11 +25835,13 @@ extension SecurityHubClientTypes {
     /// The name of the cloud provider for a CSPM connector.
     public enum CspmConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CspmConnectorProviderName] {
             return [
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -25721,6 +25853,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -25729,10 +25862,12 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure.
+    /// The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderDetail: Swift.Sendable {
         /// The Azure provider detail.
         case azure(SecurityHubClientTypes.AzureDetail)
+        /// The GCP provider detail.
+        case gcp(SecurityHubClientTypes.GcpDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25900,10 +26035,33 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The cloud provider configuration for updating a connector. This is a union type that currently supports Azure.
+    /// The configuration for updating a GCP connector's scope and regions.
+    public struct GcpUpdateConfiguration: Swift.Sendable {
+        /// The updated list of GCP regions to monitor.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The updated scope configuration.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The cloud provider configuration for updating a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderUpdateConfiguration: Swift.Sendable {
         /// The Azure update configuration.
         case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
+        /// The GCP update configuration.
+        case gcp(SecurityHubClientTypes.GcpUpdateConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -26657,7 +26815,7 @@ public struct DescribeStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources.
+    /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources, or GCP to return only standards that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.StandardsProvider]?
 
     public init(
@@ -26700,7 +26858,7 @@ extension SecurityHubClientTypes {
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
-        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the standard evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         public var standardsArn: Swift.String?
@@ -28472,7 +28630,7 @@ public struct GetEnabledStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources.
+    /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources, or GCP to return only enabled standards that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.StandardsProvider]?
     /// The list of the standards subscription ARNs for the standards to retrieve.
     public var standardsSubscriptionArns: [Swift.String]?
@@ -30927,7 +31085,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// An object that provides a security control parameter name, description, and the options for customizing it. This object is excluded for a control that doesn't support custom parameters.
         public var parameterDefinitions: [Swift.String: SecurityHubClientTypes.ParameterDefinition]?
-        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the security control evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
@@ -31840,7 +31998,7 @@ public struct ListSecurityControlDefinitionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources.
+    /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources, or GCP to return only controls that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.SecurityControlsProvider]?
     /// The Amazon Resource Name (ARN) of the standard that you want to view controls for.
     public var standardsArn: Swift.String?
@@ -32009,6 +32167,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowUpdateConfiguration)
         /// The parameters required to update the configuration for a Microsoft Azure CSPM integration.
         case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
+        /// The parameters required to update the configuration for a Google Cloud Platform (GCP) CSPM integration.
+        case gcp(SecurityHubClientTypes.GcpUpdateConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -52061,6 +52221,8 @@ extension SecurityHubClientTypes.CspmProviderConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpProviderConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -52075,6 +52237,8 @@ extension SecurityHubClientTypes.CspmProviderDetail {
         switch name {
             case "Azure":
                 return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
+            case "GCP":
+                return .gcp(try reader["GCP"].read(with: SecurityHubClientTypes.GcpDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -52100,6 +52264,8 @@ extension SecurityHubClientTypes.CspmProviderUpdateConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpUpdateConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -52684,6 +52850,54 @@ extension SecurityHubClientTypes.FreeTrialStatus {
         value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GcpDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GcpDetail()
+        value.awsConfigConnectorArn = try reader["AWSConfigConnectorArn"].readIfPresent() ?? ""
+        value.scopeConfiguration = try reader["ScopeConfiguration"].readIfPresent(with: SecurityHubClientTypes.GcpScopeConfiguration.read(from:))
+        value.gcpRegions = try reader["GCPRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["GCPRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.GcpScopeConfiguration.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.GcpScopeConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpScopeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScopeType"].write(value.scopeType)
+        try writer["ScopeValues"].writeList(value.scopeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GcpScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GcpScopeConfiguration()
+        value.scopeType = try reader["ScopeType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeValues = try reader["ScopeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GCPRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.GcpScopeConfiguration.write(value:to:))
     }
 }
 
@@ -53834,6 +54048,8 @@ extension SecurityHubClientTypes.ProviderConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpProviderConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudProviderConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -53856,6 +54072,8 @@ extension SecurityHubClientTypes.ProviderDetail {
                 return .servicenow(try reader["ServiceNow"].read(with: SecurityHubClientTypes.ServiceNowDetail.read(from:)))
             case "Azure":
                 return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
+            case "GCP":
+                return .gcp(try reader["GCP"].read(with: SecurityHubClientTypes.GcpDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -53881,6 +54099,8 @@ extension SecurityHubClientTypes.ProviderUpdateConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpUpdateConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudUpdateConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -54356,6 +54576,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         try writer["AzureResource"].write(value.azureResource)
         try writer["CodeRepository"].write(value.codeRepository, with: SecurityHubClientTypes.CodeRepositoryDetails.write(value:to:))
         try writer["Container"].write(value.container, with: SecurityHubClientTypes.ContainerDetails.write(value:to:))
+        try writer["GcpResource"].write(value.gcpResource)
         try writer["Other"].writeMap(value.other, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
@@ -54463,6 +54684,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         value.awsEc2ClientVpnEndpoint = try reader["AwsEc2ClientVpnEndpoint"].readIfPresent(with: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.read(from:))
         value.codeRepository = try reader["CodeRepository"].readIfPresent(with: SecurityHubClientTypes.CodeRepositoryDetails.read(from:))
         value.azureResource = try reader["AzureResource"].readIfPresent()
+        value.gcpResource = try reader["GcpResource"].readIfPresent()
         return value
     }
 }

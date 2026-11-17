@@ -625,6 +625,8 @@ extension ConnectContactLensClientTypes {
         public var id: Swift.String?
         /// List of positions where issues were detected on the transcript.
         public var issuesDetected: [ConnectContactLensClientTypes.IssueDetected]?
+        /// The language code detected for this piece of transcript, for example, en-US.
+        public var languageCode: Swift.String?
         /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
         /// This member is required.
         public var participantId: Swift.String?
@@ -640,6 +642,7 @@ extension ConnectContactLensClientTypes {
             endOffsetMillis: Swift.Int? = nil,
             id: Swift.String? = nil,
             issuesDetected: [ConnectContactLensClientTypes.IssueDetected]? = nil,
+            languageCode: Swift.String? = nil,
             participantId: Swift.String? = nil,
             participantRole: Swift.String? = nil,
             sentiment: ConnectContactLensClientTypes.SentimentValue? = nil
@@ -649,6 +652,7 @@ extension ConnectContactLensClientTypes {
             self.endOffsetMillis = endOffsetMillis
             self.id = id
             self.issuesDetected = issuesDetected
+            self.languageCode = languageCode
             self.participantId = participantId
             self.participantRole = participantRole
             self.sentiment = sentiment
@@ -974,6 +978,7 @@ extension ConnectContactLensClientTypes.Transcript {
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
         value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
         return value
     }
 }

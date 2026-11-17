@@ -1052,6 +1052,81 @@ extension Route53GlobalResolverClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCoreNetworkEndpoint` operation on the `Route53GlobalResolver` service.
+    ///
+    /// Creates a core network endpoint, which enables DNS resolution for Amazon Web Services Cloud WAN core network segments. The endpoint connects a Route 53 Global Resolver to an Amazon Web Services Cloud WAN core network so that resources attached to the core network can send DNS queries to the resolver. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions, but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCoreNetworkEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCoreNetworkEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. This can occur when trying to modify a resource that is not in a valid state for the requested operation.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ServiceQuotaExceededException` : The request would exceed one or more service quotas. Check your current usage and quotas, then try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
+    /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
+    public func createCoreNetworkEndpoint(input: CreateCoreNetworkEndpointInput) async throws -> CreateCoreNetworkEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCoreNetworkEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53globalresolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(CreateCoreNetworkEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCoreNetworkEndpointInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoreNetworkEndpointOutput>(CreateCoreNetworkEndpointOutput.httpOutput(from:), CreateCoreNetworkEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoreNetworkEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53GlobalResolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCoreNetworkEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53GlobalResolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCoreNetworkEndpointInput, CreateCoreNetworkEndpointOutput>(serviceID: serviceName, version: Route53GlobalResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCoreNetworkEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateDNSView` operation on the `Route53GlobalResolver` service.
     ///
     /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
@@ -1479,6 +1554,76 @@ extension Route53GlobalResolverClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccessToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCoreNetworkEndpoint` operation on the `Route53GlobalResolver` service.
+    ///
+    /// Deletes a core network endpoint. This operation cannot be undone. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions, but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreNetworkEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCoreNetworkEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. This can occur when trying to modify a resource that is not in a valid state for the requested operation.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
+    /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
+    public func deleteCoreNetworkEndpoint(input: DeleteCoreNetworkEndpointInput) async throws -> DeleteCoreNetworkEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCoreNetworkEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53globalresolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>(DeleteCoreNetworkEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoreNetworkEndpointOutput>(DeleteCoreNetworkEndpointOutput.httpOutput(from:), DeleteCoreNetworkEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoreNetworkEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53GlobalResolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCoreNetworkEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53GlobalResolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCoreNetworkEndpointInput, DeleteCoreNetworkEndpointOutput>(serviceID: serviceName, version: Route53GlobalResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCoreNetworkEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2121,6 +2266,75 @@ extension Route53GlobalResolverClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCoreNetworkEndpoint` operation on the `Route53GlobalResolver` service.
+    ///
+    /// Retrieves information about a core network endpoint. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions, but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCoreNetworkEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCoreNetworkEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
+    /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
+    public func getCoreNetworkEndpoint(input: GetCoreNetworkEndpointInput) async throws -> GetCoreNetworkEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCoreNetworkEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53globalresolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>(GetCoreNetworkEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreNetworkEndpointOutput>(GetCoreNetworkEndpointOutput.httpOutput(from:), GetCoreNetworkEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreNetworkEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53GlobalResolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCoreNetworkEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53GlobalResolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCoreNetworkEndpointInput, GetCoreNetworkEndpointOutput>(serviceID: serviceName, version: Route53GlobalResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCoreNetworkEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDNSView` operation on the `Route53GlobalResolver` service.
     ///
     /// Retrieves information about a DNS view. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
@@ -2748,6 +2962,75 @@ extension Route53GlobalResolverClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCoreNetworkEndpoints` operation on the `Route53GlobalResolver` service.
+    ///
+    /// Lists the core network endpoints in your Amazon Web Services account, with pagination support. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions, but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCoreNetworkEndpointsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCoreNetworkEndpointsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
+    /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
+    public func listCoreNetworkEndpoints(input: ListCoreNetworkEndpointsInput) async throws -> ListCoreNetworkEndpointsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCoreNetworkEndpoints")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53globalresolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>(ListCoreNetworkEndpointsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>(ListCoreNetworkEndpointsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreNetworkEndpointsOutput>(ListCoreNetworkEndpointsOutput.httpOutput(from:), ListCoreNetworkEndpointsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreNetworkEndpointsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53GlobalResolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCoreNetworkEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCoreNetworkEndpointsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53GlobalResolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCoreNetworkEndpointsInput, ListCoreNetworkEndpointsOutput>(serviceID: serviceName, version: Route53GlobalResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCoreNetworkEndpoints")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDNSViews` operation on the `Route53GlobalResolver` service.
     ///
     /// Lists all DNS views for a Route 53 Global Resolver with pagination support. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
@@ -3316,7 +3599,10 @@ extension Route53GlobalResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3384,8 +3670,11 @@ extension Route53GlobalResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
     /// - `ServiceQuotaExceededException` : The request would exceed one or more service quotas. Check your current usage and quotas, then try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
     /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -3454,7 +3743,10 @@ extension Route53GlobalResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
     /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -3648,6 +3940,80 @@ extension Route53GlobalResolverClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAccessToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCoreNetworkEndpoint` operation on the `Route53GlobalResolver` service.
+    ///
+    /// Updates the configuration of a core network endpoint. You can change the name and modify the IP addresses that the endpoint uses for DNS resolution. Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions, but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCoreNetworkEndpointInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCoreNetworkEndpointOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. This can occur when trying to modify a resource that is not in a valid state for the requested operation.
+    /// - `InternalServerException` : An internal server error occurred. Try again later.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
+    /// - `ServiceQuotaExceededException` : The request would exceed one or more service quotas. Check your current usage and quotas, then try again.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.
+    /// - `ValidationException` : The input parameters are invalid. Check the parameter values and try again.
+    public func updateCoreNetworkEndpoint(input: UpdateCoreNetworkEndpointInput) async throws -> UpdateCoreNetworkEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCoreNetworkEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53globalresolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>(UpdateCoreNetworkEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCoreNetworkEndpointInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCoreNetworkEndpointOutput>(UpdateCoreNetworkEndpointOutput.httpOutput(from:), UpdateCoreNetworkEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCoreNetworkEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53GlobalResolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCoreNetworkEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53GlobalResolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCoreNetworkEndpointInput, UpdateCoreNetworkEndpointOutput>(serviceID: serviceName, version: Route53GlobalResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53GlobalResolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCoreNetworkEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

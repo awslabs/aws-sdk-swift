@@ -1429,6 +1429,32 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayPeeringAttachmentMultipathResilienceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayPeeringAttachmentMultipathResilienceMode] {
+            return [
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "always-on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum DynamicRoutingValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disable
         case enable
@@ -1458,15 +1484,73 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayPeeringAttachmentMultipathResilienceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayPeeringAttachmentMultipathResilienceStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes dynamic routing for the transit gateway peering attachment.
     public struct TransitGatewayPeeringAttachmentOptions: Swift.Sendable {
+        /// Indicates whether the accepter allows multipath resilience for the transit gateway peering attachment.
+        public var accepterAllowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for the accepter. This value is present only when the accepter allows multipath resilience.
+        public var accepterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
         /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering attachment.
         public var dynamicRouting: EC2ClientTypes.DynamicRoutingValue?
+        /// The multipath resilience status of the transit gateway peering attachment. The possible values are:
+        ///
+        /// * enabled – Both the requester and the accepter allow multipath resilience.
+        ///
+        /// * pending – Either the requester or the accepter allows multipath resilience, but not both.
+        ///
+        /// * disabled – Neither the requester nor the accepter allows multipath resilience.
+        public var multipathResilienceStatus: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceStatus?
+        /// Indicates whether the requester allows multipath resilience for the transit gateway peering attachment.
+        public var requesterAllowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for the requester. This value is present only when the requester allows multipath resilience.
+        public var requesterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
 
         public init(
-            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil
+            accepterAllowMultipathResilience: Swift.Bool? = nil,
+            accepterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil,
+            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil,
+            multipathResilienceStatus: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceStatus? = nil,
+            requesterAllowMultipathResilience: Swift.Bool? = nil,
+            requesterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
         ) {
+            self.accepterAllowMultipathResilience = accepterAllowMultipathResilience
+            self.accepterMultipathResilienceMode = accepterMultipathResilienceMode
             self.dynamicRouting = dynamicRouting
+            self.multipathResilienceStatus = multipathResilienceStatus
+            self.requesterAllowMultipathResilience = requesterAllowMultipathResilience
+            self.requesterMultipathResilienceMode = requesterMultipathResilienceMode
         }
     }
 }
@@ -1949,6 +2033,32 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum MultipathResilienceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultipathResilienceMode] {
+            return [
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "always-on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes the VPC peering connection options.
     public struct VpcPeeringConnectionOptionsDescription: Swift.Sendable {
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
@@ -1957,15 +2067,23 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Indicates whether this side of the VPC peering connection allows multipath resilience.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for this side of the VPC peering connection. This value is present only when this side allows multipath resilience.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -2005,6 +2123,38 @@ extension EC2ClientTypes {
             self.peeringOptions = peeringOptions
             self.region = region
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum MultipathResilienceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultipathResilienceStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2086,6 +2236,14 @@ extension EC2ClientTypes {
         public var accepterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo?
         /// The time that an unaccepted VPC peering connection will expire.
         public var expirationTime: Foundation.Date?
+        /// The multipath resilience status of the VPC peering connection. The possible values are:
+        ///
+        /// * enabled – Both the requester and the accepter allow multipath resilience.
+        ///
+        /// * pending – Either the requester or the accepter allows multipath resilience, but not both.
+        ///
+        /// * disabled – Neither the requester nor the accepter allows multipath resilience.
+        public var multipathResilienceStatus: EC2ClientTypes.MultipathResilienceStatus?
         /// Information about the requester VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public var requesterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo?
         /// The status of the VPC peering connection.
@@ -2098,6 +2256,7 @@ extension EC2ClientTypes {
         public init(
             accepterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo? = nil,
             expirationTime: Foundation.Date? = nil,
+            multipathResilienceStatus: EC2ClientTypes.MultipathResilienceStatus? = nil,
             requesterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo? = nil,
             status: EC2ClientTypes.VpcPeeringConnectionStateReason? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
@@ -2105,6 +2264,7 @@ extension EC2ClientTypes {
         ) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
+            self.multipathResilienceStatus = multipathResilienceStatus
             self.requesterVpcInfo = requesterVpcInfo
             self.status = status
             self.tags = tags
@@ -3394,7 +3554,7 @@ extension EC2ClientTypes {
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for Elastic File System service.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState?
-        /// The exclusion configuration for AWS Global Accelerator.
+        /// The exclusion configuration for Amazon Web Services Global Accelerator.
         public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for internet gateway resource.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
@@ -3567,6 +3727,25 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes an additional key exchange round negotiated for an active VPN tunnel.
+    public struct ActiveVpnTunnelAdditionalKeyExchange: Swift.Sendable {
+        /// The additional key exchange round number.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method number negotiated for this round.
+        public var keyExchangeMethod: Swift.Int?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethod: Swift.Int? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethod = keyExchangeMethod
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum InstanceHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthyStatus
         case unhealthyStatus
@@ -3659,12 +3838,16 @@ extension EC2ClientTypes {
     public struct ActiveVpnTunnelStatus: Swift.Sendable {
         /// The version of the Internet Key Exchange (IKE) protocol being used.
         public var ikeVersion: Swift.String?
+        /// The additional key exchanges negotiated in Phase 1 IKE negotiations.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]?
         /// The Diffie-Hellman group number being used in Phase 1 IKE negotiations.
         public var phase1DHGroup: Swift.Int?
         /// The encryption algorithm negotiated in Phase 1 IKE negotiations.
         public var phase1EncryptionAlgorithm: Swift.String?
         /// The integrity algorithm negotiated in Phase 1 IKE negotiations.
         public var phase1IntegrityAlgorithm: Swift.String?
+        /// The additional key exchanges negotiated in Phase 2 IKE negotiations.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]?
         /// The Diffie-Hellman group number being used in Phase 2 IKE negotiations.
         public var phase2DHGroup: Swift.Int?
         /// The encryption algorithm negotiated in Phase 2 IKE negotiations.
@@ -3678,9 +3861,11 @@ extension EC2ClientTypes {
 
         public init(
             ikeVersion: Swift.String? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]? = nil,
             phase1DHGroup: Swift.Int? = nil,
             phase1EncryptionAlgorithm: Swift.String? = nil,
             phase1IntegrityAlgorithm: Swift.String? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]? = nil,
             phase2DHGroup: Swift.Int? = nil,
             phase2EncryptionAlgorithm: Swift.String? = nil,
             phase2IntegrityAlgorithm: Swift.String? = nil,
@@ -3688,9 +3873,11 @@ extension EC2ClientTypes {
             provisioningStatusReason: Swift.String? = nil
         ) {
             self.ikeVersion = ikeVersion
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroup = phase1DHGroup
             self.phase1EncryptionAlgorithm = phase1EncryptionAlgorithm
             self.phase1IntegrityAlgorithm = phase1IntegrityAlgorithm
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroup = phase2DHGroup
             self.phase2EncryptionAlgorithm = phase2EncryptionAlgorithm
             self.phase2IntegrityAlgorithm = phase2IntegrityAlgorithm
@@ -3885,6 +4072,112 @@ extension EC2ClientTypes {
             organizationsEntityPath: Swift.String? = nil
         ) {
             self.organizationsEntityPath = organizationsEntityPath
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The key exchange method number that is permitted for an additional key exchange round.
+    public struct AdditionalKeyExchangeMethodsListValue: Swift.Sendable {
+        /// The key exchange method number.
+        public var value: Swift.Int?
+
+        public init(
+            value: Swift.Int? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies a key exchange method number that is permitted for an additional key exchange round.
+    public struct AdditionalKeyExchangeMethodsRequestListValue: Swift.Sendable {
+        /// The key exchange method number.
+        public var value: Swift.Int?
+
+        public init(
+            value: Swift.Int? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum AdditionalKeyExchangeRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdditionalKeyExchangeRequirement] {
+            return [
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "optional"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an additional key exchange round that is permitted for the VPN tunnel.
+    public struct VpnAdditionalKeyExchange: Swift.Sendable {
+        /// The additional key exchange round number.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method numbers permitted for this round.
+        public var keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsListValue]?
+        /// Indicates whether this round is mandatory.
+        public var requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsListValue]? = nil,
+            requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethods = keyExchangeMethods
+            self.requirement = requirement
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies an additional key exchange round for the VPN tunnel, as defined in RFC 9370.
+    public struct VpnAdditionalKeyExchangeRequest: Swift.Sendable {
+        /// The additional key exchange round number. Valid range: Minimum value of 1. Maximum value of 7.
+        /// This member is required.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method numbers that are permitted for this round. The method numbers are the IANA IKEv2 key exchange method transform IDs. A required round must specify at least one method. An optional round can omit this parameter or specify an empty list. If omitted or empty for an optional round, the round is disabled. IKEv2 requires that the initial Diffie-Hellman exchange and each required round use a different key exchange method. The permitted methods must allow a distinct method to be selected for each of them. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
+        public var keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue]?
+        /// Indicates whether this round is mandatory. If required, the tunnel isn't established unless the customer gateway device negotiates this round. If optional, the round is negotiated only if the customer gateway device supports it. Valid values: required | optional Default: required
+        public var requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue]? = nil,
+            requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethods = keyExchangeMethods
+            self.requirement = requirement
         }
     }
 }
@@ -19096,7 +19389,7 @@ extension EC2ClientTypes {
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for Elastic File System traffic.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusion?
-        /// The exclusion configuration for AWS Global Accelerator traffic.
+        /// The exclusion configuration for Amazon Web Services Global Accelerator traffic.
         public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for internet gateway traffic.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
@@ -36368,13 +36661,26 @@ extension EC2ClientTypes {
 
     /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering request.
     public struct CreateTransitGatewayPeeringAttachmentRequestOptions: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for the requester side of the transit gateway peering attachment. Multipath resilience is supported only for inter-Region transit gateway peering attachments between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the default is false.
+        public var allowMultipathResilience: Swift.Bool?
         /// Indicates whether dynamic routing is enabled or disabled.
         public var dynamicRouting: EC2ClientTypes.DynamicRoutingValue?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
 
         public init(
-            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil
+            allowMultipathResilience: Swift.Bool? = nil,
+            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil,
+            multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
         ) {
+            self.allowMultipathResilience = allowMultipathResilience
             self.dynamicRouting = dynamicRouting
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -38590,7 +38896,7 @@ extension EC2ClientTypes {
         public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
         public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
-        /// Specifies whether to exclude AWS Global Accelerator traffic from encryption enforcement.
+        /// Specifies whether to exclude Amazon Web Services Global Accelerator traffic from encryption enforcement.
         public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
         public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
@@ -40006,6 +40312,30 @@ public struct CreateVpcEndpointServiceConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// The VPC peering connection options to apply to the requester VPC when you create a VPC peering connection.
+    public struct CreatePeeringConnectionOptionsRequest: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for the requester VPC. Multipath resilience is supported only for inter-Region VPC peering connections between supported Regions. It takes effect only when both the requester and the accepter allow it. Accepting the VPC peering connection request also allows multipath resilience for the accepter VPC. If you don't specify this parameter, the default is false.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
+
+        public init(
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
+        ) {
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
+        }
+    }
+}
+
 public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -40015,6 +40345,8 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
     public var peerRegion: Swift.String?
     /// The ID of the VPC with which you are creating the VPC peering connection. You must specify this parameter in the request.
     public var peerVpcId: Swift.String?
+    /// The VPC peering connection options to apply to the requester VPC.
+    public var requesterPeeringConnectionOptions: EC2ClientTypes.CreatePeeringConnectionOptionsRequest?
     /// The tags to assign to the peering connection.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
     /// The ID of the requester VPC. You must specify this parameter in the request.
@@ -40026,6 +40358,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         peerOwnerId: Swift.String? = nil,
         peerRegion: Swift.String? = nil,
         peerVpcId: Swift.String? = nil,
+        requesterPeeringConnectionOptions: EC2ClientTypes.CreatePeeringConnectionOptionsRequest? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         vpcId: Swift.String? = nil
     ) {
@@ -40033,6 +40366,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         self.peerOwnerId = peerOwnerId
         self.peerRegion = peerRegion
         self.peerVpcId = peerVpcId
+        self.requesterPeeringConnectionOptions = requesterPeeringConnectionOptions
         self.tagSpecifications = tagSpecifications
         self.vpcId = vpcId
     }
@@ -40372,7 +40706,9 @@ extension EC2ClientTypes {
         public var ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]?
         /// Options for logging VPN tunnel activity.
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 1 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]?
@@ -40380,7 +40716,9 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800
         public var phase1LifetimeSeconds: Swift.Int?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 2 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]?
@@ -40423,10 +40761,12 @@ extension EC2ClientTypes {
             enableTunnelLifecycleControl: Swift.Bool? = nil,
             ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsRequestListValue]? = nil,
@@ -40444,10 +40784,12 @@ extension EC2ClientTypes {
             self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -40465,7 +40807,7 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes.VpnTunnelOptionsSpecification: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VpnTunnelOptionsSpecification(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
+        "VpnTunnelOptionsSpecification(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), phase1AdditionalKeyExchanges: \(Swift.String(describing: phase1AdditionalKeyExchanges)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2AdditionalKeyExchanges: \(Swift.String(describing: phase2AdditionalKeyExchanges)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -40775,6 +41117,8 @@ extension EC2ClientTypes {
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptions?
         /// The external IP address of the VPN tunnel.
         public var outsideIpAddress: Swift.String?
+        /// The permitted additional key exchange rounds for the VPN tunnel for phase 1 IKE negotiations.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 1 IKE negotiations.
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersListValue]?
         /// The permitted encryption algorithms for the VPN tunnel for phase 1 IKE negotiations.
@@ -40783,6 +41127,8 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds.
         public var phase1LifetimeSeconds: Swift.Int?
+        /// The permitted additional key exchange rounds for the VPN tunnel for phase 2 IKE negotiations.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 2 IKE negotiations.
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersListValue]?
         /// The permitted encryption algorithms for the VPN tunnel for phase 2 IKE negotiations.
@@ -40813,10 +41159,12 @@ extension EC2ClientTypes {
             ikeVersions: [EC2ClientTypes.IKEVersionsListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptions? = nil,
             outsideIpAddress: Swift.String? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsListValue]? = nil,
@@ -40835,10 +41183,12 @@ extension EC2ClientTypes {
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
             self.outsideIpAddress = outsideIpAddress
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -40856,7 +41206,7 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes.TunnelOption: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TunnelOption(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), outsideIpAddress: \(Swift.String(describing: outsideIpAddress)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
+        "TunnelOption(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), outsideIpAddress: \(Swift.String(describing: outsideIpAddress)), phase1AdditionalKeyExchanges: \(Swift.String(describing: phase1AdditionalKeyExchanges)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2AdditionalKeyExchanges: \(Swift.String(describing: phase2AdditionalKeyExchanges)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -46468,6 +46818,21 @@ public struct DescribeCapacityBlockExtensionOfferingsOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// Instance type preference for a Capacity Block search. Specifies one or more instance types to evaluate when searching for available Capacity Blocks.
+    public struct CapacityBlockInstanceTypePreference: Swift.Sendable {
+        /// The instance type to consider in the Capacity Block search.
+        public var instanceType: Swift.String?
+
+        public init(
+            instanceType: Swift.String? = nil
+        ) {
+            self.instanceType = instanceType
+        }
+    }
+}
+
 public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
     /// Include all Availability Zones and Local Zones, regardless of your opt-in status. If you do not use this parameter, the results include available offerings from all Availability Zones in the Amazon Web Services Region and Local Zones you are opted into.
     public var allAvailabilityZones: Swift.Bool?
@@ -46482,6 +46847,8 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
     public var instanceCount: Swift.Int?
     /// The type of instance for which the Capacity Block offering reserves capacity.
     public var instanceType: Swift.String?
+    /// List of instance type preferences for the Capacity Block offering search. Accepts one or more instance type names. Either this or the legacy InstanceType parameter is required.
+    public var instanceTypePreferences: [EC2ClientTypes.CapacityBlockInstanceTypePreference]?
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results.
@@ -46500,6 +46867,7 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
         endDateRange: Foundation.Date? = nil,
         instanceCount: Swift.Int? = nil,
         instanceType: Swift.String? = nil,
+        instanceTypePreferences: [EC2ClientTypes.CapacityBlockInstanceTypePreference]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startDateRange: Foundation.Date? = nil,
@@ -46512,11 +46880,67 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
         self.endDateRange = endDateRange
         self.instanceCount = instanceCount
         self.instanceType = instanceType
+        self.instanceTypePreferences = instanceTypePreferences
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.startDateRange = startDateRange
         self.ultraserverCount = ultraserverCount
         self.ultraserverType = ultraserverType
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an individual segment within a Capacity Block offering. Each segment represents a distinct block of capacity with its own Availability Zone, instance type, duration, pricing, and schedule.
+    public struct CapacityBlockOfferingSegment: Swift.Sendable {
+        /// The Availability Zone of the Capacity Block offering segment.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone for the Capacity Block offering segment.
+        public var availabilityZoneId: Swift.String?
+        /// The number of hours for the duration of the Capacity Block offering segment.
+        public var capacityBlockDurationHours: Swift.Int?
+        /// The number of minutes for the duration of the Capacity Block offering segment.
+        public var capacityBlockDurationMinutes: Swift.Int?
+        /// The currency of the payment for the Capacity Block offering segment.
+        public var currencyCode: Swift.String?
+        /// The end date of the Capacity Block offering segment.
+        public var endDate: Foundation.Date?
+        /// The number of instances in the Capacity Block offering segment.
+        public var instanceCount: Swift.Int?
+        /// The instance type of the Capacity Block offering segment.
+        public var instanceType: Swift.String?
+        /// The start date of the Capacity Block offering segment.
+        public var startDate: Foundation.Date?
+        /// The total price to be paid up front for the Capacity Block offering segment.
+        public var upfrontFee: Swift.String?
+        /// The type of zone where the Capacity Block offering segment is available.
+        public var zoneType: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            capacityBlockDurationHours: Swift.Int? = nil,
+            capacityBlockDurationMinutes: Swift.Int? = nil,
+            currencyCode: Swift.String? = nil,
+            endDate: Foundation.Date? = nil,
+            instanceCount: Swift.Int? = nil,
+            instanceType: Swift.String? = nil,
+            startDate: Foundation.Date? = nil,
+            upfrontFee: Swift.String? = nil,
+            zoneType: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityBlockDurationHours = capacityBlockDurationHours
+            self.capacityBlockDurationMinutes = capacityBlockDurationMinutes
+            self.currencyCode = currencyCode
+            self.endDate = endDate
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.startDate = startDate
+            self.upfrontFee = upfrontFee
+            self.zoneType = zoneType
+        }
     }
 }
 
@@ -46532,6 +46956,8 @@ extension EC2ClientTypes {
         public var capacityBlockDurationMinutes: Swift.Int?
         /// The ID of the Capacity Block offering.
         public var capacityBlockOfferingId: Swift.String?
+        /// The individual segments that compose the Capacity Block offering. Each segment describes a distinct block of capacity with its own Availability Zone, instance type, schedule, and pricing.
+        public var capacityBlockOfferingSegments: [EC2ClientTypes.CapacityBlockOfferingSegment]?
         /// The currency of the payment for the Capacity Block.
         public var currencyCode: Swift.String?
         /// The end date of the Capacity Block offering.
@@ -46558,6 +46984,7 @@ extension EC2ClientTypes {
             capacityBlockDurationHours: Swift.Int? = nil,
             capacityBlockDurationMinutes: Swift.Int? = nil,
             capacityBlockOfferingId: Swift.String? = nil,
+            capacityBlockOfferingSegments: [EC2ClientTypes.CapacityBlockOfferingSegment]? = nil,
             currencyCode: Swift.String? = nil,
             endDate: Foundation.Date? = nil,
             instanceCount: Swift.Int? = nil,
@@ -46573,6 +47000,7 @@ extension EC2ClientTypes {
             self.capacityBlockDurationHours = capacityBlockDurationHours
             self.capacityBlockDurationMinutes = capacityBlockDurationMinutes
             self.capacityBlockOfferingId = capacityBlockOfferingId
+            self.capacityBlockOfferingSegments = capacityBlockOfferingSegments
             self.currencyCode = currencyCode
             self.endDate = endDate
             self.instanceCount = instanceCount
@@ -81620,7 +82048,7 @@ public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
     public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System service from account-level encryption enforcement.
     public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
-    /// Specifies whether to exclude AWS Global Accelerator from account-level encryption enforcement.
+    /// Specifies whether to exclude Amazon Web Services Global Accelerator from account-level encryption enforcement.
     public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway resource from account-level encryption enforcement.
     public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
@@ -85437,6 +85865,61 @@ public struct ModifyTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendabl
     }
 }
 
+extension EC2ClientTypes {
+
+    /// Contains the options to modify for a transit gateway peering attachment, including multipath resilience settings.
+    public struct ModifyTransitGatewayPeeringAttachmentRequestOptions: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for your side of the transit gateway peering attachment. Multipath resilience is supported only for inter-Region transit gateway peering attachments between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the current setting doesn't change.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
+
+        public init(
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
+        ) {
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
+        }
+    }
+}
+
+public struct ModifyTransitGatewayPeeringAttachmentInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The options to modify for the transit gateway peering attachment.
+    public var options: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions?
+    /// The ID of the transit gateway peering attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        options: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.options = options
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayPeeringAttachmentOutput: Swift.Sendable {
+    /// Information about the transit gateway peering attachment.
+    public var transitGatewayPeeringAttachment: EC2ClientTypes.TransitGatewayPeeringAttachment?
+
+    public init(
+        transitGatewayPeeringAttachment: EC2ClientTypes.TransitGatewayPeeringAttachment? = nil
+    ) {
+        self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
+    }
+}
+
 public struct ModifyTransitGatewayPolicyTableEntryInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -86411,7 +86894,7 @@ public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
     public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
     public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
-    /// Specifies whether to exclude AWS Global Accelerator traffic from encryption enforcement.
+    /// Specifies whether to exclude Amazon Web Services Global Accelerator traffic from encryption enforcement.
     public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
     public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
@@ -86791,15 +87274,28 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Specifies whether you allow multipath resilience for this side of the VPC peering connection. Multipath resilience is supported only for inter-Region VPC peering connections between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the current setting doesn't change.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -86838,15 +87334,23 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Indicates whether this side of the VPC peering connection allows multipath resilience.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for this side of the VPC peering connection. This value is present only when this side allows multipath resilience.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -87056,7 +87560,9 @@ extension EC2ClientTypes {
         public var ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]?
         /// Options for logging VPN tunnel activity.
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 1 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]?
@@ -87064,7 +87570,9 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800
         public var phase1LifetimeSeconds: Swift.Int?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 2 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]?
@@ -87107,10 +87615,12 @@ extension EC2ClientTypes {
             enableTunnelLifecycleControl: Swift.Bool? = nil,
             ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsRequestListValue]? = nil,
@@ -87128,10 +87638,12 @@ extension EC2ClientTypes {
             self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -87715,13 +88227,17 @@ public struct PurchaseCapacityBlockOutput: Swift.Sendable {
     public var capacityBlocks: [EC2ClientTypes.CapacityBlock]?
     /// The Capacity Reservation.
     public var capacityReservation: EC2ClientTypes.CapacityReservation?
+    /// The Capacity Reservations created as a result of the Capacity Block purchase. When a Capacity Block offering contains multiple segments, a separate Capacity Reservation is created for each segment.
+    public var capacityReservations: [EC2ClientTypes.CapacityReservation]?
 
     public init(
         capacityBlocks: [EC2ClientTypes.CapacityBlock]? = nil,
-        capacityReservation: EC2ClientTypes.CapacityReservation? = nil
+        capacityReservation: EC2ClientTypes.CapacityReservation? = nil,
+        capacityReservations: [EC2ClientTypes.CapacityReservation]? = nil
     ) {
         self.capacityBlocks = capacityBlocks
         self.capacityReservation = capacityReservation
+        self.capacityReservations = capacityReservations
     }
 }
 
@@ -97031,6 +97547,13 @@ extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
     }
 }
 
+extension ModifyTransitGatewayPeeringAttachmentInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayPeeringAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayPolicyTableEntryInput) -> Swift.String? {
@@ -100828,6 +101351,7 @@ extension CreateVpcPeeringConnectionInput {
         try writer["PeerOwnerId"].write(value.peerOwnerId)
         try writer["PeerRegion"].write(value.peerRegion)
         try writer["PeerVpcId"].write(value.peerVpcId)
+        try writer["RequesterPeeringConnectionOptions"].write(value.requesterPeeringConnectionOptions, with: EC2ClientTypes.CreatePeeringConnectionOptionsRequest.write(value:to:))
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -102408,6 +102932,9 @@ extension DescribeCapacityBlockOfferingsInput {
         try writer["EndDateRange"].writeTimestamp(value.endDateRange, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
+        if !(value.instanceTypePreferences?.isEmpty ?? true) {
+            try writer["InstanceTypePreference"].writeList(value.instanceTypePreferences, memberWritingClosure: EC2ClientTypes.CapacityBlockInstanceTypePreference.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["StartDateRange"].writeTimestamp(value.startDateRange, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -108929,6 +109456,18 @@ extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
         }
         try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
         try writer["Action"].write("ModifyTransitGatewayNetworkFunctionAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyTransitGatewayPeeringAttachmentInput {
+
+    static func write(value: ModifyTransitGatewayPeeringAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Options"].write(value.options, with: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions.write(value:to:))
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayPeeringAttachment")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -119647,6 +120186,18 @@ extension ModifyTransitGatewayNetworkFunctionAttachmentOutput {
     }
 }
 
+extension ModifyTransitGatewayPeeringAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayPeeringAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayPeeringAttachmentOutput()
+        value.transitGatewayPeeringAttachment = try reader["transitGatewayPeeringAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayPeeringAttachment.read(from:))
+        return value
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayPolicyTableEntryOutput {
@@ -120089,6 +120640,7 @@ extension PurchaseCapacityBlockOutput {
         var value = PurchaseCapacityBlockOutput()
         value.capacityBlocks = try reader["capacityBlockSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityBlock.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.capacityReservation = try reader["capacityReservation"].readIfPresent(with: EC2ClientTypes.CapacityReservation.read(from:))
+        value.capacityReservations = try reader["capacityReservationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -130304,6 +130856,19 @@ enum ModifyTransitGatewayNetworkFunctionAttachmentOutputError {
     }
 }
 
+enum ModifyTransitGatewayPeeringAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyTransitGatewayPolicyTableEntryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -131906,6 +132471,17 @@ extension EC2ClientTypes.ActiveInstance {
     }
 }
 
+extension EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange()
+        value.additionalKeyExchangeRound = try reader["additionalKeyExchangeRound"].readIfPresent()
+        value.keyExchangeMethod = try reader["keyExchangeMethod"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.ActiveVpnTunnelStatus {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ActiveVpnTunnelStatus {
@@ -131920,6 +132496,8 @@ extension EC2ClientTypes.ActiveVpnTunnelStatus {
         value.ikeVersion = try reader["ikeVersion"].readIfPresent()
         value.provisioningStatus = try reader["provisioningStatus"].readIfPresent()
         value.provisioningStatusReason = try reader["provisioningStatusReason"].readIfPresent()
+        value.phase1AdditionalKeyExchanges = try reader["phase1AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.phase2AdditionalKeyExchanges = try reader["phase2AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -131968,6 +132546,24 @@ extension EC2ClientTypes.AdditionalDetail {
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.loadBalancers = try reader["loadBalancerSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AnalysisComponent.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
+    }
+}
+
+extension EC2ClientTypes.AdditionalKeyExchangeMethodsListValue {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AdditionalKeyExchangeMethodsListValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AdditionalKeyExchangeMethodsListValue()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue {
+
+    static func write(value: EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -132853,6 +133449,14 @@ extension EC2ClientTypes.CapacityBlockExtensionOffering {
     }
 }
 
+extension EC2ClientTypes.CapacityBlockInstanceTypePreference {
+
+    static func write(value: EC2ClientTypes.CapacityBlockInstanceTypePreference?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceType"].write(value.instanceType)
+    }
+}
+
 extension EC2ClientTypes.CapacityBlockOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityBlockOffering {
@@ -132871,6 +133475,27 @@ extension EC2ClientTypes.CapacityBlockOffering {
         value.ultraserverType = try reader["ultraserverType"].readIfPresent()
         value.ultraserverCount = try reader["ultraserverCount"].readIfPresent()
         value.capacityBlockDurationMinutes = try reader["capacityBlockDurationMinutes"].readIfPresent()
+        value.zoneType = try reader["zoneType"].readIfPresent()
+        value.capacityBlockOfferingSegments = try reader["capacityBlockOfferingSegmentSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityBlockOfferingSegment.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityBlockOfferingSegment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityBlockOfferingSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityBlockOfferingSegment()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.instanceCount = try reader["instanceCount"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.capacityBlockDurationHours = try reader["capacityBlockDurationHours"].readIfPresent()
+        value.capacityBlockDurationMinutes = try reader["capacityBlockDurationMinutes"].readIfPresent()
+        value.upfrontFee = try reader["upfrontFee"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
         value.zoneType = try reader["zoneType"].readIfPresent()
         return value
     }
@@ -133900,6 +134525,15 @@ extension EC2ClientTypes.CreateFleetInstance {
     }
 }
 
+extension EC2ClientTypes.CreatePeeringConnectionOptionsRequest {
+
+    static func write(value: EC2ClientTypes.CreatePeeringConnectionOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
+    }
+}
+
 extension EC2ClientTypes.CreateTransitGatewayConnectRequestOptions {
 
     static func write(value: EC2ClientTypes.CreateTransitGatewayConnectRequestOptions?, to writer: SmithyFormURL.Writer) throws {
@@ -133922,7 +134556,9 @@ extension EC2ClientTypes.CreateTransitGatewayPeeringAttachmentRequestOptions {
 
     static func write(value: EC2ClientTypes.CreateTransitGatewayPeeringAttachmentRequestOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
         try writer["DynamicRouting"].write(value.dynamicRouting)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
     }
 }
 
@@ -139985,6 +140621,15 @@ extension EC2ClientTypes.ModifyTransitGatewayOptions {
     }
 }
 
+extension EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions {
+
+    static func write(value: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
+    }
+}
+
 extension EC2ClientTypes.ModifyTransitGatewayVpcAttachmentRequestOptions {
 
     static func write(value: EC2ClientTypes.ModifyTransitGatewayVpcAttachmentRequestOptions?, to writer: SmithyFormURL.Writer) throws {
@@ -140102,6 +140747,9 @@ extension EC2ClientTypes.ModifyVpnTunnelOptionsSpecification {
             try writer["IKEVersion"].writeList(value.ikeVersions, memberWritingClosure: EC2ClientTypes.IKEVersionsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["LogOptions"].write(value.logOptions, with: EC2ClientTypes.VpnTunnelLogOptionsSpecification.write(value:to:))
+        if !(value.phase1AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase1AdditionalKeyExchange"].writeList(value.phase1AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase1DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase1DHGroupNumber"].writeList(value.phase1DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase1DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -140112,6 +140760,9 @@ extension EC2ClientTypes.ModifyVpnTunnelOptionsSpecification {
             try writer["Phase1IntegrityAlgorithm"].writeList(value.phase1IntegrityAlgorithms, memberWritingClosure: EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Phase1LifetimeSeconds"].write(value.phase1LifetimeSeconds)
+        if !(value.phase2AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase2AdditionalKeyExchange"].writeList(value.phase2AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase2DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase2DHGroupNumber"].writeList(value.phase2DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase2DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -140977,6 +141628,8 @@ extension EC2ClientTypes.PeeringConnectionOptions {
         value.allowDnsResolutionFromRemoteVpc = try reader["allowDnsResolutionFromRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalClassicLinkToRemoteVpc = try reader["allowEgressFromLocalClassicLinkToRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalVpcToRemoteClassicLink = try reader["allowEgressFromLocalVpcToRemoteClassicLink"].readIfPresent()
+        value.allowMultipathResilience = try reader["allowMultipathResilience"].readIfPresent()
+        value.multipathResilienceMode = try reader["multipathResilienceMode"].readIfPresent()
         return value
     }
 }
@@ -140988,6 +141641,8 @@ extension EC2ClientTypes.PeeringConnectionOptionsRequest {
         try writer["AllowDnsResolutionFromRemoteVpc"].write(value.allowDnsResolutionFromRemoteVpc)
         try writer["AllowEgressFromLocalClassicLinkToRemoteVpc"].write(value.allowEgressFromLocalClassicLinkToRemoteVpc)
         try writer["AllowEgressFromLocalVpcToRemoteClassicLink"].write(value.allowEgressFromLocalVpcToRemoteClassicLink)
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
     }
 }
 
@@ -144609,6 +145264,11 @@ extension EC2ClientTypes.TransitGatewayPeeringAttachmentOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.TransitGatewayPeeringAttachmentOptions()
         value.dynamicRouting = try reader["dynamicRouting"].readIfPresent()
+        value.requesterAllowMultipathResilience = try reader["requesterAllowMultipathResilience"].readIfPresent()
+        value.requesterMultipathResilienceMode = try reader["requesterMultipathResilienceMode"].readIfPresent()
+        value.accepterAllowMultipathResilience = try reader["accepterAllowMultipathResilience"].readIfPresent()
+        value.accepterMultipathResilienceMode = try reader["accepterMultipathResilienceMode"].readIfPresent()
+        value.multipathResilienceStatus = try reader["multipathResilienceStatus"].readIfPresent()
         return value
     }
 }
@@ -144941,6 +145601,8 @@ extension EC2ClientTypes.TunnelOption {
         value.startupAction = try reader["startupAction"].readIfPresent()
         value.logOptions = try reader["logOptions"].readIfPresent(with: EC2ClientTypes.VpnTunnelLogOptions.read(from:))
         value.enableTunnelLifecycleControl = try reader["enableTunnelLifecycleControl"].readIfPresent()
+        value.phase1AdditionalKeyExchanges = try reader["phase1AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.VpnAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.phase2AdditionalKeyExchanges = try reader["phase2AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.VpnAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -146006,6 +146668,7 @@ extension EC2ClientTypes.VpcPeeringConnection {
         value.status = try reader["status"].readIfPresent(with: EC2ClientTypes.VpcPeeringConnectionStateReason.read(from:))
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcPeeringConnectionId = try reader["vpcPeeringConnectionId"].readIfPresent()
+        value.multipathResilienceStatus = try reader["multipathResilienceStatus"].readIfPresent()
         return value
     }
 }
@@ -146018,6 +146681,8 @@ extension EC2ClientTypes.VpcPeeringConnectionOptionsDescription {
         value.allowDnsResolutionFromRemoteVpc = try reader["allowDnsResolutionFromRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalClassicLinkToRemoteVpc = try reader["allowEgressFromLocalClassicLinkToRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalVpcToRemoteClassicLink = try reader["allowEgressFromLocalVpcToRemoteClassicLink"].readIfPresent()
+        value.allowMultipathResilience = try reader["allowMultipathResilience"].readIfPresent()
+        value.multipathResilienceMode = try reader["multipathResilienceMode"].readIfPresent()
         return value
     }
 }
@@ -146046,6 +146711,30 @@ extension EC2ClientTypes.VpcPeeringConnectionVpcInfo {
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.VpnAdditionalKeyExchange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.VpnAdditionalKeyExchange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.VpnAdditionalKeyExchange()
+        value.additionalKeyExchangeRound = try reader["additionalKeyExchangeRound"].readIfPresent()
+        value.keyExchangeMethods = try reader["keyExchangeMethodSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AdditionalKeyExchangeMethodsListValue.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.requirement = try reader["requirement"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.VpnAdditionalKeyExchangeRequest {
+
+    static func write(value: EC2ClientTypes.VpnAdditionalKeyExchangeRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalKeyExchangeRound"].write(value.additionalKeyExchangeRound)
+        if !(value.keyExchangeMethods?.isEmpty ?? true) {
+            try writer["KeyExchangeMethod"].writeList(value.keyExchangeMethods, memberWritingClosure: EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Requirement"].write(value.requirement)
     }
 }
 
@@ -146200,6 +146889,9 @@ extension EC2ClientTypes.VpnTunnelOptionsSpecification {
             try writer["IKEVersion"].writeList(value.ikeVersions, memberWritingClosure: EC2ClientTypes.IKEVersionsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["LogOptions"].write(value.logOptions, with: EC2ClientTypes.VpnTunnelLogOptionsSpecification.write(value:to:))
+        if !(value.phase1AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase1AdditionalKeyExchange"].writeList(value.phase1AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase1DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase1DHGroupNumber"].writeList(value.phase1DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase1DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -146210,6 +146902,9 @@ extension EC2ClientTypes.VpnTunnelOptionsSpecification {
             try writer["Phase1IntegrityAlgorithm"].writeList(value.phase1IntegrityAlgorithms, memberWritingClosure: EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Phase1LifetimeSeconds"].write(value.phase1LifetimeSeconds)
+        if !(value.phase2AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase2AdditionalKeyExchange"].writeList(value.phase2AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase2DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase2DHGroupNumber"].writeList(value.phase2DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase2DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }

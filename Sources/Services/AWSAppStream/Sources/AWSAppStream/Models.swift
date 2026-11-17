@@ -71,6 +71,7 @@ extension AppStreamClientTypes {
         case fileDownload
         case fileUpload
         case printingToLocalDevice
+        case smartCardRedirection
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Action] {
@@ -82,7 +83,8 @@ extension AppStreamClientTypes {
                 .domainSmartCardSignin,
                 .fileDownload,
                 .fileUpload,
-                .printingToLocalDevice
+                .printingToLocalDevice,
+                .smartCardRedirection
             ]
         }
 
@@ -101,6 +103,7 @@ extension AppStreamClientTypes {
             case .fileDownload: return "FILE_DOWNLOAD"
             case .fileUpload: return "FILE_UPLOAD"
             case .printingToLocalDevice: return "PRINTING_TO_LOCAL_DEVICE"
+            case .smartCardRedirection: return "SMART_CARD_REDIRECTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2977,6 +2980,18 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * stream.graphics.gr6f.4xlarge
     ///
+    /// * stream.graphics.g7.2xlarge
+    ///
+    /// * stream.graphics.g7.4xlarge
+    ///
+    /// * stream.graphics.g7.8xlarge
+    ///
+    /// * stream.graphics.g7.12xlarge
+    ///
+    /// * stream.graphics.g7.24xlarge
+    ///
+    /// * stream.graphics.g7.48xlarge
+    ///
     ///
     /// The following instance types are available for Elastic fleets:
     ///
@@ -3251,6 +3266,18 @@ extension AppStreamClientTypes {
         /// * stream.graphics.g6f.4xlarge
         ///
         /// * stream.graphics.gr6f.4xlarge
+        ///
+        /// * stream.graphics.g7.2xlarge
+        ///
+        /// * stream.graphics.g7.4xlarge
+        ///
+        /// * stream.graphics.g7.8xlarge
+        ///
+        /// * stream.graphics.g7.12xlarge
+        ///
+        /// * stream.graphics.g7.24xlarge
+        ///
+        /// * stream.graphics.g7.48xlarge
         /// This member is required.
         public var instanceType: Swift.String?
         /// The maximum number of concurrent sessions for the fleet.
@@ -3515,6 +3542,18 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.graphics.g6f.4xlarge
     ///
     /// * stream.graphics.gr6f.4xlarge
+    ///
+    /// * stream.graphics.g7.2xlarge
+    ///
+    /// * stream.graphics.g7.4xlarge
+    ///
+    /// * stream.graphics.g7.8xlarge
+    ///
+    /// * stream.graphics.g7.12xlarge
+    ///
+    /// * stream.graphics.g7.24xlarge
+    ///
+    /// * stream.graphics.g7.48xlarge
     /// This member is required.
     public var instanceType: Swift.String?
     /// A unique name for the image builder.
@@ -3956,6 +3995,18 @@ extension AppStreamClientTypes {
         /// * stream.graphics.g6f.4xlarge
         ///
         /// * stream.graphics.gr6f.4xlarge
+        ///
+        /// * stream.graphics.g7.2xlarge
+        ///
+        /// * stream.graphics.g7.4xlarge
+        ///
+        /// * stream.graphics.g7.8xlarge
+        ///
+        /// * stream.graphics.g7.12xlarge
+        ///
+        /// * stream.graphics.g7.24xlarge
+        ///
+        /// * stream.graphics.g7.48xlarge
         public var instanceType: Swift.String?
         /// Indicates whether the image builder is using the latest WorkSpaces Applications agent version or not.
         public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
@@ -4689,12 +4740,12 @@ extension AppStreamClientTypes {
 
     /// Describes an action and whether the action is enabled or disabled for users during their streaming sessions.
     public struct UserSetting: Swift.Sendable {
-        /// The action that is enabled or disabled.
+        /// The action you want to enable or disable. Choose from the following: AUTO_TIME_ZONE_REDIRECTION Controls whether the streaming session's time zone matches the time zone of your local device. CLIPBOARD_COPY_FROM_LOCAL_DEVICE Controls whether you can copy data from your local device and paste it into the streaming session. CLIPBOARD_COPY_TO_LOCAL_DEVICE Controls whether you can copy data from the streaming session and paste it to your local device. DOMAIN_PASSWORD_SIGNIN Controls whether you can sign in to a domain-joined streaming session by using your password. DOMAIN_SMART_CARD_SIGNIN Controls whether you can sign in to a domain-joined streaming session by using a smart card. FILE_DOWNLOAD Controls whether you can download files from the streaming session to your local device. FILE_UPLOAD Controls whether you can upload files from your local device to the streaming session. PRINTING_TO_LOCAL_DEVICE Controls whether you can print from the streaming session to a printer on your local device. SMART_CARD_REDIRECTION Controls whether smart cards connected to your local device are redirected into the streaming session. Applications in the session can access the local smart card for use cases such as authentication, digital signing, and email encryption. Smart card redirection was on by default for existing streaming sessions that use a Windows single-session fleet. To preserve that behavior, SMART_CARD_REDIRECTION is ENABLED by default on existing stacks associated with Windows single-session fleets. To turn it off, call UpdateStack with SMART_CARD_REDIRECTION set to DISABLED, and use an image that includes the latest WorkSpaces Applications agent version.
         /// This member is required.
         public var action: AppStreamClientTypes.Action?
         /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED. The value can be between 1 and 20,971,520 (20 MB).
         public var maximumLength: Swift.Int?
-        /// Indicates whether the action is enabled or disabled.
+        /// Specifies whether to turn the action on or off.
         /// This member is required.
         public var permission: AppStreamClientTypes.Permission?
 
@@ -7788,6 +7839,18 @@ public struct UpdateFleetInput: Swift.Sendable {
     /// * stream.graphics.g6f.4xlarge
     ///
     /// * stream.graphics.gr6f.4xlarge
+    ///
+    /// * stream.graphics.g7.2xlarge
+    ///
+    /// * stream.graphics.g7.4xlarge
+    ///
+    /// * stream.graphics.g7.8xlarge
+    ///
+    /// * stream.graphics.g7.12xlarge
+    ///
+    /// * stream.graphics.g7.24xlarge
+    ///
+    /// * stream.graphics.g7.48xlarge
     ///
     ///
     /// The following instance types are available for Elastic fleets:

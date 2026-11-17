@@ -2515,6 +2515,7 @@ extension ECRClientTypes {
         case failed
         case findingsUnavailable
         case imageArchived
+        case imageSizeExceeded
         case inProgress
         case limitExceeded
         case pending
@@ -2529,6 +2530,7 @@ extension ECRClientTypes {
                 .failed,
                 .findingsUnavailable,
                 .imageArchived,
+                .imageSizeExceeded,
                 .inProgress,
                 .limitExceeded,
                 .pending,
@@ -2549,6 +2551,7 @@ extension ECRClientTypes {
             case .failed: return "FAILED"
             case .findingsUnavailable: return "FINDINGS_UNAVAILABLE"
             case .imageArchived: return "IMAGE_ARCHIVED"
+            case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
             case .inProgress: return "IN_PROGRESS"
             case .limitExceeded: return "LIMIT_EXCEEDED"
             case .pending: return "PENDING"
