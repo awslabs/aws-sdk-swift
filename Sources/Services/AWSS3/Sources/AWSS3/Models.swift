@@ -7363,7 +7363,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
+    /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, including within a Not or Or element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
     public struct DeleteMarkerReplication: Swift.Sendable {
         /// Indicates whether to replicate delete markers. Indicates whether to replicate delete markers.
         public var status: S3ClientTypes.DeleteMarkerReplicationStatus?
@@ -7378,15 +7378,64 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    public enum UseSourceMultiRegionKeyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UseSourceMultiRegionKeyStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// A container for configuring the use of the related multi-Region KMS key in the destination Amazon Web Services Region for replication.
+    public struct UseSourceMultiRegionKey: Swift.Sendable {
+        /// Specifies whether Amazon S3 uses the related multi-Region KMS key in the destination Amazon Web Services Region to encrypt the replica.
+        /// This member is required.
+        public var status: S3ClientTypes.UseSourceMultiRegionKeyStatus?
+
+        public init(
+            status: S3ClientTypes.UseSourceMultiRegionKeyStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// Specifies encryption-related information for an Amazon S3 bucket that is a destination for replicated objects. If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
     public struct EncryptionConfiguration: Swift.Sendable {
         /// Specifies the ID (Key ARN or Alias ARN) of the customer managed Amazon Web Services KMS key stored in Amazon Web Services Key Management Service (KMS) for the destination bucket. Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in Amazon Web Services KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
         public var replicaKmsKeyID: Swift.String?
+        /// Specifies whether Amazon S3 uses the related multi-Region KMS key in the destination Amazon Web Services Region to encrypt the replica.
+        public var useSourceMultiRegionKey: S3ClientTypes.UseSourceMultiRegionKey?
 
         public init(
-            replicaKmsKeyID: Swift.String? = nil
+            replicaKmsKeyID: Swift.String? = nil,
+            useSourceMultiRegionKey: S3ClientTypes.UseSourceMultiRegionKey? = nil
         ) {
             self.replicaKmsKeyID = replicaKmsKeyID
+            self.useSourceMultiRegionKey = useSourceMultiRegionKey
         }
     }
 }
@@ -7592,21 +7641,67 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    /// A container for specifying one or more prefix or tag filters.
+    public struct ReplicationRuleOrOperator: Swift.Sendable {
+        /// An array of object key name prefixes.
+        public var prefixes: [Swift.String]?
+        /// An array of tags containing key and value pairs.
+        public var tags: [S3ClientTypes.Tag]?
+
+        public init(
+            prefixes: [Swift.String]? = nil,
+            tags: [S3ClientTypes.Tag]? = nil
+        ) {
+            self.prefixes = prefixes
+            self.tags = tags
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// A container for specifying a filter that excludes matching objects from the replication rule. Specify exactly one Prefix, Tag, or Or child element.
+    public struct ReplicationRuleNotOperator: Swift.Sendable {
+        /// A container for specifying prefixes and tags. An object is excluded from the replication rule if it matches any of the specified filters.
+        public var or: S3ClientTypes.ReplicationRuleOrOperator?
+        /// An object key name prefix that identifies objects to exclude from the replication rule.
+        public var `prefix`: Swift.String?
+        /// A tag key and value that identify objects to exclude from the replication rule.
+        public var tag: S3ClientTypes.Tag?
+
+        public init(
+            or: S3ClientTypes.ReplicationRuleOrOperator? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ClientTypes.Tag? = nil
+        ) {
+            self.or = or
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:
     ///
     /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.
     ///
     /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
     public struct ReplicationRuleAndOperator: Swift.Sendable {
+        /// A container for specifying filters that exclude matching objects from the replication rule.
+        public var not: S3ClientTypes.ReplicationRuleNotOperator?
         /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public var `prefix`: Swift.String?
         /// An array of tags containing key and value pairs.
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
+            not: S3ClientTypes.ReplicationRuleNotOperator? = nil,
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
         ) {
+            self.not = not
             self.`prefix` = `prefix`
             self.tags = tags
         }
@@ -7615,7 +7710,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
+    /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, And, or Not child element.
     public struct ReplicationRuleFilter: Swift.Sendable {
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:
         ///
@@ -7623,6 +7718,8 @@ extension S3ClientTypes {
         ///
         /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
         public var and: S3ClientTypes.ReplicationRuleAndOperator?
+        /// A container for specifying filters that exclude matching objects from the replication rule.
+        public var not: S3ClientTypes.ReplicationRuleNotOperator?
         /// An object key name prefix that identifies the subset of objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
         public var `prefix`: Swift.String?
         /// A container for specifying a tag key and value. The rule applies only to objects that have the tag in their tag set.
@@ -7630,10 +7727,12 @@ extension S3ClientTypes {
 
         public init(
             and: S3ClientTypes.ReplicationRuleAndOperator? = nil,
+            not: S3ClientTypes.ReplicationRuleNotOperator? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ClientTypes.Tag? = nil
         ) {
             self.and = and
+            self.not = not
             self.`prefix` = `prefix`
             self.tag = tag
         }
@@ -7782,14 +7881,14 @@ extension S3ClientTypes {
 
     /// Specifies which Amazon S3 objects to replicate and where to store the replicas.
     public struct ReplicationRule: Swift.Sendable {
-        /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
+        /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, including within a Not or Or element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
         public var deleteMarkerReplication: S3ClientTypes.DeleteMarkerReplication?
         /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
         /// This member is required.
         public var destination: S3ClientTypes.Destination?
         /// Optional configuration to replicate existing source bucket objects. This parameter is no longer supported. To replicate existing objects, see [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) in the Amazon S3 User Guide.
         public var existingObjectReplication: S3ClientTypes.ExistingObjectReplication?
-        /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
+        /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, And, or Not child element.
         public var filter: S3ClientTypes.ReplicationRuleFilter?
         /// A unique identifier for the rule. The maximum value is 255 characters.
         public var id: Swift.String?
@@ -24449,12 +24548,14 @@ extension S3ClientTypes.EncryptionConfiguration {
     static func write(value: S3ClientTypes.EncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["ReplicaKmsKeyID"].write(value.replicaKmsKeyID)
+        try writer["UseSourceMultiRegionKey"].write(value.useSourceMultiRegionKey, with: S3ClientTypes.UseSourceMultiRegionKey.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ClientTypes.EncryptionConfiguration()
         value.replicaKmsKeyID = try reader["ReplicaKmsKeyID"].readIfPresent()
+        value.useSourceMultiRegionKey = try reader["UseSourceMultiRegionKey"].readIfPresent(with: S3ClientTypes.UseSourceMultiRegionKey.read(from:))
         return value
     }
 }
@@ -25781,6 +25882,7 @@ extension S3ClientTypes.ReplicationRuleAndOperator {
 
     static func write(value: S3ClientTypes.ReplicationRuleAndOperator?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["Not"].write(value.not, with: S3ClientTypes.ReplicationRuleNotOperator.write(value:to:))
         try writer["Prefix"].write(value.`prefix`)
         try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
     }
@@ -25790,6 +25892,7 @@ extension S3ClientTypes.ReplicationRuleAndOperator {
         var value = S3ClientTypes.ReplicationRuleAndOperator()
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
+        value.not = try reader["Not"].readIfPresent(with: S3ClientTypes.ReplicationRuleNotOperator.read(from:))
         return value
     }
 }
@@ -25799,6 +25902,7 @@ extension S3ClientTypes.ReplicationRuleFilter {
     static func write(value: S3ClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["And"].write(value.and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
+        try writer["Not"].write(value.not, with: S3ClientTypes.ReplicationRuleNotOperator.write(value:to:))
         try writer["Prefix"].write(value.`prefix`)
         try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
@@ -25809,6 +25913,43 @@ extension S3ClientTypes.ReplicationRuleFilter {
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
         value.and = try reader["And"].readIfPresent(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:))
+        value.not = try reader["Not"].readIfPresent(with: S3ClientTypes.ReplicationRuleNotOperator.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.ReplicationRuleNotOperator {
+
+    static func write(value: S3ClientTypes.ReplicationRuleNotOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Or"].write(value.or, with: S3ClientTypes.ReplicationRuleOrOperator.write(value:to:))
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleNotOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationRuleNotOperator()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.or = try reader["Or"].readIfPresent(with: S3ClientTypes.ReplicationRuleOrOperator.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.ReplicationRuleOrOperator {
+
+    static func write(value: S3ClientTypes.ReplicationRuleOrOperator?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Prefix"].writeList(value.prefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Prefix", isFlattened: true)
+        try writer["Tag"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: true)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleOrOperator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ReplicationRuleOrOperator()
+        value.prefixes = try reader["Prefix"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Prefix", isFlattened: true)
+        value.tags = try reader["Tag"].readListIfPresent(memberReadingClosure: S3ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: true)
         return value
     }
 }
@@ -26287,6 +26428,21 @@ extension S3ClientTypes.Transition {
         value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.days = try reader["Days"].readIfPresent()
         value.storageClass = try reader["StorageClass"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.UseSourceMultiRegionKey {
+
+    static func write(value: S3ClientTypes.UseSourceMultiRegionKey?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.UseSourceMultiRegionKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.UseSourceMultiRegionKey()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

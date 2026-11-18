@@ -32451,6 +32451,12 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.CustomPromptInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct CreateAgentInput: Swift.Sendable {
     /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
     public var actionConnectors: [Swift.String]?
@@ -50168,6 +50174,21 @@ extension QuickSightClientTypes {
         /// The Amazon Resource Name (ARN) of the user that you want to get identity context for.
         case userarn(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes.UserIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .username:
+            return "UserIdentifier.username(\"CONTENT_REDACTED\")"
+        case .email:
+            return "UserIdentifier.email(\"CONTENT_REDACTED\")"
+        case .userarn(let value):
+            return "UserIdentifier.userarn(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "UserIdentifier.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

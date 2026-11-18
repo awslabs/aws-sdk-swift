@@ -625,6 +625,12 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.GuardrailImageSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     /// Contain an image which user wants guarded. This block is accepted by the guardrails independent API.
@@ -713,6 +719,19 @@ extension BedrockRuntimeClientTypes {
         /// Image within guardrail content block to be evaluated by the guardrail.
         case image(BedrockRuntimeClientTypes.GuardrailImageBlock)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text(let value):
+            return "GuardrailContentBlock.text(\(Swift.String(describing: value)))"
+        case .image:
+            return "GuardrailContentBlock.image(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "GuardrailContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -2581,6 +2600,17 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.GuardrailChecksContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "GuardrailChecksContentBlock.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "GuardrailChecksContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     /// The role of the message sender in the conversation.
@@ -3178,6 +3208,12 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.AudioSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     /// An audio content block that contains audio data in various supported formats.
@@ -3656,6 +3692,12 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.GuardrailConverseImageSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     /// An image block that contains images that you want to assess with a guardrail.
@@ -3747,6 +3789,19 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.GuardrailConverseContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text(let value):
+            return "GuardrailConverseContentBlock.text(\(Swift.String(describing: value)))"
+        case .image:
+            return "GuardrailConverseContentBlock.image(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "GuardrailConverseContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     public enum ImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -3791,6 +3846,12 @@ extension BedrockRuntimeClientTypes {
         /// The location of an image object in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
         case s3location(BedrockRuntimeClientTypes.S3Location)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.ImageSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -3859,6 +3920,12 @@ extension BedrockRuntimeClientTypes {
         /// The content in the reasoning that was encrypted by the model provider for safety reasons. The encryption doesn't affect the quality of responses.
         case redactedcontent(Foundation.Data)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.ReasoningContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -4216,6 +4283,43 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.ContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text(let value):
+            return "ContentBlock.text(\(Swift.String(describing: value)))"
+        case .image(let value):
+            return "ContentBlock.image(\(Swift.String(describing: value)))"
+        case .document(let value):
+            return "ContentBlock.document(\(Swift.String(describing: value)))"
+        case .video(let value):
+            return "ContentBlock.video(\(Swift.String(describing: value)))"
+        case .audio(let value):
+            return "ContentBlock.audio(\(Swift.String(describing: value)))"
+        case .tooluse(let value):
+            return "ContentBlock.tooluse(\(Swift.String(describing: value)))"
+        case .toolresult(let value):
+            return "ContentBlock.toolresult(\(Swift.String(describing: value)))"
+        case .guardcontent(let value):
+            return "ContentBlock.guardcontent(\(Swift.String(describing: value)))"
+        case .cachepoint(let value):
+            return "ContentBlock.cachepoint(\(Swift.String(describing: value)))"
+        case .reasoningcontent:
+            return "ContentBlock.reasoningcontent(\"CONTENT_REDACTED\")"
+        case .citationscontent(let value):
+            return "ContentBlock.citationscontent(\(Swift.String(describing: value)))"
+        case .searchresult(let value):
+            return "ContentBlock.searchresult(\(Swift.String(describing: value)))"
+        case .tooladdition(let value):
+            return "ContentBlock.tooladdition(\(Swift.String(describing: value)))"
+        case .toolremoval(let value):
+            return "ContentBlock.toolremoval(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "ContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     public enum ConversationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4308,6 +4412,12 @@ extension BedrockRuntimeClientTypes {
         /// A JSON schema structure that the model's output must adhere to.
         case jsonschema(BedrockRuntimeClientTypes.JsonSchemaDefinition)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.OutputFormatStructure: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -5170,6 +5280,12 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.ReasoningContentBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockRuntimeClientTypes {
 
     /// Contains incremental updates to tool results information during streaming responses. This allows clients to build up tool results data progressively as the response is generated.
@@ -5215,6 +5331,27 @@ extension BedrockRuntimeClientTypes {
         /// A streaming delta event containing incremental image data.
         case image(BedrockRuntimeClientTypes.ImageBlockDelta)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.ContentBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text(let value):
+            return "ContentBlockDelta.text(\(Swift.String(describing: value)))"
+        case .tooluse(let value):
+            return "ContentBlockDelta.tooluse(\(Swift.String(describing: value)))"
+        case .toolresult(let value):
+            return "ContentBlockDelta.toolresult(\(Swift.String(describing: value)))"
+        case .reasoningcontent:
+            return "ContentBlockDelta.reasoningcontent(\"CONTENT_REDACTED\")"
+        case .citation(let value):
+            return "ContentBlockDelta.citation(\(Swift.String(describing: value)))"
+        case .image(let value):
+            return "ContentBlockDelta.image(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "ContentBlockDelta.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -5683,6 +5820,17 @@ extension BedrockRuntimeClientTypes {
     }
 }
 
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .chunk:
+            return "InvokeModelWithBidirectionalStreamInput.chunk(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "InvokeModelWithBidirectionalStreamInput.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct InvokeModelWithBidirectionalStreamInput: Swift.Sendable {
     /// The prompt and inference parameters in the format specified in the BidirectionalInputPayloadPart in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
     /// This member is required.
@@ -5728,6 +5876,17 @@ extension BedrockRuntimeClientTypes {
         /// The speech chunk that was provided as output from the invocation step.
         case chunk(BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .chunk:
+            return "InvokeModelWithBidirectionalStreamOutput.chunk(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "InvokeModelWithBidirectionalStreamOutput.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -5840,6 +5999,17 @@ extension BedrockRuntimeClientTypes {
         /// Content included in the response.
         case chunk(BedrockRuntimeClientTypes.PayloadPart)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes.ResponseStream: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .chunk:
+            return "ResponseStream.chunk(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "ResponseStream.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

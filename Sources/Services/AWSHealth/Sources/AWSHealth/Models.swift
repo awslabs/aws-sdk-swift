@@ -252,7 +252,7 @@ extension HealthClientTypes {
 
     /// Information about an entity that is affected by a Health event.
     public struct AffectedEntity: Swift.Sendable {
-        /// A map of account tag key-value pairs attached to the affected entity.
+        /// A map of account tag key-value pairs for the account that owns the affected entity. This field is returned only by DescribeAffectedEntitiesForOrganization and is not populated by DescribeAffectedEntities.
         public var accountTags: [Swift.String: Swift.String]?
         /// The 12-digit Amazon Web Services account number that contains the affected entity.
         public var awsAccountId: Swift.String?
@@ -272,8 +272,6 @@ extension HealthClientTypes {
         public var resourceTags: [Swift.String: Swift.String]?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, and RESOLVED.
         public var statusCode: HealthClientTypes.EntityStatusCode?
-        /// A map of resource tag key-value pairs attached to the affected entity. Currently, the tags property isn't supported.
-        public var tags: [Swift.String: Swift.String]?
 
         public init(
             accountTags: [Swift.String: Swift.String]? = nil,
@@ -285,8 +283,7 @@ extension HealthClientTypes {
             eventArn: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
-            statusCode: HealthClientTypes.EntityStatusCode? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            statusCode: HealthClientTypes.EntityStatusCode? = nil
         ) {
             self.accountTags = accountTags
             self.awsAccountId = awsAccountId
@@ -298,8 +295,39 @@ extension HealthClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceTags = resourceTags
             self.statusCode = statusCode
-            self.tags = tags
         }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A resource tag key to configure for Health event tracking.
+    public struct ConfigureTagsTagKey: Swift.Sendable {
+        /// Whether this tag key is enabled for EventBridge notifications.
+        public var enabledForEventBridge: Swift.Bool
+        /// The tag key name.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            enabledForEventBridge: Swift.Bool = false,
+            key: Swift.String? = nil
+        ) {
+            self.enabledForEventBridge = enabledForEventBridge
+            self.key = key
+        }
+    }
+}
+
+public struct ConfigureTagsInput: Swift.Sendable {
+    /// The list of resource tag keys to configure for Health event tracking.
+    /// This member is required.
+    public var tagKeys: [HealthClientTypes.ConfigureTagsTagKey]?
+
+    public init(
+        tagKeys: [HealthClientTypes.ConfigureTagsTagKey]? = nil
+    ) {
+        self.tagKeys = tagKeys
     }
 }
 
@@ -355,18 +383,6 @@ extension HealthClientTypes {
     }
 }
 
-public struct ConfigureTagsInput: Swift.Sendable {
-    /// The list of resource tag keys to configure for Health event tracking.
-    /// This member is required.
-    public var tagKeys: [HealthClientTypes.ResourceTagKey]?
-
-    public init(
-        tagKeys: [HealthClientTypes.ResourceTagKey]? = nil
-    ) {
-        self.tagKeys = tagKeys
-    }
-}
-
 public struct ConfigureTagsOutput: Swift.Sendable {
     /// The list of resource tag keys that were successfully configured.
     public var configuredTagKeys: [HealthClientTypes.ResourceTagKey]?
@@ -385,6 +401,7 @@ extension HealthClientTypes {
         /// Whether this tag key is enabled for EventBridge notifications.
         public var enabledForEventBridge: Swift.Bool
         /// The tag key name.
+        /// This member is required.
         public var key: Swift.String?
 
         public init(
@@ -409,12 +426,35 @@ public struct ConfigureTagsForOrganizationInput: Swift.Sendable {
     }
 }
 
+extension HealthClientTypes {
+
+    /// A tag key configured for Health event tracking across an organization.
+    public struct OrganizationTagKey: Swift.Sendable {
+        /// Whether this tag key is enabled for EventBridge notifications.
+        public var enabledForEventBridge: Swift.Bool
+        /// The tag key name.
+        public var key: Swift.String?
+        /// The current status of the tag key configuration.
+        public var status: HealthClientTypes.TagKeyStatus?
+
+        public init(
+            enabledForEventBridge: Swift.Bool = false,
+            key: Swift.String? = nil,
+            status: HealthClientTypes.TagKeyStatus? = nil
+        ) {
+            self.enabledForEventBridge = enabledForEventBridge
+            self.key = key
+            self.status = status
+        }
+    }
+}
+
 public struct ConfigureTagsForOrganizationOutput: Swift.Sendable {
-    /// The list of tag keys that were successfully configured for the organization.
-    public var configuredTagKeys: [HealthClientTypes.TagKeyForOrganization]?
+    /// The list of tag keys that were successfully configured for the organization, with the current status of each tag key.
+    public var configuredTagKeys: [HealthClientTypes.OrganizationTagKey]?
 
     public init(
-        configuredTagKeys: [HealthClientTypes.TagKeyForOrganization]? = nil
+        configuredTagKeys: [HealthClientTypes.OrganizationTagKey]? = nil
     ) {
         self.configuredTagKeys = configuredTagKeys
     }
@@ -585,7 +625,7 @@ extension HealthClientTypes {
         public var lastUpdatedTimes: [HealthClientTypes.DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
         public var statusCodes: [HealthClientTypes.EntityStatusCode]?
-        /// A map of resource tag key-value pairs to filter affected entities. Currently, the tags property isn't supported.
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. The filter matches when at least one key in the map matches.
         public var tags: [Swift.String: [Swift.String]]?
 
         public init(
@@ -1093,7 +1133,7 @@ extension HealthClientTypes {
         public var services: [Swift.String]?
         /// A list of dates and times that the event began.
         public var startTimes: [HealthClientTypes.DateTimeRange]?
-        /// A map of resource tag key-value pairs to filter affected entities. Currently, the tags property isn't supported.
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. The filter matches when at least one key in the map matches.
         public var tags: [Swift.String: [Swift.String]]?
 
         public init(
@@ -1958,29 +1998,6 @@ public struct DescribeTagKeysOutput: Swift.Sendable {
         keys: [HealthClientTypes.ResourceTagKey]? = nil
     ) {
         self.keys = keys
-    }
-}
-
-extension HealthClientTypes {
-
-    /// A tag key configured for Health event tracking across an organization.
-    public struct OrganizationTagKey: Swift.Sendable {
-        /// Whether this tag key is enabled for EventBridge notifications.
-        public var enabledForEventBridge: Swift.Bool
-        /// The tag key name.
-        public var key: Swift.String?
-        /// The current status of the tag key configuration.
-        public var status: HealthClientTypes.TagKeyStatus?
-
-        public init(
-            enabledForEventBridge: Swift.Bool = false,
-            key: Swift.String? = nil,
-            status: HealthClientTypes.TagKeyStatus? = nil
-        ) {
-            self.enabledForEventBridge = enabledForEventBridge
-            self.key = key
-            self.status = status
-        }
     }
 }
 

@@ -498,6 +498,12 @@ extension ArtifactClientTypes {
     }
 }
 
+extension ArtifactClientTypes.InquiryContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension ArtifactClientTypes {
 
     public enum InquirySupportMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

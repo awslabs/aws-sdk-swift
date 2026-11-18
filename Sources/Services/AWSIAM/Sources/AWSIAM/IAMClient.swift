@@ -12581,7 +12581,7 @@ extension IAMClient {
 
     /// Performs the `UpdateLoginProfile` operation on the `IAM` service.
     ///
-    /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html) to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
+    /// Changes the password or the maximum sign-in session duration for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html) to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLoginProfileInput`)
     ///
@@ -12591,6 +12591,7 @@ extension IAMClient {
     ///
     /// __Possible Exceptions:__
     /// - `EntityTemporarilyUnmodifiableException` : The request was rejected because it referenced an entity that is temporarily unmodifiable, such as a user name that was deleted and then recreated. The error indicates that the request is likely to succeed if you try again after waiting several minutes. The error message describes the entity.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PasswordPolicyViolationException` : The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
@@ -12724,7 +12725,7 @@ extension IAMClient {
 
     /// Performs the `UpdateRole` operation on the `IAM` service.
     ///
-    /// Updates the description or maximum session duration setting of a role.
+    /// Updates the description, maximum session duration, or maximum sign-in session duration of a role. You cannot change the maximum sign-in session duration of a service-linked role.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateRoleInput`)
     ///
@@ -12733,6 +12734,7 @@ extension IAMClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.

@@ -272,6 +272,12 @@ extension AccountAccessRuntimeClientTypes {
     }
 }
 
+extension AccountAccessRuntimeClientTypes.CredentialsDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct GetRoleCredentialsOutput: Swift.Sendable {
     /// The temporary credentials that the service returns for the requested role.
     public var credentialsDetails: AccountAccessRuntimeClientTypes.CredentialsDetails?

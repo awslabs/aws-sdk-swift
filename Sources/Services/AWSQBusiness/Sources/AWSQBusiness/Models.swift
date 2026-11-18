@@ -669,6 +669,19 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes.APISchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .payload:
+            return "APISchema.payload(\"CONTENT_REDACTED\")"
+        case .s3(let value):
+            return "APISchema.s3(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "APISchema.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension QBusinessClientTypes {
 
     public enum APISchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

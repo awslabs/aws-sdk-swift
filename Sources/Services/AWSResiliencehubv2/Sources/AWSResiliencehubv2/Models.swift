@@ -1628,7 +1628,7 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
-    /// The AWS DevOps Agent (DevOps Agent) integration configuration that you supply when creating or updating a service. Connecting a service to a DevOps Agent Agent Space lets DevOps Agent investigate the service's resilience test runs and attach its analysis to the results. Include this block with an Agent Space Amazon Resource Name (ARN) to connect or reconnect the service to an Agent Space. Include it without an Agent Space ARN to disconnect the service. Omit it to leave the existing linkage unchanged.
+    /// The Amazon Web Services DevOps Agent (DevOps Agent) integration configuration that you supply when creating or updating a service. Connecting a service to an Agent Space lets DevOps Agent investigate the service's resilience test runs and attach its analysis to the results. Include this block with an Agent Space Amazon Resource Name (ARN) to connect or reconnect the service to an Agent Space. Include it without an Agent Space ARN to disconnect the service. Omit it to leave the existing linkage unchanged.
     public struct DevOpsAgentConfiguration: Swift.Sendable {
         /// The ARN of the DevOps Agent Agent Space to link to this service.
         public var agentSpaceArn: Swift.String?
@@ -3322,7 +3322,7 @@ extension Resiliencehubv2ClientTypes {
         ///
         /// * UNEVEN_USAGE - The insight relates to a dependency with uneven usage across the service.
         ///
-        /// * AWS_SERVICE - The insight relates to a dependency on an Amazon Web Services service.
+        /// * AWS_SERVICE - The insight relates to a dependency on an Amazon Web Services service. Resilience Hub doesn't currently return this value.
         /// This member is required.
         public var category: Resiliencehubv2ClientTypes.InsightsCategory?
         /// A human-readable explanation of the insight, describing the dependency behavior or condition that was detected.
@@ -4316,6 +4316,49 @@ public struct GetTestRunInput: Swift.Sendable {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// Contains the effective resilience policy values captured onto a test run from the service when the run was started.
+    public struct TestRunEffectivePolicyValues: Swift.Sendable {
+        /// The effective availability SLO value for the test run.
+        public var availabilitySlo: Resiliencehubv2ClientTypes.SloSource?
+        /// The effective data recovery time between backups value for the test run.
+        public var dataRecoveryTimeBetweenBackups: Resiliencehubv2ClientTypes.TargetSource?
+        /// The effective multi-Availability Zone (AZ) disaster recovery approach for the test run.
+        public var multiAzDrApproach: Resiliencehubv2ClientTypes.DisasterRecoverySource?
+        /// The effective multi-AZ RPO value for the test run, in minutes.
+        public var multiAzRpo: Resiliencehubv2ClientTypes.TargetSource?
+        /// The effective multi-AZ RTO value for the test run, in minutes.
+        public var multiAzRto: Resiliencehubv2ClientTypes.TargetSource?
+        /// The effective multi-Region disaster recovery approach for the test run.
+        public var multiRegionDrApproach: Resiliencehubv2ClientTypes.DisasterRecoverySource?
+        /// The effective multi-Region RPO value for the test run, in minutes.
+        public var multiRegionRpo: Resiliencehubv2ClientTypes.TargetSource?
+        /// The effective multi-Region RTO value for the test run, in minutes.
+        public var multiRegionRto: Resiliencehubv2ClientTypes.TargetSource?
+
+        public init(
+            availabilitySlo: Resiliencehubv2ClientTypes.SloSource? = nil,
+            dataRecoveryTimeBetweenBackups: Resiliencehubv2ClientTypes.TargetSource? = nil,
+            multiAzDrApproach: Resiliencehubv2ClientTypes.DisasterRecoverySource? = nil,
+            multiAzRpo: Resiliencehubv2ClientTypes.TargetSource? = nil,
+            multiAzRto: Resiliencehubv2ClientTypes.TargetSource? = nil,
+            multiRegionDrApproach: Resiliencehubv2ClientTypes.DisasterRecoverySource? = nil,
+            multiRegionRpo: Resiliencehubv2ClientTypes.TargetSource? = nil,
+            multiRegionRto: Resiliencehubv2ClientTypes.TargetSource? = nil
+        ) {
+            self.availabilitySlo = availabilitySlo
+            self.dataRecoveryTimeBetweenBackups = dataRecoveryTimeBetweenBackups
+            self.multiAzDrApproach = multiAzDrApproach
+            self.multiAzRpo = multiAzRpo
+            self.multiAzRto = multiAzRto
+            self.multiRegionDrApproach = multiRegionDrApproach
+            self.multiRegionRpo = multiRegionRpo
+            self.multiRegionRto = multiRegionRto
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     /// A snapshot of the resilience policy captured onto a test run from the service when the run was started.
     public struct TestRunPolicySnapshot: Swift.Sendable {
         /// The availability SLO targets.
@@ -4418,6 +4461,8 @@ extension Resiliencehubv2ClientTypes {
         public var accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting?
         /// The DevOps Agent investigation result for the test run, present when the integration is enabled for the service.
         public var devOpsAgentInvestigation: Resiliencehubv2ClientTypes.DevOpsAgentInvestigation?
+        /// The effective resilience policy values snapshotted from the service when the run was started. The test run is evaluated against these values.
+        public var effectivePolicyValues: Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues?
         /// The timestamp when the test run ended.
         public var endedAt: Foundation.Date?
         /// A human-readable reason for test run failure. Only present when the status is FAILED or ERROR.
@@ -4469,6 +4514,7 @@ extension Resiliencehubv2ClientTypes {
         public init(
             accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting? = nil,
             devOpsAgentInvestigation: Resiliencehubv2ClientTypes.DevOpsAgentInvestigation? = nil,
+            effectivePolicyValues: Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues? = nil,
             endedAt: Foundation.Date? = nil,
             errorMessage: Swift.String? = nil,
             eventCount: Swift.Int? = nil,
@@ -4493,6 +4539,7 @@ extension Resiliencehubv2ClientTypes {
         ) {
             self.accountTargeting = accountTargeting
             self.devOpsAgentInvestigation = devOpsAgentInvestigation
+            self.effectivePolicyValues = effectivePolicyValues
             self.endedAt = endedAt
             self.errorMessage = errorMessage
             self.eventCount = eventCount
@@ -8007,8 +8054,18 @@ public struct ListTestSourcesOutput: Swift.Sendable {
 }
 
 public struct ListTestTemplatesInput: Swift.Sendable {
+    /// Pagination page size.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
 
-    public init() { }
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
 }
 
 extension Resiliencehubv2ClientTypes {
@@ -8038,13 +8095,17 @@ extension Resiliencehubv2ClientTypes {
 }
 
 public struct ListTestTemplatesOutput: Swift.Sendable {
+    /// Pagination token.
+    public var nextToken: Swift.String?
     /// The list of test template summaries.
     /// This member is required.
     public var testTemplates: [Resiliencehubv2ClientTypes.TestTemplateSummary]?
 
     public init(
+        nextToken: Swift.String? = nil,
         testTemplates: [Resiliencehubv2ClientTypes.TestTemplateSummary]? = nil
     ) {
+        self.nextToken = nextToken
         self.testTemplates = testTemplates
     }
 }
@@ -9966,6 +10027,22 @@ extension ListTestTemplatesInput {
     }
 }
 
+extension ListTestTemplatesInput {
+
+    static func queryItemProvider(_ value: ListTestTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListUserJourneysInput {
 
     static func urlPathProvider(_ value: ListUserJourneysInput) -> Swift.String? {
@@ -11232,6 +11309,7 @@ extension ListTestTemplatesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ListTestTemplatesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.testTemplates = try reader["testTemplates"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.TestTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -11936,6 +12014,7 @@ enum GetTestTemplateOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12413,6 +12492,7 @@ enum ListTestTemplatesOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14442,6 +14522,7 @@ extension Resiliencehubv2ClientTypes.TestRun {
         value.testTemplateArn = try reader["testTemplateArn"].readIfPresent() ?? ""
         value.reportConfiguration = try reader["reportConfiguration"].readIfPresent(with: Resiliencehubv2ClientTypes.TestRunReportConfiguration.read(from:))
         value.policy = try reader["policy"].readIfPresent(with: Resiliencehubv2ClientTypes.TestRunPolicySnapshot.read(from:))
+        value.effectivePolicyValues = try reader["effectivePolicyValues"].readIfPresent(with: Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues.read(from:))
         value.reportOutput = try reader["reportOutput"].readIfPresent(with: Resiliencehubv2ClientTypes.ReportGenerationResult.read(from:))
         value.regionSwitchPlanArn = try reader["regionSwitchPlanArn"].readIfPresent()
         value.regionSwitchExecutionId = try reader["regionSwitchExecutionId"].readIfPresent()
@@ -14466,6 +14547,23 @@ extension Resiliencehubv2ClientTypes.TestRunDependencySummary {
         value.location = try reader["location"].readIfPresent()
         value.sourceRegions = try reader["sourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.provider = try reader["provider"].readIfPresent()
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.TestRunEffectivePolicyValues()
+        value.availabilitySlo = try reader["availabilitySlo"].readIfPresent(with: Resiliencehubv2ClientTypes.SloSource.read(from:))
+        value.multiAzRto = try reader["multiAzRto"].readIfPresent(with: Resiliencehubv2ClientTypes.TargetSource.read(from:))
+        value.multiAzRpo = try reader["multiAzRpo"].readIfPresent(with: Resiliencehubv2ClientTypes.TargetSource.read(from:))
+        value.multiAzDrApproach = try reader["multiAzDrApproach"].readIfPresent(with: Resiliencehubv2ClientTypes.DisasterRecoverySource.read(from:))
+        value.multiRegionRto = try reader["multiRegionRto"].readIfPresent(with: Resiliencehubv2ClientTypes.TargetSource.read(from:))
+        value.multiRegionRpo = try reader["multiRegionRpo"].readIfPresent(with: Resiliencehubv2ClientTypes.TargetSource.read(from:))
+        value.multiRegionDrApproach = try reader["multiRegionDrApproach"].readIfPresent(with: Resiliencehubv2ClientTypes.DisasterRecoverySource.read(from:))
+        value.dataRecoveryTimeBetweenBackups = try reader["dataRecoveryTimeBetweenBackups"].readIfPresent(with: Resiliencehubv2ClientTypes.TargetSource.read(from:))
         return value
     }
 }

@@ -2567,6 +2567,7 @@ extension Resiliencehubv2Client {
     /// - `AccessDeniedException` : Access denied — caller lacks required permissions.
     /// - `InternalServerException` : Internal service error.
     /// - `ResourceNotFoundException` : Resource not found.
+    /// - `ThrottlingException` : Too many requests — rate limit exceeded.
     /// - `ValidationException` : Validation error — invalid input parameters.
     public func getTestTemplate(input: GetTestTemplateInput) async throws -> GetTestTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -4436,6 +4437,7 @@ extension Resiliencehubv2Client {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied — caller lacks required permissions.
     /// - `InternalServerException` : Internal service error.
+    /// - `ThrottlingException` : Too many requests — rate limit exceeded.
     /// - `ValidationException` : Validation error — invalid input parameters.
     public func listTestTemplates(input: ListTestTemplatesInput) async throws -> ListTestTemplatesOutput {
         let context = Smithy.ContextBuilder()
@@ -4460,6 +4462,7 @@ extension Resiliencehubv2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTestTemplatesInput, ListTestTemplatesOutput>(ListTestTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTestTemplatesInput, ListTestTemplatesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestTemplatesInput, ListTestTemplatesOutput>(ListTestTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestTemplatesOutput>(ListTestTemplatesOutput.httpOutput(from:), ListTestTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestTemplatesInput, ListTestTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

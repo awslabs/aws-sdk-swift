@@ -392,6 +392,23 @@ extension DirectoryServiceDataClientTypes {
     }
 }
 
+extension DirectoryServiceDataClientTypes.AttributeValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s:
+            return "AttributeValue.s(\"CONTENT_REDACTED\")"
+        case .n:
+            return "AttributeValue.n(\"CONTENT_REDACTED\")"
+        case .bool:
+            return "AttributeValue.bool(\"CONTENT_REDACTED\")"
+        case .ss:
+            return "AttributeValue.ss(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "AttributeValue.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension DirectoryServiceDataClientTypes {
 
     public enum GroupScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

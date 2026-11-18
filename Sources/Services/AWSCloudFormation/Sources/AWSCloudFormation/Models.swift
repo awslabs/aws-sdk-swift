@@ -6932,6 +6932,139 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
+    public enum StageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case notApplicable
+        case notStarted
+        case partialSuccess
+        case pending
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StageStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .notApplicable,
+                .notStarted,
+                .partialSuccess,
+                .pending,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case .notStarted: return "NOT_STARTED"
+            case .partialSuccess: return "PARTIAL_SUCCESS"
+            case .pending: return "PENDING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Provides visibility into the stack instances deployment stage for a single Region, including per-stack-instance progress counts and a completion percentage for that Region.
+    public struct RegionalStackInstancesDeployment: Swift.Sendable {
+        /// The number of stack instances in this Region that were canceled because the operation exceeded its failure tolerance or was stopped.
+        public var cancelledStackInstancesCount: Swift.Int?
+        /// The number of stack instances in this Region that have reached a final state. This count includes stack instances that succeeded, failed, were skipped, or were canceled.
+        public var completedStackInstancesCount: Swift.Int?
+        /// The number of stack instances that failed to deploy in this Region.
+        public var failedStackInstancesCount: Swift.Int?
+        /// The number of stack instances in this Region that have not reached a final state. This is the total number of stack instances in this Region minus the completed count.
+        public var pendingStackInstancesCount: Swift.Int?
+        /// The percentage of stack instances in this Region that have reached a final state.
+        public var percentageCompleted: Swift.Double?
+        /// The number of stack instances in this Region that were skipped because role provisioning failed for their target account.
+        public var skippedStackInstancesCount: Swift.Int?
+        /// The status of the stack instances deployment stage can be one of the following values:
+        ///
+        /// * NOT_APPLICABLE: The operation does not deploy stack instances, such as a drift detection operation.
+        ///
+        /// * NOT_STARTED: Stack instances deployment has not started. The operation is still provisioning roles, has not begun, or failed before this stage was reached.
+        ///
+        /// * IN_PROGRESS: At least one stack instance has started deploying.
+        ///
+        /// * SUCCEEDED: Deployment finished and succeeded for all stack instances that were not skipped.
+        ///
+        /// * PARTIAL_SUCCESS: Deployment finished with a mix of succeeded, failed, and canceled stack instances.
+        ///
+        /// * FAILED: Deployment finished and every stack instance that was not skipped failed or was canceled.
+        public var status: CloudFormationClientTypes.StageStatus?
+        /// The number of stack instances that deployed successfully in this Region.
+        public var succeededStackInstancesCount: Swift.Int?
+        /// The total number of stack instances targeted by this operation in this Region.
+        public var totalStackInstancesCount: Swift.Int?
+
+        public init(
+            cancelledStackInstancesCount: Swift.Int? = nil,
+            completedStackInstancesCount: Swift.Int? = nil,
+            failedStackInstancesCount: Swift.Int? = nil,
+            pendingStackInstancesCount: Swift.Int? = nil,
+            percentageCompleted: Swift.Double? = nil,
+            skippedStackInstancesCount: Swift.Int? = nil,
+            status: CloudFormationClientTypes.StageStatus? = nil,
+            succeededStackInstancesCount: Swift.Int? = nil,
+            totalStackInstancesCount: Swift.Int? = nil
+        ) {
+            self.cancelledStackInstancesCount = cancelledStackInstancesCount
+            self.completedStackInstancesCount = completedStackInstancesCount
+            self.failedStackInstancesCount = failedStackInstancesCount
+            self.pendingStackInstancesCount = pendingStackInstancesCount
+            self.percentageCompleted = percentageCompleted
+            self.skippedStackInstancesCount = skippedStackInstancesCount
+            self.status = status
+            self.succeededStackInstancesCount = succeededStackInstancesCount
+            self.totalStackInstancesCount = totalStackInstancesCount
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Contains the progress information for the individual stages of a StackSet operation in a single Region. Currently reports the stack instances deployment stage for the Region.
+    public struct RegionalStages: Swift.Sendable {
+        /// The progress detail for the stack instances deployment stage in this Region.
+        public var regionalStackInstancesDeployment: CloudFormationClientTypes.RegionalStackInstancesDeployment?
+
+        public init(
+            regionalStackInstancesDeployment: CloudFormationClientTypes.RegionalStackInstancesDeployment? = nil
+        ) {
+            self.regionalStackInstancesDeployment = regionalStackInstancesDeployment
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Contains the progress detail for a single Region of a StackSet operation. This information is returned only by [DescribeStackSetOperation].
+    public struct RegionalStatusDetail: Swift.Sendable {
+        /// The progress information for the individual stages of the operation in this Region.
+        public var stages: CloudFormationClientTypes.RegionalStages?
+
+        public init(
+            stages: CloudFormationClientTypes.RegionalStages? = nil
+        ) {
+            self.stages = stages
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum StackSetOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case queued
@@ -6973,15 +7106,148 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
+    /// Provides visibility into the role provisioning stage of a StackSet operation, including per-account progress counts and a completion percentage. For operations that do not provision IAM roles in target accounts, the Status is NOT_APPLICABLE and the progress counts are omitted.
+    public struct RoleProvisioning: Swift.Sendable {
+        /// The number of accounts that have finished role provisioning, including both succeeded and failed accounts.
+        public var completedAccountsCount: Swift.Int?
+        /// The number of accounts for which role provisioning failed.
+        public var failedAccountsCount: Swift.Int?
+        /// The number of accounts that are still awaiting role provisioning.
+        public var pendingAccountsCount: Swift.Int?
+        /// The percentage of accounts that have completed role provisioning.
+        public var percentageCompleted: Swift.Double?
+        /// The status of the role provisioning stage can be one of the following values:
+        ///
+        /// * NOT_APPLICABLE: The operation does not provision roles. This includes self-managed operations and service-managed operations whose configuration does not require role provisioning.
+        ///
+        /// * NOT_STARTED: Role provisioning has not started. The operation has not begun resolving target accounts, or it failed or stopped before the total number of target accounts was resolved.
+        ///
+        /// * IN_PROGRESS: Role provisioning is actively processing target accounts.
+        ///
+        /// * SUCCEEDED: Role provisioning finished and succeeded for all target accounts.
+        ///
+        /// * PARTIAL_SUCCESS: Role provisioning finished, but succeeded for only a subset of target accounts; one or more accounts failed.
+        ///
+        /// * FAILED: Role provisioning finished and failed for all target accounts.
+        public var status: CloudFormationClientTypes.StageStatus?
+        /// The number of accounts for which role provisioning succeeded.
+        public var succeededAccountsCount: Swift.Int?
+
+        public init(
+            completedAccountsCount: Swift.Int? = nil,
+            failedAccountsCount: Swift.Int? = nil,
+            pendingAccountsCount: Swift.Int? = nil,
+            percentageCompleted: Swift.Double? = nil,
+            status: CloudFormationClientTypes.StageStatus? = nil,
+            succeededAccountsCount: Swift.Int? = nil
+        ) {
+            self.completedAccountsCount = completedAccountsCount
+            self.failedAccountsCount = failedAccountsCount
+            self.pendingAccountsCount = pendingAccountsCount
+            self.percentageCompleted = percentageCompleted
+            self.status = status
+            self.succeededAccountsCount = succeededAccountsCount
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Provides visibility into the stack instances deployment stage of a StackSet operation, including per-stack-instance progress counts and a completion percentage. For service-managed operations that provision roles, this stage begins after role provisioning finishes.
+    public struct StackInstancesDeployment: Swift.Sendable {
+        /// The number of stack instances that were canceled because the operation exceeded its failure tolerance or was stopped.
+        public var cancelledStackInstancesCount: Swift.Int?
+        /// The number of stack instances that have reached a final state. This count includes stack instances that succeeded, failed, were skipped, or were canceled.
+        public var completedStackInstancesCount: Swift.Int?
+        /// The number of stack instances that failed to deploy.
+        public var failedStackInstancesCount: Swift.Int?
+        /// The number of stack instances that have not reached a final state. This is the total number of stack instances minus the completed count.
+        public var pendingStackInstancesCount: Swift.Int?
+        /// The percentage of stack instances that have reached a final state.
+        public var percentageCompleted: Swift.Double?
+        /// The number of stack instances that were skipped because role provisioning failed for their target account.
+        public var skippedStackInstancesCount: Swift.Int?
+        /// The status of the stack instances deployment stage can be one of the following values:
+        ///
+        /// * NOT_APPLICABLE: The operation does not deploy stack instances, such as a drift detection operation.
+        ///
+        /// * NOT_STARTED: Stack instances deployment has not started. The operation is still provisioning roles, has not begun, or failed before this stage was reached.
+        ///
+        /// * IN_PROGRESS: At least one stack instance has started deploying.
+        ///
+        /// * SUCCEEDED: Deployment finished and succeeded for all stack instances that were not skipped.
+        ///
+        /// * PARTIAL_SUCCESS: Deployment finished with a mix of succeeded, failed, and canceled stack instances.
+        ///
+        /// * FAILED: Deployment finished and every stack instance that was not skipped failed or was canceled.
+        public var status: CloudFormationClientTypes.StageStatus?
+        /// The number of stack instances that deployed successfully.
+        public var succeededStackInstancesCount: Swift.Int?
+
+        public init(
+            cancelledStackInstancesCount: Swift.Int? = nil,
+            completedStackInstancesCount: Swift.Int? = nil,
+            failedStackInstancesCount: Swift.Int? = nil,
+            pendingStackInstancesCount: Swift.Int? = nil,
+            percentageCompleted: Swift.Double? = nil,
+            skippedStackInstancesCount: Swift.Int? = nil,
+            status: CloudFormationClientTypes.StageStatus? = nil,
+            succeededStackInstancesCount: Swift.Int? = nil
+        ) {
+            self.cancelledStackInstancesCount = cancelledStackInstancesCount
+            self.completedStackInstancesCount = completedStackInstancesCount
+            self.failedStackInstancesCount = failedStackInstancesCount
+            self.pendingStackInstancesCount = pendingStackInstancesCount
+            self.percentageCompleted = percentageCompleted
+            self.skippedStackInstancesCount = skippedStackInstancesCount
+            self.status = status
+            self.succeededStackInstancesCount = succeededStackInstancesCount
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Contains detailed progress information for the individual stages of a StackSet operation: the role provisioning stage and the stack instances deployment stage.
+    public struct Stages: Swift.Sendable {
+        /// The progress detail for the role provisioning stage. For operations that do not provision roles, this stage is present with a Status of NOT_APPLICABLE.
+        public var roleProvisioning: CloudFormationClientTypes.RoleProvisioning?
+        /// The progress detail for the stack instances deployment stage. This stage reports the deployment of stack instances to the target accounts and Amazon Web Services Regions, after any role provisioning has finished.
+        public var stackInstancesDeployment: CloudFormationClientTypes.StackInstancesDeployment?
+
+        public init(
+            roleProvisioning: CloudFormationClientTypes.RoleProvisioning? = nil,
+            stackInstancesDeployment: CloudFormationClientTypes.StackInstancesDeployment? = nil
+        ) {
+            self.roleProvisioning = roleProvisioning
+            self.stackInstancesDeployment = stackInstancesDeployment
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     /// Detailed information about the StackSet operation.
     public struct StackSetOperationStatusDetails: Swift.Sendable {
         /// The number of stack instances for which the StackSet operation failed.
         public var failedStackInstancesCount: Swift.Int?
+        /// The detailed progress information for the individual stages of the StackSet operation: the role provisioning stage and the stack instances deployment stage.
+        public var stages: CloudFormationClientTypes.Stages?
+        /// The total number of accounts targeted by this StackSet operation. Self-managed operations and service-managed operations that do not provision roles also report this value when it is known. CloudFormation populates this value after it resolves the target accounts. Until then, this field is not present.
+        public var totalAccountsCount: Swift.Int?
+        /// The total number of stack instances targeted by this StackSet operation. CloudFormation populates this value after it resolves the target stack instances. Until then, this field is not present.
+        public var totalStackInstancesCount: Swift.Int?
 
         public init(
-            failedStackInstancesCount: Swift.Int? = nil
+            failedStackInstancesCount: Swift.Int? = nil,
+            stages: CloudFormationClientTypes.Stages? = nil,
+            totalAccountsCount: Swift.Int? = nil,
+            totalStackInstancesCount: Swift.Int? = nil
         ) {
             self.failedStackInstancesCount = failedStackInstancesCount
+            self.stages = stages
+            self.totalAccountsCount = totalAccountsCount
+            self.totalStackInstancesCount = totalStackInstancesCount
         }
     }
 }
@@ -7006,6 +7272,8 @@ extension CloudFormationClientTypes {
         public var operationId: Swift.String?
         /// The preferences for how CloudFormation performs this StackSet operation.
         public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
+        /// The progress detail for each Region of the operation, keyed by Region. Each entry reports the stack instances deployment progress for that Region. This field is returned only by [DescribeStackSetOperation]. It is not included in the [ListStackSetOperations] summary.
+        public var regionalStatusDetails: [Swift.String: CloudFormationClientTypes.RegionalStatusDetail]?
         /// For StackSet operations of action type DELETE, specifies whether to remove the stack instances from the specified StackSet, but doesn't delete the stacks. You can't re-associate a retained stack, or add an existing, saved stack to a new StackSet.
         public var retainStacks: Swift.Bool?
         /// Detailed information about the drift status of the StackSet. This includes information about drift operations currently being performed on the StackSet. This information will only be present for StackSet operations whose Action type is DETECT_DRIFT. For more information, see [Performing drift detection on CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html) in the CloudFormation User Guide.
@@ -7040,6 +7308,7 @@ extension CloudFormationClientTypes {
             executionRoleName: Swift.String? = nil,
             operationId: Swift.String? = nil,
             operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
+            regionalStatusDetails: [Swift.String: CloudFormationClientTypes.RegionalStatusDetail]? = nil,
             retainStacks: Swift.Bool? = nil,
             stackSetDriftDetectionDetails: CloudFormationClientTypes.StackSetDriftDetectionDetails? = nil,
             stackSetId: Swift.String? = nil,
@@ -7055,6 +7324,7 @@ extension CloudFormationClientTypes {
             self.executionRoleName = executionRoleName
             self.operationId = operationId
             self.operationPreferences = operationPreferences
+            self.regionalStatusDetails = regionalStatusDetails
             self.retainStacks = retainStacks
             self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
@@ -16797,6 +17067,44 @@ extension CloudFormationClientTypes.PropertyDifference {
     }
 }
 
+extension CloudFormationClientTypes.RegionalStackInstancesDeployment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RegionalStackInstancesDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RegionalStackInstancesDeployment()
+        value.status = try reader["Status"].readIfPresent()
+        value.succeededStackInstancesCount = try reader["SucceededStackInstancesCount"].readIfPresent()
+        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
+        value.completedStackInstancesCount = try reader["CompletedStackInstancesCount"].readIfPresent()
+        value.pendingStackInstancesCount = try reader["PendingStackInstancesCount"].readIfPresent()
+        value.cancelledStackInstancesCount = try reader["CancelledStackInstancesCount"].readIfPresent()
+        value.skippedStackInstancesCount = try reader["SkippedStackInstancesCount"].readIfPresent()
+        value.totalStackInstancesCount = try reader["TotalStackInstancesCount"].readIfPresent()
+        value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.RegionalStages {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RegionalStages {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RegionalStages()
+        value.regionalStackInstancesDeployment = try reader["RegionalStackInstancesDeployment"].readIfPresent(with: CloudFormationClientTypes.RegionalStackInstancesDeployment.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.RegionalStatusDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RegionalStatusDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RegionalStatusDetail()
+        value.stages = try reader["Stages"].readIfPresent(with: CloudFormationClientTypes.RegionalStages.read(from:))
+        return value
+    }
+}
+
 extension CloudFormationClientTypes.RequiredActivatedType {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RequiredActivatedType {
@@ -16971,6 +17279,21 @@ extension CloudFormationClientTypes.ResourceToImport {
         try writer["LogicalResourceId"].write(value.logicalResourceId)
         try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension CloudFormationClientTypes.RoleProvisioning {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RoleProvisioning {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RoleProvisioning()
+        value.status = try reader["Status"].readIfPresent()
+        value.succeededAccountsCount = try reader["SucceededAccountsCount"].readIfPresent()
+        value.failedAccountsCount = try reader["FailedAccountsCount"].readIfPresent()
+        value.completedAccountsCount = try reader["CompletedAccountsCount"].readIfPresent()
+        value.pendingAccountsCount = try reader["PendingAccountsCount"].readIfPresent()
+        value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+        return value
     }
 }
 
@@ -17194,6 +17517,23 @@ extension CloudFormationClientTypes.StackInstanceResourceDriftsSummary {
         value.propertyDifferences = try reader["PropertyDifferences"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.PropertyDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackInstancesDeployment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackInstancesDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackInstancesDeployment()
+        value.status = try reader["Status"].readIfPresent()
+        value.succeededStackInstancesCount = try reader["SucceededStackInstancesCount"].readIfPresent()
+        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
+        value.completedStackInstancesCount = try reader["CompletedStackInstancesCount"].readIfPresent()
+        value.pendingStackInstancesCount = try reader["PendingStackInstancesCount"].readIfPresent()
+        value.cancelledStackInstancesCount = try reader["CancelledStackInstancesCount"].readIfPresent()
+        value.skippedStackInstancesCount = try reader["SkippedStackInstancesCount"].readIfPresent()
+        value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
         return value
     }
 }
@@ -17426,6 +17766,7 @@ extension CloudFormationClientTypes.StackSetOperation {
         value.stackSetDriftDetectionDetails = try reader["StackSetDriftDetectionDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetDriftDetectionDetails.read(from:))
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.statusDetails = try reader["StatusDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetOperationStatusDetails.read(from:))
+        value.regionalStatusDetails = try reader["RegionalStatusDetails"].readMapIfPresent(valueReadingClosure: CloudFormationClientTypes.RegionalStatusDetail.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -17477,6 +17818,9 @@ extension CloudFormationClientTypes.StackSetOperationStatusDetails {
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperationStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFormationClientTypes.StackSetOperationStatusDetails()
+        value.stages = try reader["Stages"].readIfPresent(with: CloudFormationClientTypes.Stages.read(from:))
+        value.totalAccountsCount = try reader["TotalAccountsCount"].readIfPresent()
+        value.totalStackInstancesCount = try reader["TotalStackInstancesCount"].readIfPresent()
         value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
         return value
     }
@@ -17534,6 +17878,17 @@ extension CloudFormationClientTypes.StackSummary {
         value.rootId = try reader["RootId"].readIfPresent()
         value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformationSummary.read(from:))
         value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.Stages {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Stages {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Stages()
+        value.roleProvisioning = try reader["RoleProvisioning"].readIfPresent(with: CloudFormationClientTypes.RoleProvisioning.read(from:))
+        value.stackInstancesDeployment = try reader["StackInstancesDeployment"].readIfPresent(with: CloudFormationClientTypes.StackInstancesDeployment.read(from:))
         return value
     }
 }

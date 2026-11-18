@@ -1270,6 +1270,19 @@ extension PaymentCryptographyDataClientTypes {
     }
 }
 
+extension PaymentCryptographyDataClientTypes.WrappedKeyMaterial: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .tr31keyblock:
+            return "WrappedKeyMaterial.tr31keyblock(\"CONTENT_REDACTED\")"
+        case .diffiehellmansymmetrickey(let value):
+            return "WrappedKeyMaterial.diffiehellmansymmetrickey(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "WrappedKeyMaterial.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension PaymentCryptographyDataClientTypes {
 
     /// Parameter information of a WrappedKeyBlock for encryption key exchange.
@@ -2233,6 +2246,19 @@ extension PaymentCryptographyDataClientTypes {
     }
 }
 
+extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .applicationcryptogram:
+            return "SessionKeyDerivationValue.applicationcryptogram(\"CONTENT_REDACTED\")"
+        case .applicationtransactioncounter(let value):
+            return "SessionKeyDerivationValue.applicationtransactioncounter(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "SessionKeyDerivationValue.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension PaymentCryptographyDataClientTypes {
 
     /// Parameters that are required for EMV MAC generation and verification.
@@ -2798,6 +2824,19 @@ extension PaymentCryptographyDataClientTypes {
         /// The unique data to identify a cardholder. In most cases, this is the same as cardholder's Primary Account Number (PAN). If a value is not provided, it defaults to PAN.
         case verificationvalue(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.PinData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .pinoffset:
+            return "PinData.pinoffset(\"CONTENT_REDACTED\")"
+        case .verificationvalue:
+            return "PinData.verificationvalue(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "PinData.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

@@ -40,3 +40,38 @@ extension PaginatorSequence where OperationStackInput == ListResourcePermissionS
         return try await self.asyncCompactMap { item in item.permissionStatements }
     }
 }
+extension SigninClient {
+    /// Paginate over `[ListSessionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutput`
+    public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSessions(input:))
+    }
+}
+
+extension ListSessionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSessionsInput {
+        return ListSessionsInput(
+            clientId: self.clientId,
+            issuedAfter: self.issuedAfter,
+            issuedBefore: self.issuedBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalArn: self.principalArn,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSessionsInput, OperationStackOutput == ListSessionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSessionsPaginated`
+    /// to access the nested member `[SigninClientTypes.Session]`
+    /// - Returns: `[SigninClientTypes.Session]`
+    public func items() async throws -> [SigninClientTypes.Session] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
