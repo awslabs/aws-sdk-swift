@@ -52,7 +52,7 @@ public actor AWSMessageSigner: MessageSigner {
     ///   - signingConfig: Provides the signing config for messages.
     ///   - requestSignature: Provides the signature of the initial HTTP request.
     ///   - shouldSign: Whether messages should be signed, evaluated each time a message is signed.
-    ///     When `false`, i.e. when the operation uses no auth, messages are passed through unsigned.
+    ///     When `false`, i.e. when the operation does not use SigV4 auth, messages are passed through unsigned.
     ///     Defaults to always signing.
     public init(encoder: MessageEncoder,
                 signer: @escaping @Sendable () async throws -> MessageDataSigner,
