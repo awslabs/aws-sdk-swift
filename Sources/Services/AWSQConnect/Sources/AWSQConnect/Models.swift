@@ -6739,6 +6739,17 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.RuntimeSessionDataValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .stringvalue:
+            return "RuntimeSessionDataValue.stringvalue(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "RuntimeSessionDataValue.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension QConnectClientTypes {
 
     /// The list of key-value pairs that are stored on the session.
@@ -6997,6 +7008,21 @@ extension QConnectClientTypes {
         /// The message data as a structured JSON document. This is the payload for a message of type DATA, and must be a JSON object at the root level.
         case data(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes.MessageData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text(let value):
+            return "MessageData.text(\(Swift.String(describing: value)))"
+        case .tooluseresult(let value):
+            return "MessageData.tooluseresult(\(Swift.String(describing: value)))"
+        case .data:
+            return "MessageData.data(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "MessageData.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -9475,6 +9501,17 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.MessageTemplateBodyContentProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .content:
+            return "MessageTemplateBodyContentProvider.content(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "MessageTemplateBodyContentProvider.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension QConnectClientTypes {
 
     /// The body to use in email messages.
@@ -10931,6 +10968,17 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.QuickResponseDataProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .content:
+            return "QuickResponseDataProvider.content(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "QuickResponseDataProvider.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct CreateQuickResponseInput: Swift.Sendable {
     /// The Connect Customer channels this quick response applies to.
     public var channels: [Swift.String]?
@@ -11005,6 +11053,17 @@ extension QConnectClientTypes {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes.QuickResponseContentProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .content:
+            return "QuickResponseContentProvider.content(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "QuickResponseContentProvider.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

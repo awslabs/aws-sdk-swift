@@ -770,6 +770,36 @@ extension PaginatorSequence where OperationStackInput == ListTestSourcesInput, O
     }
 }
 extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestTemplatesOutput`
+    public func listTestTemplatesPaginated(input: ListTestTemplatesInput) -> ClientRuntime.PaginatorSequence<ListTestTemplatesInput, ListTestTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestTemplatesInput, ListTestTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestTemplates(input:))
+    }
+}
+
+extension ListTestTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestTemplatesInput {
+        return ListTestTemplatesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestTemplatesInput, OperationStackOutput == ListTestTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestTemplatesPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestTemplateSummary]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestTemplateSummary]`
+    public func testTemplates() async throws -> [Resiliencehubv2ClientTypes.TestTemplateSummary] {
+        return try await self.asyncCompactMap { item in item.testTemplates }
+    }
+}
+extension Resiliencehubv2Client {
     /// Paginate over `[ListUserJourneysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

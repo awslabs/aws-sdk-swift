@@ -1275,7 +1275,7 @@ extension NeptuneClient {
 
     /// Performs the `CreateDBClusterParameterGroup` operation on the `Neptune` service.
     ///
-    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using [ModifyDBClusterParameterGroup]. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using [ModifyDBCluster]. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon Neptune console](https://console.aws.amazon.com/rds/) or the [DescribeDBClusterParameters] command to verify that your DB cluster parameter group has been created or modified.
+    /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using [ModifyDBClusterParameterGroup]. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using [ModifyDBCluster]. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDBClusterParameterGroupInput`)
     ///
@@ -3675,6 +3675,69 @@ extension NeptuneClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptune")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePendingMaintenanceActions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeServerlessV2PlatformVersions` operation on the `Neptune` service.
+    ///
+    /// Describes the properties of specific platform versions for Neptune Serverless.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeServerlessV2PlatformVersionsInput`)
+    ///
+    /// - Returns: Contains the result of a successful invocation of the DescribeServerlessV2PlatformVersions action. (Type: `DescribeServerlessV2PlatformVersionsOutput`)
+    public func describeServerlessV2PlatformVersions(input: DescribeServerlessV2PlatformVersionsInput) async throws -> DescribeServerlessV2PlatformVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeServerlessV2PlatformVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(DescribeServerlessV2PlatformVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServerlessV2PlatformVersionsOutput>(DescribeServerlessV2PlatformVersionsOutput.httpOutput(from:), DescribeServerlessV2PlatformVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServerlessV2PlatformVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Neptune", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServerlessV2PlatformVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServerlessV2PlatformVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServerlessV2PlatformVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Neptune"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(serviceID: serviceName, version: NeptuneClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptune")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeServerlessV2PlatformVersions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

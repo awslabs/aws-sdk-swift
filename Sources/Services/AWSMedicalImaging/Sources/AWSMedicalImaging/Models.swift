@@ -1630,6 +1630,33 @@ extension MedicalImagingClientTypes {
     }
 }
 
+extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .dicompatientid:
+            return "SearchByAttributeValue.dicompatientid(\"CONTENT_REDACTED\")"
+        case .dicomaccessionnumber:
+            return "SearchByAttributeValue.dicomaccessionnumber(\"CONTENT_REDACTED\")"
+        case .dicomstudyid:
+            return "SearchByAttributeValue.dicomstudyid(\"CONTENT_REDACTED\")"
+        case .dicomstudyinstanceuid:
+            return "SearchByAttributeValue.dicomstudyinstanceuid(\"CONTENT_REDACTED\")"
+        case .dicomseriesinstanceuid:
+            return "SearchByAttributeValue.dicomseriesinstanceuid(\"CONTENT_REDACTED\")"
+        case .createdat(let value):
+            return "SearchByAttributeValue.createdat(\(Swift.String(describing: value)))"
+        case .updatedat(let value):
+            return "SearchByAttributeValue.updatedat(\(Swift.String(describing: value)))"
+        case .dicomstudydateandtime(let value):
+            return "SearchByAttributeValue.dicomstudydateandtime(\(Swift.String(describing: value)))"
+        case .isprimary(let value):
+            return "SearchByAttributeValue.isprimary(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "SearchByAttributeValue.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension MedicalImagingClientTypes {
 
     /// The search filter.

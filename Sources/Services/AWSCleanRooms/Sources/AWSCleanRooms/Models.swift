@@ -1931,6 +1931,19 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CleanRoomsClientTypes.AnalysisSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "AnalysisSource.text(\"CONTENT_REDACTED\")"
+        case .artifacts(let value):
+            return "AnalysisSource.artifacts(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "AnalysisSource.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension CleanRoomsClientTypes {
 
     /// Hash
@@ -8908,6 +8921,22 @@ public struct UpdateIdNamespaceAssociationOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the PySpark job parameters used to populate an intermediate table, including the ARN of the analysis template that defines the job. Use these parameters instead of SQL parameters when the analysis you use to populate the intermediate table is a PySpark analysis template.
+    public struct PopulationAnalysisJobParameters: Swift.Sendable {
+        /// Specifies the ARN of the PySpark analysis template that populates the intermediate table. Provide this ARN in jobParameters when you populate the intermediate table with results from a PySpark job.
+        /// This member is required.
+        public var analysisTemplateArn: Swift.String?
+
+        public init(
+            analysisTemplateArn: Swift.String? = nil
+        ) {
+            self.analysisTemplateArn = analysisTemplateArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains the SQL parameters used to populate an intermediate table.
     public struct PopulationAnalysisSqlParameters: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table.
@@ -8937,7 +8966,22 @@ extension CleanRoomsClientTypes {
     public enum PopulationAnalysisConfiguration: Swift.Sendable {
         /// The SQL parameters for the population analysis, including the query string or analysis template ARN.
         case sqlparameters(CleanRoomsClientTypes.PopulationAnalysisSqlParameters)
+        /// Specifies the PySpark job parameters for the population analysis. Use jobParameters instead of sqlParameters when you populate the intermediate table with results from a PySpark job.
+        case jobparameters(CleanRoomsClientTypes.PopulationAnalysisJobParameters)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes.PopulationAnalysisConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .sqlparameters:
+            return "PopulationAnalysisConfiguration.sqlparameters(\"CONTENT_REDACTED\")"
+        case .jobparameters(let value):
+            return "PopulationAnalysisConfiguration.jobparameters(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "PopulationAnalysisConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -9008,11 +9052,13 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
 
     public enum PopulateIntermediateTableAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case job
         case query
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PopulateIntermediateTableAnalysisType] {
             return [
+                .job,
                 .query
             ]
         }
@@ -9024,6 +9070,7 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .job: return "JOB"
             case .query: return "QUERY"
             case let .sdkUnknown(s): return s
             }
@@ -10115,6 +10162,70 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum ProtectedJobWorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobWorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public struct ProtectedJobWorkerComputeConfiguration: Swift.Sendable {
+        /// The number of workers for a PySpark job.
+        /// This member is required.
+        public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
+        /// The worker compute configuration type.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType?
+
+        public init(
+            number: Swift.Int? = nil,
+            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
+            type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType? = nil
+        ) {
+            self.number = number
+            self.properties = properties
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public enum ProtectedJobComputeConfiguration: Swift.Sendable {
+        /// The worker configuration for the compute environment.
+        case worker(CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
@@ -10174,6 +10285,8 @@ extension CleanRoomsClientTypes {
     public enum IntermediateTableComputeConfiguration: Swift.Sendable {
         /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
         case querycomputeconfiguration(CleanRoomsClientTypes.WorkerComputeConfiguration)
+        /// Specifies the compute configuration for the PySpark job that populates the intermediate table.
+        case jobcomputeconfiguration(CleanRoomsClientTypes.ProtectedJobComputeConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -11000,70 +11113,6 @@ public struct GetProtectedJobInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
-    public enum ProtectedJobWorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cr1x
-        case cr4x
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ProtectedJobWorkerComputeType] {
-            return [
-                .cr1x,
-                .cr4x
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cr1x: return "CR.1X"
-            case .cr4x: return "CR.4X"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configuration of the compute resources for a PySpark job.
-    public struct ProtectedJobWorkerComputeConfiguration: Swift.Sendable {
-        /// The number of workers for a PySpark job.
-        /// This member is required.
-        public var number: Swift.Int?
-        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
-        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
-        /// The worker compute configuration type.
-        /// This member is required.
-        public var type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType?
-
-        public init(
-            number: Swift.Int? = nil,
-            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
-            type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType? = nil
-        ) {
-            self.number = number
-            self.properties = properties
-            self.type = type
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configuration of the compute resources for a PySpark job.
-    public enum ProtectedJobComputeConfiguration: Swift.Sendable {
-        /// The worker configuration for the compute environment.
-        case worker(CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension CleanRoomsClientTypes {
-
     /// Contains information about whether running a failed protected query or protected job again might succeed.
     public struct RetryInfo: Swift.Sendable {
         /// Specifies whether running the same request again might succeed. true means that the failure was transient. false means that running the same request again is not expected to succeed.
@@ -11208,6 +11257,32 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the output configuration of an intermediate table when a protected query populates it.
+    public struct IntermediateTableOutputConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the intermediate table.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique identifier of the intermediate table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the intermediate table.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The protected job member output configuration output.
     public struct ProtectedJobMemberOutputConfigurationOutput: Swift.Sendable {
         /// The account ID.
@@ -11250,6 +11325,8 @@ extension CleanRoomsClientTypes {
         case s3(CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput)
         /// The member output configuration for a protected job.
         case member(CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput)
+        /// Specifies the intermediate table that the protected job populated, identified by its ID, Amazon Resource Name (ARN), and name. This field is present when the protected job was triggered by a PopulateIntermediateTable operation.
+        case intermediatetable(CleanRoomsClientTypes.IntermediateTableOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -11664,32 +11741,6 @@ extension CleanRoomsClientTypes {
             locations: [CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation]? = nil
         ) {
             self.locations = locations
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// Contains the output configuration of an intermediate table when a protected query populates it.
-    public struct IntermediateTableOutputConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the intermediate table.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The unique identifier of the intermediate table.
-        /// This member is required.
-        public var id: Swift.String?
-        /// The name of the intermediate table.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            id: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.id = id
-            self.name = name
         }
     }
 }
@@ -12289,6 +12340,8 @@ extension CleanRoomsClientTypes {
         /// The ID of the protected job.
         /// This member is required.
         public var id: Swift.String?
+        /// The intermediate table that the protected job populated. This field is present when the protected job was triggered by a PopulateIntermediateTable operation.
+        public var intermediateTableConfiguration: CleanRoomsClientTypes.IntermediateTableOutputConfiguration?
         /// The account ID of the member that pays for the job compute costs.
         public var jobComputePayerAccountId: Swift.String?
         /// The unique ARN for the membership that initiated the protected job.
@@ -12307,6 +12360,7 @@ extension CleanRoomsClientTypes {
         public init(
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            intermediateTableConfiguration: CleanRoomsClientTypes.IntermediateTableOutputConfiguration? = nil,
             jobComputePayerAccountId: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
@@ -12315,6 +12369,7 @@ extension CleanRoomsClientTypes {
         ) {
             self.createTime = createTime
             self.id = id
+            self.intermediateTableConfiguration = intermediateTableConfiguration
             self.jobComputePayerAccountId = jobComputePayerAccountId
             self.membershipArn = membershipArn
             self.membershipId = membershipId
@@ -20795,6 +20850,8 @@ extension CleanRoomsClientTypes.IntermediateTableComputeConfiguration {
     static func write(value: CleanRoomsClientTypes.IntermediateTableComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .jobcomputeconfiguration(jobcomputeconfiguration):
+                try writer["jobComputeConfiguration"].write(jobcomputeconfiguration, with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.write(value:to:))
             case let .querycomputeconfiguration(querycomputeconfiguration):
                 try writer["queryComputeConfiguration"].write(querycomputeconfiguration, with: CleanRoomsClientTypes.WorkerComputeConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -21345,6 +21402,8 @@ extension CleanRoomsClientTypes.PopulationAnalysisConfiguration {
     static func write(value: CleanRoomsClientTypes.PopulationAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .jobparameters(jobparameters):
+                try writer["jobParameters"].write(jobparameters, with: CleanRoomsClientTypes.PopulationAnalysisJobParameters.write(value:to:))
             case let .sqlparameters(sqlparameters):
                 try writer["sqlParameters"].write(sqlparameters, with: CleanRoomsClientTypes.PopulationAnalysisSqlParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -21358,9 +21417,26 @@ extension CleanRoomsClientTypes.PopulationAnalysisConfiguration {
         switch name {
             case "sqlParameters":
                 return .sqlparameters(try reader["sqlParameters"].read(with: CleanRoomsClientTypes.PopulationAnalysisSqlParameters.read(from:)))
+            case "jobParameters":
+                return .jobparameters(try reader["jobParameters"].read(with: CleanRoomsClientTypes.PopulationAnalysisJobParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.PopulationAnalysisJobParameters {
+
+    static func write(value: CleanRoomsClientTypes.PopulationAnalysisJobParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisTemplateArn"].write(value.analysisTemplateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PopulationAnalysisJobParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.PopulationAnalysisJobParameters()
+        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -21666,6 +21742,8 @@ extension CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput {
                 return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput.read(from:)))
             case "member":
                 return .member(try reader["member"].read(with: CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput.read(from:)))
+            case "intermediateTable":
+                return .intermediatetable(try reader["intermediateTable"].read(with: CleanRoomsClientTypes.IntermediateTableOutputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -21801,6 +21879,7 @@ extension CleanRoomsClientTypes.ProtectedJobSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.receiverConfigurations = try reader["receiverConfigurations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedJobReceiverConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.jobComputePayerAccountId = try reader["jobComputePayerAccountId"].readIfPresent()
+        value.intermediateTableConfiguration = try reader["intermediateTableConfiguration"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableOutputConfiguration.read(from:))
         return value
     }
 }

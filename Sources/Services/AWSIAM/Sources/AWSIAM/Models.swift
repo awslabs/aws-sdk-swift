@@ -1098,6 +1098,8 @@ extension IAMClientTypes {
         public var description: Swift.String?
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses the CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
         public var maxSessionDuration: Swift.Int?
+        /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for users who sign in with this role. This value is independent of MaxSessionDuration. This member is omitted when the setting is unset. In that case, no default value is returned and the existing sign-in session behavior applies.
+        public var maxSigninSessionDuration: Swift.Int?
         /// The path to the role. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var path: Swift.String?
@@ -1122,6 +1124,7 @@ extension IAMClientTypes {
             createDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             maxSessionDuration: Swift.Int? = nil,
+            maxSigninSessionDuration: Swift.Int? = nil,
             path: Swift.String? = nil,
             permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
             roleId: Swift.String? = nil,
@@ -1135,6 +1138,7 @@ extension IAMClientTypes {
             self.createDate = createDate
             self.description = description
             self.maxSessionDuration = maxSessionDuration
+            self.maxSigninSessionDuration = maxSigninSessionDuration
             self.path = path
             self.permissionsBoundary = permissionsBoundary
             self.roleId = roleId
@@ -1849,6 +1853,8 @@ public struct CreateInstanceProfileOutput: Swift.Sendable {
 }
 
 public struct CreateLoginProfileInput: Swift.Sendable {
+    /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for this IAM user. This setting can have a value from 1 hour (3600 seconds) to 90 days (7776000 seconds), inclusive. If you do not specify a value, the setting remains unset and the existing sign-in session behavior applies. This setting is not supported for the root user.
+    public var maxSigninSessionDuration: Swift.Int?
     /// The new password for the user. This parameter must be omitted when you make the request with an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session. It is required in all other cases. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
     public var password: Swift.String?
     /// Specifies whether the user is required to set a new password on next sign-in.
@@ -1857,10 +1863,12 @@ public struct CreateLoginProfileInput: Swift.Sendable {
     public var userName: Swift.String?
 
     public init(
+        maxSigninSessionDuration: Swift.Int? = nil,
         password: Swift.String? = nil,
         passwordResetRequired: Swift.Bool? = false,
         userName: Swift.String? = nil
     ) {
+        self.maxSigninSessionDuration = maxSigninSessionDuration
         self.password = password
         self.passwordResetRequired = passwordResetRequired
         self.userName = userName
@@ -1869,7 +1877,7 @@ public struct CreateLoginProfileInput: Swift.Sendable {
 
 extension CreateLoginProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLoginProfileInput(passwordResetRequired: \(Swift.String(describing: passwordResetRequired)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "CreateLoginProfileInput(maxSigninSessionDuration: \(Swift.String(describing: maxSigninSessionDuration)), passwordResetRequired: \(Swift.String(describing: passwordResetRequired)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension IAMClientTypes {
@@ -1879,6 +1887,8 @@ extension IAMClientTypes {
         /// The date when the password for the user was created.
         /// This member is required.
         public var createDate: Foundation.Date?
+        /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for the user. This member is omitted when the setting is unset. In that case, no default value is returned and the existing sign-in session behavior applies.
+        public var maxSigninSessionDuration: Swift.Int?
         /// Specifies whether the user is required to set a new password on next sign-in.
         public var passwordResetRequired: Swift.Bool
         /// The name of the user, which can be used for signing in to the Amazon Web Services Management Console.
@@ -1887,10 +1897,12 @@ extension IAMClientTypes {
 
         public init(
             createDate: Foundation.Date? = nil,
+            maxSigninSessionDuration: Swift.Int? = nil,
             passwordResetRequired: Swift.Bool = false,
             userName: Swift.String? = nil
         ) {
             self.createDate = createDate
+            self.maxSigninSessionDuration = maxSigninSessionDuration
             self.passwordResetRequired = passwordResetRequired
             self.userName = userName
         }
@@ -2162,6 +2174,8 @@ public struct CreateRoleInput: Swift.Sendable {
     public var description: Swift.String?
     /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default value of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in the IAM User Guide.
     public var maxSessionDuration: Swift.Int?
+    /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for users who sign in with this role. This setting can have a value from 1 hour (3600 seconds) to 90 days (7776000 seconds), inclusive. If you do not specify a value, the setting remains unset and the existing sign-in session behavior applies. This setting is independent of MaxSessionDuration.
+    public var maxSigninSessionDuration: Swift.Int?
     /// The path to the role. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var path: Swift.String?
     /// The ARN of the managed policy that is used to set the permissions boundary for the role. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
@@ -2176,6 +2190,7 @@ public struct CreateRoleInput: Swift.Sendable {
         assumeRolePolicyDocument: Swift.String? = nil,
         description: Swift.String? = nil,
         maxSessionDuration: Swift.Int? = nil,
+        maxSigninSessionDuration: Swift.Int? = nil,
         path: Swift.String? = nil,
         permissionsBoundary: Swift.String? = nil,
         roleName: Swift.String? = nil,
@@ -2184,6 +2199,7 @@ public struct CreateRoleInput: Swift.Sendable {
         self.assumeRolePolicyDocument = assumeRolePolicyDocument
         self.description = description
         self.maxSessionDuration = maxSessionDuration
+        self.maxSigninSessionDuration = maxSigninSessionDuration
         self.path = path
         self.permissionsBoundary = permissionsBoundary
         self.roleName = roleName
@@ -9159,6 +9175,8 @@ public struct UpdateGroupInput: Swift.Sendable {
 }
 
 public struct UpdateLoginProfileInput: Swift.Sendable {
+    /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for the specified IAM user. This setting can have a value from 1 hour (3600 seconds) to 90 days (7776000 seconds), inclusive, and replaces any value currently configured for the user. If you omit both this parameter and ResetMaxSigninSessionDuration, the current setting is unchanged. You cannot specify this parameter and set ResetMaxSigninSessionDuration to true in the same request. If you update only the sign-in session duration, the user's password and PasswordResetRequired setting do not change. Changes to this setting apply to new sign-in sessions. Sessions that are already established are not affected. This setting is not supported for the root user.
+    public var maxSigninSessionDuration: Swift.Int?
     /// The new password for the specified IAM user. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -9172,24 +9190,30 @@ public struct UpdateLoginProfileInput: Swift.Sendable {
     public var password: Swift.String?
     /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
     public var passwordResetRequired: Swift.Bool?
+    /// Specifies whether to clear the maximum sign-in session duration for the specified IAM user. Set this value to true to return the setting to its unset state, so that the existing sign-in session behavior applies. When the setting is unset, the user's MaxSigninSessionDuration is omitted from responses. If you set this value to false or omit it, the current setting is not cleared. You cannot set this value to true and specify MaxSigninSessionDuration in the same request. Clearing a setting that is already unset has no effect.
+    public var resetMaxSigninSessionDuration: Swift.Bool?
     /// The name of the user whose password you want to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var userName: Swift.String?
 
     public init(
+        maxSigninSessionDuration: Swift.Int? = nil,
         password: Swift.String? = nil,
         passwordResetRequired: Swift.Bool? = nil,
+        resetMaxSigninSessionDuration: Swift.Bool? = nil,
         userName: Swift.String? = nil
     ) {
+        self.maxSigninSessionDuration = maxSigninSessionDuration
         self.password = password
         self.passwordResetRequired = passwordResetRequired
+        self.resetMaxSigninSessionDuration = resetMaxSigninSessionDuration
         self.userName = userName
     }
 }
 
 extension UpdateLoginProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLoginProfileInput(passwordResetRequired: \(Swift.String(describing: passwordResetRequired)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "UpdateLoginProfileInput(maxSigninSessionDuration: \(Swift.String(describing: maxSigninSessionDuration)), passwordResetRequired: \(Swift.String(describing: passwordResetRequired)), resetMaxSigninSessionDuration: \(Swift.String(describing: resetMaxSigninSessionDuration)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateOpenIDConnectProviderThumbprintInput: Swift.Sendable {
@@ -9214,6 +9238,10 @@ public struct UpdateRoleInput: Swift.Sendable {
     public var description: Swift.String?
     /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default value of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in the IAM User Guide. IAM role credentials provided by Amazon EC2 instances assigned to the role are not subject to the specified maximum session duration.
     public var maxSessionDuration: Swift.Int?
+    /// The maximum duration (in seconds) of an Amazon Web Services Sign-In session for users who sign in with the specified role. This setting can have a value from 1 hour (3600 seconds) to 90 days (7776000 seconds), inclusive, and replaces any value currently configured for the role. This setting is independent of MaxSessionDuration. If you omit both this parameter and ResetMaxSigninSessionDuration, the current setting is unchanged. You cannot specify this parameter and set ResetMaxSigninSessionDuration to true in the same request. Changes to this setting apply to new sign-in sessions. Sessions that are already established are not affected. You cannot set this value on a service-linked role.
+    public var maxSigninSessionDuration: Swift.Int?
+    /// Specifies whether to clear the role's maximum sign-in session duration. Set this value to true to return the setting to its unset state, so that the existing sign-in session behavior applies. When the setting is unset, the role's MaxSigninSessionDuration is omitted from responses. If you set this value to false or omit it, the current setting is not cleared. You cannot set this value to true and specify MaxSigninSessionDuration in the same request. Clearing a setting that is already unset has no effect. You cannot reset this value on a service-linked role.
+    public var resetMaxSigninSessionDuration: Swift.Bool?
     /// The name of the role that you want to modify.
     /// This member is required.
     public var roleName: Swift.String?
@@ -9221,10 +9249,14 @@ public struct UpdateRoleInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         maxSessionDuration: Swift.Int? = nil,
+        maxSigninSessionDuration: Swift.Int? = nil,
+        resetMaxSigninSessionDuration: Swift.Bool? = nil,
         roleName: Swift.String? = nil
     ) {
         self.description = description
         self.maxSessionDuration = maxSessionDuration
+        self.maxSigninSessionDuration = maxSigninSessionDuration
+        self.resetMaxSigninSessionDuration = resetMaxSigninSessionDuration
         self.roleName = roleName
     }
 }
@@ -11126,6 +11158,7 @@ extension CreateLoginProfileInput {
 
     static func write(value: CreateLoginProfileInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["MaxSigninSessionDuration"].write(value.maxSigninSessionDuration)
         try writer["Password"].write(value.password)
         try writer["PasswordResetRequired"].write(value.passwordResetRequired)
         try writer["UserName"].write(value.userName)
@@ -11180,6 +11213,7 @@ extension CreateRoleInput {
         try writer["AssumeRolePolicyDocument"].write(value.assumeRolePolicyDocument)
         try writer["Description"].write(value.description)
         try writer["MaxSessionDuration"].write(value.maxSessionDuration)
+        try writer["MaxSigninSessionDuration"].write(value.maxSigninSessionDuration)
         try writer["Path"].write(value.path)
         try writer["PermissionsBoundary"].write(value.permissionsBoundary)
         try writer["RoleName"].write(value.roleName)
@@ -12862,8 +12896,10 @@ extension UpdateLoginProfileInput {
 
     static func write(value: UpdateLoginProfileInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["MaxSigninSessionDuration"].write(value.maxSigninSessionDuration)
         try writer["Password"].write(value.password)
         try writer["PasswordResetRequired"].write(value.passwordResetRequired)
+        try writer["ResetMaxSigninSessionDuration"].write(value.resetMaxSigninSessionDuration)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("UpdateLoginProfile")
         try writer["Version"].write("2010-05-08")
@@ -12887,6 +12923,8 @@ extension UpdateRoleInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["MaxSessionDuration"].write(value.maxSessionDuration)
+        try writer["MaxSigninSessionDuration"].write(value.maxSigninSessionDuration)
+        try writer["ResetMaxSigninSessionDuration"].write(value.resetMaxSigninSessionDuration)
         try writer["RoleName"].write(value.roleName)
         try writer["Action"].write("UpdateRole")
         try writer["Version"].write("2010-05-08")
@@ -17633,6 +17671,7 @@ enum UpdateLoginProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EntityTemporarilyUnmodifiable": return try EntityTemporarilyUnmodifiableException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "PasswordPolicyViolation": return try PasswordPolicyViolationException.makeError(baseError: baseError)
@@ -17667,6 +17706,7 @@ enum UpdateRoleOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             case "UnmodifiableEntity": return try UnmodifiableEntityException.makeError(baseError: baseError)
@@ -18627,6 +18667,7 @@ extension IAMClientTypes.LoginProfile {
         value.userName = try reader["UserName"].readIfPresent() ?? ""
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.passwordResetRequired = try reader["PasswordResetRequired"].readIfPresent() ?? false
+        value.maxSigninSessionDuration = try reader["MaxSigninSessionDuration"].readIfPresent()
         return value
     }
 }
@@ -18912,6 +18953,7 @@ extension IAMClientTypes.Role {
         value.assumeRolePolicyDocument = try reader["AssumeRolePolicyDocument"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
+        value.maxSigninSessionDuration = try reader["MaxSigninSessionDuration"].readIfPresent()
         value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))

@@ -390,6 +390,12 @@ extension NovaActClientTypes {
     }
 }
 
+extension NovaActClientTypes.ToolInputSchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension NovaActClientTypes {
 
     /// Specification for a tool that acts can invoke, including its name, description, and input schema.
@@ -526,6 +532,12 @@ extension NovaActClientTypes {
         /// Text content returned from the tool execution.
         case text(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension NovaActClientTypes.CallResultContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

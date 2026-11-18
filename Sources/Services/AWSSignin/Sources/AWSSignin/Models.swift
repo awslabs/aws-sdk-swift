@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
@@ -37,6 +38,7 @@ extension SigninClientTypes {
         case insufficientPermissions
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed.
         case invalidRequest
+        case oauthInvalidClient
         case oauthInvalidGrant
         case oauthInvalidRequest
         case oauthInvalidScope
@@ -62,6 +64,7 @@ extension SigninClientTypes {
                 .conflict,
                 .insufficientPermissions,
                 .invalidRequest,
+                .oauthInvalidClient,
                 .oauthInvalidGrant,
                 .oauthInvalidRequest,
                 .oauthInvalidScope,
@@ -88,6 +91,7 @@ extension SigninClientTypes {
             case .conflict: return "CONFLICT"
             case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .invalidRequest: return "INVALID_REQUEST"
+            case .oauthInvalidClient: return "invalid_client"
             case .oauthInvalidGrant: return "invalid_grant"
             case .oauthInvalidRequest: return "invalid_request"
             case .oauthInvalidScope: return "invalid_scope"
@@ -168,33 +172,29 @@ extension SigninClientTypes.AccessToken: Swift.CustomDebugStringConvertible {
     }
 }
 
-/// Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension SigninClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating conflict Will be CONFLICT
+    /// A session that could not be revoked
+    public struct BatchRevokeSessionError: Swift.Sendable {
+        /// The error code
         /// This member is required.
-        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message explaining the conflict Provides specific information about what caused the conflict
+        public var code: Swift.String?
+        /// The error message
         /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
+        public var message: Swift.String?
+        /// The session ARN
+        /// This member is required.
+        public var sessionArn: Swift.String?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        error: SigninClientTypes.OAuth2ErrorCode? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.error = error
-        self.properties.message = message
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            sessionArn: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.sessionArn = sessionArn
+        }
     }
 }
 
@@ -213,6 +213,36 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServerException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        error: SigninClientTypes.OAuth2ErrorCode? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.error = error
+        self.properties.message = message
+    }
+}
+
+/// Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// OAuth 2.0 error code indicating resource not found Will be RESOURCE_NOT_FOUND
+        /// This member is required.
+        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
+        /// Detailed message explaining which resource was not found Provides specific information about the missing resource
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -272,6 +302,123 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        error: SigninClientTypes.OAuth2ErrorCode? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.error = error
+        self.properties.message = message
+    }
+}
+
+/// Input for BatchRevokeSessions operation
+public struct BatchRevokeSessionsInput: Swift.Sendable {
+    /// The identity that owns the sessions. Omit to use the caller. Specify arn:aws:iam::{account-id}:* to revoke any session in the account.
+    public var principalArn: Swift.String?
+    /// The reason for revoking the sessions
+    public var reason: Swift.String?
+    /// The ARNs of the sessions to revoke
+    /// This member is required.
+    public var sessionArns: [Swift.String]?
+
+    public init(
+        principalArn: Swift.String? = nil,
+        reason: Swift.String? = nil,
+        sessionArns: [Swift.String]? = nil
+    ) {
+        self.principalArn = principalArn
+        self.reason = reason
+        self.sessionArns = sessionArns
+    }
+}
+
+extension SigninClientTypes {
+
+    /// A session that was revoked
+    public struct RevokedSession: Swift.Sendable {
+        /// The revoked session ARN
+        /// This member is required.
+        public var sessionArn: Swift.String?
+
+        public init(
+            sessionArn: Swift.String? = nil
+        ) {
+            self.sessionArn = sessionArn
+        }
+    }
+}
+
+/// Output for BatchRevokeSessions operation
+public struct BatchRevokeSessionsOutput: Swift.Sendable {
+    /// Sessions that could not be revoked
+    /// This member is required.
+    public var errors: [SigninClientTypes.BatchRevokeSessionError]?
+    /// Sessions that were revoked
+    /// This member is required.
+    public var revokedSessions: [SigninClientTypes.RevokedSession]?
+
+    public init(
+        errors: [SigninClientTypes.BatchRevokeSessionError]? = nil,
+        revokedSessions: [SigninClientTypes.RevokedSession]? = nil
+    ) {
+        self.errors = errors
+        self.revokedSessions = revokedSessions
+    }
+}
+
+extension SigninClientTypes {
+
+    /// Type of OAuth client that created a session
+    public enum ClientType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The AWS CLI
+        case cli
+        /// An MCP server
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientType] {
+            return [
+                .cli,
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cli: return "CLI"
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// OAuth 2.0 error code indicating conflict Will be CONFLICT
+        /// This member is required.
+        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
+        /// Detailed message explaining the conflict Provides specific information about what caused the conflict
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -470,10 +617,10 @@ public struct CreateOAuth2TokenWithIAMInput: Swift.Sendable {
 
 /// Output structure for CreateOAuth2TokenWithIAM operation Contains the access token, token type, and expiration as defined in RFC 6749 §5.1.
 public struct CreateOAuth2TokenWithIAMOutput: Swift.Sendable {
-    /// Access token containing principal identity, resource scope, and session metadata.
+    /// The access token containing principal identity, resource scope, and session metadata.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// Token lifetime in seconds. Value is the minimum of the caller's session validity and 1 hour (3600 seconds).
+    /// The token lifetime in seconds. Value is the minimum of the caller's session validity and 1 hour (3600 seconds).
     /// This member is required.
     public var expiresIn: Swift.Int?
     /// The token type. Always "Bearer" as defined in RFC 6749.
@@ -585,12 +732,20 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
 /// Input structure for CreateOAuth2TokenWithTokenExchange operation
 public struct CreateOAuth2TokenWithTokenExchangeInput: Swift.Sendable {
-    /// The OAuth 2.0 grant type. Currently only supports "urn:ietf:params:oauth:grant-type:token-exchange".
+    /// The JWT authorization grant, as defined in RFC 7523. Required when "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer".
+    public var assertion: Swift.String?
+    /// The OAuth 2.0 client identifier. If provided with "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer", must match the assertion's "client_id" claim.
+    public var clientId: Swift.String?
+    /// The OAuth 2.0 grant type. Currently supports "urn:ietf:params:oauth:grant-type:token-exchange" and "urn:ietf:params:oauth:grant-type:jwt-bearer".
     /// This member is required.
     public var grantType: Swift.String?
-    /// The OAuth resource for which the access token is requested. Required when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange". Example: "glue.amazonaws.com".
+    /// The OAuth resource for which the access token is requested:
+    ///
+    /// * "grant_type=urn:ietf:params:oauth:grant-type:token-exchange": Required. Must be a service principal. Example: "glue.amazonaws.com".
+    ///
+    /// * "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer": Required when the assertion has no "resource" claim, otherwise must match it. Must be a URI. Example: "https://aws-mcp.us-east-1.api.aws/mcp".
     public var resource: Swift.String?
-    /// IAM managed policy Amazon Resource Names (ARNs) to apply as session policies that further scope down the permissions of the issued access token, provided as a space-delimited list. Example: "arn:aws:iam::444455556666:policy/MyPolicy".
+    /// The IAM managed policy Amazon Resource Names (ARNs) to apply as session policies that further scope down the permissions of the issued access token, provided as a space-delimited list. Example: "arn:aws:iam::444455556666:policy/MyPolicy". If provided with "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer", must match the assertion's "scope" claim.
     public var scope: Swift.String?
     /// The subject token that represents the identity of the party on whose behalf the request is made. Required when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange".
     public var subjectToken: Swift.String?
@@ -598,12 +753,16 @@ public struct CreateOAuth2TokenWithTokenExchangeInput: Swift.Sendable {
     public var subjectTokenType: Swift.String?
 
     public init(
+        assertion: Swift.String? = nil,
+        clientId: Swift.String? = nil,
         grantType: Swift.String? = nil,
         resource: Swift.String? = nil,
         scope: Swift.String? = nil,
         subjectToken: Swift.String? = nil,
         subjectTokenType: Swift.String? = nil
     ) {
+        self.assertion = assertion
+        self.clientId = clientId
         self.grantType = grantType
         self.resource = resource
         self.scope = scope
@@ -614,19 +773,23 @@ public struct CreateOAuth2TokenWithTokenExchangeInput: Swift.Sendable {
 
 extension CreateOAuth2TokenWithTokenExchangeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateOAuth2TokenWithTokenExchangeInput(grantType: \(Swift.String(describing: grantType)), resource: \(Swift.String(describing: resource)), scope: \(Swift.String(describing: scope)), subjectTokenType: \(Swift.String(describing: subjectTokenType)), subjectToken: \"CONTENT_REDACTED\")"}
+        "CreateOAuth2TokenWithTokenExchangeInput(clientId: \(Swift.String(describing: clientId)), grantType: \(Swift.String(describing: grantType)), resource: \(Swift.String(describing: resource)), scope: \(Swift.String(describing: scope)), subjectTokenType: \(Swift.String(describing: subjectTokenType)), assertion: \"CONTENT_REDACTED\", subjectToken: \"CONTENT_REDACTED\")"}
 }
 
-/// Output structure for CreateOAuth2TokenWithTokenExchange operation. Contains the access token, issued token type, token type, and expiration as defined in RFC 6749 §5.1 and RFC 8693 §2.2.1.
+/// Output structure for CreateOAuth2TokenWithTokenExchange operation. Contains the access token, token type, and expiration as defined in RFC 6749 §5.1, plus fields specific to the grant type.
 public struct CreateOAuth2TokenWithTokenExchangeOutput: Swift.Sendable {
-    /// Access token containing principal identity, resource scope, and session metadata.
+    /// The access token containing principal identity, resource scope, and session metadata.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// Token lifetime in seconds. Value is the minimum of the subject token's validity and 1 hour (3600 seconds).
+    /// The token lifetime in seconds. Value is the minimum of the provided token's validity and 1 hour (3600 seconds).
     /// This member is required.
     public var expiresIn: Swift.Int?
-    /// The token type of the issued token. Always "urn:ietf:params:oauth:token-type:access_token" as defined in RFC 8693 §2.2.1.
+    /// The token type of the issued token. Returned when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange". Value is "urn:ietf:params:oauth:token-type:access_token" as defined in RFC 8693 §2.2.1.
     public var issuedTokenType: Swift.String?
+    /// The resource the access token is scoped to. Returned when "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer".
+    public var resource: Swift.String?
+    /// The IAM managed policy ARNs applied as session policies, as a space-delimited list. Returned when "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer" and the assertion has a scope.
+    public var scope: Swift.String?
     /// The token type. Currently only supports "Bearer" as defined in RFC 6749.
     /// This member is required.
     public var tokenType: Swift.String?
@@ -635,48 +798,22 @@ public struct CreateOAuth2TokenWithTokenExchangeOutput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         expiresIn: Swift.Int? = nil,
         issuedTokenType: Swift.String? = nil,
+        resource: Swift.String? = nil,
+        scope: Swift.String? = nil,
         tokenType: Swift.String? = nil
     ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.issuedTokenType = issuedTokenType
+        self.resource = resource
+        self.scope = scope
         self.tokenType = tokenType
     }
 }
 
 extension CreateOAuth2TokenWithTokenExchangeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateOAuth2TokenWithTokenExchangeOutput(expiresIn: \(Swift.String(describing: expiresIn)), issuedTokenType: \(Swift.String(describing: issuedTokenType)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\")"}
-}
-
-/// Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating resource not found Will be RESOURCE_NOT_FOUND
-        /// This member is required.
-        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message explaining which resource was not found Provides specific information about the missing resource
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        error: SigninClientTypes.OAuth2ErrorCode? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.error = error
-        self.properties.message = message
-    }
+        "CreateOAuth2TokenWithTokenExchangeOutput(expiresIn: \(Swift.String(describing: expiresIn)), issuedTokenType: \(Swift.String(describing: issuedTokenType)), resource: \(Swift.String(describing: resource)), scope: \(Swift.String(describing: scope)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
 /// Input for DeleteConsoleAuthorizationConfiguration operation
@@ -841,6 +978,119 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+/// Input for GetSession operation
+public struct GetSessionInput: Swift.Sendable {
+    /// The identity that owns the session. Omit to use the caller. Specify arn:aws:iam::{account-id}:* to retrieve any session in the account.
+    public var principalArn: Swift.String?
+    /// The ARN of the session to retrieve
+    /// This member is required.
+    public var sessionArn: Swift.String?
+
+    public init(
+        principalArn: Swift.String? = nil,
+        sessionArn: Swift.String? = nil
+    ) {
+        self.principalArn = principalArn
+        self.sessionArn = sessionArn
+    }
+}
+
+extension SigninClientTypes {
+
+    /// Status of a sign-in session
+    public enum SessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The session is active
+        case active
+        /// The session has been revoked
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatus] {
+            return [
+                .active,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .revoked: return "REVOKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Output for GetSession operation
+public struct GetSessionOutput: Swift.Sendable {
+    /// The OAuth client that created the session
+    public var clientId: Swift.String?
+    /// The type of OAuth client that created the session
+    public var clientType: SigninClientTypes.ClientType?
+    /// The time the session expires, in Unix epoch seconds
+    /// This member is required.
+    public var expiresAt: Swift.Int?
+    /// The time the session was created, in Unix epoch seconds
+    /// This member is required.
+    public var issuedAt: Swift.Int?
+    /// The AWS Region where the session was created
+    public var issuedInRegion: Swift.String?
+    /// The time the session was last refreshed, in Unix epoch seconds
+    public var lastUsedAt: Swift.Int?
+    /// The ARN of the session this session originated from
+    public var originSessionArn: Swift.String?
+    /// The IAM identity that owns the session
+    /// This member is required.
+    public var principalArn: Swift.String?
+    /// The resource that the session's tokens are bound to
+    public var resource: Swift.String?
+    /// The IAM role for the session, when the owner is a role
+    public var role: Swift.String?
+    /// The session ARN
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The session status
+    public var status: SigninClientTypes.SessionStatus?
+    /// The user agent captured when the session was created or last refreshed
+    public var userAgent: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientType: SigninClientTypes.ClientType? = nil,
+        expiresAt: Swift.Int? = nil,
+        issuedAt: Swift.Int? = nil,
+        issuedInRegion: Swift.String? = nil,
+        lastUsedAt: Swift.Int? = nil,
+        originSessionArn: Swift.String? = nil,
+        principalArn: Swift.String? = nil,
+        resource: Swift.String? = nil,
+        role: Swift.String? = nil,
+        sessionArn: Swift.String? = nil,
+        status: SigninClientTypes.SessionStatus? = nil,
+        userAgent: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientType = clientType
+        self.expiresAt = expiresAt
+        self.issuedAt = issuedAt
+        self.issuedInRegion = issuedInRegion
+        self.lastUsedAt = lastUsedAt
+        self.originSessionArn = originSessionArn
+        self.principalArn = principalArn
+        self.resource = resource
+        self.role = role
+        self.sessionArn = sessionArn
+        self.status = status
+        self.userAgent = userAgent
+    }
+}
+
 /// Input structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.1 introspection request. Contains the token to inspect and an optional hint about the token's type.
 public struct IntrospectOAuth2TokenWithIAMInput: Swift.Sendable {
     /// The access token or refresh token issued by AWS Sign-In.
@@ -978,6 +1228,110 @@ public struct ListResourcePermissionStatementsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.permissionStatements = permissionStatements
+    }
+}
+
+/// Input for ListSessions operation
+public struct ListSessionsInput: Swift.Sendable {
+    /// Returns only sessions created by this OAuth client
+    public var clientId: Swift.String?
+    /// Returns only sessions created at or after this time, in Unix epoch seconds
+    public var issuedAfter: Swift.Int?
+    /// Returns only sessions created before this time, in Unix epoch seconds
+    public var issuedBefore: Swift.Int?
+    /// Maximum number of results to return
+    public var maxResults: Swift.Int?
+    /// Token for pagination
+    public var nextToken: Swift.String?
+    /// The identity whose sessions to list. Omit to list the caller's own sessions. Specify arn:aws:iam::{account-id}:* to list all sessions in the account.
+    public var principalArn: Swift.String?
+    /// Returns only sessions with this status
+    public var status: SigninClientTypes.SessionStatus?
+
+    public init(
+        clientId: Swift.String? = nil,
+        issuedAfter: Swift.Int? = nil,
+        issuedBefore: Swift.Int? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principalArn: Swift.String? = nil,
+        status: SigninClientTypes.SessionStatus? = nil
+    ) {
+        self.clientId = clientId
+        self.issuedAfter = issuedAfter
+        self.issuedBefore = issuedBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalArn = principalArn
+        self.status = status
+    }
+}
+
+extension SigninClientTypes {
+
+    /// Summary of a sign-in session
+    public struct Session: Swift.Sendable {
+        /// The OAuth client that created the session
+        public var clientId: Swift.String?
+        /// The type of OAuth client that created the session
+        public var clientType: SigninClientTypes.ClientType?
+        /// The time the session expires, in Unix epoch seconds
+        /// This member is required.
+        public var expiresAt: Swift.Int?
+        /// The time the session was created, in Unix epoch seconds
+        /// This member is required.
+        public var issuedAt: Swift.Int?
+        /// The IAM identity that owns the session
+        /// This member is required.
+        public var principalArn: Swift.String?
+        /// The resource that the session's tokens are bound to
+        public var resource: Swift.String?
+        /// The IAM role for the session, when the owner is a role
+        public var role: Swift.String?
+        /// The session ARN
+        /// This member is required.
+        public var sessionArn: Swift.String?
+        /// The session status
+        public var status: SigninClientTypes.SessionStatus?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientType: SigninClientTypes.ClientType? = nil,
+            expiresAt: Swift.Int? = nil,
+            issuedAt: Swift.Int? = nil,
+            principalArn: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            role: Swift.String? = nil,
+            sessionArn: Swift.String? = nil,
+            status: SigninClientTypes.SessionStatus? = nil
+        ) {
+            self.clientId = clientId
+            self.clientType = clientType
+            self.expiresAt = expiresAt
+            self.issuedAt = issuedAt
+            self.principalArn = principalArn
+            self.resource = resource
+            self.role = role
+            self.sessionArn = sessionArn
+            self.status = status
+        }
+    }
+}
+
+/// Output for ListSessions operation
+public struct ListSessionsOutput: Swift.Sendable {
+    /// List of session summaries
+    /// This member is required.
+    public var items: [SigninClientTypes.Session]?
+    /// Token for next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [SigninClientTypes.Session]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -1123,6 +1477,13 @@ public struct RevokeOAuth2TokenWithIAMOutput: Swift.Sendable {
     public init() { }
 }
 
+extension BatchRevokeSessionsInput {
+
+    static func urlPathProvider(_ value: BatchRevokeSessionsInput) -> Swift.String? {
+        return "/batch-revoke-sessions"
+    }
+}
+
 extension CreateBearerTokenInput {
 
     static func urlPathProvider(_ value: CreateBearerTokenInput) -> Swift.String? {
@@ -1206,6 +1567,13 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        return "/get-session"
+    }
+}
+
 extension IntrospectOAuth2TokenWithIAMInput {
 
     static func urlPathProvider(_ value: IntrospectOAuth2TokenWithIAMInput) -> Swift.String? {
@@ -1226,6 +1594,13 @@ extension ListResourcePermissionStatementsInput {
 
     static func urlPathProvider(_ value: ListResourcePermissionStatementsInput) -> Swift.String? {
         return "/list-resource-permission-statements"
+    }
+}
+
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
+        return "/list-sessions"
     }
 }
 
@@ -1256,6 +1631,16 @@ extension RevokeOAuth2TokenWithIAMInput {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "x-amz-client-auth-method", value: "iam"))
         return items
+    }
+}
+
+extension BatchRevokeSessionsInput {
+
+    static func write(value: BatchRevokeSessionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["principalArn"].write(value.principalArn)
+        try writer["reason"].write(value.reason)
+        try writer["sessionArns"].writeList(value.sessionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1290,6 +1675,8 @@ extension CreateOAuth2TokenWithTokenExchangeInput {
 
     static func write(value: CreateOAuth2TokenWithTokenExchangeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assertion"].write(value.assertion)
+        try writer["client_id"].write(value.clientId)
         try writer["grant_type"].write(value.grantType)
         try writer["resource"].write(value.resource)
         try writer["scope"].write(value.scope)
@@ -1323,6 +1710,15 @@ extension GetConsoleAuthorizationConfigurationInput {
     }
 }
 
+extension GetSessionInput {
+
+    static func write(value: GetSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["principalArn"].write(value.principalArn)
+        try writer["sessionArn"].write(value.sessionArn)
+    }
+}
+
 extension IntrospectOAuth2TokenWithIAMInput {
 
     static func write(value: IntrospectOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
@@ -1338,6 +1734,20 @@ extension ListResourcePermissionStatementsInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSessionsInput {
+
+    static func write(value: ListSessionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["issuedAfter"].write(value.issuedAfter)
+        try writer["issuedBefore"].write(value.issuedBefore)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["principalArn"].write(value.principalArn)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -1369,6 +1779,19 @@ extension RevokeOAuth2TokenWithIAMInput {
     static func write(value: RevokeOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["token"].write(value.token)
+    }
+}
+
+extension BatchRevokeSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchRevokeSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchRevokeSessionsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SigninClientTypes.BatchRevokeSessionError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.revokedSessions = try reader["revokedSessions"].readListIfPresent(memberReadingClosure: SigninClientTypes.RevokedSession.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -1422,6 +1845,8 @@ extension CreateOAuth2TokenWithTokenExchangeOutput {
         value.accessToken = try reader["access_token"].readIfPresent() ?? ""
         value.expiresIn = try reader["expires_in"].readIfPresent() ?? 0
         value.issuedTokenType = try reader["issued_token_type"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent()
         value.tokenType = try reader["token_type"].readIfPresent() ?? ""
         return value
     }
@@ -1474,6 +1899,30 @@ extension GetResourcePolicyOutput {
     }
 }
 
+extension GetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionOutput()
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.clientType = try reader["clientType"].readIfPresent()
+        value.expiresAt = try reader["expiresAt"].readIfPresent() ?? 0
+        value.issuedAt = try reader["issuedAt"].readIfPresent() ?? 0
+        value.issuedInRegion = try reader["issuedInRegion"].readIfPresent()
+        value.lastUsedAt = try reader["lastUsedAt"].readIfPresent()
+        value.originSessionArn = try reader["originSessionArn"].readIfPresent()
+        value.principalArn = try reader["principalArn"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent()
+        value.role = try reader["role"].readIfPresent()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.userAgent = try reader["userAgent"].readIfPresent()
+        return value
+    }
+}
+
 extension IntrospectOAuth2TokenWithIAMOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IntrospectOAuth2TokenWithIAMOutput {
@@ -1512,6 +1961,19 @@ extension ListResourcePermissionStatementsOutput {
     }
 }
 
+extension ListSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: SigninClientTypes.Session.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension PutConsoleAuthorizationConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutConsoleAuthorizationConfigurationOutput {
@@ -1542,6 +2004,24 @@ extension RevokeOAuth2TokenWithIAMOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeOAuth2TokenWithIAMOutput {
         return RevokeOAuth2TokenWithIAMOutput()
+    }
+}
+
+enum BatchRevokeSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1686,6 +2166,24 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum GetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum IntrospectOAuth2TokenWithIAMOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1714,6 +2212,23 @@ enum ListResourcePermissionStatementsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1804,6 +2319,20 @@ extension InternalServerException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyRequestsError {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsError {
@@ -1874,20 +2403,6 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConflictException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
@@ -1924,6 +2439,18 @@ extension SigninClientTypes.AccessToken {
         value.accessKeyId = try reader["accessKeyId"].readIfPresent() ?? ""
         value.secretAccessKey = try reader["secretAccessKey"].readIfPresent() ?? ""
         value.sessionToken = try reader["sessionToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SigninClientTypes.BatchRevokeSessionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.BatchRevokeSessionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.BatchRevokeSessionError()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1976,6 +2503,34 @@ extension SigninClientTypes.PolicyStatement {
         value.action = try reader["Action"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resource = try reader["Resource"].readIfPresent()
         value.condition = try reader["Condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SigninClientTypes.RevokedSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.RevokedSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.RevokedSession()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SigninClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.Session()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.principalArn = try reader["principalArn"].readIfPresent() ?? ""
+        value.role = try reader["role"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.issuedAt = try reader["issuedAt"].readIfPresent() ?? 0
+        value.expiresAt = try reader["expiresAt"].readIfPresent() ?? 0
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.clientType = try reader["clientType"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
         return value
     }
 }

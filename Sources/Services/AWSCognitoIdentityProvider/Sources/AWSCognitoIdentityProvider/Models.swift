@@ -4270,6 +4270,142 @@ extension CognitoIdentityProviderClientTypes {
     }
 }
 
+public struct CancelPointInTimeRecoveryInput: Swift.Sendable {
+    /// The ID of the recovery that you want to cancel. Amazon Cognito returns this ID in the response to an InitiatePointInTimeRecovery request.
+    /// This member is required.
+    public var restoreId: Swift.String?
+    /// The ID of the user pool that contains the recovery that you want to cancel.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        restoreId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.restoreId = restoreId
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The number of entities of one type that a point-in-time recovery creates, updates, and deletes.
+    public struct RestorePreviewType: Swift.Sendable {
+        /// The number of entities of this type that the recovery creates. These entities existed at the recovery point and were deleted after it.
+        public var createCount: Swift.Int
+        /// The number of entities of this type that the recovery deletes. These entities were created after the recovery point.
+        public var deleteCount: Swift.Int
+        /// The type of user pool entity that the recovery changes. Can be one of the following values. Users User profiles, including their attributes. Groups User pool groups. User MFAs The MFA settings of users. Passkeys The passkeys that users registered.
+        public var entity: Swift.String?
+        /// The number of entities of this type that the recovery reverts to their state at the recovery point. These entities were modified after the recovery point.
+        public var updateCount: Swift.Int
+
+        public init(
+            createCount: Swift.Int = 0,
+            deleteCount: Swift.Int = 0,
+            entity: Swift.String? = nil,
+            updateCount: Swift.Int = 0
+        ) {
+            self.createCount = createCount
+            self.deleteCount = deleteCount
+            self.entity = entity
+            self.updateCount = updateCount
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum RestoreStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsAborted
+        case previewCancelled
+        case previewExpired
+        case previewGenerated
+        case previewGenerating
+        case previewGenerationFailed
+        case restoreCompleted
+        case restoring
+        case temporaryInternalErrorSeeSupportCase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreStatusType] {
+            return [
+                .awsAborted,
+                .previewCancelled,
+                .previewExpired,
+                .previewGenerated,
+                .previewGenerating,
+                .previewGenerationFailed,
+                .restoreCompleted,
+                .restoring,
+                .temporaryInternalErrorSeeSupportCase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsAborted: return "AWS_ABORTED"
+            case .previewCancelled: return "PREVIEW_CANCELLED"
+            case .previewExpired: return "PREVIEW_EXPIRED"
+            case .previewGenerated: return "PREVIEW_GENERATED"
+            case .previewGenerating: return "PREVIEW_GENERATING"
+            case .previewGenerationFailed: return "PREVIEW_GENERATION_FAILED"
+            case .restoreCompleted: return "RESTORE_COMPLETED"
+            case .restoring: return "RESTORING"
+            case .temporaryInternalErrorSeeSupportCase: return "TEMPORARY_INTERNAL_ERROR_SEE_SUPPORT_CASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The details of a point-in-time recovery of a user pool.
+    public struct RestorationType: Swift.Sendable {
+        /// The ID of the recovery. Use this ID in requests to describe, start, or cancel the recovery.
+        public var restoreId: Swift.String?
+        /// The recovery preview. For each type of entity, the preview shows the number of entities that the recovery creates, updates, and deletes. The preview doesn't include user data. Amazon Cognito returns the preview when it's available.
+        public var restorePreview: [CognitoIdentityProviderClientTypes.RestorePreviewType]?
+        /// The status of the recovery. Can be one of the following values. PREVIEW_GENERATING Amazon Cognito is waiting for available capacity in the Amazon Web Services Region or is generating the recovery preview. Write operations in the user pool are paused. PREVIEW_GENERATED The recovery preview is ready for review. Write operations in the user pool are paused. Within 24 hours after you initiate the recovery, apply it with a StartPointInTimeRecovery request or discard it with a CancelPointInTimeRecovery request. PREVIEW_CANCELLED You canceled the recovery. Amazon Cognito resumed write operations and didn't change your user pool data. PREVIEW_GENERATION_FAILED Amazon Cognito couldn't generate the recovery preview. Amazon Cognito resumed write operations and didn't change your user pool data. You can initiate a new recovery. PREVIEW_EXPIRED You didn't start or cancel the recovery within 24 hours after you initiated it. Amazon Cognito resumed write operations and didn't change your user pool data. RESTORING Amazon Cognito is restoring user data in the user pool to its state at the recovery point. Write operations in the user pool are paused. RESTORE_COMPLETED Amazon Cognito restored your user pool to its state at the recovery point and resumed write operations. TEMPORARY_INTERNAL_ERROR_SEE_SUPPORT_CASE The recovery encountered an internal error. Write operations in the user pool remain paused. Amazon Web Services Support contacts you through a support case to resolve the issue. AWS_ABORTED Amazon Cognito stopped the recovery because of an internal failure. Write operations in the user pool remain paused, and you can't cancel or retry the recovery. Amazon Web Services Support contacts you through a support case to resolve the issue.
+        public var restoreStatus: CognitoIdentityProviderClientTypes.RestoreStatusType?
+        /// The point in time that the recovery restores the user pool to.
+        public var restoreTimestamp: Foundation.Date?
+        /// The end of the period of changes that the recovery reverts. This time is shortly after the time that you initiated the recovery. The recovery reverts changes to user data that occurred between RestoreTimestamp and TriggerTimestamp.
+        public var triggerTimestamp: Foundation.Date?
+
+        public init(
+            restoreId: Swift.String? = nil,
+            restorePreview: [CognitoIdentityProviderClientTypes.RestorePreviewType]? = nil,
+            restoreStatus: CognitoIdentityProviderClientTypes.RestoreStatusType? = nil,
+            restoreTimestamp: Foundation.Date? = nil,
+            triggerTimestamp: Foundation.Date? = nil
+        ) {
+            self.restoreId = restoreId
+            self.restorePreview = restorePreview
+            self.restoreStatus = restoreStatus
+            self.restoreTimestamp = restoreTimestamp
+            self.triggerTimestamp = triggerTimestamp
+        }
+    }
+}
+
+public struct CancelPointInTimeRecoveryOutput: Swift.Sendable {
+    /// The details of the canceled recovery, including its status.
+    public var restoration: CognitoIdentityProviderClientTypes.RestorationType?
+
+    public init(
+        restoration: CognitoIdentityProviderClientTypes.RestorationType? = nil
+    ) {
+        self.restoration = restoration
+    }
+}
+
 /// Represents the request to change a user password.
 public struct ChangePasswordInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the user whose password you want to change.
@@ -8022,6 +8158,34 @@ public struct DescribeManagedLoginBrandingByClientOutput: Swift.Sendable {
     }
 }
 
+public struct DescribePointInTimeRecoveryInput: Swift.Sendable {
+    /// The ID of the recovery that you want to describe. Amazon Cognito returns this ID in the response to an InitiatePointInTimeRecovery request.
+    /// This member is required.
+    public var restoreId: Swift.String?
+    /// The ID of the user pool that contains the recovery that you want to describe.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        restoreId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.restoreId = restoreId
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct DescribePointInTimeRecoveryOutput: Swift.Sendable {
+    /// The details of the requested recovery, including its status, the point in time that it restores the user pool to, and the recovery preview.
+    public var restoration: CognitoIdentityProviderClientTypes.RestorationType?
+
+    public init(
+        restoration: CognitoIdentityProviderClientTypes.RestorationType? = nil
+    ) {
+        self.restoration = restoration
+    }
+}
+
 public struct DescribeResourceServerInput: Swift.Sendable {
     /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
@@ -10019,6 +10183,34 @@ public struct InitiateAuthOutput: Swift.Sendable {
     }
 }
 
+public struct InitiatePointInTimeRecoveryInput: Swift.Sendable {
+    /// The point in time that you want to recover your user pool to. Amazon Cognito reverts changes to user data that occurred after this time. The recovery point must be at least 15 minutes in the past and within the recovery period of your user pool feature plan: up to 1 day in the past with the Essentials feature plan, or up to 14 days in the past with the Plus feature plan.
+    /// This member is required.
+    public var restoreTimestamp: Foundation.Date?
+    /// The ID of the user pool that you want to recover.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        restoreTimestamp: Foundation.Date? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.restoreTimestamp = restoreTimestamp
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct InitiatePointInTimeRecoveryOutput: Swift.Sendable {
+    /// The details of the recovery that you initiated. Includes the recovery ID that you can use in later requests to describe, start, or cancel the recovery.
+    public var restoration: CognitoIdentityProviderClientTypes.RestorationType?
+
+    public init(
+        restoration: CognitoIdentityProviderClientTypes.RestorationType? = nil
+    ) {
+        self.restoration = restoration
+    }
+}
+
 /// Represents the request to list the devices.
 public struct ListDevicesInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin.
@@ -10151,6 +10343,64 @@ public struct ListIdentityProvidersOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.providers = providers
+    }
+}
+
+public struct ListPointInTimeRecoveriesInput: Swift.Sendable {
+    /// The maximum number of recoveries that you want Amazon Cognito to return in the response. Valid values are 1 through 60. The default value is 60.
+    public var maxResults: Swift.Int?
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool where you want to list point-in-time recoveries.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// A summary of a point-in-time recovery of a user pool.
+    public struct RestorationDescriptionType: Swift.Sendable {
+        /// The ID of the recovery.
+        public var restoreId: Swift.String?
+        /// The status of the recovery. For a description of each status, see the RestoreStatus parameter of RestorationType.
+        public var restoreStatus: CognitoIdentityProviderClientTypes.RestoreStatusType?
+        /// The point in time that the recovery restores the user pool to.
+        public var restoreTimestamp: Foundation.Date?
+
+        public init(
+            restoreId: Swift.String? = nil,
+            restoreStatus: CognitoIdentityProviderClientTypes.RestoreStatusType? = nil,
+            restoreTimestamp: Foundation.Date? = nil
+        ) {
+            self.restoreId = restoreId
+            self.restoreStatus = restoreStatus
+            self.restoreTimestamp = restoreTimestamp
+        }
+    }
+}
+
+public struct ListPointInTimeRecoveriesOutput: Swift.Sendable {
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+    /// A summary of each requested recovery, including its ID, status, and the point in time that it restores the user pool to.
+    public var restorations: [CognitoIdentityProviderClientTypes.RestorationDescriptionType]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restorations: [CognitoIdentityProviderClientTypes.RestorationDescriptionType]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.restorations = restorations
     }
 }
 
@@ -11428,6 +11678,34 @@ public struct SignUpOutput: Swift.Sendable {
         self.session = session
         self.userConfirmed = userConfirmed
         self.userSub = userSub
+    }
+}
+
+public struct StartPointInTimeRecoveryInput: Swift.Sendable {
+    /// The ID of the recovery that you want to start. Amazon Cognito returns this ID in the response to an InitiatePointInTimeRecovery request.
+    /// This member is required.
+    public var restoreId: Swift.String?
+    /// The ID of the user pool that contains the recovery that you want to start.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        restoreId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.restoreId = restoreId
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct StartPointInTimeRecoveryOutput: Swift.Sendable {
+    /// The details of the recovery that you started, including its status.
+    public var restoration: CognitoIdentityProviderClientTypes.RestorationType?
+
+    public init(
+        restoration: CognitoIdentityProviderClientTypes.RestorationType? = nil
+    ) {
+        self.restoration = restoration
     }
 }
 

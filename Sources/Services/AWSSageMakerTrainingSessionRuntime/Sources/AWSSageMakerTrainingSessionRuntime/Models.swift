@@ -953,6 +953,21 @@ extension SageMakerTrainingSessionRuntimeClientTypes {
     }
 }
 
+extension SageMakerTrainingSessionRuntimeClientTypes.SampleOperationResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .sample:
+            return "SampleOperationResult.sample(\"CONTENT_REDACTED\")"
+        case .computelogprobs(let value):
+            return "SampleOperationResult.computelogprobs(\(Swift.String(describing: value)))"
+        case .loadweightsforsampling(let value):
+            return "SampleOperationResult.loadweightsforsampling(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "SampleOperationResult.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension SageMakerTrainingSessionRuntimeClientTypes {
 
     public enum RequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

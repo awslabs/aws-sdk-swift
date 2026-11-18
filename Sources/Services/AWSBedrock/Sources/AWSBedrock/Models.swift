@@ -5832,6 +5832,23 @@ extension BedrockClientTypes {
     }
 }
 
+extension BedrockClientTypes.RequestMetadataFilters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .equals:
+            return "RequestMetadataFilters.equals(\"CONTENT_REDACTED\")"
+        case .notequals:
+            return "RequestMetadataFilters.notequals(\"CONTENT_REDACTED\")"
+        case .andall(let value):
+            return "RequestMetadataFilters.andall(\(Swift.String(describing: value)))"
+        case .orall(let value):
+            return "RequestMetadataFilters.orall(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "RequestMetadataFilters.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockClientTypes {
 
     /// Settings for using invocation logs to customize a model.
@@ -6558,6 +6575,17 @@ extension BedrockClientTypes {
         /// The definition of a custom metric for use in an Amazon Bedrock evaluation job.
         case custommetricdefinition(BedrockClientTypes.CustomMetricDefinition)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes.AutomatedEvaluationCustomMetricSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .custommetricdefinition:
+            return "AutomatedEvaluationCustomMetricSource.custommetricdefinition(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "AutomatedEvaluationCustomMetricSource.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -7477,6 +7505,19 @@ extension BedrockClientTypes {
         /// A list of metadata field names to explicitly exclude from the reranking process. All metadata fields except these will be considered when reordering search results. This parameter cannot be used together with fieldsToInclude.
         case fieldstoexclude([BedrockClientTypes.FieldForReranking])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .fieldstoinclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoinclude(\"CONTENT_REDACTED\")"
+        case .fieldstoexclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoexclude(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "RerankingMetadataSelectiveModeConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -14144,6 +14185,12 @@ extension BedrockClientTypes {
         /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.
         case orall([BedrockClientTypes.RetrievalFilter])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes.RetrievalFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

@@ -461,6 +461,7 @@ extension BraketClientTypes {
     public enum DeviceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case offline
         case online
+        case paused
         case retired
         case sdkUnknown(Swift.String)
 
@@ -468,6 +469,7 @@ extension BraketClientTypes {
             return [
                 .offline,
                 .online,
+                .paused,
                 .retired
             ]
         }
@@ -481,9 +483,71 @@ extension BraketClientTypes {
             switch self {
             case .offline: return "OFFLINE"
             case .online: return "ONLINE"
+            case .paused: return "PAUSED"
             case .retired: return "RETIRED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension BraketClientTypes {
+
+    public enum DeviceStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case maintenance
+        case outsideAvailabilityWindow
+        case reservation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceStatusReasonCode] {
+            return [
+                .maintenance,
+                .outsideAvailabilityWindow,
+                .reservation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .maintenance: return "MAINTENANCE"
+            case .outsideAvailabilityWindow: return "OUTSIDE_AVAILABILITY_WINDOW"
+            case .reservation: return "RESERVATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BraketClientTypes {
+
+    /// Provides information about the reason for the current status of a device.
+    public struct DeviceStatusReason: Swift.Sendable {
+        /// The estimated time at which the current status reason will end.
+        public var estimatedEndAt: Foundation.Date?
+        /// The reason code for the current status of the device.
+        /// This member is required.
+        public var reason: BraketClientTypes.DeviceStatusReasonCode?
+        /// The time at which the device status reason started.
+        public var startedAt: Foundation.Date?
+        /// The time of the most recent update to the device status reason.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            estimatedEndAt: Foundation.Date? = nil,
+            reason: BraketClientTypes.DeviceStatusReasonCode? = nil,
+            startedAt: Foundation.Date? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.estimatedEndAt = estimatedEndAt
+            self.reason = reason
+            self.startedAt = startedAt
+            self.updatedAt = updatedAt
         }
     }
 }
@@ -532,6 +596,8 @@ public struct GetDeviceOutput: Swift.Sendable {
     /// The status of the device.
     /// This member is required.
     public var deviceStatus: BraketClientTypes.DeviceStatus?
+    /// The reason for the current status of the device, including status reason codes and timestamps.
+    public var deviceStatusReason: BraketClientTypes.DeviceStatusReason?
     /// The type of the device.
     /// This member is required.
     public var deviceType: BraketClientTypes.DeviceType?
@@ -545,6 +611,7 @@ public struct GetDeviceOutput: Swift.Sendable {
         deviceName: Swift.String? = nil,
         deviceQueueInfo: [BraketClientTypes.DeviceQueueInfo]? = nil,
         deviceStatus: BraketClientTypes.DeviceStatus? = nil,
+        deviceStatusReason: BraketClientTypes.DeviceStatusReason? = nil,
         deviceType: BraketClientTypes.DeviceType? = nil,
         providerName: Swift.String? = nil
     ) {
@@ -553,6 +620,7 @@ public struct GetDeviceOutput: Swift.Sendable {
         self.deviceName = deviceName
         self.deviceQueueInfo = deviceQueueInfo
         self.deviceStatus = deviceStatus
+        self.deviceStatusReason = deviceStatusReason
         self.deviceType = deviceType
         self.providerName = providerName
     }
@@ -944,13 +1012,6 @@ extension BraketClientTypes {
         case mlM54xlarge
         case mlM5Large
         case mlM5Xlarge
-        case mlP216xlarge
-        case mlP28xlarge
-        case mlP2Xlarge
-        case mlP3dn24xlarge
-        case mlP316xlarge
-        case mlP32xlarge
-        case mlP38xlarge
         case mlP4d24xlarge
         case mlT32xlarge
         case mlT3Large
@@ -1006,13 +1067,6 @@ extension BraketClientTypes {
                 .mlM54xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
-                .mlP216xlarge,
-                .mlP28xlarge,
-                .mlP2Xlarge,
-                .mlP3dn24xlarge,
-                .mlP316xlarge,
-                .mlP32xlarge,
-                .mlP38xlarge,
                 .mlP4d24xlarge,
                 .mlT32xlarge,
                 .mlT3Large,
@@ -1074,13 +1128,6 @@ extension BraketClientTypes {
             case .mlM54xlarge: return "ml.m5.4xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
-            case .mlP216xlarge: return "ml.p2.16xlarge"
-            case .mlP28xlarge: return "ml.p2.8xlarge"
-            case .mlP2Xlarge: return "ml.p2.xlarge"
-            case .mlP3dn24xlarge: return "ml.p3dn.24xlarge"
-            case .mlP316xlarge: return "ml.p3.16xlarge"
-            case .mlP32xlarge: return "ml.p3.2xlarge"
-            case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
@@ -1561,15 +1608,15 @@ extension BraketClientTypes {
 
 extension BraketClientTypes {
 
-    /// A filter used to search for Amazon Braket hybrid jobs.
+    /// A filter used to search for Amazon Braket hybrid jobs. You can combine multiple filters in a single request, except that jobArn cannot be combined with any other filter.
     public struct SearchJobsFilter: Swift.Sendable {
-        /// The name of the hybrid job parameter to filter based on. Filter name can be either jobArn or createdAt.
+        /// The name of the hybrid job parameter to filter based on. Supported filter names: jobArn — Filter by the job ARN. Supports the EQUAL operator only. Cannot be combined with other filters. jobName — Filter by the job name. Supports the EQUAL operator for exact match, or the CONTAINS operator for substring match. For example, use CONTAINS with a value of my-experiment to find all jobs whose name includes "my-experiment". deviceArn — Filter by the target device. Supports the EQUAL operator only. The value can be a device ARN (for example, arn:aws:braket:us-east-1::device/qpu/ionq/Aria-1) or a local simulator identifier (for example, local:braket/default). createdAt — Filter by the job creation time. Supports the EQUAL, GT, GTE, LT, LTE, and BETWEEN operators. Values must be in RFC 3339 date-time format.
         /// This member is required.
         public var name: Swift.String?
-        /// An operator to use for the filter.
+        /// An operator to use for the filter. The supported operators depend on the filter name. See the name parameter for details.
         /// This member is required.
         public var `operator`: BraketClientTypes.SearchJobsFilterOperator?
-        /// The values used to filter hybrid jobs based on the filter name and operator.
+        /// The values used to filter hybrid jobs based on the filter name and operator. Each filter accepts an array of values. Most filters accept a single value, except createdAt with the BETWEEN operator, which requires exactly two values.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -1786,7 +1833,31 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
     /// The S3 bucket to store quantum task result files in.
     /// This member is required.
     public var outputS3Bucket: Swift.String?
-    /// The key prefix for the location in the S3 bucket to store quantum task results in.
+    /// The key prefix for the location in the S3 bucket to store quantum task results in. For example, results/. Must not contain path traversal sequences such as ../ or ./. The following characters are not valid in the key prefix:
+    ///
+    /// * Braces ({ or })
+    ///
+    /// * Brackets ([ or ])
+    ///
+    /// * Less than or greater than sign (< or >)
+    ///
+    /// * Backslash (\)
+    ///
+    /// * Vertical bar or pipe (|)
+    ///
+    /// * Caret or circumflex (^)
+    ///
+    /// * Tilde (~)
+    ///
+    /// * Grave accent or backtick (`)
+    ///
+    /// * Percent character (%)
+    ///
+    /// * Pound sign (#)
+    ///
+    /// * Quotation mark (")
+    ///
+    /// * Non-printable ASCII characters (128–255 decimal characters)
     /// This member is required.
     public var outputS3KeyPrefix: Swift.String?
     /// The number of shots to use for the quantum task.
@@ -2299,7 +2370,7 @@ extension BraketClientTypes {
 
     /// Specifies filter criteria for searching spending limits. Use filters to narrow down results based on specific attributes.
     public struct SearchSpendingLimitsFilter: Swift.Sendable {
-        /// The name of the field to filter on. Currently only supports deviceArn.
+        /// The name of the field to filter on. Currently supports deviceArn and spendingLimitArn.
         /// This member is required.
         public var name: Swift.String?
         /// The comparison operator to use when filtering.
@@ -2875,6 +2946,7 @@ extension GetDeviceOutput {
         value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
         value.deviceQueueInfo = try reader["deviceQueueInfo"].readListIfPresent(memberReadingClosure: BraketClientTypes.DeviceQueueInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deviceStatus = try reader["deviceStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceStatusReason = try reader["deviceStatusReason"].readIfPresent(with: BraketClientTypes.DeviceStatusReason.read(from:))
         value.deviceType = try reader["deviceType"].readIfPresent() ?? .sdkUnknown("")
         value.providerName = try reader["providerName"].readIfPresent() ?? ""
         return value
@@ -3547,6 +3619,19 @@ extension BraketClientTypes.DeviceQueueInfo {
         value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
         value.queueSize = try reader["queueSize"].readIfPresent() ?? ""
         value.queuePriority = try reader["queuePriority"].readIfPresent()
+        return value
+    }
+}
+
+extension BraketClientTypes.DeviceStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.DeviceStatusReason()
+        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.estimatedEndAt = try reader["estimatedEndAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

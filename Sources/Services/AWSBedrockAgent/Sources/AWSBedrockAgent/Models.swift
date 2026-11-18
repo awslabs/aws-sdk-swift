@@ -372,6 +372,19 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes.APISchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3(let value):
+            return "APISchema.s3(\(Swift.String(describing: value)))"
+        case .payload:
+            return "APISchema.payload(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "APISchema.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentClientTypes {
 
     public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -5610,6 +5623,19 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .fieldstoinclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoinclude(\"CONTENT_REDACTED\")"
+        case .fieldstoexclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoexclude(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "RerankingMetadataSelectiveModeConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentClientTypes {
 
     /// Specifies how metadata fields should be handled during the reranking process.
@@ -5908,6 +5934,12 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes.ContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentClientTypes {
 
     public enum ConversationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -5975,6 +6007,12 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes.SystemContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentClientTypes {
 
     /// Defines tools, at least one of which must be requested by the model. No text is generated but the results of tool use are sent back to the model to help generate a response. For more information, see [Use a tool to complete an Amazon Bedrock model response](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html).
@@ -6020,6 +6058,12 @@ extension BedrockAgentClientTypes {
         /// Defines a specific tool that the model must request. No text is generated but the results of tool use are sent back to the model to help generate a response.
         case tool(BedrockAgentClientTypes.SpecificToolChoice)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes.ToolChoice: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -6172,6 +6216,19 @@ extension BedrockAgentClientTypes {
         /// Contains configurations to use the prompt in a conversational format.
         case chat(BedrockAgentClientTypes.ChatPromptTemplateConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes.PromptTemplateConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "PromptTemplateConfiguration.text(\"CONTENT_REDACTED\")"
+        case .chat:
+            return "PromptTemplateConfiguration.chat(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "PromptTemplateConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -11940,6 +11997,12 @@ extension BedrockAgentClientTypes {
         /// Specifies an Amazon Bedrock agent with which to use the prompt.
         case agent(BedrockAgentClientTypes.PromptAgentResource)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes.PromptGenAiResource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

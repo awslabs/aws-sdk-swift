@@ -6157,6 +6157,77 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutAccountDeliveryAttributes` operation on the `SESv2` service.
+    ///
+    /// Set the shared pool delivery mode for your Amazon SES account in the current Amazon Web Services Region. The mode controls whether Amazon SES can deliver your email from shared IP addresses in other Amazon Web Services Regions within the same Amazon Web Services partition. A change may take a few minutes to take effect. Messages that are already queued for delivery keep the mode that they were sent with.
+    ///
+    /// - Parameter input: A request to set the shared pool delivery mode for your Amazon SES account. (Type: `PutAccountDeliveryAttributesInput`)
+    ///
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error response if the request fails. (Type: `PutAccountDeliveryAttributesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func putAccountDeliveryAttributes(input: PutAccountDeliveryAttributesInput) async throws -> PutAccountDeliveryAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAccountDeliveryAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>(PutAccountDeliveryAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountDeliveryAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountDeliveryAttributesOutput>(PutAccountDeliveryAttributesOutput.httpOutput(from:), PutAccountDeliveryAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountDeliveryAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountDeliveryAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountDeliveryAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountDeliveryAttributesInput, PutAccountDeliveryAttributesOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountDeliveryAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutAccountDetails` operation on the `SESv2` service.
     ///
     /// Update your Amazon SES account details.

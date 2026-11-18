@@ -364,6 +364,12 @@ extension DeadlineClientTypes {
     }
 }
 
+extension DeadlineClientTypes.TaskParameterValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension DeadlineClientTypes {
 
     /// The specific task, step, and parameters to include.

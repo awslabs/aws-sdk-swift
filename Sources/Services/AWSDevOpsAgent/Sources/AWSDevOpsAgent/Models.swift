@@ -7209,6 +7209,12 @@ extension DevOpsAgentClientTypes {
     }
 }
 
+extension DevOpsAgentClientTypes.DynatraceServiceAuthorizationConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension DevOpsAgentClientTypes {
 
     /// Complete service details for Dynatrace integration.
