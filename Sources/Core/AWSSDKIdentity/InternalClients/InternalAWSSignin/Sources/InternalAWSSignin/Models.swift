@@ -33,6 +33,7 @@ extension SigninClientTypes {
         case insufficientPermissions
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed.
         case invalidRequest
+        case oauthInvalidClient
         case oauthInvalidGrant
         case oauthInvalidRequest
         case oauthInvalidScope
@@ -58,6 +59,7 @@ extension SigninClientTypes {
                 .conflict,
                 .insufficientPermissions,
                 .invalidRequest,
+                .oauthInvalidClient,
                 .oauthInvalidGrant,
                 .oauthInvalidRequest,
                 .oauthInvalidScope,
@@ -84,6 +86,7 @@ extension SigninClientTypes {
             case .conflict: return "CONFLICT"
             case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .invalidRequest: return "INVALID_REQUEST"
+            case .oauthInvalidClient: return "invalid_client"
             case .oauthInvalidGrant: return "invalid_grant"
             case .oauthInvalidRequest: return "invalid_request"
             case .oauthInvalidScope: return "invalid_scope"

@@ -5174,6 +5174,12 @@ extension DataZoneClientTypes {
     }
 }
 
+extension DataZoneClientTypes.RedshiftCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension DataZoneClientTypes {
 
     /// The lineage sync schedule.
@@ -9669,6 +9675,12 @@ extension DataZoneClientTypes {
         /// Indicates the smithy model of the API.
         case smithy(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes.Model: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -25144,6 +25156,19 @@ extension DataZoneClientTypes {
         /// The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them.
         case s3files(DataZoneClientTypes.S3FilesLocation)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes.SourceLocation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3:
+            return "SourceLocation.s3(\"CONTENT_REDACTED\")"
+        case .s3files(let value):
+            return "SourceLocation.s3files(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "SourceLocation.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

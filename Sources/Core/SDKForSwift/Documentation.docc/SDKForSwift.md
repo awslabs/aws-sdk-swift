@@ -107,6 +107,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSARCZonalShift](/sdk-for-swift/latest/api/awsarczonalshift/documentation/awsarczonalshift)
 
+[AWSAbuseSignal](/sdk-for-swift/latest/api/awsabusesignal/documentation/awsabusesignal)
+
 [AWSAccessAnalyzer](/sdk-for-swift/latest/api/awsaccessanalyzer/documentation/awsaccessanalyzer)
 
 [AWSAccount](/sdk-for-swift/latest/api/awsaccount/documentation/awsaccount)

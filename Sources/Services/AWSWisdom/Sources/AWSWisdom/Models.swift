@@ -2264,6 +2264,17 @@ extension WisdomClientTypes {
     }
 }
 
+extension WisdomClientTypes.QuickResponseDataProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .content:
+            return "QuickResponseDataProvider.content(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "QuickResponseDataProvider.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension WisdomClientTypes {
 
     /// The configuration information of the grouping of Wisdom users.
@@ -2366,6 +2377,17 @@ extension WisdomClientTypes {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension WisdomClientTypes.QuickResponseContentProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .content:
+            return "QuickResponseContentProvider.content(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "QuickResponseContentProvider.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 

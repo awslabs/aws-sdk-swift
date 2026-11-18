@@ -517,6 +517,19 @@ extension ConnectCasesClientTypes {
     }
 }
 
+extension ConnectCasesClientTypes.UserUnion: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .userarn(let value):
+            return "UserUnion.userarn(\(Swift.String(describing: value)))"
+        case .customentity:
+            return "UserUnion.customentity(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "UserUnion.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct BatchCreateRelatedItemInput: Swift.Sendable {
     /// The list of cases to associate the related item with. All cases must belong to the same domain.
     /// This member is required.

@@ -167,6 +167,55 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    public enum AnalyticsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crossRegion
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsMode] {
+            return [
+                .crossRegion,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crossRegion: return "CROSS_REGION"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Specifies the security analytics configuration for the web ACL. Security analytics shows the web ACL's request log data from multiple Amazon Web Services Regions in a single dashboard in the WAF console. When you enable security analytics, you authorize Amazon Web Services to transfer and store full request logs outside the Amazon Web Services Region where the web ACL is hosted. For regional web ACLs, security analytics is disabled by default when you omit this configuration. For web ACLs that protect CloudFront distributions (global web ACLs), security analytics is enabled by default. For more information, see [Enabling security analytics for a protection pack (web ACL)](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-security-analytics-enabling.html) in the WAF Developer Guide.
+    public struct AnalyticsConfig: Swift.Sendable {
+        /// The security analytics mode for the web ACL. Valid values:
+        ///
+        /// * CROSS_REGION - Enables security analytics. WAF transfers and stores the web ACL's request logs outside the Amazon Web Services Region where the web ACL is hosted, for aggregation and processing.
+        ///
+        /// * DISABLED - Disables security analytics. WAF stops transferring the web ACL's request logs.
+        /// This member is required.
+        public var mode: WAFV2ClientTypes.AnalyticsMode?
+
+        public init(
+            mode: WAFV2ClientTypes.AnalyticsMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum FallbackBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case match
         case noMatch
@@ -470,7 +519,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
     public struct JA3Fingerprint: Swift.Sendable {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
         ///
@@ -490,7 +539,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
     public struct JA4Fingerprint: Swift.Sendable {
         /// The match status to assign to the web request if the request doesn't have a JA4 fingerprint. You can specify the following fallback behaviors:
         ///
@@ -763,9 +812,9 @@ extension WAFV2ClientTypes {
         public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
-        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
         public var ja3Fingerprint: WAFV2ClientTypes.JA3Fingerprint?
-        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
         public var ja4Fingerprint: WAFV2ClientTypes.JA4Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
@@ -1084,7 +1133,7 @@ extension WAFV2ClientTypes {
         ///
         /// * UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.
         ///
-        /// * JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
+        /// * JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
         ///
         /// * HeaderOrder: The list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
         ///
@@ -2472,7 +2521,7 @@ extension WAFV2ClientTypes {
 
     /// This is part of the AWSManagedRulesAntiDDoSRuleSetClientSideActionConfig configuration in ManagedRuleGroupConfig.
     public struct ClientSideAction: Swift.Sendable {
-        /// The regular expression to match against the web request URI, used to identify requests that can't handle a silent browser challenge. When the ClientSideAction setting UsageOfAction is enabled, the managed rule group uses this setting to determine which requests to label with awswaf:managed:aws:anti-ddos:challengeable-request. If UsageOfAction is disabled, this setting has no effect and the managed rule group doesn't add the label to any requests. The anti-DDoS managed rule group doesn't evaluate the rules ChallengeDDoSRequests or ChallengeAllDuringEvent for web requests whose URIs match this regex. This is true regardless of whether you override the rule action for either of the rules in your web ACL configuration. Amazon Web Services recommends using a regular expression. This setting is required if UsageOfAction is set to ENABLED. If required, you can provide between 1 and 5 regex objects in the array of settings. Amazon Web Services recommends starting with the following setting. Review and update it for your application's needs: \/api\/|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$
+        /// The regular expression to match against the request's host followed by its normalized URI path, used to identify requests that can't handle a silent browser challenge. When the ClientSideAction setting UsageOfAction is enabled, the managed rule group uses this setting to determine which requests to label with awswaf:managed:aws:anti-ddos:challengeable-request. If UsageOfAction is disabled, this setting has no effect and the managed rule group doesn't add the label to any requests. WAF matches against the host immediately followed by the normalized URI path and doesn't include the scheme, the query string, or the fragment. For example, www.example.com/api/orders. Because the match begins with the host, a pattern anchored to the start of the path, such as ^/api/, never matches. WAF normalizes the path first, removing empty segments (including a trailing slash) and single-dot (.) segments and resolving double-dot (..) segments, so /api/ is evaluated as /api. Only GET requests are challengeable. The anti-DDoS managed rule group doesn't evaluate the rules ChallengeDDoSRequests or ChallengeAllDuringEvent for web requests that match this regex. This is true regardless of whether you override the rule action for either of the rules in your web ACL configuration. Amazon Web Services recommends using a regular expression. This setting is required if UsageOfAction is set to ENABLED. If required, you can provide between 1 and 5 regex objects in the array of settings. Amazon Web Services recommends starting with the following setting. Review and update it for your application's needs: \/api(\/|$)|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$
         public var exemptUriRegularExpressions: [WAFV2ClientTypes.Regex]?
         /// The sensitivity that the rule group rule ChallengeDDoSRequests uses when matching against the DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the ChallengeDDoSRequests rule runs. The higher the sensitivity, the more levels of labeling that the rule matches:
         ///
@@ -2489,7 +2538,7 @@ extension WAFV2ClientTypes {
         ///
         /// * If usage is enabled:
         ///
-        /// * The managed rule group adds the label awswaf:managed:aws:anti-ddos:challengeable-request to any web request whose URL does NOT match the regular expressions provided in the ClientSideAction setting ExemptUriRegularExpressions.
+        /// * The managed rule group adds the label awswaf:managed:aws:anti-ddos:challengeable-request to any web request that does not match the regular expressions provided in the ClientSideAction setting ExemptUriRegularExpressions.
         ///
         /// * The two rules are evaluated against web requests for protected resources that are experiencing a DDoS attack. The two rules only apply their action to matching requests that have the label awswaf:managed:aws:anti-ddos:challengeable-request.
         ///
@@ -9725,6 +9774,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
 }
 
 public struct CreateWebACLInput: Swift.Sendable {
+    /// Specifies the security analytics configuration for the web ACL. For more information, see [AnalyticsConfig].
+    public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
     /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
     public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
@@ -9767,6 +9818,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        analyticsConfig: WAFV2ClientTypes.AnalyticsConfig? = nil,
         applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
@@ -9784,6 +9836,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.analyticsConfig = analyticsConfig
         self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
@@ -9856,6 +9909,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
 }
 
 public struct UpdateWebACLInput: Swift.Sendable {
+    /// Specifies the security analytics configuration for the web ACL. For more information, see [AnalyticsConfig].
+    public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
     /// Configures the ability for the WAF console to store and retrieve application attributes. Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:
     ///
     /// * If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.
@@ -9906,6 +9961,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        analyticsConfig: WAFV2ClientTypes.AnalyticsConfig? = nil,
         applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
@@ -9924,6 +9980,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.analyticsConfig = analyticsConfig
         self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
@@ -9963,6 +10020,8 @@ extension WAFV2ClientTypes {
 
     /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
     public struct WebACL: Swift.Sendable {
+        /// The security analytics configuration for the web ACL. For more information, see [AnalyticsConfig].
+        public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
         /// Returns a list of ApplicationAttributes.
         public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -10018,6 +10077,7 @@ extension WAFV2ClientTypes {
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
         public init(
+            analyticsConfig: WAFV2ClientTypes.AnalyticsConfig? = nil,
             applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
             arn: Swift.String? = nil,
             associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
@@ -10041,6 +10101,7 @@ extension WAFV2ClientTypes {
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
         ) {
+            self.analyticsConfig = analyticsConfig
             self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig

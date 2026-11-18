@@ -1269,6 +1269,21 @@ extension SecurityAgentClientTypes {
     }
 }
 
+extension SecurityAgentClientTypes.CaCertificateSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .inlinepem:
+            return "CaCertificateSource.inlinepem(\"CONTENT_REDACTED\")"
+        case .artifactid(let value):
+            return "CaCertificateSource.artifactid(\(Swift.String(describing: value)))"
+        case .s3location(let value):
+            return "CaCertificateSource.s3location(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "CaCertificateSource.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension SecurityAgentClientTypes {
 
     /// A trust anchor used when validating a target endpoint's TLS certificate.
@@ -2771,6 +2786,8 @@ extension SecurityAgentClientTypes {
         case clientError
         /// Failure caused by an internal error.
         case internalError
+        /// Pentest job was paused by the user.
+        case pausedByUser
         /// Pentest job was stopped by the user.
         case stoppedByUser
         case sdkUnknown(Swift.String)
@@ -2779,6 +2796,7 @@ extension SecurityAgentClientTypes {
             return [
                 .clientError,
                 .internalError,
+                .pausedByUser,
                 .stoppedByUser
             ]
         }
@@ -2792,6 +2810,7 @@ extension SecurityAgentClientTypes {
             switch self {
             case .clientError: return "CLIENT_ERROR"
             case .internalError: return "INTERNAL_ERROR"
+            case .pausedByUser: return "PAUSED_BY_USER"
             case .stoppedByUser: return "STOPPED_BY_USER"
             case let .sdkUnknown(s): return s
             }
@@ -3175,6 +3194,10 @@ extension SecurityAgentClientTypes {
         case failed
         /// Pentest job is currently running.
         case inProgress
+        /// Pentest job is paused. A paused job can be resumed from its last saved checkpoint within 7 days of the job's creation.
+        case paused
+        /// Pentest job is being paused.
+        case pausing
         /// Pentest job was stopped by the user.
         case stopped
         /// Pentest job is being stopped.
@@ -3186,6 +3209,8 @@ extension SecurityAgentClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
+                .paused,
+                .pausing,
                 .stopped,
                 .stopping
             ]
@@ -3201,6 +3226,8 @@ extension SecurityAgentClientTypes {
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .paused: return "PAUSED"
+            case .pausing: return "PAUSING"
             case .stopped: return "STOPPED"
             case .stopping: return "STOPPING"
             case let .sdkUnknown(s): return s
@@ -4289,6 +4316,8 @@ extension SecurityAgentClientTypes {
         public var trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]?
         /// The date and time the pentest job was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The version of the pentest job. The version increases each time the job is resumed. This value is absent for jobs created before versions were recorded.
+        public var version: Swift.String?
         /// The VPC configuration for the pentest job.
         public var vpcConfig: SecurityAgentClientTypes.VpcConfig?
 
@@ -4328,6 +4357,7 @@ extension SecurityAgentClientTypes {
             title: Swift.String? = nil,
             trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]? = nil,
             updatedAt: Foundation.Date? = nil,
+            version: Swift.String? = nil,
             vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
         ) {
             self.actors = actors
@@ -4365,6 +4395,7 @@ extension SecurityAgentClientTypes {
             self.title = title
             self.trustedCaCertificates = trustedCaCertificates
             self.updatedAt = updatedAt
+            self.version = version
             self.vpcConfig = vpcConfig
         }
     }
@@ -4372,7 +4403,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), clientCertificates: \(Swift.String(describing: clientCertificates)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), testScope: \(Swift.String(describing: testScope)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), clientCertificates: \(Swift.String(describing: clientCertificates)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), testScope: \(Swift.String(describing: testScope)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -9121,6 +9152,8 @@ extension SecurityAgentClientTypes {
         public var title: Swift.String?
         /// The date and time the pentest job was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The version of the pentest job. The version increases each time the job is resumed. This value is absent for jobs created before versions were recorded.
+        public var version: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
@@ -9130,7 +9163,8 @@ extension SecurityAgentClientTypes {
             reportUrl: Swift.String? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
             title: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.String? = nil
         ) {
             self.createdAt = createdAt
             self.jobType = jobType
@@ -9140,6 +9174,7 @@ extension SecurityAgentClientTypes {
             self.status = status
             self.title = title
             self.updatedAt = updatedAt
+            self.version = version
         }
     }
 }
@@ -10091,6 +10126,78 @@ public struct UpdatePrivateConnectionCertificateOutput: Swift.Sendable {
     }
 }
 
+/// Input for resuming a stopped or paused pentest job.
+public struct ResumePentestJobInput: Swift.Sendable {
+    /// The actors to use for the resumed job. When specified, replaces the actors the job used before it stopped.
+    public var actors: [SecurityAgentClientTypes.Actor]?
+    /// The unique identifier of the agent space.
+    public var agentSpaceId: Swift.String?
+    /// Specifies whether to copy the current actors, network traffic configuration, VPC configuration, and maximum task hours from the pentest to the resumed job. The job's scope, such as its target endpoints, is never changed. Values you specify in this request take precedence over copied values.
+    public var copyConfigFromPentest: Swift.Bool?
+    /// The maximum number of task hours for the resumed job. To resume a job that stopped because it reached its task hours limit, specify a higher value.
+    public var maxTaskHours: Swift.Double?
+    /// The network traffic configuration to use for the resumed job. When specified, replaces the configuration the job used before it stopped.
+    public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
+    /// The unique identifier of the pentest job to resume.
+    public var pentestJobId: Swift.String?
+    /// The VPC configuration to use for the resumed job. When specified, replaces the configuration the job used before it stopped.
+    public var vpcConfig: SecurityAgentClientTypes.VpcConfig?
+
+    public init(
+        actors: [SecurityAgentClientTypes.Actor]? = nil,
+        agentSpaceId: Swift.String? = nil,
+        copyConfigFromPentest: Swift.Bool? = nil,
+        maxTaskHours: Swift.Double? = nil,
+        networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
+        pentestJobId: Swift.String? = nil,
+        vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
+    ) {
+        self.actors = actors
+        self.agentSpaceId = agentSpaceId
+        self.copyConfigFromPentest = copyConfigFromPentest
+        self.maxTaskHours = maxTaskHours
+        self.networkTrafficConfig = networkTrafficConfig
+        self.pentestJobId = pentestJobId
+        self.vpcConfig = vpcConfig
+    }
+}
+
+/// Output for the ResumePentestJob operation.
+public struct ResumePentestJobOutput: Swift.Sendable {
+    /// The date and time the pentest job was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the pentest.
+    public var pentestId: Swift.String?
+    /// The unique identifier of the resumed pentest job.
+    public var pentestJobId: Swift.String?
+    /// The current status of the pentest job.
+    public var status: SecurityAgentClientTypes.JobStatus?
+    /// The title of the pentest job.
+    public var title: Swift.String?
+    /// The date and time the pentest job was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+    /// The version of the pentest job that the resume started. The version increases each time the job is resumed.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        pentestId: Swift.String? = nil,
+        pentestJobId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.JobStatus? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.pentestId = pentestId
+        self.pentestJobId = pentestJobId
+        self.status = status
+        self.title = title
+        self.updatedAt = updatedAt
+        self.version = version
+    }
+}
+
 public struct UpdateSecurityRequirementPackInput: Swift.Sendable {
     /// The updated description of the security requirement pack.
     public var description: Swift.String?
@@ -10381,15 +10488,19 @@ public struct StopPentestJobInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Specifies whether to pause the job instead of stopping it. A paused job moves to PAUSING and then to PAUSED, and you can resume it later with ResumePentestJob. You can pause only a job that is IN_PROGRESS. The default is false.
+    public var pause: Swift.Bool?
     /// The unique identifier of the pentest job to stop.
     /// This member is required.
     public var pentestJobId: Swift.String?
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        pause: Swift.Bool? = nil,
         pentestJobId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.pause = pause
         self.pentestJobId = pentestJobId
     }
 }
@@ -11706,6 +11817,13 @@ extension ListThreatsInput {
     }
 }
 
+extension ResumePentestJobInput {
+
+    static func urlPathProvider(_ value: ResumePentestJobInput) -> Swift.String? {
+        return "/ResumePentestJob"
+    }
+}
+
 extension StartCodeRemediationInput {
 
     static func urlPathProvider(_ value: StartCodeRemediationInput) -> Swift.String? {
@@ -12646,6 +12764,20 @@ extension ListThreatsInput {
     }
 }
 
+extension ResumePentestJobInput {
+
+    static func write(value: ResumePentestJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actors"].writeList(value.actors, memberWritingClosure: SecurityAgentClientTypes.Actor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["copyConfigFromPentest"].write(value.copyConfigFromPentest)
+        try writer["maxTaskHours"].write(value.maxTaskHours)
+        try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
+        try writer["pentestJobId"].write(value.pentestJobId)
+        try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
+    }
+}
+
 extension StartCodeRemediationInput {
 
     static func write(value: StartCodeRemediationInput?, to writer: SmithyJSON.Writer) throws {
@@ -12702,6 +12834,7 @@ extension StopPentestJobInput {
     static func write(value: StopPentestJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["pause"].write(value.pause)
         try writer["pentestJobId"].write(value.pentestJobId)
     }
 }
@@ -13928,6 +14061,24 @@ extension ListThreatsOutput {
         var value = ListThreatsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ResumePentestJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResumePentestJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ResumePentestJobOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.pentestId = try reader["pentestId"].readIfPresent()
+        value.pentestJobId = try reader["pentestJobId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -15362,6 +15513,19 @@ enum ListThreatModelsOutputError {
 }
 
 enum ListThreatsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ResumePentestJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17252,6 +17416,7 @@ extension SecurityAgentClientTypes.PentestJob {
         value.scopeChanges = try reader["scopeChanges"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ScopeChange.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.testScope = try reader["testScope"].readIfPresent(with: SecurityAgentClientTypes.TestScope.read(from:))
+        value.version = try reader["version"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -17271,6 +17436,7 @@ extension SecurityAgentClientTypes.PentestJobSummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobType = try reader["jobType"].readIfPresent()
         value.reportUrl = try reader["reportUrl"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }

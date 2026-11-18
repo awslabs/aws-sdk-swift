@@ -2188,16 +2188,79 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The privilege mode of the agents, either STANDARD (the default) or PRIVILEGED.
+    public enum PrivilegeMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case privileged
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivilegeMode] {
+            return [
+                .privileged,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .privileged: return "PRIVILEGED"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the operating system configuration of agents that run on Linux instances, such as the privilege mode.
+    public struct LinuxOperatingSystemConfiguration: Swift.Sendable {
+        /// The privilege mode of the agents. If you omit this field, the agents run in STANDARD privilege mode. The following values are possible:
+        ///
+        /// * STANDARD – The agent runs without elevated privileges. This is the default.
+        ///
+        /// * PRIVILEGED – The agent runs with elevated privileges on its instance. Use this mode for agents that build container images, run containers, or install system packages. A session that runs a PRIVILEGED agent runs only that agent.
+        public var privilegeMode: BedrockAgentCoreControlClientTypes.PrivilegeMode?
+
+        public init(
+            privilegeMode: BedrockAgentCoreControlClientTypes.PrivilegeMode? = nil
+        ) {
+            self.privilegeMode = privilegeMode
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the operating system configuration of the agents that AgentCore Runtime runs on a capacity provider. Specify the member for the operating system of the capacity provider.
+    public enum OperatingSystemConfiguration: Swift.Sendable {
+        /// The operating system configuration of agents that run on Linux instances.
+        case linux(BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for customer-managed compute capacity for the AgentCore Runtime. A capacity provider runs the AgentCore Runtime on the Instances compute type, using Amazon Web Services managed compute in your account.
     public struct CapacityProviderConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the capacity provider to use for the AgentCore Runtime.
         /// This member is required.
         public var capacityProviderArn: Swift.String?
+        /// The operating system configuration of the agents that Amazon Bedrock AgentCore Runtime runs on the capacity provider.
+        public var operatingSystemConfiguration: BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration?
 
         public init(
-            capacityProviderArn: Swift.String? = nil
+            capacityProviderArn: Swift.String? = nil,
+            operatingSystemConfiguration: BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration? = nil
         ) {
             self.capacityProviderArn = capacityProviderArn
+            self.operatingSystemConfiguration = operatingSystemConfiguration
         }
     }
 }
@@ -2240,6 +2303,39 @@ extension BedrockAgentCoreControlClientTypes {
         ) {
             self.accessPointArn = accessPointArn
             self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Mounts an Amazon S3 bucket in the AgentCore Runtime with Mountpoint for Amazon S3. Files under the mount path map to objects in the bucket.
+    public struct S3BucketMountConfiguration: Swift.Sendable {
+        /// The name of the S3 bucket to mount. You can specify a general purpose bucket or a directory bucket.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The mount path for the S3 bucket inside the AgentCore Runtime. The path must be under /mnt with exactly one subdirectory level (for example, /mnt/data).
+        /// This member is required.
+        public var mountPath: Swift.String?
+        /// The key prefix to mount. Only objects under this prefix are visible at the mount path. To give each session its own prefix, include {runtimeSessionId} (for example, data/{runtimeSessionId}/). If you omit the prefix, the whole bucket is mounted.
+        public var `prefix`: Swift.String?
+        /// The AWS account ID that must own the bucket. If you omit it, the bucket must be owned by the account that owns the AgentCore Runtime.
+        public var s3BucketOwner: Swift.String?
+        /// The AWS Region of the S3 bucket. If you omit it, the bucket must be in the same Region as the AgentCore Runtime.
+        public var s3BucketRegion: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            mountPath: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3BucketRegion: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.mountPath = mountPath
+            self.`prefix` = `prefix`
+            self.s3BucketOwner = s3BucketOwner
+            self.s3BucketRegion = s3BucketRegion
         }
     }
 }
@@ -2293,6 +2389,8 @@ extension BedrockAgentCoreControlClientTypes {
         case efsaccesspoint(BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration)
         /// Configuration for a capacity provider volume to mount into the AgentCore Runtime. This mounts a persistent volume that is defined on the capacity provider, referenced by its logical name.
         case capacityprovidervolume(BedrockAgentCoreControlClientTypes.CapacityProviderVolumeConfiguration)
+        /// Mounts an Amazon S3 bucket as a file system in the AgentCore Runtime.
+        case s3bucketmount(BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8195,6 +8293,12 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.DimensionRatingScale: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     /// A single dimension of an LLM-as-a-judge evaluator, defining what the evaluator model should judge for that dimension and how it should be scored.
@@ -8237,6 +8341,12 @@ extension BedrockAgentCoreControlClientTypes {
         /// A list of dimensions that lets an LLM-as-a-judge evaluator score several dimensions of the same target in a single evaluation. Each dimension has its own instruction and rating scale, and produces its own result.
         case multidimensional([BedrockAgentCoreControlClientTypes.EvaluationDimension])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RatingScale: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -11393,6 +11503,19 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3(let value):
+            return "ApiSchemaConfiguration.s3(\(Swift.String(describing: value)))"
+        case .inlinepayload:
+            return "ApiSchemaConfiguration.inlinepayload(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "ApiSchemaConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     /// The API schema configuration for an HTTP target. This schema defines the API structure that the target exposes.
@@ -12088,6 +12211,19 @@ extension BedrockAgentCoreControlClientTypes {
         /// The inline payload containing the MCP tool schema definition.
         case inlinepayload(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3(let value):
+            return "McpToolSchemaConfiguration.s3(\(Swift.String(describing: value)))"
+        case .inlinepayload:
+            return "McpToolSchemaConfiguration.inlinepayload(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "McpToolSchemaConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -13616,6 +13752,17 @@ extension BedrockAgentCoreControlClientTypes {
         /// The text content of the system prompt block.
         case text(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessSystemContentBlock.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "HarnessSystemContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -24873,6 +25020,19 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ToolSchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3(let value):
+            return "ToolSchema.s3(\(Swift.String(describing: value)))"
+        case .inlinepayload:
+            return "ToolSchema.inlinepayload(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "ToolSchema.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     /// The Lambda configuration for a Model Context Protocol target. This structure defines how the gateway uses a Lambda function to communicate with the target.
@@ -35837,12 +35997,14 @@ extension BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacityProviderArn"].write(value.capacityProviderArn)
+        try writer["operatingSystemConfiguration"].write(value.operatingSystemConfiguration, with: BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration()
         value.capacityProviderArn = try reader["capacityProviderArn"].readIfPresent() ?? ""
+        value.operatingSystemConfiguration = try reader["operatingSystemConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration.read(from:))
         return value
     }
 }
@@ -37594,6 +37756,8 @@ extension BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
                 try writer["capacityProviderVolume"].write(capacityprovidervolume, with: BedrockAgentCoreControlClientTypes.CapacityProviderVolumeConfiguration.write(value:to:))
             case let .efsaccesspoint(efsaccesspoint):
                 try writer["efsAccessPoint"].write(efsaccesspoint, with: BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration.write(value:to:))
+            case let .s3bucketmount(s3bucketmount):
+                try writer["s3BucketMount"].write(s3bucketmount, with: BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration.write(value:to:))
             case let .s3filesaccesspoint(s3filesaccesspoint):
                 try writer["s3FilesAccessPoint"].write(s3filesaccesspoint, with: BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration.write(value:to:))
             case let .sessionstorage(sessionstorage):
@@ -37615,6 +37779,8 @@ extension BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
                 return .efsaccesspoint(try reader["efsAccessPoint"].read(with: BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration.read(from:)))
             case "capacityProviderVolume":
                 return .capacityprovidervolume(try reader["capacityProviderVolume"].read(with: BedrockAgentCoreControlClientTypes.CapacityProviderVolumeConfiguration.read(from:)))
+            case "s3BucketMount":
+                return .s3bucketmount(try reader["s3BucketMount"].read(with: BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -39632,6 +39798,21 @@ extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput 
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privilegeMode"].write(value.privilegeMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration()
+        value.privilegeMode = try reader["privilegeMode"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ListDatasetExamplesFilter?, to writer: SmithyJSON.Writer) throws {
@@ -40595,6 +40776,30 @@ extension BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .linux(linux):
+                try writer["linux"].write(linux, with: BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OperatingSystemConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "linux":
+                return .linux(try reader["linux"].read(with: BedrockAgentCoreControlClientTypes.LinuxOperatingSystemConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.OutputConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
@@ -41510,6 +41715,29 @@ extension BedrockAgentCoreControlClientTypes.RuntimeTargetConfiguration {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.qualifier = try reader["qualifier"].readIfPresent()
         value.schema = try reader["schema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["mountPath"].write(value.mountPath)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
+        try writer["s3BucketRegion"].write(value.s3BucketRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3BucketMountConfiguration()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
+        value.s3BucketRegion = try reader["s3BucketRegion"].readIfPresent()
         return value
     }
 }

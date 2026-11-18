@@ -1812,6 +1812,8 @@ extension NeptuneClientTypes {
         public var readerEndpoint: Swift.String?
         /// Not supported by Neptune.
         public var replicationSourceIdentifier: Swift.String?
+        /// The serverless platform version used by the Neptune Serverless DB cluster. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
+        public var serverlessV2PlatformVersion: Swift.String?
         /// Shows the scaling configuration for a Neptune Serverless DB cluster. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
         public var serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this DB cluster.
@@ -1869,6 +1871,7 @@ extension NeptuneClientTypes {
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
             serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
@@ -1916,6 +1919,7 @@ extension NeptuneClientTypes {
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
@@ -5512,6 +5516,115 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeServerlessV2PlatformVersionsInput: Swift.Sendable {
+    /// Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    public var defaultOnly: Swift.Bool?
+    /// The database engine to return platform version details for.
+    public var engine: Swift.String?
+    /// This parameter isn't currently supported.
+    public var filters: [NeptuneClientTypes.Filter]?
+    /// Specifies whether to also include platform versions which are no longer in use.
+    public var includeAll: Swift.Bool?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 20 Constraints: Minimum 1, maximum 200.
+    public var maxRecords: Swift.Int?
+    /// A specific platform version to return details for. Example: 3
+    public var serverlessV2PlatformVersion: Swift.String?
+
+    public init(
+        defaultOnly: Swift.Bool? = nil,
+        engine: Swift.String? = nil,
+        filters: [NeptuneClientTypes.Filter]? = nil,
+        includeAll: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        serverlessV2PlatformVersion: Swift.String? = nil
+    ) {
+        self.defaultOnly = defaultOnly
+        self.engine = engine
+        self.filters = filters
+        self.includeAll = includeAll
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+    }
+}
+
+extension NeptuneClientTypes {
+
+    /// Specifies any Neptune Serverless properties or limits that differ between serverless platform versions.
+    public struct ServerlessV2FeaturesSupport: Swift.Sendable {
+        /// Specifies the upper Neptune capacity unit (NCU) limit that a serverless platform version supports.
+        public var maxCapacity: Swift.Double?
+        /// Specifies the lower Neptune capacity unit (NCU) limit that a serverless platform version supports.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        ) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+}
+
+extension NeptuneClientTypes {
+
+    /// This data type is used as a response element in the DescribeServerlessV2PlatformVersions action. It describes the properties of a specific Neptune Serverless platform version. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
+    public struct ServerlessV2PlatformVersionInfo: Swift.Sendable {
+        /// The name of the database engine.
+        public var engine: Swift.String?
+        /// Indicates whether this platform version is the default version for the engine. The default platform version is the version used for new DB clusters.
+        public var isDefault: Swift.Bool?
+        /// Specifies any Neptune Serverless properties or limits that differ between serverless platform versions. You can retrieve the platform version of an existing DB cluster and check whether that version supports certain serverless features before you attempt to use those features.
+        public var serverlessV2FeaturesSupport: NeptuneClientTypes.ServerlessV2FeaturesSupport?
+        /// The version number of the serverless platform.
+        public var serverlessV2PlatformVersion: Swift.String?
+        /// The description of the serverless platform.
+        public var serverlessV2PlatformVersionDescription: Swift.String?
+        /// The status of the serverless platform version. Valid statuses are the following:
+        ///
+        /// * enabled - The platform version is in use.
+        ///
+        /// * disabled - The platform version is not in use.
+        public var status: Swift.String?
+
+        public init(
+            engine: Swift.String? = nil,
+            isDefault: Swift.Bool? = nil,
+            serverlessV2FeaturesSupport: NeptuneClientTypes.ServerlessV2FeaturesSupport? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
+            serverlessV2PlatformVersionDescription: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.engine = engine
+            self.isDefault = isDefault
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+            self.serverlessV2PlatformVersionDescription = serverlessV2PlatformVersionDescription
+            self.status = status
+        }
+    }
+}
+
+/// Contains the result of a successful invocation of the DescribeServerlessV2PlatformVersions action.
+public struct DescribeServerlessV2PlatformVersionsOutput: Swift.Sendable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// A list of [ServerlessV2PlatformVersionInfo] elements.
+    public var serverlessV2PlatformVersions: [NeptuneClientTypes.ServerlessV2PlatformVersionInfo]?
+
+    public init(
+        marker: Swift.String? = nil,
+        serverlessV2PlatformVersions: [NeptuneClientTypes.ServerlessV2PlatformVersionInfo]? = nil
+    ) {
+        self.marker = marker
+        self.serverlessV2PlatformVersions = serverlessV2PlatformVersions
+    }
+}
+
 public struct DescribeValidDBInstanceModificationsInput: Swift.Sendable {
     /// The customer identifier or the ARN of your DB instance.
     /// This member is required.
@@ -7435,6 +7548,13 @@ extension DescribePendingMaintenanceActionsInput {
     }
 }
 
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeServerlessV2PlatformVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeValidDBInstanceModificationsInput {
 
     static func urlPathProvider(_ value: DescribeValidDBInstanceModificationsInput) -> Swift.String? {
@@ -8245,6 +8365,22 @@ extension DescribePendingMaintenanceActionsInput {
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["ResourceIdentifier"].write(value.resourceIdentifier)
         try writer["Action"].write("DescribePendingMaintenanceActions")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func write(value: DescribeServerlessV2PlatformVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultOnly"].write(value.defaultOnly)
+        try writer["Engine"].write(value.engine)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: NeptuneClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: false)
+        try writer["IncludeAll"].write(value.includeAll)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["ServerlessV2PlatformVersion"].write(value.serverlessV2PlatformVersion)
+        try writer["Action"].write("DescribeServerlessV2PlatformVersions")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -9167,6 +9303,19 @@ extension DescribePendingMaintenanceActionsOutput {
         var value = DescribePendingMaintenanceActionsOutput()
         value.marker = try reader["Marker"].readIfPresent()
         value.pendingMaintenanceActions = try reader["PendingMaintenanceActions"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.ResourcePendingMaintenanceActions.read(from:), memberNodeInfo: "ResourcePendingMaintenanceActions", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServerlessV2PlatformVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeServerlessV2PlatformVersionsResult"]
+        var value = DescribeServerlessV2PlatformVersionsOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.serverlessV2PlatformVersions = try reader["ServerlessV2PlatformVersions"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.ServerlessV2PlatformVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10177,6 +10326,19 @@ enum DescribePendingMaintenanceActionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeServerlessV2PlatformVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11632,6 +11794,7 @@ extension NeptuneClientTypes.DBCluster {
         value.crossAccountClone = try reader["CrossAccountClone"].readIfPresent()
         value.automaticRestartTime = try reader["AutomaticRestartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["StorageType"].readIfPresent()
@@ -12200,6 +12363,32 @@ extension NeptuneClientTypes.ResourcePendingMaintenanceActions {
         var value = NeptuneClientTypes.ResourcePendingMaintenanceActions()
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.ServerlessV2PlatformVersionInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2PlatformVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.ServerlessV2PlatformVersionInfo()
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
+        value.serverlessV2PlatformVersionDescription = try reader["ServerlessV2PlatformVersionDescription"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: NeptuneClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
         return value
     }
 }

@@ -404,6 +404,19 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.APISchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .s3(let value):
+            return "APISchema.s3(\(Swift.String(describing: value)))"
+        case .payload:
+            return "APISchema.payload(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "APISchema.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     public enum ParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -3961,6 +3974,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.ReasoningContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the orchestration step.
@@ -4792,6 +4811,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.OrchestrationTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Details about the response from the Lambda parsing of the output from the post-processing step.
@@ -4865,6 +4890,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// The foundation model output from the post-processing step.
         case modelinvocationoutput(BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.PostProcessingTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -4948,6 +4979,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.PreProcessingTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Invocation output from a routing classifier model.
@@ -4993,6 +5030,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.RoutingClassifierTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
@@ -5012,6 +5055,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// Details about the custom orchestration step in which the agent determines the order in which actions are executed.
         case customorchestrationtrace(BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Trace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -5512,6 +5561,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.FlowExecutionContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Represents an input field provided to a flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
@@ -5690,6 +5745,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.NodeTraceElements: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains information about an internal trace of a specific node during execution.
@@ -5833,6 +5894,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// The document content of the field, which can contain text or structured data.
         case document(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeExecutionContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -6154,6 +6221,33 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.FlowExecutionEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .flowinputevent:
+            return "FlowExecutionEvent.flowinputevent(\"CONTENT_REDACTED\")"
+        case .flowoutputevent:
+            return "FlowExecutionEvent.flowoutputevent(\"CONTENT_REDACTED\")"
+        case .nodeinputevent:
+            return "FlowExecutionEvent.nodeinputevent(\"CONTENT_REDACTED\")"
+        case .nodeoutputevent:
+            return "FlowExecutionEvent.nodeoutputevent(\"CONTENT_REDACTED\")"
+        case .conditionresultevent:
+            return "FlowExecutionEvent.conditionresultevent(\"CONTENT_REDACTED\")"
+        case .nodefailureevent:
+            return "FlowExecutionEvent.nodefailureevent(\"CONTENT_REDACTED\")"
+        case .flowfailureevent:
+            return "FlowExecutionEvent.flowfailureevent(\"CONTENT_REDACTED\")"
+        case .nodeactionevent:
+            return "FlowExecutionEvent.nodeactionevent(\"CONTENT_REDACTED\")"
+        case .nodedependencyevent:
+            return "FlowExecutionEvent.nodedependencyevent(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "FlowExecutionEvent.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct ListFlowExecutionEventsOutput: Swift.Sendable {
     /// A list of events that occurred during the flow execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
     /// This member is required.
@@ -6262,6 +6356,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// The input to send to the prompt flow input node.
         case document(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowInputContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -6764,6 +6864,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.TraceElements: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains information about a dependency trace event in the flow.
@@ -6803,6 +6909,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// The content of the node input.
         case document(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowTraceNodeInputContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -7066,6 +7178,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.FlowTrace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains information about a trace, which tracks an input or output for a node in the flow. For more information, see [Track each step in your prompt flow by viewing its trace in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html).
@@ -7100,6 +7218,23 @@ extension BedrockAgentRuntimeClientTypes {
         /// The event stream containing the multi-turn input request information from the flow.
         case flowmultiturninputrequestevent(BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowResponseStream: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .flowoutputevent:
+            return "FlowResponseStream.flowoutputevent(\"CONTENT_REDACTED\")"
+        case .flowcompletionevent:
+            return "FlowResponseStream.flowcompletionevent(\"CONTENT_REDACTED\")"
+        case .flowtraceevent(let value):
+            return "FlowResponseStream.flowtraceevent(\(Swift.String(describing: value)))"
+        case .flowmultiturninputrequestevent:
+            return "FlowResponseStream.flowmultiturninputrequestevent(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "FlowResponseStream.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -7738,6 +7873,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.ContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Details about a message.
@@ -7983,6 +8124,19 @@ extension BedrockAgentRuntimeClientTypes {
         /// An array of objects, each of which specifies a metadata field to exclude from consideration when reranking.
         case fieldstoexclude([BedrockAgentRuntimeClientTypes.FieldForReranking])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RerankingMetadataSelectiveModeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .fieldstoinclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoinclude(\"CONTENT_REDACTED\")"
+        case .fieldstoexclude:
+            return "RerankingMetadataSelectiveModeConfiguration.fieldstoexclude(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "RerankingMetadataSelectiveModeConfiguration.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -8564,6 +8718,23 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.ResponseStream: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .chunk:
+            return "ResponseStream.chunk(\"CONTENT_REDACTED\")"
+        case .trace:
+            return "ResponseStream.trace(\"CONTENT_REDACTED\")"
+        case .returncontrol:
+            return "ResponseStream.returncontrol(\"CONTENT_REDACTED\")"
+        case .files(let value):
+            return "ResponseStream.files(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "ResponseStream.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct InvokeAgentOutput: Swift.Sendable {
     /// The agent's response to the user prompt.
     /// This member is required.
@@ -9012,6 +9183,23 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.InlineAgentResponseStream: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .chunk:
+            return "InlineAgentResponseStream.chunk(\"CONTENT_REDACTED\")"
+        case .trace:
+            return "InlineAgentResponseStream.trace(\"CONTENT_REDACTED\")"
+        case .returncontrol:
+            return "InlineAgentResponseStream.returncontrol(\"CONTENT_REDACTED\")"
+        case .files(let value):
+            return "InlineAgentResponseStream.files(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "InlineAgentResponseStream.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct InvokeInlineAgentOutput: Swift.Sendable {
     /// The inline agent's response to the user prompt.
     /// This member is required.
@@ -9213,6 +9401,17 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.InputPrompt: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .textprompt:
+            return "InputPrompt.textprompt(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "InputPrompt.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct OptimizePromptInput: Swift.Sendable {
     /// Contains the prompt to optimize.
     /// This member is required.
@@ -9261,6 +9460,17 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.OptimizedPrompt: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .textprompt:
+            return "OptimizedPrompt.textprompt(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "OptimizedPrompt.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// An event in which the prompt was optimized.
@@ -9291,6 +9501,19 @@ extension BedrockAgentRuntimeClientTypes {
         /// An event in which the prompt was analyzed in preparation for optimization.
         case analyzepromptevent(BedrockAgentRuntimeClientTypes.AnalyzePromptEvent)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OptimizedPromptStream: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .optimizedpromptevent:
+            return "OptimizedPromptStream.optimizedpromptevent(\"CONTENT_REDACTED\")"
+        case .analyzepromptevent:
+            return "OptimizedPromptStream.analyzepromptevent(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "OptimizedPromptStream.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -10236,6 +10459,21 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateStreamResponseOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .output:
+            return "RetrieveAndGenerateStreamResponseOutput.output(\"CONTENT_REDACTED\")"
+        case .citation(let value):
+            return "RetrieveAndGenerateStreamResponseOutput.citation(\(Swift.String(describing: value)))"
+        case .guardrail(let value):
+            return "RetrieveAndGenerateStreamResponseOutput.guardrail(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "RetrieveAndGenerateStreamResponseOutput.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct RetrieveAndGenerateStreamOutput: Swift.Sendable {
     /// The session ID.
     /// This member is required.
@@ -10843,6 +11081,12 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Payload content, such as text and images, for the invocation step.
@@ -10850,6 +11094,17 @@ extension BedrockAgentRuntimeClientTypes {
         /// The content for the invocation step.
         case contentblocks([BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationStepPayload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .contentblocks:
+            return "InvocationStepPayload.contentblocks(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "InvocationStepPayload.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -11243,6 +11498,12 @@ extension BedrockAgentRuntimeClientTypes {
         /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.
         case orall([BedrockAgentRuntimeClientTypes.RetrievalFilter])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

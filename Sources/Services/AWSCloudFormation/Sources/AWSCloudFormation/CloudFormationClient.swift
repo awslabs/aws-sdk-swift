@@ -891,7 +891,7 @@ extension CloudFormationClient {
 
     /// Performs the `ContinueUpdateRollback` operation on the `CloudFormation` service.
     ///
-    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see [Continue rolling back an update](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html) in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see [Update rollback failed](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed). ForceRollback and ResourcesToSkip are mutually exclusive. For details, see [ContinueUpdateRollbackInput$ForceRollback].
+    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see [Continue rolling back an update](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html) in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see [Update rollback failed](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed). ForceRollback and ResourcesToSkip are mutually exclusive. For details, see the ForceRollback parameter.
     ///
     /// - Parameter input: The input for the [ContinueUpdateRollback] action. (Type: `ContinueUpdateRollbackInput`)
     ///
@@ -3010,7 +3010,7 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeStackSetOperation` operation on the `CloudFormation` service.
     ///
-    /// Returns the description of the specified StackSet operation. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
+    /// Returns the description of the specified StackSet operation. Reports role provisioning and stack instances deployment progress in StatusDetails.Stages. A breakdown for each Amazon Web Services Region is available in RegionalStatusDetails. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeStackSetOperationInput`)
     ///
@@ -5085,7 +5085,7 @@ extension CloudFormationClient {
 
     /// Performs the `ListStackSetOperations` operation on the `CloudFormation` service.
     ///
-    /// Returns summary information about operations performed on a StackSet. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
+    /// Returns summary information about operations performed on a StackSet. Reports role provisioning and stack instances deployment progress in StatusDetails.Stages. The breakdown for each Amazon Web Services Region is available only from [DescribeStackSetOperation]. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStackSetOperationsInput`)
     ///

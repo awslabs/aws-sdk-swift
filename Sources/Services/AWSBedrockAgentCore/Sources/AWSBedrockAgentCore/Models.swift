@@ -1844,6 +1844,23 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.AgentTracesConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .sessionspans:
+            return "AgentTracesConfig.sessionspans(\"CONTENT_REDACTED\")"
+        case .cloudwatchlogs(let value):
+            return "AgentTracesConfig.cloudwatchlogs(\(Swift.String(describing: value)))"
+        case .batchevaluation(let value):
+            return "AgentTracesConfig.batchevaluation(\(Swift.String(describing: value)))"
+        case .onlineevaluation(let value):
+            return "AgentTracesConfig.onlineevaluation(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "AgentTracesConfig.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct SaveBrowserSessionProfileInput: Swift.Sendable {
     /// The unique identifier of the browser associated with the session from which to save the profile.
     /// This member is required.
@@ -3648,6 +3665,19 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.UserIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .usertoken:
+            return "UserIdentifier.usertoken(\"CONTENT_REDACTED\")"
+        case .userid(let value):
+            return "UserIdentifier.userid(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "UserIdentifier.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct CompleteResourceTokenAuthInput: Swift.Sendable {
     /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
     /// This member is required.
@@ -4147,6 +4177,17 @@ extension BedrockAgentCoreClientTypes {
         /// The collection of spans representing agent execution traces within a session. Each span contains detailed information about tool calls, model interactions, and other agent activities that can be evaluated for quality and performance.
         case sessionspans([Smithy.Document])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .sessionspans:
+            return "EvaluationInput.sessionspans(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "EvaluationInput.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -6580,6 +6621,19 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.SystemPromptConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "SystemPromptConfig.text(\"CONTENT_REDACTED\")"
+        case .configurationbundle(let value):
+            return "SystemPromptConfig.configurationbundle(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "SystemPromptConfig.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// Configuration for generating system prompt optimization recommendations.
@@ -6659,6 +6713,17 @@ extension BedrockAgentCoreClientTypes {
         /// The tool description as inline text.
         case text(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "ToolDescriptionConfig.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "ToolDescriptionConfig.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -8990,6 +9055,12 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessReasoningContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// A content block within a tool result.
@@ -8999,6 +9070,19 @@ extension BedrockAgentCoreClientTypes {
         /// JSON content.
         case json(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessToolResultContentBlock.text(\"CONTENT_REDACTED\")"
+        case .json:
+            return "HarnessToolResultContentBlock.json(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "HarnessToolResultContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -9144,6 +9228,23 @@ extension BedrockAgentCoreClientTypes {
         /// Model reasoning content.
         case reasoningcontent(BedrockAgentCoreClientTypes.HarnessReasoningContentBlock)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessContentBlock.text(\"CONTENT_REDACTED\")"
+        case .tooluse(let value):
+            return "HarnessContentBlock.tooluse(\(Swift.String(describing: value)))"
+        case .toolresult(let value):
+            return "HarnessContentBlock.toolresult(\(Swift.String(describing: value)))"
+        case .reasoningcontent:
+            return "HarnessContentBlock.reasoningcontent(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "HarnessContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -9552,6 +9653,17 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessSystemContentBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessSystemContentBlock.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "HarnessSystemContentBlock.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// Configuration for AgentCore Browser.
@@ -9957,6 +10069,12 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// A delta update to a tool result content block.
@@ -9966,6 +10084,19 @@ extension BedrockAgentCoreClientTypes {
         /// A JSON tool result delta.
         case json(Smithy.Document)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessToolResultBlockDelta.text(\"CONTENT_REDACTED\")"
+        case .json:
+            return "HarnessToolResultBlockDelta.json(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "HarnessToolResultBlockDelta.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -10026,6 +10157,25 @@ extension BedrockAgentCoreClientTypes {
         /// A tool result metadata delta.
         case toolresultmetadata(BedrockAgentCoreClientTypes.HarnessToolResultMetadataBlockDelta)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "HarnessContentBlockDelta.text(\"CONTENT_REDACTED\")"
+        case .tooluse(let value):
+            return "HarnessContentBlockDelta.tooluse(\(Swift.String(describing: value)))"
+        case .toolresult(let value):
+            return "HarnessContentBlockDelta.toolresult(\(Swift.String(describing: value)))"
+        case .reasoningcontent:
+            return "HarnessContentBlockDelta.reasoningcontent(\"CONTENT_REDACTED\")"
+        case .toolresultmetadata(let value):
+            return "HarnessContentBlockDelta.toolresultmetadata(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "HarnessContentBlockDelta.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -10701,6 +10851,17 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.MemoryContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "MemoryContent.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "MemoryContent.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// The value of a memory record metadata entry.
@@ -11105,6 +11266,17 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.Content: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .text:
+            return "Content.text(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "Content.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     public enum Role: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -11194,6 +11366,21 @@ extension BedrockAgentCoreClientTypes {
         /// The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events.
         case json(BedrockAgentCoreClientTypes.MemoryJsonData)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PayloadType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .conversational(let value):
+            return "PayloadType.conversational(\(Swift.String(describing: value)))"
+        case .blob:
+            return "PayloadType.blob(\"CONTENT_REDACTED\")"
+        case .json:
+            return "PayloadType.json(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "PayloadType.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -11510,6 +11697,19 @@ extension BedrockAgentCoreClientTypes {
         /// The JSON content for this payload item.
         case json(BedrockAgentCoreClientTypes.MemoryJsonData)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.IngestPayloadType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .conversational(let value):
+            return "IngestPayloadType.conversational(\(Swift.String(describing: value)))"
+        case .json:
+            return "IngestPayloadType.json(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "IngestPayloadType.sdkUnknown(\(Swift.String(describing: value)))"
+        }
     }
 }
 
@@ -12534,6 +12734,25 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes.LinkedAccountOAuth2: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .google:
+            return "LinkedAccountOAuth2.google(\"CONTENT_REDACTED\")"
+        case .apple:
+            return "LinkedAccountOAuth2.apple(\"CONTENT_REDACTED\")"
+        case .x:
+            return "LinkedAccountOAuth2.x(\"CONTENT_REDACTED\")"
+        case .telegram:
+            return "LinkedAccountOAuth2.telegram(\"CONTENT_REDACTED\")"
+        case .github:
+            return "LinkedAccountOAuth2.github(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "LinkedAccountOAuth2.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// Linked account using a phone number in E.164 format.
@@ -12569,6 +12788,12 @@ extension BedrockAgentCoreClientTypes {
         /// OAuth2 provider linked account (Google, Apple, X, Telegram, GitHub).
         case oauth2(BedrockAgentCoreClientTypes.LinkedAccountOAuth2)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccount: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

@@ -5531,6 +5531,69 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ResumePentestJob` operation on the `SecurityAgent` service.
+    ///
+    /// Resumes a stopped or paused pentest job from its last saved checkpoint. The job keeps its pentest job identifier and continues as a new version, keeping the findings and progress from earlier runs. You can resume a job within 7 days of when it was created.
+    ///
+    /// - Parameter input: Input for resuming a stopped or paused pentest job. (Type: `ResumePentestJobInput`)
+    ///
+    /// - Returns: Output for the ResumePentestJob operation. (Type: `ResumePentestJobOutput`)
+    public func resumePentestJob(input: ResumePentestJobInput) async throws -> ResumePentestJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "resumePentestJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ResumePentestJobInput, ResumePentestJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResumePentestJobInput, ResumePentestJobOutput>(ResumePentestJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumePentestJobInput, ResumePentestJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumePentestJobInput, ResumePentestJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ResumePentestJobInput, ResumePentestJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResumePentestJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumePentestJobInput, ResumePentestJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumePentestJobOutput>(ResumePentestJobOutput.httpOutput(from:), ResumePentestJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumePentestJobInput, ResumePentestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ResumePentestJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumePentestJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumePentestJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumePentestJobInput, ResumePentestJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumePentestJobInput, ResumePentestJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumePentestJobInput, ResumePentestJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResumePentestJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartCodeRemediation` operation on the `SecurityAgent` service.
     ///
     /// Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities.

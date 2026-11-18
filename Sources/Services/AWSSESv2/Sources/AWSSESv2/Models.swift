@@ -159,7 +159,7 @@ extension SESv2ClientTypes {
     public struct AccountDetails: Swift.Sendable {
         /// Additional email addresses where updates are sent about your account review process.
         public var additionalContactEmailAddresses: [Swift.String]?
-        /// The language you would prefer for the case. The contact language can be one of ENGLISH or JAPANESE.
+        /// The language you would prefer for the case. The contact language can be one of EN or JA.
         public var contactLanguage: SESv2ClientTypes.ContactLanguage?
         /// The type of email your account is sending. The mail type can be one of the following:
         ///
@@ -196,6 +196,36 @@ extension SESv2ClientTypes {
 extension SESv2ClientTypes.AccountDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "AccountDetails(contactLanguage: \(Swift.String(describing: contactLanguage)), mailType: \(Swift.String(describing: mailType)), reviewDetails: \(Swift.String(describing: reviewDetails)), additionalContactEmailAddresses: \"CONTENT_REDACTED\", useCaseDescription: \"CONTENT_REDACTED\", websiteURL: \"CONTENT_REDACTED\")"}
+}
+
+extension SESv2ClientTypes {
+
+    /// The shared pool delivery mode for an Amazon SES account. See PutAccountDeliveryAttributesRequest$SharedPoolDeliveryMode for the list of supported values and their meanings.
+    public enum AccountSharedPoolDeliveryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountSharedPoolDeliveryMode] {
+            return [
+                .global,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 /// The message can't be sent because the account's ability to send email has been permanently restricted.
@@ -795,7 +825,7 @@ public struct BatchGetMetricDataOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
-    /// The action to take if the required MX record can't be found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+    /// The action to take if the required MX record can't be found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerifiedException error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the PENDING, FAILED, and TEMPORARY_FAILURE states.
     public enum BehaviorOnMxFailure: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rejectMessage
         case useDefaultValue
@@ -1084,7 +1114,7 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// The ReplaceEmailContent object to be used for a specific BulkEmailEntry. The ReplacementTemplate can be specified within this object.
+    /// The ReplacementEmailContent object to be used for a specific BulkEmailEntry. The ReplacementTemplate can be specified within this object.
     public struct ReplacementEmailContent: Swift.Sendable {
         /// The ReplacementTemplate associated with ReplacementEmailContent.
         public var replacementTemplate: SESv2ClientTypes.ReplacementTemplate?
@@ -1144,7 +1174,7 @@ extension SESv2ClientTypes {
         ///
         /// * If the header is not defined within Template, it will simply be added to the email as specified in BulkEmailEntry.
         public var replacementHeaders: [SESv2ClientTypes.MessageHeader]?
-        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+        /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public var replacementTags: [SESv2ClientTypes.MessageTag]?
 
         public init(
@@ -1230,39 +1260,39 @@ extension SESv2ClientTypes {
 
     /// The result of the SendBulkEmail operation of each specified BulkEmailEntry.
     public struct BulkEmailEntryResult: Swift.Sendable {
-        /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
+        /// A description of an error that prevented a message being sent using the SendBulkEmail operation.
         public var error: Swift.String?
-        /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
+        /// The unique message identifier returned from the SendBulkEmail operation.
         public var messageId: Swift.String?
-        /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:
+        /// The status of a message sent using the SendBulkEmail operation. Possible values for this parameter include:
         ///
-        /// * SUCCESS: Amazon SES accepted the message, and will attempt to deliver it to the recipients.
+        /// * SUCCESS – Amazon SES accepted the message, and will attempt to deliver it to the recipients.
         ///
-        /// * MESSAGE_REJECTED: The message was rejected because it contained a virus.
+        /// * MESSAGE_REJECTED – The message was rejected because it contained a virus.
         ///
-        /// * MAIL_FROM_DOMAIN_NOT_VERIFIED: The sender's email address or domain was not verified.
+        /// * MAIL_FROM_DOMAIN_NOT_VERIFIED – The sender's email address or domain was not verified.
         ///
-        /// * CONFIGURATION_SET_DOES_NOT_EXIST: The configuration set you specified does not exist.
+        /// * CONFIGURATION_SET_NOT_FOUND – The configuration set you specified does not exist.
         ///
-        /// * TEMPLATE_DOES_NOT_EXIST: The template you specified does not exist.
+        /// * TEMPLATE_NOT_FOUND – The template you specified does not exist.
         ///
-        /// * ACCOUNT_SUSPENDED: Your account has been shut down because of issues related to your email sending practices.
+        /// * ACCOUNT_SUSPENDED – Your account has been shut down because of issues related to your email sending practices.
         ///
-        /// * ACCOUNT_THROTTLED: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.
+        /// * ACCOUNT_THROTTLED – The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.
         ///
-        /// * ACCOUNT_DAILY_QUOTA_EXCEEDED: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.
+        /// * ACCOUNT_DAILY_QUOTA_EXCEEDED – You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.
         ///
-        /// * INVALID_SENDING_POOL_NAME: The configuration set you specified refers to an IP pool that does not exist.
+        /// * INVALID_SENDING_POOL_NAME – The configuration set you specified refers to an IP pool that does not exist.
         ///
-        /// * ACCOUNT_SENDING_PAUSED: Email sending for the Amazon SES account was disabled using the [UpdateAccountSendingEnabled](https://docs.aws.amazon.com/ses/latest/APIReference/API_UpdateAccountSendingEnabled.html) operation.
+        /// * ACCOUNT_SENDING_PAUSED – Email sending for the Amazon SES account was disabled using the [PutAccountSendingAttributes](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutAccountSendingAttributes.html) operation.
         ///
-        /// * CONFIGURATION_SET_SENDING_PAUSED: Email sending for this configuration set was disabled using the [UpdateConfigurationSetSendingEnabled](https://docs.aws.amazon.com/ses/latest/APIReference/API_UpdateConfigurationSetSendingEnabled.html) operation.
+        /// * CONFIGURATION_SET_SENDING_PAUSED – Email sending for this configuration set was disabled using the [PutConfigurationSetSendingOptions](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutConfigurationSetSendingOptions.html) operation.
         ///
-        /// * INVALID_PARAMETER_VALUE: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.
+        /// * INVALID_PARAMETER – One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.
         ///
-        /// * TRANSIENT_FAILURE: Amazon SES was unable to process your request because of a temporary issue.
+        /// * TRANSIENT_FAILURE – Amazon SES was unable to process your request because of a temporary issue.
         ///
-        /// * FAILED: Amazon SES was unable to process your request. See the error message for additional information.
+        /// * FAILED – Amazon SES was unable to process your request. See the error message for additional information.
         public var status: SESv2ClientTypes.BulkEmailStatus?
 
         public init(
@@ -1298,7 +1328,7 @@ public struct CancelExportJobOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
-    /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
+    /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendBulkEmail operation, choose MESSAGE_TAG. To use your own email headers, choose EMAIL_HEADER. To use link tags, choose LINK_TAG.
     public enum DimensionValueSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case emailHeader
         case linkTag
@@ -1347,7 +1377,7 @@ extension SESv2ClientTypes {
         /// * It can contain no more than 255 characters.
         /// This member is required.
         public var dimensionName: Swift.String?
-        /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
+        /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendBulkEmail operation, choose MESSAGE_TAG. To use your own email headers, choose EMAIL_HEADER. To use link tags, choose LINK_TAG.
         /// This member is required.
         public var dimensionValueSource: SESv2ClientTypes.DimensionValueSource?
 
@@ -1729,7 +1759,40 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension SESv2ClientTypes {
 
-    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
+    /// The shared pool delivery mode for a configuration set. See DeliveryOptions$SharedPoolDeliveryMode for the list of supported values and their meanings.
+    public enum SharedPoolDeliveryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SharedPoolDeliveryMode] {
+            return [
+                .account,
+                .global,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .global: return "GLOBAL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is REQUIRE, messages are only delivered if a TLS connection can be established. If the value is OPTIONAL, messages can be delivered in plain text if a TLS connection can't be established.
     public enum TlsPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `optional`
         case require
@@ -1765,16 +1828,29 @@ extension SESv2ClientTypes {
         public var maxDeliverySeconds: Swift.Int?
         /// The name of the dedicated IP pool to associate with the configuration set.
         public var sendingPoolName: Swift.String?
-        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
+        /// The shared pool delivery mode for email that you send with the configuration set from shared IP addresses. This setting overrides the shared pool delivery mode of your account. Can be one of the following:
+        ///
+        /// * GLOBAL – Amazon SES delivers from your sending Region first and, when it improves your deliverability, also uses Amazon SES shared IP addresses with established sending history in other Amazon Web Services Regions within the same Amazon Web Services partition.
+        ///
+        /// * REGIONAL – Amazon SES delivers your email only from shared IP addresses in your sending Region.
+        ///
+        /// * ACCOUNT – The configuration set uses the shared pool delivery mode of your account.
+        ///
+        ///
+        /// If you don't specify a value, the configuration set uses the shared pool delivery mode of your account.
+        public var sharedPoolDeliveryMode: SESv2ClientTypes.SharedPoolDeliveryMode?
+        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is REQUIRE, messages are only delivered if a TLS connection can be established. If the value is OPTIONAL, messages can be delivered in plain text if a TLS connection can't be established.
         public var tlsPolicy: SESv2ClientTypes.TlsPolicy?
 
         public init(
             maxDeliverySeconds: Swift.Int? = nil,
             sendingPoolName: Swift.String? = nil,
+            sharedPoolDeliveryMode: SESv2ClientTypes.SharedPoolDeliveryMode? = nil,
             tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
         ) {
             self.maxDeliverySeconds = maxDeliverySeconds
             self.sendingPoolName = sendingPoolName
+            self.sharedPoolDeliveryMode = sharedPoolDeliveryMode
             self.tlsPolicy = tlsPolicy
         }
     }
@@ -2858,7 +2934,7 @@ public struct CreateDeliverabilityTestReportInput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
-    /// The status of a predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
+    /// The status of a predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETED, then the test is finished, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     public enum DeliverabilityTestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case inProgress
@@ -2888,7 +2964,7 @@ extension SESv2ClientTypes {
 
 /// Information about the predictive inbox placement test that you created.
 public struct CreateDeliverabilityTestReportOutput: Swift.Sendable {
-    /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
+    /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETED, then the test is finished, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     /// This member is required.
     public var deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus?
     /// A unique string that identifies the predictive inbox placement test.
@@ -4680,7 +4756,7 @@ extension SESv2ClientTypes {
     public struct DeliverabilityTestReport: Swift.Sendable {
         /// The date and time when the predictive inbox placement test was created.
         public var createDate: Foundation.Date?
-        /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
+        /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETED, then the test is finished, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
         public var deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus?
         /// The sender address that you specified for the predictive inbox placement test.
         public var fromEmailAddress: Swift.String?
@@ -4705,6 +4781,28 @@ extension SESv2ClientTypes {
             self.reportId = reportId
             self.reportName = reportName
             self.subject = subject
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The delivery attributes that apply to your Amazon SES account in the current Amazon Web Services Region.
+    public struct DeliveryAttributes: Swift.Sendable {
+        /// The shared pool delivery mode for your Amazon SES account in the current Amazon Web Services Region. This mode applies to email that you send from shared IP addresses. Can be one of the following:
+        ///
+        /// * GLOBAL – Amazon SES delivers from your sending Region first and, when it improves your deliverability, also uses Amazon SES shared IP addresses with established sending history in other Amazon Web Services Regions within the same Amazon Web Services partition.
+        ///
+        /// * REGIONAL – Amazon SES delivers your email only from shared IP addresses in your sending Region.
+        ///
+        ///
+        /// Accounts that start sending in a Region on or after the launch of Global Shared Delivery use GLOBAL in that Region.
+        public var sharedPoolDeliveryMode: SESv2ClientTypes.AccountSharedPoolDeliveryMode?
+
+        public init(
+            sharedPoolDeliveryMode: SESv2ClientTypes.AccountSharedPoolDeliveryMode? = nil
+        ) {
+            self.sharedPoolDeliveryMode = sharedPoolDeliveryMode
         }
     }
 }
@@ -5138,9 +5236,11 @@ extension SESv2ClientTypes {
     ///
     /// * PROCESSING – Job is processing.
     ///
-    /// * ERROR – An error occurred during processing.
-    ///
     /// * COMPLETED – Job has completed processing successfully.
+    ///
+    /// * FAILED – An error occurred during processing.
+    ///
+    /// * CANCELLED – Job has been canceled.
     public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
@@ -5420,6 +5520,8 @@ extension SESv2ClientTypes {
 public struct GetAccountOutput: Swift.Sendable {
     /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
     public var dedicatedIpAutoWarmupEnabled: Swift.Bool
+    /// The delivery attributes that apply to your Amazon SES account in the current Amazon Web Services Region.
+    public var deliveryAttributes: SESv2ClientTypes.DeliveryAttributes?
     /// An object that defines your account details.
     public var details: SESv2ClientTypes.AccountDetails?
     /// The reputation status of your Amazon SES account. The status can be one of the following:
@@ -5445,6 +5547,7 @@ public struct GetAccountOutput: Swift.Sendable {
 
     public init(
         dedicatedIpAutoWarmupEnabled: Swift.Bool = false,
+        deliveryAttributes: SESv2ClientTypes.DeliveryAttributes? = nil,
         details: SESv2ClientTypes.AccountDetails? = nil,
         enforcementStatus: Swift.String? = nil,
         pricingAttributes: SESv2ClientTypes.PricingAttributes? = nil,
@@ -5455,6 +5558,7 @@ public struct GetAccountOutput: Swift.Sendable {
         vdmAttributes: SESv2ClientTypes.VdmAttributes? = nil
     ) {
         self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
+        self.deliveryAttributes = deliveryAttributes
         self.details = details
         self.enforcementStatus = enforcementStatus
         self.pricingAttributes = pricingAttributes
@@ -6136,7 +6240,7 @@ extension SESv2ClientTypes {
 
     /// A list of attributes that are associated with a MAIL FROM domain.
     public struct MailFromAttributes: Swift.Sendable {
-        /// The action to take if the required MX record can't be found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+        /// The action to take if the required MX record can't be found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerifiedException error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the PENDING, FAILED, and TEMPORARY_FAILURE states.
         /// This member is required.
         public var behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure?
         /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
@@ -7181,9 +7285,11 @@ extension SESv2ClientTypes {
         ///
         /// * PROCESSING – Job is processing.
         ///
-        /// * ERROR – An error occurred during processing.
-        ///
         /// * COMPLETED – Job has completed processing successfully.
+        ///
+        /// * FAILED – An error occurred during processing.
+        ///
+        /// * CANCELLED – Job has been canceled.
         public var jobStatus: SESv2ClientTypes.JobStatus?
         /// The current number of records processed.
         public var processedRecordsCount: Swift.Int?
@@ -8481,11 +8587,34 @@ public struct PutAccountDedicatedIpWarmupAttributesOutput: Swift.Sendable {
     public init() { }
 }
 
+/// A request to set the shared pool delivery mode for your Amazon SES account.
+public struct PutAccountDeliveryAttributesInput: Swift.Sendable {
+    /// The shared pool delivery mode for your Amazon SES account in the current Amazon Web Services Region. This mode applies to email that you send from shared IP addresses. Can be one of the following:
+    ///
+    /// * GLOBAL – Amazon SES delivers from your sending Region first and, when it improves your deliverability, also uses Amazon SES shared IP addresses with established sending history in other Amazon Web Services Regions within the same Amazon Web Services partition.
+    ///
+    /// * REGIONAL – Amazon SES delivers your email only from shared IP addresses in your sending Region.
+    /// This member is required.
+    public var sharedPoolDeliveryMode: SESv2ClientTypes.AccountSharedPoolDeliveryMode?
+
+    public init(
+        sharedPoolDeliveryMode: SESv2ClientTypes.AccountSharedPoolDeliveryMode? = nil
+    ) {
+        self.sharedPoolDeliveryMode = sharedPoolDeliveryMode
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error response if the request fails.
+public struct PutAccountDeliveryAttributesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// A request to submit new account details.
 public struct PutAccountDetailsInput: Swift.Sendable {
     /// Additional email addresses that you would like to be notified regarding Amazon SES matters.
     public var additionalContactEmailAddresses: [Swift.String]?
-    /// The language you would prefer to be contacted with.
+    /// The language you would prefer to be contacted with. The contact language can be one of EN or JA.
     public var contactLanguage: SESv2ClientTypes.ContactLanguage?
     /// The type of email your account will send.
     /// This member is required.
@@ -8648,18 +8777,31 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Sendable {
     public var maxDeliverySeconds: Swift.Int?
     /// The name of the dedicated IP pool to associate with the configuration set.
     public var sendingPoolName: Swift.String?
-    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
+    /// The shared pool delivery mode for email that you send with the configuration set from shared IP addresses. This setting overrides the shared pool delivery mode of your account. Can be one of the following:
+    ///
+    /// * GLOBAL – Amazon SES delivers from your sending Region first and, when it improves your deliverability, also uses Amazon SES shared IP addresses with established sending history in other Amazon Web Services Regions within the same Amazon Web Services partition.
+    ///
+    /// * REGIONAL – Amazon SES delivers your email only from shared IP addresses in your sending Region.
+    ///
+    /// * ACCOUNT – The configuration set uses the shared pool delivery mode of your account.
+    ///
+    ///
+    /// If you don't specify a value, the current value doesn't change.
+    public var sharedPoolDeliveryMode: SESv2ClientTypes.SharedPoolDeliveryMode?
+    /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is REQUIRE, messages are only delivered if a TLS connection can be established. If the value is OPTIONAL, messages can be delivered in plain text if a TLS connection can't be established.
     public var tlsPolicy: SESv2ClientTypes.TlsPolicy?
 
     public init(
         configurationSetName: Swift.String? = nil,
         maxDeliverySeconds: Swift.Int? = nil,
         sendingPoolName: Swift.String? = nil,
+        sharedPoolDeliveryMode: SESv2ClientTypes.SharedPoolDeliveryMode? = nil,
         tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
     ) {
         self.configurationSetName = configurationSetName
         self.maxDeliverySeconds = maxDeliverySeconds
         self.sendingPoolName = sendingPoolName
+        self.sharedPoolDeliveryMode = sharedPoolDeliveryMode
         self.tlsPolicy = tlsPolicy
     }
 }
@@ -9031,7 +9173,7 @@ public struct PutEmailIdentityFeedbackAttributesOutput: Swift.Sendable {
 
 /// A request to configure the custom MAIL FROM domain for a verified identity.
 public struct PutEmailIdentityMailFromAttributesInput: Swift.Sendable {
-    /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
+    /// The action to take if the required MX record isn't found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerifiedException error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the PENDING, FAILED, and TEMPORARY_FAILURE states.
     public var behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure?
     /// The verified email identity.
     /// This member is required.
@@ -9133,7 +9275,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
     /// An object that contains the body of the message. You can specify a template message.
     /// This member is required.
     public var defaultContent: SESv2ClientTypes.BulkEmailContent?
-    /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+    /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var defaultEmailTags: [SESv2ClientTypes.MessageTag]?
     /// The ID of the multi-region endpoint (global-endpoint).
     public var endpointId: Swift.String?
@@ -10570,6 +10712,13 @@ extension PutAccountDedicatedIpWarmupAttributesInput {
     }
 }
 
+extension PutAccountDeliveryAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountDeliveryAttributesInput) -> Swift.String? {
+        return "/v2/email/account/delivery"
+    }
+}
+
 extension PutAccountDetailsInput {
 
     static func urlPathProvider(_ value: PutAccountDetailsInput) -> Swift.String? {
@@ -11284,6 +11433,14 @@ extension PutAccountDedicatedIpWarmupAttributesInput {
     }
 }
 
+extension PutAccountDeliveryAttributesInput {
+
+    static func write(value: PutAccountDeliveryAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SharedPoolDeliveryMode"].write(value.sharedPoolDeliveryMode)
+    }
+}
+
 extension PutAccountDetailsInput {
 
     static func write(value: PutAccountDetailsInput?, to writer: SmithyJSON.Writer) throws {
@@ -11344,6 +11501,7 @@ extension PutConfigurationSetDeliveryOptionsInput {
         guard let value else { return }
         try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
         try writer["SendingPoolName"].write(value.sendingPoolName)
+        try writer["SharedPoolDeliveryMode"].write(value.sharedPoolDeliveryMode)
         try writer["TlsPolicy"].write(value.tlsPolicy)
     }
 }
@@ -11915,6 +12073,7 @@ extension GetAccountOutput {
         let reader = responseReader
         var value = GetAccountOutput()
         value.dedicatedIpAutoWarmupEnabled = try reader["DedicatedIpAutoWarmupEnabled"].readIfPresent() ?? false
+        value.deliveryAttributes = try reader["DeliveryAttributes"].readIfPresent(with: SESv2ClientTypes.DeliveryAttributes.read(from:))
         value.details = try reader["Details"].readIfPresent(with: SESv2ClientTypes.AccountDetails.read(from:))
         value.enforcementStatus = try reader["EnforcementStatus"].readIfPresent()
         value.pricingAttributes = try reader["PricingAttributes"].readIfPresent(with: SESv2ClientTypes.PricingAttributes.read(from:))
@@ -12551,6 +12710,13 @@ extension PutAccountDedicatedIpWarmupAttributesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDedicatedIpWarmupAttributesOutput {
         return PutAccountDedicatedIpWarmupAttributesOutput()
+    }
+}
+
+extension PutAccountDeliveryAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDeliveryAttributesOutput {
+        return PutAccountDeliveryAttributesOutput()
     }
 }
 
@@ -14116,6 +14282,21 @@ enum PutAccountDedicatedIpWarmupAttributesOutputError {
     }
 }
 
+enum PutAccountDeliveryAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutAccountDetailsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15244,12 +15425,23 @@ extension SESv2ClientTypes.DeliverabilityTestReport {
     }
 }
 
+extension SESv2ClientTypes.DeliveryAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DeliveryAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.DeliveryAttributes()
+        value.sharedPoolDeliveryMode = try reader["SharedPoolDeliveryMode"].readIfPresent()
+        return value
+    }
+}
+
 extension SESv2ClientTypes.DeliveryOptions {
 
     static func write(value: SESv2ClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
         try writer["SendingPoolName"].write(value.sendingPoolName)
+        try writer["SharedPoolDeliveryMode"].write(value.sharedPoolDeliveryMode)
         try writer["TlsPolicy"].write(value.tlsPolicy)
     }
 
@@ -15259,6 +15451,7 @@ extension SESv2ClientTypes.DeliveryOptions {
         value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
         value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
         value.maxDeliverySeconds = try reader["MaxDeliverySeconds"].readIfPresent()
+        value.sharedPoolDeliveryMode = try reader["SharedPoolDeliveryMode"].readIfPresent()
         return value
     }
 }

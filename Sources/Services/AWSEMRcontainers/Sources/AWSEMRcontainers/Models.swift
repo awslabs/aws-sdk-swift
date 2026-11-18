@@ -1550,6 +1550,17 @@ extension EMRcontainersClientTypes {
     }
 }
 
+extension EMRcontainersClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .token:
+            return "Credentials.token(\"CONTENT_REDACTED\")"
+        case .sdkUnknown(let value):
+            return "Credentials.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 public struct GetManagedEndpointSessionCredentialsOutput: Swift.Sendable {
     /// The structure containing the session credentials.
     public var credentials: EMRcontainersClientTypes.Credentials?

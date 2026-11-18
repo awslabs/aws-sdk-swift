@@ -5405,6 +5405,19 @@ extension CustomerProfilesClientTypes {
     }
 }
 
+extension CustomerProfilesClientTypes.Dimension: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        switch self {
+        case .profileattributes:
+            return "Dimension.profileattributes(\"CONTENT_REDACTED\")"
+        case .calculatedattributes(let value):
+            return "Dimension.calculatedattributes(\(Swift.String(describing: value)))"
+        case .sdkUnknown(let value):
+            return "Dimension.sdkUnknown(\(Swift.String(describing: value)))"
+        }
+    }
+}
+
 extension CustomerProfilesClientTypes {
 
     /// The source segments to build off of.
