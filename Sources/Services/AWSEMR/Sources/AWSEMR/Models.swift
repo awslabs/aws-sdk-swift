@@ -3840,6 +3840,25 @@ public struct DescribeStepInput: Swift.Sendable {
 
 extension EMRClientTypes {
 
+    /// Additional information about a step's execution, available after the step has started running.
+    public struct StepAdditionalInfo: Swift.Sendable {
+        /// The address of the YARN resource manager that processed the step.
+        public var resourceManager: Swift.String?
+        /// The YARN application IDs associated with the step.
+        public var resourceManagerApplicationIds: [Swift.String]?
+
+        public init(
+            resourceManager: Swift.String? = nil,
+            resourceManagerApplicationIds: [Swift.String]? = nil
+        ) {
+            self.resourceManager = resourceManager
+            self.resourceManagerApplicationIds = resourceManagerApplicationIds
+        }
+    }
+}
+
+extension EMRClientTypes {
+
     /// A cluster step consisting of a JAR file whose main function will be executed. The main function submits a job for Hadoop to execute and waits for the job to finish or fail.
     public struct HadoopStepConfig: Swift.Sendable {
         /// The list of command line arguments to pass to the JAR file's main function for execution.
@@ -4033,6 +4052,8 @@ extension EMRClientTypes {
     public struct Step: Swift.Sendable {
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead. If a cluster's StepConcurrencyLevel is greater than 1, do not use AddJobFlowSteps to submit a step with this parameter set to CANCEL_AND_WAIT or TERMINATE_CLUSTER. The step is not submitted and the action fails with a message that the ActionOnFailure setting is not valid. If you change a cluster's StepConcurrencyLevel to be greater than 1 while a step is running, the ActionOnFailure parameter may not behave as you expect. In this case, for a step that fails with this parameter set to CANCEL_AND_WAIT, pending steps and the running step are not canceled; for a step that fails with this parameter set to TERMINATE_CLUSTER, the cluster does not terminate.
         public var actionOnFailure: EMRClientTypes.ActionOnFailure?
+        /// Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.
+        public var additionalInfo: EMRClientTypes.StepAdditionalInfo?
         /// The Hadoop job configuration of the cluster step.
         public var config: EMRClientTypes.HadoopStepConfig?
         /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
@@ -4050,6 +4071,7 @@ extension EMRClientTypes {
 
         public init(
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
+            additionalInfo: EMRClientTypes.StepAdditionalInfo? = nil,
             config: EMRClientTypes.HadoopStepConfig? = nil,
             encryptionKeyArn: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
@@ -4059,6 +4081,7 @@ extension EMRClientTypes {
             status: EMRClientTypes.StepStatus? = nil
         ) {
             self.actionOnFailure = actionOnFailure
+            self.additionalInfo = additionalInfo
             self.config = config
             self.encryptionKeyArn = encryptionKeyArn
             self.executionRoleArn = executionRoleArn
@@ -5759,6 +5782,8 @@ extension EMRClientTypes {
     public struct StepSummary: Swift.Sendable {
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility.
         public var actionOnFailure: EMRClientTypes.ActionOnFailure?
+        /// Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.
+        public var additionalInfo: EMRClientTypes.StepAdditionalInfo?
         /// The Hadoop job configuration of the cluster step.
         public var config: EMRClientTypes.HadoopStepConfig?
         /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
@@ -5774,6 +5799,7 @@ extension EMRClientTypes {
 
         public init(
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
+            additionalInfo: EMRClientTypes.StepAdditionalInfo? = nil,
             config: EMRClientTypes.HadoopStepConfig? = nil,
             encryptionKeyArn: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -5782,6 +5808,7 @@ extension EMRClientTypes {
             status: EMRClientTypes.StepStatus? = nil
         ) {
             self.actionOnFailure = actionOnFailure
+            self.additionalInfo = additionalInfo
             self.config = config
             self.encryptionKeyArn = encryptionKeyArn
             self.id = id

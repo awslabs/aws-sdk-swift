@@ -314,7 +314,7 @@ extension SageMakerA2IRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SageMaker A2I Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension SageMakerA2IRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SageMaker A2I Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,7 +607,7 @@ extension SageMakerA2IRuntimeClient {
     public static func builder() -> ClientRuntime.ClientBuilder<SageMakerA2IRuntimeClient> {
         return ClientRuntime.ClientBuilder<SageMakerA2IRuntimeClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "SageMaker A2I Runtime"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

@@ -315,7 +315,7 @@ extension ResourceExplorer2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Resource Explorer 2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -546,7 +546,7 @@ extension ResourceExplorer2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Resource Explorer 2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -608,7 +608,7 @@ extension ResourceExplorer2Client {
     public static func builder() -> ClientRuntime.ClientBuilder<ResourceExplorer2Client> {
         return ClientRuntime.ClientBuilder<ResourceExplorer2Client>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Resource Explorer 2"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

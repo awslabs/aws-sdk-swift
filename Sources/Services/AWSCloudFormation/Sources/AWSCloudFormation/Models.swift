@@ -49,6 +49,16 @@ public struct ExecuteStackRefactorOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RemoveAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct SetAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct SetStackPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -6434,6 +6444,8 @@ extension CloudFormationClientTypes {
 
     /// The Stack data type.
     public struct Stack: Swift.Sendable {
+        /// The alias assigned to the stack, if one has been set. An alias is an alternative name that can be used in place of the stack name in any CloudFormation API call that accepts the StackName parameter.
+        public var aliasName: Swift.String?
         /// The capabilities allowed in the stack.
         public var capabilities: [CloudFormationClientTypes.Capability]?
         /// The unique ID of the change set.
@@ -6501,6 +6513,7 @@ extension CloudFormationClientTypes {
         public var timeoutInMinutes: Swift.Int?
 
         public init(
+            aliasName: Swift.String? = nil,
             capabilities: [CloudFormationClientTypes.Capability]? = nil,
             changeSetId: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
@@ -6529,6 +6542,7 @@ extension CloudFormationClientTypes {
             tags: [CloudFormationClientTypes.Tag]? = nil,
             timeoutInMinutes: Swift.Int? = nil
         ) {
+            self.aliasName = aliasName
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
@@ -10774,6 +10788,19 @@ public struct RegisterTypeOutput: Swift.Sendable {
     }
 }
 
+/// The input for the [RemoveAlias] action.
+public struct RemoveAliasInput: Swift.Sendable {
+    /// The alias name to remove.
+    /// This member is required.
+    public var aliasName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+    }
+}
+
 public struct RollbackStackInput: Swift.Sendable {
     /// A unique identifier for this RollbackStack request.
     public var clientRequestToken: Swift.String?
@@ -10814,6 +10841,24 @@ public struct RollbackStackOutput: Swift.Sendable {
     ) {
         self.operationId = operationId
         self.stackId = stackId
+    }
+}
+
+/// The input for the [SetAlias] action.
+public struct SetAliasInput: Swift.Sendable {
+    /// The alias to assign to the stack. The alias can then be used in place of the stack name in any API call that accepts StackName. The name must be unique within the same account and Region. It cannot match an existing stack name or another active alias. An alias name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The name or unique stack ID of the stack to assign an alias to.
+    /// This member is required.
+    public var stackName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        stackName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+        self.stackName = stackName
     }
 }
 
@@ -12115,9 +12160,23 @@ extension RegisterTypeInput {
     }
 }
 
+extension RemoveAliasInput {
+
+    static func urlPathProvider(_ value: RemoveAliasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension RollbackStackInput {
 
     static func urlPathProvider(_ value: RollbackStackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SetAliasInput {
+
+    static func urlPathProvider(_ value: SetAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13210,6 +13269,16 @@ extension RegisterTypeInput {
     }
 }
 
+extension RemoveAliasInput {
+
+    static func write(value: RemoveAliasInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AliasName"].write(value.aliasName)
+        try writer["Action"].write("RemoveAlias")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
 extension RollbackStackInput {
 
     static func write(value: RollbackStackInput?, to writer: SmithyFormURL.Writer) throws {
@@ -13220,6 +13289,17 @@ extension RollbackStackInput {
         try writer["RoleARN"].write(value.roleARN)
         try writer["StackName"].write(value.stackName)
         try writer["Action"].write("RollbackStack")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
+extension SetAliasInput {
+
+    static func write(value: SetAliasInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AliasName"].write(value.aliasName)
+        try writer["StackName"].write(value.stackName)
+        try writer["Action"].write("SetAlias")
         try writer["Version"].write("2010-05-15")
     }
 }
@@ -14418,6 +14498,13 @@ extension RegisterTypeOutput {
     }
 }
 
+extension RemoveAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveAliasOutput {
+        return RemoveAliasOutput()
+    }
+}
+
 extension RollbackStackOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RollbackStackOutput {
@@ -14428,6 +14515,13 @@ extension RollbackStackOutput {
         value.operationId = try reader["OperationId"].readIfPresent()
         value.stackId = try reader["StackId"].readIfPresent()
         return value
+    }
+}
+
+extension SetAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SetAliasOutput {
+        return SetAliasOutput()
     }
 }
 
@@ -15660,6 +15754,19 @@ enum RegisterTypeOutputError {
     }
 }
 
+enum RemoveAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RollbackStackOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15669,6 +15776,21 @@ enum RollbackStackOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "TokenAlreadyExistsException": return try TokenAlreadyExistsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SetAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -16954,6 +17076,7 @@ extension CloudFormationClientTypes.Stack {
         value.deletionMode = try reader["DeletionMode"].readIfPresent()
         value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
         value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliasName = try reader["AliasName"].readIfPresent()
         return value
     }
 }

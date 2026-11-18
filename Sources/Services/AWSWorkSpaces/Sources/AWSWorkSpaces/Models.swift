@@ -10,12 +10,12 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 /// The user is not authorized to access a resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct AccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -38,7 +38,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The TargetAccountId is already linked or invited.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -61,7 +61,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected server error occured.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -84,7 +84,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The resource could not be found.
@@ -112,7 +112,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You either haven't provided a TargetAccountId or are using the same value for TargetAccountId and SourceAccountId.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -647,7 +647,7 @@ extension WorkSpacesClientTypes {
 }
 
 /// The specified application is not supported.
-public struct ApplicationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ApplicationNotSupportedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ApplicationNotSupportedException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -882,7 +882,7 @@ extension WorkSpacesClientTypes {
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterValuesException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The exception error message.
@@ -906,7 +906,7 @@ public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The state of the resource is not valid for this operation.
-public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -929,7 +929,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This operation is not supported.
-public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The exception error message.
@@ -957,7 +957,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The resource is associated with a directory.
-public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceAssociatedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1008,7 +1008,7 @@ public struct AssociateConnectionAliasOutput: Swift.Sendable {
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The exception error message.
@@ -1054,7 +1054,7 @@ public struct AssociateIpGroupsOutput: Swift.Sendable {
 }
 
 /// The compute type of the WorkSpace is not compatible with the application.
-public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ComputeNotCompatibleException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1067,7 +1067,7 @@ public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified application is not compatible with the resource.
-public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "IncompatibleApplicationsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1080,7 +1080,7 @@ public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWS
 }
 
 /// The operating system of the WorkSpace is not compatible with the application.
-public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "OperatingSystemNotCompatibleException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1093,7 +1093,7 @@ public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError,
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1116,7 +1116,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource is currently in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceInUseException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2083,7 +2083,7 @@ extension WorkSpacesClientTypes {
 }
 
 /// The specified resource is not available.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The exception error message.
@@ -2199,7 +2199,7 @@ public struct CreateAccountLinkInvitationOutput: Swift.Sendable {
 }
 
 /// The resource could not be created.
-public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceCreationFailedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2838,11 +2838,17 @@ extension WorkSpacesClientTypes {
 
     public enum OperatingSystemName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
+        case rhel10
         case rhel8
+        case rhel9
+        case rocky10
         case rocky8
+        case rocky9
         case ubuntu1804
         case ubuntu2004
         case ubuntu2204
+        case ubuntu2404
+        case ubuntu2604
         case unknown
         case windows10
         case windows11
@@ -2856,11 +2862,17 @@ extension WorkSpacesClientTypes {
         public static var allCases: [OperatingSystemName] {
             return [
                 .amazonLinux2,
+                .rhel10,
                 .rhel8,
+                .rhel9,
+                .rocky10,
                 .rocky8,
+                .rocky9,
                 .ubuntu1804,
                 .ubuntu2004,
                 .ubuntu2204,
+                .ubuntu2404,
+                .ubuntu2604,
                 .unknown,
                 .windows10,
                 .windows11,
@@ -2880,11 +2892,17 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .amazonLinux2: return "AMAZON_LINUX_2"
+            case .rhel10: return "RHEL_10"
             case .rhel8: return "RHEL_8"
+            case .rhel9: return "RHEL_9"
+            case .rocky10: return "ROCKY_10"
             case .rocky8: return "ROCKY_8"
+            case .rocky9: return "ROCKY_9"
             case .ubuntu1804: return "UBUNTU_18_04"
             case .ubuntu2004: return "UBUNTU_20_04"
             case .ubuntu2204: return "UBUNTU_22_04"
+            case .ubuntu2404: return "UBUNTU_24_04"
+            case .ubuntu2604: return "UBUNTU_26_04"
             case .unknown: return "UNKNOWN"
             case .windows10: return "WINDOWS_10"
             case .windows11: return "WINDOWS_11"
@@ -2976,7 +2994,7 @@ extension WorkSpacesClientTypes {
         ///
         /// * Only available for WorkSpaces created with PCoIP bundles.
         ///
-        /// * The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).
+        /// * The Protocols property is case sensitive. Make sure you specify PCOIP or WSP. To use DCV, specify WSP.
         ///
         /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, Graphics.g6, and Graphics.g7).
         public var protocols: [WorkSpacesClientTypes.ModelProtocol]?
@@ -5445,8 +5463,12 @@ extension WorkSpacesClientTypes {
     public struct SelfservicePermissions: Swift.Sendable {
         /// Specifies whether users can change the compute type (bundle) for their WorkSpace.
         public var changeComputeType: WorkSpacesClientTypes.ReconnectEnum?
+        /// Specifies whether users can use End User Advisor in the WorkSpaces client for Windows to see their session health and get recommended actions for common issues. The default value is ENABLED. For more information, see Proactive troubleshooting for your WorkSpaces users.
+        public var enableEndUserAdvisor: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can increase the volume size of the drives on their WorkSpace.
         public var increaseVolumeSize: WorkSpacesClientTypes.ReconnectEnum?
+        /// Specifies whether users can enable or disable nested virtualization on their WorkSpace. The default value is DISABLED. For more information, see [Nested virtualization for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/nested-virtualization.html).
+        public var nestedVirtualization: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can rebuild the operating system of a WorkSpace to its original state.
         public var rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can restart their WorkSpace.
@@ -5456,13 +5478,17 @@ extension WorkSpacesClientTypes {
 
         public init(
             changeComputeType: WorkSpacesClientTypes.ReconnectEnum? = nil,
+            enableEndUserAdvisor: WorkSpacesClientTypes.ReconnectEnum? = nil,
             increaseVolumeSize: WorkSpacesClientTypes.ReconnectEnum? = nil,
+            nestedVirtualization: WorkSpacesClientTypes.ReconnectEnum? = nil,
             rebuildWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             restartWorkspace: WorkSpacesClientTypes.ReconnectEnum? = nil,
             switchRunningMode: WorkSpacesClientTypes.ReconnectEnum? = nil
         ) {
             self.changeComputeType = changeComputeType
+            self.enableEndUserAdvisor = enableEndUserAdvisor
             self.increaseVolumeSize = increaseVolumeSize
+            self.nestedVirtualization = nestedVirtualization
             self.rebuildWorkspace = rebuildWorkspace
             self.restartWorkspace = restartWorkspace
             self.switchRunningMode = switchRunningMode
@@ -5863,6 +5889,41 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum WorkspaceOSUserMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainJoin
+        case entraJoin
+        case localUser
+        case selfManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceOSUserMode] {
+            return [
+                .domainJoin,
+                .entraJoin,
+                .localUser,
+                .selfManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainJoin: return "DOMAIN_JOIN"
+            case .entraJoin: return "ENTRA_JOIN"
+            case .localUser: return "LOCAL_USER"
+            case .selfManaged: return "SELF_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum WorkspaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case personal
         case pools
@@ -5948,6 +6009,8 @@ extension WorkSpacesClientTypes {
         public var workspaceDirectoryDescription: Swift.String?
         /// The name fo the WorkSpace directory.
         public var workspaceDirectoryName: Swift.String?
+        /// Indicates how users are set up on the WorkSpace operating system.
+        public var workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public var workspaceSecurityGroupId: Swift.String?
         /// Indicates whether the directory's WorkSpace type is personal or pools.
@@ -5981,6 +6044,7 @@ extension WorkSpacesClientTypes {
             workspaceCreationProperties: WorkSpacesClientTypes.DefaultWorkspaceCreationProperties? = nil,
             workspaceDirectoryDescription: Swift.String? = nil,
             workspaceDirectoryName: Swift.String? = nil,
+            workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode? = nil,
             workspaceSecurityGroupId: Swift.String? = nil,
             workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
         ) {
@@ -6011,6 +6075,7 @@ extension WorkSpacesClientTypes {
             self.workspaceCreationProperties = workspaceCreationProperties
             self.workspaceDirectoryDescription = workspaceDirectoryDescription
             self.workspaceDirectoryName = workspaceDirectoryName
+            self.workspaceOsUserMode = workspaceOsUserMode
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
             self.workspaceType = workspaceType
         }
@@ -7345,7 +7410,7 @@ public struct ImportWorkspaceImageOutput: Swift.Sendable {
 }
 
 /// Two or more of the selected parameter values cannot be used together.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The exception error message.
@@ -7438,7 +7503,7 @@ public struct ListAvailableManagementCidrRangesOutput: Swift.Sendable {
 }
 
 /// The properties of this WorkSpace are currently being modified. Try again in a moment.
-public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OperationInProgressException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7743,7 +7808,7 @@ public struct ModifyWorkspaceCreationPropertiesOutput: Swift.Sendable {
 }
 
 /// The configuration of this WorkSpace is not supported for this operation. For more information, see [Required Configuration and Service Components for WorkSpaces ](https://docs.aws.amazon.com/workspaces/latest/adminguide/required-service-components.html).
-public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7920,7 +7985,7 @@ public struct RebuildWorkspacesOutput: Swift.Sendable {
 }
 
 /// The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
-public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7943,7 +8008,7 @@ public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledErr
 }
 
 /// The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
-public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7988,6 +8053,8 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
     public var workspaceDirectoryDescription: Swift.String?
     /// The name of the directory to register.
     public var workspaceDirectoryName: Swift.String?
+    /// Indicates how users are set up on the WorkSpace operating system. To use local users with an AWS IAM Identity Center directory, specify LOCAL_USER.
+    public var workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode?
     /// Indicates whether the directory's WorkSpace type is personal or pools.
     public var workspaceType: WorkSpacesClientTypes.WorkspaceType?
 
@@ -8003,6 +8070,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         userIdentityType: WorkSpacesClientTypes.UserIdentityType? = nil,
         workspaceDirectoryDescription: Swift.String? = nil,
         workspaceDirectoryName: Swift.String? = nil,
+        workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode? = nil,
         workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
     ) {
         self.activeDirectoryConfig = activeDirectoryConfig
@@ -8016,6 +8084,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         self.userIdentityType = userIdentityType
         self.workspaceDirectoryDescription = workspaceDirectoryDescription
         self.workspaceDirectoryName = workspaceDirectoryName
+        self.workspaceOsUserMode = workspaceOsUserMode
         self.workspaceType = workspaceType
     }
 }

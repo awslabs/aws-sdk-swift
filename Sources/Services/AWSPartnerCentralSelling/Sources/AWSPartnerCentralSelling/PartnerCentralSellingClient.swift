@@ -313,7 +313,7 @@ extension PartnerCentralSellingClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "PartnerCentral Selling"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -544,7 +544,7 @@ extension PartnerCentralSellingClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "PartnerCentral Selling"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -606,7 +606,7 @@ extension PartnerCentralSellingClient {
     public static func builder() -> ClientRuntime.ClientBuilder<PartnerCentralSellingClient> {
         return ClientRuntime.ClientBuilder<PartnerCentralSellingClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "PartnerCentral Selling"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

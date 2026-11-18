@@ -1457,6 +1457,79 @@ public struct CreatePresignedNotebookUrlOutput: Swift.Sendable {
 
 extension AthenaClientTypes {
 
+    public enum SystemTableName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemTableName] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSystemTableConfigurationInput: Swift.Sendable {
+    /// A unique case-sensitive string used to ensure the request to create the system table configuration is idempotent (executes only once). If another CreateSystemTableConfiguration request is received with the same client token but different parameters, the request fails with an InvalidRequestException.
+    public var clientRequestToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data.
+    public var kmsKeyArn: Swift.String?
+    /// The system table configuration to create. The only accepted value is ALL, the reserved keyword that enables all system tables for the account.
+    /// This member is required.
+    public var tableName: AthenaClientTypes.SystemTableName?
+    /// The tags to add to the system table configuration.
+    public var tags: [AthenaClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        tableName: AthenaClientTypes.SystemTableName? = nil,
+        tags: [AthenaClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.kmsKeyArn = kmsKeyArn
+        self.tableName = tableName
+        self.tags = tags
+    }
+}
+
+public struct CreateSystemTableConfigurationOutput: Swift.Sendable {
+    /// The date and time the system table configuration was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+    public var kmsKeyArn: Swift.String?
+    /// The date and time the system table configuration was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The system table configuration that was created. Always ALL.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.createdAt = createdAt
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModifiedAt = lastModifiedAt
+        self.tableName = tableName
+    }
+}
+
+extension AthenaClientTypes {
+
     /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
     public struct CustomerContentEncryptionConfiguration: Swift.Sendable {
         /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
@@ -1641,6 +1714,53 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
+    public enum SystemTableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case queryExecutions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemTableType] {
+            return [
+                .queryExecutions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .queryExecutions: return "QUERY_EXECUTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// The enablement status of a single system table. Because system tables are enabled at the account level, every status reflects the same account-wide state.
+    public struct SystemTableStatus: Swift.Sendable {
+        /// Indicates whether the system table is enabled for the account.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The name of the system table, such as QUERY_EXECUTIONS.
+        /// This member is required.
+        public var tableName: AthenaClientTypes.SystemTableType?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            tableName: AthenaClientTypes.SystemTableType? = nil
+        ) {
+            self.enabled = enabled
+            self.tableName = tableName
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
     /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query and calculation results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public struct WorkGroupConfiguration: Swift.Sendable {
         /// Specifies a user defined JSON string that is passed to the notebook engine.
@@ -1655,7 +1775,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
-        /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version that all queries running on the workgroup use.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and IAM Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and IAM Identity Center enabled workgroups. The property is required for IAM Identity Center enabled workgroups.
         public var executionRole: Swift.String?
@@ -1673,6 +1793,8 @@ extension AthenaClientTypes {
         public var requesterPaysEnabled: Swift.Bool?
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using [ResultConfiguration$OutputLocation]. If none of them is set, Athena issues an error that no output location is provided.
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
+        /// The read-only enablement status of each system table for the account. This field is returned by [GetWorkGroup] and is ignored on write.
+        public var systemTableStatuses: [AthenaClientTypes.SystemTableStatus]?
 
         public init(
             additionalConfiguration: Swift.String? = nil,
@@ -1689,7 +1811,8 @@ extension AthenaClientTypes {
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
-            resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil
+            resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil,
+            systemTableStatuses: [AthenaClientTypes.SystemTableStatus]? = nil
         ) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
@@ -1706,6 +1829,7 @@ extension AthenaClientTypes {
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
+            self.systemTableStatuses = systemTableStatuses
         }
     }
 }
@@ -1835,6 +1959,23 @@ public struct DeletePreparedStatementInput: Swift.Sendable {
 }
 
 public struct DeletePreparedStatementOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteSystemTableConfigurationInput: Swift.Sendable {
+    /// The system table configuration to delete. The only accepted value is ALL.
+    /// This member is required.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.tableName = tableName
+    }
+}
+
+public struct DeleteSystemTableConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3163,6 +3304,41 @@ public struct GetSessionStatusOutput: Swift.Sendable {
     }
 }
 
+public struct GetSystemTableConfigurationInput: Swift.Sendable {
+    /// The system table configuration to retrieve. The only accepted value is ALL.
+    /// This member is required.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.tableName = tableName
+    }
+}
+
+public struct GetSystemTableConfigurationOutput: Swift.Sendable {
+    /// The date and time the system table configuration was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+    public var kmsKeyArn: Swift.String?
+    /// The date and time the system table configuration was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The system table configuration. Always ALL.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.createdAt = createdAt
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModifiedAt = lastModifiedAt
+        self.tableName = tableName
+    }
+}
+
 public struct GetTableMetadataInput: Swift.Sendable {
     /// The name of the data catalog that contains the database and table metadata to return.
     /// This member is required.
@@ -3539,7 +3715,36 @@ public struct ListCapacityReservationsOutput: Swift.Sendable {
     }
 }
 
+extension AthenaClientTypes {
+
+    /// A database property that can be requested in the AttributesToGet parameter of ListDatabases.
+    public enum DatabaseAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseAttributes] {
+            return [
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListDatabasesInput: Swift.Sendable {
+    /// Specifies the database properties returned by the ListDatabases call. The only valid value is NAME, which returns only the name of each database and omits the remaining properties. If you omit this parameter or specify an empty list, all database properties are returned. Requesting only names can reduce response time for catalogs that contain many databases, especially resource links to databases shared from other accounts. This parameter applies only to the Glue Data Catalog. For other data catalog types, it is ignored.
+    public var attributesToGet: [AthenaClientTypes.DatabaseAttributes]?
     /// The name of the data catalog that contains the databases to return.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -3551,11 +3756,13 @@ public struct ListDatabasesInput: Swift.Sendable {
     public var workGroup: Swift.String?
 
     public init(
+        attributesToGet: [AthenaClientTypes.DatabaseAttributes]? = nil,
         catalogName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
     ) {
+        self.attributesToGet = attributesToGet
         self.catalogName = catalogName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4155,7 +4362,70 @@ public struct ListSessionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListSystemTableStatusesInput: Swift.Sendable {
+    /// Specifies the maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListSystemTableStatusesOutput: Swift.Sendable {
+    /// The list of system tables and their enablement status for the current account.
+    /// This member is required.
+    public var items: [AthenaClientTypes.SystemTableStatus]?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AthenaClientTypes.SystemTableStatus]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// A table property that can be requested in the AttributesToGet parameter of ListTableMetadata.
+    public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case tableType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableAttributes] {
+            return [
+                .name,
+                .tableType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case .tableType: return "TABLE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListTableMetadataInput: Swift.Sendable {
+    /// Specifies the table properties returned by the ListTableMetadata call. This parameter doesn't accept an empty list, and the request must include NAME. The valid combinations of values are NAME, which returns the name of each table, and NAME and TABLE_TYPE, which return the name and table type of each table. The remaining properties are omitted. If you omit this parameter, all table properties are returned. Requesting only the properties you need can reduce response time for databases that contain many tables. This parameter applies only to the Glue Data Catalog. For other data catalog types, it is ignored.
+    public var attributesToGet: [AthenaClientTypes.TableAttributes]?
     /// The name of the data catalog for which table metadata should be returned.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -4172,6 +4442,7 @@ public struct ListTableMetadataInput: Swift.Sendable {
     public var workGroup: Swift.String?
 
     public init(
+        attributesToGet: [AthenaClientTypes.TableAttributes]? = nil,
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
@@ -4179,6 +4450,7 @@ public struct ListTableMetadataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
     ) {
+        self.attributesToGet = attributesToGet
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.expression = expression
@@ -4261,7 +4533,7 @@ extension AthenaClientTypes {
         public var creationTime: Foundation.Date?
         /// The workgroup description.
         public var description: Swift.String?
-        /// The engine version setting for all queries on the workgroup. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version setting for all queries on the workgroup.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
         public var identityCenterApplicationArn: Swift.String?
@@ -4387,7 +4659,7 @@ public struct StartCalculationExecutionOutput: Swift.Sendable {
 public struct StartQueryExecutionInput: Swift.Sendable {
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
-    /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
+    /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count. Note: When using StartQueryExecution, only the Classifications field applies. Do not specify the other fields (AdditionalConfigs, CoordinatorDpuSize, DefaultExecutorDpuSize, MaxConcurrentDpus, and SparkProperties), as these are used only with StartSession to configure Apache Spark-based sessions.
     public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     public var executionParameters: [Swift.String]?
@@ -4812,6 +5084,45 @@ public struct UpdatePreparedStatementOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateSystemTableConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data. The encryption key is immutable while the system table exists, so a change takes effect only after the table has been deleted.
+    public var kmsKeyArn: Swift.String?
+    /// The system table configuration to update. The only accepted value is ALL.
+    /// This member is required.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        kmsKeyArn: Swift.String? = nil,
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.kmsKeyArn = kmsKeyArn
+        self.tableName = tableName
+    }
+}
+
+public struct UpdateSystemTableConfigurationOutput: Swift.Sendable {
+    /// The date and time the system table configuration was created.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+    public var kmsKeyArn: Swift.String?
+    /// The date and time the system table configuration was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The system table configuration. Always ALL.
+    public var tableName: AthenaClientTypes.SystemTableName?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        tableName: AthenaClientTypes.SystemTableName? = nil
+    ) {
+        self.createdAt = createdAt
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModifiedAt = lastModifiedAt
+        self.tableName = tableName
+    }
+}
+
 extension AthenaClientTypes {
 
     /// Updates the configuration for managed query results.
@@ -4894,7 +5205,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
-        /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?

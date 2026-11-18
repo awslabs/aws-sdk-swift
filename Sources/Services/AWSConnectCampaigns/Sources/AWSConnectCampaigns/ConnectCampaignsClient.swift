@@ -313,7 +313,7 @@ extension ConnectCampaignsClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "ConnectCampaigns"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -544,7 +544,7 @@ extension ConnectCampaignsClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "ConnectCampaigns"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -606,7 +606,7 @@ extension ConnectCampaignsClient {
     public static func builder() -> ClientRuntime.ClientBuilder<ConnectCampaignsClient> {
         return ClientRuntime.ClientBuilder<ConnectCampaignsClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "ConnectCampaigns"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

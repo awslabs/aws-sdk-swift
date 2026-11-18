@@ -7913,6 +7913,10 @@ public struct GetProfileObjectTypeTemplateInput: Swift.Sendable {
 public struct GetProfileObjectTypeTemplateOutput: Swift.Sendable {
     /// Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
     public var allowProfileCreation: Swift.Bool
+    /// The default maximum number of objects of this object type that can be stored per profile. This default applies when you don't set MaxProfileObjectCount on an object type created from this template. If this value isn't present, no default limit applies.
+    public var defaultMaxProfileObjectCount: Swift.Int?
+    /// The timestamp after which DefaultMaxProfileObjectCount takes effect. The default limit applies only to domains created after this time.
+    public var defaultMaxProfileObjectCountEffectiveAfter: Foundation.Date?
     /// A map of the name and ObjectType field.
     public var fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]?
     /// A list of unique keys that can be used to map data to the profile.
@@ -7923,31 +7927,39 @@ public struct GetProfileObjectTypeTemplateOutput: Swift.Sendable {
     public var sourceName: Swift.String?
     /// The source of the object template.
     public var sourceObject: Swift.String?
+    /// Indicates whether the template is store-only. Objects of an object type created from a store-only template are ingested and stored, but the object type can't be used by calculated attributes or event triggers.
+    public var storeOnly: Swift.Bool
     /// A unique identifier for the object template.
     public var templateId: Swift.String?
 
     public init(
         allowProfileCreation: Swift.Bool = false,
+        defaultMaxProfileObjectCount: Swift.Int? = nil,
+        defaultMaxProfileObjectCountEffectiveAfter: Foundation.Date? = nil,
         fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
         keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         sourceName: Swift.String? = nil,
         sourceObject: Swift.String? = nil,
+        storeOnly: Swift.Bool = false,
         templateId: Swift.String? = nil
     ) {
         self.allowProfileCreation = allowProfileCreation
+        self.defaultMaxProfileObjectCount = defaultMaxProfileObjectCount
+        self.defaultMaxProfileObjectCountEffectiveAfter = defaultMaxProfileObjectCountEffectiveAfter
         self.fields = fields
         self.keys = keys
         self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
         self.sourceName = sourceName
         self.sourceObject = sourceObject
+        self.storeOnly = storeOnly
         self.templateId = templateId
     }
 }
 
 extension GetProfileObjectTypeTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProfileObjectTypeTemplateOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), sourceName: \(Swift.String(describing: sourceName)), sourceObject: \(Swift.String(describing: sourceObject)), templateId: \(Swift.String(describing: templateId)), fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+        "GetProfileObjectTypeTemplateOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), defaultMaxProfileObjectCount: \(Swift.String(describing: defaultMaxProfileObjectCount)), defaultMaxProfileObjectCountEffectiveAfter: \(Swift.String(describing: defaultMaxProfileObjectCountEffectiveAfter)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), sourceName: \(Swift.String(describing: sourceName)), sourceObject: \(Swift.String(describing: sourceObject)), storeOnly: \(Swift.String(describing: storeOnly)), templateId: \(Swift.String(describing: templateId)), fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -16238,11 +16250,14 @@ extension GetProfileObjectTypeTemplateOutput {
         let reader = responseReader
         var value = GetProfileObjectTypeTemplateOutput()
         value.allowProfileCreation = try reader["AllowProfileCreation"].readIfPresent() ?? false
+        value.defaultMaxProfileObjectCount = try reader["DefaultMaxProfileObjectCount"].readIfPresent()
+        value.defaultMaxProfileObjectCountEffectiveAfter = try reader["DefaultMaxProfileObjectCountEffectiveAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.keys = try reader["Keys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.ObjectTypeKey.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sourceLastUpdatedTimestampFormat = try reader["SourceLastUpdatedTimestampFormat"].readIfPresent()
         value.sourceName = try reader["SourceName"].readIfPresent()
         value.sourceObject = try reader["SourceObject"].readIfPresent()
+        value.storeOnly = try reader["StoreOnly"].readIfPresent() ?? false
         value.templateId = try reader["TemplateId"].readIfPresent()
         return value
     }

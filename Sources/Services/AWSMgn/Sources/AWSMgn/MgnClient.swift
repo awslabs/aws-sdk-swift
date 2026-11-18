@@ -315,7 +315,7 @@ extension MgnClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "mgn"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -546,7 +546,7 @@ extension MgnClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "mgn"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -608,7 +608,7 @@ extension MgnClient {
     public static func builder() -> ClientRuntime.ClientBuilder<MgnClient> {
         return ClientRuntime.ClientBuilder<MgnClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "mgn"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1213,6 +1213,7 @@ extension MgnClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkMigrationDefinitionInput, CreateNetworkMigrationDefinitionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateNetworkMigrationDefinitionInput, CreateNetworkMigrationDefinitionOutput>(CreateNetworkMigrationDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateNetworkMigrationDefinitionInput, CreateNetworkMigrationDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNetworkMigrationDefinitionInput, CreateNetworkMigrationDefinitionOutput>(contentType: "application/json"))
@@ -1236,6 +1237,77 @@ extension MgnClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkMigrationDefinition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRemoteSourceAction` operation on the `Mgn` service.
+    ///
+    /// Creates a source action, which references a script in AWS Systems Manager Parameter Store that Application Migration Service runs on source environment.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRemoteSourceActionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRemoteSourceActionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func createRemoteSourceAction(input: CreateRemoteSourceActionInput) async throws -> CreateRemoteSourceActionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRemoteSourceAction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>(CreateRemoteSourceActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRemoteSourceActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRemoteSourceActionOutput>(CreateRemoteSourceActionOutput.httpOutput(from:), CreateRemoteSourceActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRemoteSourceActionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRemoteSourceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRemoteSourceActionInput, CreateRemoteSourceActionOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRemoteSourceAction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1726,6 +1798,77 @@ extension MgnClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkMigrationDefinition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRemoteSourceAction` operation on the `Mgn` service.
+    ///
+    /// Deletes a source action. This operation also deletes the invocation results of the source action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRemoteSourceActionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRemoteSourceActionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func deleteRemoteSourceAction(input: DeleteRemoteSourceActionInput) async throws -> DeleteRemoteSourceActionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRemoteSourceAction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>(DeleteRemoteSourceActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRemoteSourceActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRemoteSourceActionOutput>(DeleteRemoteSourceActionOutput.httpOutput(from:), DeleteRemoteSourceActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemoteSourceActionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRemoteSourceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemoteSourceActionInput, DeleteRemoteSourceActionOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRemoteSourceAction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2575,7 +2718,7 @@ extension MgnClient {
 
     /// Performs the `DisconnectFromService` operation on the `Mgn` service.
     ///
-    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisconnectFromServiceInput`)
     ///
@@ -2645,7 +2788,7 @@ extension MgnClient {
 
     /// Performs the `FinalizeCutover` operation on the `Mgn` service.
     ///
-    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
     ///
     /// - Parameter input: [no documentation found] (Type: `FinalizeCutoverInput`)
     ///
@@ -2771,6 +2914,76 @@ extension MgnClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLaunchConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetLaunchConfigurationDefaults` operation on the `Mgn` service.
+    ///
+    /// Gets the launch configuration defaults of a source server: the Amazon Elastic Block Store (Amazon EBS) volume configuration used for the disk mappings created later in the source server's Amazon Elastic Compute Cloud (Amazon EC2) launch template.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetLaunchConfigurationDefaultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetLaunchConfigurationDefaultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func getLaunchConfigurationDefaults(input: GetLaunchConfigurationDefaultsInput) async throws -> GetLaunchConfigurationDefaultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getLaunchConfigurationDefaults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>(GetLaunchConfigurationDefaultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLaunchConfigurationDefaultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLaunchConfigurationDefaultsOutput>(GetLaunchConfigurationDefaultsOutput.httpOutput(from:), GetLaunchConfigurationDefaultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLaunchConfigurationDefaultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLaunchConfigurationDefaultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLaunchConfigurationDefaultsInput, GetLaunchConfigurationDefaultsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLaunchConfigurationDefaults")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4169,6 +4382,77 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListNetworkMigrationInsights` operation on the `Mgn` service.
+    ///
+    /// Lists network migration insights for a network migration definition.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkMigrationInsightsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListNetworkMigrationInsightsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ThrottlingException` : Reached throttling quota exception.
+    /// - `ValidationException` : Validate exception.
+    public func listNetworkMigrationInsights(input: ListNetworkMigrationInsightsInput) async throws -> ListNetworkMigrationInsightsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listNetworkMigrationInsights")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>(ListNetworkMigrationInsightsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNetworkMigrationInsightsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworkMigrationInsightsOutput>(ListNetworkMigrationInsightsOutput.httpOutput(from:), ListNetworkMigrationInsightsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworkMigrationInsightsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNetworkMigrationInsightsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNetworkMigrationInsightsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListNetworkMigrationInsightsInput, ListNetworkMigrationInsightsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListNetworkMigrationInsights")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListNetworkMigrationMapperSegmentConstructs` operation on the `Mgn` service.
     ///
     /// Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups.
@@ -4441,6 +4725,284 @@ extension MgnClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListNetworkMigrationMappings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRemoteSourceActionInvocationResults` operation on the `Mgn` service.
+    ///
+    /// Lists the latest invocation result of each source action that ran on a source server.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRemoteSourceActionInvocationResultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRemoteSourceActionInvocationResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func listRemoteSourceActionInvocationResults(input: ListRemoteSourceActionInvocationResultsInput) async throws -> ListRemoteSourceActionInvocationResultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRemoteSourceActionInvocationResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>(ListRemoteSourceActionInvocationResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRemoteSourceActionInvocationResultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRemoteSourceActionInvocationResultsOutput>(ListRemoteSourceActionInvocationResultsOutput.httpOutput(from:), ListRemoteSourceActionInvocationResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRemoteSourceActionInvocationResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRemoteSourceActionInvocationResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRemoteSourceActionInvocationResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRemoteSourceActionInvocationResultsInput, ListRemoteSourceActionInvocationResultsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRemoteSourceActionInvocationResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRemoteSourceActionInvocations` operation on the `Mgn` service.
+    ///
+    /// Lists the invocations of a source action job, one for each source server and source action, with optional filtering.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRemoteSourceActionInvocationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRemoteSourceActionInvocationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func listRemoteSourceActionInvocations(input: ListRemoteSourceActionInvocationsInput) async throws -> ListRemoteSourceActionInvocationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRemoteSourceActionInvocations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>(ListRemoteSourceActionInvocationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRemoteSourceActionInvocationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRemoteSourceActionInvocationsOutput>(ListRemoteSourceActionInvocationsOutput.httpOutput(from:), ListRemoteSourceActionInvocationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRemoteSourceActionInvocationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRemoteSourceActionInvocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRemoteSourceActionInvocationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRemoteSourceActionInvocationsInput, ListRemoteSourceActionInvocationsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRemoteSourceActionInvocations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRemoteSourceActionJobs` operation on the `Mgn` service.
+    ///
+    /// Lists the source action jobs in the account, with optional filtering.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRemoteSourceActionJobsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRemoteSourceActionJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func listRemoteSourceActionJobs(input: ListRemoteSourceActionJobsInput) async throws -> ListRemoteSourceActionJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRemoteSourceActionJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>(ListRemoteSourceActionJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRemoteSourceActionJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRemoteSourceActionJobsOutput>(ListRemoteSourceActionJobsOutput.httpOutput(from:), ListRemoteSourceActionJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRemoteSourceActionJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRemoteSourceActionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRemoteSourceActionJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRemoteSourceActionJobsInput, ListRemoteSourceActionJobsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRemoteSourceActionJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRemoteSourceActions` operation on the `Mgn` service.
+    ///
+    /// Lists the source actions in the account, with optional filtering.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRemoteSourceActionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRemoteSourceActionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func listRemoteSourceActions(input: ListRemoteSourceActionsInput) async throws -> ListRemoteSourceActionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRemoteSourceActions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>(ListRemoteSourceActionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRemoteSourceActionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRemoteSourceActionsOutput>(ListRemoteSourceActionsOutput.httpOutput(from:), ListRemoteSourceActionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRemoteSourceActionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRemoteSourceActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRemoteSourceActionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRemoteSourceActionsInput, ListRemoteSourceActionsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRemoteSourceActions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5945,6 +6507,79 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartRemoteSourceActionJob` operation on the `Mgn` service.
+    ///
+    /// Starts a job that runs a source action on source servers through a connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartRemoteSourceActionJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartRemoteSourceActionJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func startRemoteSourceActionJob(input: StartRemoteSourceActionJobInput) async throws -> StartRemoteSourceActionJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRemoteSourceActionJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(StartRemoteSourceActionJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRemoteSourceActionJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemoteSourceActionJobOutput>(StartRemoteSourceActionJobOutput.httpOutput(from:), StartRemoteSourceActionJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartRemoteSourceActionJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRemoteSourceActionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRemoteSourceActionJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRemoteSourceActionJobInput, StartRemoteSourceActionJobOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRemoteSourceActionJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartReplication` operation on the `Mgn` service.
     ///
     /// Start replication for source server irrespective of its replication type.
@@ -6722,6 +7357,76 @@ extension MgnClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateLaunchConfigurationDefaults` operation on the `Mgn` service.
+    ///
+    /// Updates the launch configuration defaults of a source server. They apply only to disk mappings created later in the source server's Amazon Elastic Compute Cloud (Amazon EC2) launch template, and members you omit keep their current values.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationDefaultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchConfigurationDefaultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func updateLaunchConfigurationDefaults(input: UpdateLaunchConfigurationDefaultsInput) async throws -> UpdateLaunchConfigurationDefaultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLaunchConfigurationDefaults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>(UpdateLaunchConfigurationDefaultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLaunchConfigurationDefaultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLaunchConfigurationDefaultsOutput>(UpdateLaunchConfigurationDefaultsOutput.httpOutput(from:), UpdateLaunchConfigurationDefaultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLaunchConfigurationDefaultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLaunchConfigurationDefaultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLaunchConfigurationDefaultsInput, UpdateLaunchConfigurationDefaultsOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLaunchConfigurationDefaults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `Mgn` service.
     ///
     /// Updates an existing Launch Configuration Template by ID.
@@ -6921,6 +7626,77 @@ extension MgnClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateNetworkMigrationMapperSegment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRemoteSourceAction` operation on the `Mgn` service.
+    ///
+    /// Updates a source action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRemoteSourceActionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRemoteSourceActionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `ResourceNotFoundException` : Resource not found exception.
+    /// - `UninitializedAccountException` : Uninitialized account exception.
+    /// - `ValidationException` : Validate exception.
+    public func updateRemoteSourceAction(input: UpdateRemoteSourceActionInput) async throws -> UpdateRemoteSourceActionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRemoteSourceAction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mgn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>(UpdateRemoteSourceActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRemoteSourceActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRemoteSourceActionOutput>(UpdateRemoteSourceActionOutput.httpOutput(from:), UpdateRemoteSourceActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRemoteSourceActionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("mgn", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRemoteSourceActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "mgn"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRemoteSourceActionInput, UpdateRemoteSourceActionOutput>(serviceID: serviceName, version: MgnClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Mgn")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRemoteSourceAction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -81,6 +81,8 @@ extension ECSClientTypes {
         case inferentia
         case k520
         case k80
+        case l4
+        case l40s
         case m60
         case radeonProV520
         case t4
@@ -97,6 +99,8 @@ extension ECSClientTypes {
                 .inferentia,
                 .k520,
                 .k80,
+                .l4,
+                .l40s,
                 .m60,
                 .radeonProV520,
                 .t4,
@@ -119,6 +123,8 @@ extension ECSClientTypes {
             case .inferentia: return "inferentia"
             case .k520: return "k520"
             case .k80: return "k80"
+            case .l4: return "l4"
+            case .l40s: return "l40s"
             case .m60: return "m60"
             case .radeonProV520: return "radeon-pro-v520"
             case .t4: return "t4"
@@ -1329,6 +1335,8 @@ extension ECSClientTypes {
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         /// This member is required.
         public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// Specifies whether instances that this capacity provider launches have [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html) enabled. Enable this setting to run tasks that use the ISOLATED_SANDBOX or CONFIDENTIAL_SANDBOX isolation mode. When you enable this setting, the capacity provider must include at least one instance type that supports Nitro Sandbox. You can't enable this setting together with local storage (the useLocalStorage setting in localStorageConfiguration). The default value is false. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        public var nitroEnclavesEnabled: Swift.Bool?
         /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
@@ -1342,6 +1350,7 @@ extension ECSClientTypes {
             localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            nitroEnclavesEnabled: Swift.Bool? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
             self.capacityOptionType = capacityOptionType
@@ -1353,6 +1362,7 @@ extension ECSClientTypes {
             self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
+            self.nitroEnclavesEnabled = nitroEnclavesEnabled
             self.storageConfiguration = storageConfiguration
         }
     }
@@ -5714,8 +5724,6 @@ extension ECSClientTypes {
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
-    /// * Windows platform version 1.0.0 or later.
-    ///
     ///
     /// Consider the following when using the Fargate launch type:
     ///
@@ -6125,7 +6133,7 @@ extension ECSClientTypes {
 
     /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
     ///
-    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
     ///
     /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
     ///
@@ -6133,7 +6141,7 @@ extension ECSClientTypes {
     ///
     /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
     public struct LogConfiguration: Swift.Sendable {
-        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
+        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
         /// This member is required.
         public var logDriver: ECSClientTypes.LogDriver?
         /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
@@ -6589,18 +6597,38 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration for a log driver volume in a daemon task definition. The volume contains the log files for each container on the container instance that uses the specified log driver in its logConfiguration. Containers that use a different log driver don't write log files to the volume. For the json-file log driver, the volume has one directory for each container, named with the container ID. Each directory contains the container's log file, <container-id>-json.log, and any rotated log files. After a container stops and Amazon ECS removes it, Amazon ECS deletes the container's directory. Read the log files before the container is removed.
+    public struct LogDriverVolumeConfiguration: Swift.Sendable {
+        /// The log driver whose log files the volume contains. The only supported value is json-file.
+        /// This member is required.
+        public var driver: ECSClientTypes.LogDriver?
+
+        public init(
+            driver: ECSClientTypes.LogDriver? = nil
+        ) {
+            self.driver = driver
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// A data volume definition for a daemon task.
     public struct DaemonVolume: Swift.Sendable {
         /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
         public var host: ECSClientTypes.HostVolumeProperties?
+        /// The log driver volume configuration. With a log driver volume, the containers in a daemon task can read the log files that a log driver writes for the other tasks on the container instance. To read the log files, mount the volume into a container in the daemon task with mountPoints. Use host to bind mount a path on the container instance. Use logDriverVolumeConfiguration to read the log output of other tasks. You can't specify both for the same volume.
+        public var logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public var name: Swift.String?
 
         public init(
             host: ECSClientTypes.HostVolumeProperties? = nil,
+            logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration? = nil,
             name: Swift.String? = nil
         ) {
             self.host = host
+            self.logDriverVolumeConfiguration = logDriverVolumeConfiguration
             self.name = name
         }
     }
@@ -7653,8 +7681,6 @@ extension ECSClientTypes {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide;. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public struct EphemeralStorage: Swift.Sendable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
@@ -8002,6 +8028,68 @@ extension ECSClientTypes {
             case .inactive: return "INACTIVE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+    public enum IsolationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case confidentialSandbox
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case isolatedSandbox
+        /// The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IsolationMode] {
+            return [
+                .confidentialSandbox,
+                .isolatedSandbox,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confidentialSandbox: return "CONFIDENTIAL_SANDBOX"
+            case .isolatedSandbox: return "ISOLATED_SANDBOX"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The trusted execution configuration for a task. This configuration controls the isolation mode and attestation policy. You set this configuration when you register a task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionConfiguration: Swift.Sendable {
+        /// The base64-encoded attestation policy envelope for the task. The policy specifies which containers are allowed to run and the runtime configuration that is cryptographically attested. This parameter is required when isolationMode is CONFIDENTIAL_SANDBOX.
+        public var attestationPolicy: Swift.String?
+        /// The isolation mode for tasks that use this task definition. The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicy: Swift.String? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicy = attestationPolicy
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -8362,6 +8450,8 @@ extension ECSClientTypes {
         public var taskDefinitionArn: Swift.String?
         /// The short name or full Amazon Resource Name (ARN) of the Identity and Access Management role that grants containers in the task permission to call Amazon Web Services APIs on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
         public var taskRoleArn: Swift.String?
+        /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
         /// The list of data volume definitions for the task. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon Elastic Container Service Developer Guide. The host and sourcePath parameters aren't supported for tasks run on Fargate.
         public var volumes: [ECSClientTypes.Volume]?
 
@@ -8390,6 +8480,7 @@ extension ECSClientTypes {
             status: ECSClientTypes.TaskDefinitionStatus? = nil,
             taskDefinitionArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
+            trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
             volumes: [ECSClientTypes.Volume]? = nil
         ) {
             self.compatibilities = compatibilities
@@ -8416,6 +8507,7 @@ extension ECSClientTypes {
             self.status = status
             self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
     }
@@ -11782,6 +11874,21 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The amount of time to allow in-flight requests to complete before a deregistering target is removed.
+    public struct GatewayConnectorDeregistrationDelay: Swift.Sendable {
+        /// The amount of time, in seconds, to wait before a deregistering target is removed. A value of 0 removes the target immediately. The valid range is 0-3600 seconds. The default value is 300 seconds.
+        public var timeoutSeconds: Swift.Int?
+
+        public init(
+            timeoutSeconds: Swift.Int? = nil
+        ) {
+            self.timeoutSeconds = timeoutSeconds
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The filters that determine which gateway ingress paths a connector applies to.
     public struct GatewayConnectorFilters: Swift.Sendable {
         /// The access types of the gateway ingress paths that the connector applies to. The access type can be one of the following values:
@@ -11901,6 +12008,8 @@ extension ECSClientTypes {
 
     /// A gateway connector that attaches an Amazon ECS service to a gateway ingress path. The connector specifies the service port that receives gateway-managed ingress traffic, along with the health check and traffic filters that the gateway applies. A service can have at most one gateway connector.
     public struct GatewayConnector: Swift.Sendable {
+        /// The deregistration delay settings for the targets of this connector.
+        public var deregistrationDelay: ECSClientTypes.GatewayConnectorDeregistrationDelay?
         /// The filters that control which gateway ingress paths the connector applies to.
         public var filters: ECSClientTypes.GatewayConnectorFilters?
         /// The health check that the gateway uses to determine whether the targets for this connector are healthy.
@@ -11910,10 +12019,12 @@ extension ECSClientTypes {
         public var portName: Swift.String?
 
         public init(
+            deregistrationDelay: ECSClientTypes.GatewayConnectorDeregistrationDelay? = nil,
             filters: ECSClientTypes.GatewayConnectorFilters? = nil,
             healthCheck: ECSClientTypes.GatewayConnectorHealthCheck? = nil,
             portName: Swift.String? = nil
         ) {
+            self.deregistrationDelay = deregistrationDelay
             self.filters = filters
             self.healthCheck = healthCheck
             self.portName = portName
@@ -12527,7 +12638,7 @@ extension ECSClientTypes {
         public var enabled: Swift.Bool
         /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
         ///
-        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
         ///
         /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
         ///
@@ -15294,8 +15405,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
     public var executionRoleArn: Swift.String?
@@ -15357,6 +15466,8 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var tags: [ECSClientTypes.Tag]?
     /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public var taskRoleArn: Swift.String?
+    /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
     /// A list of volume definitions in JSON format that containers in your task might use.
     public var volumes: [ECSClientTypes.Volume]?
 
@@ -15377,6 +15488,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         runtimePlatform: ECSClientTypes.RuntimePlatform? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
+        trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
         volumes: [ECSClientTypes.Volume]? = nil
     ) {
         self.containerDefinitions = containerDefinitions
@@ -15395,6 +15507,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         self.runtimePlatform = runtimePlatform
         self.tags = tags
         self.taskRoleArn = taskRoleArn
+        self.trustedExecutionConfiguration = trustedExecutionConfiguration
         self.volumes = volumes
     }
 }
@@ -15733,8 +15846,6 @@ extension ECSClientTypes {
         /// The ephemeral storage setting override for the task. This parameter is only supported for tasks hosted on Fargate that use the following platform versions:
         ///
         /// * Linux platform version 1.4.0 or later.
-        ///
-        /// * Windows platform version 1.0.0 or later.
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more information, see [Amazon ECS task execution IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html) in the Amazon Elastic Container Service Developer Guide.
         public var executionRoleArn: Swift.String?
@@ -15801,6 +15912,60 @@ extension ECSClientTypes {
             case .userInitiated: return "UserInitiated"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of the attestation policy for a task that uses the CONFIDENTIAL_SANDBOX isolation mode.
+    public enum AttestationPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// An attestation policy is configured for the task.
+        case configured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttestationPolicyStatus] {
+            return [
+                .configured
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configured: return "CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of the trusted execution configuration for a task. This is a read-only view of the isolation configuration that was set on the task definition. Use it to see a task's isolation configuration in the response to DescribeTasks, RunTask, or StopTask without calling DescribeTaskDefinition. This summary never includes the attestation policy itself. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionSummary: Swift.Sendable {
+        /// The status of the attestation policy for the task. This value is present only for tasks that use the CONFIDENTIAL_SANDBOX isolation mode.
+        public var attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus?
+        /// The isolation mode that the task runs in. This value mirrors the isolationMode that was set in the task definition's TrustedExecutionConfiguration.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicyStatus = attestationPolicyStatus
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -15907,6 +16072,8 @@ extension ECSClientTypes {
         public var taskArn: Swift.String?
         /// The ARN of the task definition that creates the task.
         public var taskDefinitionArn: Swift.String?
+        /// A summary of the trusted execution configuration for the task, including the isolation mode. This is a read-only view of the configuration that was set on the task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary?
         /// The version counter for the task. Every time a task experiences a change that starts a CloudWatch event, the version counter is incremented. If you replicate your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public var version: Swift.Int
 
@@ -15946,6 +16113,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             taskArn: Swift.String? = nil,
             taskDefinitionArn: Swift.String? = nil,
+            trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary? = nil,
             version: Swift.Int = 0
         ) {
             self.attachments = attachments
@@ -15983,6 +16151,7 @@ extension ECSClientTypes {
             self.tags = tags
             self.taskArn = taskArn
             self.taskDefinitionArn = taskDefinitionArn
+            self.trustedExecutionSummary = trustedExecutionSummary
             self.version = version
         }
     }

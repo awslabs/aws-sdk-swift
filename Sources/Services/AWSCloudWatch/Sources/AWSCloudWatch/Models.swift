@@ -1745,6 +1745,23 @@ public struct DeleteInsightRulesOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteMetricDataQueryDefinitionInput: Swift.Sendable {
+    /// The ID of the metric data query definition to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteMetricDataQueryDefinitionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteMetricStreamInput: Swift.Sendable {
     /// The name of the metric stream to delete.
     /// This member is required.
@@ -3452,6 +3469,98 @@ public struct GetMetricDataOutput: Swift.Sendable {
     }
 }
 
+public struct GetMetricDataQueryDefinitionInput: Swift.Sendable {
+    /// The ID of the metric data query definition to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    public enum QueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metricMath
+        case promql
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryType] {
+            return [
+                .metricMath,
+                .promql,
+                .sql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metricMath: return "METRIC_MATH"
+            case .promql: return "PROMQL"
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetMetricDataQueryDefinitionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the metric data query definition.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when you created the metric data query definition.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The query expression.
+    /// This member is required.
+    public var expression: Swift.String?
+    /// The ID of the metric data query definition.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The path of the metric data query definition.
+    /// This member is required.
+    public var path: Swift.String?
+    /// The language of the expression. Valid values are the following:
+    ///
+    /// * PROMQL – A PromQL query.
+    ///
+    /// * SQL – A CloudWatch Metrics Insights query.
+    ///
+    /// * METRIC_MATH – A metric math expression.
+    /// This member is required.
+    public var type: CloudWatchClientTypes.QueryType?
+    /// The date and time when you last updated the metric data query definition.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        expression: Swift.String? = nil,
+        id: Swift.String? = nil,
+        path: Swift.String? = nil,
+        type: CloudWatchClientTypes.QueryType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.expression = expression
+        self.id = id
+        self.path = path
+        self.type = type
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetMetricStatisticsInput: Swift.Sendable {
     /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. If a specific combination of dimensions was not published, you can't retrieve statistics for it. You must specify the same dimensions that were used when the metrics were created. For an example, see [Dimension Combinations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#dimension-combinations) in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see [Publishing Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html) in the Amazon CloudWatch User Guide.
     public var dimensions: [CloudWatchClientTypes.Dimension]?
@@ -3993,6 +4102,73 @@ public struct ListManagedInsightRulesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.managedRules = managedRules
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListMetricDataQueryDefinitionsInput: Swift.Sendable {
+    /// The maximum number of metric data query definitions to return in one call. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token returned by a previous call to indicate where to continue retrieving results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Summary information about a metric data query definition. To get the expression, call GetMetricDataQueryDefinition.
+    public struct MetricDataQueryDefinitionSummary: Swift.Sendable {
+        /// The ID of the metric data query definition.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The path of the metric data query definition.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The language of the expression. Valid values are the following:
+        ///
+        /// * PROMQL – A PromQL query.
+        ///
+        /// * SQL – A CloudWatch Metrics Insights query.
+        ///
+        /// * METRIC_MATH – A metric math expression.
+        /// This member is required.
+        public var type: CloudWatchClientTypes.QueryType?
+        /// The date and time when you last updated the metric data query definition.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            id: Swift.String? = nil,
+            path: Swift.String? = nil,
+            type: CloudWatchClientTypes.QueryType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.id = id
+            self.path = path
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListMetricDataQueryDefinitionsOutput: Swift.Sendable {
+    /// A list of metric data query definition summaries.
+    /// This member is required.
+    public var items: [CloudWatchClientTypes.MetricDataQueryDefinitionSummary]?
+    /// The token to use when requesting the next set of results. If this field is absent, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CloudWatchClientTypes.MetricDataQueryDefinitionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
         self.nextToken = nextToken
     }
 }
@@ -4939,6 +5115,92 @@ public struct PutMetricDataInput: Swift.Sendable {
         self.metricData = metricData
         self.namespace = namespace
         self.strictEntityValidation = strictEntityValidation
+    }
+}
+
+public struct PutMetricDataQueryDefinitionInput: Swift.Sendable {
+    /// The query expression, in the language that Type specifies. CloudWatch doesn't validate or run the expression when you save it.
+    /// This member is required.
+    public var expression: Swift.String?
+    /// The ID of the metric data query definition to update. Omit this parameter to create a definition. CloudWatch then generates the ID and returns it in the response.
+    public var id: Swift.String?
+    /// The name of the metric data query definition. Use slashes (/) to organize definitions into folders, for example team/web/latency. The path must meet the following requirements:
+    ///
+    /// * It must be unique in your account and Region.
+    ///
+    /// * It can't start or end with a slash.
+    ///
+    /// * It can't contain an empty folder name (//).
+    ///
+    /// * It can be at most 1,015 bytes when encoded as UTF-8.
+    /// This member is required.
+    public var path: Swift.String?
+    /// A list of key-value pairs to associate with the metric data query definition. You can use tags to categorize definitions and to control access to them. Tags are applied only when the request creates a definition, that is, when you omit Id. To change the tags of an existing definition, use TagResource and UntagResource.
+    public var tags: [CloudWatchClientTypes.Tag]?
+    /// The language of the expression. Valid values are the following:
+    ///
+    /// * PROMQL – A PromQL query.
+    ///
+    /// * SQL – A CloudWatch Metrics Insights query.
+    ///
+    /// * METRIC_MATH – A metric math expression.
+    /// This member is required.
+    public var type: CloudWatchClientTypes.QueryType?
+
+    public init(
+        expression: Swift.String? = nil,
+        id: Swift.String? = nil,
+        path: Swift.String? = nil,
+        tags: [CloudWatchClientTypes.Tag]? = nil,
+        type: CloudWatchClientTypes.QueryType? = nil
+    ) {
+        self.expression = expression
+        self.id = id
+        self.path = path
+        self.tags = tags
+        self.type = type
+    }
+}
+
+public struct PutMetricDataQueryDefinitionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the metric data query definition.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when you created the metric data query definition.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The query expression.
+    /// This member is required.
+    public var expression: Swift.String?
+    /// The ID of the metric data query definition.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The path of the metric data query definition.
+    /// This member is required.
+    public var path: Swift.String?
+    /// The language of the expression.
+    /// This member is required.
+    public var type: CloudWatchClientTypes.QueryType?
+    /// The date and time when you last updated the metric data query definition.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        expression: Swift.String? = nil,
+        id: Swift.String? = nil,
+        path: Swift.String? = nil,
+        type: CloudWatchClientTypes.QueryType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.expression = expression
+        self.id = id
+        self.path = path
+        self.type = type
+        self.updatedAt = updatedAt
     }
 }
 

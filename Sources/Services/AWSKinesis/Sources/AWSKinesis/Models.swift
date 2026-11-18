@@ -35,6 +35,11 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQueueOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -133,6 +138,29 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+/// The processing of the request failed because of an unknown error, exception, or failure.
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalFailureException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
 public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -154,6 +182,236 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+/// The requested resource could not be found. The stream might not be specified correctly.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was denied because the request rate is too high. Reduce the frequency of your requests, and retry them with exponential backoff.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record to acknowledge, identified by its receipt handle.
+    public struct AcknowledgeDeadLetterQueueRecordsRequestEntry: Swift.Sendable {
+        /// The receipt handle of the record to acknowledge, as returned by [ReceiveDeadLetterQueueRecords].
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct AcknowledgeDeadLetterQueueRecordsInput: Swift.Sendable {
+    /// The dead-letter records to acknowledge, identified by their receipt handles.
+    /// This member is required.
+    public var entries: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsRequestEntry]?
+    /// The ARN of the queue whose dead-letter records are acknowledged.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        entries: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsRequestEntry]? = nil,
+        queueARN: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.queueARN = queueARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record that was not acknowledged, and why.
+    public struct AcknowledgeDeadLetterQueueRecordsErrorEntry: Swift.Sendable {
+        /// A code identifying the type of failure. One of ResourceNotFoundException, InvalidArgumentException, ThrottlingException, or InternalFailureException.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A description of the cause of the failure.
+        public var errorMessage: Swift.String?
+        /// The receipt handle of the record that was not acknowledged.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record that was acknowledged.
+    public struct AcknowledgeDeadLetterQueueRecordsResultEntry: Swift.Sendable {
+        /// The receipt handle of the record that was acknowledged.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct AcknowledgeDeadLetterQueueRecordsOutput: Swift.Sendable {
+    /// The records that were not acknowledged, each with the reason the entry failed.
+    /// This member is required.
+    public var failed: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsErrorEntry]?
+    /// The records that were acknowledged.
+    /// This member is required.
+    public var successful: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsResultEntry]?
+
+    public init(
+        failed: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsErrorEntry]? = nil,
+        successful: [KinesisClientTypes.AcknowledgeDeadLetterQueueRecordsResultEntry]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record to acknowledge, identified by its receipt handle.
+    public struct AcknowledgeQueueRecordsRequestEntry: Swift.Sendable {
+        /// The receipt handle of the record to acknowledge, as returned by [ReceiveQueueRecords].
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct AcknowledgeQueueRecordsInput: Swift.Sendable {
+    /// The records to acknowledge, identified by their receipt handles.
+    /// This member is required.
+    public var entries: [KinesisClientTypes.AcknowledgeQueueRecordsRequestEntry]?
+    /// The ARN of the queue the records were received from.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        entries: [KinesisClientTypes.AcknowledgeQueueRecordsRequestEntry]? = nil,
+        queueARN: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.queueARN = queueARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record that was not acknowledged, and why.
+    public struct AcknowledgeQueueRecordsErrorEntry: Swift.Sendable {
+        /// A code identifying the type of failure. One of ResourceNotFoundException, InvalidArgumentException, ThrottlingException, or InternalFailureException.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A description of the cause of the failure.
+        public var errorMessage: Swift.String?
+        /// The receipt handle of the record that was not acknowledged.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record that was acknowledged.
+    public struct AcknowledgeQueueRecordsResultEntry: Swift.Sendable {
+        /// The receipt handle of the record that was acknowledged.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct AcknowledgeQueueRecordsOutput: Swift.Sendable {
+    /// The records that were not acknowledged, each with the reason the entry failed.
+    /// This member is required.
+    public var failed: [KinesisClientTypes.AcknowledgeQueueRecordsErrorEntry]?
+    /// The records that were acknowledged.
+    /// This member is required.
+    public var successful: [KinesisClientTypes.AcknowledgeQueueRecordsResultEntry]?
+
+    public init(
+        failed: [KinesisClientTypes.AcknowledgeQueueRecordsErrorEntry]? = nil,
+        successful: [KinesisClientTypes.AcknowledgeQueueRecordsResultEntry]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 
@@ -191,30 +449,6 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceInUseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The requested resource could not be found. The stream might not be specified correctly.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1213,7 +1447,7 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The request was rejected because the specified customer master key (CMK) isn't enabled.
+/// The request was rejected because the specified KMS key isn't enabled.
 public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1333,7 +1567,7 @@ public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-/// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+/// The request failed validation. For example, a parameter value is not valid, a combination of parameters is not supported, or the operation is not supported for the stream's capacity mode. The error message describes the specific reason.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1456,6 +1690,258 @@ public struct CreateChannelOutput: Swift.Sendable {
         channelDescription: KinesisClientTypes.ChannelDescription? = nil
     ) {
         self.channelDescription = channelDescription
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum TargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case builtIn
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetType] {
+            return [
+                .builtIn,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .builtIn: return "BUILT_IN"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The dead-letter handling configuration for a queue. Each queue has built-in dead-letter handling. When a record has been received MaxReceiveCount times without being acknowledged, it becomes a dead-letter record, and [ReceiveQueueRecords] no longer returns it. The dead-letter record stays in the same queue, and you work with it through [ReceiveDeadLetterQueueRecords], [AcknowledgeDeadLetterQueueRecords], [UpdateDeadLetterQueueRecordsVisibility], and [RestoreDeadLetterQueueRecords], which use the same queue ARN. Dead-letter handling is enabled by default, with a MaxReceiveCount of 6. To use a different value, or to turn dead-letter handling off, specify this configuration in QueueAttributes.
+    public struct DeadLetterConfiguration: Swift.Sendable {
+        /// The number of times a record can be received without being acknowledged before it becomes a dead-letter record. Required when TargetType is BUILT_IN. A queue that you create without DeadLetterConfiguration gets a MaxReceiveCount of 6.
+        public var maxReceiveCount: Swift.Int?
+        /// Whether dead-letter handling is enabled for the queue. BUILT_IN enables it: when a record has been received MaxReceiveCount times without being acknowledged, it becomes a dead-letter record and [ReceiveQueueRecords] no longer returns it. NONE disables it, and an unacknowledged record continues to be redelivered until it is acknowledged or its retention period ends.
+        /// This member is required.
+        public var targetType: KinesisClientTypes.TargetType?
+
+        public init(
+            maxReceiveCount: Swift.Int? = nil,
+            targetType: KinesisClientTypes.TargetType? = nil
+        ) {
+            self.maxReceiveCount = maxReceiveCount
+            self.targetType = targetType
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The configuration attributes for a queue.
+    public struct QueueAttributes: Swift.Sendable {
+        /// The dead-letter handling configuration for the queue. If you omit this attribute, dead-letter handling is enabled with a MaxReceiveCount of 6. If you specify it with a TargetType of BUILT_IN, you must also specify MaxReceiveCount.
+        public var deadLetterConfiguration: KinesisClientTypes.DeadLetterConfiguration?
+        /// The duration, in seconds, that a record is in flight and not visible to any consumer instance after it is received. A record that is not acknowledged before this duration elapses becomes visible in the queue again and can be received by any consumer instance. If you omit this attribute when you create a queue, the queue uses 30 seconds.
+        public var visibilityTimeoutSeconds: Swift.Int?
+
+        public init(
+            deadLetterConfiguration: KinesisClientTypes.DeadLetterConfiguration? = nil,
+            visibilityTimeoutSeconds: Swift.Int? = nil
+        ) {
+            self.deadLetterConfiguration = deadLetterConfiguration
+            self.visibilityTimeoutSeconds = visibilityTimeoutSeconds
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum QueueStartingPositionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atTimestamp
+        case latest
+        case trimHorizon
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueStartingPositionType] {
+            return [
+                .atTimestamp,
+                .latest,
+                .trimHorizon
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .atTimestamp: return "AT_TIMESTAMP"
+            case .latest: return "LATEST"
+            case .trimHorizon: return "TRIM_HORIZON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The position in a data stream from which a queue begins delivering records.
+    public struct QueueStartingPosition: Swift.Sendable {
+        /// The approximate time from which the queue begins delivering records. Records that arrive at approximately this time or later are delivered. In a request, specify this value only when Type is AT_TIMESTAMP. It is required in that case, and specifying it for any other type returns a ValidationException. In a response, this value is approximate and reflects the queue's effective starting position. While the queue is CREATING, the response echoes what you configured: for AT_TIMESTAMP, the timestamp you provided, and for TRIM_HORIZON and LATEST, this member is absent because the effective position is not yet determined. Once the queue is ACTIVE, the response always includes this member. For AT_TIMESTAMP, it is the timestamp you provided or the earliest time the stream can be read from, whichever is later.
+        public var timestamp: Foundation.Date?
+        /// You can set the starting position to one of the following values: LATEST: Delivers records that arrive after you create the queue. This is the default. TRIM_HORIZON: Start delivering at the last untrimmed record in the stream, which is the oldest record the stream still retains. AT_TIMESTAMP: Delivers records that arrive at or after a time stamp that you provide.
+        /// This member is required.
+        public var type: KinesisClientTypes.QueueStartingPositionType?
+
+        public init(
+            timestamp: Foundation.Date? = nil,
+            type: KinesisClientTypes.QueueStartingPositionType? = nil
+        ) {
+            self.timestamp = timestamp
+            self.type = type
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The data stream a queue delivers records from, and the position in that stream where delivery begins.
+    public struct QueueStreamConfiguration: Swift.Sendable {
+        /// The position in the stream from which the queue begins delivering records. The default is LATEST.
+        public var startingPosition: KinesisClientTypes.QueueStartingPosition?
+        /// The ARN of the data stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+
+        public init(
+            startingPosition: KinesisClientTypes.QueueStartingPosition? = nil,
+            streamARN: Swift.String? = nil
+        ) {
+            self.startingPosition = startingPosition
+            self.streamARN = streamARN
+        }
+    }
+}
+
+public struct CreateQueueInput: Swift.Sendable {
+    /// The configuration attributes for the queue, including its visibility timeout and its dead-letter handling configuration.
+    public var queueAttributes: KinesisClientTypes.QueueAttributes?
+    /// A name for the queue. The name is scoped to the Amazon Web Services account and Region used by the request, so two queues in different accounts, or in the same account and different Regions, can have the same name.
+    /// This member is required.
+    public var queueName: Swift.String?
+    /// The data stream the queue delivers records from, and the position in that stream where delivery begins. The list must contain exactly one entry, because a queue delivers records from a single data stream.
+    /// This member is required.
+    public var streamConfigurationList: [KinesisClientTypes.QueueStreamConfiguration]?
+    /// A set of up to 50 key-value pairs to apply to the queue. You can also add, change, and remove tags after the queue is created with [TagResource] and [UntagResource].
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        queueAttributes: KinesisClientTypes.QueueAttributes? = nil,
+        queueName: Swift.String? = nil,
+        streamConfigurationList: [KinesisClientTypes.QueueStreamConfiguration]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.queueAttributes = queueAttributes
+        self.queueName = queueName
+        self.streamConfigurationList = streamConfigurationList
+        self.tags = tags
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum QueueStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A description of a queue. Returned by [CreateQueue], [UpdateQueue], and [DescribeQueue].
+    public struct QueueDescription: Swift.Sendable {
+        /// The ARN of the queue. The resource identifier in the ARN is generated when the queue is created and is not derived from QueueName. Use the returned QueueARN to identify the queue in subsequent requests.
+        /// This member is required.
+        public var queueARN: Swift.String?
+        /// The configuration attributes of the queue.
+        public var queueAttributes: KinesisClientTypes.QueueAttributes?
+        /// The time the queue was created.
+        /// This member is required.
+        public var queueCreationTimestamp: Foundation.Date?
+        /// The name of the queue.
+        /// This member is required.
+        public var queueName: Swift.String?
+        /// The current status of the queue.
+        /// This member is required.
+        public var queueStatus: KinesisClientTypes.QueueStatus?
+        /// The data stream the queue delivers records from, and the position in that stream where delivery begins. The list contains exactly one entry, because a queue delivers records from a single data stream.
+        /// This member is required.
+        public var streamConfigurationList: [KinesisClientTypes.QueueStreamConfiguration]?
+
+        public init(
+            queueARN: Swift.String? = nil,
+            queueAttributes: KinesisClientTypes.QueueAttributes? = nil,
+            queueCreationTimestamp: Foundation.Date? = nil,
+            queueName: Swift.String? = nil,
+            queueStatus: KinesisClientTypes.QueueStatus? = nil,
+            streamConfigurationList: [KinesisClientTypes.QueueStreamConfiguration]? = nil
+        ) {
+            self.queueARN = queueARN
+            self.queueAttributes = queueAttributes
+            self.queueCreationTimestamp = queueCreationTimestamp
+            self.queueName = queueName
+            self.queueStatus = queueStatus
+            self.streamConfigurationList = streamConfigurationList
+        }
+    }
+}
+
+public struct CreateQueueOutput: Swift.Sendable {
+    /// A description of the queue that was created.
+    /// This member is required.
+    public var queueDescription: KinesisClientTypes.QueueDescription?
+
+    public init(
+        queueDescription: KinesisClientTypes.QueueDescription? = nil
+    ) {
+        self.queueDescription = queueDescription
     }
 }
 
@@ -1614,8 +2100,20 @@ public struct DeleteChannelInput: Swift.Sendable {
     }
 }
 
+public struct DeleteQueueInput: Swift.Sendable {
+    /// The ARN of the queue to delete.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        queueARN: Swift.String? = nil
+    ) {
+        self.queueARN = queueARN
+    }
+}
+
 public struct DeleteResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the data stream or consumer.
+    /// The Amazon Resource Name (ARN) of a data stream, a queue, or an enhanced fan-out consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// Not Implemented. Reserved for future use.
@@ -1632,7 +2130,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
 /// Represents the input for [DeleteStream].
 public struct DeleteStreamInput: Swift.Sendable {
-    /// If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException.
+    /// If this parameter is unset (null) or if you set it to false, and the stream has registered enhanced fan-out consumers, the call to DeleteStream fails with a ResourceInUseException. If you set it to true, DeleteStream deletes the stream and every consumer registered with it. This parameter does not apply to queues. A stream that has queues cannot be deleted until every queue on it is deleted with [DeleteQueue], whatever this parameter is set to.
     public var enforceConsumerDeletion: Swift.Bool?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
@@ -1814,6 +2312,30 @@ public struct DescribeLimitsOutput: Swift.Sendable {
         self.onDemandStreamCountLimit = onDemandStreamCountLimit
         self.openShardCount = openShardCount
         self.shardLimit = shardLimit
+    }
+}
+
+public struct DescribeQueueInput: Swift.Sendable {
+    /// The ARN of the queue to describe.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        queueARN: Swift.String? = nil
+    ) {
+        self.queueARN = queueARN
+    }
+}
+
+public struct DescribeQueueOutput: Swift.Sendable {
+    /// A description of the queue.
+    /// This member is required.
+    public var queueDescription: KinesisClientTypes.QueueDescription?
+
+    public init(
+        queueDescription: KinesisClientTypes.QueueDescription? = nil
+    ) {
+        self.queueDescription = queueDescription
     }
 }
 
@@ -2221,7 +2743,7 @@ extension KinesisClientTypes {
     public struct StreamDescriptionSummary: Swift.Sendable {
         /// The number of channels associated with the stream.
         public var channelCount: Swift.Int?
-        /// The number of enhanced fan-out consumers registered with the stream.
+        /// The number of enhanced fan-out consumers registered with the stream. Queues are not included in this count, even though they share the stream's registered consumer limit with enhanced fan-out consumers. QueueCount reports the number of queues.
         public var consumerCount: Swift.Int?
         /// The encryption type used. This value is one of the following:
         ///
@@ -2249,6 +2771,8 @@ extension KinesisClientTypes {
         /// The number of open shards in the stream.
         /// This member is required.
         public var openShardCount: Swift.Int?
+        /// The number of queues created on the data stream.
+        public var queueCount: Swift.Int?
         /// The record distribution strategy that the stream currently uses. A value of AUTO indicates that Amazon Kinesis Data Streams distributes records across shards using service-managed algorithms. A value of USER_PARTITION_KEY indicates that shard placement is determined by the partition key that producers supply. This field is only present for streams that use the on-demand capacity mode.
         public var recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy?
         /// The current retention period, in hours.
@@ -2262,7 +2786,7 @@ extension KinesisClientTypes {
         public var streamCreationTimestamp: Foundation.Date?
         /// Not Implemented. Reserved for future use.
         public var streamId: Swift.String?
-        /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand ycapacity mode and a provisioned capacity mode for your data streams.
+        /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
         /// The name of the stream being described.
         /// This member is required.
@@ -2289,6 +2813,7 @@ extension KinesisClientTypes {
             keyId: Swift.String? = nil,
             maxRecordSizeInKiB: Swift.Int? = nil,
             openShardCount: Swift.Int? = nil,
+            queueCount: Swift.Int? = nil,
             recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy? = nil,
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
@@ -2306,6 +2831,7 @@ extension KinesisClientTypes {
             self.keyId = keyId
             self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.openShardCount = openShardCount
+            self.queueCount = queueCount
             self.recordDistributionStrategy = recordDistributionStrategy
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
@@ -2537,29 +3063,6 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The processing of the request failed because of an unknown error, exception, or failure.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalFailureException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
 public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2676,7 +3179,7 @@ public struct GetRecordsOutput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the data stream or consumer.
+    /// The Amazon Resource Name (ARN) of a data stream, a queue, or an enhanced fan-out consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// Not Implemented. Reserved for future use.
@@ -2882,6 +3385,118 @@ public struct ListChannelsOutput: Swift.Sendable {
     ) {
         self.channelSummaries = channelSummaries
         self.nextToken = nextToken
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Filters the queues returned by [ListQueues] to those created on a particular data stream.
+    public struct QueueStreamFilter: Swift.Sendable {
+        /// The ARN of the data stream to filter on.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The time the data stream was created. Specify this value to distinguish between a deleted stream and a stream that was recreated with the same name.
+        public var streamCreationTimestamp: Foundation.Date?
+
+        public init(
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil
+        ) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+    }
+}
+
+public struct ListQueuesInput: Swift.Sendable {
+    /// The maximum number of queue summaries to return in one response. The response might contain fewer summaries than this value, and might contain a NextToken even when it contains fewer.
+    public var maxResults: Swift.Int?
+    /// The NextToken returned by a previous ListQueues request. Use it to retrieve the next page of queue summaries.
+    public var nextToken: Swift.String?
+    /// Lists only the queues created on the specified data stream.
+    public var streamFilter: [KinesisClientTypes.QueueStreamFilter]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        streamFilter: [KinesisClientTypes.QueueStreamFilter]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.streamFilter = streamFilter
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Identifies a data stream associated with a queue.
+    public struct QueueStreamIdentifier: Swift.Sendable {
+        /// The ARN of the data stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The time the data stream was created.
+        /// This member is required.
+        public var streamCreationTimestamp: Foundation.Date?
+
+        public init(
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil
+        ) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A summary of a queue. Returned by [ListQueues]. To retrieve a queue's configuration attributes, use [DescribeQueue].
+    public struct QueueSummary: Swift.Sendable {
+        /// The ARN of the queue.
+        /// This member is required.
+        public var queueARN: Swift.String?
+        /// The time the queue was created.
+        /// This member is required.
+        public var queueCreationTimestamp: Foundation.Date?
+        /// The name of the queue.
+        /// This member is required.
+        public var queueName: Swift.String?
+        /// The current status of the queue.
+        /// This member is required.
+        public var queueStatus: KinesisClientTypes.QueueStatus?
+        /// The data stream the queue delivers records from.
+        /// This member is required.
+        public var streams: [KinesisClientTypes.QueueStreamIdentifier]?
+
+        public init(
+            queueARN: Swift.String? = nil,
+            queueCreationTimestamp: Foundation.Date? = nil,
+            queueName: Swift.String? = nil,
+            queueStatus: KinesisClientTypes.QueueStatus? = nil,
+            streams: [KinesisClientTypes.QueueStreamIdentifier]? = nil
+        ) {
+            self.queueARN = queueARN
+            self.queueCreationTimestamp = queueCreationTimestamp
+            self.queueName = queueName
+            self.queueStatus = queueStatus
+            self.streams = streams
+        }
+    }
+}
+
+public struct ListQueuesOutput: Swift.Sendable {
+    /// The token to pass to the next ListQueues request to retrieve the next page of queue summaries. This member is absent when no more queues are available.
+    public var nextToken: Swift.String?
+    /// A summary of each queue that matched the request.
+    /// This member is required.
+    public var queueSummaries: [KinesisClientTypes.QueueSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        queueSummaries: [KinesisClientTypes.QueueSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.queueSummaries = queueSummaries
     }
 }
 
@@ -3438,7 +4053,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.
     /// This member is required.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the data stream or consumer.
+    /// The Amazon Resource Name (ARN) of a data stream, a queue, or an enhanced fan-out consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// Not Implemented. Reserved for future use.
@@ -3452,6 +4067,123 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         self.policy = policy
         self.resourceARN = resourceARN
         self.streamId = streamId
+    }
+}
+
+public struct ReceiveDeadLetterQueueRecordsInput: Swift.Sendable {
+    /// The maximum number of records to return. The queue never returns more dead-letter records than this value, and might return fewer. The default is 10.
+    public var limit: Swift.Int?
+    /// The ARN of the queue whose dead-letter records are received.
+    /// This member is required.
+    public var queueARN: Swift.String?
+    /// The duration, in seconds, that the records returned by this request are in flight and not visible to any consumer instance. If you do not specify this value, the queue's visibility timeout is used.
+    public var visibilityTimeoutSeconds: Swift.Int?
+    /// The duration, in seconds, that the call waits for a record to become visible before returning. The default is 9.
+    public var waitTimeSeconds: Swift.Int?
+
+    public init(
+        limit: Swift.Int? = nil,
+        queueARN: Swift.String? = nil,
+        visibilityTimeoutSeconds: Swift.Int? = nil,
+        waitTimeSeconds: Swift.Int? = nil
+    ) {
+        self.limit = limit
+        self.queueARN = queueARN
+        self.visibilityTimeoutSeconds = visibilityTimeoutSeconds
+        self.waitTimeSeconds = waitTimeSeconds
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A data stream record, as delivered through a queue.
+    public struct QueueRecord: Swift.Sendable {
+        /// The approximate time the record arrived in the data stream. The difference between this value and the current time is how long the record took to reach your queue consumer.
+        /// This member is required.
+        public var approximateArrivalTimestamp: Foundation.Date?
+        /// The data blob of the record. Amazon Kinesis Data Streams does not inspect, interpret, or change the data.
+        /// This member is required.
+        public var data: Foundation.Data?
+        /// The approximate time the record was first received from the queue.
+        /// This member is required.
+        public var firstReceiveTimestamp: Foundation.Date?
+        /// The partition key the record was written to the data stream with.
+        public var partitionKey: Swift.String?
+        /// The identifier you use to acknowledge this record, change its visibility, or restore it after it becomes a dead-letter record. A new receipt handle is issued each time the record is received.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+        /// The number of times this record has been received without being acknowledged.
+        /// This member is required.
+        public var receiveCount: Swift.Int?
+        /// The unique identifier of the record. This value stays the same across every delivery of the record, and it is the same in every queue on the stream that delivers the record. To identify a single delivery, use ReceiptHandle instead.
+        /// This member is required.
+        public var recordId: Swift.String?
+
+        public init(
+            approximateArrivalTimestamp: Foundation.Date? = nil,
+            data: Foundation.Data? = nil,
+            firstReceiveTimestamp: Foundation.Date? = nil,
+            partitionKey: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil,
+            receiveCount: Swift.Int? = nil,
+            recordId: Swift.String? = nil
+        ) {
+            self.approximateArrivalTimestamp = approximateArrivalTimestamp
+            self.data = data
+            self.firstReceiveTimestamp = firstReceiveTimestamp
+            self.partitionKey = partitionKey
+            self.receiptHandle = receiptHandle
+            self.receiveCount = receiveCount
+            self.recordId = recordId
+        }
+    }
+}
+
+public struct ReceiveDeadLetterQueueRecordsOutput: Swift.Sendable {
+    /// The dead-letter records received from the queue. This list is empty when no dead-letter records are visible.
+    /// This member is required.
+    public var queueRecords: [KinesisClientTypes.QueueRecord]?
+
+    public init(
+        queueRecords: [KinesisClientTypes.QueueRecord]? = nil
+    ) {
+        self.queueRecords = queueRecords
+    }
+}
+
+public struct ReceiveQueueRecordsInput: Swift.Sendable {
+    /// The maximum number of records to return. The queue never returns more records than this value, and might return fewer. The default is 10.
+    public var limit: Swift.Int?
+    /// The ARN of the queue to receive records from.
+    /// This member is required.
+    public var queueARN: Swift.String?
+    /// The duration, in seconds, that the records returned by this request are in flight and not visible to any consumer instance. If you do not specify this value, the queue's visibility timeout is used.
+    public var visibilityTimeoutSeconds: Swift.Int?
+    /// The duration, in seconds, that the call waits for a record to become visible before returning. The default is 9.
+    public var waitTimeSeconds: Swift.Int?
+
+    public init(
+        limit: Swift.Int? = nil,
+        queueARN: Swift.String? = nil,
+        visibilityTimeoutSeconds: Swift.Int? = nil,
+        waitTimeSeconds: Swift.Int? = nil
+    ) {
+        self.limit = limit
+        self.queueARN = queueARN
+        self.visibilityTimeoutSeconds = visibilityTimeoutSeconds
+        self.waitTimeSeconds = waitTimeSeconds
+    }
+}
+
+public struct ReceiveQueueRecordsOutput: Swift.Sendable {
+    /// The records received from the queue. This list is empty when no records are visible.
+    /// This member is required.
+    public var queueRecords: [KinesisClientTypes.QueueRecord]?
+
+    public init(
+        queueRecords: [KinesisClientTypes.QueueRecord]? = nil
+    ) {
+        self.queueRecords = queueRecords
     }
 }
 
@@ -3514,6 +4246,97 @@ public struct RemoveTagsFromStreamInput: Swift.Sendable {
         self.streamId = streamId
         self.streamName = streamName
         self.tagKeys = tagKeys
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record to restore, identified by its receipt handle.
+    public struct RestoreDeadLetterQueueRecordsRequestEntry: Swift.Sendable {
+        /// The receipt handle of the record to restore, as returned by [ReceiveDeadLetterQueueRecords].
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct RestoreDeadLetterQueueRecordsInput: Swift.Sendable {
+    /// The dead-letter records to restore, identified by their receipt handles.
+    /// This member is required.
+    public var entries: [KinesisClientTypes.RestoreDeadLetterQueueRecordsRequestEntry]?
+    /// The ARN of the queue whose dead-letter records are restored.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        entries: [KinesisClientTypes.RestoreDeadLetterQueueRecordsRequestEntry]? = nil,
+        queueARN: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.queueARN = queueARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record that was not restored, and why.
+    public struct RestoreDeadLetterQueueRecordsErrorEntry: Swift.Sendable {
+        /// A code identifying the type of failure. One of ResourceNotFoundException, InvalidArgumentException, ThrottlingException, or InternalFailureException.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A description of the cause of the failure.
+        public var errorMessage: Swift.String?
+        /// The receipt handle of the record that was not restored.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record that was restored.
+    public struct RestoreDeadLetterQueueRecordsResultEntry: Swift.Sendable {
+        /// The receipt handle of the record that was restored.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct RestoreDeadLetterQueueRecordsOutput: Swift.Sendable {
+    /// The records that were not restored, each with the reason the entry failed.
+    /// This member is required.
+    public var failed: [KinesisClientTypes.RestoreDeadLetterQueueRecordsErrorEntry]?
+    /// The records that were restored.
+    /// This member is required.
+    public var successful: [KinesisClientTypes.RestoreDeadLetterQueueRecordsResultEntry]?
+
+    public init(
+        failed: [KinesisClientTypes.RestoreDeadLetterQueueRecordsErrorEntry]? = nil,
+        successful: [KinesisClientTypes.RestoreDeadLetterQueueRecordsResultEntry]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 
@@ -3713,7 +4536,7 @@ extension KinesisClientTypes {
 
     /// This is a tagged union for all of the types of events an enhanced fan-out consumer can receive over HTTP/2 after a call to [SubscribeToShard].
     public enum SubscribeToShardEventStream: Swift.Sendable {
-        /// After you call [SubscribeToShard], Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see [Enhanced Fan-Out Using the Kinesis Data Streams API].
+        /// After you call [SubscribeToShard], Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see [Develop enhanced fan-out consumers with the Amazon Web Services SDK for Java].
         case subscribetoshardevent(KinesisClientTypes.SubscribeToShardEvent)
         case sdkUnknown(Swift.String)
     }
@@ -3917,6 +4740,102 @@ public struct UpdateChannelOutput: Swift.Sendable {
     }
 }
 
+extension KinesisClientTypes {
+
+    /// A dead-letter record whose visibility timeout is changed, and the new visibility timeout.
+    public struct UpdateDeadLetterQueueRecordsVisibilityRequestEntry: Swift.Sendable {
+        /// The receipt handle of the record, as returned by [ReceiveDeadLetterQueueRecords].
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+        /// The new duration, in seconds, that the record is in flight and not visible to any consumer instance, measured from when this request is processed. Specify 0 to make the record visible immediately.
+        /// This member is required.
+        public var visibilityTimeoutSeconds: Swift.Int?
+
+        public init(
+            receiptHandle: Swift.String? = nil,
+            visibilityTimeoutSeconds: Swift.Int? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+            self.visibilityTimeoutSeconds = visibilityTimeoutSeconds
+        }
+    }
+}
+
+public struct UpdateDeadLetterQueueRecordsVisibilityInput: Swift.Sendable {
+    /// The dead-letter records whose visibility timeout is changed, identified by their receipt handles, and the new visibility timeout for each.
+    /// This member is required.
+    public var entries: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityRequestEntry]?
+    /// The ARN of the queue whose dead-letter records are updated.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        entries: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityRequestEntry]? = nil,
+        queueARN: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.queueARN = queueARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record whose visibility timeout was not changed, and why.
+    public struct UpdateDeadLetterQueueRecordsVisibilityErrorEntry: Swift.Sendable {
+        /// A code identifying the type of failure. One of ResourceNotFoundException, InvalidArgumentException, ThrottlingException, or InternalFailureException.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A description of the cause of the failure.
+        public var errorMessage: Swift.String?
+        /// The receipt handle of the record whose visibility timeout was not changed.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A dead-letter record whose visibility timeout was changed.
+    public struct UpdateDeadLetterQueueRecordsVisibilityResultEntry: Swift.Sendable {
+        /// The receipt handle of the record whose visibility timeout was changed.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct UpdateDeadLetterQueueRecordsVisibilityOutput: Swift.Sendable {
+    /// The records whose visibility timeout was not changed, each with the reason the entry failed.
+    /// This member is required.
+    public var failed: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityErrorEntry]?
+    /// The records whose visibility timeout was changed.
+    /// This member is required.
+    public var successful: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityResultEntry]?
+
+    public init(
+        failed: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityErrorEntry]? = nil,
+        successful: [KinesisClientTypes.UpdateDeadLetterQueueRecordsVisibilityResultEntry]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
 public struct UpdateMaxRecordSizeInput: Swift.Sendable {
     /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
     /// This member is required.
@@ -3934,6 +4853,131 @@ public struct UpdateMaxRecordSizeInput: Swift.Sendable {
         self.maxRecordSizeInKiB = maxRecordSizeInKiB
         self.streamARN = streamARN
         self.streamId = streamId
+    }
+}
+
+public struct UpdateQueueInput: Swift.Sendable {
+    /// The ARN of the queue to update.
+    /// This member is required.
+    public var queueARN: Swift.String?
+    /// The configuration attributes to apply to the queue. Attributes you do not specify are left unchanged.
+    /// This member is required.
+    public var queueAttributes: KinesisClientTypes.QueueAttributes?
+
+    public init(
+        queueARN: Swift.String? = nil,
+        queueAttributes: KinesisClientTypes.QueueAttributes? = nil
+    ) {
+        self.queueARN = queueARN
+        self.queueAttributes = queueAttributes
+    }
+}
+
+public struct UpdateQueueOutput: Swift.Sendable {
+    /// A description of the queue, including the updated attributes.
+    /// This member is required.
+    public var queueDescription: KinesisClientTypes.QueueDescription?
+
+    public init(
+        queueDescription: KinesisClientTypes.QueueDescription? = nil
+    ) {
+        self.queueDescription = queueDescription
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record whose visibility timeout is changed, and the new visibility timeout.
+    public struct UpdateQueueRecordsVisibilityRequestEntry: Swift.Sendable {
+        /// The receipt handle of the record, as returned by [ReceiveQueueRecords].
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+        /// The new duration, in seconds, that the record is in flight and not visible to any consumer instance, measured from when this request is processed. Specify 0 to make the record visible in the queue immediately.
+        /// This member is required.
+        public var visibilityTimeoutSeconds: Swift.Int?
+
+        public init(
+            receiptHandle: Swift.String? = nil,
+            visibilityTimeoutSeconds: Swift.Int? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+            self.visibilityTimeoutSeconds = visibilityTimeoutSeconds
+        }
+    }
+}
+
+public struct UpdateQueueRecordsVisibilityInput: Swift.Sendable {
+    /// The records whose visibility timeout is changed, identified by their receipt handles, and the new visibility timeout for each.
+    /// This member is required.
+    public var entries: [KinesisClientTypes.UpdateQueueRecordsVisibilityRequestEntry]?
+    /// The ARN of the queue the records were received from.
+    /// This member is required.
+    public var queueARN: Swift.String?
+
+    public init(
+        entries: [KinesisClientTypes.UpdateQueueRecordsVisibilityRequestEntry]? = nil,
+        queueARN: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.queueARN = queueARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record whose visibility timeout was not changed, and why.
+    public struct UpdateQueueRecordsVisibilityErrorEntry: Swift.Sendable {
+        /// A code identifying the type of failure. One of ResourceNotFoundException, InvalidArgumentException, ThrottlingException, or InternalFailureException.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A description of the cause of the failure.
+        public var errorMessage: Swift.String?
+        /// The receipt handle of the record whose visibility timeout was not changed.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A record whose visibility timeout was changed.
+    public struct UpdateQueueRecordsVisibilityResultEntry: Swift.Sendable {
+        /// The receipt handle of the record whose visibility timeout was changed.
+        /// This member is required.
+        public var receiptHandle: Swift.String?
+
+        public init(
+            receiptHandle: Swift.String? = nil
+        ) {
+            self.receiptHandle = receiptHandle
+        }
+    }
+}
+
+public struct UpdateQueueRecordsVisibilityOutput: Swift.Sendable {
+    /// The records whose visibility timeout was not changed, each with the reason the entry failed.
+    /// This member is required.
+    public var failed: [KinesisClientTypes.UpdateQueueRecordsVisibilityErrorEntry]?
+    /// The records whose visibility timeout was changed.
+    /// This member is required.
+    public var successful: [KinesisClientTypes.UpdateQueueRecordsVisibilityResultEntry]?
+
+    public init(
+        failed: [KinesisClientTypes.UpdateQueueRecordsVisibilityErrorEntry]? = nil,
+        successful: [KinesisClientTypes.UpdateQueueRecordsVisibilityResultEntry]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 

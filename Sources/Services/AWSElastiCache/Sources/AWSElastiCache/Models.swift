@@ -2071,6 +2071,93 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes {
 
+    public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dynamodb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationType] {
+            return [
+                .dynamodb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamodb: return "dynamodb"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .disabling: return "disabling"
+            case .enabled: return "enabled"
+            case .enabling: return "enabling"
+            case .failed: return "failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// An integration configured on the serverless cache, and its current status. ElastiCache supports DynamoDB integration.
+    public struct Integration: Swift.Sendable {
+        /// The integration type. ElastiCache supports dynamodb.
+        public var integrationType: ElastiCacheClientTypes.IntegrationType?
+        /// The current status of the integration. Valid values are:
+        ///
+        /// * enabled – The integration is enabled.
+        ///
+        /// * disabled – The integration is disabled.
+        public var status: ElastiCacheClientTypes.IntegrationStatus?
+
+        public init(
+            integrationType: ElastiCacheClientTypes.IntegrationType? = nil,
+            status: ElastiCacheClientTypes.IntegrationStatus? = nil
+        ) {
+            self.integrationType = integrationType
+            self.status = status
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
     /// Provides a summary of the current migration status for a serverless cache.
     public struct MigrationSummary: Swift.Sendable {
         /// The cutover configuration for the migration.
@@ -2114,6 +2201,8 @@ extension ElastiCacheClientTypes {
         public var engine: Swift.String?
         /// The name and version number of the engine the serverless cache is compatible with.
         public var fullEngineVersion: Swift.String?
+        /// Configured integrations and their status.
+        public var integrations: [ElastiCacheClientTypes.Integration]?
         /// The ID of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt data at rest in the serverless cache.
         public var kmsKeyId: Swift.String?
         /// The version number of the engine the serverless cache is compatible with.
@@ -2149,6 +2238,7 @@ extension ElastiCacheClientTypes {
             endpoint: ElastiCacheClientTypes.Endpoint? = nil,
             engine: Swift.String? = nil,
             fullEngineVersion: Swift.String? = nil,
+            integrations: [ElastiCacheClientTypes.Integration]? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             migration: ElastiCacheClientTypes.MigrationSummary? = nil,
@@ -2171,6 +2261,7 @@ extension ElastiCacheClientTypes {
             self.endpoint = endpoint
             self.engine = engine
             self.fullEngineVersion = fullEngineVersion
+            self.integrations = integrations
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
             self.migration = migration
@@ -4665,6 +4756,21 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
     }
 }
 
+extension ElastiCacheClientTypes {
+
+    /// Specifies an integration to enable on the serverless cache when you create it.
+    public struct IntegrationRequest: Swift.Sendable {
+        /// The integration type to enable. Must be dynamodb.
+        public var integrationType: ElastiCacheClientTypes.IntegrationType?
+
+        public init(
+            integrationType: ElastiCacheClientTypes.IntegrationType? = nil
+        ) {
+            self.integrationType = integrationType
+        }
+    }
+}
+
 public struct CreateServerlessCacheInput: Swift.Sendable {
     /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
     public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
@@ -4677,6 +4783,13 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     /// The name of the cache engine to be used for creating the serverless cache.
     /// This member is required.
     public var engine: Swift.String?
+    /// Which serverless cache integrations to enable. Valid values are:
+    ///
+    /// * dynamodb – DynamoDB integration.
+    ///
+    ///
+    /// DynamoDB integration requires the Valkey engine with a major engine version of 9 or above. If not specified, no integrations are enabled.
+    public var integrations: [ElastiCacheClientTypes.IntegrationRequest]?
     /// ARN of the customer managed key for encrypting the data at rest. If no KMS key is provided, a default service key is used.
     public var kmsKeyId: Swift.String?
     /// The version of the cache engine that will be used to create the serverless cache.
@@ -4705,6 +4818,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         dailySnapshotTime: Swift.String? = nil,
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
+        integrations: [ElastiCacheClientTypes.IntegrationRequest]? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         networkType: ElastiCacheClientTypes.NetworkType? = nil,
@@ -4721,6 +4835,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         self.dailySnapshotTime = dailySnapshotTime
         self.description = description
         self.engine = engine
+        self.integrations = integrations
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.networkType = networkType
@@ -8949,7 +9064,7 @@ extension ElastiCacheClientTypes {
 
     /// Configuration for authenticating with the source using Secrets Manager during migration.
     public struct SecretManagerAuthConfig: Swift.Sendable {
-        /// The ARN of the secret in AWS Secrets Manager that contains the credentials for authenticating with the source.
+        /// The ARN of the secret in Secrets Manager that contains the credentials for authenticating with the source.
         public var secretArn: Swift.String?
 
         public init(
@@ -10339,6 +10454,7 @@ extension CreateServerlessCacheInput {
         try writer["DailySnapshotTime"].write(value.dailySnapshotTime)
         try writer["Description"].write(value.description)
         try writer["Engine"].write(value.engine)
+        try writer["Integrations"].writeList(value.integrations, memberWritingClosure: ElastiCacheClientTypes.IntegrationRequest.write(value:to:), memberNodeInfo: "IntegrationRequest", isFlattened: false)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MajorEngineVersion"].write(value.majorEngineVersion)
         try writer["NetworkType"].write(value.networkType)
@@ -15110,6 +15226,25 @@ extension ElastiCacheClientTypes.GlobalReplicationGroupMember {
     }
 }
 
+extension ElastiCacheClientTypes.Integration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Integration()
+        value.integrationType = try reader["IntegrationType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.IntegrationRequest {
+
+    static func write(value: ElastiCacheClientTypes.IntegrationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationType"].write(value.integrationType)
+    }
+}
+
 extension ElastiCacheClientTypes.KinesisFirehoseDestinationDetails {
 
     static func write(value: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails?, to writer: SmithyFormURL.Writer) throws {
@@ -15551,6 +15686,7 @@ extension ElastiCacheClientTypes.ServerlessCache {
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.connectionType = try reader["ConnectionType"].readIfPresent()
         value.migration = try reader["Migration"].readIfPresent(with: ElastiCacheClientTypes.MigrationSummary.read(from:))
+        value.integrations = try reader["Integrations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.Integration.read(from:), memberNodeInfo: "Integration", isFlattened: false)
         return value
     }
 }

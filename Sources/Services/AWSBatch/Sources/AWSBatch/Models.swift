@@ -3471,35 +3471,114 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The Linux capabilities for the container. For more information, see [Set capabilities for a container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) in the Kubernetes documentation.
+    public struct EksContainerLinuxCapabilities: Swift.Sendable {
+        /// The Linux capabilities to add to the default capability set for the container. This parameter contains up to 64 values. Specify capability names without the CAP_ prefix.
+        public var add: [Swift.String]?
+        /// The Linux capabilities to remove from the default capability set for the container. This parameter contains up to 64 values. Specify capability names without the CAP_ prefix.
+        public var drop: [Swift.String]?
+
+        public init(
+            add: [Swift.String]? = nil,
+            drop: [Swift.String]? = nil
+        ) {
+            self.add = add
+            self.drop = drop
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum EksSeccompProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case localhost
+        case runtimeDefault
+        case unconfined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksSeccompProfileType] {
+            return [
+                .localhost,
+                .runtimeDefault,
+                .unconfined
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .localhost: return "Localhost"
+            case .runtimeDefault: return "RuntimeDefault"
+            case .unconfined: return "Unconfined"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The Linux seccomp profile for a pod or container. For more information, see [Restrict a Container's Syscalls with seccomp](https://kubernetes.io/docs/tutorials/security/seccomp/) in the Kubernetes documentation.
+    public struct EksSeccompProfile: Swift.Sendable {
+        /// The path of the profile on the node, relative to the configured seccomp profile location. You must specify this parameter when type is Localhost. Don't set this parameter for any other type. You are responsible for ensuring that the profile exists on every eligible worker node. For information about providing files to Amazon EKS nodes, see [Use a launch template with Batch on Amazon EKS](https://docs.aws.amazon.com/batch/latest/userguide/eks-launch-templates.html) in the Batch User Guide.
+        public var localhostProfile: Swift.String?
+        /// The seccomp profile type can be one of the following values: RuntimeDefault The RuntimeDefault value uses the container runtime's default seccomp profile. Unconfined The Unconfined value doesn't filter the container with seccomp. Localhost The Localhost value uses a custom profile at the path specified by localhostProfile.
+        /// This member is required.
+        public var type: BatchClientTypes.EksSeccompProfileType?
+
+        public init(
+            localhostProfile: Swift.String? = nil,
+            type: BatchClientTypes.EksSeccompProfileType? = nil
+        ) {
+            self.localhostProfile = localhostProfile
+            self.type = type
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// The security context for a job. For more information, see [Configure a security context for a pod or container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation.
     public struct EksContainerSecurityContext: Swift.Sendable {
         /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process. The default value is false.
         public var allowPrivilegeEscalation: Swift.Bool?
+        /// Adds or removes Linux capabilities from the container's default capability set. With Linux capabilities, you can grant specific privileges without granting full root permissions.
+        public var capabilities: BatchClientTypes.EksContainerLinuxCapabilities?
         /// When this parameter is true, the container is given elevated permissions on the host container instance. The level of permissions are similar to the root user permissions. The default value is false. This parameter maps to privileged policy in the [Privileged pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privileged) in the Kubernetes documentation.
         public var privileged: Swift.Bool?
         /// When this parameter is true, the container is given read-only access to its root file system. The default value is false. This parameter maps to ReadOnlyRootFilesystem policy in the [Volumes and file systems pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#volumes-and-file-systems) in the Kubernetes documentation.
         public var readOnlyRootFilesystem: Swift.Bool?
-        /// When this parameter is specified, the container is run as the specified group ID (gid). If this parameter isn't specified, the default is the group that's specified in the image metadata. This parameter maps to RunAsGroup and MustRunAs policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
+        /// When this parameter is specified, the container is run as the specified group ID (gid). If this parameter isn't specified, the default is the group that's specified in the image metadata. The supported value range is 0 through 2147483647. This parameter maps to RunAsGroup and MustRunAs policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
         public var runAsGroup: Swift.Int?
         /// When this parameter is specified, the container is run as a user with a uid other than 0. If this parameter isn't specified, so such rule is enforced. This parameter maps to RunAsUser and MustRunAsNonRoot policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
         public var runAsNonRoot: Swift.Bool?
-        /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. This parameter maps to RunAsUser and MustRanAs policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
+        /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. The supported value range is 0 through 2147483647. This parameter maps to RunAsUser and MustRunAs policy in the [Users and groups pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#users-and-groups) in the Kubernetes documentation.
         public var runAsUser: Swift.Int?
+        /// The seccomp profile for the container. A container-level seccomp profile overrides the profile in the pod security context, which defines security settings that apply to all containers in the pod unless a container overrides them. If this parameter isn't specified, the container uses the pod security context's seccomp profile when one is specified.
+        public var seccompProfile: BatchClientTypes.EksSeccompProfile?
 
         public init(
             allowPrivilegeEscalation: Swift.Bool? = nil,
+            capabilities: BatchClientTypes.EksContainerLinuxCapabilities? = nil,
             privileged: Swift.Bool? = nil,
             readOnlyRootFilesystem: Swift.Bool? = nil,
             runAsGroup: Swift.Int? = nil,
             runAsNonRoot: Swift.Bool? = nil,
-            runAsUser: Swift.Int? = nil
+            runAsUser: Swift.Int? = nil,
+            seccompProfile: BatchClientTypes.EksSeccompProfile? = nil
         ) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
+            self.capabilities = capabilities
             self.privileged = privileged
             self.readOnlyRootFilesystem = readOnlyRootFilesystem
             self.runAsGroup = runAsGroup
             self.runAsNonRoot = runAsNonRoot
             self.runAsUser = runAsUser
+            self.seccompProfile = seccompProfile
         }
     }
 }
@@ -3638,6 +3717,37 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The security context for the pod. The settings apply to all containers in the pod when the container does not specify an overriding value. For more information, see [Set the security context for a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) in the Kubernetes documentation.
+    public struct EksPodSecurityContext: Swift.Sendable {
+        /// A special supplemental group that is applied to all containers in the pod. Some volume types allow Kubernetes to change the ownership and permissions of the volume contents to this group when the volume is mounted. The supported value range is 0 through 2147483647.
+        public var fsGroup: Swift.Int?
+        /// The primary group ID that runs containers in the pod when a container does not specify its own group ID. The supported value range is 0 through 2147483647.
+        public var runAsGroup: Swift.Int?
+        /// Specifies whether Kubernetes validates that containers in the pod don't run as the root user unless a container specifies an overriding value.
+        public var runAsNonRoot: Swift.Bool?
+        /// The user ID that runs containers in the pod when a container does not specify its own user ID. The supported value range is 0 through 2147483647.
+        public var runAsUser: Swift.Int?
+        /// The default seccomp profile for containers in the pod. A container-level seccomp profile overrides this value.
+        public var seccompProfile: BatchClientTypes.EksSeccompProfile?
+
+        public init(
+            fsGroup: Swift.Int? = nil,
+            runAsGroup: Swift.Int? = nil,
+            runAsNonRoot: Swift.Bool? = nil,
+            runAsUser: Swift.Int? = nil,
+            seccompProfile: BatchClientTypes.EksSeccompProfile? = nil
+        ) {
+            self.fsGroup = fsGroup
+            self.runAsGroup = runAsGroup
+            self.runAsNonRoot = runAsNonRoot
+            self.runAsUser = runAsUser
+            self.seccompProfile = seccompProfile
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Specifies the configuration of a Kubernetes emptyDir volume. An emptyDir volume is first created when a pod is assigned to a node. It exists as long as that pod is running on that node. The emptyDir volume is initially empty. All containers in the pod can read and write the files in the emptyDir volume. However, the emptyDir volume can be mounted at the same or different paths in each container. When a pod is removed from a node for any reason, the data in the emptyDir is deleted permanently. For more information, see [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) in the Kubernetes documentation.
     public struct EksEmptyDir: Swift.Sendable {
         /// The medium to store the volume. The default value is an empty string, which uses the storage of the node. "" (Default) Use the disk storage of the node. "Memory" Use the tmpfs volume that's backed by the RAM of the node. Contents of the volume are lost when the node reboots, and any storage on the volume counts against the container's memory limit.
@@ -3758,6 +3868,8 @@ extension BatchClientTypes {
         public var initContainers: [BatchClientTypes.EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
         public var metadata: BatchClientTypes.EksMetadata?
+        /// The security context to apply to the pod. The settings apply to all containers in the pod unless an individual container specifies an overriding value.
+        public var securityContext: BatchClientTypes.EksPodSecurityContext?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
         /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see [Share Process Namespace between Containers in a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/).
@@ -3772,6 +3884,7 @@ extension BatchClientTypes {
             imagePullSecrets: [BatchClientTypes.ImagePullSecret]? = nil,
             initContainers: [BatchClientTypes.EksContainer]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil,
+            securityContext: BatchClientTypes.EksPodSecurityContext? = nil,
             serviceAccountName: Swift.String? = nil,
             shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
@@ -3782,6 +3895,7 @@ extension BatchClientTypes {
             self.imagePullSecrets = imagePullSecrets
             self.initContainers = initContainers
             self.metadata = metadata
+            self.securityContext = securityContext
             self.serviceAccountName = serviceAccountName
             self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
@@ -4009,7 +4123,7 @@ extension BatchClientTypes {
         /// The name of the job definition.
         /// This member is required.
         public var jobDefinitionName: Swift.String?
-        /// An object with properties that are specific to multi-node parallel jobs. When nodeProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or eksProperties. If the job runs on Fargate resources, don't specify nodeProperties. Use containerProperties instead.
+        /// An object with properties that are specific to multi-node parallel jobs. When nodeProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or eksProperties. If the job runs on Fargate resources, don't specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs.
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see [Job definition parameters](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html) in the Batch User Guide.
         public var parameters: [Swift.String: Swift.String]?
@@ -4744,6 +4858,8 @@ extension BatchClientTypes {
         public var nodeName: Swift.String?
         /// The name of the pod for this job.
         public var podName: Swift.String?
+        /// The security context applied to the pod. The settings apply to all containers in the pod unless an individual container specifies an overriding value.
+        public var securityContext: BatchClientTypes.EksPodSecurityContext?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
         /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see [Share Process Namespace between Containers in a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/).
@@ -4760,6 +4876,7 @@ extension BatchClientTypes {
             metadata: BatchClientTypes.EksMetadata? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
+            securityContext: BatchClientTypes.EksPodSecurityContext? = nil,
             serviceAccountName: Swift.String? = nil,
             shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
@@ -4772,6 +4889,7 @@ extension BatchClientTypes {
             self.metadata = metadata
             self.nodeName = nodeName
             self.podName = podName
+            self.securityContext = securityContext
             self.serviceAccountName = serviceAccountName
             self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
@@ -6723,7 +6841,7 @@ extension BatchClientTypes {
 public struct RegisterJobDefinitionInput: Swift.Sendable {
     /// Contains a list of consumable resources required by the job.
     public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
-    /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
+    /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs. For more information, see [Multi-container jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-container-jobs.html) in the Batch User Guide.
     public var containerProperties: BatchClientTypes.ContainerProperties?
     /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
     public var ecsProperties: BatchClientTypes.EcsProperties?
@@ -6732,7 +6850,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     /// The name of the job definition to register. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var jobDefinitionName: Swift.String?
-    /// An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see [Multi-node Parallel Jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html) in the Batch User Guide. If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead. If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
+    /// An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see [Multi-node Parallel Jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html) in the Batch User Guide. If the job runs on Fargate resources, then you must not specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs. If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
     public var nodeProperties: BatchClientTypes.NodeProperties?
     /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
     public var parameters: [Swift.String: Swift.String]?
@@ -10955,6 +11073,23 @@ extension BatchClientTypes.EksContainerEnvironmentVariable {
     }
 }
 
+extension BatchClientTypes.EksContainerLinuxCapabilities {
+
+    static func write(value: BatchClientTypes.EksContainerLinuxCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["add"].writeList(value.add, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["drop"].writeList(value.drop, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerLinuxCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerLinuxCapabilities()
+        value.add = try reader["add"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.drop = try reader["drop"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.EksContainerOverride {
 
     static func write(value: BatchClientTypes.EksContainerOverride?, to writer: SmithyJSON.Writer) throws {
@@ -10990,11 +11125,13 @@ extension BatchClientTypes.EksContainerSecurityContext {
     static func write(value: BatchClientTypes.EksContainerSecurityContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["allowPrivilegeEscalation"].write(value.allowPrivilegeEscalation)
+        try writer["capabilities"].write(value.capabilities, with: BatchClientTypes.EksContainerLinuxCapabilities.write(value:to:))
         try writer["privileged"].write(value.privileged)
         try writer["readOnlyRootFilesystem"].write(value.readOnlyRootFilesystem)
         try writer["runAsGroup"].write(value.runAsGroup)
         try writer["runAsNonRoot"].write(value.runAsNonRoot)
         try writer["runAsUser"].write(value.runAsUser)
+        try writer["seccompProfile"].write(value.seccompProfile, with: BatchClientTypes.EksSeccompProfile.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerSecurityContext {
@@ -11006,6 +11143,8 @@ extension BatchClientTypes.EksContainerSecurityContext {
         value.allowPrivilegeEscalation = try reader["allowPrivilegeEscalation"].readIfPresent()
         value.readOnlyRootFilesystem = try reader["readOnlyRootFilesystem"].readIfPresent()
         value.runAsNonRoot = try reader["runAsNonRoot"].readIfPresent()
+        value.capabilities = try reader["capabilities"].readIfPresent(with: BatchClientTypes.EksContainerLinuxCapabilities.read(from:))
+        value.seccompProfile = try reader["seccompProfile"].readIfPresent(with: BatchClientTypes.EksSeccompProfile.read(from:))
         return value
     }
 }
@@ -11109,6 +11248,7 @@ extension BatchClientTypes.EksPodProperties {
         try writer["imagePullSecrets"].writeList(value.imagePullSecrets, memberWritingClosure: BatchClientTypes.ImagePullSecret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
+        try writer["securityContext"].write(value.securityContext, with: BatchClientTypes.EksPodSecurityContext.write(value:to:))
         try writer["serviceAccountName"].write(value.serviceAccountName)
         try writer["shareProcessNamespace"].write(value.shareProcessNamespace)
         try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.EksVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11126,6 +11266,7 @@ extension BatchClientTypes.EksPodProperties {
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
         value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
+        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksPodSecurityContext.read(from:))
         return value
     }
 }
@@ -11146,6 +11287,7 @@ extension BatchClientTypes.EksPodPropertiesDetail {
         value.nodeName = try reader["nodeName"].readIfPresent()
         value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
         value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
+        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksPodSecurityContext.read(from:))
         return value
     }
 }
@@ -11157,6 +11299,29 @@ extension BatchClientTypes.EksPodPropertiesOverride {
         try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EksPodSecurityContext {
+
+    static func write(value: BatchClientTypes.EksPodSecurityContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fsGroup"].write(value.fsGroup)
+        try writer["runAsGroup"].write(value.runAsGroup)
+        try writer["runAsNonRoot"].write(value.runAsNonRoot)
+        try writer["runAsUser"].write(value.runAsUser)
+        try writer["seccompProfile"].write(value.seccompProfile, with: BatchClientTypes.EksSeccompProfile.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodSecurityContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPodSecurityContext()
+        value.runAsUser = try reader["runAsUser"].readIfPresent()
+        value.runAsGroup = try reader["runAsGroup"].readIfPresent()
+        value.runAsNonRoot = try reader["runAsNonRoot"].readIfPresent()
+        value.seccompProfile = try reader["seccompProfile"].readIfPresent(with: BatchClientTypes.EksSeccompProfile.read(from:))
+        value.fsGroup = try reader["fsGroup"].readIfPresent()
+        return value
     }
 }
 
@@ -11190,6 +11355,23 @@ extension BatchClientTypes.EksPropertiesOverride {
     static func write(value: BatchClientTypes.EksPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodPropertiesOverride.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EksSeccompProfile {
+
+    static func write(value: BatchClientTypes.EksSeccompProfile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["localhostProfile"].write(value.localhostProfile)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksSeccompProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksSeccompProfile()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.localhostProfile = try reader["localhostProfile"].readIfPresent()
+        return value
     }
 }
 

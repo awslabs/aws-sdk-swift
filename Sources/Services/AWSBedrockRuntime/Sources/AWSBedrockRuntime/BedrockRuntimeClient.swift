@@ -322,7 +322,7 @@ extension BedrockRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -553,7 +553,7 @@ extension BedrockRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -615,7 +615,7 @@ extension BedrockRuntimeClient {
     public static func builder() -> ClientRuntime.ClientBuilder<BedrockRuntimeClient> {
         return ClientRuntime.ClientBuilder<BedrockRuntimeClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Bedrock Runtime"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1206,7 +1206,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(InvokeModelWithBidirectionalStreamInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput, BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput>(keyPath: \.body, defaultBody: "{}", marshalClosure: BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput, BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput>(keyPath: \.body, defaultBody: "{}", marshalClosure: BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.marshal, errorMarshalClosure: BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.marshalError))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithBidirectionalStreamOutput>(InvokeModelWithBidirectionalStreamOutput.httpOutput(from:), InvokeModelWithBidirectionalStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(clientLogMode: config.clientLogMode))

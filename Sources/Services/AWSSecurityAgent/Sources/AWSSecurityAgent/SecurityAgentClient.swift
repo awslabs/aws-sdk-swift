@@ -314,7 +314,7 @@ extension SecurityAgentClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SecurityAgent"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension SecurityAgentClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SecurityAgent"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,7 +607,7 @@ extension SecurityAgentClient {
     public static func builder() -> ClientRuntime.ClientBuilder<SecurityAgentClient> {
         return ClientRuntime.ClientBuilder<SecurityAgentClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "SecurityAgent"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -2470,7 +2470,7 @@ extension SecurityAgentClient {
 
     /// Performs the `CreateMembership` operation on the `SecurityAgent` service.
     ///
-    /// Creates a new membership, granting a user access to an agent space within an application.
+    /// Creates a new membership, granting a user or group access to an agent space within an application.
     ///
     /// - Parameter input: Request structure for adding a single member to an agent space. (Type: `CreateMembershipInput`)
     ///
@@ -3202,7 +3202,7 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteMembership` operation on the `SecurityAgent` service.
     ///
-    /// Deletes a membership, revoking a user's access to an agent space.
+    /// Deletes a membership, revoking a user's or group's access to an agent space.
     ///
     /// - Parameter input: Request structure for removing a single member from an agent space. (Type: `DeleteMembershipInput`)
     ///

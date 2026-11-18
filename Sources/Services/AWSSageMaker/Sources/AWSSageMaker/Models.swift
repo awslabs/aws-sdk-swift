@@ -130,6 +130,11 @@ public struct DeleteInferenceComponentOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteInferenceRouterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteModelBiasJobDefinitionOutput: Swift.Sendable {
 
     public init() { }
@@ -1135,6 +1140,21 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.memoryInGiB = memoryInGiB
             self.vCpu = vCpu
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A layout of accelerator partitions for a production variant. On NVIDIA GPUs, the partitions are Multi-Instance GPU (MIG) instances. SageMaker applies the layout to every accelerator on the variant's instance type. You can't change the layout of a running endpoint. To use a different layout, create a new endpoint.
+    public struct AcceleratorPartitionLayout: Swift.Sendable {
+        /// The list of partition profiles to carve on each accelerator that this layout applies to. On NVIDIA GPUs these are Multi-Instance GPU (MIG) profiles, for example ["mig-3g.40gb", "mig-4g.40gb"]. The order of the profiles doesn't change how the accelerator is partitioned. However, when you update an endpoint, a layout with the same profiles in a different order counts as a different layout, and the update is rejected. Repeat a profile to request more than one partition of that size: for example, ["mig-3g.40gb", "mig-3g.40gb"] requests two mig-3g.40gb partitions.
+        public var acceleratorPartitionTypes: [Swift.String]?
+
+        public init(
+            acceleratorPartitionTypes: [Swift.String]? = nil
+        ) {
+            self.acceleratorPartitionTypes = acceleratorPartitionTypes
         }
     }
 }
@@ -6484,6 +6504,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The aliases to add to and remove from a pipeline version. An alias can't appear in both lists. After the update, the version can have up to 10 aliases.
+    public struct AliasOperations: Swift.Sendable {
+        /// The aliases to add to the pipeline version. If you assigned an alias to another version of the same pipeline, you must remove it from that version before you add it here.
+        public var add: [Swift.String]?
+        /// The aliases to remove from the pipeline version.
+        public var remove: [Swift.String]?
+
+        public init(
+            add: [Swift.String]? = nil,
+            remove: [Swift.String]? = nil
+        ) {
+            self.add = add
+            self.remove = remove
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -8450,7 +8489,7 @@ extension SageMakerClientTypes {
     public struct UserContext: Swift.Sendable {
         /// The domain associated with the user.
         public var domainId: Swift.String?
-        /// The IAM Identity details associated with the user. These details are associated with model package groups, model packages, and project entities only.
+        /// The IAM Identity details associated with the user. These details are associated with model package groups, model packages, project entities, hubs, and hub content only.
         public var iamIdentity: SageMakerClientTypes.IamIdentity?
         /// The Amazon Resource Name (ARN) of the user's profile.
         public var userProfileArn: Swift.String?
@@ -13933,18 +13972,75 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The action to take if the pods on an instance don't drain within the configured timeout. Valid values are Skip and Force.
+    public enum ClusterOnDrainTimeout: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case force
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOnDrainTimeout] {
+            return [
+                .force,
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .force: return "Force"
+            case .skip: return "Skip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies how pods are evicted from an instance before it is patched with the DrainFirst strategy. By default, evictions respect Kubernetes Pod Disruption Budgets.
+    public struct ClusterDrainPolicy: Swift.Sendable {
+        /// The maximum time, in seconds, to wait for the pods on an instance to drain. Valid values are from 0 to 5400 (90 minutes). The default is 3600 (1 hour).
+        public var drainTimeoutInSeconds: Swift.Int?
+        /// The action to take if the pods on an instance don't drain within DrainTimeoutInSeconds. The default is Skip.
+        ///
+        /// * Skip: Doesn't patch the instance. The instance is uncordoned and remains on the previous AMI version. This can leave the instance group partially patched. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+        ///
+        /// * Force: Deletes the remaining pods without respecting Pod Disruption Budgets, and then patches the instance.
+        public var onDrainTimeout: SageMakerClientTypes.ClusterOnDrainTimeout?
+
+        public init(
+            drainTimeoutInSeconds: Swift.Int? = nil,
+            onDrainTimeout: SageMakerClientTypes.ClusterOnDrainTimeout? = nil
+        ) {
+            self.drainTimeoutInSeconds = drainTimeoutInSeconds
+            self.onDrainTimeout = onDrainTimeout
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The strategy for applying automatic patches to instances.
     ///
     /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
     ///
     /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+    ///
+    /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
     public enum ClusterPatchingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drainFirst
         case whenAllIdle
         case whenIdle
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterPatchingStrategy] {
             return [
+                .drainFirst,
                 .whenAllIdle,
                 .whenIdle
             ]
@@ -13957,6 +14053,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .drainFirst: return "DrainFirst"
             case .whenAllIdle: return "WhenAllIdle"
             case .whenIdle: return "WhenIdle"
             case let .sdkUnknown(s): return s
@@ -13986,6 +14083,10 @@ extension SageMakerClientTypes {
     public struct ClusterAutoPatchConfig: Swift.Sendable {
         /// The deployment configuration for rolling patch updates, including rollback settings and batch sizes. Only applicable when using a rolling patching strategy.
         public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The policy that controls how pods are evicted from an instance before it is patched. Valid only when PatchingStrategy is DrainFirst.
+        public var drainPolicy: SageMakerClientTypes.ClusterDrainPolicy?
+        /// The maximum time, in seconds, that automatic patching waits for instances to become idle after a scheduled patch starts. Automatic patching uncordons instances that don't become idle within this window, and they remain on the previous AMI version. Valid values are from 3600 (1 hour) to 2160000 (25 days). The default is 86400 (24 hours). This setting applies only to the WhenIdle and WhenAllIdle strategies.
+        public var idleWaitWindowInSeconds: Swift.Int?
         /// The schedule for automatic patching, including the next patch date.
         public var patchSchedule: SageMakerClientTypes.ClusterPatchSchedule?
         /// The strategy for applying patches to instances in the group.
@@ -13993,15 +14094,21 @@ extension SageMakerClientTypes {
         /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
         ///
         /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+        ///
+        /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
         /// This member is required.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
         public init(
             deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            drainPolicy: SageMakerClientTypes.ClusterDrainPolicy? = nil,
+            idleWaitWindowInSeconds: Swift.Int? = nil,
             patchSchedule: SageMakerClientTypes.ClusterPatchSchedule? = nil,
             patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
         ) {
             self.deploymentConfig = deploymentConfig
+            self.drainPolicy = drainPolicy
+            self.idleWaitWindowInSeconds = idleWaitWindowInSeconds
             self.patchSchedule = patchSchedule
             self.patchingStrategy = patchingStrategy
         }
@@ -14033,22 +14140,32 @@ extension SageMakerClientTypes {
         public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
         /// The requested patch schedule. Differs from CurrentPatchSchedule when a reschedule request is pending.
         public var desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The policy that controls how pods are evicted from an instance before it is patched. Applies only when PatchingStrategy is DrainFirst.
+        public var drainPolicy: SageMakerClientTypes.ClusterDrainPolicy?
+        /// The maximum time, in seconds, that automatic patching waits for instances to become idle after a scheduled patch starts. Automatic patching uncordons instances that don't become idle within this window, and they remain on the previous AMI version. The default is 86400 (24 hours).
+        public var idleWaitWindowInSeconds: Swift.Int?
         /// The strategy used for applying patches to instances in the group.
         ///
         /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
         ///
         /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+        ///
+        /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
         public init(
             currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
             deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
             desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            drainPolicy: SageMakerClientTypes.ClusterDrainPolicy? = nil,
+            idleWaitWindowInSeconds: Swift.Int? = nil,
             patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
         ) {
             self.currentPatchSchedule = currentPatchSchedule
             self.deploymentConfig = deploymentConfig
             self.desiredPatchSchedule = desiredPatchSchedule
+            self.drainPolicy = drainPolicy
+            self.idleWaitWindowInSeconds = idleWaitWindowInSeconds
             self.patchingStrategy = patchingStrategy
         }
     }
@@ -14780,6 +14897,8 @@ extension SageMakerClientTypes {
         public var instanceGroupName: Swift.String?
         /// The EC2 instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
+        /// The unique identifier (UUID) of the cluster operation that the event is associated with, such as a scaling operation. This field is not returned when the event is not associated with an operation.
+        public var operationId: Swift.String?
         /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
@@ -14794,6 +14913,7 @@ extension SageMakerClientTypes {
             eventTime: Foundation.Date? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
             resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
         ) {
             self.clusterArn = clusterArn
@@ -14805,6 +14925,7 @@ extension SageMakerClientTypes {
             self.eventTime = eventTime
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
+            self.operationId = operationId
             self.resourceType = resourceType
         }
     }
@@ -14834,6 +14955,8 @@ extension SageMakerClientTypes {
         public var instanceGroupName: Swift.String?
         /// The Amazon Elastic Compute Cloud (EC2) instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
+        /// The unique identifier (UUID) of the cluster operation that the event is associated with, such as a scaling operation. This field is not returned when the event is not associated with an operation.
+        public var operationId: Swift.String?
         /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
@@ -14847,6 +14970,7 @@ extension SageMakerClientTypes {
             eventTime: Foundation.Date? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
             resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
         ) {
             self.clusterArn = clusterArn
@@ -14857,6 +14981,7 @@ extension SageMakerClientTypes {
             self.eventTime = eventTime
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
+            self.operationId = operationId
             self.resourceType = resourceType
         }
     }
@@ -16039,6 +16164,174 @@ extension SageMakerClientTypes {
             self.nodeLogicalId = nodeLogicalId
             self.privateDnsHostname = privateDnsHostname
             self.ultraServerInfo = ultraServerInfo
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A point-in-time snapshot of an instance group's scaling configuration. This structure represents both the original configuration before the operation and the desired configuration requested by the operation.
+    public struct ClusterOperationScalingConfiguration: Swift.Sendable {
+        /// The number of instances that were in the instance group at the time of the operation.
+        public var currentCount: Swift.Int?
+        /// The minimum number of instances that must be available in the instance group of a HyperPod cluster before it transitions to InService status.
+        public var minCount: Swift.Int?
+        /// The target number of instances for the instance group.
+        public var targetCount: Swift.Int?
+
+        public init(
+            currentCount: Swift.Int? = nil,
+            minCount: Swift.Int? = nil,
+            targetCount: Swift.Int? = nil
+        ) {
+            self.currentCount = currentCount
+            self.minCount = minCount
+            self.targetCount = targetCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case done
+        case inProgress
+        case superseded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationStatus] {
+            return [
+                .done,
+                .inProgress,
+                .superseded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .done: return "Done"
+            case .inProgress: return "InProgress"
+            case .superseded: return "Superseded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The scaling details for a single instance group that is affected by a cluster operation.
+    public struct ClusterOperationScalingDetails: Swift.Sendable {
+        /// The desired scaling configuration of the instance group for the scaling operation, including its target and minimum instance counts.
+        public var desired: SageMakerClientTypes.ClusterOperationScalingConfiguration?
+        /// The name of the instance group being scaled.
+        public var instanceGroupName: Swift.String?
+        /// The scaling configuration of the instance group before the scaling operation was applied, including its current, target, and minimum instance counts.
+        public var original: SageMakerClientTypes.ClusterOperationScalingConfiguration?
+        /// The status of the scaling operation for this instance group. Valid values are InProgress, Superseded, or Done.
+        public var status: SageMakerClientTypes.ClusterOperationStatus?
+
+        public init(
+            desired: SageMakerClientTypes.ClusterOperationScalingConfiguration? = nil,
+            instanceGroupName: Swift.String? = nil,
+            original: SageMakerClientTypes.ClusterOperationScalingConfiguration? = nil,
+            status: SageMakerClientTypes.ClusterOperationStatus? = nil
+        ) {
+            self.desired = desired
+            self.instanceGroupName = instanceGroupName
+            self.original = original
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationSortBy] {
+            return [
+                .creationTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dhc
+        case scaling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationType] {
+            return [
+                .dhc,
+                .scaling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dhc: return "DeepHealthCheck"
+            case .scaling: return "Scaling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an operation performed on a HyperPod cluster.
+    public struct ClusterOperationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+        public var clusterArn: Swift.String?
+        /// The timestamp when the operation was created.
+        public var creationTime: Foundation.Date?
+        /// The unique identifier (UUID) of the operation.
+        public var operationId: Swift.String?
+        /// The current status of the operation. Valid values are InProgress, Superseded, or Done.
+        public var status: SageMakerClientTypes.ClusterOperationStatus?
+        /// The type of the operation. Valid values are Scaling or DeepHealthCheck.
+        public var type: SageMakerClientTypes.ClusterOperationType?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            operationId: Swift.String? = nil,
+            status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+            type: SageMakerClientTypes.ClusterOperationType? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.creationTime = creationTime
+            self.operationId = operationId
+            self.status = status
+            self.type = type
         }
     }
 }
@@ -18991,6 +19284,51 @@ public struct CreateClusterOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil
     ) {
         self.clusterArn = clusterArn
+    }
+}
+
+public struct CreateClusterExtensionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the operation completes no more than one time. This token is valid for 8 hours. If you retry the request with the same client token and the same parameters within this time, the API returns the Amazon Resource Name (ARN) of the extension that the original request created, without creating a duplicate. If you use the same client token with different parameters, the request fails.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which to install the extension. The cluster must use Slurm as the orchestrator and have NodeProvisioningMode set to Continuous.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The configuration settings for the extension, as a JSON object serialized as a string, for example {"metricsProvider":{"nodeMetrics":{"level":"ADVANCED"}}}. Each extension version defines which settings it accepts. SageMaker HyperPod validates the settings against that definition, and rejects the request if a setting is unknown or has an invalid value. Settings that you omit use the extension's default values. If you omit ConfigurationValues, all settings use their default values.
+    public var configurationValues: Swift.String?
+    /// The name of the extension to install, for example sagemaker-observability.
+    /// This member is required.
+    public var extensionName: Swift.String?
+    /// The version of the extension to install, in MAJOR.MINOR.PATCH format, for example 1.0.0. If you don't specify a version, SageMaker HyperPod installs the latest available version of the extension.
+    public var extensionVersion: Swift.String?
+    /// Custom tags for managing the extension as an Amazon Web Services resource. You can add tags to your extension in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html). To use this operation to add tags when you create an extension, you must have the sagemaker:AddTags permission.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
+        extensionName: Swift.String? = nil,
+        extensionVersion: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.configurationValues = configurationValues
+        self.extensionName = extensionName
+        self.extensionVersion = extensionVersion
+        self.tags = tags
+    }
+}
+
+public struct CreateClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that you created. Use this ARN to describe, update, or delete the extension.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
     }
 }
 
@@ -22380,6 +22718,27 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// The cross-Region traffic cap for an endpoint. The cap limits the requests per second that the endpoint accepts from inference routers in other Amazon Web Services Regions. The cap is MaxCrossRegionPercentPerEndpoint percent of MaxInvocationsPerSecondPerInstance multiplied by the number of InService instances, rounded up. All production variants and inference components of the endpoint share it. Requests that you send to the endpoint directly aren't counted. A request over the cap fails with a ThrottlingException.
+    public struct CrossRegionTrafficConfig: Swift.Sendable {
+        /// The percentage of the endpoint's capacity that requests from inference routers in other Amazon Web Services Regions can use.
+        /// This member is required.
+        public var maxCrossRegionPercentPerEndpoint: Swift.Int?
+        /// The number of invocations per second that you expect one InService instance to serve. One value applies to every production variant, whatever its instance type.
+        /// This member is required.
+        public var maxInvocationsPerSecondPerInstance: Swift.Int?
+
+        public init(
+            maxCrossRegionPercentPerEndpoint: Swift.Int? = nil,
+            maxInvocationsPerSecondPerInstance: Swift.Int? = nil
+        ) {
+            self.maxCrossRegionPercentPerEndpoint = maxCrossRegionPercentPerEndpoint
+            self.maxInvocationsPerSecondPerInstance = maxInvocationsPerSecondPerInstance
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration to control how SageMaker AI captures inference data.
     public struct DataCaptureConfig: Swift.Sendable {
         /// Configuration specifying how to treat different headers. If no headers are specified SageMaker AI will by default base64 encode when capturing the data.
@@ -22740,7 +23099,7 @@ extension SageMakerClientTypes {
 
     /// The configuration for prefix-aware routing on a SageMaker real-time inference endpoint. Specify PrefixLength and ConcurrencyThreshold to control routing behavior.
     public struct PrefixAwareRoutingConfig: Swift.Sendable {
-        /// The maximum number of in-flight requests on the target instance before the endpoint routes to another instance. Required when RoutingStrategy is PREFIX_AWARE. When in-flight requests on the prefix-selected instance reach this threshold, the endpoint routes the request to an instance with more available capacity.
+        /// The number of in-flight requests on the selected instance or inference component copy at which the endpoint routes a request to another copy or instance. Required when RoutingStrategy is PREFIX_AWARE. On an endpoint without inference components, the endpoint compares this threshold with the number of in-flight requests on the selected instance. When that number reaches the threshold, the endpoint routes the request to another instance. On an endpoint with inference components, the endpoint compares this threshold with the number of in-flight requests on the selected copy of the invoked inference component. Requests to other inference components on the same instance don't count. When the instance hosts more than one copy of the inference component, the endpoint routes requests that share a prefix to the same copy and, while that copy has reached the threshold, to another copy on the instance that is under the threshold. When every copy on the instance has reached the threshold, the endpoint routes the request to another instance. The threshold applies to every instance and every copy of every inference component in the production variant, so choose a value that suits the instance or copy that can serve the fewest concurrent requests.
         public var concurrencyThreshold: Swift.Int?
         /// The maximum length of the prefix used for routing decisions. Required when RoutingStrategy is PREFIX_AWARE.
         ///
@@ -22749,7 +23108,7 @@ extension SageMakerClientTypes {
         /// * For OpenAI-compatible API, this value specifies the number of characters from the text content of the messages array.
         ///
         ///
-        /// The endpoint routes requests that share the same prefix to the same instance. Set this value to cover shared content (such as system prompts) plus enough unique content to distribute workloads across instances.
+        /// The endpoint routes requests that share the same prefix to the same instance and, when that instance hosts more than one copy of the invoked inference component, to the same copy. Set this value to cover shared content (such as system prompts) plus enough unique content to distribute workloads across instances and copies.
         public var prefixLength: Swift.Int?
 
         public init(
@@ -22765,6 +23124,7 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum RoutingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kvAware
         case leastOutstandingRequests
         case prefixAware
         case random
@@ -22772,6 +23132,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [RoutingStrategy] {
             return [
+                .kvAware,
                 .leastOutstandingRequests,
                 .prefixAware,
                 .random
@@ -22785,6 +23146,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .kvAware: return "KV_AWARE"
             case .leastOutstandingRequests: return "LEAST_OUTSTANDING_REQUESTS"
             case .prefixAware: return "PREFIX_AWARE"
             case .random: return "RANDOM"
@@ -22806,7 +23168,9 @@ extension SageMakerClientTypes {
         ///
         /// * RANDOM: The endpoint routes each request to a randomly chosen instance.
         ///
-        /// * PREFIX_AWARE: The endpoint routes requests that share the same prompt prefix to the same instance. When the number of in-flight requests on the selected instance reaches the configured threshold, the endpoint routes the request to an instance with more available capacity.
+        /// * PREFIX_AWARE: The endpoint routes requests that share the same prompt prefix to the same instance and, when that instance hosts more than one copy of the invoked inference component, to the same copy. When the number of in-flight requests on the selected instance or copy reaches the ConcurrencyThreshold value, the endpoint routes the request to another copy on that instance or to another instance. The endpoint applies prefix-aware routing only when two or more instances can serve the request.
+        ///
+        /// * KV_AWARE: The endpoint routes each request to an instance that already holds the start of the request's prompt in its key-value (KV) cache, and weighs the length of that match against how busy each instance is. On an endpoint with inference components, the endpoint chooses among the copies of the invoked inference component in the same way. When the endpoint can't find an instance or copy that holds the start of the prompt and isn't too busy, it chooses an instance as it does with LEAST_OUTSTANDING_REQUESTS. KV_AWARE works only with supported containers, such as the SageMaker AI vLLM Deep Learning Container.
         /// This member is required.
         public var routingStrategy: SageMakerClientTypes.RoutingStrategy?
 
@@ -22849,6 +23213,8 @@ extension SageMakerClientTypes {
 
     /// Identifies a model that you want to host and the resources chosen to deploy for hosting it. If you are deploying multiple models, tell SageMaker how to distribute traffic among the models by specifying variant weights. For more information on production variants, check [ Production variants](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html).
     public struct ProductionVariant: Swift.Sendable {
+        /// The accelerator partition layout for the accelerators backing this production variant. A layout lists the partition profiles to carve on the accelerators it applies to; on NVIDIA GPUs these are Multi-Instance GPU (MIG) profiles such as mig-3g.40gb. Specify a single layout: SageMaker applies it uniformly to every accelerator on the variant's instance type, and you place one inference component on each partition. Omit this field to use whole, unpartitioned accelerators.
+        public var acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]?
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
         /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
@@ -22934,6 +23300,7 @@ extension SageMakerClientTypes {
         public var volumeSizeInGB: Swift.Int?
 
         public init(
+            acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]? = nil,
             acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType? = nil,
             capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig? = nil,
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
@@ -22953,6 +23320,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
         ) {
+            self.acceleratorPartitionLayouts = acceleratorPartitionLayouts
             self.acceleratorType = acceleratorType
             self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
@@ -22978,6 +23346,8 @@ extension SageMakerClientTypes {
 public struct CreateEndpointConfigInput: Swift.Sendable {
     /// Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
+    /// The cross-Region traffic cap for the endpoint. The cap limits the requests per second that the endpoint accepts from inference routers in other Amazon Web Services Regions. If you don't specify it, these requests aren't limited. You can't specify it with serverless variants or with AsyncInferenceConfig. For information about the cross-Region traffic cap, see [Limit requests from other Regions](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router.html#inference-router-cross-region-limit).
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
@@ -23016,6 +23386,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
 
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         endpointConfigName: Swift.String? = nil,
@@ -23029,6 +23400,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
         self.endpointConfigName = endpointConfigName
@@ -25292,6 +25664,8 @@ extension SageMakerClientTypes {
 
     /// Defines the compute resources to allocate to run a model, plus any adapter models, that you assign to an inference component. These resources include CPU cores, accelerators, and memory.
     public struct InferenceComponentComputeResourceRequirements: Swift.Sendable {
+        /// The accelerator partition profile this inference component occupies; on NVIDIA GPUs this is a Multi-Instance GPU (MIG) profile such as mig-3g.40gb. It must be one of the partition profiles declared in the target endpoint's accelerator partition layout, and when set, NumberOfAcceleratorDevicesRequired must be 1. This field is required when the endpoint's production variant has an accelerator partition layout. For endpoints without a layout, omit this field to place the inference component on a whole accelerator.
+        public var acceleratorPartitionType: Swift.String?
         /// The maximum MB of memory to allocate to run a model that you assign to an inference component.
         public var maxMemoryRequiredInMb: Swift.Int?
         /// The minimum MB of memory to allocate to run a model that you assign to an inference component.
@@ -25303,11 +25677,13 @@ extension SageMakerClientTypes {
         public var numberOfCpuCoresRequired: Swift.Float?
 
         public init(
+            acceleratorPartitionType: Swift.String? = nil,
             maxMemoryRequiredInMb: Swift.Int? = nil,
             minMemoryRequiredInMb: Swift.Int? = nil,
             numberOfAcceleratorDevicesRequired: Swift.Float? = nil,
             numberOfCpuCoresRequired: Swift.Float? = nil
         ) {
+            self.acceleratorPartitionType = acceleratorPartitionType
             self.maxMemoryRequiredInMb = maxMemoryRequiredInMb
             self.minMemoryRequiredInMb = minMemoryRequiredInMb
             self.numberOfAcceleratorDevicesRequired = numberOfAcceleratorDevicesRequired
@@ -26384,17 +26760,283 @@ public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
     }
 }
 
+/// The resource that you are trying to create already exists. Use a different resource name, or delete the existing resource before retrying.
+public struct ResourceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How the inference router submits asynchronous requests to the destinations of a routing target.
+    public struct RoutingTargetAsyncInferenceClientConfig: Swift.Sendable {
+        /// The maximum time, in seconds, that a request can wait at a destination before the inference router moves it to another destination. The default is 900 seconds.
+        public var maxTimeInBacklogSeconds: Swift.Int?
+
+        public init(
+            maxTimeInBacklogSeconds: Swift.Int? = nil
+        ) {
+            self.maxTimeInBacklogSeconds = maxTimeInBacklogSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The Amazon SNS topics that the inference router publishes to. The router publishes one notification for each request. The notification contains the location of the result, not the result itself. The destination endpoints also send their own notifications, if they're configured to.
+    public struct RoutingTargetAsyncInferenceNotificationConfig: Swift.Sendable {
+        /// The ARN of the Amazon SNS topic to publish to when a request fails, or when the router can't place it on any destination. The topic must be a standard topic, and can be in any Amazon Web Services Region.
+        public var errorTopic: Swift.String?
+        /// The ARN of the Amazon SNS topic to publish to when a request completes. The topic must be a standard topic, and can be in any Amazon Web Services Region.
+        public var successTopic: Swift.String?
+
+        public init(
+            errorTopic: Swift.String? = nil,
+            successTopic: Swift.String? = nil
+        ) {
+            self.errorTopic = errorTopic
+            self.successTopic = successTopic
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The output settings for the asynchronous requests of a routing target. Every destination writes to the same locations. CreateInferenceRouter and UpdateInferenceRouter don't check who owns the buckets. If another account owns the output bucket, requests fail.
+    public struct RoutingTargetAsyncInferenceOutputConfig: Swift.Sendable {
+        /// The KMS key that encrypts the results in Amazon S3. You can specify a key ID, key ARN, alias name, or alias ARN. If any destination is in a different account or Amazon Web Services Region from the inference router, specify a key ARN or an alias ARN.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon SNS topics that the inference router publishes to when a request completes or fails.
+        public var notificationConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceNotificationConfig?
+        /// The Amazon S3 location for the failure details of failed requests. The bucket must be in the inference router's Amazon Web Services Region and owned by the router's account.
+        /// This member is required.
+        public var s3FailurePath: Swift.String?
+        /// The Amazon S3 location for the results of successful requests. The bucket must be in the inference router's Amazon Web Services Region and owned by the router's account.
+        /// This member is required.
+        public var s3OutputPath: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            notificationConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceNotificationConfig? = nil,
+            s3FailurePath: Swift.String? = nil,
+            s3OutputPath: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+            self.notificationConfig = notificationConfig
+            self.s3FailurePath = s3FailurePath
+            self.s3OutputPath = s3OutputPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The asynchronous inference settings of a routing target.
+    public struct RoutingTargetAsyncInferenceConfig: Swift.Sendable {
+        /// How the inference router submits requests to destinations.
+        public var clientConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceClientConfig?
+        /// The Amazon S3 locations for the results of asynchronous requests, and the notification settings.
+        /// This member is required.
+        public var outputConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceOutputConfig?
+
+        public init(
+            clientConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceClientConfig? = nil,
+            outputConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceOutputConfig? = nil
+        ) {
+            self.clientConfig = clientConfig
+            self.outputConfig = outputConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Whether an inference router can send requests to a destination.
+    public enum RoutingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The destination is serving, and the inference router can send it requests.
+        case routable
+        /// SageMaker AI couldn't check the destination. The destination might be serving.
+        case unknown
+        /// The destination can't serve requests now, or it doesn't exist in your account.
+        case unroutable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingStatus] {
+            return [
+                .routable,
+                .unknown,
+                .unroutable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routable: return "Routable"
+            case .unknown: return "Unknown"
+            case .unroutable: return "Unroutable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// An endpoint or inference component that serves a routing target.
+    public struct Destination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the endpoint or inference component. The destination can be in any account, and in any Amazon Web Services Region in the same partition as the inference router. To use a destination in another account, its owner must allow your account to invoke it through your router, in an endpoint policy.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// Whether the inference router can send requests to the destination, as checked when you called DescribeInferenceRouter. This value isn't the destination's own status. SageMaker AI ignores this field in CreateInferenceRouter and UpdateInferenceRouter requests. Routable The destination is serving and the router can send it requests. A routable destination can still be overloaded. Unroutable The destination can't serve requests. For example, it's being created or has failed, or it has no capacity and no way to get any. A destination in your account that doesn't exist is also Unroutable. Unknown SageMaker AI couldn't check the destination, for example because you aren't allowed to describe it or the check timed out. The destination might still be serving.
+        public var routingStatus: SageMakerClientTypes.RoutingStatus?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            routingStatus: SageMakerClientTypes.RoutingStatus? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.routingStatus = routingStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How an inference router chooses among the destinations of a routing target.
+    public enum InferenceRouterRoutingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Prefer destinations by instance type first and by Region second. Supported only for asynchronous routing targets.
+        case instancePoolOrder
+        /// Use destinations in the inference router's own Region first. When the request leaves the Region, the router spreads it across healthy destinations in other Regions.
+        case localRegionFirst
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceRouterRoutingPreference] {
+            return [
+                .instancePoolOrder,
+                .localRegionFirst
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instancePoolOrder: return "InstancePoolOrder"
+            case .localRegionFirst: return "LocalRegionFirst"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A model that an inference router serves, and the destinations that can serve it. When you invoke the router, you name the routing target, and the router sends the request to one of its destinations. Every destination in a routing target must serve the same model, with the same request and response format.
+    public struct RoutingTarget: Swift.Sendable {
+        /// The asynchronous inference settings of the routing target. Specify this setting to make the routing target asynchronous. If you omit it, the routing target serves real-time requests. Asynchronous routing targets aren't available in all Amazon Web Services Regions. For information about asynchronous routing targets and Region availability, see [Send asynchronous requests through an inference router](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-async.html). Because UpdateInferenceRouter replaces all routing targets, include this setting in every update of an asynchronous routing target. For information about asynchronous routing targets, see [Send asynchronous requests through an inference router](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-async.html).
+        public var asyncInferenceConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceConfig?
+        /// The endpoints and inference components that serve the routing target. Each destination can appear only once in a routing target. In an asynchronous routing target, every destination must be an asynchronous inference endpoint. In a real-time routing target, no destination can be one. SageMaker AI checks an endpoint in another account with your credentials, so both your IAM policy and the endpoint policy must allow sagemaker:DescribeEndpoint. If an endpoint can't be checked, for example because it isn't found or can't be read in time, it's accepted, and requests to it fail if it's the wrong mode.
+        /// This member is required.
+        public var destinations: [SageMakerClientTypes.Destination]?
+        /// The name of the routing target. Callers specify this name in the RoutingTargetName parameter when they invoke the inference router. The name must be unique within the router.
+        /// This member is required.
+        public var name: Swift.String?
+        /// How the inference router chooses among the routing target's destinations. The default is LocalRegionFirst. LocalRegionFirst The router uses destinations in its own Region first. When the request leaves the Region, the router spreads it across healthy destinations in other Regions. InstancePoolOrder The router prefers destinations by instance type first and by Region second. Every destination must be an endpoint that lists the same two or more instance types, each with a different priority, in the same priority order. This value is supported only for asynchronous routing targets. With either value, the router uses destinations whose health or capacity is reduced after the others, but doesn't exclude them.
+        public var routingPreference: SageMakerClientTypes.InferenceRouterRoutingPreference?
+
+        public init(
+            asyncInferenceConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceConfig? = nil,
+            destinations: [SageMakerClientTypes.Destination]? = nil,
+            name: Swift.String? = nil,
+            routingPreference: SageMakerClientTypes.InferenceRouterRoutingPreference? = nil
+        ) {
+            self.asyncInferenceConfig = asyncInferenceConfig
+            self.destinations = destinations
+            self.name = name
+            self.routingPreference = routingPreference
+        }
+    }
+}
+
+public struct CreateInferenceRouterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you reuse a client token, use the same request parameters. Otherwise, the request fails.
+    public var clientToken: Swift.String?
+    /// The name of the inference router. The name must be unique within your account in the current Amazon Web Services Region. The name is case sensitive.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The routing targets of the inference router. Each routing target is a model that callers name when they invoke the router, and the destinations that serve it.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+    /// A list of key-value pairs to apply to the inference router. For information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        inferenceRouterName: Swift.String? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.inferenceRouterName = inferenceRouterName
+        self.routingTargets = routingTargets
+        self.tags = tags
+    }
+}
+
+public struct CreateInferenceRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+
+    public init(
+        inferenceRouterArn: Swift.String? = nil
+    ) {
+        self.inferenceRouterArn = inferenceRouterArn
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum JobCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentRft
         case agentRftEvaluation
+        case dataQualityEvaluation
+        case dataTransformation
+        case syntheticDataGeneration
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobCategory] {
             return [
                 .agentRft,
-                .agentRftEvaluation
+                .agentRftEvaluation,
+                .dataQualityEvaluation,
+                .dataTransformation,
+                .syntheticDataGeneration
             ]
         }
 
@@ -26407,6 +27049,9 @@ extension SageMakerClientTypes {
             switch self {
             case .agentRft: return "AgentRFT"
             case .agentRftEvaluation: return "AgentRFTEvaluation"
+            case .dataQualityEvaluation: return "DataQualityEvaluation"
+            case .dataTransformation: return "DataTransformation"
+            case .syntheticDataGeneration: return "SyntheticDataGeneration"
             case let .sdkUnknown(s): return s
             }
         }
@@ -30983,6 +31628,8 @@ public struct CreatePipelineInput: Swift.Sendable {
     /// The name of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The aliases to assign to the first version of the pipeline. You can use an alias instead of a pipeline version ID to start an execution, describe the pipeline, or list its executions. Each alias can contain 1-128 letters, numbers, periods (.), hyphens (-), and underscores (_), and can't consist of numbers only. An alias must be unique within the pipeline, and a version can have up to 10 aliases.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the role used by the pipeline to access and create resources.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -30997,6 +31644,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineDescription: Swift.String? = nil,
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
@@ -31007,6 +31655,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         self.pipelineDescription = pipelineDescription
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -32654,26 +33303,7 @@ extension SageMakerClientTypes {
         public var jobType: SageMakerClientTypes.ServerlessJobType?
         /// The parameter-efficient fine-tuning configuration.
         public var peft: SageMakerClientTypes.Peft?
-        /// The maximum sequence length, in tokens, that the customization job supports. SageMaker uses this value to select a training configuration for the base model that you specify. The parameter supports the following values:
-        ///
-        /// * 1K
-        ///
-        /// * 2K
-        ///
-        /// * 4K
-        ///
-        /// * 8K
-        ///
-        /// * 16K
-        ///
-        /// * 32K
-        ///
-        /// * 64K
-        ///
-        /// * 128K
-        ///
-        ///
-        /// If you don't specify a value, SageMaker selects a training configuration based on the other values that you specify. The selection is not restricted to a particular sequence length.
+        /// The maximum sequence length, in tokens, that the customization job supports. SageMaker uses this value to select a training configuration for the base model that you specify. The value must be an integer value from 1K to 1024K (for example, 32K). If you don't specify a value, SageMaker selects a training configuration based on the other values that you specify. The selection is not restricted to a particular sequence length.
         public var sequenceLength: Swift.String?
 
         public init(
@@ -34240,6 +34870,35 @@ public struct DeleteClusterOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteClusterExtensionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to delete.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        extensionArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.extensionArn = extensionArn
+    }
+}
+
+public struct DeleteClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that is being deleted.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
+    }
+}
+
 public struct DeleteClusterSchedulerConfigInput: Swift.Sendable {
     /// ID of the cluster policy.
     /// This member is required.
@@ -34446,6 +35105,23 @@ public struct DeleteEndpointConfigInput: Swift.Sendable {
     ) {
         self.endpointConfigName = endpointConfigName
     }
+}
+
+public struct DeleteEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+    }
+}
+
+public struct DeleteEndpointPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteExperimentInput: Swift.Sendable {
@@ -34665,6 +35341,18 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
         inferenceExperimentArn: Swift.String? = nil
     ) {
         self.inferenceExperimentArn = inferenceExperimentArn
+    }
+}
+
+public struct DeleteInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to delete.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
     }
 }
 
@@ -36346,6 +37034,248 @@ public struct DescribeClusterEventOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeClusterExtensionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to describe. CreateClusterExtension returns this ARN, and ListClusterExtensions lists it. If you delete an extension and create it again, the new extension has a new ARN.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        extensionArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.extensionArn = extensionArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ExtensionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case degraded
+        case deleteFailed
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtensionStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .degraded,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .createFailed: return "CreateFailed"
+            case .creating: return "Creating"
+            case .degraded: return "Degraded"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of an extension installed on a SageMaker HyperPod cluster.
+    public struct ExtensionDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The configuration of the extension, as a JSON object serialized as a string. The configuration includes the default value of every setting that you didn't specify.
+        public var configurationValues: Swift.String?
+        /// The time when the extension was created.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the extension.
+        /// This member is required.
+        public var extensionArn: Swift.String?
+        /// The name of the extension.
+        /// This member is required.
+        public var extensionName: Swift.String?
+        /// The version of the extension. While SageMaker HyperPod creates or updates the extension, some nodes might still run a different version. To see how many nodes run this version, see NodeSummary.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+        /// The time when the extension was last updated.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the extension can be one of the following values: Creating SageMaker HyperPod is installing the extension on the cluster's nodes. Active The extension runs its current version and configuration on all of the cluster's nodes. Updating SageMaker HyperPod is applying a configuration change or version update to the cluster's nodes. Degraded The extension runs its current version and configuration on some of the cluster's nodes but not all of them. Or, at least one node recently reported that the extension is unhealthy. CreateFailed SageMaker HyperPod couldn't install the extension on any of the cluster's nodes. UpdateFailed SageMaker HyperPod couldn't apply the update on any of the cluster's nodes. Deleting SageMaker HyperPod is removing the extension from the cluster's nodes. DeleteFailed SageMaker HyperPod couldn't remove the extension from any of the cluster's nodes.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ExtensionStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            configurationValues: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            extensionArn: Swift.String? = nil,
+            extensionName: Swift.String? = nil,
+            extensionVersion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.ExtensionStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.configurationValues = configurationValues
+            self.creationTime = creationTime
+            self.extensionArn = extensionArn
+            self.extensionName = extensionName
+            self.extensionVersion = extensionVersion
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ExtensionHealthIssueCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case configurationConflict
+        case dependencyUnreachable
+        case extensionUnhealthy
+        case internalFailure
+        case invalidConfiguration
+        case other
+        case resourceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtensionHealthIssueCode] {
+            return [
+                .accessDenied,
+                .configurationConflict,
+                .dependencyUnreachable,
+                .extensionUnhealthy,
+                .internalFailure,
+                .invalidConfiguration,
+                .other,
+                .resourceNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDenied"
+            case .configurationConflict: return "ConfigurationConflict"
+            case .dependencyUnreachable: return "DependencyUnreachable"
+            case .extensionUnhealthy: return "ExtensionUnhealthy"
+            case .internalFailure: return "InternalFailure"
+            case .invalidConfiguration: return "InvalidConfiguration"
+            case .other: return "Other"
+            case .resourceNotFound: return "ResourceNotFound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about a problem that affects an extension on one or more nodes of a SageMaker HyperPod cluster, including the number of nodes that it affects.
+    public struct ExtensionHealthIssue: Swift.Sendable {
+        /// A code that describes the type of issue.
+        /// This member is required.
+        public var code: SageMakerClientTypes.ExtensionHealthIssueCode?
+        /// A description of the problem, for example the setting or component to check. Every node with the same problem has the same message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The number of nodes that have this problem.
+        /// This member is required.
+        public var nodeCount: Swift.Int?
+
+        public init(
+            code: SageMakerClientTypes.ExtensionHealthIssueCode? = nil,
+            message: Swift.String? = nil,
+            nodeCount: Swift.Int? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.nodeCount = nodeCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains information about the problems that affect an extension on the nodes of a SageMaker HyperPod cluster, including how many nodes each problem affects. DescribeClusterExtension returns ExtensionHealth only when at least one node has a problem.
+    public struct ExtensionHealth: Swift.Sendable {
+        /// The problems that affect the extension, grouped by cause, from the problem that affects the most nodes to the one that affects the fewest. SageMaker HyperPod counts each node in at most one issue. The list contains at most 20 issues. If more than 20 different problems exist, the list shows the 19 that affect the most nodes, and the 20th issue has the code Other and counts the nodes that the remaining problems affect.
+        /// This member is required.
+        public var issues: [SageMakerClientTypes.ExtensionHealthIssue]?
+
+        public init(
+            issues: [SageMakerClientTypes.ExtensionHealthIssue]? = nil
+        ) {
+            self.issues = issues
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an extension's installation across the nodes of a SageMaker HyperPod cluster.
+    public struct ExtensionNodeSummary: Swift.Sendable {
+        /// The number of nodes that are running the extension's current version and configuration. Nodes that report the extension as unhealthy aren't counted. While SageMaker HyperPod creates or updates the extension, ActiveCount is lower than TotalCount. To see why nodes aren't counted, see Health in DescribeClusterExtension.
+        /// This member is required.
+        public var activeCount: Swift.Int?
+        /// The number of nodes in your cluster that the extension targets. SageMaker HyperPod targets every running node in your cluster, including nodes that you add after you create the extension.
+        /// This member is required.
+        public var totalCount: Swift.Int?
+
+        public init(
+            activeCount: Swift.Int? = nil,
+            totalCount: Swift.Int? = nil
+        ) {
+            self.activeCount = activeCount
+            self.totalCount = totalCount
+        }
+    }
+}
+
+public struct DescribeClusterExtensionOutput: Swift.Sendable {
+    /// The details of the extension.
+    /// This member is required.
+    public var extensionDetails: SageMakerClientTypes.ExtensionDetails?
+    /// The problems that affect the extension on the cluster's nodes, grouped by cause, with the number of nodes that each problem affects. Use it to find out why ActiveCount is lower than TotalCount, or why the status is Degraded, CreateFailed, or UpdateFailed. SageMaker HyperPod omits Health when no node has a problem. Nodes where SageMaker HyperPod hasn't finished installing or updating the extension aren't counted in any issue, unless an earlier attempt failed on them.
+    public var health: SageMakerClientTypes.ExtensionHealth?
+    /// A summary of how many nodes in your cluster the extension targets, and how many of them run the extension's current version and configuration.
+    public var nodeSummary: SageMakerClientTypes.ExtensionNodeSummary?
+
+    public init(
+        extensionDetails: SageMakerClientTypes.ExtensionDetails? = nil,
+        health: SageMakerClientTypes.ExtensionHealth? = nil,
+        nodeSummary: SageMakerClientTypes.ExtensionNodeSummary? = nil
+    ) {
+        self.extensionDetails = extensionDetails
+        self.health = health
+        self.nodeSummary = nodeSummary
+    }
+}
+
 public struct DescribeClusterNodeInput: Swift.Sendable {
     /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is.
     /// This member is required.
@@ -36375,6 +37305,58 @@ public struct DescribeClusterNodeOutput: Swift.Sendable {
         nodeDetails: SageMakerClientTypes.ClusterNodeDetails? = nil
     ) {
         self.nodeDetails = nodeDetails
+    }
+}
+
+public struct DescribeClusterOperationInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The unique identifier (UUID) of the operation to describe. This ID can be obtained from the ListClusterOperations operation.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        operationId: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.operationId = operationId
+    }
+}
+
+public struct DescribeClusterOperationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+    public var clusterArn: Swift.String?
+    /// The timestamp when the operation was created.
+    public var creationTime: Foundation.Date?
+    /// The deep health check details for the operation. This field is populated when the operation Type is DeepHealthCheck.
+    public var deepHealthCheckDetails: [SageMakerClientTypes.InstanceGroupHealthCheckConfiguration]?
+    /// The unique identifier (UUID) of the operation.
+    public var operationId: Swift.String?
+    /// The per-instance-group scaling details for the operation. This field is populated when the operation Type is Scaling.
+    public var scalingDetails: [SageMakerClientTypes.ClusterOperationScalingDetails]?
+    /// The current status of the operation. Valid values are InProgress, Superseded, or Done.
+    public var status: SageMakerClientTypes.ClusterOperationStatus?
+    /// The type of the operation. Valid values are Scaling or DeepHealthCheck.
+    public var type: SageMakerClientTypes.ClusterOperationType?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        deepHealthCheckDetails: [SageMakerClientTypes.InstanceGroupHealthCheckConfiguration]? = nil,
+        operationId: Swift.String? = nil,
+        scalingDetails: [SageMakerClientTypes.ClusterOperationScalingDetails]? = nil,
+        status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+        type: SageMakerClientTypes.ClusterOperationType? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.creationTime = creationTime
+        self.deepHealthCheckDetails = deepHealthCheckDetails
+        self.operationId = operationId
+        self.scalingDetails = scalingDetails
+        self.status = status
+        self.type = type
     }
 }
 
@@ -37634,6 +38616,8 @@ extension SageMakerClientTypes {
 
     /// The production variant summary for a deployment when an endpoint is creating or updating with the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) or [UpdateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html) operations. Describes the VariantStatus , weight and capacity for a production variant associated with an endpoint.
     public struct PendingProductionVariantSummary: Swift.Sendable {
+        /// The accelerator partition layout that SageMaker is applying to this production variant. On NVIDIA GPUs, the profiles are Multi-Instance GPU (MIG) profiles. SageMaker returns the accelerator partition layout as you provided it in the pending deployment configuration, without normalization.
+        public var acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]?
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
         /// The number of instances associated with the variant.
@@ -37665,6 +38649,7 @@ extension SageMakerClientTypes {
         public var variantStatus: [SageMakerClientTypes.ProductionVariantStatus]?
 
         public init(
+            acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]? = nil,
             acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType? = nil,
             currentInstanceCount: Swift.Int? = nil,
             currentServerlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
@@ -37680,6 +38665,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
         ) {
+            self.acceleratorPartitionLayouts = acceleratorPartitionLayouts
             self.acceleratorType = acceleratorType
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
@@ -37792,6 +38778,8 @@ extension SageMakerClientTypes {
 
     /// Describes weight and capacities for a production variant associated with an endpoint. If you sent a request to the UpdateEndpointWeightsAndCapacities API and the endpoint status is Updating, you get different desired and current values.
     public struct ProductionVariantSummary: Swift.Sendable {
+        /// The accelerator partition layout that SageMaker applies to this production variant. On NVIDIA GPUs, the profiles are Multi-Instance GPU (MIG) profiles. SageMaker returns the accelerator partition layout as you provided it when you created the variant, without normalization.
+        public var acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]?
         /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
         public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
@@ -37821,6 +38809,7 @@ extension SageMakerClientTypes {
         public var variantStatus: [SageMakerClientTypes.ProductionVariantStatus]?
 
         public init(
+            acceleratorPartitionLayouts: [SageMakerClientTypes.AcceleratorPartitionLayout]? = nil,
             capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary? = nil,
             currentInstanceCount: Swift.Int? = nil,
             currentServerlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
@@ -37835,6 +38824,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
         ) {
+            self.acceleratorPartitionLayouts = acceleratorPartitionLayouts
             self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
@@ -37858,6 +38848,8 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The cross-Region traffic cap, if the endpoint configuration sets one.
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// The currently active data capture configuration used by your Endpoint.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary?
     /// The Amazon Resource Name (ARN) of the endpoint.
@@ -37910,6 +38902,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary? = nil,
         endpointArn: Swift.String? = nil,
         endpointConfigName: Swift.String? = nil,
@@ -37926,6 +38919,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.endpointArn = endpointArn
         self.endpointConfigName = endpointConfigName
@@ -37960,6 +38954,8 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint configuration was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The cross-Region traffic cap, if the endpoint configuration sets one.
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
@@ -37989,6 +38985,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         endpointConfigArn: Swift.String? = nil,
@@ -38003,6 +39000,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
         self.endpointConfigArn = endpointConfigArn
@@ -38612,6 +39610,8 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeHubOutput: Swift.Sendable {
+    /// Information about the user who created the hub.
+    public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time that the hub was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -38632,6 +39632,8 @@ public struct DescribeHubOutput: Swift.Sendable {
     /// The status of the hub.
     /// This member is required.
     public var hubStatus: SageMakerClientTypes.HubStatus?
+    /// Information about the user who last modified the hub.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The date and time that the hub was last modified.
     /// This member is required.
     public var lastModifiedTime: Foundation.Date?
@@ -38639,6 +39641,7 @@ public struct DescribeHubOutput: Swift.Sendable {
     public var s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig?
 
     public init(
+        createdBy: SageMakerClientTypes.UserContext? = nil,
         creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         hubArn: Swift.String? = nil,
@@ -38647,9 +39650,11 @@ public struct DescribeHubOutput: Swift.Sendable {
         hubName: Swift.String? = nil,
         hubSearchKeywords: [Swift.String]? = nil,
         hubStatus: SageMakerClientTypes.HubStatus? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil
     ) {
+        self.createdBy = createdBy
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.hubArn = hubArn
@@ -38658,6 +39663,7 @@ public struct DescribeHubOutput: Swift.Sendable {
         self.hubName = hubName
         self.hubSearchKeywords = hubSearchKeywords
         self.hubStatus = hubStatus
+        self.lastModifiedBy = lastModifiedBy
         self.lastModifiedTime = lastModifiedTime
         self.s3StorageConfig = s3StorageConfig
     }
@@ -38785,6 +39791,8 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeHubContentOutput: Swift.Sendable {
+    /// Information about the user who created the hub content.
+    public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time that hub content was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -38827,6 +39835,8 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// Information about the user who last modified the hub content.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last modified time of the hub content.
     public var lastModifiedTime: Foundation.Date?
     /// The minimum version of the hub content.
@@ -38837,6 +39847,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
 
     public init(
+        createdBy: SageMakerClientTypes.UserContext? = nil,
         creationTime: Foundation.Date? = nil,
         documentSchemaVersion: Swift.String? = nil,
         failureReason: Swift.String? = nil,
@@ -38853,11 +39864,13 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
     ) {
+        self.createdBy = createdBy
         self.creationTime = creationTime
         self.documentSchemaVersion = documentSchemaVersion
         self.failureReason = failureReason
@@ -38874,6 +39887,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.lastModifiedBy = lastModifiedBy
         self.lastModifiedTime = lastModifiedTime
         self.referenceMinVersion = referenceMinVersion
         self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
@@ -40530,6 +41544,103 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to describe.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of an inference router.
+    public enum InferenceRouterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The inference router is being created.
+        case creating
+        /// The inference router is being deleted.
+        case deleting
+        /// The inference router's latest change couldn't be applied. For the reason, see StatusReason.
+        case failed
+        /// The inference router's latest change has been applied, and the router is ready.
+        case inService
+        /// An update to the inference router is being applied.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceRouterStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .inService,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inService: return "InService"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeInferenceRouterOutput: Swift.Sendable {
+    /// The date and time that the inference router was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+    /// The name of the inference router.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The date and time that the inference router was last updated.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The routing targets of the inference router. Each destination includes its RoutingStatus. You can send these routing targets back in an UpdateInferenceRouter request without changes.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+    /// The status of the inference router.
+    /// This member is required.
+    public var status: SageMakerClientTypes.InferenceRouterStatus?
+    /// If the status is Failed, the reason that the inference router failed.
+    public var statusReason: Swift.String?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        inferenceRouterArn: Swift.String? = nil,
+        inferenceRouterName: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil,
+        status: SageMakerClientTypes.InferenceRouterStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.creationTime = creationTime
+        self.inferenceRouterArn = inferenceRouterArn
+        self.inferenceRouterName = inferenceRouterName
+        self.lastModifiedTime = lastModifiedTime
+        self.routingTargets = routingTargets
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
 public struct DescribeJobInput: Swift.Sendable {
     /// The category of the job.
     /// This member is required.
@@ -40599,16 +41710,24 @@ extension SageMakerClientTypes {
         case deleting
         case downloading
         case evaluating
+        case executing
         case failed
+        case finalizing
+        case generating
         case interrupted
         case maxRuntimeExceeded
+        case partialGeneration
         case pending
+        case preparing
+        case publishing
         case restarting
         case starting
         case stopped
         case stopping
         case training
+        case transforming
         case uploading
+        case validating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobSecondaryStatus] {
@@ -40618,16 +41737,24 @@ extension SageMakerClientTypes {
                 .deleting,
                 .downloading,
                 .evaluating,
+                .executing,
                 .failed,
+                .finalizing,
+                .generating,
                 .interrupted,
                 .maxRuntimeExceeded,
+                .partialGeneration,
                 .pending,
+                .preparing,
+                .publishing,
                 .restarting,
                 .starting,
                 .stopped,
                 .stopping,
                 .training,
-                .uploading
+                .transforming,
+                .uploading,
+                .validating
             ]
         }
 
@@ -40643,16 +41770,24 @@ extension SageMakerClientTypes {
             case .deleting: return "Deleting"
             case .downloading: return "Downloading"
             case .evaluating: return "Evaluating"
+            case .executing: return "Executing"
             case .failed: return "Failed"
+            case .finalizing: return "Finalizing"
+            case .generating: return "Generating"
             case .interrupted: return "Interrupted"
             case .maxRuntimeExceeded: return "MaxRuntimeExceeded"
+            case .partialGeneration: return "PartialGeneration"
             case .pending: return "Pending"
+            case .preparing: return "Preparing"
+            case .publishing: return "Publishing"
             case .restarting: return "Restarting"
             case .starting: return "Starting"
             case .stopped: return "Stopped"
             case .stopping: return "Stopping"
             case .training: return "Training"
+            case .transforming: return "Transforming"
             case .uploading: return "Uploading"
+            case .validating: return "Validating"
             case let .sdkUnknown(s): return s
             }
         }
@@ -43197,14 +44332,18 @@ public struct DescribePipelineInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
     /// This member is required.
     public var pipelineName: Swift.String?
-    /// The ID of the pipeline version to describe.
+    /// The alias of the pipeline version to describe. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error. If you specify neither, SageMaker describes the latest version of the pipeline.
+    public var pipelineVersionAlias: Swift.String?
+    /// The ID of the pipeline version to describe. You can't specify this with PipelineVersionAlias.
     public var pipelineVersionId: Swift.Int?
 
     public init(
         pipelineName: Swift.String? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineName = pipelineName
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.pipelineVersionId = pipelineVersionId
     }
 }
@@ -43263,6 +44402,8 @@ public struct DescribePipelineOutput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// The status of the pipeline execution.
     public var pipelineStatus: SageMakerClientTypes.PipelineStatus?
+    /// The aliases assigned to the pipeline version.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The description of the pipeline version.
     public var pipelineVersionDescription: Swift.String?
     /// The display name of the pipeline version.
@@ -43283,6 +44424,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         pipelineVersionDescription: Swift.String? = nil,
         pipelineVersionDisplayName: Swift.String? = nil,
         roleArn: Swift.String? = nil
@@ -43299,6 +44441,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
         self.pipelineStatus = pipelineStatus
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.pipelineVersionDescription = pipelineVersionDescription
         self.pipelineVersionDisplayName = pipelineVersionDisplayName
         self.roleArn = roleArn
@@ -43487,8 +44630,12 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
     public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
     /// Specifies the names of the experiment and trial created by a pipeline.
     public var pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig?
+    /// The aliases currently assigned to the pipeline version that the execution ran.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The ID of the pipeline version.
     public var pipelineVersionId: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. SageMaker returns this value only for executions of pipelines that Amazon Web Services manages.
+    public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -43506,7 +44653,9 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
         pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         pipelineVersionId: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.createdBy = createdBy
@@ -43522,7 +44671,9 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineExecutionStatus = pipelineExecutionStatus
         self.pipelineExperimentConfig = pipelineExperimentConfig
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.pipelineVersionId = pipelineVersionId
+        self.roleArn = roleArn
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -47516,6 +48667,57 @@ public struct ExtendTrainingPlanOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// A summary of an extension installed on a SageMaker HyperPod cluster.
+    public struct ExtensionSummary: Swift.Sendable {
+        /// The time when the extension was created.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the extension.
+        /// This member is required.
+        public var extensionArn: Swift.String?
+        /// The name of the extension.
+        /// This member is required.
+        public var extensionName: Swift.String?
+        /// The version of the extension.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+        /// The status of the extension. For the meaning of each status, see ExtensionDetails.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ExtensionStatus?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            extensionArn: Swift.String? = nil,
+            extensionName: Swift.String? = nil,
+            extensionVersion: Swift.String? = nil,
+            status: SageMakerClientTypes.ExtensionStatus? = nil
+        ) {
+            self.creationTime = creationTime
+            self.extensionArn = extensionArn
+            self.extensionName = extensionName
+            self.extensionVersion = extensionVersion
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A version of an extension that you can install on a SageMaker HyperPod cluster.
+    public struct ExtensionVersionSummary: Swift.Sendable {
+        /// The version of the extension, in MAJOR.MINOR.PATCH format, for example 1.0.0.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+
+        public init(
+            extensionVersion: Swift.String? = nil
+        ) {
+            self.extensionVersion = extensionVersion
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The container for the metadata for Fail step.
     public struct FailStepMetadata: Swift.Sendable {
         /// A message that you define and then is processed and rendered by the Fail step when the error occurs.
@@ -48050,6 +49252,37 @@ public struct GetDeviceFleetReportOutput: Swift.Sendable {
     }
 }
 
+public struct GetEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+    }
+}
+
+public struct GetEndpointPolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint.
+    public var endpointArn: Swift.String?
+    /// The name of the endpoint.
+    public var endpointName: Swift.String?
+    /// The endpoint policy, as a JSON policy document.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.endpointArn = endpointArn
+        self.endpointName = endpointName
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
 public struct GetLineageGroupPolicyInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the lineage group.
     /// This member is required.
@@ -48422,6 +49655,8 @@ extension SageMakerClientTypes {
 
     /// Contains information about a hub content resource, including its name, version, type, associated documents, dependencies, and status, as returned by a search result.
     public struct HubContent: Swift.Sendable {
+        /// Information about the user who created the hub content.
+        public var createdBy: SageMakerClientTypes.UserContext?
         /// The date and time that hub content was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -48463,6 +49698,8 @@ extension SageMakerClientTypes {
         /// The name of the hub that contains the content.
         /// This member is required.
         public var hubName: Swift.String?
+        /// Information about the user who last modified the hub content.
+        public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The last modified time of the hub content.
         public var lastModifiedTime: Foundation.Date?
         /// The minimum version of the hub content.
@@ -48475,6 +49712,7 @@ extension SageMakerClientTypes {
         public var tags: [SageMakerClientTypes.Tag]?
 
         public init(
+            createdBy: SageMakerClientTypes.UserContext? = nil,
             creationTime: Foundation.Date? = nil,
             documentSchemaVersion: Swift.String? = nil,
             failureReason: Swift.String? = nil,
@@ -48491,12 +49729,14 @@ extension SageMakerClientTypes {
             hubContentType: SageMakerClientTypes.HubContentType? = nil,
             hubContentVersion: Swift.String? = nil,
             hubName: Swift.String? = nil,
+            lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             referenceMinVersion: Swift.String? = nil,
             sageMakerPublicHubContentArn: Swift.String? = nil,
             supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
         ) {
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
             self.failureReason = failureReason
@@ -48513,6 +49753,7 @@ extension SageMakerClientTypes {
             self.hubContentType = hubContentType
             self.hubContentVersion = hubContentVersion
             self.hubName = hubName
+            self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.referenceMinVersion = referenceMinVersion
             self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
@@ -48620,6 +49861,25 @@ extension SageMakerClientTypes {
             case .hubContentStatus: return "HubContentStatus"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The hub and the hub content that a HubContent step imported.
+    public struct HubContentStepMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the hub that the step imported the content into.
+        public var hubArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub content that was imported by this step execution.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubArn: Swift.String? = nil,
+            hubContentArn: Swift.String? = nil
+        ) {
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
         }
     }
 }
@@ -49543,6 +50803,37 @@ extension SageMakerClientTypes {
             self.jobName = jobName
             self.status = status
             self.stepType = stepType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an inference router.
+    public struct InferenceRouterSummary: Swift.Sendable {
+        /// The date and time that the inference router was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the inference router.
+        /// This member is required.
+        public var inferenceRouterArn: Swift.String?
+        /// The name of the inference router.
+        /// This member is required.
+        public var inferenceRouterName: Swift.String?
+        /// The date and time that the inference router was last updated.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            inferenceRouterArn: Swift.String? = nil,
+            inferenceRouterName: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.inferenceRouterArn = inferenceRouterArn
+            self.inferenceRouterName = inferenceRouterName
+            self.lastModifiedTime = lastModifiedTime
         }
     }
 }
@@ -50840,6 +52131,8 @@ public struct ListClusterEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
     public var nodeId: Swift.String?
+    /// The unique identifier (UUID) of a cluster operation for which to filter events. If specified, only events associated with this operation are returned. This ID can be obtained from the ListClusterOperations operation.
+    public var operationId: Swift.String?
     /// The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
     public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
     /// The field to use for sorting the event list. Currently, the only supported value is EventTime.
@@ -50855,6 +52148,7 @@ public struct ListClusterEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         nodeId: Swift.String? = nil,
+        operationId: Swift.String? = nil,
         resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil,
         sortBy: SageMakerClientTypes.EventSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
@@ -50866,6 +52160,7 @@ public struct ListClusterEventsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.nodeId = nodeId
+        self.operationId = operationId
         self.resourceType = resourceType
         self.sortBy = sortBy
         self.sortOrder = sortOrder
@@ -50883,6 +52178,86 @@ public struct ListClusterEventsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.events = events
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster whose extensions you want to list.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// A filter that returns extensions created at or after the specified time. Timestamps are formatted according to the ISO 8601 standard.
+    public var creationTimeAfter: Foundation.Date?
+    /// A filter that returns extensions created at or before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of extensions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 extensions.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListClusterExtensions request was truncated, the response includes a NextToken. To retrieve the next set of extensions, use the token in the next request. When you use the CreationTimeAfter or CreationTimeBefore filters, a response can contain fewer extensions than MaxResults, or none, and still include a NextToken. Continue until the response doesn't include a NextToken.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionsOutput: Swift.Sendable {
+    /// The list of extensions installed on the cluster.
+    /// This member is required.
+    public var extensions: [SageMakerClientTypes.ExtensionSummary]?
+    /// The next token specified for listing extensions on a SageMaker HyperPod cluster.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensions: [SageMakerClientTypes.ExtensionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensions = extensions
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionVersionsInput: Swift.Sendable {
+    /// The name of the extension whose versions you want to list, for example sagemaker-observability.
+    /// This member is required.
+    public var extensionName: Swift.String?
+    /// The maximum number of versions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 versions.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListClusterExtensionVersions request was truncated, the response includes a NextToken. To retrieve the next set of versions, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensionName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensionName = extensionName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionVersionsOutput: Swift.Sendable {
+    /// The versions of the extension that you can install, from the highest version to the lowest.
+    /// This member is required.
+    public var extensionVersions: [SageMakerClientTypes.ExtensionVersionSummary]?
+    /// If the response is truncated, a token that you can use in the next request to retrieve the next set of versions.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensionVersions: [SageMakerClientTypes.ExtensionVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensionVersions = extensionVersions
         self.nextToken = nextToken
     }
 }
@@ -50954,6 +52329,65 @@ public struct ListClusterNodesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.clusterNodeSummaries = clusterNodeSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterOperationsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list operations.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The start of the time range for filtering operations. Only operations created after this time are included in the results.
+    public var creationTimeAfter: Foundation.Date?
+    /// The end of the time range for filtering operations. Only operations created before this time are included in the results.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of operations to return in the response. Valid range is 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next set of results. This token is obtained from the output of a previous ListClusterOperations call.
+    public var nextToken: Swift.String?
+    /// The field to use for sorting the operation list. Currently, the only supported value is CreationTime.
+    public var sortBy: SageMakerClientTypes.ClusterOperationSortBy?
+    /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// The operation status to filter by. If specified, only operations with this status are returned. Valid values are InProgress, Superseded, or Done.
+    public var status: SageMakerClientTypes.ClusterOperationStatus?
+    /// The operation type to filter by. If specified, only operations of this type are returned. Valid values are Scaling or DeepHealthCheck.
+    public var type: SageMakerClientTypes.ClusterOperationType?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.ClusterOperationSortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+        type: SageMakerClientTypes.ClusterOperationType? = nil
+    ) {
+        self.clusterName = clusterName
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct ListClusterOperationsOutput: Swift.Sendable {
+    /// A list of operation summaries matching the specified criteria.
+    public var clusterOperationSummaries: [SageMakerClientTypes.ClusterOperationSummary]?
+    /// A token to retrieve the next set of results. Include this token in subsequent ListClusterOperations calls to fetch more operations.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterOperationSummaries: [SageMakerClientTypes.ClusterOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterOperationSummaries = clusterOperationSummaries
         self.nextToken = nextToken
     }
 }
@@ -52985,6 +54419,37 @@ public struct ListInferenceRecommendationsJobStepsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.steps = steps
+    }
+}
+
+public struct ListInferenceRoutersInput: Swift.Sendable {
+    /// The maximum number of inference routers to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, you receive this token. To get the next set of inference routers, use it in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListInferenceRoutersOutput: Swift.Sendable {
+    /// A list of summaries of the inference routers.
+    /// This member is required.
+    public var inferenceRouters: [SageMakerClientTypes.InferenceRouterSummary]?
+    /// If the response is truncated, SageMaker AI returns this token. To get the next set of inference routers, use it in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        inferenceRouters: [SageMakerClientTypes.InferenceRouterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.inferenceRouters = inferenceRouters
+        self.nextToken = nextToken
     }
 }
 
@@ -55903,6 +57368,8 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The alias of a pipeline version. The response includes only the executions of the version that has this alias when you make the request. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
+    public var pipelineVersionAlias: Swift.String?
     /// The field by which to sort results. The default is CreatedTime.
     public var sortBy: SageMakerClientTypes.SortPipelineExecutionsBy?
     /// The sort order for results.
@@ -55914,6 +57381,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelineExecutionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
     ) {
@@ -55922,6 +57390,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineName = pipelineName
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.sortBy = sortBy
         self.sortOrder = sortOrder
     }
@@ -55941,6 +57410,8 @@ extension SageMakerClientTypes {
         public var pipelineExecutionFailureReason: Swift.String?
         /// The status of the pipeline execution.
         public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
+        /// The aliases currently assigned to the pipeline version that the execution ran.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The start time of the pipeline execution.
         public var startTime: Foundation.Date?
 
@@ -55950,6 +57421,7 @@ extension SageMakerClientTypes {
             pipelineExecutionDisplayName: Swift.String? = nil,
             pipelineExecutionFailureReason: Swift.String? = nil,
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             startTime: Foundation.Date? = nil
         ) {
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -55957,6 +57429,7 @@ extension SageMakerClientTypes {
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
             self.pipelineExecutionFailureReason = pipelineExecutionFailureReason
             self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.startTime = startTime
         }
     }
@@ -56193,6 +57666,8 @@ extension SageMakerClientTypes {
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The metadata for the ForEach step execution.
         public var forEach: SageMakerClientTypes.ForEachStepMetadata?
+        /// The metadata for the HubContent step execution.
+        public var hubContent: SageMakerClientTypes.HubContentStepMetadata?
         /// The metadata of the inference component used in pipeline execution step.
         public var inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata?
         /// The metadata for a SageMaker job used in a pipeline execution step.
@@ -56249,6 +57724,7 @@ extension SageMakerClientTypes {
             endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             forEach: SageMakerClientTypes.ForEachStepMetadata? = nil,
+            hubContent: SageMakerClientTypes.HubContentStepMetadata? = nil,
             inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata? = nil,
             job: SageMakerClientTypes.JobStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
@@ -56277,6 +57753,7 @@ extension SageMakerClientTypes {
             self.endpointConfig = endpointConfig
             self.fail = fail
             self.forEach = forEach
+            self.hubContent = hubContent
             self.inferenceComponent = inferenceComponent
             self.job = job
             self.lambda = lambda
@@ -56480,6 +57957,35 @@ public struct ListPipelineParametersForExecutionOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    public enum PipelineManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineManagedBy] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum SortPipelinesBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case name
@@ -56512,6 +58018,8 @@ public struct ListPipelinesInput: Swift.Sendable {
     public var createdAfter: Foundation.Date?
     /// A filter that returns the pipelines that were created before a specified time.
     public var createdBefore: Foundation.Date?
+    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that Amazon Web Services manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
+    public var managedBy: SageMakerClientTypes.PipelineManagedBy?
     /// The maximum number of pipelines to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
@@ -56526,6 +58034,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         createdAfter: Foundation.Date? = nil,
         createdBefore: Foundation.Date? = nil,
+        managedBy: SageMakerClientTypes.PipelineManagedBy? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineNamePrefix: Swift.String? = nil,
@@ -56534,6 +58043,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
+        self.managedBy = managedBy
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineNamePrefix = pipelineNamePrefix
@@ -56642,6 +58152,8 @@ extension SageMakerClientTypes {
         public var lastExecutionPipelineExecutionArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
+        /// The aliases assigned to the pipeline version.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The description of the pipeline version.
         public var pipelineVersionDescription: Swift.String?
         /// The display name of the pipeline version.
@@ -56653,6 +58165,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastExecutionPipelineExecutionArn: Swift.String? = nil,
             pipelineArn: Swift.String? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             pipelineVersionDescription: Swift.String? = nil,
             pipelineVersionDisplayName: Swift.String? = nil,
             pipelineVersionId: Swift.Int? = nil
@@ -56660,6 +58173,7 @@ extension SageMakerClientTypes {
             self.creationTime = creationTime
             self.lastExecutionPipelineExecutionArn = lastExecutionPipelineExecutionArn
             self.pipelineArn = pipelineArn
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.pipelineVersionDescription = pipelineVersionDescription
             self.pipelineVersionDisplayName = pipelineVersionDisplayName
             self.pipelineVersionId = pipelineVersionId
@@ -59668,6 +61182,8 @@ extension SageMakerClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
+        /// The aliases assigned to the pipeline version.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The description of the pipeline version.
         public var pipelineVersionDescription: Swift.String?
         /// The display name of the pipeline version.
@@ -59684,6 +61200,7 @@ extension SageMakerClientTypes {
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             pipelineArn: Swift.String? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             pipelineVersionDescription: Swift.String? = nil,
             pipelineVersionDisplayName: Swift.String? = nil,
             pipelineVersionId: Swift.Int? = nil
@@ -59696,6 +61213,7 @@ extension SageMakerClientTypes {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.pipelineArn = pipelineArn
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.pipelineVersionDescription = pipelineVersionDescription
             self.pipelineVersionDisplayName = pipelineVersionDisplayName
             self.pipelineVersionId = pipelineVersionId
@@ -59895,6 +61413,34 @@ extension SageMakerClientTypes {
             self.tags = tags
             self.templateProviderDetails = templateProviderDetails
         }
+    }
+}
+
+public struct PutEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// The endpoint policy, as a JSON policy document. The policy can contain only ASCII characters. For information about the policy rules, see [Use destinations in other accounts](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-cross-account.html).
+    /// This member is required.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+public struct PutEndpointPolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint.
+    public var endpointArn: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil
+    ) {
+        self.endpointArn = endpointArn
     }
 }
 
@@ -61291,8 +62837,12 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// Contains a list of pipeline parameters. This list can be empty.
     public var pipelineParameters: [SageMakerClientTypes.Parameter]?
-    /// The ID of the pipeline version to start execution from.
+    /// The alias of the pipeline version to start the execution from. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
+    public var pipelineVersionAlias: Swift.String?
+    /// The ID of the pipeline version to start execution from. You can't specify this with PipelineVersionAlias.
     public var pipelineVersionId: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. You must specify this parameter when you start an execution of a pipeline that Amazon Web Services manages. You can't specify it for a pipeline that you create, because its executions use the pipeline's role.
+    public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -61304,7 +62854,9 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.clientRequestToken = clientRequestToken
@@ -61314,7 +62866,9 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineName = pipelineName
         self.pipelineParameters = pipelineParameters
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.pipelineVersionId = pipelineVersionId
+        self.roleArn = roleArn
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -61881,6 +63435,47 @@ public struct UpdateClusterOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil
     ) {
         self.clusterArn = clusterArn
+    }
+}
+
+public struct UpdateClusterExtensionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request is idempotent. If you send the same update more than once, SageMaker HyperPod applies it once and doesn't return an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The configuration changes to apply, as a JSON object serialized as a string. Settings that you include are changed, settings that you omit are unchanged, and a setting with the value null returns to its default value. The resulting configuration must be valid for the target extension version. If you omit ConfigurationValues, the configuration is unchanged.
+    public var configurationValues: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to update.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+    /// The version to update the extension to, in MAJOR.MINOR.PATCH format. The version must be later than the extension's current version. If you omit this parameter, the extension keeps its current version.
+    public var extensionVersion: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
+        extensionArn: Swift.String? = nil,
+        extensionVersion: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.configurationValues = configurationValues
+        self.extensionArn = extensionArn
+        self.extensionVersion = extensionVersion
+    }
+}
+
+public struct UpdateClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that is being updated. To track the update, call DescribeClusterExtension.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
     }
 }
 
@@ -62852,6 +64447,35 @@ public struct UpdateInferenceExperimentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to update.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The complete list of routing targets for the inference router. To remove the last routing target, delete the router.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
+        self.routingTargets = routingTargets
+    }
+}
+
+public struct UpdateInferenceRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+
+    public init(
+        inferenceRouterArn: Swift.String? = nil
+    ) {
+        self.inferenceRouterArn = inferenceRouterArn
+    }
+}
+
 public struct UpdateMlflowAppInput: Swift.Sendable {
     /// Indicates whether this this MLflow App is the default for the account.
     public var accountDefaultStatus: SageMakerClientTypes.AccountDefaultStatus?
@@ -63315,6 +64939,8 @@ public struct UpdatePipelineInput: Swift.Sendable {
     /// The name of the pipeline to update.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The aliases to assign to the new pipeline version that this update creates. You can specify aliases only when the update changes the pipeline definition. To change the aliases of an existing version, use UpdatePipelineVersion. An alias must be unique within the pipeline. To move an alias from an existing version to the new version, first remove the alias from the existing version with UpdatePipelineVersion.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
     public var roleArn: Swift.String?
 
@@ -63325,6 +64951,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         pipelineDescription: Swift.String? = nil,
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.parallelismConfiguration = parallelismConfiguration
@@ -63333,6 +64960,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         self.pipelineDescription = pipelineDescription
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.roleArn = roleArn
     }
 }
@@ -63391,6 +65019,8 @@ public struct UpdatePipelineVersionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the pipeline.
     /// This member is required.
     public var pipelineArn: Swift.String?
+    /// The aliases to add to or remove from the pipeline version.
+    public var pipelineVersionAliasOperations: SageMakerClientTypes.AliasOperations?
     /// The description of the pipeline version.
     public var pipelineVersionDescription: Swift.String?
     /// The display name of the pipeline version.
@@ -63401,11 +65031,13 @@ public struct UpdatePipelineVersionInput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil,
+        pipelineVersionAliasOperations: SageMakerClientTypes.AliasOperations? = nil,
         pipelineVersionDescription: Swift.String? = nil,
         pipelineVersionDisplayName: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineArn = pipelineArn
+        self.pipelineVersionAliasOperations = pipelineVersionAliasOperations
         self.pipelineVersionDescription = pipelineVersionDescription
         self.pipelineVersionDisplayName = pipelineVersionDisplayName
         self.pipelineVersionId = pipelineVersionId

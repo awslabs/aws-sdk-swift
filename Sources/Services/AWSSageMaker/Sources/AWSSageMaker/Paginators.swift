@@ -532,6 +532,7 @@ extension ListClusterEventsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             nodeId: self.nodeId,
+            operationId: self.operationId,
             resourceType: self.resourceType,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
@@ -544,6 +545,70 @@ extension PaginatorSequence where OperationStackInput == ListClusterEventsInput,
     /// - Returns: `[SageMakerClientTypes.ClusterEventSummary]`
     public func events() async throws -> [SageMakerClientTypes.ClusterEventSummary] {
         return try await self.asyncCompactMap { item in item.events }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListClusterExtensionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClusterExtensionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterExtensionsOutput`
+    public func listClusterExtensionsPaginated(input: ListClusterExtensionsInput) -> ClientRuntime.PaginatorSequence<ListClusterExtensionsInput, ListClusterExtensionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterExtensionsInput, ListClusterExtensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterExtensions(input:))
+    }
+}
+
+extension ListClusterExtensionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClusterExtensionsInput {
+        return ListClusterExtensionsInput(
+            clusterArn: self.clusterArn,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClusterExtensionsInput, OperationStackOutput == ListClusterExtensionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClusterExtensionsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ExtensionSummary]`
+    /// - Returns: `[SageMakerClientTypes.ExtensionSummary]`
+    public func extensions() async throws -> [SageMakerClientTypes.ExtensionSummary] {
+        return try await self.asyncCompactMap { item in item.extensions }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListClusterExtensionVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClusterExtensionVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterExtensionVersionsOutput`
+    public func listClusterExtensionVersionsPaginated(input: ListClusterExtensionVersionsInput) -> ClientRuntime.PaginatorSequence<ListClusterExtensionVersionsInput, ListClusterExtensionVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterExtensionVersionsInput, ListClusterExtensionVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterExtensionVersions(input:))
+    }
+}
+
+extension ListClusterExtensionVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClusterExtensionVersionsInput {
+        return ListClusterExtensionVersionsInput(
+            extensionName: self.extensionName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClusterExtensionVersionsInput, OperationStackOutput == ListClusterExtensionVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClusterExtensionVersionsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ExtensionVersionSummary]`
+    /// - Returns: `[SageMakerClientTypes.ExtensionVersionSummary]`
+    public func extensionVersions() async throws -> [SageMakerClientTypes.ExtensionVersionSummary] {
+        return try await self.asyncCompactMap { item in item.extensionVersions }
     }
 }
 extension SageMakerClient {
@@ -581,6 +646,43 @@ extension PaginatorSequence where OperationStackInput == ListClusterNodesInput, 
     /// - Returns: `[SageMakerClientTypes.ClusterNodeSummary]`
     public func clusterNodeSummaries() async throws -> [SageMakerClientTypes.ClusterNodeSummary] {
         return try await self.asyncCompactMap { item in item.clusterNodeSummaries }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListClusterOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClusterOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsOutput`
+    public func listClusterOperationsPaginated(input: ListClusterOperationsInput) -> ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterOperations(input:))
+    }
+}
+
+extension ListClusterOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClusterOperationsInput {
+        return ListClusterOperationsInput(
+            clusterName: self.clusterName,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClusterOperationsInput, OperationStackOutput == ListClusterOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClusterOperationsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ClusterOperationSummary]`
+    /// - Returns: `[SageMakerClientTypes.ClusterOperationSummary]`
+    public func clusterOperationSummaries() async throws -> [SageMakerClientTypes.ClusterOperationSummary] {
+        return try await self.asyncCompactMap { item in item.clusterOperationSummaries }
     }
 }
 extension SageMakerClient {
@@ -1489,6 +1591,36 @@ extension PaginatorSequence where OperationStackInput == ListInferenceRecommenda
     /// - Returns: `[SageMakerClientTypes.InferenceRecommendationsJobStep]`
     public func steps() async throws -> [SageMakerClientTypes.InferenceRecommendationsJobStep] {
         return try await self.asyncCompactMap { item in item.steps }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListInferenceRoutersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInferenceRoutersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceRoutersOutput`
+    public func listInferenceRoutersPaginated(input: ListInferenceRoutersInput) -> ClientRuntime.PaginatorSequence<ListInferenceRoutersInput, ListInferenceRoutersOutput> {
+        return ClientRuntime.PaginatorSequence<ListInferenceRoutersInput, ListInferenceRoutersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceRouters(input:))
+    }
+}
+
+extension ListInferenceRoutersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInferenceRoutersInput {
+        return ListInferenceRoutersInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInferenceRoutersInput, OperationStackOutput == ListInferenceRoutersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInferenceRoutersPaginated`
+    /// to access the nested member `[SageMakerClientTypes.InferenceRouterSummary]`
+    /// - Returns: `[SageMakerClientTypes.InferenceRouterSummary]`
+    public func inferenceRouters() async throws -> [SageMakerClientTypes.InferenceRouterSummary] {
+        return try await self.asyncCompactMap { item in item.inferenceRouters }
     }
 }
 extension SageMakerClient {
@@ -2422,6 +2554,7 @@ extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             pipelineName: self.pipelineName,
+            pipelineVersionAlias: self.pipelineVersionAlias,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )}
@@ -2517,6 +2650,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         return ListPipelinesInput(
             createdAfter: self.createdAfter,
             createdBefore: self.createdBefore,
+            managedBy: self.managedBy,
             maxResults: self.maxResults,
             nextToken: token,
             pipelineNamePrefix: self.pipelineNamePrefix,
@@ -2630,6 +2764,15 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ProjectSummary]`
+    /// - Returns: `[SageMakerClientTypes.ProjectSummary]`
+    public func projectSummaryList() async throws -> [SageMakerClientTypes.ProjectSummary] {
+        return try await self.asyncCompactMap { item in item.projectSummaryList }
+    }
 }
 extension SageMakerClient {
     /// Paginate over `[ListResourceCatalogsOutput]` results.

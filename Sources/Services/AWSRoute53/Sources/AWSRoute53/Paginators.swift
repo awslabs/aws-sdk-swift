@@ -196,3 +196,36 @@ extension PaginatorSequence where OperationStackInput == ListQueryLoggingConfigs
         return try await self.asyncCompactMap { item in item.queryLoggingConfigs }
     }
 }
+extension Route53Client {
+    /// Paginate over `[ListResourceRecordSetProtectionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceRecordSetProtectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceRecordSetProtectionsOutput`
+    public func listResourceRecordSetProtectionsPaginated(input: ListResourceRecordSetProtectionsInput) -> ClientRuntime.PaginatorSequence<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceRecordSetProtections(input:))
+    }
+}
+
+extension ListResourceRecordSetProtectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceRecordSetProtectionsInput {
+        return ListResourceRecordSetProtectionsInput(
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startRecordName: self.startRecordName,
+            startRecordType: self.startRecordType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceRecordSetProtectionsInput, OperationStackOutput == ListResourceRecordSetProtectionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceRecordSetProtectionsPaginated`
+    /// to access the nested member `[Route53ClientTypes.ResourceRecordSetProtection]`
+    /// - Returns: `[Route53ClientTypes.ResourceRecordSetProtection]`
+    public func resourceRecordSetProtections() async throws -> [Route53ClientTypes.ResourceRecordSetProtection] {
+        return try await self.asyncCompactMap { item in item.resourceRecordSetProtections }
+    }
+}

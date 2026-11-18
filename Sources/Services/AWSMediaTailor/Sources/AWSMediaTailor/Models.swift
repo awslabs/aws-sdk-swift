@@ -1098,6 +1098,7 @@ extension MediaTailorClientTypes {
         case awsServiceRequest
         case concurrentExecutor
         case customOutput
+        case hlsTagProcessor
         case httpRequest
         case sequentialExecutor
         case vastRequest
@@ -1108,6 +1109,7 @@ extension MediaTailorClientTypes {
                 .awsServiceRequest,
                 .concurrentExecutor,
                 .customOutput,
+                .hlsTagProcessor,
                 .httpRequest,
                 .sequentialExecutor,
                 .vastRequest
@@ -1124,11 +1126,69 @@ extension MediaTailorClientTypes {
             case .awsServiceRequest: return "AWS_SERVICE_REQUEST"
             case .concurrentExecutor: return "CONCURRENT_EXECUTOR"
             case .customOutput: return "CUSTOM_OUTPUT"
+            case .hlsTagProcessor: return "HLS_TAG_PROCESSOR"
             case .httpRequest: return "HTTP_REQUEST"
             case .sequentialExecutor: return "SEQUENTIAL_EXECUTOR"
             case .vastRequest: return "VAST_REQUEST"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The name of an HLS tag that an HLS_TAG_PROCESSOR function can match. The only supported value is EXT-X-DATERANGE.
+    public enum HlsTagName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The EXT-X-DATERANGE tag in an HLS media playlist.
+        case extXDaterange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsTagName] {
+            return [
+                .extXDaterange
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extXDaterange: return "EXT-X-DATERANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration for an HLS_TAG_PROCESSOR function. Specifies the HLS tags that trigger evaluation, an optional run condition, and output expressions. Each evaluation must update, remove, or pass through the matching tag and can also write player session parameters or temporary values. For more information, see [HLS_TAG_PROCESSOR](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-hls-tag-processor.html) in the MediaTailor User Guide.
+    public struct HlsTagProcessorConfiguration: Swift.Sendable {
+        /// A map of output bindings that MediaTailor evaluates for each HLS tag that matches TagFilter and, when specified, passes RunCondition. The required tag binding must return exactly one tag action: $updateTag, $removeTag, or $passthroughTag. Optional player_params.<name> bindings write strings, numbers, or booleans that persist for the player session. Optional temp.<name> bindings hold any JSON value for the current invocation and are not persisted. For more information about expression syntax, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
+        public var output: [Swift.String: Swift.String]?
+        /// JSONata expression that must evaluate to true for the processor to run.
+        public var runCondition: Swift.String?
+        /// The expression language used to evaluate expressions in the function configuration. The only supported value is JSONATA.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// A list of HLS tag names that trigger function evaluation. Specify ["EXT-X-DATERANGE"].
+        /// This member is required.
+        public var tagFilter: [MediaTailorClientTypes.HlsTagName]?
+
+        public init(
+            output: [Swift.String: Swift.String]? = nil,
+            runCondition: Swift.String? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            tagFilter: [MediaTailorClientTypes.HlsTagName]? = nil
+        ) {
+            self.output = output
+            self.runCondition = runCondition
+            self.runtime = runtime
+            self.tagFilter = tagFilter
         }
     }
 }
@@ -1277,6 +1337,8 @@ extension MediaTailorClientTypes {
         /// The type of the function.
         /// This member is required.
         public var functionType: MediaTailorClientTypes.FunctionType?
+        /// The configuration for an HLS_TAG_PROCESSOR function.
+        public var hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration?
         /// The configuration for an HTTP_REQUEST function.
         public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
         /// The configuration for a SEQUENTIAL_EXECUTOR function.
@@ -1294,6 +1356,7 @@ extension MediaTailorClientTypes {
             description: Swift.String? = nil,
             functionId: Swift.String? = nil,
             functionType: MediaTailorClientTypes.FunctionType? = nil,
+            hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration? = nil,
             httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
             sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -1306,6 +1369,7 @@ extension MediaTailorClientTypes {
             self.description = description
             self.functionId = functionId
             self.functionType = functionType
+            self.hlsTagProcessorConfiguration = hlsTagProcessorConfiguration
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
@@ -1981,6 +2045,7 @@ extension MediaTailorClientTypes {
 
     public enum EventName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case postAdsResponse
+        case postOriginResponse
         case preAdsRequest
         case preManifestInsertion
         case preSessionInitialization
@@ -1989,6 +2054,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [EventName] {
             return [
                 .postAdsResponse,
+                .postOriginResponse,
                 .preAdsRequest,
                 .preManifestInsertion,
                 .preSessionInitialization
@@ -2003,6 +2069,7 @@ extension MediaTailorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .postAdsResponse: return "POST_ADS_RESPONSE"
+            case .postOriginResponse: return "POST_ORIGIN_RESPONSE"
             case .preAdsRequest: return "PRE_ADS_REQUEST"
             case .preManifestInsertion: return "PRE_MANIFEST_INSERTION"
             case .preSessionInitialization: return "PRE_SESSION_INITIALIZATION"
@@ -2190,6 +2257,8 @@ extension MediaTailorClientTypes {
         case noMediaPlaylist
         case originManifest
         case parsingError
+        case postOriginResponseFunctionError
+        case postOriginResponseHookError
         case preSessionInitFunctionError
         case preSessionInitHookError
         case scte35ParsingError
@@ -2228,6 +2297,8 @@ extension MediaTailorClientTypes {
                 .noMediaPlaylist,
                 .originManifest,
                 .parsingError,
+                .postOriginResponseFunctionError,
+                .postOriginResponseHookError,
                 .preSessionInitFunctionError,
                 .preSessionInitHookError,
                 .scte35ParsingError,
@@ -2272,6 +2343,8 @@ extension MediaTailorClientTypes {
             case .noMediaPlaylist: return "NO_MEDIA_PLAYLIST"
             case .originManifest: return "ORIGIN_MANIFEST"
             case .parsingError: return "PARSING_ERROR"
+            case .postOriginResponseFunctionError: return "POST_ORIGIN_RESPONSE_FUNCTION_ERROR"
+            case .postOriginResponseHookError: return "POST_ORIGIN_RESPONSE_HOOK_ERROR"
             case .preSessionInitFunctionError: return "PRE_SESSION_INIT_FUNCTION_ERROR"
             case .preSessionInitHookError: return "PRE_SESSION_INIT_HOOK_ERROR"
             case .scte35ParsingError: return "SCTE35_PARSING_ERROR"
@@ -2290,12 +2363,16 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes {
 
     public enum ManifestServicePublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postOriginResponseFunctionCompleted
+        case postOriginResponseHookSummary
         case preSessionInitFunctionCompleted
         case preSessionInitHookSummary
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManifestServicePublishOptInEventType] {
             return [
+                .postOriginResponseFunctionCompleted,
+                .postOriginResponseHookSummary,
                 .preSessionInitFunctionCompleted,
                 .preSessionInitHookSummary
             ]
@@ -2308,6 +2385,8 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .postOriginResponseFunctionCompleted: return "POST_ORIGIN_RESPONSE_FUNCTION_COMPLETED"
+            case .postOriginResponseHookSummary: return "POST_ORIGIN_RESPONSE_HOOK_SUMMARY"
             case .preSessionInitFunctionCompleted: return "PRE_SESSION_INIT_FUNCTION_COMPLETED"
             case .preSessionInitHookSummary: return "PRE_SESSION_INIT_HOOK_SUMMARY"
             case let .sdkUnknown(s): return s
@@ -2488,7 +2567,7 @@ extension MediaTailorClientTypes {
         public var dualStackPlaybackEndpointPrefix: Swift.String?
         /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
         public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, POST_ORIGIN_RESPONSE, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
         public var functionMapping: [Swift.String: Swift.String]?
         /// The configuration for HLS content.
         public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -4927,6 +5006,8 @@ public struct GetFunctionOutput: Swift.Sendable {
     /// The type of the function.
     /// This member is required.
     public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HLS_TAG_PROCESSOR function.
+    public var hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration?
     /// The configuration for an HTTP_REQUEST function.
     public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
     /// The configuration for a SEQUENTIAL_EXECUTOR function.
@@ -4944,6 +5025,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
         functionType: MediaTailorClientTypes.FunctionType? = nil,
+        hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -4956,6 +5038,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         self.description = description
         self.functionId = functionId
         self.functionType = functionType
+        self.hlsTagProcessorConfiguration = hlsTagProcessorConfiguration
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
@@ -5014,6 +5097,8 @@ public struct PutFunctionInput: Swift.Sendable {
     ///
     /// * AWS_SERVICE_REQUEST – Makes an authenticated request to a supported AWS service API and evaluates output expressions that can reference the response.
     ///
+    /// * HLS_TAG_PROCESSOR – Reads and changes HLS tags in the origin manifest at the POST_ORIGIN_RESPONSE lifecycle hook.
+    ///
     /// * VAST_REQUEST – Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions.
     ///
     /// * SEQUENTIAL_EXECUTOR – Runs a sequence of child functions in order, passing data between steps through temporary data.
@@ -5024,6 +5109,8 @@ public struct PutFunctionInput: Swift.Sendable {
     /// For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     /// This member is required.
     public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HLS_TAG_PROCESSOR function. Specifies the runtime, tag filter, optional run condition, and output expressions. Required when FunctionType is HLS_TAG_PROCESSOR.
+    public var hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration?
     /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
     public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
     /// The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
@@ -5040,6 +5127,7 @@ public struct PutFunctionInput: Swift.Sendable {
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
         functionType: MediaTailorClientTypes.FunctionType? = nil,
+        hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -5051,6 +5139,7 @@ public struct PutFunctionInput: Swift.Sendable {
         self.description = description
         self.functionId = functionId
         self.functionType = functionType
+        self.hlsTagProcessorConfiguration = hlsTagProcessorConfiguration
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
@@ -5076,6 +5165,8 @@ public struct PutFunctionOutput: Swift.Sendable {
     /// The type of the function.
     /// This member is required.
     public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HLS_TAG_PROCESSOR function.
+    public var hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration?
     /// The configuration for an HTTP_REQUEST function.
     public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
     /// The configuration for a SEQUENTIAL_EXECUTOR function.
@@ -5093,6 +5184,7 @@ public struct PutFunctionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
         functionType: MediaTailorClientTypes.FunctionType? = nil,
+        hlsTagProcessorConfiguration: MediaTailorClientTypes.HlsTagProcessorConfiguration? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -5105,6 +5197,7 @@ public struct PutFunctionOutput: Swift.Sendable {
         self.description = description
         self.functionId = functionId
         self.functionType = functionType
+        self.hlsTagProcessorConfiguration = hlsTagProcessorConfiguration
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
@@ -5151,7 +5244,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var dualStackPlaybackEndpointPrefix: Swift.String?
     /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
     public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, POST_ORIGIN_RESPONSE, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -5650,7 +5743,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, POST_ORIGIN_RESPONSE, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
@@ -5750,7 +5843,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var dualStackPlaybackEndpointPrefix: Swift.String?
     /// The dual-stack (IPv4 and IPv6) session initialization endpoint prefix associated with the playback configuration.
     public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, POST_ORIGIN_RESPONSE, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -6788,6 +6881,7 @@ extension PutFunctionInput {
         try writer["CustomOutputConfiguration"].write(value.customOutputConfiguration, with: MediaTailorClientTypes.CustomOutputConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["FunctionType"].write(value.functionType)
+        try writer["HlsTagProcessorConfiguration"].write(value.hlsTagProcessorConfiguration, with: MediaTailorClientTypes.HlsTagProcessorConfiguration.write(value:to:))
         try writer["HttpRequestConfiguration"].write(value.httpRequestConfiguration, with: MediaTailorClientTypes.HttpRequestConfiguration.write(value:to:))
         try writer["SequentialExecutorConfiguration"].write(value.sequentialExecutorConfiguration, with: MediaTailorClientTypes.SequentialExecutorConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7239,6 +7333,7 @@ extension GetFunctionOutput {
         value.description = try reader["Description"].readIfPresent()
         value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
         value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        value.hlsTagProcessorConfiguration = try reader["HlsTagProcessorConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsTagProcessorConfiguration.read(from:))
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7444,6 +7539,7 @@ extension PutFunctionOutput {
         value.description = try reader["Description"].readIfPresent()
         value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
         value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        value.hlsTagProcessorConfiguration = try reader["HlsTagProcessorConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsTagProcessorConfiguration.read(from:))
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8763,6 +8859,7 @@ extension MediaTailorClientTypes.Function {
         value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.vastRequestConfiguration = try reader["VastRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.VastRequestConfiguration.read(from:))
+        value.hlsTagProcessorConfiguration = try reader["HlsTagProcessorConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsTagProcessorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.arn = try reader["Arn"].readIfPresent()
         return value
@@ -8812,6 +8909,27 @@ extension MediaTailorClientTypes.HlsPlaylistSettings {
         var value = MediaTailorClientTypes.HlsPlaylistSettings()
         value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
         value.adMarkupType = try reader["AdMarkupType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdMarkupType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.HlsTagProcessorConfiguration {
+
+    static func write(value: MediaTailorClientTypes.HlsTagProcessorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RunCondition"].write(value.runCondition)
+        try writer["Runtime"].write(value.runtime)
+        try writer["TagFilter"].writeList(value.tagFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.HlsTagName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HlsTagProcessorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.HlsTagProcessorConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tagFilter = try reader["TagFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.HlsTagName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.runCondition = try reader["RunCondition"].readIfPresent()
         return value
     }
 }

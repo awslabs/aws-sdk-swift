@@ -117,6 +117,35 @@ extension RolesAnywhereClientTypes {
     }
 }
 
+/// The request has failed due to a temporary failure of the service.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The recommended number of seconds after which the client should retry the request.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
 /// Validation exception error.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -169,6 +198,8 @@ extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
 public struct CreateProfileInput: Swift.Sendable {
     /// Used to determine if a custom role session name will be accepted in a temporary credential request.
     public var acceptRoleSessionName: Swift.Bool?
+    /// An alias for the profile. When you set an alias, the response includes the alias ARN of the profile in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+    public var aliasName: Swift.String?
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// Specifies whether the profile is enabled.
@@ -190,6 +221,7 @@ public struct CreateProfileInput: Swift.Sendable {
 
     public init(
         acceptRoleSessionName: Swift.Bool? = nil,
+        aliasName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
         enabled: Swift.Bool? = nil,
         managedPolicyArns: [Swift.String]? = nil,
@@ -200,6 +232,7 @@ public struct CreateProfileInput: Swift.Sendable {
         tags: [RolesAnywhereClientTypes.Tag]? = nil
     ) {
         self.acceptRoleSessionName = acceptRoleSessionName
+        self.aliasName = aliasName
         self.durationSeconds = durationSeconds
         self.enabled = enabled
         self.managedPolicyArns = managedPolicyArns
@@ -217,6 +250,10 @@ extension RolesAnywhereClientTypes {
     public struct ProfileDetail: Swift.Sendable {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public var acceptRoleSessionName: Swift.Bool?
+        /// The alias ARN of the profile, in the form arn:partition:rolesanywhere:region:account:alias/profile/alias-name . Present only if the profile has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public var aliasArn: Swift.String?
+        /// The alias of the profile. Present only if the profile has an alias.
+        public var aliasName: Swift.String?
         /// A mapping applied to the authenticating end-entity certificate.
         public var attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -231,6 +268,8 @@ extension RolesAnywhereClientTypes {
         public var managedPolicyArns: [Swift.String]?
         /// The name of the profile.
         public var name: Swift.String?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public var previousAliasName: Swift.String?
         /// The ARN of the profile.
         public var profileArn: Swift.String?
         /// The unique identifier of the profile.
@@ -246,6 +285,8 @@ extension RolesAnywhereClientTypes {
 
         public init(
             acceptRoleSessionName: Swift.Bool? = nil,
+            aliasArn: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
             attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
@@ -253,6 +294,7 @@ extension RolesAnywhereClientTypes {
             enabled: Swift.Bool? = nil,
             managedPolicyArns: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            previousAliasName: Swift.String? = nil,
             profileArn: Swift.String? = nil,
             profileId: Swift.String? = nil,
             requireInstanceProperties: Swift.Bool? = nil,
@@ -261,6 +303,8 @@ extension RolesAnywhereClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.acceptRoleSessionName = acceptRoleSessionName
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -268,6 +312,7 @@ extension RolesAnywhereClientTypes {
             self.enabled = enabled
             self.managedPolicyArns = managedPolicyArns
             self.name = name
+            self.previousAliasName = previousAliasName
             self.profileArn = profileArn
             self.profileId = profileId
             self.requireInstanceProperties = requireInstanceProperties
@@ -437,6 +482,10 @@ extension RolesAnywhereClientTypes {
 }
 
 public struct CreateTrustAnchorInput: Swift.Sendable {
+    /// An alias for the trust anchor. When you set an alias, the response includes the alias ARN of the trust anchor in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+    public var aliasName: Swift.String?
+    /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+    public var crlDpRevocationEnabled: Swift.Bool?
     /// Specifies whether the trust anchor is enabled.
     public var enabled: Swift.Bool?
     /// The name of the trust anchor.
@@ -451,12 +500,16 @@ public struct CreateTrustAnchorInput: Swift.Sendable {
     public var tags: [RolesAnywhereClientTypes.Tag]?
 
     public init(
+        aliasName: Swift.String? = nil,
+        crlDpRevocationEnabled: Swift.Bool? = nil,
         enabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
     ) {
+        self.aliasName = aliasName
+        self.crlDpRevocationEnabled = crlDpRevocationEnabled
         self.enabled = enabled
         self.name = name
         self.notificationSettings = notificationSettings
@@ -502,14 +555,22 @@ extension RolesAnywhereClientTypes {
 
     /// The state of the trust anchor after a read or write operation.
     public struct TrustAnchorDetail: Swift.Sendable {
+        /// The alias ARN of the trust anchor, in the form arn:partition:rolesanywhere:region:account:alias/trust-anchor/alias-name . Present only if the trust anchor has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public var aliasArn: Swift.String?
+        /// The alias of the trust anchor. Present only if the trust anchor has an alias.
+        public var aliasName: Swift.String?
         /// The ISO-8601 timestamp when the trust anchor was created.
         public var createdAt: Foundation.Date?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public var crlDpRevocationEnabled: Swift.Bool?
         /// Indicates whether the trust anchor is enabled.
         public var enabled: Swift.Bool?
         /// The name of the trust anchor.
         public var name: Swift.String?
         /// A list of notification settings to be associated to the trust anchor.
         public var notificationSettings: [RolesAnywhereClientTypes.NotificationSettingDetail]?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public var previousAliasName: Swift.String?
         /// The trust anchor type and its related certificate data.
         public var source: RolesAnywhereClientTypes.Source?
         /// The ARN of the trust anchor.
@@ -520,19 +581,27 @@ extension RolesAnywhereClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            aliasArn: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            crlDpRevocationEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
             notificationSettings: [RolesAnywhereClientTypes.NotificationSettingDetail]? = nil,
+            previousAliasName: Swift.String? = nil,
             source: RolesAnywhereClientTypes.Source? = nil,
             trustAnchorArn: Swift.String? = nil,
             trustAnchorId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.createdAt = createdAt
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
+            self.previousAliasName = previousAliasName
             self.source = source
             self.trustAnchorArn = trustAnchorArn
             self.trustAnchorId = trustAnchorId
@@ -612,7 +681,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct DeleteCrlInput: Swift.Sendable {
-    /// The unique identifier of the certificate revocation list (CRL).
+    /// The certificate revocation list (CRL) to act on. You can specify one of the following:
+    ///
+    /// * The CRL ID.
+    ///
+    /// * The CRL ARN.
+    ///
+    /// * The alias ARN of the CRL.
+    ///
+    ///
+    /// An ARN must be for a CRL in your account and Region.
     /// This member is required.
     public var crlId: Swift.String?
 
@@ -627,6 +705,10 @@ extension RolesAnywhereClientTypes {
 
     /// The state of the certificate revocation list (CRL) after a read or write operation.
     public struct CrlDetail: Swift.Sendable {
+        /// The alias ARN of the certificate revocation list (CRL), in the form arn:partition:rolesanywhere:region:account:alias/crl/alias-name . Present only if the CRL has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public var aliasArn: Swift.String?
+        /// The alias of the certificate revocation list (CRL). Present only if the CRL has an alias.
+        public var aliasName: Swift.String?
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was created.
         public var createdAt: Foundation.Date?
         /// The ARN of the certificate revocation list (CRL).
@@ -639,27 +721,35 @@ extension RolesAnywhereClientTypes {
         public var enabled: Swift.Bool?
         /// The name of the certificate revocation list (CRL).
         public var name: Swift.String?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public var previousAliasName: Swift.String?
         /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
         public var trustAnchorArn: Swift.String?
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
+            aliasArn: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             crlArn: Swift.String? = nil,
             crlData: Foundation.Data? = nil,
             crlId: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            previousAliasName: Swift.String? = nil,
             trustAnchorArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.createdAt = createdAt
             self.crlArn = crlArn
             self.crlData = crlData
             self.crlId = crlId
             self.enabled = enabled
             self.name = name
+            self.previousAliasName = previousAliasName
             self.trustAnchorArn = trustAnchorArn
             self.updatedAt = updatedAt
         }
@@ -679,7 +769,16 @@ public struct DeleteCrlOutput: Swift.Sendable {
 }
 
 public struct DisableCrlInput: Swift.Sendable {
-    /// The unique identifier of the certificate revocation list (CRL).
+    /// The certificate revocation list (CRL) to act on. You can specify one of the following:
+    ///
+    /// * The CRL ID.
+    ///
+    /// * The CRL ARN.
+    ///
+    /// * The alias ARN of the CRL.
+    ///
+    ///
+    /// An ARN must be for a CRL in your account and Region.
     /// This member is required.
     public var crlId: Swift.String?
 
@@ -703,7 +802,16 @@ public struct DisableCrlOutput: Swift.Sendable {
 }
 
 public struct EnableCrlInput: Swift.Sendable {
-    /// The unique identifier of the certificate revocation list (CRL).
+    /// The certificate revocation list (CRL) to act on. You can specify one of the following:
+    ///
+    /// * The CRL ID.
+    ///
+    /// * The CRL ARN.
+    ///
+    /// * The alias ARN of the CRL.
+    ///
+    ///
+    /// An ARN must be for a CRL in your account and Region.
     /// This member is required.
     public var crlId: Swift.String?
 
@@ -727,7 +835,16 @@ public struct EnableCrlOutput: Swift.Sendable {
 }
 
 public struct GetCrlInput: Swift.Sendable {
-    /// The unique identifier of the certificate revocation list (CRL).
+    /// The certificate revocation list (CRL) to act on. You can specify one of the following:
+    ///
+    /// * The CRL ID.
+    ///
+    /// * The CRL ARN.
+    ///
+    /// * The alias ARN of the CRL.
+    ///
+    ///
+    /// An ARN must be for a CRL in your account and Region.
     /// This member is required.
     public var crlId: Swift.String?
 
@@ -751,6 +868,8 @@ public struct GetCrlOutput: Swift.Sendable {
 }
 
 public struct ImportCrlInput: Swift.Sendable {
+    /// An alias for the certificate revocation list (CRL). When you set an alias, the response includes the alias ARN of the CRL in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+    public var aliasName: Swift.String?
     /// The x509 v3 specified certificate revocation list (CRL).
     /// This member is required.
     public var crlData: Foundation.Data?
@@ -761,17 +880,19 @@ public struct ImportCrlInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of tags to attach to the certificate revocation list (CRL).
     public var tags: [RolesAnywhereClientTypes.Tag]?
-    /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
+    /// The ARN of the trust anchor that the certificate revocation list (CRL) provides revocation for. Specify the trust anchor ARN that contains the trust anchor ID. This parameter doesn't support alias ARNs. If you specify an alias ARN, the request fails with ResourceNotFoundException.
     /// This member is required.
     public var trustAnchorArn: Swift.String?
 
     public init(
+        aliasName: Swift.String? = nil,
         crlData: Foundation.Data? = nil,
         enabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil,
         trustAnchorArn: Swift.String? = nil
     ) {
+        self.aliasName = aliasName
         self.crlData = crlData
         self.enabled = enabled
         self.name = name
@@ -823,19 +944,41 @@ public struct ListCrlsOutput: Swift.Sendable {
 }
 
 public struct UpdateCrlInput: Swift.Sendable {
+    /// The alias for the certificate revocation list (CRL). You can use this parameter in the following ways:
+    ///
+    /// * To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.
+    ///
+    /// * To remove the alias, specify an empty string.
+    ///
+    /// * To keep the current alias, omit this parameter.
+    ///
+    ///
+    /// An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+    public var aliasName: Swift.String?
     /// The x509 v3 specified certificate revocation list (CRL).
     public var crlData: Foundation.Data?
-    /// The unique identifier of the certificate revocation list (CRL).
+    /// The certificate revocation list (CRL) to act on. You can specify one of the following:
+    ///
+    /// * The CRL ID.
+    ///
+    /// * The CRL ARN.
+    ///
+    /// * The alias ARN of the CRL.
+    ///
+    ///
+    /// An ARN must be for a CRL in your account and Region.
     /// This member is required.
     public var crlId: Swift.String?
     /// The name of the Crl.
     public var name: Swift.String?
 
     public init(
+        aliasName: Swift.String? = nil,
         crlData: Foundation.Data? = nil,
         crlId: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.aliasName = aliasName
         self.crlData = crlData
         self.crlId = crlId
         self.name = name
@@ -858,7 +1001,16 @@ public struct DeleteAttributeMappingInput: Swift.Sendable {
     /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     /// This member is required.
     public var certificateField: RolesAnywhereClientTypes.CertificateField?
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
     /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
@@ -888,7 +1040,16 @@ public struct DeleteAttributeMappingOutput: Swift.Sendable {
 }
 
 public struct DeleteProfileInput: Swift.Sendable {
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
 
@@ -911,7 +1072,16 @@ public struct DeleteProfileOutput: Swift.Sendable {
 }
 
 public struct DeleteTrustAnchorInput: Swift.Sendable {
-    /// The unique identifier of the trust anchor.
+    /// The trust anchor to act on. You can specify one of the following:
+    ///
+    /// * The trust anchor ID.
+    ///
+    /// * The trust anchor ARN.
+    ///
+    /// * The alias ARN of the trust anchor.
+    ///
+    ///
+    /// An ARN must be for a trust anchor in your account and Region.
     /// This member is required.
     public var trustAnchorId: Swift.String?
 
@@ -935,7 +1105,16 @@ public struct DeleteTrustAnchorOutput: Swift.Sendable {
 }
 
 public struct DisableProfileInput: Swift.Sendable {
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
 
@@ -958,7 +1137,16 @@ public struct DisableProfileOutput: Swift.Sendable {
 }
 
 public struct DisableTrustAnchorInput: Swift.Sendable {
-    /// The unique identifier of the trust anchor.
+    /// The trust anchor to act on. You can specify one of the following:
+    ///
+    /// * The trust anchor ID.
+    ///
+    /// * The trust anchor ARN.
+    ///
+    /// * The alias ARN of the trust anchor.
+    ///
+    ///
+    /// An ARN must be for a trust anchor in your account and Region.
     /// This member is required.
     public var trustAnchorId: Swift.String?
 
@@ -982,7 +1170,16 @@ public struct DisableTrustAnchorOutput: Swift.Sendable {
 }
 
 public struct EnableProfileInput: Swift.Sendable {
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
 
@@ -1005,7 +1202,16 @@ public struct EnableProfileOutput: Swift.Sendable {
 }
 
 public struct EnableTrustAnchorInput: Swift.Sendable {
-    /// The unique identifier of the trust anchor.
+    /// The trust anchor to act on. You can specify one of the following:
+    ///
+    /// * The trust anchor ID.
+    ///
+    /// * The trust anchor ARN.
+    ///
+    /// * The alias ARN of the trust anchor.
+    ///
+    ///
+    /// An ARN must be for a trust anchor in your account and Region.
     /// This member is required.
     public var trustAnchorId: Swift.String?
 
@@ -1029,7 +1235,16 @@ public struct EnableTrustAnchorOutput: Swift.Sendable {
 }
 
 public struct GetProfileInput: Swift.Sendable {
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
 
@@ -1145,7 +1360,16 @@ public struct GetSubjectOutput: Swift.Sendable {
 }
 
 public struct GetTrustAnchorInput: Swift.Sendable {
-    /// The unique identifier of the trust anchor.
+    /// The trust anchor to act on. You can specify one of the following:
+    ///
+    /// * The trust anchor ID.
+    ///
+    /// * The trust anchor ARN.
+    ///
+    /// * The alias ARN of the trust anchor.
+    ///
+    ///
+    /// An ARN must be for a trust anchor in your account and Region.
     /// This member is required.
     public var trustAnchorId: Swift.String?
 
@@ -1347,7 +1571,16 @@ public struct PutAttributeMappingInput: Swift.Sendable {
     /// A list of mapping entries for every supported specifier or sub-field.
     /// This member is required.
     public var mappingRules: [RolesAnywhereClientTypes.MappingRule]?
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
 
@@ -1377,13 +1610,33 @@ public struct PutAttributeMappingOutput: Swift.Sendable {
 public struct UpdateProfileInput: Swift.Sendable {
     /// Used to determine if a custom role session name will be accepted in a temporary credential request.
     public var acceptRoleSessionName: Swift.Bool?
+    /// The alias for the profile. You can use this parameter in the following ways:
+    ///
+    /// * To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.
+    ///
+    /// * To remove the alias, specify an empty string.
+    ///
+    /// * To keep the current alias, omit this parameter.
+    ///
+    ///
+    /// An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+    public var aliasName: Swift.String?
     /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// A list of managed policy ARNs that apply to the vended session credentials.
     public var managedPolicyArns: [Swift.String]?
     /// The name of the profile.
     public var name: Swift.String?
-    /// The unique identifier of the profile.
+    /// The profile to act on. You can specify one of the following:
+    ///
+    /// * The profile ID.
+    ///
+    /// * The profile ARN.
+    ///
+    /// * The alias ARN of the profile.
+    ///
+    ///
+    /// An ARN must be for a profile in your account and Region.
     /// This member is required.
     public var profileId: Swift.String?
     /// A list of IAM roles that this profile can assume in a temporary credential request.
@@ -1393,6 +1646,7 @@ public struct UpdateProfileInput: Swift.Sendable {
 
     public init(
         acceptRoleSessionName: Swift.Bool? = nil,
+        aliasName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
         managedPolicyArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -1401,6 +1655,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         sessionPolicy: Swift.String? = nil
     ) {
         self.acceptRoleSessionName = acceptRoleSessionName
+        self.aliasName = aliasName
         self.durationSeconds = durationSeconds
         self.managedPolicyArns = managedPolicyArns
         self.name = name
@@ -1525,19 +1780,45 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateTrustAnchorInput: Swift.Sendable {
+    /// The alias for the trust anchor. You can use this parameter in the following ways:
+    ///
+    /// * To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.
+    ///
+    /// * To remove the alias, specify an empty string.
+    ///
+    /// * To keep the current alias, omit this parameter.
+    ///
+    ///
+    /// An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+    public var aliasName: Swift.String?
+    /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+    public var crlDpRevocationEnabled: Swift.Bool?
     /// The name of the trust anchor.
     public var name: Swift.String?
     /// The trust anchor type and its related certificate data.
     public var source: RolesAnywhereClientTypes.Source?
-    /// The unique identifier of the trust anchor.
+    /// The trust anchor to act on. You can specify one of the following:
+    ///
+    /// * The trust anchor ID.
+    ///
+    /// * The trust anchor ARN.
+    ///
+    /// * The alias ARN of the trust anchor.
+    ///
+    ///
+    /// An ARN must be for a trust anchor in your account and Region.
     /// This member is required.
     public var trustAnchorId: Swift.String?
 
     public init(
+        aliasName: Swift.String? = nil,
+        crlDpRevocationEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         trustAnchorId: Swift.String? = nil
     ) {
+        self.aliasName = aliasName
+        self.crlDpRevocationEnabled = crlDpRevocationEnabled
         self.name = name
         self.source = source
         self.trustAnchorId = trustAnchorId
@@ -1950,6 +2231,7 @@ extension CreateProfileInput {
     static func write(value: CreateProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["acceptRoleSessionName"].write(value.acceptRoleSessionName)
+        try writer["aliasName"].write(value.aliasName)
         try writer["durationSeconds"].write(value.durationSeconds)
         try writer["enabled"].write(value.enabled)
         try writer["managedPolicyArns"].writeList(value.managedPolicyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1965,6 +2247,8 @@ extension CreateTrustAnchorInput {
 
     static func write(value: CreateTrustAnchorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
+        try writer["crlDpRevocationEnabled"].write(value.crlDpRevocationEnabled)
         try writer["enabled"].write(value.enabled)
         try writer["name"].write(value.name)
         try writer["notificationSettings"].writeList(value.notificationSettings, memberWritingClosure: RolesAnywhereClientTypes.NotificationSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1977,6 +2261,7 @@ extension ImportCrlInput {
 
     static func write(value: ImportCrlInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
         try writer["crlData"].write(value.crlData)
         try writer["enabled"].write(value.enabled)
         try writer["name"].write(value.name)
@@ -2034,6 +2319,7 @@ extension UpdateCrlInput {
 
     static func write(value: UpdateCrlInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
         try writer["crlData"].write(value.crlData)
         try writer["name"].write(value.name)
     }
@@ -2044,6 +2330,7 @@ extension UpdateProfileInput {
     static func write(value: UpdateProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["acceptRoleSessionName"].write(value.acceptRoleSessionName)
+        try writer["aliasName"].write(value.aliasName)
         try writer["durationSeconds"].write(value.durationSeconds)
         try writer["managedPolicyArns"].writeList(value.managedPolicyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -2056,6 +2343,8 @@ extension UpdateTrustAnchorInput {
 
     static func write(value: UpdateTrustAnchorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["aliasName"].write(value.aliasName)
+        try writer["crlDpRevocationEnabled"].write(value.crlDpRevocationEnabled)
         try writer["name"].write(value.name)
         try writer["source"].write(value.source, with: RolesAnywhereClientTypes.Source.write(value:to:))
     }
@@ -2424,6 +2713,7 @@ enum CreateProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2439,6 +2729,7 @@ enum CreateTrustAnchorOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2455,6 +2746,7 @@ enum DeleteAttributeMappingOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2471,6 +2763,7 @@ enum DeleteCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2486,6 +2779,7 @@ enum DeleteProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2501,6 +2795,7 @@ enum DeleteTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2516,6 +2811,7 @@ enum DisableCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2531,6 +2827,7 @@ enum DisableProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2546,6 +2843,7 @@ enum DisableTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2561,6 +2859,7 @@ enum EnableCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2576,6 +2875,7 @@ enum EnableProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2591,6 +2891,7 @@ enum EnableTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2605,6 +2906,7 @@ enum GetCrlOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2620,6 +2922,7 @@ enum GetProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2635,6 +2938,7 @@ enum GetSubjectOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2650,6 +2954,7 @@ enum GetTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2665,6 +2970,7 @@ enum ImportCrlOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2680,6 +2986,7 @@ enum ListCrlsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2695,6 +3002,7 @@ enum ListProfilesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2710,6 +3018,7 @@ enum ListSubjectsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2726,6 +3035,7 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2741,6 +3051,7 @@ enum ListTrustAnchorsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2757,6 +3068,7 @@ enum PutAttributeMappingOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2773,6 +3085,7 @@ enum PutNotificationSettingsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2789,6 +3102,7 @@ enum ResetNotificationSettingsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2805,6 +3119,7 @@ enum TagResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2822,6 +3137,7 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2838,6 +3154,7 @@ enum UpdateCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2854,6 +3171,7 @@ enum UpdateProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2870,6 +3188,7 @@ enum UpdateTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2882,6 +3201,20 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.retryAfterSeconds = try reader["retryAfterSeconds"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2967,6 +3300,9 @@ extension RolesAnywhereClientTypes.CrlDetail {
         value.trustAnchorArn = try reader["trustAnchorArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.aliasName = try reader["aliasName"].readIfPresent()
+        value.aliasArn = try reader["aliasArn"].readIfPresent()
+        value.previousAliasName = try reader["previousAliasName"].readIfPresent()
         return value
     }
 }
@@ -3051,6 +3387,9 @@ extension RolesAnywhereClientTypes.ProfileDetail {
         value.durationSeconds = try reader["durationSeconds"].readIfPresent()
         value.acceptRoleSessionName = try reader["acceptRoleSessionName"].readIfPresent()
         value.attributeMappings = try reader["attributeMappings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.AttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliasName = try reader["aliasName"].readIfPresent()
+        value.aliasArn = try reader["aliasArn"].readIfPresent()
+        value.previousAliasName = try reader["previousAliasName"].readIfPresent()
         return value
     }
 }
@@ -3161,9 +3500,13 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail {
         value.name = try reader["name"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: RolesAnywhereClientTypes.Source.read(from:))
         value.enabled = try reader["enabled"].readIfPresent()
+        value.crlDpRevocationEnabled = try reader["crlDpRevocationEnabled"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.notificationSettings = try reader["notificationSettings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.NotificationSettingDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliasName = try reader["aliasName"].readIfPresent()
+        value.aliasArn = try reader["aliasArn"].readIfPresent()
+        value.previousAliasName = try reader["previousAliasName"].readIfPresent()
         return value
     }
 }

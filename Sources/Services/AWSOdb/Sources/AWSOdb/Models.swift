@@ -497,6 +497,91 @@ public struct AssociateIamRoleToResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct AssociateVirtualMachinesToCloudVmClusterInput: Swift.Sendable {
+    /// The unique identifier of the VM cluster to add virtual machines to.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The list of database server IDs for the virtual machines to add to the VM cluster.
+    /// This member is required.
+    public var dbServers: [Swift.String]?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        dbServers: [Swift.String]? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.dbServers = dbServers
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case maintenanceInProgress
+        case provisioning
+        case terminated
+        case terminating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStatus] {
+            return [
+                .available,
+                .failed,
+                .maintenanceInProgress,
+                .provisioning,
+                .terminated,
+                .terminating,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
+            case .maintenanceInProgress: return "MAINTENANCE_IN_PROGRESS"
+            case .provisioning: return "PROVISIONING"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateVirtualMachinesToCloudVmClusterOutput: Swift.Sendable {
+    /// The unique identifier of the VM cluster.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The user-friendly name for the VM cluster.
+    public var displayName: Swift.String?
+    /// The current status of the VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the VM cluster, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
 /// You have exceeded the service quota.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -550,50 +635,6 @@ public struct AssociateVirtualMachinesToExadbVmClusterInput: Swift.Sendable {
     ) {
         self.desiredNodeCount = desiredNodeCount
         self.exadbVmClusterId = exadbVmClusterId
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case available
-        case failed
-        case maintenanceInProgress
-        case provisioning
-        case terminated
-        case terminating
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceStatus] {
-            return [
-                .available,
-                .failed,
-                .maintenanceInProgress,
-                .provisioning,
-                .terminated,
-                .terminating,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .available: return "AVAILABLE"
-            case .failed: return "FAILED"
-            case .maintenanceInProgress: return "MAINTENANCE_IN_PROGRESS"
-            case .provisioning: return "PROVISIONING"
-            case .terminated: return "TERMINATED"
-            case .terminating: return "TERMINATING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -4953,6 +4994,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The minimum value to which you can scale down the number of CPU cores.
+        public var ocpusLowestScaledValue: Swift.Int?
         /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
@@ -5024,6 +5067,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            ocpusLowestScaledValue: Swift.Int? = nil,
             odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
@@ -5077,6 +5121,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.ocpusLowestScaledValue = ocpusLowestScaledValue
             self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
@@ -5173,6 +5218,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The minimum value to which you can scale down the number of CPU cores.
+        public var ocpusLowestScaledValue: Swift.Int?
         /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
@@ -5244,6 +5291,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            ocpusLowestScaledValue: Swift.Int? = nil,
             odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
@@ -5297,6 +5345,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.ocpusLowestScaledValue = ocpusLowestScaledValue
             self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
@@ -5532,6 +5581,70 @@ public struct ListCloudAutonomousVmClustersOutput: Swift.Sendable {
     ) {
         self.cloudAutonomousVmClusters = cloudAutonomousVmClusters
         self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCloudAutonomousVmClusterInput: Swift.Sendable {
+    /// The data storage size to allocate for Autonomous Databases in the Autonomous VM cluster, in terabytes (TB).
+    public var autonomousDataStorageSizeInTBs: Swift.Double?
+    /// The unique identifier of the Autonomous VM cluster to update.
+    /// This member is required.
+    public var cloudAutonomousVmClusterId: Swift.String?
+    /// The number of CPU cores to enable per node in the Autonomous VM cluster. If you don't specify a value, the existing number of CPU cores per node is retained.
+    public var cpuCoreCountPerNode: Swift.Int?
+    /// A user-provided description of the Autonomous VM cluster.
+    public var description: Swift.String?
+    /// A new user-friendly name for the Autonomous VM cluster.
+    public var displayName: Swift.String?
+    /// The Oracle license model to apply to the Autonomous VM cluster.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
+    public var maintenanceWindow: OdbClientTypes.MaintenanceWindow?
+    /// The total number of Autonomous Container Databases that can be created in the Autonomous VM cluster.
+    public var totalContainerDatabases: Swift.Int?
+
+    public init(
+        autonomousDataStorageSizeInTBs: Swift.Double? = nil,
+        cloudAutonomousVmClusterId: Swift.String? = nil,
+        cpuCoreCountPerNode: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
+        totalContainerDatabases: Swift.Int? = nil
+    ) {
+        self.autonomousDataStorageSizeInTBs = autonomousDataStorageSizeInTBs
+        self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+        self.cpuCoreCountPerNode = cpuCoreCountPerNode
+        self.description = description
+        self.displayName = displayName
+        self.licenseModel = licenseModel
+        self.maintenanceWindow = maintenanceWindow
+        self.totalContainerDatabases = totalContainerDatabases
+    }
+}
+
+public struct UpdateCloudAutonomousVmClusterOutput: Swift.Sendable {
+    /// The unique identifier of the updated Autonomous VM cluster.
+    /// This member is required.
+    public var cloudAutonomousVmClusterId: Swift.String?
+    /// The user-friendly name of the updated Autonomous VM cluster.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the Autonomous VM cluster, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        cloudAutonomousVmClusterId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
     }
 }
 
@@ -6449,15 +6562,27 @@ public struct UpdateCloudExadataInfrastructureInput: Swift.Sendable {
     /// The unique identifier of the Exadata infrastructure to update.
     /// This member is required.
     public var cloudExadataInfrastructureId: Swift.String?
-    /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
+    /// The number of database servers for the Exadata infrastructure.
+    public var computeCount: Swift.Int?
+    /// A new user-friendly name for the Exadata infrastructure.
+    public var displayName: Swift.String?
+    /// The maintenance window configuration for the Exadata Cloud infrastructure. This allows you to define when maintenance operations such as patching and updates can be performed on the infrastructure.
     public var maintenanceWindow: OdbClientTypes.MaintenanceWindow?
+    /// The number of storage servers to activate for the Exadata infrastructure.
+    public var storageCount: Swift.Int?
 
     public init(
         cloudExadataInfrastructureId: Swift.String? = nil,
-        maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil
+        computeCount: Swift.Int? = nil,
+        displayName: Swift.String? = nil,
+        maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
+        storageCount: Swift.Int? = nil
     ) {
         self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
+        self.computeCount = computeCount
+        self.displayName = displayName
         self.maintenanceWindow = maintenanceWindow
+        self.storageCount = storageCount
     }
 }
 
@@ -6470,6 +6595,42 @@ public struct UpdateCloudExadataInfrastructureOutput: Swift.Sendable {
     /// The current status of the Exadata infrastructure after the update operation.
     public var status: OdbClientTypes.ResourceStatus?
     /// Additional information about the status of the Exadata infrastructure after the update operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        cloudExadataInfrastructureId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct UpdateCloudExadataInfrastructureStorageCapacityInput: Swift.Sendable {
+    /// The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure to update.
+    /// This member is required.
+    public var cloudExadataInfrastructureId: Swift.String?
+
+    public init(
+        cloudExadataInfrastructureId: Swift.String? = nil
+    ) {
+        self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
+    }
+}
+
+public struct UpdateCloudExadataInfrastructureStorageCapacityOutput: Swift.Sendable {
+    /// The unique identifier of the updated Exadata infrastructure.
+    /// This member is required.
+    public var cloudExadataInfrastructureId: Swift.String?
+    /// The user-friendly name of the updated Exadata infrastructure.
+    public var displayName: Swift.String?
+    /// The current status of the Exadata infrastructure.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the Exadata infrastructure, if applicable.
     public var statusReason: Swift.String?
 
     public init(
@@ -7368,6 +7529,47 @@ public struct DeleteCloudVmClusterOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateVirtualMachinesFromCloudVmClusterInput: Swift.Sendable {
+    /// The unique identifier of the VM cluster to remove virtual machines from.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The list of database server IDs for the virtual machines to remove from the VM cluster.
+    /// This member is required.
+    public var dbServers: [Swift.String]?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        dbServers: [Swift.String]? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.dbServers = dbServers
+    }
+}
+
+public struct DisassociateVirtualMachinesFromCloudVmClusterOutput: Swift.Sendable {
+    /// The unique identifier of the VM cluster.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The user-friendly name for the VM cluster.
+    public var displayName: Swift.String?
+    /// The current status of the VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the VM cluster, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
 public struct GetCloudVmClusterInput: Swift.Sendable {
     /// The unique identifier of the VM cluster.
     /// This member is required.
@@ -7423,6 +7625,78 @@ public struct ListCloudVmClustersOutput: Swift.Sendable {
     ) {
         self.cloudVmClusters = cloudVmClusters
         self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCloudVmClusterInput: Swift.Sendable {
+    /// The unique identifier of the VM cluster to update.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The number of CPU cores to enable on the VM cluster. If you don't specify a value, the existing number of CPU cores is retained.
+    public var cpuCoreCount: Swift.Int?
+    /// The set of preferences for the diagnostic collection options for the VM cluster.
+    public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
+    /// The size of the data disk group, in terabytes (TB), to allocate for the VM cluster.
+    public var dataStorageSizeInTBs: Swift.Double?
+    /// The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
+    public var dbNodeStorageSizeInGBs: Swift.Int?
+    /// A new user-friendly name for the VM cluster.
+    public var displayName: Swift.String?
+    /// The Oracle license model to apply to the VM cluster.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The amount of memory, in gigabytes (GB), to allocate for the VM cluster.
+    public var memorySizeInGBs: Swift.Int?
+    /// The public key portion of one or more key pairs used for SSH access to the VM cluster.
+    public var sshPublicKeys: [Swift.String]?
+    /// The amount of local node storage, in gigabytes (GB), to allocate to the VM cluster.
+    public var storageSizeInGBs: Swift.Int?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        cpuCoreCount: Swift.Int? = nil,
+        dataCollectionOptions: OdbClientTypes.DataCollectionOptions? = nil,
+        dataStorageSizeInTBs: Swift.Double? = nil,
+        dbNodeStorageSizeInGBs: Swift.Int? = nil,
+        displayName: Swift.String? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        memorySizeInGBs: Swift.Int? = nil,
+        sshPublicKeys: [Swift.String]? = nil,
+        storageSizeInGBs: Swift.Int? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.cpuCoreCount = cpuCoreCount
+        self.dataCollectionOptions = dataCollectionOptions
+        self.dataStorageSizeInTBs = dataStorageSizeInTBs
+        self.dbNodeStorageSizeInGBs = dbNodeStorageSizeInGBs
+        self.displayName = displayName
+        self.licenseModel = licenseModel
+        self.memorySizeInGBs = memorySizeInGBs
+        self.sshPublicKeys = sshPublicKeys
+        self.storageSizeInGBs = storageSizeInGBs
+    }
+}
+
+public struct UpdateCloudVmClusterOutput: Swift.Sendable {
+    /// The unique identifier of the updated VM cluster.
+    /// This member is required.
+    public var cloudVmClusterId: Swift.String?
+    /// The user-friendly name of the updated VM cluster.
+    public var displayName: Swift.String?
+    /// The current status of the VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the VM cluster, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        cloudVmClusterId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.cloudVmClusterId = cloudVmClusterId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
     }
 }
 

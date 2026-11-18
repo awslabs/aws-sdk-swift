@@ -314,7 +314,7 @@ extension LakeFormationClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "LakeFormation"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension LakeFormationClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "LakeFormation"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,7 +607,7 @@ extension LakeFormationClient {
     public static func builder() -> ClientRuntime.ClientBuilder<LakeFormationClient> {
         return ClientRuntime.ClientBuilder<LakeFormationClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "LakeFormation"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -2796,6 +2796,78 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetGlueFunctionSessionContext` operation on the `LakeFormation` service.
+    ///
+    /// Returns a session context for one or more user-defined functions that an integrated analytics engine runs together in a job. You must have the EXECUTE permission on every function in the list. While the session context is in use, if you don't have full SELECT permission on a table, the job can read the table only if every function in the session has the SELECT permission on it. Lake Formation enforces this check. To use this operation, you must have the lakeformation:GetDataAccess permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetGlueFunctionSessionContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetGlueFunctionSessionContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getGlueFunctionSessionContext(input: GetGlueFunctionSessionContextInput) async throws -> GetGlueFunctionSessionContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGlueFunctionSessionContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>(GetGlueFunctionSessionContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGlueFunctionSessionContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlueFunctionSessionContextOutput>(GetGlueFunctionSessionContextOutput.httpOutput(from:), GetGlueFunctionSessionContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetGlueFunctionSessionContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("LakeFormation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGlueFunctionSessionContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlueFunctionSessionContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "LakeFormation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGlueFunctionSessionContextInput, GetGlueFunctionSessionContextOutput>(serviceID: serviceName, version: LakeFormationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LakeFormation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGlueFunctionSessionContext")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetLFTag` operation on the `LakeFormation` service.
     ///
     /// Returns an LF-tag definition.
@@ -3372,6 +3444,79 @@ extension LakeFormationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LakeFormation")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTemporaryDataLocationCredentials")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTemporaryGlueFunctionCredentials` operation on the `LakeFormation` service.
+    ///
+    /// Returns temporary credentials that you can use to download the artifacts of a user-defined function whose GovernanceMode is LAKE_FORMATION. Lake Formation assumes the role that you registered for the function's ArtifactLocation. The credentials have read-only access to that location in Amazon S3. To use this operation, you must have the EXECUTE permission on the function.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryGlueFunctionCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTemporaryGlueFunctionCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getTemporaryGlueFunctionCredentials(input: GetTemporaryGlueFunctionCredentialsInput) async throws -> GetTemporaryGlueFunctionCredentialsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTemporaryGlueFunctionCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>(GetTemporaryGlueFunctionCredentialsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTemporaryGlueFunctionCredentialsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemporaryGlueFunctionCredentialsOutput>(GetTemporaryGlueFunctionCredentialsOutput.httpOutput(from:), GetTemporaryGlueFunctionCredentialsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTemporaryGlueFunctionCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("LakeFormation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTemporaryGlueFunctionCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTemporaryGlueFunctionCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "LakeFormation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTemporaryGlueFunctionCredentialsInput, GetTemporaryGlueFunctionCredentialsOutput>(serviceID: serviceName, version: LakeFormationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LakeFormation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTemporaryGlueFunctionCredentials")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

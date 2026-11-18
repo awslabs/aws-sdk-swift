@@ -7475,6 +7475,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSource: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -7482,9 +7486,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -9057,6 +9065,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSourceCreateRequest: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -9064,9 +9076,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -9077,6 +9093,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSourceUpdateRequest: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -9084,9 +9104,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -13722,6 +13746,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Media Package V2 Caption Language Setting
+    public enum MediaPackageV2CaptionLanguageSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaPackageV2CaptionLanguageSetting] {
+            return [
+                .auto,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// A/B Watermarker settings for MediaPackage V2 output groups.
     public struct MediaPackageV2AbWatermarkerIrdetoSettings: Swift.Sendable {
         /// The "B" pipeline renditions for the additional destinations.
@@ -13789,6 +13843,8 @@ extension MediaLiveClientTypes {
         public var additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]?
         /// Mapping of up to 4 caption channels to caption languages.
         public var captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]?
+        /// Applies only to 608 Embedded output captions. Controls the CLOSED-CAPTIONS signaling that MediaPackage v2 writes into the HLS manifest it delivers. auto: The default. If captionLanguageMappings is non-empty, the HLS manifest includes a CLOSED-CAPTIONS line for each mapped caption channel. If captionLanguageMappings is empty, the HLS manifest omits any CLOSED-CAPTIONS line. none: The HLS manifest carries CLOSED-CAPTIONS=NONE on each EXT-X-STREAM-INF tag, which signals to players that the stream has no closed captions, so they stop offering a CC track. The API rejects none combined with a non-empty captionLanguageMappings.
+        public var captionLanguageSetting: MediaLiveClientTypes.MediaPackageV2CaptionLanguageSetting?
         /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
         public var id3Behavior: MediaLiveClientTypes.CmafId3Behavior?
         /// If set to passthrough, passes any KLV data from the input source to this output.
@@ -13813,6 +13869,7 @@ extension MediaLiveClientTypes {
         public init(
             additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]? = nil,
             captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil,
+            captionLanguageSetting: MediaLiveClientTypes.MediaPackageV2CaptionLanguageSetting? = nil,
             id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
             klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
             nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
@@ -13826,6 +13883,7 @@ extension MediaLiveClientTypes {
         ) {
             self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
+            self.captionLanguageSetting = captionLanguageSetting
             self.id3Behavior = id3Behavior
             self.klvBehavior = klvBehavior
             self.nielsenId3Behavior = nielsenId3Behavior
@@ -39897,6 +39955,7 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
         guard let value else { return }
         try writer["additionalDestinations"].writeList(value.additionalDestinations, memberWritingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["captionLanguageSetting"].write(value.captionLanguageSetting)
         try writer["id3Behavior"].write(value.id3Behavior)
         try writer["klvBehavior"].write(value.klvBehavior)
         try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
@@ -39924,6 +39983,7 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
         value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
         value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.watermarkingSettings = try reader["watermarkingSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings.read(from:))
+        value.captionLanguageSetting = try reader["captionLanguageSetting"].readIfPresent()
         return value
     }
 }
@@ -40241,6 +40301,8 @@ extension MediaLiveClientTypes.MulticastSource {
         var value = MediaLiveClientTypes.MulticastSource()
         value.sourceIp = try reader["sourceIp"].readIfPresent()
         value.url = try reader["url"].readIfPresent() ?? ""
+        value.secondarySourceIp = try reader["secondarySourceIp"].readIfPresent()
+        value.secondaryUrl = try reader["secondaryUrl"].readIfPresent()
         return value
     }
 }
@@ -40249,6 +40311,8 @@ extension MediaLiveClientTypes.MulticastSourceCreateRequest {
 
     static func write(value: MediaLiveClientTypes.MulticastSourceCreateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["secondarySourceIp"].write(value.secondarySourceIp)
+        try writer["secondaryUrl"].write(value.secondaryUrl)
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
     }
@@ -40258,6 +40322,8 @@ extension MediaLiveClientTypes.MulticastSourceUpdateRequest {
 
     static func write(value: MediaLiveClientTypes.MulticastSourceUpdateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["secondarySourceIp"].write(value.secondarySourceIp)
+        try writer["secondaryUrl"].write(value.secondaryUrl)
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
     }

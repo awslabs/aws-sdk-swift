@@ -312,7 +312,7 @@ extension OrganizationsClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Organizations"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -543,7 +543,7 @@ extension OrganizationsClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Organizations"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -605,7 +605,7 @@ extension OrganizationsClient {
     public static func builder() -> ClientRuntime.ClientBuilder<OrganizationsClient> {
         return ClientRuntime.ClientBuilder<OrganizationsClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Organizations"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -948,6 +948,8 @@ extension OrganizationsClient {
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     ///
     /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
+    ///
+    /// * [SECURITYHUB_CSPM_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub_cspm.html)
     ///
     ///
     /// You can only call this operation from the management account or a member account that is a delegated administrator.

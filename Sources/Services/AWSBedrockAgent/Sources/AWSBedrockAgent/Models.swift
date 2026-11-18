@@ -11256,6 +11256,105 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
+    /// Specifies whether a custom metadata field is searchable. The knowledge base matches query text against the values of searchable fields.
+    public enum SearchableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchableStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The data type of a custom metadata field. Valid values:
+    ///
+    /// * STRING – The field holds a single string value.
+    ///
+    /// * STRING_LIST – The field holds a list of string values.
+    public enum FieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldType] {
+            return [
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .string: return "STRING"
+            case .stringList: return "STRING_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the configuration of a single custom metadata field in a knowledge base, including its name, data type, and whether the field is searchable.
+    public struct MetadataConfiguration: Swift.Sendable {
+        /// The name of the custom metadata field.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies whether the custom metadata field is searchable. Valid values:
+        ///
+        /// * ENABLED – The field is searchable.
+        ///
+        /// * DISABLED – The field is not searchable.
+        /// This member is required.
+        public var searchability: BedrockAgentClientTypes.SearchableStatus?
+        /// The data type of the custom metadata field. Valid values are STRING and STRING_LIST.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.FieldType?
+
+        public init(
+            name: Swift.String? = nil,
+            searchability: BedrockAgentClientTypes.SearchableStatus? = nil,
+            type: BedrockAgentClientTypes.FieldType? = nil
+        ) {
+            self.name = name
+            self.searchability = searchability
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MetadataConfiguration(searchability: \(Swift.String(describing: searchability)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
     public enum KnowledgeBaseStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
@@ -11318,6 +11417,8 @@ extension BedrockAgentClientTypes {
         /// The unique identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
+        /// The custom metadata field configurations of the knowledge base. Each configuration specifies whether its field is searchable (ENABLED or DISABLED). If the update fails, the knowledge base status becomes UPDATE_UNSUCCESSFUL, the field configurations revert to their previous values, and failureReasons describes the cause. You can retry the update from UPDATE_UNSUCCESSFUL.
+        public var metadataConfigurations: [BedrockAgentClientTypes.MetadataConfiguration]?
         /// The name of the knowledge base.
         /// This member is required.
         public var name: Swift.String?
@@ -11350,6 +11451,7 @@ extension BedrockAgentClientTypes {
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseConfiguration: BedrockAgentClientTypes.KnowledgeBaseConfiguration? = nil,
             knowledgeBaseId: Swift.String? = nil,
+            metadataConfigurations: [BedrockAgentClientTypes.MetadataConfiguration]? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: BedrockAgentClientTypes.KnowledgeBaseStatus? = nil,
@@ -11362,6 +11464,7 @@ extension BedrockAgentClientTypes {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.knowledgeBaseId = knowledgeBaseId
+            self.metadataConfigurations = metadataConfigurations
             self.name = name
             self.roleArn = roleArn
             self.status = status
@@ -11655,6 +11758,8 @@ public struct UpdateKnowledgeBaseInput: Swift.Sendable {
     /// The unique identifier of the knowledge base to update.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
+    /// Specifies up to 30 custom metadata field configurations for a managed knowledge base. The list that you specify replaces the existing configurations. The update removes any configuration that you leave out, and its field is no longer searchable. An empty list removes all configurations. If you don't specify a list, the existing configurations don't change.
+    public var metadataConfigurations: [BedrockAgentClientTypes.MetadataConfiguration]?
     /// Specifies a new name for the knowledge base.
     /// This member is required.
     public var name: Swift.String?
@@ -11668,6 +11773,7 @@ public struct UpdateKnowledgeBaseInput: Swift.Sendable {
         description: Swift.String? = nil,
         knowledgeBaseConfiguration: BedrockAgentClientTypes.KnowledgeBaseConfiguration? = nil,
         knowledgeBaseId: Swift.String? = nil,
+        metadataConfigurations: [BedrockAgentClientTypes.MetadataConfiguration]? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         storageConfiguration: BedrockAgentClientTypes.StorageConfiguration? = nil
@@ -11675,6 +11781,7 @@ public struct UpdateKnowledgeBaseInput: Swift.Sendable {
         self.description = description
         self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
         self.knowledgeBaseId = knowledgeBaseId
+        self.metadataConfigurations = metadataConfigurations
         self.name = name
         self.roleArn = roleArn
         self.storageConfiguration = storageConfiguration
@@ -15579,6 +15686,7 @@ extension UpdateKnowledgeBaseInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["knowledgeBaseConfiguration"].write(value.knowledgeBaseConfiguration, with: BedrockAgentClientTypes.KnowledgeBaseConfiguration.write(value:to:))
+        try writer["metadataConfigurations"].writeList(value.metadataConfigurations, memberWritingClosure: BedrockAgentClientTypes.MetadataConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
         try writer["storageConfiguration"].write(value.storageConfiguration, with: BedrockAgentClientTypes.StorageConfiguration.write(value:to:))
@@ -20315,6 +20423,7 @@ extension BedrockAgentClientTypes.KnowledgeBase {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadataConfigurations = try reader["metadataConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.MetadataConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -20688,6 +20797,25 @@ extension BedrockAgentClientTypes.MetadataAttributeValue {
         try writer["stringListValue"].writeList(value.stringListValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stringValue"].write(value.stringValue)
         try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.MetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["searchability"].write(value.searchability)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MetadataConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.searchability = try reader["searchability"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

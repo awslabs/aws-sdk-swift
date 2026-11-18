@@ -34,6 +34,37 @@ extension BatchGetSecretValueInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SecretsManagerClient {
+    /// Paginate over `[ListResourcePoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourcePoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcePoliciesOutput`
+    public func listResourcePoliciesPaginated(input: ListResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourcePolicies(input:))
+    }
+}
+
+extension ListResourcePoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourcePoliciesInput {
+        return ListResourcePoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            secretId: self.secretId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourcePoliciesInput, OperationStackOutput == ListResourcePoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourcePoliciesPaginated`
+    /// to access the nested member `[SecretsManagerClientTypes.ResourcePolicySummary]`
+    /// - Returns: `[SecretsManagerClientTypes.ResourcePolicySummary]`
+    public func resourcePolicies() async throws -> [SecretsManagerClientTypes.ResourcePolicySummary] {
+        return try await self.asyncCompactMap { item in item.resourcePolicies }
+    }
+}
+extension SecretsManagerClient {
     /// Paginate over `[ListSecretsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

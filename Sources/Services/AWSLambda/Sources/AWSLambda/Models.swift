@@ -101,6 +101,66 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public enum AcceleratorMemoryGB: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    /// Allocates at least 12 GB of accelerator memory to each execution environment.
+    case memory12
+    /// Allocates at least 16 GB of accelerator memory to each execution environment.
+    case memory16
+    /// Allocates at least 24 GB of accelerator memory to each execution environment.
+    case memory24
+    /// Allocates at least 3 GB of accelerator memory to each execution environment.
+    case memory3
+    /// Allocates at least 48 GB of accelerator memory to each execution environment.
+    case memory48
+    /// Allocates at least 6 GB of accelerator memory to each execution environment.
+    case memory6
+    case sdkUnknown(Swift.Int)
+
+    public static var allCases: [AcceleratorMemoryGB] {
+        return [
+            .memory12,
+            .memory16,
+            .memory24,
+            .memory3,
+            .memory48,
+            .memory6
+        ]
+    }
+
+    public init(rawValue: Swift.Int) {
+        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+        self = value ?? Self.sdkUnknown(rawValue)
+    }
+
+    public var rawValue: Swift.Int {
+        switch self {
+        case .memory12: return 12
+        case .memory16: return 16
+        case .memory24: return 24
+        case .memory3: return 3
+        case .memory48: return 48
+        case .memory6: return 6
+        case let .sdkUnknown(s): return s
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The accelerator resource settings for a Lambda execution environment, including the amount of accelerator memory to allocate.
+    public struct AcceleratorConfig: Swift.Sendable {
+        /// The minimum amount of memory (in GB) of each accelerator device exposed to the execution environment. Lambda might allocate more, depending on the accelerator instance types available.
+        /// This member is required.
+        public var acceleratorMemorySize: AcceleratorMemoryGB?
+
+        public init(
+            acceleratorMemorySize: AcceleratorMemoryGB? = nil
+        ) {
+            self.acceleratorMemorySize = acceleratorMemorySize
+        }
+    }
+}
+
 extension LambdaClientTypes {
 
     /// Limits that are related to concurrency and storage. All file and storage sizes are in bytes.
@@ -995,11 +1055,13 @@ extension LambdaClientTypes {
 
     public enum CapacityProviderPredefinedMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdacapacityprovideraveragecpuutilization
+        case lambdacapacityprovideraveragegpuutilization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityProviderPredefinedMetricType] {
             return [
-                .lambdacapacityprovideraveragecpuutilization
+                .lambdacapacityprovideraveragecpuutilization,
+                .lambdacapacityprovideraveragegpuutilization
             ]
         }
 
@@ -1011,6 +1073,7 @@ extension LambdaClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lambdacapacityprovideraveragecpuutilization: return "LambdaCapacityProviderAverageCPUUtilization"
+            case .lambdacapacityprovideraveragegpuutilization: return "LambdaCapacityProviderAverageGPUUtilization"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2122,7 +2185,7 @@ extension LambdaClientTypes {
         public var functionName: Swift.String?
         /// The tenant identifier for the chained invocation.
         public var tenantId: Swift.String?
-        /// The optional X-Ray trace header to use when starting the chained invocation. If you omit this value, the child invocation inherits the parent durable execution's trace header. Specify this value on the START update for the chained invocation operation. For more information about the header format, see [Tracing header](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader) in the X-Ray Developer Guide.
+        /// The X-Ray trace header to use when starting the chained invocation. This parameter is optional. If you omit this value, the child invocation inherits the parent durable execution's trace header. Specify this value on the START update for the chained invocation operation. For more information about the header format, see [Tracing header](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader) in the X-Ray Developer Guide.
         public var xAmznTraceId: Swift.String?
 
         public init(
@@ -2242,7 +2305,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Specifies how long to pause the durable execution.
+    /// Specifies how long the durable execution waits.
     public struct WaitOptions: Swift.Sendable {
         /// The duration to wait, in seconds.
         public var waitSeconds: Swift.Int?
@@ -2652,6 +2715,30 @@ public struct CheckpointDurableExecutionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+    }
+}
+
+public struct DeleteDurableExecutionOutput: Swift.Sendable {
+    /// The timestamp when Lambda accepted the deletion request (ISO 8601 format).
+    /// This member is required.
+    public var deletionRequestTimestamp: Foundation.Date?
+
+    public init(
+        deletionRequestTimestamp: Foundation.Date? = nil
+    ) {
+        self.deletionRequestTimestamp = deletionRequestTimestamp
+    }
+}
+
 public struct GetDurableExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
@@ -2693,8 +2780,41 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that is pausing or paused.
+    public struct PauseDetails: Swift.Sendable {
+        /// Specifies whether the pause also pauses the execution timeout.
+        /// This member is required.
+        public var executionTimeoutPaused: Swift.Bool?
+        /// The date and time when you requested the pause, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var pauseRequestTimestamp: Foundation.Date?
+        /// The reason that you provided when you paused the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var reason: Swift.String?
+
+        public init(
+            executionTimeoutPaused: Swift.Bool? = nil,
+            pauseRequestTimestamp: Foundation.Date? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.executionTimeoutPaused = executionTimeoutPaused
+            self.pauseRequestTimestamp = pauseRequestTimestamp
+            self.reason = reason
+        }
+    }
+}
+
+extension LambdaClientTypes.PauseDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PauseDetails(executionTimeoutPaused: \(Swift.String(describing: executionTimeoutPaused)), pauseRequestTimestamp: \(Swift.String(describing: pauseRequestTimestamp)), reason: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
     public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleting
         case failed
+        case paused
+        case pausing
         case running
         case stopped
         case succeeded
@@ -2703,7 +2823,10 @@ extension LambdaClientTypes {
 
         public static var allCases: [ExecutionStatus] {
             return [
+                .deleting,
                 .failed,
+                .paused,
+                .pausing,
                 .running,
                 .stopped,
                 .succeeded,
@@ -2718,7 +2841,10 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .paused: return "PAUSED"
+            case .pausing: return "PAUSING"
             case .running: return "RUNNING"
             case .stopped: return "STOPPED"
             case .succeeded: return "SUCCEEDED"
@@ -2760,17 +2886,37 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var error: LambdaClientTypes.ErrorObject?
     /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
     public var executionDataIncluded: Swift.Bool?
+    /// The date and time when the durable execution will time out, in Unix timestamp format. This value includes any extension from time the execution spent paused. While the execution is paused with its execution timeout paused, this value is 366 days after the start time. This field isn't present for completed executions.
+    public var expectedExecutionTimeoutTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
     /// This member is required.
     public var functionArn: Swift.String?
     /// The JSON input payload that you provided when you started the durable execution. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var inputPayload: Swift.String?
+    /// The details of the pause, including when you requested it and whether it pauses the execution timeout. This field is only present when the execution status is PAUSING or PAUSED.
+    public var pauseDetails: LambdaClientTypes.PauseDetails?
     /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var result: Swift.String?
     /// The date and time when the durable execution started, in Unix timestamp format.
     /// This member is required.
     public var startTimestamp: Foundation.Date?
-    /// The current status of the durable execution. Valid values are RUNNING, SUCCEEDED, FAILED, TIMED_OUT, and STOPPED.
+    /// The durable execution has one of the following statuses:
+    ///
+    /// * RUNNING – The execution is running or waiting for pending operations to complete.
+    ///
+    /// * PAUSING – The execution is waiting for an in-progress invocation to reach its next checkpoint before it pauses.
+    ///
+    /// * PAUSED – The execution is paused, and Lambda doesn't invoke your function.
+    ///
+    /// * SUCCEEDED – The execution completed successfully.
+    ///
+    /// * FAILED – The execution completed with an error.
+    ///
+    /// * TIMED_OUT – The execution exceeded its execution timeout.
+    ///
+    /// * STOPPED – A StopDurableExecution request stopped the execution.
+    ///
+    /// * DELETING – A DeleteDurableExecution request is deleting the execution and its data.
     /// This member is required.
     public var status: LambdaClientTypes.ExecutionStatus?
     /// The trace headers associated with the durable execution.
@@ -2785,8 +2931,10 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
         endTimestamp: Foundation.Date? = nil,
         error: LambdaClientTypes.ErrorObject? = nil,
         executionDataIncluded: Swift.Bool? = nil,
+        expectedExecutionTimeoutTimestamp: Foundation.Date? = nil,
         functionArn: Swift.String? = nil,
         inputPayload: Swift.String? = nil,
+        pauseDetails: LambdaClientTypes.PauseDetails? = nil,
         result: Swift.String? = nil,
         startTimestamp: Foundation.Date? = nil,
         status: LambdaClientTypes.ExecutionStatus? = nil,
@@ -2799,8 +2947,10 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
         self.endTimestamp = endTimestamp
         self.error = error
         self.executionDataIncluded = executionDataIncluded
+        self.expectedExecutionTimeoutTimestamp = expectedExecutionTimeoutTimestamp
         self.functionArn = functionArn
         self.inputPayload = inputPayload
+        self.pauseDetails = pauseDetails
         self.result = result
         self.startTimestamp = startTimestamp
         self.status = status
@@ -2811,7 +2961,7 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
 
 extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
+        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), expectedExecutionTimeoutTimestamp: \(Swift.String(describing: expectedExecutionTimeoutTimestamp)), functionArn: \(Swift.String(describing: functionArn)), pauseDetails: \(Swift.String(describing: pauseDetails)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDurableExecutionHistoryInput: Swift.Sendable {
@@ -3134,6 +3284,8 @@ extension LambdaClientTypes {
         case contextstarted
         case contextsucceeded
         case executionfailed
+        case executionpaused
+        case executionresumed
         case executionstarted
         case executionstopped
         case executionsucceeded
@@ -3162,6 +3314,8 @@ extension LambdaClientTypes {
                 .contextstarted,
                 .contextsucceeded,
                 .executionfailed,
+                .executionpaused,
+                .executionresumed,
                 .executionstarted,
                 .executionstopped,
                 .executionsucceeded,
@@ -3196,6 +3350,8 @@ extension LambdaClientTypes {
             case .contextstarted: return "ContextStarted"
             case .contextsucceeded: return "ContextSucceeded"
             case .executionfailed: return "ExecutionFailed"
+            case .executionpaused: return "ExecutionPaused"
+            case .executionresumed: return "ExecutionResumed"
             case .executionstarted: return "ExecutionStarted"
             case .executionstopped: return "ExecutionStopped"
             case .executionsucceeded: return "ExecutionSucceeded"
@@ -3225,6 +3381,99 @@ extension LambdaClientTypes {
             error: LambdaClientTypes.EventError? = nil
         ) {
             self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The reason for pausing a durable execution, as recorded in the execution history.
+    public struct EventPauseReason: Swift.Sendable {
+        /// The reason that you provided when you paused the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var payload: Swift.String?
+        /// Specifies whether Lambda omitted the reason from the response because IncludeExecutionData is false.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventPauseReason: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventPauseReason(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that paused. The event timestamp is when the execution paused.
+    public struct ExecutionPausedDetails: Swift.Sendable {
+        /// Specifies whether the pause also paused the execution timeout.
+        /// This member is required.
+        public var executionTimeoutPaused: Swift.Bool?
+        /// The date and time when you requested the pause, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var pauseRequestTimestamp: Foundation.Date?
+        /// The reason that you provided when you paused the execution.
+        public var reason: LambdaClientTypes.EventPauseReason?
+
+        public init(
+            executionTimeoutPaused: Swift.Bool? = nil,
+            pauseRequestTimestamp: Foundation.Date? = nil,
+            reason: LambdaClientTypes.EventPauseReason? = nil
+        ) {
+            self.executionTimeoutPaused = executionTimeoutPaused
+            self.pauseRequestTimestamp = pauseRequestTimestamp
+            self.reason = reason
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The reason for resuming a durable execution, as recorded in the execution history.
+    public struct EventResumeReason: Swift.Sendable {
+        /// The reason that you provided when you resumed the execution. This field is only present if you set IncludeExecutionData to true in the request.
+        public var payload: Swift.String?
+        /// Specifies whether Lambda omitted the reason from the response because IncludeExecutionData is false.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventResumeReason: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventResumeReason(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that resumed. The event timestamp is when the execution resumed.
+    public struct ExecutionResumedDetails: Swift.Sendable {
+        /// The reason that you provided when you resumed the execution.
+        public var reason: LambdaClientTypes.EventResumeReason?
+        /// The date and time when you requested the resume, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var resumeRequestTimestamp: Foundation.Date?
+
+        public init(
+            reason: LambdaClientTypes.EventResumeReason? = nil,
+            resumeRequestTimestamp: Foundation.Date? = nil
+        ) {
+            self.reason = reason
+            self.resumeRequestTimestamp = resumeRequestTimestamp
         }
     }
 }
@@ -3484,6 +3733,10 @@ extension LambdaClientTypes {
         public var eventType: LambdaClientTypes.EventType?
         /// Details about an execution that failed.
         public var executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails?
+        /// The details of an ExecutionPaused event.
+        public var executionPausedDetails: LambdaClientTypes.ExecutionPausedDetails?
+        /// The details of an ExecutionResumed event.
+        public var executionResumedDetails: LambdaClientTypes.ExecutionResumedDetails?
         /// Details about an execution that started.
         public var executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails?
         /// Details about an execution that was stopped.
@@ -3532,6 +3785,8 @@ extension LambdaClientTypes {
             eventTimestamp: Foundation.Date? = nil,
             eventType: LambdaClientTypes.EventType? = nil,
             executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails? = nil,
+            executionPausedDetails: LambdaClientTypes.ExecutionPausedDetails? = nil,
+            executionResumedDetails: LambdaClientTypes.ExecutionResumedDetails? = nil,
             executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails? = nil,
             executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails? = nil,
             executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails? = nil,
@@ -3564,6 +3819,8 @@ extension LambdaClientTypes {
             self.eventTimestamp = eventTimestamp
             self.eventType = eventType
             self.executionFailedDetails = executionFailedDetails
+            self.executionPausedDetails = executionPausedDetails
+            self.executionResumedDetails = executionResumedDetails
             self.executionStartedDetails = executionStartedDetails
             self.executionStoppedDetails = executionStoppedDetails
             self.executionSucceededDetails = executionSucceededDetails
@@ -3640,6 +3897,70 @@ public struct GetDurableExecutionStateOutput: Swift.Sendable {
         self.nextMarker = nextMarker
         self.operations = operations
     }
+}
+
+public struct PauseDurableExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request completes no more than one time. If you repeat a request with the same client token and parameters within 15 minutes, Lambda doesn't pause the execution again and returns a successful response instead of an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Specifies whether to pause the execution timeout while the execution is paused. If true, Lambda extends the execution timeout by the time the execution spends paused. An execution with a paused timeout still times out 366 days after it started. The default value is true.
+    public var executionTimeoutPaused: Swift.Bool?
+    /// A description of why you're pausing the execution. Lambda records the reason in the execution history.
+    public var reason: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        executionTimeoutPaused: Swift.Bool? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.durableExecutionArn = durableExecutionArn
+        self.executionTimeoutPaused = executionTimeoutPaused
+        self.reason = reason
+    }
+}
+
+extension PauseDurableExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PauseDurableExecutionInput(clientToken: \(Swift.String(describing: clientToken)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), executionTimeoutPaused: \(Swift.String(describing: executionTimeoutPaused)), reason: \"CONTENT_REDACTED\")"}
+}
+
+public struct PauseDurableExecutionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ResumeDurableExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request completes no more than one time. If you repeat a request with the same client token and parameters within 15 minutes, Lambda doesn't resume the execution again and returns a successful response instead of an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// A description of why you're resuming the execution. Lambda records the reason in the execution history.
+    public var reason: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.durableExecutionArn = durableExecutionArn
+        self.reason = reason
+    }
+}
+
+extension ResumeDurableExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResumeDurableExecutionInput(clientToken: \(Swift.String(describing: clientToken)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), reason: \"CONTENT_REDACTED\")"}
+}
+
+public struct ResumeDurableExecutionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StopDurableExecutionInput: Swift.Sendable {
@@ -4011,18 +4332,58 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum KafkaEventSourceMappingConsumptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case queue
+        case stream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaEventSourceMappingConsumptionMode] {
+            return [
+                .queue,
+                .stream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .queue: return "Queue"
+            case .stream: return "Stream"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// Specific configuration settings for a self-managed Apache Kafka event source.
     public struct SelfManagedKafkaEventSourceConfig: Swift.Sendable {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka-process.html#services-smaa-topic-add).
         public var consumerGroupId: Swift.String?
+        /// The mode that Lambda uses to consume records from your self-managed Apache Kafka topic. Valid values are the following:
+        ///
+        /// * Stream (default) – Lambda consumes records using a Kafka consumer group and preserves the order of records within each partition.
+        ///
+        /// * Queue – Lambda consumes records using a Kafka share group. Multiple consumers can process records from the same partition concurrently, so Lambda doesn't preserve per-partition order. To use Queue mode, your cluster must run Apache Kafka version 4.2 or later with share groups enabled.
+        ///
+        ///
+        /// If you omit this parameter, Lambda uses Stream. You cannot change ConsumptionMode after you create the event source mapping. To use a different consumption mode, create a new event source mapping. When ConsumptionMode is Queue, the StartingPosition, StartingPositionTimestamp, and MaximumBatchingWindowInSeconds parameters are not supported.
+        public var consumptionMode: LambdaClientTypes.KafkaEventSourceMappingConsumptionMode?
         /// Specific configuration settings for a Kafka schema registry.
         public var schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig?
 
         public init(
             consumerGroupId: Swift.String? = nil,
+            consumptionMode: LambdaClientTypes.KafkaEventSourceMappingConsumptionMode? = nil,
             schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig? = nil
         ) {
             self.consumerGroupId = consumerGroupId
+            self.consumptionMode = consumptionMode
             self.schemaRegistryConfig = schemaRegistryConfig
         }
     }
@@ -4242,11 +4603,11 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
     public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -4264,9 +4625,9 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var startingPositionTimestamp: Foundation.Date?
     /// A list of tags to apply to the event source mapping.
     public var tags: [Swift.String: Swift.String]?
@@ -5077,11 +5438,11 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. Use this configuration object to define the level of logs for your event source mapping.
     public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -5579,7 +5940,7 @@ extension LambdaClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension LambdaClientTypes {
 
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public struct EphemeralStorage: Swift.Sendable {
         /// The size of the function's /tmp directory.
         /// This member is required.
@@ -5811,6 +6172,7 @@ extension LambdaClientTypes {
 extension LambdaClientTypes {
 
     public enum Runtime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
         case dotnet10
         case dotnet6
         case dotnet8
@@ -5866,6 +6228,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [Runtime] {
             return [
+                .custom,
                 .dotnet10,
                 .dotnet6,
                 .dotnet8,
@@ -5927,6 +6290,7 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .custom: return "custom"
             case .dotnet10: return "dotnet10"
             case .dotnet6: return "dotnet6"
             case .dotnet8: return "dotnet8"
@@ -5980,6 +6344,27 @@ extension LambdaClientTypes {
             case .ruby40: return "ruby4.0"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public struct FunctionRuntimeConfig: Swift.Sendable {
+        /// The name of the customer-managed runtime alias that your function uses. A runtime alias is a name that points to a runtime version.
+        /// This member is required.
+        public var runtimeAlias: Swift.String?
+        /// The Amazon Resource Name (ARN) of the customer-managed runtime that your function uses.
+        /// This member is required.
+        public var runtimeArn: Swift.String?
+
+        public init(
+            runtimeAlias: Swift.String? = nil,
+            runtimeArn: Swift.String? = nil
+        ) {
+            self.runtimeAlias = runtimeAlias
+            self.runtimeArn = runtimeArn
         }
     }
 }
@@ -6138,6 +6523,8 @@ extension LambdaClientTypes {
 }
 
 public struct CreateFunctionInput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -6155,7 +6542,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -6205,6 +6592,8 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
     /// A list of [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to apply to the function.
@@ -6219,6 +6608,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfig?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         code: LambdaClientTypes.FunctionCode? = nil,
@@ -6241,6 +6631,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         publishTo: LambdaClientTypes.FunctionVersionLatestPublished? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
@@ -6248,6 +6639,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.code = code
@@ -6270,6 +6662,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         self.publishTo = publishTo
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.snapStart = snapStart
         self.tags = tags
         self.tenancyConfig = tenancyConfig
@@ -6426,6 +6819,7 @@ extension LambdaClientTypes {
         case functionerrortoomanyextensions
         case imageaccessdenied
         case imagedeleted
+        case incompatibleacceleratorinstancetypes
         case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
@@ -6466,6 +6860,7 @@ extension LambdaClientTypes {
                 .functionerrortoomanyextensions,
                 .imageaccessdenied,
                 .imagedeleted,
+                .incompatibleacceleratorinstancetypes,
                 .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
@@ -6512,6 +6907,7 @@ extension LambdaClientTypes {
             case .functionerrortoomanyextensions: return "FunctionError.TooManyExtensions"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .incompatibleacceleratorinstancetypes: return "IncompatibleAcceleratorInstanceTypes"
             case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
@@ -6678,6 +7074,7 @@ extension LambdaClientTypes {
         case idle
         case imageaccessdenied
         case imagedeleted
+        case incompatibleacceleratorinstancetypes
         case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
@@ -6722,6 +7119,7 @@ extension LambdaClientTypes {
                 .idle,
                 .imageaccessdenied,
                 .imagedeleted,
+                .incompatibleacceleratorinstancetypes,
                 .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
@@ -6772,6 +7170,7 @@ extension LambdaClientTypes {
             case .idle: return "Idle"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .incompatibleacceleratorinstancetypes: return "IncompatibleAcceleratorInstanceTypes"
             case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
@@ -6838,6 +7237,8 @@ extension LambdaClientTypes {
 
 /// Details about a function's configuration.
 public struct CreateFunctionOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -6856,7 +7257,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -6905,6 +7306,8 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -6931,6 +7334,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -6959,6 +7363,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -6972,6 +7377,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -7000,6 +7406,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -7356,6 +7763,8 @@ extension LambdaClientTypes {
 
     /// Details about a function's configuration.
     public struct FunctionConfiguration: Swift.Sendable {
+        /// The accelerator resource settings for a Lambda execution environment.
+        public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
         /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [LambdaClientTypes.Architecture]?
         /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -7374,7 +7783,7 @@ extension LambdaClientTypes {
         public var durableConfig: LambdaClientTypes.DurableConfig?
         /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
         public var environment: LambdaClientTypes.EnvironmentResponse?
-        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
         public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
         /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
         public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7423,6 +7832,8 @@ extension LambdaClientTypes {
         public var role: Swift.String?
         /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var runtime: LambdaClientTypes.Runtime?
+        /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+        public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
         /// The ARN of the runtime and any errors that occured.
         public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
         /// The ARN of the signing job.
@@ -7449,6 +7860,7 @@ extension LambdaClientTypes {
         public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
         public init(
+            acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
             architectures: [LambdaClientTypes.Architecture]? = nil,
             capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
             codeSha256: Swift.String? = nil,
@@ -7477,6 +7889,7 @@ extension LambdaClientTypes {
             revisionId: Swift.String? = nil,
             role: Swift.String? = nil,
             runtime: LambdaClientTypes.Runtime? = nil,
+            runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
             runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil,
@@ -7490,6 +7903,7 @@ extension LambdaClientTypes {
             version: Swift.String? = nil,
             vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
         ) {
+            self.acceleratorConfig = acceleratorConfig
             self.architectures = architectures
             self.capacityProviderConfig = capacityProviderConfig
             self.codeSha256 = codeSha256
@@ -7518,6 +7932,7 @@ extension LambdaClientTypes {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeConfig = runtimeConfig
             self.runtimeVersionConfig = runtimeVersionConfig
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
@@ -7688,6 +8103,8 @@ public struct GetFunctionConfigurationInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct GetFunctionConfigurationOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -7706,7 +8123,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7755,6 +8172,8 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -7781,6 +8200,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -7809,6 +8229,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -7822,6 +8243,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -7850,6 +8272,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -8776,6 +9199,60 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+public struct RuntimeAliasDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates the exception type for a deleted runtime alias.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RuntimeAliasDeletedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
+public struct RuntimeVersionDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates the exception type for a deleted runtime version.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RuntimeVersionDeletedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The Lambda function couldn't make a network connection to the configured S3 Files access point.
 public struct S3FilesMountConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -9449,7 +9926,23 @@ public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
     public var startedAfter: Foundation.Date?
     /// Filter executions that started before this timestamp (ISO 8601 format).
     public var startedBefore: Foundation.Date?
-    /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    /// Filters the executions by status. Specify one of the following values:
+    ///
+    /// * RUNNING – The execution is running or waiting for pending operations to complete.
+    ///
+    /// * PAUSING – The execution is waiting for an in-progress invocation to reach its next checkpoint before it pauses.
+    ///
+    /// * PAUSED – The execution is paused, and Lambda doesn't invoke your function.
+    ///
+    /// * SUCCEEDED – The execution completed successfully.
+    ///
+    /// * FAILED – The execution completed with an error.
+    ///
+    /// * TIMED_OUT – The execution exceeded its execution timeout.
+    ///
+    /// * STOPPED – A StopDurableExecution request stopped the execution.
+    ///
+    /// * DELETING – A DeleteDurableExecution request is deleting the execution and its data.
     public var statuses: [LambdaClientTypes.ExecutionStatus]?
 
     public init(
@@ -10107,6 +10600,8 @@ extension UpdateFunctionCodeInput: Swift.CustomDebugStringConvertible {
 
 /// Details about a function's configuration.
 public struct UpdateFunctionCodeOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -10125,7 +10620,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10174,6 +10669,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -10200,6 +10697,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -10228,6 +10726,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -10241,6 +10740,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -10269,6 +10769,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -10285,6 +10786,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
 }
 
 public struct UpdateFunctionConfigurationInput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
     public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see [Dead-letter queues](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
@@ -10295,7 +10798,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10340,6 +10843,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
     /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
@@ -10350,6 +10855,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfig?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
@@ -10367,11 +10873,13 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.capacityProviderConfig = capacityProviderConfig
         self.deadLetterConfig = deadLetterConfig
         self.description = description
@@ -10389,6 +10897,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.snapStart = snapStart
         self.timeout = timeout
         self.tracingConfig = tracingConfig
@@ -10398,6 +10907,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -10416,7 +10927,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10465,6 +10976,8 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -10491,6 +11004,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -10519,6 +11033,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -10532,6 +11047,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -10560,6 +11076,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -11020,6 +11537,8 @@ public struct PublishVersionInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct PublishVersionOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -11038,7 +11557,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -11087,6 +11606,8 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -11113,6 +11634,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -11141,6 +11663,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -11154,6 +11677,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -11182,6 +11706,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -12605,6 +13130,16 @@ extension DeleteCodeSigningConfigInput {
     }
 }
 
+extension DeleteDurableExecutionInput {
+
+    static func urlPathProvider(_ value: DeleteDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())"
+    }
+}
+
 extension DeleteEventSourceMappingInput {
 
     static func urlPathProvider(_ value: DeleteEventSourceMappingInput) -> Swift.String? {
@@ -13689,6 +14224,16 @@ extension ListVersionsByFunctionInput {
     }
 }
 
+extension PauseDurableExecutionInput {
+
+    static func urlPathProvider(_ value: PauseDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/pause"
+    }
+}
+
 extension PublishLayerVersionInput {
 
     static func urlPathProvider(_ value: PublishLayerVersionInput) -> Swift.String? {
@@ -13895,6 +14440,16 @@ extension RemovePermissionInput {
             items.append(revisionIdQueryItem)
         }
         return items
+    }
+}
+
+extension ResumeDurableExecutionInput {
+
+    static func urlPathProvider(_ value: ResumeDurableExecutionInput) -> Swift.String? {
+        guard let durableExecutionArn = value.durableExecutionArn else {
+            return nil
+        }
+        return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())/resume"
     }
 }
 
@@ -14196,6 +14751,7 @@ extension CreateFunctionInput {
 
     static func write(value: CreateFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AcceleratorConfig"].write(value.acceleratorConfig, with: LambdaClientTypes.AcceleratorConfig.write(value:to:))
         try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["Code"].write(value.code, with: LambdaClientTypes.FunctionCode.write(value:to:))
@@ -14218,6 +14774,7 @@ extension CreateFunctionInput {
         try writer["PublishTo"].write(value.publishTo)
         try writer["Role"].write(value.role)
         try writer["Runtime"].write(value.runtime)
+        try writer["RuntimeConfig"].write(value.runtimeConfig, with: LambdaClientTypes.FunctionRuntimeConfig.write(value:to:))
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TenancyConfig"].write(value.tenancyConfig, with: LambdaClientTypes.TenancyConfig.write(value:to:))
@@ -14258,6 +14815,16 @@ extension InvokeWithResponseStreamInput {
     static func write(value: InvokeWithResponseStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Payload"].write(value.payload)
+    }
+}
+
+extension PauseDurableExecutionInput {
+
+    static func write(value: PauseDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ExecutionTimeoutPaused"].write(value.executionTimeoutPaused)
+        try writer["Reason"].write(value.reason)
     }
 }
 
@@ -14349,6 +14916,15 @@ extension PutRuntimeManagementConfigInput {
         guard let value else { return }
         try writer["RuntimeVersionArn"].write(value.runtimeVersionArn)
         try writer["UpdateRuntimeOn"].write(value.updateRuntimeOn)
+    }
+}
+
+extension ResumeDurableExecutionInput {
+
+    static func write(value: ResumeDurableExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Reason"].write(value.reason)
     }
 }
 
@@ -14466,6 +15042,7 @@ extension UpdateFunctionConfigurationInput {
 
     static func write(value: UpdateFunctionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AcceleratorConfig"].write(value.acceleratorConfig, with: LambdaClientTypes.AcceleratorConfig.write(value:to:))
         try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
@@ -14482,6 +15059,7 @@ extension UpdateFunctionConfigurationInput {
         try writer["RevisionId"].write(value.revisionId)
         try writer["Role"].write(value.role)
         try writer["Runtime"].write(value.runtime)
+        try writer["RuntimeConfig"].write(value.runtimeConfig, with: LambdaClientTypes.FunctionRuntimeConfig.write(value:to:))
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
         try writer["Timeout"].write(value.timeout)
         try writer["TracingConfig"].write(value.tracingConfig, with: LambdaClientTypes.TracingConfig.write(value:to:))
@@ -14639,6 +15217,7 @@ extension CreateFunctionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFunctionOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -14667,6 +15246,7 @@ extension CreateFunctionOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -14723,6 +15303,18 @@ extension DeleteCodeSigningConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeSigningConfigOutput {
         return DeleteCodeSigningConfigOutput()
+    }
+}
+
+extension DeleteDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDurableExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDurableExecutionOutput()
+        value.deletionRequestTimestamp = try reader["DeletionRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -14895,8 +15487,10 @@ extension GetDurableExecutionOutput {
         value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
         value.executionDataIncluded = try reader["ExecutionDataIncluded"].readIfPresent()
+        value.expectedExecutionTimeoutTimestamp = try reader["ExpectedExecutionTimeoutTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.inputPayload = try reader["InputPayload"].readIfPresent()
+        value.pauseDetails = try reader["PauseDetails"].readIfPresent(with: LambdaClientTypes.PauseDetails.read(from:))
         value.result = try reader["Result"].readIfPresent()
         value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
@@ -15024,6 +15618,7 @@ extension GetFunctionConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFunctionConfigurationOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15052,6 +15647,7 @@ extension GetFunctionConfigurationOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15491,6 +16087,13 @@ extension ListVersionsByFunctionOutput {
     }
 }
 
+extension PauseDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PauseDurableExecutionOutput {
+        return PauseDurableExecutionOutput()
+    }
+}
+
 extension PublishLayerVersionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishLayerVersionOutput {
@@ -15518,6 +16121,7 @@ extension PublishVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PublishVersionOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15546,6 +16150,7 @@ extension PublishVersionOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15682,6 +16287,13 @@ extension RemovePermissionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemovePermissionOutput {
         return RemovePermissionOutput()
+    }
+}
+
+extension ResumeDurableExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResumeDurableExecutionOutput {
+        return ResumeDurableExecutionOutput()
     }
 }
 
@@ -15824,6 +16436,7 @@ extension UpdateFunctionCodeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFunctionCodeOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15852,6 +16465,7 @@ extension UpdateFunctionCodeOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15875,6 +16489,7 @@ extension UpdateFunctionConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFunctionConfigurationOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15903,6 +16518,7 @@ extension UpdateFunctionConfigurationOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -16173,6 +16789,24 @@ enum DeleteCodeSigningConfigOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -16781,6 +17415,8 @@ enum InvokeOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "RuntimeAliasDeletedException": return try RuntimeAliasDeletedException.makeError(baseError: baseError)
+            case "RuntimeVersionDeletedException": return try RuntimeVersionDeletedException.makeError(baseError: baseError)
             case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
             case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
@@ -16876,6 +17512,8 @@ enum InvokeWithResponseStreamOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "RuntimeAliasDeletedException": return try RuntimeAliasDeletedException.makeError(baseError: baseError)
+            case "RuntimeVersionDeletedException": return try RuntimeVersionDeletedException.makeError(baseError: baseError)
             case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
             case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
@@ -17143,6 +17781,28 @@ enum ListVersionsByFunctionOutputError {
     }
 }
 
+enum PauseDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PublishLayerVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17340,6 +18000,7 @@ enum RemoveLayerVersionPermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -17359,6 +18020,28 @@ enum RemovePermissionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ResumeDurableExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -18261,6 +18944,34 @@ extension ResourceNotReadyException {
     }
 }
 
+extension RuntimeAliasDeletedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RuntimeAliasDeletedException {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeAliasDeletedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RuntimeVersionDeletedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RuntimeVersionDeletedException {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeVersionDeletedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension S3FilesMountConnectivityException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3FilesMountConnectivityException {
@@ -18462,6 +19173,21 @@ extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent {
                 throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
+    }
+}
+
+extension LambdaClientTypes.AcceleratorConfig {
+
+    static func write(value: LambdaClientTypes.AcceleratorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AcceleratorMemorySize"].write(value.acceleratorMemorySize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AcceleratorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.AcceleratorConfig()
+        value.acceleratorMemorySize = try reader["AcceleratorMemorySize"].readIfPresent() ?? .sdkUnknown(0)
+        return value
     }
 }
 
@@ -19103,6 +19829,8 @@ extension LambdaClientTypes.Event {
         value.callbackFailedDetails = try reader["CallbackFailedDetails"].readIfPresent(with: LambdaClientTypes.CallbackFailedDetails.read(from:))
         value.callbackTimedOutDetails = try reader["CallbackTimedOutDetails"].readIfPresent(with: LambdaClientTypes.CallbackTimedOutDetails.read(from:))
         value.invocationCompletedDetails = try reader["InvocationCompletedDetails"].readIfPresent(with: LambdaClientTypes.InvocationCompletedDetails.read(from:))
+        value.executionPausedDetails = try reader["ExecutionPausedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionPausedDetails.read(from:))
+        value.executionResumedDetails = try reader["ExecutionResumedDetails"].readIfPresent(with: LambdaClientTypes.ExecutionResumedDetails.read(from:))
         return value
     }
 }
@@ -19129,11 +19857,33 @@ extension LambdaClientTypes.EventInput {
     }
 }
 
+extension LambdaClientTypes.EventPauseReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventPauseReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventPauseReason()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.EventResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.EventResult()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.EventResumeReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResumeReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventResumeReason()
         value.payload = try reader["Payload"].readIfPresent()
         value.truncated = try reader["Truncated"].readIfPresent()
         return value
@@ -19244,6 +19994,29 @@ extension LambdaClientTypes.ExecutionFailedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.ExecutionFailedDetails()
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionPausedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionPausedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionPausedDetails()
+        value.pauseRequestTimestamp = try reader["PauseRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent(with: LambdaClientTypes.EventPauseReason.read(from:))
+        value.executionTimeoutPaused = try reader["ExecutionTimeoutPaused"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionResumedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionResumedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionResumedDetails()
+        value.resumeRequestTimestamp = try reader["ResumeRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent(with: LambdaClientTypes.EventResumeReason.read(from:))
         return value
     }
 }
@@ -19435,6 +20208,8 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         return value
     }
 }
@@ -19449,6 +20224,23 @@ extension LambdaClientTypes.FunctionEventInvokeConfig {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionRuntimeConfig {
+
+    static func write(value: LambdaClientTypes.FunctionRuntimeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuntimeAlias"].write(value.runtimeAlias)
+        try writer["RuntimeArn"].write(value.runtimeArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionRuntimeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionRuntimeConfig()
+        value.runtimeArn = try reader["RuntimeArn"].readIfPresent() ?? ""
+        value.runtimeAlias = try reader["RuntimeAlias"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19826,6 +20618,18 @@ extension LambdaClientTypes.OperationUpdate {
     }
 }
 
+extension LambdaClientTypes.PauseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.PauseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.PauseDetails()
+        value.pauseRequestTimestamp = try reader["PauseRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent()
+        value.executionTimeoutPaused = try reader["ExecutionTimeoutPaused"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension LambdaClientTypes.PropagateTags {
 
     static func write(value: LambdaClientTypes.PropagateTags?, to writer: SmithyJSON.Writer) throws {
@@ -19973,6 +20777,7 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
     static func write(value: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["ConsumptionMode"].write(value.consumptionMode)
         try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
     }
 
@@ -19981,6 +20786,7 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
         var value = LambdaClientTypes.SelfManagedKafkaEventSourceConfig()
         value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
         value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
+        value.consumptionMode = try reader["ConsumptionMode"].readIfPresent()
         return value
     }
 }

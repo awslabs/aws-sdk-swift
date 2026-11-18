@@ -540,6 +540,7 @@ extension EC2ClientTypes {
         case elasticIp
         case exportImageTask
         case exportInstanceTask
+        case fcaPolicy
         case fleet
         case fpgaImage
         case hostReservation
@@ -573,6 +574,7 @@ extension EC2ClientTypes {
         case localGatewayVirtualInterface
         case localGatewayVirtualInterfaceGroup
         case macModificationTask
+        case metricCategory
         case natgateway
         case networkAcl
         case networkInsightsAccessScope
@@ -656,6 +658,7 @@ extension EC2ClientTypes {
                 .elasticIp,
                 .exportImageTask,
                 .exportInstanceTask,
+                .fcaPolicy,
                 .fleet,
                 .fpgaImage,
                 .hostReservation,
@@ -689,6 +692,7 @@ extension EC2ClientTypes {
                 .localGatewayVirtualInterface,
                 .localGatewayVirtualInterfaceGroup,
                 .macModificationTask,
+                .metricCategory,
                 .natgateway,
                 .networkAcl,
                 .networkInsightsAccessScope,
@@ -778,6 +782,7 @@ extension EC2ClientTypes {
             case .elasticIp: return "elastic-ip"
             case .exportImageTask: return "export-image-task"
             case .exportInstanceTask: return "export-instance-task"
+            case .fcaPolicy: return "fca-policy"
             case .fleet: return "fleet"
             case .fpgaImage: return "fpga-image"
             case .hostReservation: return "host-reservation"
@@ -811,6 +816,7 @@ extension EC2ClientTypes {
             case .localGatewayVirtualInterface: return "local-gateway-virtual-interface"
             case .localGatewayVirtualInterfaceGroup: return "local-gateway-virtual-interface-group"
             case .macModificationTask: return "mac-modification-task"
+            case .metricCategory: return "metric-category"
             case .natgateway: return "natgateway"
             case .networkAcl: return "network-acl"
             case .networkInsightsAccessScope: return "network-insights-access-scope"
@@ -1423,6 +1429,32 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayPeeringAttachmentMultipathResilienceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayPeeringAttachmentMultipathResilienceMode] {
+            return [
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "always-on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum DynamicRoutingValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disable
         case enable
@@ -1452,15 +1484,73 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayPeeringAttachmentMultipathResilienceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayPeeringAttachmentMultipathResilienceStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes dynamic routing for the transit gateway peering attachment.
     public struct TransitGatewayPeeringAttachmentOptions: Swift.Sendable {
+        /// Indicates whether the accepter allows multipath resilience for the transit gateway peering attachment.
+        public var accepterAllowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for the accepter. This value is present only when the accepter allows multipath resilience.
+        public var accepterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
         /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering attachment.
         public var dynamicRouting: EC2ClientTypes.DynamicRoutingValue?
+        /// The multipath resilience status of the transit gateway peering attachment. The possible values are:
+        ///
+        /// * enabled – Both the requester and the accepter allow multipath resilience.
+        ///
+        /// * pending – Either the requester or the accepter allows multipath resilience, but not both.
+        ///
+        /// * disabled – Neither the requester nor the accepter allows multipath resilience.
+        public var multipathResilienceStatus: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceStatus?
+        /// Indicates whether the requester allows multipath resilience for the transit gateway peering attachment.
+        public var requesterAllowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for the requester. This value is present only when the requester allows multipath resilience.
+        public var requesterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
 
         public init(
-            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil
+            accepterAllowMultipathResilience: Swift.Bool? = nil,
+            accepterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil,
+            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil,
+            multipathResilienceStatus: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceStatus? = nil,
+            requesterAllowMultipathResilience: Swift.Bool? = nil,
+            requesterMultipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
         ) {
+            self.accepterAllowMultipathResilience = accepterAllowMultipathResilience
+            self.accepterMultipathResilienceMode = accepterMultipathResilienceMode
             self.dynamicRouting = dynamicRouting
+            self.multipathResilienceStatus = multipathResilienceStatus
+            self.requesterAllowMultipathResilience = requesterAllowMultipathResilience
+            self.requesterMultipathResilienceMode = requesterMultipathResilienceMode
         }
     }
 }
@@ -1827,17 +1917,21 @@ public struct AcceptVpcEndpointConnectionsInput: Swift.Sendable {
     /// The ID of the VPC endpoint service.
     /// This member is required.
     public var serviceId: Swift.String?
-    /// The IDs of the interface VPC endpoints.
+    /// The IDs of the transit gateway attachments to accept. This parameter is supported only for Gateway Load Balancer endpoint services. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+    /// The IDs of the interface VPC endpoints. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
         serviceId: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil,
         vpcEndpointIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.serviceId = serviceId
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -1939,6 +2033,32 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum MultipathResilienceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultipathResilienceMode] {
+            return [
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "always-on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes the VPC peering connection options.
     public struct VpcPeeringConnectionOptionsDescription: Swift.Sendable {
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
@@ -1947,15 +2067,23 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Indicates whether this side of the VPC peering connection allows multipath resilience.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for this side of the VPC peering connection. This value is present only when this side allows multipath resilience.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -1995,6 +2123,38 @@ extension EC2ClientTypes {
             self.peeringOptions = peeringOptions
             self.region = region
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum MultipathResilienceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultipathResilienceStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2076,6 +2236,14 @@ extension EC2ClientTypes {
         public var accepterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo?
         /// The time that an unaccepted VPC peering connection will expire.
         public var expirationTime: Foundation.Date?
+        /// The multipath resilience status of the VPC peering connection. The possible values are:
+        ///
+        /// * enabled – Both the requester and the accepter allow multipath resilience.
+        ///
+        /// * pending – Either the requester or the accepter allows multipath resilience, but not both.
+        ///
+        /// * disabled – Neither the requester nor the accepter allows multipath resilience.
+        public var multipathResilienceStatus: EC2ClientTypes.MultipathResilienceStatus?
         /// Information about the requester VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public var requesterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo?
         /// The status of the VPC peering connection.
@@ -2088,6 +2256,7 @@ extension EC2ClientTypes {
         public init(
             accepterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo? = nil,
             expirationTime: Foundation.Date? = nil,
+            multipathResilienceStatus: EC2ClientTypes.MultipathResilienceStatus? = nil,
             requesterVpcInfo: EC2ClientTypes.VpcPeeringConnectionVpcInfo? = nil,
             status: EC2ClientTypes.VpcPeeringConnectionStateReason? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
@@ -2095,6 +2264,7 @@ extension EC2ClientTypes {
         ) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
+            self.multipathResilienceStatus = multipathResilienceStatus
             self.requesterVpcInfo = requesterVpcInfo
             self.status = status
             self.tags = tags
@@ -3378,10 +3548,14 @@ extension EC2ClientTypes {
 
     /// Describes the exclusion configurations for the various resource types in the account-level VPC Encryption Control configuration. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct AccountVpcEncryptionControlExclusions: Swift.Sendable {
+        /// The exclusion configuration for Amazon API Gateway V2.
+        public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for egress-only internet gateway resource.
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for Elastic File System service.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for Amazon Web Services Global Accelerator.
+        public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for internet gateway resource.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for Lambda service.
@@ -3396,8 +3570,10 @@ extension EC2ClientTypes {
         public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState?
 
         public init(
+            apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             lambda: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             natGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
@@ -3405,8 +3581,10 @@ extension EC2ClientTypes {
             vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil
         ) {
+            self.apiGatewayV2 = apiGatewayV2
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
             self.elasticFileSystem = elasticFileSystem
+            self.globalAccelerator = globalAccelerator
             self.internetGateway = internetGateway
             self.lambda = lambda
             self.natGateway = natGateway
@@ -3549,6 +3727,25 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes an additional key exchange round negotiated for an active VPN tunnel.
+    public struct ActiveVpnTunnelAdditionalKeyExchange: Swift.Sendable {
+        /// The additional key exchange round number.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method number negotiated for this round.
+        public var keyExchangeMethod: Swift.Int?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethod: Swift.Int? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethod = keyExchangeMethod
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum InstanceHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthyStatus
         case unhealthyStatus
@@ -3641,12 +3838,16 @@ extension EC2ClientTypes {
     public struct ActiveVpnTunnelStatus: Swift.Sendable {
         /// The version of the Internet Key Exchange (IKE) protocol being used.
         public var ikeVersion: Swift.String?
+        /// The additional key exchanges negotiated in Phase 1 IKE negotiations.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]?
         /// The Diffie-Hellman group number being used in Phase 1 IKE negotiations.
         public var phase1DHGroup: Swift.Int?
         /// The encryption algorithm negotiated in Phase 1 IKE negotiations.
         public var phase1EncryptionAlgorithm: Swift.String?
         /// The integrity algorithm negotiated in Phase 1 IKE negotiations.
         public var phase1IntegrityAlgorithm: Swift.String?
+        /// The additional key exchanges negotiated in Phase 2 IKE negotiations.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]?
         /// The Diffie-Hellman group number being used in Phase 2 IKE negotiations.
         public var phase2DHGroup: Swift.Int?
         /// The encryption algorithm negotiated in Phase 2 IKE negotiations.
@@ -3660,9 +3861,11 @@ extension EC2ClientTypes {
 
         public init(
             ikeVersion: Swift.String? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]? = nil,
             phase1DHGroup: Swift.Int? = nil,
             phase1EncryptionAlgorithm: Swift.String? = nil,
             phase1IntegrityAlgorithm: Swift.String? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange]? = nil,
             phase2DHGroup: Swift.Int? = nil,
             phase2EncryptionAlgorithm: Swift.String? = nil,
             phase2IntegrityAlgorithm: Swift.String? = nil,
@@ -3670,9 +3873,11 @@ extension EC2ClientTypes {
             provisioningStatusReason: Swift.String? = nil
         ) {
             self.ikeVersion = ikeVersion
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroup = phase1DHGroup
             self.phase1EncryptionAlgorithm = phase1EncryptionAlgorithm
             self.phase1IntegrityAlgorithm = phase1IntegrityAlgorithm
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroup = phase2DHGroup
             self.phase2EncryptionAlgorithm = phase2EncryptionAlgorithm
             self.phase2IntegrityAlgorithm = phase2IntegrityAlgorithm
@@ -3711,6 +3916,35 @@ extension EC2ClientTypes {
             case .fulfilled: return "fulfilled"
             case .pendingFulfillment: return "pending_fulfillment"
             case .pendingTermination: return "pending_termination"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum PermissionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case transitgatewayattachment
+        case vpcendpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionType] {
+            return [
+                .transitgatewayattachment,
+                .vpcendpoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .transitgatewayattachment: return "transit-gateway-attachment"
+            case .vpcendpoint: return "vpc-endpoint"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3762,6 +3996,8 @@ extension EC2ClientTypes {
 
     /// Describes a principal.
     public struct AddedPrincipal: Swift.Sendable {
+        /// The type of permission granted to the principal.
+        public var permissionType: EC2ClientTypes.PermissionType?
         /// The Amazon Resource Name (ARN) of the principal.
         public var principal: Swift.String?
         /// The type of principal.
@@ -3772,11 +4008,13 @@ extension EC2ClientTypes {
         public var servicePermissionId: Swift.String?
 
         public init(
+            permissionType: EC2ClientTypes.PermissionType? = nil,
             principal: Swift.String? = nil,
             principalType: EC2ClientTypes.PrincipalType? = nil,
             serviceId: Swift.String? = nil,
             servicePermissionId: Swift.String? = nil
         ) {
+            self.permissionType = permissionType
             self.principal = principal
             self.principalType = principalType
             self.serviceId = serviceId
@@ -3834,6 +4072,112 @@ extension EC2ClientTypes {
             organizationsEntityPath: Swift.String? = nil
         ) {
             self.organizationsEntityPath = organizationsEntityPath
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The key exchange method number that is permitted for an additional key exchange round.
+    public struct AdditionalKeyExchangeMethodsListValue: Swift.Sendable {
+        /// The key exchange method number.
+        public var value: Swift.Int?
+
+        public init(
+            value: Swift.Int? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies a key exchange method number that is permitted for an additional key exchange round.
+    public struct AdditionalKeyExchangeMethodsRequestListValue: Swift.Sendable {
+        /// The key exchange method number.
+        public var value: Swift.Int?
+
+        public init(
+            value: Swift.Int? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum AdditionalKeyExchangeRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdditionalKeyExchangeRequirement] {
+            return [
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "optional"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an additional key exchange round that is permitted for the VPN tunnel.
+    public struct VpnAdditionalKeyExchange: Swift.Sendable {
+        /// The additional key exchange round number.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method numbers permitted for this round.
+        public var keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsListValue]?
+        /// Indicates whether this round is mandatory.
+        public var requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsListValue]? = nil,
+            requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethods = keyExchangeMethods
+            self.requirement = requirement
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies an additional key exchange round for the VPN tunnel, as defined in RFC 9370.
+    public struct VpnAdditionalKeyExchangeRequest: Swift.Sendable {
+        /// The additional key exchange round number. Valid range: Minimum value of 1. Maximum value of 7.
+        /// This member is required.
+        public var additionalKeyExchangeRound: Swift.Int?
+        /// The key exchange method numbers that are permitted for this round. The method numbers are the IANA IKEv2 key exchange method transform IDs. A required round must specify at least one method. An optional round can omit this parameter or specify an empty list. If omitted or empty for an optional round, the round is disabled. IKEv2 requires that the initial Diffie-Hellman exchange and each required round use a different key exchange method. The permitted methods must allow a distinct method to be selected for each of them. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
+        public var keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue]?
+        /// Indicates whether this round is mandatory. If required, the tunnel isn't established unless the customer gateway device negotiates this round. If optional, the round is negotiated only if the customer gateway device supports it. Valid values: required | optional Default: required
+        public var requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement?
+
+        public init(
+            additionalKeyExchangeRound: Swift.Int? = nil,
+            keyExchangeMethods: [EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue]? = nil,
+            requirement: EC2ClientTypes.AdditionalKeyExchangeRequirement? = nil
+        ) {
+            self.additionalKeyExchangeRound = additionalKeyExchangeRound
+            self.keyExchangeMethods = keyExchangeMethods
+            self.requirement = requirement
         }
     }
 }
@@ -5021,6 +5365,8 @@ extension EC2ClientTypes {
 
     /// Describes a principal.
     public struct AllowedPrincipal: Swift.Sendable {
+        /// The type of permission granted to the principal.
+        public var permissionType: EC2ClientTypes.PermissionType?
         /// The Amazon Resource Name (ARN) of the principal.
         public var principal: Swift.String?
         /// The type of principal.
@@ -5033,12 +5379,14 @@ extension EC2ClientTypes {
         public var tags: [EC2ClientTypes.Tag]?
 
         public init(
+            permissionType: EC2ClientTypes.PermissionType? = nil,
             principal: Swift.String? = nil,
             principalType: EC2ClientTypes.PrincipalType? = nil,
             serviceId: Swift.String? = nil,
             servicePermissionId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil
         ) {
+            self.permissionType = permissionType
             self.principal = principal
             self.principalType = principalType
             self.serviceId = serviceId
@@ -6331,6 +6679,37 @@ public struct AssociateIpamResourceDiscoveryOutput: Swift.Sendable {
     }
 }
 
+public struct AssociateKmsKeyIdInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID, alias, or ARN of the KMS key to associate with the snapshot. You can specify a key ID, key alias, key ARN, or alias ARN.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The ID of the Amazon EBS snapshot.
+    public var snapshotId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        kmsKeyId: Swift.String? = nil,
+        snapshotId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.kmsKeyId = kmsKeyId
+        self.snapshotId = snapshotId
+    }
+}
+
+public struct AssociateKmsKeyIdOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
+    }
+}
+
 public struct AssociateNatGatewayAddressInput: Swift.Sendable {
     /// The allocation IDs of EIPs that you want to associate with your NAT gateway.
     /// This member is required.
@@ -6376,6 +6755,221 @@ public struct AssociateNatGatewayAddressOutput: Swift.Sendable {
     ) {
         self.natGatewayAddresses = natGatewayAddresses
         self.natGatewayId = natGatewayId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The type of scope used for a scope-based policy association. Valid values are account, vpc, and subnet.
+    public enum FlexCostAllocationNetworkResourceScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case subnet
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationNetworkResourceScopeType] {
+            return [
+                .account,
+                .subnet,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .subnet: return "subnet"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies a scope of network resources for a scope-based policy association.
+    public struct FlexCostAllocationNetworkResourceScope: Swift.Sendable {
+        /// The IDs of the resources owned by you that define the scope. You can specify from 1 to 20 IDs. This parameter is required.
+        /// This member is required.
+        public var resourceIds: [Swift.String]?
+        /// The type of scope. This parameter is required. Valid values are account, vpc, and subnet.
+        /// This member is required.
+        public var resourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceScopeType?
+
+        public init(
+            resourceIds: [Swift.String]? = nil,
+            resourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceScopeType? = nil
+        ) {
+            self.resourceIds = resourceIds
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct AssociateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy to associate. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The IDs of the network resources to associate with the policy. You can specify from 1 to 20 resource IDs. You must specify NetworkResourceIds, NetworkResourceScope, or both. A request can include at most 20 distinct resources in total.
+    public var networkResourceIds: [Swift.String]?
+    /// The scope of network resources to associate with the policy. Use a scope to associate the policy with the resources in an account, Amazon VPC, or subnet. You must specify NetworkResourceScope, NetworkResourceIds, or both.
+    public var networkResourceScope: EC2ClientTypes.FlexCostAllocationNetworkResourceScope?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        networkResourceIds: [Swift.String]? = nil,
+        networkResourceScope: EC2ClientTypes.FlexCostAllocationNetworkResourceScope? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.networkResourceIds = networkResourceIds
+        self.networkResourceScope = networkResourceScope
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a policy, association, or network resource that a Networking Flexible Cost Allocation operation failed to process.
+    public struct FlexCostAllocationOperationFailure: Swift.Sendable {
+        /// The code that identifies the type of failure. Possible values are:
+        ///
+        /// * ResourceNotFound - (DeleteNetworkingFlexCostAllocationPolicies) The policy doesn't exist or isn't owned by your account.
+        ///
+        /// * InvalidResourceState - (DeleteNetworkingFlexCostAllocationPolicies) The policy has active associations.
+        ///
+        /// * InvalidResource - (AssociateNetworkingFlexCostAllocationPolicy) The resource ID is malformed, the resource type doesn't match the policy, or the scope is an account other than yours. (DisassociateNetworkingFlexCostAllocationPolicy) The association doesn't exist or was already removed.
+        ///
+        /// * ResourceAlreadyAssociated - (AssociateNetworkingFlexCostAllocationPolicy) The resource already has an active association.
+        ///
+        /// * InternalError - An internal error occurred. Retry the request.
+        public var failureCode: Swift.String?
+        /// The reason for the failure.
+        public var failureReason: Swift.String?
+        /// The ID of the resource that could not be processed.
+        public var resourceId: Swift.String?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            resourceId: Swift.String? = nil
+        ) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.resourceId = resourceId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The mode of a policy association. Valid values:
+    ///
+    /// * direct - The policy is associated with specific resources by resource ID.
+    ///
+    /// * scope - The policy is associated with a scope of resources.
+    public enum FlexCostAllocationAssociationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case direct
+        case scope
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationAssociationMode] {
+            return [
+                .direct,
+                .scope
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "direct"
+            case .scope: return "scope"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an association between a flex cost allocation policy and a network resource.
+    public struct FlexCostAllocationPolicyAssociationDescription: Swift.Sendable {
+        /// The date and time when the association was created.
+        public var associatedAt: Foundation.Date?
+        /// The mode of the association. Valid values:
+        ///
+        /// * direct - The policy is associated with specific resources by resource ID.
+        ///
+        /// * scope - The policy is associated with a scope of resources in an account, Amazon VPC, or subnet.
+        public var associationMode: EC2ClientTypes.FlexCostAllocationAssociationMode?
+        /// The date and time when the association is expected to apply to network traffic.
+        public var expectedEffectiveAt: Foundation.Date?
+        /// The ID of the policy association.
+        public var fcaPolicyAssociationId: Swift.String?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The entity that manages the association. Valid values are:
+        ///
+        /// * account - The account that owns the association created it.
+        ///
+        /// * declarative-policy - An Amazon Web Services Organizations declarative policy created the association. You can't remove the association.
+        public var managedBy: EC2ClientTypes.ManagedBy?
+        /// The ID of the associated network resource.
+        public var networkResourceId: Swift.String?
+        /// The ID of the account that owns the association.
+        public var ownerAccount: Swift.String?
+
+        public init(
+            associatedAt: Foundation.Date? = nil,
+            associationMode: EC2ClientTypes.FlexCostAllocationAssociationMode? = nil,
+            expectedEffectiveAt: Foundation.Date? = nil,
+            fcaPolicyAssociationId: Swift.String? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            managedBy: EC2ClientTypes.ManagedBy? = nil,
+            networkResourceId: Swift.String? = nil,
+            ownerAccount: Swift.String? = nil
+        ) {
+            self.associatedAt = associatedAt
+            self.associationMode = associationMode
+            self.expectedEffectiveAt = expectedEffectiveAt
+            self.fcaPolicyAssociationId = fcaPolicyAssociationId
+            self.fcaPolicyId = fcaPolicyId
+            self.managedBy = managedBy
+            self.networkResourceId = networkResourceId
+            self.ownerAccount = ownerAccount
+        }
+    }
+}
+
+public struct AssociateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// Information about the network resources that could not be associated with the policy.
+    public var fcaPolicyAssociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// Information about the policy associations that were created.
+    public var fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]?
+
+    public init(
+        fcaPolicyAssociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]? = nil
+    ) {
+        self.fcaPolicyAssociationFailures = fcaPolicyAssociationFailures
+        self.fcaPolicyAssociations = fcaPolicyAssociations
     }
 }
 
@@ -9905,7 +10499,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     public var destinationAvailabilityZone: Swift.String?
     /// The Amazon Resource Name (ARN) of the Outpost to which to copy the snapshot. Only supported when copying a snapshot to an Outpost. For more information, see [ Copy snapshots from an Amazon Web Services Region to an Outpost](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#copy-snapshots) in the Amazon EBS User Guide.
     public var destinationOutpostArn: Swift.String?
-    /// The destination Region to use in the PresignedUrl parameter of a snapshot copy operation. This parameter is only valid for specifying the destination Region in a PresignedUrl parameter, where it is required. The snapshot copy is sent to the regional endpoint that you sent the HTTP request to (for example, ec2.us-east-1.amazonaws.com). With the CLI, this is specified using the --region parameter or the default Region in your Amazon Web Services configuration file.
+    /// Deprecated.
     public var destinationRegion: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -9924,7 +10518,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     ///
     /// Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
     public var kmsKeyId: Swift.String?
-    /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see [Query requests](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html). The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using Amazon Web Services Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in [ Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) in the Amazon S3 API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
+    /// Deprecated.
     public var presignedUrl: Swift.String?
     /// The ID of the Region that contains the snapshot to be copied.
     /// This member is required.
@@ -12184,6 +12778,628 @@ extension EC2ClientTypes {
             case .open: return "open"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BareMetal] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
+    public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
+        /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture. Currently, only one instance family can be specified in the list.
+    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
+        /// The instance family to use as a baseline reference. Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance families are not supported for performance protection:
+        ///
+        /// * c1
+        ///
+        /// * g3 | g3s
+        ///
+        /// * hpc7g
+        ///
+        /// * m1 | m2
+        ///
+        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
+        ///
+        /// * p3dn | p4d | p5
+        ///
+        /// * t1
+        ///
+        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
+        ///
+        ///
+        /// If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements) and an exception for [CreateFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet), [RequestSpotFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet), [ModifyFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyFleet), and [ModifySpotFleetRequest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySpotFleetRequest).
+        public var instanceFamily: Swift.String?
+
+        public init(
+            instanceFamily: Swift.String? = nil
+        ) {
+            self.instanceFamily = instanceFamily
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The CPU performance to consider, using an instance family as the baseline reference.
+    public struct CpuPerformanceFactorRequest: Swift.Sendable {
+        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently, only one instance family can be specified in the list.
+        public var references: [EC2ClientTypes.PerformanceFactorReferenceRequest]?
+
+        public init(
+            references: [EC2ClientTypes.PerformanceFactorReferenceRequest]? = nil
+        ) {
+            self.references = references
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i would use the CPU performance of the c6i family as the baseline reference.
+    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
+        /// The CPU performance to consider, using an instance family as the baseline reference.
+        public var cpu: EC2ClientTypes.CpuPerformanceFactorRequest?
+
+        public init(
+            cpu: EC2ClientTypes.CpuPerformanceFactorRequest? = nil
+        ) {
+            self.cpu = cpu
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum BurstablePerformance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BurstablePerformance] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonWebServices
+        case amd
+        case apple
+        case intel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CpuManufacturer] {
+            return [
+                .amazonWebServices,
+                .amd,
+                .apple,
+                .intel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonWebServices: return "amazon-web-services"
+            case .amd: return "amd"
+            case .apple: return "apple"
+            case .intel: return "intel"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum InstanceGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case current
+        case previous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceGeneration] {
+            return [
+                .current,
+                .previous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .current: return "current"
+            case .previous: return "previous"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum LocalStorage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorage] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum LocalStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hdd
+        case ssd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorageType] {
+            return [
+                .hdd,
+                .ssd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hdd: return "hdd"
+            case .ssd: return "ssd"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of memory per vCPU, in GiB.
+    public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
+        /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of memory, in MiB.
+    public struct MemoryMiBRequest: Swift.Sendable {
+        /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide.
+    public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
+        /// The maximum amount of network bandwidth, in Gbps. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum number of network interfaces.
+    public struct NetworkInterfaceCountRequest: Swift.Sendable {
+        /// The maximum number of network interfaces. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of total local storage, in GB.
+    public struct TotalLocalStorageGBRequest: Swift.Sendable {
+        /// The maximum amount of total local storage, in GB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum number of vCPUs.
+    public struct VCpuCountRangeRequest: Swift.Sendable {
+        /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. When you specify multiple attributes, you get instance types that satisfy all of the specified attributes. If you specify multiple values for an attribute, you get instance types that satisfy any of the specified values. To limit the list of instance types from which Amazon EC2 can identify matching instance types, you can use one of the following parameters, but not both in the same request:
+    ///
+    /// * AllowedInstanceTypes - The instance types to include in the list. All other instance types are ignored, even if they match your specified attributes.
+    ///
+    /// * ExcludedInstanceTypes - The instance types to exclude from the list, even if they match your specified attributes.
+    ///
+    ///
+    /// If you specify InstanceRequirements, you can't specify InstanceType. Attribute-based instance type selection is only supported when using Auto Scaling groups, EC2 Fleet, and Spot Fleet to launch instances. If you plan to use the launch template in the [launch instance wizard](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html), or with the [RunInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html) API or [AWS::EC2::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html) Amazon Web Services CloudFormation resource, you can't specify InstanceRequirements. For more information, see [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html) and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
+    public struct InstanceRequirementsRequest: Swift.Sendable {
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
+        public var acceleratorCount: EC2ClientTypes.AcceleratorCountRequest?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.
+        ///
+        /// * For instance types with Amazon Web Services devices, specify amazon-web-services.
+        ///
+        /// * For instance types with AMD devices, specify amd.
+        ///
+        /// * For instance types with Habana devices, specify habana.
+        ///
+        /// * For instance types with NVIDIA devices, specify nvidia.
+        ///
+        /// * For instance types with Xilinx devices, specify xilinx.
+        ///
+        ///
+        /// Default: Any manufacturer
+        public var acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]?
+        /// The accelerators that must be on the instance type.
+        ///
+        /// * For instance types with NVIDIA A10G GPUs, specify a10g.
+        ///
+        /// * For instance types with NVIDIA A100 GPUs, specify a100.
+        ///
+        /// * For instance types with NVIDIA H100 GPUs, specify h100.
+        ///
+        /// * For instance types with Amazon Web Services Inferentia chips, specify inferentia.
+        ///
+        /// * For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.
+        ///
+        /// * For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.
+        ///
+        /// * For instance types with NVIDIA GRID K520 GPUs, specify k520.
+        ///
+        /// * For instance types with NVIDIA K80 GPUs, specify k80.
+        ///
+        /// * For instance types with NVIDIA L4 GPUs, specify l4.
+        ///
+        /// * For instance types with NVIDIA L40S GPUs, specify l40s.
+        ///
+        /// * For instance types with NVIDIA M60 GPUs, specify m60.
+        ///
+        /// * For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.
+        ///
+        /// * For instance types with Amazon Web Services Trainium chips, specify trainium.
+        ///
+        /// * For instance types with Amazon Web Services Trainium2 chips, specify trainium2.
+        ///
+        /// * For instance types with NVIDIA T4 GPUs, specify t4.
+        ///
+        /// * For instance types with NVIDIA T4G GPUs, specify t4g.
+        ///
+        /// * For instance types with Xilinx U30 cards, specify u30.
+        ///
+        /// * For instance types with Xilinx VU9P FPGAs, specify vu9p.
+        ///
+        /// * For instance types with NVIDIA V100 GPUs, specify v100.
+        ///
+        ///
+        /// Default: Any accelerator
+        public var acceleratorNames: [EC2ClientTypes.AcceleratorName]?
+        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
+        public var acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest?
+        /// The accelerator types that must be on the instance type.
+        ///
+        /// * For instance types with FPGA accelerators, specify fpga.
+        ///
+        /// * For instance types with GPU accelerators, specify gpu.
+        ///
+        /// * For instance types with Inference accelerators, specify inference.
+        ///
+        /// * For instance types with Media accelerators, specify media.
+        ///
+        ///
+        /// Default: Any accelerator type
+        public var acceleratorTypes: [EC2ClientTypes.AcceleratorType]?
+        /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types. If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes. Default: All instance types
+        public var allowedInstanceTypes: [Swift.String]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.
+        ///
+        /// * To include bare metal instance types, specify included.
+        ///
+        /// * To require only bare metal instance types, specify required.
+        ///
+        /// * To exclude bare metal instance types, specify excluded.
+        ///
+        ///
+        /// Default: excluded
+        public var bareMetal: EC2ClientTypes.BareMetal?
+        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public var baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest?
+        /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For more information, see [Performance protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-abis-performance-protection) in the Amazon EC2 User Guide.
+        public var baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest?
+        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html).
+        ///
+        /// * To include burstable performance instance types, specify included.
+        ///
+        /// * To require only burstable performance instance types, specify required.
+        ///
+        /// * To exclude burstable performance instance types, specify excluded.
+        ///
+        ///
+        /// Default: excluded
+        public var burstablePerformance: EC2ClientTypes.BurstablePerformance?
+        /// The CPU manufacturers to include.
+        ///
+        /// * For instance types with Intel CPUs, specify intel.
+        ///
+        /// * For instance types with AMD CPUs, specify amd.
+        ///
+        /// * For instance types with Amazon Web Services CPUs, specify amazon-web-services.
+        ///
+        /// * For instance types with Apple CPUs, specify apple.
+        ///
+        ///
+        /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template. Default: Any manufacturer
+        public var cpuManufacturers: [EC2ClientTypes.CpuManufacturer]?
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes. Default: No excluded instance types
+        public var excludedInstanceTypes: [Swift.String]?
+        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
+        public var instanceGenerations: [EC2ClientTypes.InstanceGeneration]?
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide.
+        ///
+        /// * To include instance types with instance store volumes, specify included.
+        ///
+        /// * To require only instance types with instance store volumes, specify required.
+        ///
+        /// * To exclude instance types with instance store volumes, specify excluded.
+        ///
+        ///
+        /// Default: included
+        public var localStorage: EC2ClientTypes.LocalStorage?
+        /// The type of local storage that is required.
+        ///
+        /// * For instance types with hard disk drive (HDD) storage, specify hdd.
+        ///
+        /// * For instance types with solid state drive (SSD) storage, specify ssd.
+        ///
+        ///
+        /// Default: hdd and ssd
+        public var localStorageTypes: [EC2ClientTypes.LocalStorageType]?
+        /// [Price protection] The price protection threshold for Spot Instances, as a percentage of an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is based on the per vCPU or per memory price instead of the per instance price. Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.
+        public var maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int?
+        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
+        public var memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest?
+        /// The minimum and maximum amount of memory, in MiB.
+        /// This member is required.
+        public var memoryMiB: EC2ClientTypes.MemoryMiBRequest?
+        /// The minimum and maximum amount of baseline network bandwidth, in gigabits per second (Gbps). For more information, see [Amazon EC2 instance network bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public var networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest?
+        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
+        public var networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest?
+        /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To indicate no price protection threshold, specify a high value, such as 999999. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. Default: 20
+        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see [Encryption in transit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit) in the Amazon EC2 User Guide. Default: false
+        public var requireEncryptionInTransit: Swift.Bool?
+        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html). Default: false
+        public var requireHibernateSupport: Swift.Bool?
+        /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999. Default: 100
+        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
+        public var totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest?
+        /// The minimum and maximum number of vCPUs.
+        /// This member is required.
+        public var vCpuCount: EC2ClientTypes.VCpuCountRangeRequest?
+
+        public init(
+            acceleratorCount: EC2ClientTypes.AcceleratorCountRequest? = nil,
+            acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]? = nil,
+            acceleratorNames: [EC2ClientTypes.AcceleratorName]? = nil,
+            acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest? = nil,
+            acceleratorTypes: [EC2ClientTypes.AcceleratorType]? = nil,
+            allowedInstanceTypes: [Swift.String]? = nil,
+            bareMetal: EC2ClientTypes.BareMetal? = nil,
+            baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
+            baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest? = nil,
+            burstablePerformance: EC2ClientTypes.BurstablePerformance? = nil,
+            cpuManufacturers: [EC2ClientTypes.CpuManufacturer]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            instanceGenerations: [EC2ClientTypes.InstanceGeneration]? = nil,
+            localStorage: EC2ClientTypes.LocalStorage? = nil,
+            localStorageTypes: [EC2ClientTypes.LocalStorageType]? = nil,
+            maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int? = nil,
+            memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest? = nil,
+            memoryMiB: EC2ClientTypes.MemoryMiBRequest? = nil,
+            networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest? = nil,
+            networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest? = nil,
+            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            requireEncryptionInTransit: Swift.Bool? = nil,
+            requireHibernateSupport: Swift.Bool? = nil,
+            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest? = nil,
+            vCpuCount: EC2ClientTypes.VCpuCountRangeRequest? = nil
+        ) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.baselinePerformanceFactors = baselinePerformanceFactors
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireEncryptionInTransit = requireEncryptionInTransit
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
         }
     }
 }
@@ -16590,6 +17806,10 @@ extension EC2ClientTypes {
 public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. Currently, only the prioritized allocation strategy is supported. For more information, see [ Allocation strategy](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy) in the Amazon EC2 User Guide. Valid values: prioritized
     public var allocationStrategy: Swift.String?
+    /// Reserved for internal use.
+    public var availabilityZone: Swift.String?
+    /// Reserved for internal use.
+    public var availabilityZoneId: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16598,6 +17818,8 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     public var endDate: Foundation.Date?
     /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
     public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
+    /// Reserved for internal use.
+    public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
     /// Information about the instance types for which to reserve the capacity.
     public var instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]?
     /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned to the Capacity Reservations in the Fleet.
@@ -16614,20 +17836,26 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
 
     public init(
         allocationStrategy: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
+        availabilityZoneId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         endDate: Foundation.Date? = nil,
         instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria? = nil,
+        instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
         instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         tenancy: EC2ClientTypes.FleetCapacityReservationTenancy? = nil,
         totalTargetCapacity: Swift.Int? = nil
     ) {
         self.allocationStrategy = allocationStrategy
+        self.availabilityZone = availabilityZone
+        self.availabilityZoneId = availabilityZoneId
         self.clientToken = clientToken
         self.dryRun = dryRun
         self.endDate = endDate
         self.instanceMatchCriteria = instanceMatchCriteria
+        self.instanceRequirements = instanceRequirements
         self.instanceTypeSpecifications = instanceTypeSpecifications
         self.tagSpecifications = tagSpecifications
         self.tenancy = tenancy
@@ -18155,10 +19383,14 @@ extension EC2ClientTypes {
 
     /// Describes the exclusion configurations for various resource types in VPC Encryption Control. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct VpcEncryptionControlExclusions: Swift.Sendable {
+        /// The exclusion configuration for Amazon API Gateway V2 traffic.
+        public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for egress-only internet gateway traffic.
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for Elastic File System traffic.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusion?
+        /// The exclusion configuration for Amazon Web Services Global Accelerator traffic.
+        public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for internet gateway traffic.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for Lambda function traffic.
@@ -18173,8 +19405,10 @@ extension EC2ClientTypes {
         public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusion?
 
         public init(
+            apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
+            globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             internetGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             lambda: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             natGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
@@ -18182,8 +19416,10 @@ extension EC2ClientTypes {
             vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusion? = nil
         ) {
+            self.apiGatewayV2 = apiGatewayV2
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
             self.elasticFileSystem = elasticFileSystem
+            self.globalAccelerator = globalAccelerator
             self.internetGateway = internetGateway
             self.lambda = lambda
             self.natGateway = natGateway
@@ -19038,628 +20274,6 @@ extension EC2ClientTypes {
         ) {
             self.arn = arn
             self.name = name
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BareMetal] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
-    public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
-        /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture. Currently, only one instance family can be specified in the list.
-    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
-        /// The instance family to use as a baseline reference. Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance families are not supported for performance protection:
-        ///
-        /// * c1
-        ///
-        /// * g3 | g3s
-        ///
-        /// * hpc7g
-        ///
-        /// * m1 | m2
-        ///
-        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
-        ///
-        /// * p3dn | p4d | p5
-        ///
-        /// * t1
-        ///
-        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
-        ///
-        ///
-        /// If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements) and an exception for [CreateFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet), [RequestSpotFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet), [ModifyFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyFleet), and [ModifySpotFleetRequest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySpotFleetRequest).
-        public var instanceFamily: Swift.String?
-
-        public init(
-            instanceFamily: Swift.String? = nil
-        ) {
-            self.instanceFamily = instanceFamily
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The CPU performance to consider, using an instance family as the baseline reference.
-    public struct CpuPerformanceFactorRequest: Swift.Sendable {
-        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently, only one instance family can be specified in the list.
-        public var references: [EC2ClientTypes.PerformanceFactorReferenceRequest]?
-
-        public init(
-            references: [EC2ClientTypes.PerformanceFactorReferenceRequest]? = nil
-        ) {
-            self.references = references
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i would use the CPU performance of the c6i family as the baseline reference.
-    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
-        /// The CPU performance to consider, using an instance family as the baseline reference.
-        public var cpu: EC2ClientTypes.CpuPerformanceFactorRequest?
-
-        public init(
-            cpu: EC2ClientTypes.CpuPerformanceFactorRequest? = nil
-        ) {
-            self.cpu = cpu
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum BurstablePerformance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BurstablePerformance] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case amazonWebServices
-        case amd
-        case apple
-        case intel
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CpuManufacturer] {
-            return [
-                .amazonWebServices,
-                .amd,
-                .apple,
-                .intel
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .amazonWebServices: return "amazon-web-services"
-            case .amd: return "amd"
-            case .apple: return "apple"
-            case .intel: return "intel"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum InstanceGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case current
-        case previous
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InstanceGeneration] {
-            return [
-                .current,
-                .previous
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .current: return "current"
-            case .previous: return "previous"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum LocalStorage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LocalStorage] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum LocalStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case hdd
-        case ssd
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LocalStorageType] {
-            return [
-                .hdd,
-                .ssd
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .hdd: return "hdd"
-            case .ssd: return "ssd"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of memory per vCPU, in GiB.
-    public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
-        /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of memory, in MiB.
-    public struct MemoryMiBRequest: Swift.Sendable {
-        /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide.
-    public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
-        /// The maximum amount of network bandwidth, in Gbps. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum number of network interfaces.
-    public struct NetworkInterfaceCountRequest: Swift.Sendable {
-        /// The maximum number of network interfaces. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of total local storage, in GB.
-    public struct TotalLocalStorageGBRequest: Swift.Sendable {
-        /// The maximum amount of total local storage, in GB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum number of vCPUs.
-    public struct VCpuCountRangeRequest: Swift.Sendable {
-        /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. When you specify multiple attributes, you get instance types that satisfy all of the specified attributes. If you specify multiple values for an attribute, you get instance types that satisfy any of the specified values. To limit the list of instance types from which Amazon EC2 can identify matching instance types, you can use one of the following parameters, but not both in the same request:
-    ///
-    /// * AllowedInstanceTypes - The instance types to include in the list. All other instance types are ignored, even if they match your specified attributes.
-    ///
-    /// * ExcludedInstanceTypes - The instance types to exclude from the list, even if they match your specified attributes.
-    ///
-    ///
-    /// If you specify InstanceRequirements, you can't specify InstanceType. Attribute-based instance type selection is only supported when using Auto Scaling groups, EC2 Fleet, and Spot Fleet to launch instances. If you plan to use the launch template in the [launch instance wizard](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html), or with the [RunInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html) API or [AWS::EC2::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html) Amazon Web Services CloudFormation resource, you can't specify InstanceRequirements. For more information, see [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html) and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
-    public struct InstanceRequirementsRequest: Swift.Sendable {
-        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
-        public var acceleratorCount: EC2ClientTypes.AcceleratorCountRequest?
-        /// Indicates whether instance types must have accelerators by specific manufacturers.
-        ///
-        /// * For instance types with Amazon Web Services devices, specify amazon-web-services.
-        ///
-        /// * For instance types with AMD devices, specify amd.
-        ///
-        /// * For instance types with Habana devices, specify habana.
-        ///
-        /// * For instance types with NVIDIA devices, specify nvidia.
-        ///
-        /// * For instance types with Xilinx devices, specify xilinx.
-        ///
-        ///
-        /// Default: Any manufacturer
-        public var acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.
-        ///
-        /// * For instance types with NVIDIA A10G GPUs, specify a10g.
-        ///
-        /// * For instance types with NVIDIA A100 GPUs, specify a100.
-        ///
-        /// * For instance types with NVIDIA H100 GPUs, specify h100.
-        ///
-        /// * For instance types with Amazon Web Services Inferentia chips, specify inferentia.
-        ///
-        /// * For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.
-        ///
-        /// * For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.
-        ///
-        /// * For instance types with NVIDIA GRID K520 GPUs, specify k520.
-        ///
-        /// * For instance types with NVIDIA K80 GPUs, specify k80.
-        ///
-        /// * For instance types with NVIDIA L4 GPUs, specify l4.
-        ///
-        /// * For instance types with NVIDIA L40S GPUs, specify l40s.
-        ///
-        /// * For instance types with NVIDIA M60 GPUs, specify m60.
-        ///
-        /// * For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.
-        ///
-        /// * For instance types with Amazon Web Services Trainium chips, specify trainium.
-        ///
-        /// * For instance types with Amazon Web Services Trainium2 chips, specify trainium2.
-        ///
-        /// * For instance types with NVIDIA T4 GPUs, specify t4.
-        ///
-        /// * For instance types with NVIDIA T4G GPUs, specify t4g.
-        ///
-        /// * For instance types with Xilinx U30 cards, specify u30.
-        ///
-        /// * For instance types with Xilinx VU9P FPGAs, specify vu9p.
-        ///
-        /// * For instance types with NVIDIA V100 GPUs, specify v100.
-        ///
-        ///
-        /// Default: Any accelerator
-        public var acceleratorNames: [EC2ClientTypes.AcceleratorName]?
-        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
-        public var acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.
-        ///
-        /// * For instance types with FPGA accelerators, specify fpga.
-        ///
-        /// * For instance types with GPU accelerators, specify gpu.
-        ///
-        /// * For instance types with Inference accelerators, specify inference.
-        ///
-        /// * For instance types with Media accelerators, specify media.
-        ///
-        ///
-        /// Default: Any accelerator type
-        public var acceleratorTypes: [EC2ClientTypes.AcceleratorType]?
-        /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types. If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes. Default: All instance types
-        public var allowedInstanceTypes: [Swift.String]?
-        /// Indicates whether bare metal instance types must be included, excluded, or required.
-        ///
-        /// * To include bare metal instance types, specify included.
-        ///
-        /// * To require only bare metal instance types, specify required.
-        ///
-        /// * To exclude bare metal instance types, specify excluded.
-        ///
-        ///
-        /// Default: excluded
-        public var bareMetal: EC2ClientTypes.BareMetal?
-        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
-        public var baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest?
-        /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For more information, see [Performance protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-abis-performance-protection) in the Amazon EC2 User Guide.
-        public var baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest?
-        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html).
-        ///
-        /// * To include burstable performance instance types, specify included.
-        ///
-        /// * To require only burstable performance instance types, specify required.
-        ///
-        /// * To exclude burstable performance instance types, specify excluded.
-        ///
-        ///
-        /// Default: excluded
-        public var burstablePerformance: EC2ClientTypes.BurstablePerformance?
-        /// The CPU manufacturers to include.
-        ///
-        /// * For instance types with Intel CPUs, specify intel.
-        ///
-        /// * For instance types with AMD CPUs, specify amd.
-        ///
-        /// * For instance types with Amazon Web Services CPUs, specify amazon-web-services.
-        ///
-        /// * For instance types with Apple CPUs, specify apple.
-        ///
-        ///
-        /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template. Default: Any manufacturer
-        public var cpuManufacturers: [EC2ClientTypes.CpuManufacturer]?
-        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes. Default: No excluded instance types
-        public var excludedInstanceTypes: [Swift.String]?
-        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
-        public var instanceGenerations: [EC2ClientTypes.InstanceGeneration]?
-        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide.
-        ///
-        /// * To include instance types with instance store volumes, specify included.
-        ///
-        /// * To require only instance types with instance store volumes, specify required.
-        ///
-        /// * To exclude instance types with instance store volumes, specify excluded.
-        ///
-        ///
-        /// Default: included
-        public var localStorage: EC2ClientTypes.LocalStorage?
-        /// The type of local storage that is required.
-        ///
-        /// * For instance types with hard disk drive (HDD) storage, specify hdd.
-        ///
-        /// * For instance types with solid state drive (SSD) storage, specify ssd.
-        ///
-        ///
-        /// Default: hdd and ssd
-        public var localStorageTypes: [EC2ClientTypes.LocalStorageType]?
-        /// [Price protection] The price protection threshold for Spot Instances, as a percentage of an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is based on the per vCPU or per memory price instead of the per instance price. Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.
-        public var maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int?
-        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
-        public var memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest?
-        /// The minimum and maximum amount of memory, in MiB.
-        /// This member is required.
-        public var memoryMiB: EC2ClientTypes.MemoryMiBRequest?
-        /// The minimum and maximum amount of baseline network bandwidth, in gigabits per second (Gbps). For more information, see [Amazon EC2 instance network bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
-        public var networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest?
-        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
-        public var networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest?
-        /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To indicate no price protection threshold, specify a high value, such as 999999. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. Default: 20
-        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
-        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see [Encryption in transit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit) in the Amazon EC2 User Guide. Default: false
-        public var requireEncryptionInTransit: Swift.Bool?
-        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html). Default: false
-        public var requireHibernateSupport: Swift.Bool?
-        /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999. Default: 100
-        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
-        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
-        public var totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest?
-        /// The minimum and maximum number of vCPUs.
-        /// This member is required.
-        public var vCpuCount: EC2ClientTypes.VCpuCountRangeRequest?
-
-        public init(
-            acceleratorCount: EC2ClientTypes.AcceleratorCountRequest? = nil,
-            acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]? = nil,
-            acceleratorNames: [EC2ClientTypes.AcceleratorName]? = nil,
-            acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest? = nil,
-            acceleratorTypes: [EC2ClientTypes.AcceleratorType]? = nil,
-            allowedInstanceTypes: [Swift.String]? = nil,
-            bareMetal: EC2ClientTypes.BareMetal? = nil,
-            baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
-            baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest? = nil,
-            burstablePerformance: EC2ClientTypes.BurstablePerformance? = nil,
-            cpuManufacturers: [EC2ClientTypes.CpuManufacturer]? = nil,
-            excludedInstanceTypes: [Swift.String]? = nil,
-            instanceGenerations: [EC2ClientTypes.InstanceGeneration]? = nil,
-            localStorage: EC2ClientTypes.LocalStorage? = nil,
-            localStorageTypes: [EC2ClientTypes.LocalStorageType]? = nil,
-            maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int? = nil,
-            memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest? = nil,
-            memoryMiB: EC2ClientTypes.MemoryMiBRequest? = nil,
-            networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest? = nil,
-            networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest? = nil,
-            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
-            requireEncryptionInTransit: Swift.Bool? = nil,
-            requireHibernateSupport: Swift.Bool? = nil,
-            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
-            totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest? = nil,
-            vCpuCount: EC2ClientTypes.VCpuCountRangeRequest? = nil
-        ) {
-            self.acceleratorCount = acceleratorCount
-            self.acceleratorManufacturers = acceleratorManufacturers
-            self.acceleratorNames = acceleratorNames
-            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
-            self.acceleratorTypes = acceleratorTypes
-            self.allowedInstanceTypes = allowedInstanceTypes
-            self.bareMetal = bareMetal
-            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
-            self.baselinePerformanceFactors = baselinePerformanceFactors
-            self.burstablePerformance = burstablePerformance
-            self.cpuManufacturers = cpuManufacturers
-            self.excludedInstanceTypes = excludedInstanceTypes
-            self.instanceGenerations = instanceGenerations
-            self.localStorage = localStorage
-            self.localStorageTypes = localStorageTypes
-            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
-            self.memoryGiBPerVCpu = memoryGiBPerVCpu
-            self.memoryMiB = memoryMiB
-            self.networkBandwidthGbps = networkBandwidthGbps
-            self.networkInterfaceCount = networkInterfaceCount
-            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
-            self.requireEncryptionInTransit = requireEncryptionInTransit
-            self.requireHibernateSupport = requireHibernateSupport
-            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
-            self.totalLocalStorageGB = totalLocalStorageGB
-            self.vCpuCount = vCpuCount
         }
     }
 }
@@ -21419,6 +22033,9 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum FlowLogsResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case corenetwork
+        case corenetworkattachment
+        case corenetworkedge
         case networkinterface
         case regionalnatgateway
         case subnet
@@ -21429,6 +22046,9 @@ extension EC2ClientTypes {
 
         public static var allCases: [FlowLogsResourceType] {
             return [
+                .corenetwork,
+                .corenetworkattachment,
+                .corenetworkedge,
                 .networkinterface,
                 .regionalnatgateway,
                 .subnet,
@@ -21445,6 +22065,9 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .corenetwork: return "CoreNetwork"
+            case .corenetworkattachment: return "CoreNetworkAttachment"
+            case .corenetworkedge: return "CoreNetworkEdge"
             case .networkinterface: return "NetworkInterface"
             case .regionalnatgateway: return "RegionalNatGateway"
             case .subnet: return "Subnet"
@@ -21561,11 +22184,11 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var logDestination: Swift.String?
     /// The type of destination for the flow log data. Default: cloud-watch-logs
     public var logDestinationType: EC2ClientTypes.LogDestinationType?
-    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide or [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
+    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide, [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide, or [Cloud WAN Flow Log records](https://docs.aws.amazon.com/network-manager/latest/cloudwan/cwan-flow-logs.html) in the Amazon Web Services Cloud WAN User Guide. Specify the fields using the ${field-id} format, separated by spaces.
     public var logFormat: Swift.String?
     /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     public var logGroupName: Swift.String?
-    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
+    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway and Cloud WAN resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     public var maxAggregationInterval: Swift.Int?
     /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     /// This member is required.
@@ -21577,7 +22200,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
-    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
+    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway or Cloud WAN resource types. It is required for the other resource types.
     public var trafficType: EC2ClientTypes.TrafficType?
 
     public init(
@@ -21991,7 +22614,7 @@ extension EC2ClientTypes {
 
     /// A resource type to include in the report. Associated options can also be specified if the resource type is a launch template.
     public struct ImageUsageResourceTypeRequest: Swift.Sendable {
-        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate
+        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe
         public var resourceType: Swift.String?
         /// The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate.
         public var resourceTypeOptions: [EC2ClientTypes.ImageUsageResourceTypeOptionRequest]?
@@ -23279,7 +23902,7 @@ public struct CreateIpamInternetRegistryAssociationInput: Swift.Sendable {
     /// The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
     /// This member is required.
     public var organizationHandle: Swift.String?
-    /// The Regional Internet Registry to associate with. Possible values:
+    /// The internet registry to associate with. Possible values:
     ///
     /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
     ///
@@ -23288,6 +23911,8 @@ public struct CreateIpamInternetRegistryAssociationInput: Swift.Sendable {
     /// * arin - ARIN (North America).
     ///
     /// * lacnic - LACNIC (Latin America and the Caribbean).
+    ///
+    /// * nicbr - NIC.br (Brazil).
     /// This member is required.
     public var rir: EC2ClientTypes.Rir?
     /// The tags to assign to the internet registry association.
@@ -23392,7 +24017,7 @@ extension EC2ClientTypes {
         public var organizationHandle: Swift.String?
         /// The ID of the Amazon Web Services account that owns the internet registry association.
         public var ownerId: Swift.String?
-        /// The Regional Internet Registry. Possible values:
+        /// The internet registry. Possible values:
         ///
         /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
         ///
@@ -23401,8 +24026,10 @@ extension EC2ClientTypes {
         /// * arin - ARIN (North America).
         ///
         /// * lacnic - LACNIC (Latin America and the Caribbean).
+        ///
+        /// * nicbr - NIC.br (Brazil).
         public var rir: EC2ClientTypes.Rir?
-        /// The state of the internet registry association. Valid values: pending-activation | pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | delete-in-progress | delete-complete | delete-failed.
+        /// The state of the internet registry association. Valid values: pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | disable-in-progress | disable-complete | disable-failed | delete-in-progress | delete-complete | delete-failed.
         public var state: EC2ClientTypes.IpamInternetRegistryAssociationState?
         /// A message describing the current state of the internet registry association, including additional details such as the reason for a failure.
         public var stateMessage: Swift.String?
@@ -26046,11 +26673,15 @@ extension EC2ClientTypes {
     public struct LaunchTemplatesMonitoringRequest: Swift.Sendable {
         /// Specify true to enable detailed monitoring. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance. To specify metric categories, you must also enable detailed monitoring.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -27260,11 +27891,15 @@ extension EC2ClientTypes {
     public struct LaunchTemplatesMonitoring: Swift.Sendable {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -28905,6 +29540,64 @@ public struct CreateManagedPrefixListOutput: Swift.Sendable {
     }
 }
 
+public struct CreateMetricCategoryInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The names of the metrics to include in the metric category. Specify each metric by its Amazon CloudWatch metric name or its OpenTelemetry metric name. The two names for a measurement are separate entries, and you can include both. In Regions where Amazon CloudWatch OpenTelemetry metrics aren't available, you can't specify OpenTelemetry metric names.
+    /// This member is required.
+    public var metrics: [Swift.String]?
+    /// The tags to apply to the metric category during creation.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        metrics: [Swift.String]? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.metrics = metrics
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a metric category. A metric category is a set of additional metrics that you can associate with an instance that has detailed monitoring enabled.
+    public struct MetricCategory: Swift.Sendable {
+        /// The ID of the metric category.
+        public var metricCategoryId: Swift.String?
+        /// The names of the metrics in the metric category.
+        public var metrics: [Swift.String]?
+        /// Any tags assigned to the metric category.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            metricCategoryId: Swift.String? = nil,
+            metrics: [Swift.String]? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.metricCategoryId = metricCategoryId
+            self.metrics = metrics
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateMetricCategoryOutput: Swift.Sendable {
+    /// Information about the metric category.
+    public var metricCategory: EC2ClientTypes.MetricCategory?
+
+    public init(
+        metricCategory: EC2ClientTypes.MetricCategory? = nil
+    ) {
+        self.metricCategory = metricCategory
+    }
+}
+
 extension EC2ClientTypes {
 
     public enum AvailabilityMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -29667,6 +30360,298 @@ public struct CreateNetworkAclEntryInput: Swift.Sendable {
         self.`protocol` = `protocol`
         self.ruleAction = ruleAction
         self.ruleNumber = ruleNumber
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Maps a CIDR range to a label for cost allocation reporting.
+    public struct FlexCostAllocationCidrMapping: Swift.Sendable {
+        /// The label to assign to the CIDR range. The label can be up to 64 characters long. It can contain letters, numbers, hyphens (-), and underscores (_), and must start with a letter or a number. This parameter is required.
+        /// This member is required.
+        public var cidrLabel: Swift.String?
+        /// The CIDR range. This parameter is required.
+        /// This member is required.
+        public var cidrRange: Swift.String?
+
+        public init(
+            cidrLabel: Swift.String? = nil,
+            cidrRange: Swift.String? = nil
+        ) {
+            self.cidrLabel = cidrLabel
+            self.cidrRange = cidrRange
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies the CIDR ranges and labels to use for cost allocation when the reporting granularity is cidr.
+    public struct FlexCostAllocationCidrRangeSpecifications: Swift.Sendable {
+        /// The CIDR range to label mappings. You can specify from 1 to 100 mappings. This parameter is required.
+        /// This member is required.
+        public var prefixes: [EC2ClientTypes.FlexCostAllocationCidrMapping]?
+        /// The type of prefixes to use. This parameter is required. Valid values are source-prefixes and destination-prefixes.
+        /// This member is required.
+        public var prefixesType: Swift.String?
+
+        public init(
+            prefixes: [EC2ClientTypes.FlexCostAllocationCidrMapping]? = nil,
+            prefixesType: Swift.String? = nil
+        ) {
+            self.prefixes = prefixes
+            self.prefixesType = prefixesType
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// A cost dimension used for allocation. Valid values are data-transfer and data-processing. data-processing is valid only in a NatFcaPolicyDocument.
+    public enum FlexCostAllocationCostDimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataProcessing
+        case dataTransfer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationCostDimension] {
+            return [
+                .dataProcessing,
+                .dataTransfer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataProcessing: return "data-processing"
+            case .dataTransfer: return "data-transfer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The resource granularity level at which networking costs are allocated. Valid values are eni, ec2, subnet, vpc, account, peering-id, and cidr. Which values you can use depends on the policy document. peering-id is valid only in a PcxFcaPolicyDocument.
+    public enum FlexCostAllocationReportingGranularity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case cidr
+        case ec2
+        case eni
+        case peeringId
+        case subnet
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationReportingGranularity] {
+            return [
+                .account,
+                .cidr,
+                .ec2,
+                .eni,
+                .peeringId,
+                .subnet,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .cidr: return "cidr"
+            case .ec2: return "ec2"
+            case .eni: return "eni"
+            case .peeringId: return "peering-id"
+            case .subnet: return "subnet"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for EC2 instances.
+    public struct InstanceFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. The only valid value is data-transfer.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for NAT gateways.
+    public struct NatFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. Valid values are data-transfer and data-processing.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The type of network resource that a flex cost allocation policy applies to. Valid values are natgw (NAT gateway), pcx (Amazon VPC peering connection), and ec2 (EC2 instance).
+    public enum FlexCostAllocationNetworkResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2
+        case natgw
+        case pcx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationNetworkResourceType] {
+            return [
+                .ec2,
+                .natgw,
+                .pcx
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "ec2"
+            case .natgw: return "natgw"
+            case .pcx: return "pcx"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for Amazon VPC peering connections.
+    public struct PcxFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. The only valid value is data-transfer.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, peering-id, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+public struct CreateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description for the policy. The description can be up to 1024 characters long.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The policy document that defines cost allocation for EC2 instances. Provide this document when NetworkResourceType is ec2.
+    public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+    /// The policy document that defines cost allocation for NAT gateways. Provide this document when NetworkResourceType is natgw.
+    public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+    /// The type of network resource that the policy applies to. This parameter is required. Valid values are natgw (NAT gateway), pcx (Amazon VPC peering connection), and ec2 (EC2 instance). Specify the policy document that matches the resource type: NatFcaPolicyDocument for natgw, InstanceFcaPolicyDocument for ec2, or PcxFcaPolicyDocument for pcx. Don't specify a policy document for a different resource type.
+    /// This member is required.
+    public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+    /// The policy document that defines cost allocation for Amazon VPC peering connections. Provide this document when NetworkResourceType is pcx.
+    public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+    /// Specifies whether showback reporting is enabled for the policy. Default: true
+    public var showBackEnabled: Swift.Bool?
+    /// The tags to assign to the policy.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+        natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+        networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+        pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+        showBackEnabled: Swift.Bool? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+        self.natFcaPolicyDocument = natFcaPolicyDocument
+        self.networkResourceType = networkResourceType
+        self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+        self.showBackEnabled = showBackEnabled
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+public struct CreateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// The date and time when the policy was created.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the policy is expected to apply to network traffic.
+    public var expectedEffectiveAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the flex cost allocation policy.
+    public var fcaPolicyArn: Swift.String?
+    /// The ID of the flex cost allocation policy.
+    public var fcaPolicyId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        expectedEffectiveAt: Foundation.Date? = nil,
+        fcaPolicyArn: Swift.String? = nil,
+        fcaPolicyId: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.expectedEffectiveAt = expectedEffectiveAt
+        self.fcaPolicyArn = fcaPolicyArn
+        self.fcaPolicyId = fcaPolicyId
     }
 }
 
@@ -32887,6 +33872,21 @@ public struct CreateSnapshotInput: Swift.Sendable {
 
 extension EC2ClientTypes {
 
+    /// Describes an KMS key that is associated with an Amazon EBS snapshot, in addition to the key the snapshot is encrypted under. An associated key provides a second way to access the snapshot's data for cross-account sharing and copying.
+    public struct AssociatedKmsKey: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the associated KMS key.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum SnapshotState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case error
@@ -32983,6 +33983,8 @@ extension EC2ClientTypes {
 
 /// Describes a snapshot.
 public struct CreateSnapshotOutput: Swift.Sendable {
+    /// The additional KMS keys that are associated with the snapshot.
+    public var associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]?
     /// The Availability Zone or Local Zone of the snapshot. For example, us-west-1a (Availability Zone) or us-west-2-lax-1a (Local Zone).
     public var availabilityZone: Swift.String?
     /// Only for snapshot copies created with time-based snapshot copy operations. The completion duration requested for the time-based snapshot copy operation.
@@ -33035,6 +34037,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
     public var volumeSize: Swift.Int?
 
     public init(
+        associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]? = nil,
         availabilityZone: Swift.String? = nil,
         completionDurationMinutes: Swift.Int? = nil,
         completionTime: Foundation.Date? = nil,
@@ -33059,6 +34062,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
         volumeId: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
     ) {
+        self.associatedKmsKeys = associatedKmsKeys
         self.availabilityZone = availabilityZone
         self.completionDurationMinutes = completionDurationMinutes
         self.completionTime = completionTime
@@ -35558,17 +36562,125 @@ public struct CreateTransitGatewayMulticastDomainOutput: Swift.Sendable {
     }
 }
 
+public struct CreateTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// The IDs of the Availability Zones for the attachment. You must specify at least one Availability Zone, using this parameter, AvailabilityZones, or both. Each Availability Zone must be supported by both the transit gateway and the endpoint service.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones for the attachment. You must specify at least one Availability Zone, using this parameter, AvailabilityZoneIds, or both. Each Availability Zone must be supported by both the transit gateway and the endpoint service.
+    public var availabilityZones: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The name of the Gateway Load Balancer endpoint service.
+    /// This member is required.
+    public var serviceName: Swift.String?
+    /// The tags to apply to the network function attachment.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+    /// The ID of the transit gateway. The transit gateway must be in the available state.
+    /// This member is required.
+    public var transitGatewayId: Swift.String?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        availabilityZones: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        serviceName: Swift.String? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
+        transitGatewayId: Swift.String? = nil
+    ) {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.availabilityZones = availabilityZones
+        self.dryRun = dryRun
+        self.serviceName = serviceName
+        self.tagSpecifications = tagSpecifications
+        self.transitGatewayId = transitGatewayId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a transit gateway network function attachment, including the attachment ID, the transit gateway, the endpoint service, the Availability Zones, and the state of the attachment.
+    public struct TransitGatewayNetworkFunctionAttachment: Swift.Sendable {
+        /// The IDs of the Availability Zones for the attachment.
+        public var availabilityZoneIds: [Swift.String]?
+        /// The names of the Availability Zones for the attachment.
+        public var availabilityZones: [Swift.String]?
+        /// The date and time the attachment was created.
+        public var creationTime: Foundation.Date?
+        /// The name of the Gateway Load Balancer endpoint service.
+        public var resourceId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the attachment.
+        public var resourceOwnerId: Swift.String?
+        /// The state of the attachment.
+        public var state: EC2ClientTypes.TransitGatewayAttachmentState?
+        /// The tags for the attachment.
+        public var tags: [EC2ClientTypes.Tag]?
+        /// The ID of the attachment.
+        public var transitGatewayAttachmentId: Swift.String?
+        /// The ID of the transit gateway.
+        public var transitGatewayId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the transit gateway.
+        public var transitGatewayOwnerId: Swift.String?
+
+        public init(
+            availabilityZoneIds: [Swift.String]? = nil,
+            availabilityZones: [Swift.String]? = nil,
+            creationTime: Foundation.Date? = nil,
+            resourceId: Swift.String? = nil,
+            resourceOwnerId: Swift.String? = nil,
+            state: EC2ClientTypes.TransitGatewayAttachmentState? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil,
+            transitGatewayAttachmentId: Swift.String? = nil,
+            transitGatewayId: Swift.String? = nil,
+            transitGatewayOwnerId: Swift.String? = nil
+        ) {
+            self.availabilityZoneIds = availabilityZoneIds
+            self.availabilityZones = availabilityZones
+            self.creationTime = creationTime
+            self.resourceId = resourceId
+            self.resourceOwnerId = resourceOwnerId
+            self.state = state
+            self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayOwnerId = transitGatewayOwnerId
+        }
+    }
+}
+
+public struct CreateTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
+    }
+}
+
 extension EC2ClientTypes {
 
     /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering request.
     public struct CreateTransitGatewayPeeringAttachmentRequestOptions: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for the requester side of the transit gateway peering attachment. Multipath resilience is supported only for inter-Region transit gateway peering attachments between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the default is false.
+        public var allowMultipathResilience: Swift.Bool?
         /// Indicates whether dynamic routing is enabled or disabled.
         public var dynamicRouting: EC2ClientTypes.DynamicRoutingValue?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
 
         public init(
-            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil
+            allowMultipathResilience: Swift.Bool? = nil,
+            dynamicRouting: EC2ClientTypes.DynamicRoutingValue? = nil,
+            multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
         ) {
+            self.allowMultipathResilience = allowMultipathResilience
             self.dynamicRouting = dynamicRouting
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -37778,10 +38890,14 @@ extension EC2ClientTypes {
 
     /// Describes the configuration settings for VPC Encryption Control. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct VpcEncryptionControlConfiguration: Swift.Sendable {
+        /// Specifies whether to exclude Amazon API Gateway V2 traffic from encryption enforcement.
+        public var apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
         public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
         public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude Amazon Web Services Global Accelerator traffic from encryption enforcement.
+        public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
         public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
@@ -37799,8 +38915,10 @@ extension EC2ClientTypes {
         public var vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
         public init(
+            apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+            globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             lambdaExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             mode: EC2ClientTypes.VpcEncryptionControlMode? = nil,
@@ -37809,8 +38927,10 @@ extension EC2ClientTypes {
             vpcLatticeExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
         ) {
+            self.apiGatewayV2Exclusion = apiGatewayV2Exclusion
             self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
             self.elasticFileSystemExclusion = elasticFileSystemExclusion
+            self.globalAcceleratorExclusion = globalAcceleratorExclusion
             self.internetGatewayExclusion = internetGatewayExclusion
             self.lambdaExclusion = lambdaExclusion
             self.mode = mode
@@ -39192,6 +40312,30 @@ public struct CreateVpcEndpointServiceConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// The VPC peering connection options to apply to the requester VPC when you create a VPC peering connection.
+    public struct CreatePeeringConnectionOptionsRequest: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for the requester VPC. Multipath resilience is supported only for inter-Region VPC peering connections between supported Regions. It takes effect only when both the requester and the accepter allow it. Accepting the VPC peering connection request also allows multipath resilience for the accepter VPC. If you don't specify this parameter, the default is false.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
+
+        public init(
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
+        ) {
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
+        }
+    }
+}
+
 public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -39201,6 +40345,8 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
     public var peerRegion: Swift.String?
     /// The ID of the VPC with which you are creating the VPC peering connection. You must specify this parameter in the request.
     public var peerVpcId: Swift.String?
+    /// The VPC peering connection options to apply to the requester VPC.
+    public var requesterPeeringConnectionOptions: EC2ClientTypes.CreatePeeringConnectionOptionsRequest?
     /// The tags to assign to the peering connection.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
     /// The ID of the requester VPC. You must specify this parameter in the request.
@@ -39212,6 +40358,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         peerOwnerId: Swift.String? = nil,
         peerRegion: Swift.String? = nil,
         peerVpcId: Swift.String? = nil,
+        requesterPeeringConnectionOptions: EC2ClientTypes.CreatePeeringConnectionOptionsRequest? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         vpcId: Swift.String? = nil
     ) {
@@ -39219,6 +40366,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         self.peerOwnerId = peerOwnerId
         self.peerRegion = peerRegion
         self.peerVpcId = peerVpcId
+        self.requesterPeeringConnectionOptions = requesterPeeringConnectionOptions
         self.tagSpecifications = tagSpecifications
         self.vpcId = vpcId
     }
@@ -39558,7 +40706,9 @@ extension EC2ClientTypes {
         public var ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]?
         /// Options for logging VPN tunnel activity.
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 1 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]?
@@ -39566,7 +40716,9 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800
         public var phase1LifetimeSeconds: Swift.Int?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 2 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]?
@@ -39609,10 +40761,12 @@ extension EC2ClientTypes {
             enableTunnelLifecycleControl: Swift.Bool? = nil,
             ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsRequestListValue]? = nil,
@@ -39630,10 +40784,12 @@ extension EC2ClientTypes {
             self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -39651,7 +40807,7 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes.VpnTunnelOptionsSpecification: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VpnTunnelOptionsSpecification(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
+        "VpnTunnelOptionsSpecification(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), phase1AdditionalKeyExchanges: \(Swift.String(describing: phase1AdditionalKeyExchanges)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2AdditionalKeyExchanges: \(Swift.String(describing: phase2AdditionalKeyExchanges)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -39961,6 +41117,8 @@ extension EC2ClientTypes {
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptions?
         /// The external IP address of the VPN tunnel.
         public var outsideIpAddress: Swift.String?
+        /// The permitted additional key exchange rounds for the VPN tunnel for phase 1 IKE negotiations.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 1 IKE negotiations.
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersListValue]?
         /// The permitted encryption algorithms for the VPN tunnel for phase 1 IKE negotiations.
@@ -39969,6 +41127,8 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds.
         public var phase1LifetimeSeconds: Swift.Int?
+        /// The permitted additional key exchange rounds for the VPN tunnel for phase 2 IKE negotiations.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]?
         /// The permitted Diffie-Hellman group numbers for the VPN tunnel for phase 2 IKE negotiations.
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersListValue]?
         /// The permitted encryption algorithms for the VPN tunnel for phase 2 IKE negotiations.
@@ -39999,10 +41159,12 @@ extension EC2ClientTypes {
             ikeVersions: [EC2ClientTypes.IKEVersionsListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptions? = nil,
             outsideIpAddress: Swift.String? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchange]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsListValue]? = nil,
@@ -40021,10 +41183,12 @@ extension EC2ClientTypes {
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
             self.outsideIpAddress = outsideIpAddress
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -40042,7 +41206,7 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes.TunnelOption: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TunnelOption(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), outsideIpAddress: \(Swift.String(describing: outsideIpAddress)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
+        "TunnelOption(dpdTimeoutAction: \(Swift.String(describing: dpdTimeoutAction)), dpdTimeoutSeconds: \(Swift.String(describing: dpdTimeoutSeconds)), enableTunnelLifecycleControl: \(Swift.String(describing: enableTunnelLifecycleControl)), ikeVersions: \(Swift.String(describing: ikeVersions)), logOptions: \(Swift.String(describing: logOptions)), outsideIpAddress: \(Swift.String(describing: outsideIpAddress)), phase1AdditionalKeyExchanges: \(Swift.String(describing: phase1AdditionalKeyExchanges)), phase1DHGroupNumbers: \(Swift.String(describing: phase1DHGroupNumbers)), phase1EncryptionAlgorithms: \(Swift.String(describing: phase1EncryptionAlgorithms)), phase1IntegrityAlgorithms: \(Swift.String(describing: phase1IntegrityAlgorithms)), phase1LifetimeSeconds: \(Swift.String(describing: phase1LifetimeSeconds)), phase2AdditionalKeyExchanges: \(Swift.String(describing: phase2AdditionalKeyExchanges)), phase2DHGroupNumbers: \(Swift.String(describing: phase2DHGroupNumbers)), phase2EncryptionAlgorithms: \(Swift.String(describing: phase2EncryptionAlgorithms)), phase2IntegrityAlgorithms: \(Swift.String(describing: phase2IntegrityAlgorithms)), phase2LifetimeSeconds: \(Swift.String(describing: phase2LifetimeSeconds)), rekeyFuzzPercentage: \(Swift.String(describing: rekeyFuzzPercentage)), rekeyMarginTimeSeconds: \(Swift.String(describing: rekeyMarginTimeSeconds)), replayWindowSize: \(Swift.String(describing: replayWindowSize)), startupAction: \(Swift.String(describing: startupAction)), tunnelInsideCidr: \(Swift.String(describing: tunnelInsideCidr)), tunnelInsideIpv6Cidr: \(Swift.String(describing: tunnelInsideIpv6Cidr)), preSharedKey: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -41846,6 +43010,33 @@ public struct DeleteManagedPrefixListOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteMetricCategoryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the metric category.
+    /// This member is required.
+    public var metricCategoryId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        metricCategoryId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.metricCategoryId = metricCategoryId
+    }
+}
+
+public struct DeleteMetricCategoryOutput: Swift.Sendable {
+    /// The ID of the metric category that was deleted.
+    public var metricCategoryId: Swift.String?
+
+    public init(
+        metricCategoryId: Swift.String? = nil
+    ) {
+        self.metricCategoryId = metricCategoryId
+    }
+}
+
 public struct DeleteNatGatewayInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -41912,6 +43103,37 @@ public struct DeleteNetworkAclEntryInput: Swift.Sendable {
         self.egress = egress
         self.networkAclId = networkAclId
         self.ruleNumber = ruleNumber
+    }
+}
+
+public struct DeleteNetworkingFlexCostAllocationPoliciesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the flex cost allocation policies to delete. You can specify up to 50 policy IDs. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyIds = fcaPolicyIds
+    }
+}
+
+public struct DeleteNetworkingFlexCostAllocationPoliciesOutput: Swift.Sendable {
+    /// Information about the policies that could not be deleted.
+    public var failed: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// The IDs of the policies that were successfully deleted.
+    public var successful: [Swift.String]?
+
+    public init(
+        failed: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        successful: [Swift.String]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 
@@ -42855,6 +44077,33 @@ public struct DeleteTransitGatewayMulticastDomainOutput: Swift.Sendable {
         transitGatewayMulticastDomain: EC2ClientTypes.TransitGatewayMulticastDomain? = nil
     ) {
         self.transitGatewayMulticastDomain = transitGatewayMulticastDomain
+    }
+}
+
+public struct DeleteTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the network function attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct DeleteTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the deleted network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
     }
 }
 
@@ -45569,6 +46818,21 @@ public struct DescribeCapacityBlockExtensionOfferingsOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// Instance type preference for a Capacity Block search. Specifies one or more instance types to evaluate when searching for available Capacity Blocks.
+    public struct CapacityBlockInstanceTypePreference: Swift.Sendable {
+        /// The instance type to consider in the Capacity Block search.
+        public var instanceType: Swift.String?
+
+        public init(
+            instanceType: Swift.String? = nil
+        ) {
+            self.instanceType = instanceType
+        }
+    }
+}
+
 public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
     /// Include all Availability Zones and Local Zones, regardless of your opt-in status. If you do not use this parameter, the results include available offerings from all Availability Zones in the Amazon Web Services Region and Local Zones you are opted into.
     public var allAvailabilityZones: Swift.Bool?
@@ -45583,6 +46847,8 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
     public var instanceCount: Swift.Int?
     /// The type of instance for which the Capacity Block offering reserves capacity.
     public var instanceType: Swift.String?
+    /// List of instance type preferences for the Capacity Block offering search. Accepts one or more instance type names. Either this or the legacy InstanceType parameter is required.
+    public var instanceTypePreferences: [EC2ClientTypes.CapacityBlockInstanceTypePreference]?
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results.
@@ -45601,6 +46867,7 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
         endDateRange: Foundation.Date? = nil,
         instanceCount: Swift.Int? = nil,
         instanceType: Swift.String? = nil,
+        instanceTypePreferences: [EC2ClientTypes.CapacityBlockInstanceTypePreference]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startDateRange: Foundation.Date? = nil,
@@ -45613,11 +46880,67 @@ public struct DescribeCapacityBlockOfferingsInput: Swift.Sendable {
         self.endDateRange = endDateRange
         self.instanceCount = instanceCount
         self.instanceType = instanceType
+        self.instanceTypePreferences = instanceTypePreferences
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.startDateRange = startDateRange
         self.ultraserverCount = ultraserverCount
         self.ultraserverType = ultraserverType
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an individual segment within a Capacity Block offering. Each segment represents a distinct block of capacity with its own Availability Zone, instance type, duration, pricing, and schedule.
+    public struct CapacityBlockOfferingSegment: Swift.Sendable {
+        /// The Availability Zone of the Capacity Block offering segment.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone for the Capacity Block offering segment.
+        public var availabilityZoneId: Swift.String?
+        /// The number of hours for the duration of the Capacity Block offering segment.
+        public var capacityBlockDurationHours: Swift.Int?
+        /// The number of minutes for the duration of the Capacity Block offering segment.
+        public var capacityBlockDurationMinutes: Swift.Int?
+        /// The currency of the payment for the Capacity Block offering segment.
+        public var currencyCode: Swift.String?
+        /// The end date of the Capacity Block offering segment.
+        public var endDate: Foundation.Date?
+        /// The number of instances in the Capacity Block offering segment.
+        public var instanceCount: Swift.Int?
+        /// The instance type of the Capacity Block offering segment.
+        public var instanceType: Swift.String?
+        /// The start date of the Capacity Block offering segment.
+        public var startDate: Foundation.Date?
+        /// The total price to be paid up front for the Capacity Block offering segment.
+        public var upfrontFee: Swift.String?
+        /// The type of zone where the Capacity Block offering segment is available.
+        public var zoneType: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            capacityBlockDurationHours: Swift.Int? = nil,
+            capacityBlockDurationMinutes: Swift.Int? = nil,
+            currencyCode: Swift.String? = nil,
+            endDate: Foundation.Date? = nil,
+            instanceCount: Swift.Int? = nil,
+            instanceType: Swift.String? = nil,
+            startDate: Foundation.Date? = nil,
+            upfrontFee: Swift.String? = nil,
+            zoneType: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityBlockDurationHours = capacityBlockDurationHours
+            self.capacityBlockDurationMinutes = capacityBlockDurationMinutes
+            self.currencyCode = currencyCode
+            self.endDate = endDate
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.startDate = startDate
+            self.upfrontFee = upfrontFee
+            self.zoneType = zoneType
+        }
     }
 }
 
@@ -45633,6 +46956,8 @@ extension EC2ClientTypes {
         public var capacityBlockDurationMinutes: Swift.Int?
         /// The ID of the Capacity Block offering.
         public var capacityBlockOfferingId: Swift.String?
+        /// The individual segments that compose the Capacity Block offering. Each segment describes a distinct block of capacity with its own Availability Zone, instance type, schedule, and pricing.
+        public var capacityBlockOfferingSegments: [EC2ClientTypes.CapacityBlockOfferingSegment]?
         /// The currency of the payment for the Capacity Block.
         public var currencyCode: Swift.String?
         /// The end date of the Capacity Block offering.
@@ -45659,6 +46984,7 @@ extension EC2ClientTypes {
             capacityBlockDurationHours: Swift.Int? = nil,
             capacityBlockDurationMinutes: Swift.Int? = nil,
             capacityBlockOfferingId: Swift.String? = nil,
+            capacityBlockOfferingSegments: [EC2ClientTypes.CapacityBlockOfferingSegment]? = nil,
             currencyCode: Swift.String? = nil,
             endDate: Foundation.Date? = nil,
             instanceCount: Swift.Int? = nil,
@@ -45674,6 +47000,7 @@ extension EC2ClientTypes {
             self.capacityBlockDurationHours = capacityBlockDurationHours
             self.capacityBlockDurationMinutes = capacityBlockDurationMinutes
             self.capacityBlockOfferingId = capacityBlockOfferingId
+            self.capacityBlockOfferingSegments = capacityBlockOfferingSegments
             self.currencyCode = currencyCode
             self.endDate = endDate
             self.instanceCount = instanceCount
@@ -46453,6 +47780,10 @@ extension EC2ClientTypes {
     public struct CapacityReservationFleet: Swift.Sendable {
         /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. For more information, see For more information, see [Allocation strategy](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy) in the Amazon EC2 User Guide.
         public var allocationStrategy: Swift.String?
+        /// Reserved for internal use.
+        public var availabilityZone: Swift.String?
+        /// Reserved for internal use.
+        public var availabilityZoneId: Swift.String?
         /// The ARN of the Capacity Reservation Fleet.
         public var capacityReservationFleetArn: Swift.String?
         /// The ID of the Capacity Reservation Fleet.
@@ -46463,6 +47794,8 @@ extension EC2ClientTypes {
         public var endDate: Foundation.Date?
         /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
         public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
+        /// Reserved for internal use.
+        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
         /// Information about the instance types for which to reserve the capacity.
         public var instanceTypeSpecifications: [EC2ClientTypes.FleetCapacityReservation]?
         /// The state of the Capacity Reservation Fleet. Possible states include:
@@ -46500,11 +47833,14 @@ extension EC2ClientTypes {
 
         public init(
             allocationStrategy: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             capacityReservationFleetArn: Swift.String? = nil,
             capacityReservationFleetId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             endDate: Foundation.Date? = nil,
             instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria? = nil,
+            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
             instanceTypeSpecifications: [EC2ClientTypes.FleetCapacityReservation]? = nil,
             state: EC2ClientTypes.CapacityReservationFleetState? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
@@ -46513,11 +47849,14 @@ extension EC2ClientTypes {
             totalTargetCapacity: Swift.Int? = nil
         ) {
             self.allocationStrategy = allocationStrategy
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.capacityReservationFleetArn = capacityReservationFleetArn
             self.capacityReservationFleetId = capacityReservationFleetId
             self.createTime = createTime
             self.endDate = endDate
             self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceRequirements = instanceRequirements
             self.instanceTypeSpecifications = instanceTypeSpecifications
             self.state = state
             self.tags = tags
@@ -52176,7 +53515,7 @@ public struct DescribeImageUsageReportEntriesInput: Swift.Sendable {
     ///
     /// * creation-time - The time when the report was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2025-11-29T11:04:43.305Z. You can use a wildcard (*), for example, 2025-11-29T*, which matches an entire day.
     ///
-    /// * resource-type - The resource type (ec2:Instance | ec2:LaunchTemplate).
+    /// * resource-type - The resource type (ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe).
     public var filters: [EC2ClientTypes.Filter]?
     /// The IDs of the images for filtering the report entries. If specified, only report entries containing these images are returned.
     public var imageIds: [Swift.String]?
@@ -52216,7 +53555,7 @@ extension EC2ClientTypes {
         public var reportCreationTime: Foundation.Date?
         /// The ID of the report.
         public var reportId: Swift.String?
-        /// The type of resource (ec2:Instance or ec2:LaunchTemplate).
+        /// The type of resource (ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe).
         public var resourceType: Swift.String?
         /// The number of times resources of this type reference this image in the account.
         public var usageCount: Swift.Int?
@@ -52316,7 +53655,7 @@ extension EC2ClientTypes {
 
     /// A resource type to include in the report. Associated options can also be specified if the resource type is a launch template.
     public struct ImageUsageResourceType: Swift.Sendable {
-        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate
+        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe
         public var resourceType: Swift.String?
         /// The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate.
         public var resourceTypeOptions: [EC2ClientTypes.ImageUsageResourceTypeOption]?
@@ -54250,12 +55589,16 @@ extension EC2ClientTypes {
 
     /// Describes the monitoring of an instance.
     public struct Monitoring: Swift.Sendable {
+        /// The IDs of the metric categories that are associated with the instance.
+        public var metricCategoryIds: [Swift.String]?
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var state: EC2ClientTypes.MonitoringState?
 
         public init(
+            metricCategoryIds: [Swift.String]? = nil,
             state: EC2ClientTypes.MonitoringState? = nil
         ) {
+            self.metricCategoryIds = metricCategoryIds
             self.state = state
         }
     }
@@ -59195,6 +60538,50 @@ public struct DescribeManagedPrefixListsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeMetricCategoriesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The filters.
+    ///
+    /// * metric-name - The name of a metric in the metric category.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). Valid range: 5 - 100.
+    public var maxResults: Swift.Int?
+    /// The IDs of the metric categories. If you specify IDs, you can't specify MaxResults or NextToken.
+    public var metricCategoryIds: [Swift.String]?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        metricCategoryIds: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.metricCategoryIds = metricCategoryIds
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeMetricCategoriesOutput: Swift.Sendable {
+    /// Information about the metric categories.
+    public var metricCategories: [EC2ClientTypes.MetricCategory]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        metricCategories: [EC2ClientTypes.MetricCategory]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.metricCategories = metricCategories
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeMovingAddressesInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -59417,6 +60804,179 @@ public struct DescribeNetworkAclsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.networkAcls = networkAcls
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPoliciesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the flex cost allocation policies to describe.
+    public var fcaPolicyIds: [Swift.String]?
+    /// The filters.
+    ///
+    /// * fca-policy-id - The ID of the policy.
+    ///
+    /// * managed-by - The entity that manages the policy (account | declarative-policy).
+    ///
+    /// * network-resource-type - The type of network resource that the policy applies to (natgw | ec2 | pcx).
+    ///
+    /// * showback-enabled - Indicates whether showback reporting is enabled for the policy (true | false).
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return in a single call. The range is 5 to 1000. To retrieve the remaining results, make another call with the returned nextToken value. Default: 100
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyIds: [Swift.String]? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyIds = fcaPolicyIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a flex cost allocation policy.
+    public struct FlexCostAllocationPolicyDescription: Swift.Sendable {
+        /// The description of the policy.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the policy.
+        public var fcaPolicyArn: Swift.String?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The policy document that defines cost allocation for EC2 instances.
+        public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+        /// The number of the latest version of the policy.
+        public var latestVersion: Swift.Int?
+        /// The entity that manages the policy. Valid values are:
+        ///
+        /// * account - The account that owns the policy created it.
+        ///
+        /// * declarative-policy - An Amazon Web Services Organizations declarative policy created the policy. You can't modify or delete the policy.
+        public var managedBy: EC2ClientTypes.ManagedBy?
+        /// The policy document that defines cost allocation for NAT gateways.
+        public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+        /// The type of network resource that the policy applies to.
+        public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+        /// The ID of the account that owns the policy.
+        public var ownerAccount: Swift.String?
+        /// The policy document that defines cost allocation for Amazon VPC peering connections.
+        public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+        /// The date and time when the policy was created.
+        public var policyCreatedAt: Foundation.Date?
+        /// Indicates whether showback reporting is enabled for the policy.
+        public var showBackEnabled: Swift.Bool?
+        /// The tags assigned to the policy.
+        public var tags: [EC2ClientTypes.Tag]?
+        /// The date and time when the policy was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The date and time when the latest version of the policy is expected to apply to network traffic. The policy configuration in this response is from the latest version.
+        public var versionExpectedEffectiveAt: Foundation.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            fcaPolicyArn: Swift.String? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+            latestVersion: Swift.Int? = nil,
+            managedBy: EC2ClientTypes.ManagedBy? = nil,
+            natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+            networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+            ownerAccount: Swift.String? = nil,
+            pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+            policyCreatedAt: Foundation.Date? = nil,
+            showBackEnabled: Swift.Bool? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            versionExpectedEffectiveAt: Foundation.Date? = nil
+        ) {
+            self.description = description
+            self.fcaPolicyArn = fcaPolicyArn
+            self.fcaPolicyId = fcaPolicyId
+            self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+            self.latestVersion = latestVersion
+            self.managedBy = managedBy
+            self.natFcaPolicyDocument = natFcaPolicyDocument
+            self.networkResourceType = networkResourceType
+            self.ownerAccount = ownerAccount
+            self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+            self.policyCreatedAt = policyCreatedAt
+            self.showBackEnabled = showBackEnabled
+            self.tags = tags
+            self.updatedAt = updatedAt
+            self.versionExpectedEffectiveAt = versionExpectedEffectiveAt
+        }
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPoliciesOutput: Swift.Sendable {
+    /// Information about the flex cost allocation policies.
+    public var flexCostAllocationPolicies: [EC2ClientTypes.FlexCostAllocationPolicyDescription]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        flexCostAllocationPolicies: [EC2ClientTypes.FlexCostAllocationPolicyDescription]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flexCostAllocationPolicies = flexCostAllocationPolicies
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPolicyAssociationsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the policy associations to describe.
+    public var fcaPolicyAssociationIds: [Swift.String]?
+    /// The filters.
+    ///
+    /// * fca-policy-id - The ID of the policy.
+    ///
+    /// * managed-by - The entity that manages the association (account | declarative-policy).
+    ///
+    /// * resource-id - The ID of the associated network resource.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return in a single call. The range is 5 to 1000. To retrieve the remaining results, make another call with the returned nextToken value. Default: 100
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyAssociationIds: [Swift.String]? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyAssociationIds = fcaPolicyAssociationIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput: Swift.Sendable {
+    /// Information about the policy associations.
+    public var fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.fcaPolicyAssociations = fcaPolicyAssociations
         self.nextToken = nextToken
     }
 }
@@ -62934,6 +64494,8 @@ extension EC2ClientTypes {
 
     /// Describes a snapshot.
     public struct Snapshot: Swift.Sendable {
+        /// The additional KMS keys that are associated with the snapshot.
+        public var associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]?
         /// The Availability Zone or Local Zone of the snapshot. For example, us-west-1a (Availability Zone) or us-west-2-lax-1a (Local Zone).
         public var availabilityZone: Swift.String?
         /// Only for snapshot copies created with time-based snapshot copy operations. The completion duration requested for the time-based snapshot copy operation.
@@ -62986,6 +64548,7 @@ extension EC2ClientTypes {
         public var volumeSize: Swift.Int?
 
         public init(
+            associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]? = nil,
             availabilityZone: Swift.String? = nil,
             completionDurationMinutes: Swift.Int? = nil,
             completionTime: Foundation.Date? = nil,
@@ -63010,6 +64573,7 @@ extension EC2ClientTypes {
             volumeId: Swift.String? = nil,
             volumeSize: Swift.Int? = nil
         ) {
+            self.associatedKmsKeys = associatedKmsKeys
             self.availabilityZone = availabilityZone
             self.completionDurationMinutes = completionDurationMinutes
             self.completionTime = completionTime
@@ -64227,11 +65791,15 @@ extension EC2ClientTypes {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         /// This member is required.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance. To specify metric categories, you must also enable detailed monitoring.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -65547,6 +67115,56 @@ public struct DescribeTransitGatewayMulticastDomainsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTransitGatewayNetworkFunctionAttachmentsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters. The possible values are:
+    ///
+    /// * service-name - The name of the Gateway Load Balancer endpoint service.
+    ///
+    /// * state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.
+    ///
+    /// * transit-gateway-attachment-id - The ID of the attachment.
+    ///
+    /// * transit-gateway-id - The ID of the transit gateway.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The IDs of the network function attachments.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
+    }
+}
+
+public struct DescribeTransitGatewayNetworkFunctionAttachmentsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// Information about the network function attachments.
+    public var transitGatewayNetworkFunctionAttachments: [EC2ClientTypes.TransitGatewayNetworkFunctionAttachment]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        transitGatewayNetworkFunctionAttachments: [EC2ClientTypes.TransitGatewayNetworkFunctionAttachment]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.transitGatewayNetworkFunctionAttachments = transitGatewayNetworkFunctionAttachments
+    }
+}
+
 public struct DescribeTransitGatewayPeeringAttachmentsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -66646,6 +68264,10 @@ public struct DescribeVolumeStatusInput: Swift.Sendable {
     ///
     /// * action.event-id - The event ID associated with the action.
     ///
+    /// * attachment-status.instance-id - The ID of the instance that the volume is attached to.
+    ///
+    /// * attachment-status.io-performance - The I/O performance status of the volume's attachment to the instance.
+    ///
     /// * availability-zone - The Availability Zone of the instance.
     ///
     /// * event.description - A description of the event.
@@ -67641,6 +69263,8 @@ public struct DescribeVpcEndpointConnectionsInput: Swift.Sendable {
     ///
     /// * service-id - The ID of the service.
     ///
+    /// * transit-gateway-attachment-id - The ID of the transit gateway attachment.
+    ///
     /// * vpc-endpoint-owner - The ID of the Amazon Web Services account ID that owns the endpoint.
     ///
     /// * vpc-endpoint-region - The Region of the endpoint or cross-region to find endpoints for other Regions.
@@ -67687,6 +69311,10 @@ extension EC2ClientTypes {
         public var serviceId: Swift.String?
         /// The tags.
         public var tags: [EC2ClientTypes.Tag]?
+        /// The ID of the transit gateway attachment, if the connection is for a transit gateway attachment.
+        public var transitGatewayAttachmentId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the transit gateway attachment, if the connection is for a transit gateway attachment.
+        public var transitGatewayAttachmentOwner: Swift.String?
         /// The ID of the VPC endpoint connection.
         public var vpcEndpointConnectionId: Swift.String?
         /// The ID of the VPC endpoint.
@@ -67707,6 +69335,8 @@ extension EC2ClientTypes {
             payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             serviceId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
+            transitGatewayAttachmentId: Swift.String? = nil,
+            transitGatewayAttachmentOwner: Swift.String? = nil,
             vpcEndpointConnectionId: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil,
@@ -67721,6 +69351,8 @@ extension EC2ClientTypes {
             self.payerResponsibilities = payerResponsibilities
             self.serviceId = serviceId
             self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayAttachmentOwner = transitGatewayAttachmentOwner
             self.vpcEndpointConnectionId = vpcEndpointConnectionId
             self.vpcEndpointId = vpcEndpointId
             self.vpcEndpointOwner = vpcEndpointOwner
@@ -67863,6 +69495,8 @@ public struct DescribeVpcEndpointServicePermissionsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// The filters.
+    ///
+    /// * permission-type - The permission type (vpc-endpoint | transit-gateway-attachment).
     ///
     /// * principal - The ARN of the principal.
     ///
@@ -69926,6 +71560,37 @@ public struct DisassociateIpamResourceDiscoveryOutput: Swift.Sendable {
     }
 }
 
+public struct DisassociateKmsKeyIdInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID, alias, or ARN of the associated KMS key to remove from the snapshot.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The ID of the Amazon EBS snapshot.
+    public var snapshotId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        kmsKeyId: Swift.String? = nil,
+        snapshotId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.kmsKeyId = kmsKeyId
+        self.snapshotId = snapshotId
+    }
+}
+
+public struct DisassociateKmsKeyIdOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
+    }
+}
+
 public struct DisassociateNatGatewayAddressInput: Swift.Sendable {
     /// The association IDs of EIPs that have been associated with the NAT gateway.
     /// This member is required.
@@ -69963,6 +71628,37 @@ public struct DisassociateNatGatewayAddressOutput: Swift.Sendable {
     ) {
         self.natGatewayAddresses = natGatewayAddresses
         self.natGatewayId = natGatewayId
+    }
+}
+
+public struct DisassociateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the policy associations to remove. You can specify up to 100 association IDs. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyAssociationIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyAssociationIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyAssociationIds = fcaPolicyAssociationIds
+    }
+}
+
+public struct DisassociateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// Information about the policy associations that could not be removed.
+    public var fcaPolicyDisassociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// The IDs of the policy associations that were removed.
+    public var fcaPolicyDisassociations: [Swift.String]?
+
+    public init(
+        fcaPolicyDisassociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        fcaPolicyDisassociations: [Swift.String]? = nil
+    ) {
+        self.fcaPolicyDisassociationFailures = fcaPolicyDisassociationFailures
+        self.fcaPolicyDisassociations = fcaPolicyDisassociations
     }
 }
 
@@ -72438,6 +74134,11 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum Metric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avgInstAzCountPerRequestedVcpu
+        case capacityRequestFulfillmentRate
+        case capacityTotalFulfilledVcpu
+        case capacityTotalRequestedVcpu
+        case instAzFulfillmentRate
         case reservationAvgCommittedSizeInst
         case reservationAvgCommittedSizeVcpu
         case reservationAvgFutureSizeInst
@@ -72472,7 +74173,12 @@ extension EC2ClientTypes {
         case reservedTotalEstimatedCost
         case reservedTotalUsageHrsInst
         case reservedTotalUsageHrsVcpu
+        case spotAvgInstAzCountPerRequestedVcpu
         case spotAvgRunTimeBeforeInterruptionInst
+        case spotCapacityRequestFulfillmentRate
+        case spotCapacityTotalFulfilledVcpu
+        case spotCapacityTotalRequestedVcpu
+        case spotInstAzFulfillmentRate
         case spotInterruptionRateInst
         case spotInterruptionRateVcpu
         case spotMaxRunTimeBeforeInterruptionInst
@@ -72491,6 +74197,11 @@ extension EC2ClientTypes {
 
         public static var allCases: [Metric] {
             return [
+                .avgInstAzCountPerRequestedVcpu,
+                .capacityRequestFulfillmentRate,
+                .capacityTotalFulfilledVcpu,
+                .capacityTotalRequestedVcpu,
+                .instAzFulfillmentRate,
                 .reservationAvgCommittedSizeInst,
                 .reservationAvgCommittedSizeVcpu,
                 .reservationAvgFutureSizeInst,
@@ -72525,7 +74236,12 @@ extension EC2ClientTypes {
                 .reservedTotalEstimatedCost,
                 .reservedTotalUsageHrsInst,
                 .reservedTotalUsageHrsVcpu,
+                .spotAvgInstAzCountPerRequestedVcpu,
                 .spotAvgRunTimeBeforeInterruptionInst,
+                .spotCapacityRequestFulfillmentRate,
+                .spotCapacityTotalFulfilledVcpu,
+                .spotCapacityTotalRequestedVcpu,
+                .spotInstAzFulfillmentRate,
                 .spotInterruptionRateInst,
                 .spotInterruptionRateVcpu,
                 .spotMaxRunTimeBeforeInterruptionInst,
@@ -72550,6 +74266,11 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .avgInstAzCountPerRequestedVcpu: return "avg-inst-az-count-per-requested-vcpu"
+            case .capacityRequestFulfillmentRate: return "capacity-request-fulfillment-rate"
+            case .capacityTotalFulfilledVcpu: return "capacity-total-fulfilled-vcpu"
+            case .capacityTotalRequestedVcpu: return "capacity-total-requested-vcpu"
+            case .instAzFulfillmentRate: return "inst-az-fulfillment-rate"
             case .reservationAvgCommittedSizeInst: return "reservation-avg-committed-size-inst"
             case .reservationAvgCommittedSizeVcpu: return "reservation-avg-committed-size-vcpu"
             case .reservationAvgFutureSizeInst: return "reservation-avg-future-size-inst"
@@ -72584,7 +74305,12 @@ extension EC2ClientTypes {
             case .reservedTotalEstimatedCost: return "reserved-total-estimated-cost"
             case .reservedTotalUsageHrsInst: return "reserved-total-usage-hrs-inst"
             case .reservedTotalUsageHrsVcpu: return "reserved-total-usage-hrs-vcpu"
+            case .spotAvgInstAzCountPerRequestedVcpu: return "spot-avg-inst-az-count-per-requested-vcpu"
             case .spotAvgRunTimeBeforeInterruptionInst: return "spot-avg-run-time-before-interruption-inst"
+            case .spotCapacityRequestFulfillmentRate: return "spot-capacity-request-fulfillment-rate"
+            case .spotCapacityTotalFulfilledVcpu: return "spot-capacity-total-fulfilled-vcpu"
+            case .spotCapacityTotalRequestedVcpu: return "spot-capacity-total-requested-vcpu"
+            case .spotInstAzFulfillmentRate: return "spot-inst-az-fulfillment-rate"
             case .spotInterruptionRateInst: return "spot-interruption-rate-inst"
             case .spotInterruptionRateVcpu: return "spot-interruption-rate-vcpu"
             case .spotMaxRunTimeBeforeInterruptionInst: return "spot-max-run-time-before-interruption-inst"
@@ -73057,6 +74783,199 @@ public struct GetCapacityManagerMonitoredTagKeysOutput: Swift.Sendable {
     ) {
         self.capacityManagerTagKeys = capacityManagerTagKeys
         self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CapacityUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instances
+        case vcpus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityUnit] {
+            return [
+                .instances,
+                .vcpus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instances: return "instances"
+            case .vcpus: return "vcpus"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The architecture type, virtualization type, and other attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadataRequest, you can't specify InstanceTypes.
+    public struct InstanceRequirementsWithMetadataRequest: Swift.Sendable {
+        /// The architecture type.
+        public var architectureTypes: [EC2ClientTypes.ArchitectureType]?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
+        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
+        /// The virtualization type.
+        public var virtualizationTypes: [EC2ClientTypes.VirtualizationType]?
+
+        public init(
+            architectureTypes: [EC2ClientTypes.ArchitectureType]? = nil,
+            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
+            virtualizationTypes: [EC2ClientTypes.VirtualizationType]? = nil
+        ) {
+            self.architectureTypes = architectureTypes
+            self.instanceRequirements = instanceRequirements
+            self.virtualizationTypes = virtualizationTypes
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum SupportabilityMarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case spot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportabilityMarketType] {
+            return [
+                .onDemand,
+                .spot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "on-demand"
+            case .spot: return "spot"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetCapacityManagerSupportabilityScoresInput: Swift.Sendable {
+    /// The amount of capacity that you need, in the unit that you specify for CapacityUnit. Each score is relative to this amount.
+    /// This member is required.
+    public var capacityAmount: Swift.Int?
+    /// The IDs of the Availability Zones to score, such as use1-az1. You can specify Availability Zones in different Regions. You can specify up to 10 Availability Zones.
+    /// This member is required.
+    public var capacityAvailabilityZoneIds: [Swift.String]?
+    /// The unit for CapacityAmount.
+    /// This member is required.
+    public var capacityUnit: EC2ClientTypes.CapacityUnit?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The attributes that the instance types must have, such as vCPU and memory ranges. Capacity Manager resolves the attributes into matching instance types and scores each one. Specify either InstanceTypes or InstanceRequirementsWithMetadata, but not both.
+    public var instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest?
+    /// The instance types to score. You can specify up to 50 instance types. Specify either InstanceTypes or InstanceRequirementsWithMetadata, but not both.
+    public var instanceTypes: [Swift.String]?
+    /// The capacity market to score.
+    /// This member is required.
+    public var marketType: EC2ClientTypes.SupportabilityMarketType?
+
+    public init(
+        capacityAmount: Swift.Int? = nil,
+        capacityAvailabilityZoneIds: [Swift.String]? = nil,
+        capacityUnit: EC2ClientTypes.CapacityUnit? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest? = nil,
+        instanceTypes: [Swift.String]? = nil,
+        marketType: EC2ClientTypes.SupportabilityMarketType? = nil
+    ) {
+        self.capacityAmount = capacityAmount
+        self.capacityAvailabilityZoneIds = capacityAvailabilityZoneIds
+        self.capacityUnit = capacityUnit
+        self.dryRun = dryRun
+        self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
+        self.instanceTypes = instanceTypes
+        self.marketType = marketType
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum SupportabilityScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportabilityScore] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "high"
+            case .low: return "low"
+            case .medium: return "medium"
+            case .unsupported: return "unsupported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The supportability score for a single instance type and Availability Zone combination.
+    public struct CapacityManagerSupportabilityScore: Swift.Sendable {
+        /// The ID of the Availability Zone.
+        public var availabilityZoneId: Swift.String?
+        /// The instance type.
+        public var instanceType: Swift.String?
+        /// How well the combination can support the requested capacity right now. high means that the combination holds several times the requested amount. medium means that it can cover the request with little to spare. low means that it holds less than the requested amount.
+        public var score: EC2ClientTypes.SupportabilityScore?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            score: EC2ClientTypes.SupportabilityScore? = nil
+        ) {
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceType = instanceType
+            self.score = score
+        }
+    }
+}
+
+public struct GetCapacityManagerSupportabilityScoresOutput: Swift.Sendable {
+    /// The score for all instance type and Availability Zone combinations in the request together. A high aggregate score with lower individual scores means that no single combination can support the full request, but the combinations together can.
+    public var aggregateScore: EC2ClientTypes.SupportabilityScore?
+    /// The score for each instance type and Availability Zone combination in the request.
+    public var capacityManagerSupportabilityScores: [EC2ClientTypes.CapacityManagerSupportabilityScore]?
+
+    public init(
+        aggregateScore: EC2ClientTypes.SupportabilityScore? = nil,
+        capacityManagerSupportabilityScores: [EC2ClientTypes.CapacityManagerSupportabilityScore]? = nil
+    ) {
+        self.aggregateScore = aggregateScore
+        self.capacityManagerSupportabilityScores = capacityManagerSupportabilityScores
     }
 }
 
@@ -76943,7 +78862,7 @@ extension EC2ClientTypes {
         public var maxLength: Swift.Int?
         /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
         public var permitMoreSpecificAnnouncements: Swift.Bool?
-        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete.
+        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete | disable-complete.
         public var state: EC2ClientTypes.IpamRoutingPolicyRegistrationState?
 
         public init(
@@ -77191,6 +79110,88 @@ public struct GetManagedResourceVisibilityOutput: Swift.Sendable {
         visibility: EC2ClientTypes.ManagedResourceVisibilitySettings? = nil
     ) {
         self.visibility = visibility
+    }
+}
+
+public struct GetNetworkingFlexCostAllocationPolicyVersionsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The policy versions to include in the results.
+    public var versionsToInclude: [Swift.Int]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        versionsToInclude: [Swift.Int]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.versionsToInclude = versionsToInclude
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a version of a flex cost allocation policy.
+    public struct FlexCostAllocationPolicyVersion: Swift.Sendable {
+        /// The date and time when this version of the policy was created.
+        public var createdAt: Foundation.Date?
+        /// The description of this version of the policy.
+        public var description: Swift.String?
+        /// The date and time when this version of the policy is expected to apply to network traffic.
+        public var expectedEffectiveAt: Foundation.Date?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The policy document that defines cost allocation for EC2 instances.
+        public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+        /// The policy document that defines cost allocation for NAT gateways.
+        public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+        /// The type of network resource that the policy applies to.
+        public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+        /// The policy document that defines cost allocation for Amazon VPC peering connections.
+        public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+        /// Indicates whether showback reporting is enabled for this version of the policy.
+        public var showBackEnabled: Swift.Bool?
+        /// The version number.
+        public var version: Swift.Int?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expectedEffectiveAt: Foundation.Date? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+            natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+            networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+            pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+            showBackEnabled: Swift.Bool? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.expectedEffectiveAt = expectedEffectiveAt
+            self.fcaPolicyId = fcaPolicyId
+            self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+            self.natFcaPolicyDocument = natFcaPolicyDocument
+            self.networkResourceType = networkResourceType
+            self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+            self.showBackEnabled = showBackEnabled
+            self.version = version
+        }
+    }
+}
+
+public struct GetNetworkingFlexCostAllocationPolicyVersionsOutput: Swift.Sendable {
+    /// Information about the policy versions.
+    public var fcaPolicyVersions: [EC2ClientTypes.FlexCostAllocationPolicyVersion]?
+
+    public init(
+        fcaPolicyVersions: [EC2ClientTypes.FlexCostAllocationPolicyVersion]? = nil
+    ) {
+        self.fcaPolicyVersions = fcaPolicyVersions
     }
 }
 
@@ -77833,29 +79834,6 @@ public struct GetSnapshotBlockPublicAccessStateOutput: Swift.Sendable {
     ) {
         self.managedBy = managedBy
         self.state = state
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The architecture type, virtualization type, and other attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadataRequest, you can't specify InstanceTypes.
-    public struct InstanceRequirementsWithMetadataRequest: Swift.Sendable {
-        /// The architecture type.
-        public var architectureTypes: [EC2ClientTypes.ArchitectureType]?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
-        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
-        /// The virtualization type.
-        public var virtualizationTypes: [EC2ClientTypes.VirtualizationType]?
-
-        public init(
-            architectureTypes: [EC2ClientTypes.ArchitectureType]? = nil,
-            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
-            virtualizationTypes: [EC2ClientTypes.VirtualizationType]? = nil
-        ) {
-            self.architectureTypes = architectureTypes
-            self.instanceRequirements = instanceRequirements
-            self.virtualizationTypes = virtualizationTypes
-        }
     }
 }
 
@@ -80062,12 +82040,16 @@ public struct LockSnapshotOutput: Swift.Sendable {
 }
 
 public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
+    /// Specifies whether to exclude Amazon API Gateway V2 from account-level encryption enforcement.
+    public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement.
     public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System service from account-level encryption enforcement.
     public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude Amazon Web Services Global Accelerator from account-level encryption enforcement.
+    public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway resource from account-level encryption enforcement.
     public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Lambda service from account-level encryption enforcement.
@@ -80084,9 +82066,11 @@ public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
     public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
     public init(
+        apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         dryRun: Swift.Bool? = nil,
         egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         lambda: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         mode: EC2ClientTypes.AccountVpcEncryptionControlMode? = nil,
@@ -80095,9 +82079,11 @@ public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
         vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
     ) {
+        self.apiGatewayV2 = apiGatewayV2
         self.dryRun = dryRun
         self.egressOnlyInternetGateway = egressOnlyInternetGateway
         self.elasticFileSystem = elasticFileSystem
+        self.globalAccelerator = globalAccelerator
         self.internetGateway = internetGateway
         self.lambda = lambda
         self.mode = mode
@@ -82650,6 +84636,101 @@ public struct ModifyManagedResourceVisibilityOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyMetricCategoryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the metric category.
+    /// This member is required.
+    public var metricCategoryId: Swift.String?
+    /// The names of the metrics for the metric category. These metrics replace the existing metrics, and must differ from the current set. Specify each metric by its Amazon CloudWatch metric name or its OpenTelemetry metric name. The two names for a measurement are separate entries, and you can include both. In Regions where Amazon CloudWatch OpenTelemetry metrics aren't available, you can't specify OpenTelemetry metric names.
+    /// This member is required.
+    public var metrics: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        metricCategoryId: Swift.String? = nil,
+        metrics: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.metricCategoryId = metricCategoryId
+        self.metrics = metrics
+    }
+}
+
+public struct ModifyMetricCategoryOutput: Swift.Sendable {
+    /// Information about the metric category.
+    public var metricCategory: EC2ClientTypes.MetricCategory?
+
+    public init(
+        metricCategory: EC2ClientTypes.MetricCategory? = nil
+    ) {
+        self.metricCategory = metricCategory
+    }
+}
+
+public struct ModifyNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description for the policy. The description can be up to 1024 characters long.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy to modify. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The updated policy document that defines cost allocation for EC2 instances.
+    public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+    /// The updated policy document that defines cost allocation for NAT gateways.
+    public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+    /// The updated policy document that defines cost allocation for Amazon VPC peering connections.
+    public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+    /// Specifies whether showback reporting is enabled for the policy. If you omit this parameter, the current setting is unchanged.
+    public var showBackEnabled: Swift.Bool?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+        natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+        pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+        showBackEnabled: Swift.Bool? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+        self.natFcaPolicyDocument = natFcaPolicyDocument
+        self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+        self.showBackEnabled = showBackEnabled
+    }
+}
+
+public struct ModifyNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// The ID of the flex cost allocation policy.
+    public var fcaPolicyId: Swift.String?
+    /// The date and time when the policy was updated.
+    public var updatedAt: Foundation.Date?
+    /// The version number of the policy that this modification created.
+    public var version: Swift.Int?
+    /// The date and time when the new version of the policy is expected to apply to network traffic.
+    public var versionExpectedEffectiveAt: Foundation.Date?
+
+    public init(
+        fcaPolicyId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.Int? = nil,
+        versionExpectedEffectiveAt: Foundation.Date? = nil
+    ) {
+        self.fcaPolicyId = fcaPolicyId
+        self.updatedAt = updatedAt
+        self.version = version
+        self.versionExpectedEffectiveAt = versionExpectedEffectiveAt
+    }
+}
+
 extension EC2ClientTypes {
 
     /// Describes an attachment change.
@@ -83741,6 +85822,104 @@ public struct ModifyTransitGatewayMeteringPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// The IDs of the Availability Zones to add to the attachment. You can't add and remove the same Availability Zone in a single request.
+    public var addAvailabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones to add to the attachment. You can't add and remove the same Availability Zone in a single request.
+    public var addAvailabilityZones: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the Availability Zones to remove from the attachment. Each Availability Zone must be currently in the attachment.
+    public var removeAvailabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones to remove from the attachment. Each Availability Zone must be currently in the attachment.
+    public var removeAvailabilityZones: [Swift.String]?
+    /// The ID of the network function attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        addAvailabilityZoneIds: [Swift.String]? = nil,
+        addAvailabilityZones: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        removeAvailabilityZoneIds: [Swift.String]? = nil,
+        removeAvailabilityZones: [Swift.String]? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.addAvailabilityZoneIds = addAvailabilityZoneIds
+        self.addAvailabilityZones = addAvailabilityZones
+        self.dryRun = dryRun
+        self.removeAvailabilityZoneIds = removeAvailabilityZoneIds
+        self.removeAvailabilityZones = removeAvailabilityZones
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains the options to modify for a transit gateway peering attachment, including multipath resilience settings.
+    public struct ModifyTransitGatewayPeeringAttachmentRequestOptions: Swift.Sendable {
+        /// Specifies whether you allow multipath resilience for your side of the transit gateway peering attachment. Multipath resilience is supported only for inter-Region transit gateway peering attachments between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the current setting doesn't change.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode?
+
+        public init(
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.TransitGatewayPeeringAttachmentMultipathResilienceMode? = nil
+        ) {
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
+        }
+    }
+}
+
+public struct ModifyTransitGatewayPeeringAttachmentInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The options to modify for the transit gateway peering attachment.
+    public var options: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions?
+    /// The ID of the transit gateway peering attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        options: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.options = options
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayPeeringAttachmentOutput: Swift.Sendable {
+    /// Information about the transit gateway peering attachment.
+    public var transitGatewayPeeringAttachment: EC2ClientTypes.TransitGatewayPeeringAttachment?
+
+    public init(
+        transitGatewayPeeringAttachment: EC2ClientTypes.TransitGatewayPeeringAttachment? = nil
+    ) {
+        self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
+    }
+}
+
 public struct ModifyTransitGatewayPolicyTableEntryInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -84707,12 +86886,16 @@ public struct ModifyVpcBlockPublicAccessOptionsOutput: Swift.Sendable {
 }
 
 public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
+    /// Specifies whether to exclude Amazon API Gateway V2 traffic from encryption enforcement.
+    public var apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
     public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
     public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude Amazon Web Services Global Accelerator traffic from encryption enforcement.
+    public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
     public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
@@ -84732,9 +86915,11 @@ public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
     public var vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
     public init(
+        apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         dryRun: Swift.Bool? = nil,
         egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         lambdaExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         mode: EC2ClientTypes.VpcEncryptionControlMode? = nil,
@@ -84744,9 +86929,11 @@ public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
         vpcLatticeExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
     ) {
+        self.apiGatewayV2Exclusion = apiGatewayV2Exclusion
         self.dryRun = dryRun
         self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
         self.elasticFileSystemExclusion = elasticFileSystemExclusion
+        self.globalAcceleratorExclusion = globalAcceleratorExclusion
         self.internetGatewayExclusion = internetGatewayExclusion
         self.lambdaExclusion = lambdaExclusion
         self.mode = mode
@@ -85032,6 +87219,15 @@ public struct ModifyVpcEndpointServicePermissionsInput: Swift.Sendable {
     public var addAllowedPrincipals: [Swift.String]?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
+    /// The type of permission to add or remove. The permission type applies to all principals in AddAllowedPrincipals and RemoveAllowedPrincipals.
+    ///
+    /// * vpc-endpoint - Principals can create VPC endpoints that connect to the endpoint service.
+    ///
+    /// * transit-gateway-attachment - Principals can create transit gateway attachments that connect to the endpoint service. This permission type is supported only for Gateway Load Balancer endpoint services. You can grant it only to Amazon Web Services accounts (arn:aws:iam::account-id:root). You can't grant it to users, IAM roles, organizations, organizational units, or all principals (*).
+    ///
+    ///
+    /// Default: vpc-endpoint
+    public var permissionType: EC2ClientTypes.PermissionType?
     /// The Amazon Resource Names (ARN) of the principals. Permissions are revoked for principals in this list.
     public var removeAllowedPrincipals: [Swift.String]?
     /// The ID of the service.
@@ -85041,11 +87237,13 @@ public struct ModifyVpcEndpointServicePermissionsInput: Swift.Sendable {
     public init(
         addAllowedPrincipals: [Swift.String]? = nil,
         dryRun: Swift.Bool? = nil,
+        permissionType: EC2ClientTypes.PermissionType? = nil,
         removeAllowedPrincipals: [Swift.String]? = nil,
         serviceId: Swift.String? = nil
     ) {
         self.addAllowedPrincipals = addAllowedPrincipals
         self.dryRun = dryRun
+        self.permissionType = permissionType
         self.removeAllowedPrincipals = removeAllowedPrincipals
         self.serviceId = serviceId
     }
@@ -85076,15 +87274,28 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Specifies whether you allow multipath resilience for this side of the VPC peering connection. Multipath resilience is supported only for inter-Region VPC peering connections between supported Regions. It takes effect only when both the requester and the accepter allow it. If you don't specify this parameter, the current setting doesn't change.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode. You can specify this parameter only if AllowMultipathResilience is true. The following value is valid:
+        ///
+        /// * always-on – Replicates traffic across multiple network paths while multipath resilience is in effect.
+        ///
+        ///
+        /// If AllowMultipathResilience is true and you don't specify a mode, the default is always-on.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -85123,15 +87334,23 @@ extension EC2ClientTypes {
         public var allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool?
         /// Deprecated.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool?
+        /// Indicates whether this side of the VPC peering connection allows multipath resilience.
+        public var allowMultipathResilience: Swift.Bool?
+        /// The multipath resilience mode for this side of the VPC peering connection. This value is present only when this side allows multipath resilience.
+        public var multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode?
 
         public init(
             allowDnsResolutionFromRemoteVpc: Swift.Bool? = nil,
             allowEgressFromLocalClassicLinkToRemoteVpc: Swift.Bool? = nil,
-            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil
+            allowEgressFromLocalVpcToRemoteClassicLink: Swift.Bool? = nil,
+            allowMultipathResilience: Swift.Bool? = nil,
+            multipathResilienceMode: EC2ClientTypes.MultipathResilienceMode? = nil
         ) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+            self.allowMultipathResilience = allowMultipathResilience
+            self.multipathResilienceMode = multipathResilienceMode
         }
     }
 }
@@ -85341,7 +87560,9 @@ extension EC2ClientTypes {
         public var ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]?
         /// Options for logging VPN tunnel activity.
         public var logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 1 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: 2 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35
         public var phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 1 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]?
@@ -85349,7 +87570,9 @@ extension EC2ClientTypes {
         public var phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]?
         /// The lifetime for phase 1 of the IKE negotiation, in seconds. Constraints: A value between 900 and 28,800. Default: 28800
         public var phase1LifetimeSeconds: Swift.Int?
-        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24
+        /// One or more additional key exchange rounds that are permitted for the VPN tunnel for phase 2 IKE negotiations. Additional key exchanges occur after the initial Diffie-Hellman exchange. Each round must have a unique round number. Additional key exchanges are supported only with IKEv2. You can't specify a required round if IKEVersions contains only ikev1.
+        public var phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]?
+        /// One or more Diffie-Hellman group numbers that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: 2 | 5 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 35 | 36 | 37
         public var phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]?
         /// One or more encryption algorithms that are permitted for the VPN tunnel for phase 2 IKE negotiations. Valid values: AES128 | AES256 | AES128-GCM-16 | AES256-GCM-16
         public var phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]?
@@ -85392,10 +87615,12 @@ extension EC2ClientTypes {
             enableTunnelLifecycleControl: Swift.Bool? = nil,
             ikeVersions: [EC2ClientTypes.IKEVersionsRequestListValue]? = nil,
             logOptions: EC2ClientTypes.VpnTunnelLogOptionsSpecification? = nil,
+            phase1AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase1DHGroupNumbers: [EC2ClientTypes.Phase1DHGroupNumbersRequestListValue]? = nil,
             phase1EncryptionAlgorithms: [EC2ClientTypes.Phase1EncryptionAlgorithmsRequestListValue]? = nil,
             phase1IntegrityAlgorithms: [EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue]? = nil,
             phase1LifetimeSeconds: Swift.Int? = nil,
+            phase2AdditionalKeyExchanges: [EC2ClientTypes.VpnAdditionalKeyExchangeRequest]? = nil,
             phase2DHGroupNumbers: [EC2ClientTypes.Phase2DHGroupNumbersRequestListValue]? = nil,
             phase2EncryptionAlgorithms: [EC2ClientTypes.Phase2EncryptionAlgorithmsRequestListValue]? = nil,
             phase2IntegrityAlgorithms: [EC2ClientTypes.Phase2IntegrityAlgorithmsRequestListValue]? = nil,
@@ -85413,10 +87638,12 @@ extension EC2ClientTypes {
             self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
+            self.phase1AdditionalKeyExchanges = phase1AdditionalKeyExchanges
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
             self.phase1EncryptionAlgorithms = phase1EncryptionAlgorithms
             self.phase1IntegrityAlgorithms = phase1IntegrityAlgorithms
             self.phase1LifetimeSeconds = phase1LifetimeSeconds
+            self.phase2AdditionalKeyExchanges = phase2AdditionalKeyExchanges
             self.phase2DHGroupNumbers = phase2DHGroupNumbers
             self.phase2EncryptionAlgorithms = phase2EncryptionAlgorithms
             self.phase2IntegrityAlgorithms = phase2IntegrityAlgorithms
@@ -85494,13 +87721,17 @@ public struct MonitorInstancesInput: Swift.Sendable {
     /// The IDs of the instances.
     /// This member is required.
     public var instanceIds: [Swift.String]?
+    /// The IDs of the metric categories to associate with the instances. The specified metric categories are added to any metric categories that are already associated with the instances.
+    public var metricCategoryIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
-        instanceIds: [Swift.String]? = nil
+        instanceIds: [Swift.String]? = nil,
+        metricCategoryIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.instanceIds = instanceIds
+        self.metricCategoryIds = metricCategoryIds
     }
 }
 
@@ -85996,13 +88227,17 @@ public struct PurchaseCapacityBlockOutput: Swift.Sendable {
     public var capacityBlocks: [EC2ClientTypes.CapacityBlock]?
     /// The Capacity Reservation.
     public var capacityReservation: EC2ClientTypes.CapacityReservation?
+    /// The Capacity Reservations created as a result of the Capacity Block purchase. When a Capacity Block offering contains multiple segments, a separate Capacity Reservation is created for each segment.
+    public var capacityReservations: [EC2ClientTypes.CapacityReservation]?
 
     public init(
         capacityBlocks: [EC2ClientTypes.CapacityBlock]? = nil,
-        capacityReservation: EC2ClientTypes.CapacityReservation? = nil
+        capacityReservation: EC2ClientTypes.CapacityReservation? = nil,
+        capacityReservations: [EC2ClientTypes.CapacityReservation]? = nil
     ) {
         self.capacityBlocks = capacityBlocks
         self.capacityReservation = capacityReservation
+        self.capacityReservations = capacityReservations
     }
 }
 
@@ -86639,17 +88874,21 @@ public struct RejectVpcEndpointConnectionsInput: Swift.Sendable {
     /// The ID of the service.
     /// This member is required.
     public var serviceId: Swift.String?
-    /// The IDs of the VPC endpoints.
+    /// The IDs of the transit gateway attachments to reject. This parameter is supported only for Gateway Load Balancer endpoint services. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+    /// The IDs of the VPC endpoints. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
         serviceId: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil,
         vpcEndpointIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.serviceId = serviceId
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -89977,13 +92216,17 @@ public struct UnmonitorInstancesInput: Swift.Sendable {
     /// The IDs of the instances.
     /// This member is required.
     public var instanceIds: [Swift.String]?
+    /// The IDs of the metric categories to remove from the instances. If you specify metric categories, only those metric categories are removed and detailed monitoring remains enabled. If you don't specify metric categories, detailed monitoring and all metric categories are turned off.
+    public var metricCategoryIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
-        instanceIds: [Swift.String]? = nil
+        instanceIds: [Swift.String]? = nil,
+        metricCategoryIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.instanceIds = instanceIds
+        self.metricCategoryIds = metricCategoryIds
     }
 }
 
@@ -90460,9 +92703,23 @@ extension AssociateIpamResourceDiscoveryInput {
     }
 }
 
+extension AssociateKmsKeyIdInput {
+
+    static func urlPathProvider(_ value: AssociateKmsKeyIdInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateNatGatewayAddressInput {
 
     static func urlPathProvider(_ value: AssociateNatGatewayAddressInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension AssociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: AssociateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -91069,6 +93326,13 @@ extension CreateManagedPrefixListInput {
     }
 }
 
+extension CreateMetricCategoryInput {
+
+    static func urlPathProvider(_ value: CreateMetricCategoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateNatGatewayInput {
 
     static func urlPathProvider(_ value: CreateNatGatewayInput) -> Swift.String? {
@@ -91086,6 +93350,13 @@ extension CreateNetworkAclInput {
 extension CreateNetworkAclEntryInput {
 
     static func urlPathProvider(_ value: CreateNetworkAclEntryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: CreateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -91324,6 +93595,13 @@ extension CreateTransitGatewayMeteringPolicyEntryInput {
 extension CreateTransitGatewayMulticastDomainInput {
 
     static func urlPathProvider(_ value: CreateTransitGatewayMulticastDomainInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: CreateTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -91762,6 +94040,13 @@ extension DeleteManagedPrefixListInput {
     }
 }
 
+extension DeleteMetricCategoryInput {
+
+    static func urlPathProvider(_ value: DeleteMetricCategoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteNatGatewayInput {
 
     static func urlPathProvider(_ value: DeleteNatGatewayInput) -> Swift.String? {
@@ -91779,6 +94064,13 @@ extension DeleteNetworkAclInput {
 extension DeleteNetworkAclEntryInput {
 
     static func urlPathProvider(_ value: DeleteNetworkAclEntryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkingFlexCostAllocationPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -92010,6 +94302,13 @@ extension DeleteTransitGatewayMeteringPolicyEntryInput {
 extension DeleteTransitGatewayMulticastDomainInput {
 
     static func urlPathProvider(_ value: DeleteTransitGatewayMulticastDomainInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -92952,6 +95251,13 @@ extension DescribeManagedPrefixListsInput {
     }
 }
 
+extension DescribeMetricCategoriesInput {
+
+    static func urlPathProvider(_ value: DescribeMetricCategoriesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeMovingAddressesInput {
 
     static func urlPathProvider(_ value: DescribeMovingAddressesInput) -> Swift.String? {
@@ -92969,6 +95275,20 @@ extension DescribeNatGatewaysInput {
 extension DescribeNetworkAclsInput {
 
     static func urlPathProvider(_ value: DescribeNetworkAclsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeNetworkingFlexCostAllocationPoliciesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93347,6 +95667,13 @@ extension DescribeTransitGatewayMeteringPoliciesInput {
 extension DescribeTransitGatewayMulticastDomainsInput {
 
     static func urlPathProvider(_ value: DescribeTransitGatewayMulticastDomainsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeTransitGatewayNetworkFunctionAttachmentsInput {
+
+    static func urlPathProvider(_ value: DescribeTransitGatewayNetworkFunctionAttachmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93855,9 +96182,23 @@ extension DisassociateIpamResourceDiscoveryInput {
     }
 }
 
+extension DisassociateKmsKeyIdInput {
+
+    static func urlPathProvider(_ value: DisassociateKmsKeyIdInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisassociateNatGatewayAddressInput {
 
     static func urlPathProvider(_ value: DisassociateNatGatewayAddressInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: DisassociateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -94198,6 +96539,13 @@ extension GetCapacityManagerMonitoredTagKeysInput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresInput {
+
+    static func urlPathProvider(_ value: GetCapacityManagerSupportabilityScoresInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCapacityReservationUsageInput {
 
     static func urlPathProvider(_ value: GetCapacityReservationUsageInput) -> Swift.String? {
@@ -94495,6 +96843,13 @@ extension GetManagedPrefixListEntriesInput {
 extension GetManagedResourceVisibilityInput {
 
     static func urlPathProvider(_ value: GetManagedResourceVisibilityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetNetworkingFlexCostAllocationPolicyVersionsInput {
+
+    static func urlPathProvider(_ value: GetNetworkingFlexCostAllocationPolicyVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -95059,6 +97414,20 @@ extension ModifyManagedResourceVisibilityInput {
     }
 }
 
+extension ModifyMetricCategoryInput {
+
+    static func urlPathProvider(_ value: ModifyMetricCategoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: ModifyNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyNetworkInterfaceAttributeInput {
 
     static func urlPathProvider(_ value: ModifyNetworkInterfaceAttributeInput) -> Swift.String? {
@@ -95167,6 +97536,20 @@ extension ModifyTransitGatewayAttachmentNatConfigurationInput {
 extension ModifyTransitGatewayMeteringPolicyInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayMeteringPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyTransitGatewayPeeringAttachmentInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayPeeringAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -96036,6 +98419,9 @@ extension AcceptVpcEndpointConnectionsInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["ServiceId"].write(value.serviceId)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.vpcEndpointIds?.isEmpty ?? true) {
             try writer["VpcEndpointId"].writeList(value.vpcEndpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -96341,6 +98727,18 @@ extension AssociateIpamResourceDiscoveryInput {
     }
 }
 
+extension AssociateKmsKeyIdInput {
+
+    static func write(value: AssociateKmsKeyIdInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SnapshotId"].write(value.snapshotId)
+        try writer["Action"].write("AssociateKmsKeyId")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension AssociateNatGatewayAddressInput {
 
     static func write(value: AssociateNatGatewayAddressInput?, to writer: SmithyFormURL.Writer) throws {
@@ -96356,6 +98754,22 @@ extension AssociateNatGatewayAddressInput {
             try writer["PrivateIpAddress"].writeList(value.privateIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("AssociateNatGatewayAddress")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension AssociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: AssociateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        if !(value.networkResourceIds?.isEmpty ?? true) {
+            try writer["NetworkResourceIds"].writeList(value.networkResourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NetworkResourceScope"].write(value.networkResourceScope, with: EC2ClientTypes.FlexCostAllocationNetworkResourceScope.write(value:to:))
+        try writer["Action"].write("AssociateNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -97024,10 +99438,13 @@ extension CreateCapacityReservationFleetInput {
     static func write(value: CreateCapacityReservationFleetInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AllocationStrategy"].write(value.allocationStrategy)
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
         try writer["ClientToken"].write(value.clientToken)
         try writer["DryRun"].write(value.dryRun)
         try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["InstanceMatchCriteria"].write(value.instanceMatchCriteria)
+        try writer["InstanceRequirements"].write(value.instanceRequirements, with: EC2ClientTypes.InstanceRequirementsRequest.write(value:to:))
         if !(value.instanceTypeSpecifications?.isEmpty ?? true) {
             try writer["InstanceTypeSpecification"].writeList(value.instanceTypeSpecifications, memberWritingClosure: EC2ClientTypes.ReservationFleetInstanceSpecification.write(value:to:), memberNodeInfo: "Member", isFlattened: true)
         }
@@ -97809,6 +100226,23 @@ extension CreateManagedPrefixListInput {
     }
 }
 
+extension CreateMetricCategoryInput {
+
+    static func write(value: CreateMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.metrics?.isEmpty ?? true) {
+            try writer["Metric"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateNatGatewayInput {
 
     static func write(value: CreateNatGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -97869,6 +100303,26 @@ extension CreateNetworkAclEntryInput {
         try writer["RuleAction"].write(value.ruleAction)
         try writer["RuleNumber"].write(value.ruleNumber)
         try writer["Action"].write("CreateNetworkAclEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: CreateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["InstanceFcaPolicyDocument"].write(value.instanceFcaPolicyDocument, with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NatFcaPolicyDocument"].write(value.natFcaPolicyDocument, with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NetworkResourceType"].write(value.networkResourceType)
+        try writer["PcxFcaPolicyDocument"].write(value.pcxFcaPolicyDocument, with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["ShowBackEnabled"].write(value.showBackEnabled)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -98496,6 +100950,27 @@ extension CreateTransitGatewayMulticastDomainInput {
     }
 }
 
+extension CreateTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: CreateTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.availabilityZoneIds?.isEmpty ?? true) {
+            try writer["AvailabilityZoneId"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.availabilityZones?.isEmpty ?? true) {
+            try writer["AvailabilityZone"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ServiceName"].write(value.serviceName)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["TransitGatewayId"].write(value.transitGatewayId)
+        try writer["Action"].write("CreateTransitGatewayNetworkFunctionAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateTransitGatewayPeeringAttachmentInput {
 
     static func write(value: CreateTransitGatewayPeeringAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
@@ -98876,6 +101351,7 @@ extension CreateVpcPeeringConnectionInput {
         try writer["PeerOwnerId"].write(value.peerOwnerId)
         try writer["PeerRegion"].write(value.peerRegion)
         try writer["PeerVpcId"].write(value.peerVpcId)
+        try writer["RequesterPeeringConnectionOptions"].write(value.requesterPeeringConnectionOptions, with: EC2ClientTypes.CreatePeeringConnectionOptionsRequest.write(value:to:))
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -99388,6 +101864,17 @@ extension DeleteManagedPrefixListInput {
     }
 }
 
+extension DeleteMetricCategoryInput {
+
+    static func write(value: DeleteMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MetricCategoryId"].write(value.metricCategoryId)
+        try writer["Action"].write("DeleteMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DeleteNatGatewayInput {
 
     static func write(value: DeleteNatGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -99419,6 +101906,19 @@ extension DeleteNetworkAclEntryInput {
         try writer["NetworkAclId"].write(value.networkAclId)
         try writer["RuleNumber"].write(value.ruleNumber)
         try writer["Action"].write("DeleteNetworkAclEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesInput {
+
+    static func write(value: DeleteNetworkingFlexCostAllocationPoliciesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyIds?.isEmpty ?? true) {
+            try writer["FcaPolicyIds"].writeList(value.fcaPolicyIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DeleteNetworkingFlexCostAllocationPolicies")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -99797,6 +102297,17 @@ extension DeleteTransitGatewayMulticastDomainInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
         try writer["Action"].write("DeleteTransitGatewayMulticastDomain")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: DeleteTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("DeleteTransitGatewayNetworkFunctionAttachment")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -100421,6 +102932,9 @@ extension DescribeCapacityBlockOfferingsInput {
         try writer["EndDateRange"].writeTimestamp(value.endDateRange, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
+        if !(value.instanceTypePreferences?.isEmpty ?? true) {
+            try writer["InstanceTypePreference"].writeList(value.instanceTypePreferences, memberWritingClosure: EC2ClientTypes.CapacityBlockInstanceTypePreference.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["StartDateRange"].writeTimestamp(value.startDateRange, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -101940,6 +104454,24 @@ extension DescribeManagedPrefixListsInput {
     }
 }
 
+extension DescribeMetricCategoriesInput {
+
+    static func write(value: DescribeMetricCategoriesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeMetricCategories")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DescribeMovingAddressesInput {
 
     static func write(value: DescribeMovingAddressesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -101990,6 +104522,42 @@ extension DescribeNetworkAclsInput {
         }
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeNetworkAcls")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPoliciesInput {
+
+    static func write(value: DescribeNetworkingFlexCostAllocationPoliciesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyIds?.isEmpty ?? true) {
+            try writer["FcaPolicyIds"].writeList(value.fcaPolicyIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filters"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeNetworkingFlexCostAllocationPolicies")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsInput {
+
+    static func write(value: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyAssociationIds?.isEmpty ?? true) {
+            try writer["FcaPolicyAssociationIds"].writeList(value.fcaPolicyAssociationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filters"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeNetworkingFlexCostAllocationPolicyAssociations")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -102938,6 +105506,24 @@ extension DescribeTransitGatewayMulticastDomainsInput {
             try writer["TransitGatewayMulticastDomainIds"].writeList(value.transitGatewayMulticastDomainIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("DescribeTransitGatewayMulticastDomains")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeTransitGatewayNetworkFunctionAttachmentsInput {
+
+    static func write(value: DescribeTransitGatewayNetworkFunctionAttachmentsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DescribeTransitGatewayNetworkFunctionAttachments")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -103985,6 +106571,18 @@ extension DisassociateIpamResourceDiscoveryInput {
     }
 }
 
+extension DisassociateKmsKeyIdInput {
+
+    static func write(value: DisassociateKmsKeyIdInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SnapshotId"].write(value.snapshotId)
+        try writer["Action"].write("DisassociateKmsKeyId")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DisassociateNatGatewayAddressInput {
 
     static func write(value: DisassociateNatGatewayAddressInput?, to writer: SmithyFormURL.Writer) throws {
@@ -103996,6 +106594,19 @@ extension DisassociateNatGatewayAddressInput {
         try writer["MaxDrainDurationSeconds"].write(value.maxDrainDurationSeconds)
         try writer["NatGatewayId"].write(value.natGatewayId)
         try writer["Action"].write("DisassociateNatGatewayAddress")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DisassociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: DisassociateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyAssociationIds?.isEmpty ?? true) {
+            try writer["FcaPolicyAssociationIds"].writeList(value.fcaPolicyAssociationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DisassociateNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -104613,6 +107224,26 @@ extension GetCapacityManagerMonitoredTagKeysInput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresInput {
+
+    static func write(value: GetCapacityManagerSupportabilityScoresInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityAmount"].write(value.capacityAmount)
+        if !(value.capacityAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["CapacityAvailabilityZoneId"].writeList(value.capacityAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["CapacityUnit"].write(value.capacityUnit)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["InstanceRequirementsWithMetadata"].write(value.instanceRequirementsWithMetadata, with: EC2ClientTypes.InstanceRequirementsWithMetadataRequest.write(value:to:))
+        if !(value.instanceTypes?.isEmpty ?? true) {
+            try writer["InstanceType"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["MarketType"].write(value.marketType)
+        try writer["Action"].write("GetCapacityManagerSupportabilityScores")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetCapacityReservationUsageInput {
 
     static func write(value: GetCapacityReservationUsageInput?, to writer: SmithyFormURL.Writer) throws {
@@ -105219,6 +107850,20 @@ extension GetManagedResourceVisibilityInput {
     }
 }
 
+extension GetNetworkingFlexCostAllocationPolicyVersionsInput {
+
+    static func write(value: GetNetworkingFlexCostAllocationPolicyVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        if !(value.versionsToInclude?.isEmpty ?? true) {
+            try writer["VersionsToInclude"].writeList(value.versionsToInclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("GetNetworkingFlexCostAllocationPolicyVersions")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetNetworkInsightsAccessScopeAnalysisFindingsInput {
 
     static func write(value: GetNetworkInsightsAccessScopeAnalysisFindingsInput?, to writer: SmithyFormURL.Writer) throws {
@@ -105782,9 +108427,11 @@ extension ModifyAccountVpcEncryptionControlInput {
 
     static func write(value: ModifyAccountVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2"].write(value.apiGatewayV2)
         try writer["DryRun"].write(value.dryRun)
         try writer["EgressOnlyInternetGateway"].write(value.egressOnlyInternetGateway)
         try writer["ElasticFileSystem"].write(value.elasticFileSystem)
+        try writer["GlobalAccelerator"].write(value.globalAccelerator)
         try writer["InternetGateway"].write(value.internetGateway)
         try writer["Lambda"].write(value.lambda)
         try writer["Mode"].write(value.mode)
@@ -106489,6 +109136,37 @@ extension ModifyManagedResourceVisibilityInput {
     }
 }
 
+extension ModifyMetricCategoryInput {
+
+    static func write(value: ModifyMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MetricCategoryId"].write(value.metricCategoryId)
+        if !(value.metrics?.isEmpty ?? true) {
+            try writer["Metric"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("ModifyMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: ModifyNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        try writer["InstanceFcaPolicyDocument"].write(value.instanceFcaPolicyDocument, with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NatFcaPolicyDocument"].write(value.natFcaPolicyDocument, with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["PcxFcaPolicyDocument"].write(value.pcxFcaPolicyDocument, with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["ShowBackEnabled"].write(value.showBackEnabled)
+        try writer["Action"].write("ModifyNetworkingFlexCostAllocationPolicy")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyNetworkInterfaceAttributeInput {
 
     static func write(value: ModifyNetworkInterfaceAttributeInput?, to writer: SmithyFormURL.Writer) throws {
@@ -106759,6 +109437,41 @@ extension ModifyTransitGatewayMeteringPolicyInput {
     }
 }
 
+extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: ModifyTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.addAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["AddAvailabilityZoneId"].writeList(value.addAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.addAvailabilityZones?.isEmpty ?? true) {
+            try writer["AddAvailabilityZone"].writeList(value.addAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.removeAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["RemoveAvailabilityZoneId"].writeList(value.removeAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.removeAvailabilityZones?.isEmpty ?? true) {
+            try writer["RemoveAvailabilityZone"].writeList(value.removeAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayNetworkFunctionAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyTransitGatewayPeeringAttachmentInput {
+
+    static func write(value: ModifyTransitGatewayPeeringAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Options"].write(value.options, with: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions.write(value:to:))
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayPeeringAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryInput {
 
     static func write(value: ModifyTransitGatewayPolicyTableEntryInput?, to writer: SmithyFormURL.Writer) throws {
@@ -106979,9 +109692,11 @@ extension ModifyVpcEncryptionControlInput {
 
     static func write(value: ModifyVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2Exclusion"].write(value.apiGatewayV2Exclusion)
         try writer["DryRun"].write(value.dryRun)
         try writer["EgressOnlyInternetGatewayExclusion"].write(value.egressOnlyInternetGatewayExclusion)
         try writer["ElasticFileSystemExclusion"].write(value.elasticFileSystemExclusion)
+        try writer["GlobalAcceleratorExclusion"].write(value.globalAcceleratorExclusion)
         try writer["InternetGatewayExclusion"].write(value.internetGatewayExclusion)
         try writer["LambdaExclusion"].write(value.lambdaExclusion)
         try writer["Mode"].write(value.mode)
@@ -107119,6 +109834,7 @@ extension ModifyVpcEndpointServicePermissionsInput {
             try writer["AddAllowedPrincipals"].writeList(value.addAllowedPrincipals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["DryRun"].write(value.dryRun)
+        try writer["PermissionType"].write(value.permissionType)
         if !(value.removeAllowedPrincipals?.isEmpty ?? true) {
             try writer["RemoveAllowedPrincipals"].writeList(value.removeAllowedPrincipals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -107217,6 +109933,9 @@ extension MonitorInstancesInput {
         try writer["DryRun"].write(value.dryRun)
         if !(value.instanceIds?.isEmpty ?? true) {
             try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "InstanceId", isFlattened: true)
+        }
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("MonitorInstances")
         try writer["Version"].write("2016-11-15")
@@ -107550,6 +110269,9 @@ extension RejectVpcEndpointConnectionsInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["ServiceId"].write(value.serviceId)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.vpcEndpointIds?.isEmpty ?? true) {
             try writer["VpcEndpointId"].writeList(value.vpcEndpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -108338,6 +111060,9 @@ extension UnmonitorInstancesInput {
         if !(value.instanceIds?.isEmpty ?? true) {
             try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "InstanceId", isFlattened: true)
         }
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         try writer["Action"].write("UnmonitorInstances")
         try writer["Version"].write("2016-11-15")
     }
@@ -108780,6 +111505,18 @@ extension AssociateIpamResourceDiscoveryOutput {
     }
 }
 
+extension AssociateKmsKeyIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateKmsKeyIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateKmsKeyIdOutput()
+        value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
 extension AssociateNatGatewayAddressOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateNatGatewayAddressOutput {
@@ -108789,6 +111526,19 @@ extension AssociateNatGatewayAddressOutput {
         var value = AssociateNatGatewayAddressOutput()
         value.natGatewayAddresses = try reader["natGatewayAddressSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.NatGatewayAddress.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.natGatewayId = try reader["natGatewayId"].readIfPresent()
+        return value
+    }
+}
+
+extension AssociateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyAssociationFailures = try reader["fcaPolicyAssociationFailures"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.fcaPolicyAssociations = try reader["fcaPolicyAssociations"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -109863,6 +112613,18 @@ extension CreateManagedPrefixListOutput {
     }
 }
 
+extension CreateMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMetricCategoryOutput()
+        value.metricCategory = try reader["metricCategory"].readIfPresent(with: EC2ClientTypes.MetricCategory.read(from:))
+        return value
+    }
+}
+
 extension CreateNatGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNatGatewayOutput {
@@ -109893,6 +112655,21 @@ extension CreateNetworkAclEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNetworkAclEntryOutput {
         return CreateNetworkAclEntryOutput()
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNetworkingFlexCostAllocationPolicyOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.fcaPolicyArn = try reader["fcaPolicyArn"].readIfPresent()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        return value
     }
 }
 
@@ -110114,6 +112891,7 @@ extension CreateSnapshotOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSnapshotOutput()
+        value.associatedKmsKeys = try reader["associatedKmsKeySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AssociatedKmsKey.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.completionDurationMinutes = try reader["completionDurationMinutes"].readIfPresent()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -110328,6 +113106,18 @@ extension CreateTransitGatewayMulticastDomainOutput {
         let reader = responseReader
         var value = CreateTransitGatewayMulticastDomainOutput()
         value.transitGatewayMulticastDomain = try reader["transitGatewayMulticastDomain"].readIfPresent(with: EC2ClientTypes.TransitGatewayMulticastDomain.read(from:))
+        return value
+    }
+}
+
+extension CreateTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
         return value
     }
 }
@@ -111084,6 +113874,18 @@ extension DeleteManagedPrefixListOutput {
     }
 }
 
+extension DeleteMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMetricCategoryOutput()
+        value.metricCategoryId = try reader["metricCategoryId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteNatGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNatGatewayOutput {
@@ -111107,6 +113909,19 @@ extension DeleteNetworkAclEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkAclEntryOutput {
         return DeleteNetworkAclEntryOutput()
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkingFlexCostAllocationPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNetworkingFlexCostAllocationPoliciesOutput()
+        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
     }
 }
 
@@ -111466,6 +114281,18 @@ extension DeleteTransitGatewayMulticastDomainOutput {
         let reader = responseReader
         var value = DeleteTransitGatewayMulticastDomainOutput()
         value.transitGatewayMulticastDomain = try reader["transitGatewayMulticastDomain"].readIfPresent(with: EC2ClientTypes.TransitGatewayMulticastDomain.read(from:))
+        return value
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
         return value
     }
 }
@@ -113177,6 +116004,19 @@ extension DescribeManagedPrefixListsOutput {
     }
 }
 
+extension DescribeMetricCategoriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetricCategoriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetricCategoriesOutput()
+        value.metricCategories = try reader["metricCategorySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.MetricCategory.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeMovingAddressesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMovingAddressesOutput {
@@ -113211,6 +116051,32 @@ extension DescribeNetworkAclsOutput {
         let reader = responseReader
         var value = DescribeNetworkAclsOutput()
         value.networkAcls = try reader["networkAclSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.NetworkAcl.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkingFlexCostAllocationPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNetworkingFlexCostAllocationPoliciesOutput()
+        value.flexCostAllocationPolicies = try reader["flexCostAllocationPolicies"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput()
+        value.fcaPolicyAssociations = try reader["fcaPolicyAssociations"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -113917,6 +116783,19 @@ extension DescribeTransitGatewayMulticastDomainsOutput {
         var value = DescribeTransitGatewayMulticastDomainsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.transitGatewayMulticastDomains = try reader["transitGatewayMulticastDomains"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayMulticastDomain.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeTransitGatewayNetworkFunctionAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTransitGatewayNetworkFunctionAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTransitGatewayNetworkFunctionAttachmentsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.transitGatewayNetworkFunctionAttachments = try reader["transitGatewayNetworkFunctionAttachmentSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -114816,6 +117695,18 @@ extension DisassociateIpamResourceDiscoveryOutput {
     }
 }
 
+extension DisassociateKmsKeyIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateKmsKeyIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateKmsKeyIdOutput()
+        value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
 extension DisassociateNatGatewayAddressOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateNatGatewayAddressOutput {
@@ -114825,6 +117716,19 @@ extension DisassociateNatGatewayAddressOutput {
         var value = DisassociateNatGatewayAddressOutput()
         value.natGatewayAddresses = try reader["natGatewayAddressSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.NatGatewayAddress.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.natGatewayId = try reader["natGatewayId"].readIfPresent()
+        return value
+    }
+}
+
+extension DisassociateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyDisassociationFailures = try reader["fcaPolicyDisassociationFailures"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.fcaPolicyDisassociations = try reader["fcaPolicyDisassociations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -115433,6 +118337,19 @@ extension GetCapacityManagerMonitoredTagKeysOutput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapacityManagerSupportabilityScoresOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCapacityManagerSupportabilityScoresOutput()
+        value.aggregateScore = try reader["aggregateScore"].readIfPresent()
+        value.capacityManagerSupportabilityScores = try reader["capacityManagerSupportabilityScoreSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityManagerSupportabilityScore.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension GetCapacityReservationUsageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapacityReservationUsageOutput {
@@ -116009,6 +118926,18 @@ extension GetManagedResourceVisibilityOutput {
         let reader = responseReader
         var value = GetManagedResourceVisibilityOutput()
         value.visibility = try reader["visibility"].readIfPresent(with: EC2ClientTypes.ManagedResourceVisibilitySettings.read(from:))
+        return value
+    }
+}
+
+extension GetNetworkingFlexCostAllocationPolicyVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNetworkingFlexCostAllocationPolicyVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNetworkingFlexCostAllocationPolicyVersionsOutput()
+        value.fcaPolicyVersions = try reader["fcaPolicyVersions"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyVersion.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -117037,6 +119966,33 @@ extension ModifyManagedResourceVisibilityOutput {
     }
 }
 
+extension ModifyMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyMetricCategoryOutput()
+        value.metricCategory = try reader["metricCategory"].readIfPresent(with: EC2ClientTypes.MetricCategory.read(from:))
+        return value
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.version = try reader["version"].readIfPresent()
+        value.versionExpectedEffectiveAt = try reader["versionExpectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension ModifyNetworkInterfaceAttributeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyNetworkInterfaceAttributeOutput {
@@ -117214,6 +120170,30 @@ extension ModifyTransitGatewayMeteringPolicyOutput {
         let reader = responseReader
         var value = ModifyTransitGatewayMeteringPolicyOutput()
         value.transitGatewayMeteringPolicy = try reader["transitGatewayMeteringPolicy"].readIfPresent(with: EC2ClientTypes.TransitGatewayMeteringPolicy.read(from:))
+        return value
+    }
+}
+
+extension ModifyTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
+        return value
+    }
+}
+
+extension ModifyTransitGatewayPeeringAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayPeeringAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayPeeringAttachmentOutput()
+        value.transitGatewayPeeringAttachment = try reader["transitGatewayPeeringAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayPeeringAttachment.read(from:))
         return value
     }
 }
@@ -117660,6 +120640,7 @@ extension PurchaseCapacityBlockOutput {
         var value = PurchaseCapacityBlockOutput()
         value.capacityBlocks = try reader["capacityBlockSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityBlock.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.capacityReservation = try reader["capacityReservation"].readIfPresent(with: EC2ClientTypes.CapacityReservation.read(from:))
+        value.capacityReservations = try reader["capacityReservationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -118879,7 +121860,33 @@ enum AssociateIpamResourceDiscoveryOutputError {
     }
 }
 
+enum AssociateKmsKeyIdOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateNatGatewayAddressOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateNetworkingFlexCostAllocationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120010,6 +123017,19 @@ enum CreateManagedPrefixListOutputError {
     }
 }
 
+enum CreateMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateNatGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -120037,6 +123057,19 @@ enum CreateNetworkAclOutputError {
 }
 
 enum CreateNetworkAclEntryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateNetworkingFlexCostAllocationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120479,6 +123512,19 @@ enum CreateTransitGatewayMeteringPolicyEntryOutputError {
 }
 
 enum CreateTransitGatewayMulticastDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTransitGatewayNetworkFunctionAttachmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -121297,6 +124343,19 @@ enum DeleteManagedPrefixListOutputError {
     }
 }
 
+enum DeleteMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteNatGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -121324,6 +124383,19 @@ enum DeleteNetworkAclOutputError {
 }
 
 enum DeleteNetworkAclEntryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNetworkingFlexCostAllocationPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -121753,6 +124825,19 @@ enum DeleteTransitGatewayMeteringPolicyEntryOutputError {
 }
 
 enum DeleteTransitGatewayMulticastDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTransitGatewayNetworkFunctionAttachmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -123507,6 +126592,19 @@ enum DescribeManagedPrefixListsOutputError {
     }
 }
 
+enum DescribeMetricCategoriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeMovingAddressesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -123534,6 +126632,32 @@ enum DescribeNatGatewaysOutputError {
 }
 
 enum DescribeNetworkAclsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNetworkingFlexCostAllocationPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNetworkingFlexCostAllocationPolicyAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -124236,6 +127360,19 @@ enum DescribeTransitGatewayMeteringPoliciesOutputError {
 }
 
 enum DescribeTransitGatewayMulticastDomainsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTransitGatewayNetworkFunctionAttachmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -125184,7 +128321,33 @@ enum DisassociateIpamResourceDiscoveryOutputError {
     }
 }
 
+enum DisassociateKmsKeyIdOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateNatGatewayAddressOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateNetworkingFlexCostAllocationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -125821,6 +128984,19 @@ enum GetCapacityManagerMonitoredTagKeysOutputError {
     }
 }
 
+enum GetCapacityManagerSupportabilityScoresOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCapacityReservationUsageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -126368,6 +129544,19 @@ enum GetManagedPrefixListEntriesOutputError {
 }
 
 enum GetManagedResourceVisibilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetNetworkingFlexCostAllocationPolicyVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -127420,6 +130609,32 @@ enum ModifyManagedResourceVisibilityOutputError {
     }
 }
 
+enum ModifyMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyNetworkingFlexCostAllocationPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyNetworkInterfaceAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -127616,6 +130831,32 @@ enum ModifyTransitGatewayAttachmentNatConfigurationOutputError {
 }
 
 enum ModifyTransitGatewayMeteringPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyTransitGatewayNetworkFunctionAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyTransitGatewayPeeringAttachmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -129082,6 +132323,14 @@ extension EC2ClientTypes.AcceleratorCountRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AcceleratorCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AcceleratorCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.AcceleratorTotalMemoryMiB {
@@ -129107,6 +132356,14 @@ extension EC2ClientTypes.AcceleratorTotalMemoryMiBRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AcceleratorTotalMemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AcceleratorTotalMemoryMiBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -129195,6 +132452,8 @@ extension EC2ClientTypes.AccountVpcEncryptionControlExclusions {
         value.lambda = try reader["lambda"].readIfPresent()
         value.vpcLattice = try reader["vpcLattice"].readIfPresent()
         value.elasticFileSystem = try reader["elasticFileSystem"].readIfPresent()
+        value.globalAccelerator = try reader["globalAccelerator"].readIfPresent()
+        value.apiGatewayV2 = try reader["apiGatewayV2"].readIfPresent()
         return value
     }
 }
@@ -129208,6 +132467,17 @@ extension EC2ClientTypes.ActiveInstance {
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.spotInstanceRequestId = try reader["spotInstanceRequestId"].readIfPresent()
         value.instanceHealth = try reader["instanceHealth"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange()
+        value.additionalKeyExchangeRound = try reader["additionalKeyExchangeRound"].readIfPresent()
+        value.keyExchangeMethod = try reader["keyExchangeMethod"].readIfPresent()
         return value
     }
 }
@@ -129226,6 +132496,8 @@ extension EC2ClientTypes.ActiveVpnTunnelStatus {
         value.ikeVersion = try reader["ikeVersion"].readIfPresent()
         value.provisioningStatus = try reader["provisioningStatus"].readIfPresent()
         value.provisioningStatusReason = try reader["provisioningStatusReason"].readIfPresent()
+        value.phase1AdditionalKeyExchanges = try reader["phase1AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.phase2AdditionalKeyExchanges = try reader["phase2AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ActiveVpnTunnelAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -129239,6 +132511,7 @@ extension EC2ClientTypes.AddedPrincipal {
         value.principal = try reader["principal"].readIfPresent()
         value.servicePermissionId = try reader["servicePermissionId"].readIfPresent()
         value.serviceId = try reader["serviceId"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
         return value
     }
 }
@@ -129273,6 +132546,24 @@ extension EC2ClientTypes.AdditionalDetail {
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.loadBalancers = try reader["loadBalancerSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AnalysisComponent.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
+    }
+}
+
+extension EC2ClientTypes.AdditionalKeyExchangeMethodsListValue {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AdditionalKeyExchangeMethodsListValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AdditionalKeyExchangeMethodsListValue()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue {
+
+    static func write(value: EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -129348,6 +132639,7 @@ extension EC2ClientTypes.AllowedPrincipal {
         value.servicePermissionId = try reader["servicePermissionId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.serviceId = try reader["serviceId"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
         return value
     }
 }
@@ -129621,6 +132913,16 @@ extension EC2ClientTypes.AssignedPrivateIpAddress {
     }
 }
 
+extension EC2ClientTypes.AssociatedKmsKey {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AssociatedKmsKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AssociatedKmsKey()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.AssociatedRole {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AssociatedRole {
@@ -129847,6 +133149,14 @@ extension EC2ClientTypes.BaselineEbsBandwidthMbpsRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.BaselineEbsBandwidthMbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.BaselineEbsBandwidthMbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.BaselinePerformanceFactors {
@@ -129869,6 +133179,13 @@ extension EC2ClientTypes.BaselinePerformanceFactorsRequest {
     static func write(value: EC2ClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Cpu"].write(value.cpu, with: EC2ClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.BaselinePerformanceFactorsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.BaselinePerformanceFactorsRequest()
+        value.cpu = try reader["Cpu"].readIfPresent(with: EC2ClientTypes.CpuPerformanceFactorRequest.read(from:))
+        return value
     }
 }
 
@@ -130132,6 +133449,14 @@ extension EC2ClientTypes.CapacityBlockExtensionOffering {
     }
 }
 
+extension EC2ClientTypes.CapacityBlockInstanceTypePreference {
+
+    static func write(value: EC2ClientTypes.CapacityBlockInstanceTypePreference?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceType"].write(value.instanceType)
+    }
+}
+
 extension EC2ClientTypes.CapacityBlockOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityBlockOffering {
@@ -130150,6 +133475,27 @@ extension EC2ClientTypes.CapacityBlockOffering {
         value.ultraserverType = try reader["ultraserverType"].readIfPresent()
         value.ultraserverCount = try reader["ultraserverCount"].readIfPresent()
         value.capacityBlockDurationMinutes = try reader["capacityBlockDurationMinutes"].readIfPresent()
+        value.zoneType = try reader["zoneType"].readIfPresent()
+        value.capacityBlockOfferingSegments = try reader["capacityBlockOfferingSegmentSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityBlockOfferingSegment.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityBlockOfferingSegment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityBlockOfferingSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityBlockOfferingSegment()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.instanceCount = try reader["instanceCount"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.capacityBlockDurationHours = try reader["capacityBlockDurationHours"].readIfPresent()
+        value.capacityBlockDurationMinutes = try reader["capacityBlockDurationMinutes"].readIfPresent()
+        value.upfrontFee = try reader["upfrontFee"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
         value.zoneType = try reader["zoneType"].readIfPresent()
         return value
     }
@@ -130236,6 +133582,18 @@ extension EC2ClientTypes.CapacityManagerMonitoredTagKey {
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.capacityManagerProvided = try reader["capacityManagerProvided"].readIfPresent()
         value.earliestDatapointTimestamp = try reader["earliestDatapointTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityManagerSupportabilityScore {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityManagerSupportabilityScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityManagerSupportabilityScore()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
         return value
     }
 }
@@ -130382,6 +133740,9 @@ extension EC2ClientTypes.CapacityReservationFleet {
         value.instanceMatchCriteria = try reader["instanceMatchCriteria"].readIfPresent()
         value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
         value.instanceTypeSpecifications = try reader["instanceTypeSpecificationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FleetCapacityReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: EC2ClientTypes.InstanceRequirementsRequest.read(from:))
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
@@ -131125,6 +134486,13 @@ extension EC2ClientTypes.CpuPerformanceFactorRequest {
             try writer["Reference"].writeList(value.references, memberWritingClosure: EC2ClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CpuPerformanceFactorRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CpuPerformanceFactorRequest()
+        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
 }
 
 extension EC2ClientTypes.CreateFleetError {
@@ -131157,6 +134525,15 @@ extension EC2ClientTypes.CreateFleetInstance {
     }
 }
 
+extension EC2ClientTypes.CreatePeeringConnectionOptionsRequest {
+
+    static func write(value: EC2ClientTypes.CreatePeeringConnectionOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
+    }
+}
+
 extension EC2ClientTypes.CreateTransitGatewayConnectRequestOptions {
 
     static func write(value: EC2ClientTypes.CreateTransitGatewayConnectRequestOptions?, to writer: SmithyFormURL.Writer) throws {
@@ -131179,7 +134556,9 @@ extension EC2ClientTypes.CreateTransitGatewayPeeringAttachmentRequestOptions {
 
     static func write(value: EC2ClientTypes.CreateTransitGatewayPeeringAttachmentRequestOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
         try writer["DynamicRouting"].write(value.dynamicRouting)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
     }
 }
 
@@ -132846,6 +136225,125 @@ extension EC2ClientTypes.FleetSpotMaintenanceStrategiesRequest {
     }
 }
 
+extension EC2ClientTypes.FlexCostAllocationCidrMapping {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationCidrMapping?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrLabel"].write(value.cidrLabel)
+        try writer["CidrRange"].write(value.cidrRange)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationCidrMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationCidrMapping()
+        value.cidrRange = try reader["CidrRange"].readIfPresent() ?? ""
+        value.cidrLabel = try reader["CidrLabel"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.prefixes?.isEmpty ?? true) {
+            try writer["Prefixes"].writeList(value.prefixes, memberWritingClosure: EC2ClientTypes.FlexCostAllocationCidrMapping.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["PrefixesType"].write(value.prefixesType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications()
+        value.prefixesType = try reader["PrefixesType"].readIfPresent() ?? ""
+        value.prefixes = try reader["Prefixes"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationCidrMapping.read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationNetworkResourceScope {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationNetworkResourceScope?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.resourceIds?.isEmpty ?? true) {
+            try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationOperationFailure {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationOperationFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationOperationFailure()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription()
+        value.fcaPolicyAssociationId = try reader["fcaPolicyAssociationId"].readIfPresent()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.networkResourceId = try reader["networkResourceId"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.associationMode = try reader["associationMode"].readIfPresent()
+        value.managedBy = try reader["managedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyDescription()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.fcaPolicyArn = try reader["fcaPolicyArn"].readIfPresent()
+        value.networkResourceType = try reader["networkResourceType"].readIfPresent()
+        value.natFcaPolicyDocument = try reader["natFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.read(from:))
+        value.instanceFcaPolicyDocument = try reader["instanceFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.read(from:))
+        value.pcxFcaPolicyDocument = try reader["pcxFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.read(from:))
+        value.showBackEnabled = try reader["showBackEnabled"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.versionExpectedEffectiveAt = try reader["versionExpectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.policyCreatedAt = try reader["policyCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.managedBy = try reader["managedBy"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyVersion()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.networkResourceType = try reader["networkResourceType"].readIfPresent()
+        value.natFcaPolicyDocument = try reader["natFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.read(from:))
+        value.instanceFcaPolicyDocument = try reader["instanceFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.read(from:))
+        value.pcxFcaPolicyDocument = try reader["pcxFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.read(from:))
+        value.showBackEnabled = try reader["showBackEnabled"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension EC2ClientTypes.FlowLog {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlowLog {
@@ -134087,6 +137585,29 @@ extension EC2ClientTypes.InstanceFamilyCreditSpecification {
     }
 }
 
+extension EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
+        return value
+    }
+}
+
 extension EC2ClientTypes.InstanceImageMetadata {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceImageMetadata {
@@ -134520,6 +138041,38 @@ extension EC2ClientTypes.InstanceRequirementsRequest {
         try writer["SpotMaxPricePercentageOverLowestPrice"].write(value.spotMaxPricePercentageOverLowestPrice)
         try writer["TotalLocalStorageGB"].write(value.totalLocalStorageGB, with: EC2ClientTypes.TotalLocalStorageGBRequest.write(value:to:))
         try writer["VCpuCount"].write(value.vCpuCount, with: EC2ClientTypes.VCpuCountRangeRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceRequirementsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceRequirementsRequest()
+        value.vCpuCount = try reader["VCpuCount"].readIfPresent(with: EC2ClientTypes.VCpuCountRangeRequest.read(from:))
+        value.memoryMiB = try reader["MemoryMiB"].readIfPresent(with: EC2ClientTypes.MemoryMiBRequest.read(from:))
+        value.cpuManufacturers = try reader["CpuManufacturer"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.CpuManufacturer>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.memoryGiBPerVCpu = try reader["MemoryGiBPerVCpu"].readIfPresent(with: EC2ClientTypes.MemoryGiBPerVCpuRequest.read(from:))
+        value.excludedInstanceTypes = try reader["ExcludedInstanceType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.instanceGenerations = try reader["InstanceGeneration"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.InstanceGeneration>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.spotMaxPricePercentageOverLowestPrice = try reader["SpotMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.onDemandMaxPricePercentageOverLowestPrice = try reader["OnDemandMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.bareMetal = try reader["BareMetal"].readIfPresent()
+        value.burstablePerformance = try reader["BurstablePerformance"].readIfPresent()
+        value.requireHibernateSupport = try reader["RequireHibernateSupport"].readIfPresent()
+        value.networkInterfaceCount = try reader["NetworkInterfaceCount"].readIfPresent(with: EC2ClientTypes.NetworkInterfaceCountRequest.read(from:))
+        value.localStorage = try reader["LocalStorage"].readIfPresent()
+        value.localStorageTypes = try reader["LocalStorageType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.LocalStorageType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.totalLocalStorageGB = try reader["TotalLocalStorageGB"].readIfPresent(with: EC2ClientTypes.TotalLocalStorageGBRequest.read(from:))
+        value.baselineEbsBandwidthMbps = try reader["BaselineEbsBandwidthMbps"].readIfPresent(with: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest.read(from:))
+        value.acceleratorTypes = try reader["AcceleratorType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorCount = try reader["AcceleratorCount"].readIfPresent(with: EC2ClientTypes.AcceleratorCountRequest.read(from:))
+        value.acceleratorManufacturers = try reader["AcceleratorManufacturer"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorManufacturer>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorNames = try reader["AcceleratorName"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorName>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorTotalMemoryMiB = try reader["AcceleratorTotalMemoryMiB"].readIfPresent(with: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest.read(from:))
+        value.networkBandwidthGbps = try reader["NetworkBandwidthGbps"].readIfPresent(with: EC2ClientTypes.NetworkBandwidthGbpsRequest.read(from:))
+        value.allowedInstanceTypes = try reader["AllowedInstanceType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = try reader["MaxSpotPriceAsPercentageOfOptimalOnDemandPrice"].readIfPresent()
+        value.baselinePerformanceFactors = try reader["BaselinePerformanceFactors"].readIfPresent(with: EC2ClientTypes.BaselinePerformanceFactorsRequest.read(from:))
+        value.requireEncryptionInTransit = try reader["RequireEncryptionInTransit"].readIfPresent()
+        return value
     }
 }
 
@@ -136444,6 +139997,7 @@ extension EC2ClientTypes.LaunchTemplatesMonitoring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.LaunchTemplatesMonitoring()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.metricCategoryIds = try reader["metricCategoryIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -136453,6 +140007,9 @@ extension EC2ClientTypes.LaunchTemplatesMonitoringRequest {
     static func write(value: EC2ClientTypes.LaunchTemplatesMonitoringRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
     }
 }
 
@@ -136904,6 +140461,14 @@ extension EC2ClientTypes.MemoryGiBPerVCpuRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MemoryGiBPerVCpuRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MemoryGiBPerVCpuRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.MemoryInfo {
@@ -136939,6 +140504,26 @@ extension EC2ClientTypes.MemoryMiBRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MemoryMiBRequest()
+        value.min = try reader["Min"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.MetricCategory {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MetricCategory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MetricCategory()
+        value.metricCategoryId = try reader["metricCategoryId"].readIfPresent()
+        value.metrics = try reader["metricSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
     }
 }
 
@@ -137033,6 +140618,15 @@ extension EC2ClientTypes.ModifyTransitGatewayOptions {
         }
         try writer["SecurityGroupReferencingSupport"].write(value.securityGroupReferencingSupport)
         try writer["VpnEcmpSupport"].write(value.vpnEcmpSupport)
+    }
+}
+
+extension EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions {
+
+    static func write(value: EC2ClientTypes.ModifyTransitGatewayPeeringAttachmentRequestOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
     }
 }
 
@@ -137153,6 +140747,9 @@ extension EC2ClientTypes.ModifyVpnTunnelOptionsSpecification {
             try writer["IKEVersion"].writeList(value.ikeVersions, memberWritingClosure: EC2ClientTypes.IKEVersionsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["LogOptions"].write(value.logOptions, with: EC2ClientTypes.VpnTunnelLogOptionsSpecification.write(value:to:))
+        if !(value.phase1AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase1AdditionalKeyExchange"].writeList(value.phase1AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase1DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase1DHGroupNumber"].writeList(value.phase1DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase1DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -137163,6 +140760,9 @@ extension EC2ClientTypes.ModifyVpnTunnelOptionsSpecification {
             try writer["Phase1IntegrityAlgorithm"].writeList(value.phase1IntegrityAlgorithms, memberWritingClosure: EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Phase1LifetimeSeconds"].write(value.phase1LifetimeSeconds)
+        if !(value.phase2AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase2AdditionalKeyExchange"].writeList(value.phase2AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase2DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase2DHGroupNumber"].writeList(value.phase2DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase2DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -137188,6 +140788,7 @@ extension EC2ClientTypes.Monitoring {
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.Monitoring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.Monitoring()
+        value.metricCategoryIds = try reader["metricCategoryIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -137200,6 +140801,29 @@ extension EC2ClientTypes.MovingAddressStatus {
         var value = EC2ClientTypes.MovingAddressStatus()
         value.moveStatus = try reader["moveStatus"].readIfPresent()
         value.publicIp = try reader["publicIp"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.NatFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NatFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NatFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
         return value
     }
 }
@@ -137349,6 +140973,14 @@ extension EC2ClientTypes.NetworkBandwidthGbpsRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkBandwidthGbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NetworkBandwidthGbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -137604,6 +141236,14 @@ extension EC2ClientTypes.NetworkInterfaceCountRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkInterfaceCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NetworkInterfaceCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -137946,6 +141586,29 @@ extension EC2ClientTypes.PciId {
     }
 }
 
+extension EC2ClientTypes.PcxFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PcxFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PcxFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
+        return value
+    }
+}
+
 extension EC2ClientTypes.PeeringAttachmentStatus {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PeeringAttachmentStatus {
@@ -137965,6 +141628,8 @@ extension EC2ClientTypes.PeeringConnectionOptions {
         value.allowDnsResolutionFromRemoteVpc = try reader["allowDnsResolutionFromRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalClassicLinkToRemoteVpc = try reader["allowEgressFromLocalClassicLinkToRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalVpcToRemoteClassicLink = try reader["allowEgressFromLocalVpcToRemoteClassicLink"].readIfPresent()
+        value.allowMultipathResilience = try reader["allowMultipathResilience"].readIfPresent()
+        value.multipathResilienceMode = try reader["multipathResilienceMode"].readIfPresent()
         return value
     }
 }
@@ -137976,6 +141641,8 @@ extension EC2ClientTypes.PeeringConnectionOptionsRequest {
         try writer["AllowDnsResolutionFromRemoteVpc"].write(value.allowDnsResolutionFromRemoteVpc)
         try writer["AllowEgressFromLocalClassicLinkToRemoteVpc"].write(value.allowEgressFromLocalClassicLinkToRemoteVpc)
         try writer["AllowEgressFromLocalVpcToRemoteClassicLink"].write(value.allowEgressFromLocalVpcToRemoteClassicLink)
+        try writer["AllowMultipathResilience"].write(value.allowMultipathResilience)
+        try writer["MultipathResilienceMode"].write(value.multipathResilienceMode)
     }
 }
 
@@ -138012,6 +141679,13 @@ extension EC2ClientTypes.PerformanceFactorReferenceRequest {
     static func write(value: EC2ClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PerformanceFactorReferenceRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PerformanceFactorReferenceRequest()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        return value
     }
 }
 
@@ -139384,11 +143058,15 @@ extension EC2ClientTypes.RunInstancesMonitoringEnabled {
     static func write(value: EC2ClientTypes.RunInstancesMonitoringEnabled?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.RunInstancesMonitoringEnabled {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.RunInstancesMonitoringEnabled()
+        value.metricCategoryIds = try reader["MetricCategoryId"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
@@ -140051,6 +143729,7 @@ extension EC2ClientTypes.Snapshot {
         value.completionDurationMinutes = try reader["completionDurationMinutes"].readIfPresent()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.fullSnapshotSizeInBytes = try reader["fullSnapshotSizeInBytes"].readIfPresent()
+        value.associatedKmsKeys = try reader["associatedKmsKeySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AssociatedKmsKey.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.snapshotId = try reader["snapshotId"].readIfPresent()
         value.volumeId = try reader["volumeId"].readIfPresent()
         value.state = try reader["status"].readIfPresent()
@@ -141029,6 +144708,14 @@ extension EC2ClientTypes.TotalLocalStorageGBRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TotalLocalStorageGBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TotalLocalStorageGBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.TrafficMirrorFilter {
@@ -141513,6 +145200,25 @@ extension EC2ClientTypes.TransitGatewayNatRuleRequest {
     }
 }
 
+extension EC2ClientTypes.TransitGatewayNetworkFunctionAttachment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayNetworkFunctionAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TransitGatewayNetworkFunctionAttachment()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
+        value.transitGatewayId = try reader["transitGatewayId"].readIfPresent()
+        value.transitGatewayOwnerId = try reader["transitGatewayOwnerId"].readIfPresent()
+        value.resourceOwnerId = try reader["resourceOwnerId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.availabilityZones = try reader["availabilityZoneSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.availabilityZoneIds = try reader["availabilityZoneIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.TransitGatewayOptions {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayOptions {
@@ -141558,6 +145264,11 @@ extension EC2ClientTypes.TransitGatewayPeeringAttachmentOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.TransitGatewayPeeringAttachmentOptions()
         value.dynamicRouting = try reader["dynamicRouting"].readIfPresent()
+        value.requesterAllowMultipathResilience = try reader["requesterAllowMultipathResilience"].readIfPresent()
+        value.requesterMultipathResilienceMode = try reader["requesterMultipathResilienceMode"].readIfPresent()
+        value.accepterAllowMultipathResilience = try reader["accepterAllowMultipathResilience"].readIfPresent()
+        value.accepterMultipathResilienceMode = try reader["accepterMultipathResilienceMode"].readIfPresent()
+        value.multipathResilienceStatus = try reader["multipathResilienceStatus"].readIfPresent()
         return value
     }
 }
@@ -141890,6 +145601,8 @@ extension EC2ClientTypes.TunnelOption {
         value.startupAction = try reader["startupAction"].readIfPresent()
         value.logOptions = try reader["logOptions"].readIfPresent(with: EC2ClientTypes.VpnTunnelLogOptions.read(from:))
         value.enableTunnelLifecycleControl = try reader["enableTunnelLifecycleControl"].readIfPresent()
+        value.phase1AdditionalKeyExchanges = try reader["phase1AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.VpnAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.phase2AdditionalKeyExchanges = try reader["phase2AdditionalKeyExchangeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.VpnAdditionalKeyExchange.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -142063,6 +145776,14 @@ extension EC2ClientTypes.VCpuCountRangeRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.VCpuCountRangeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.VCpuCountRangeRequest()
+        value.min = try reader["Min"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -142783,8 +146504,10 @@ extension EC2ClientTypes.VpcEncryptionControlConfiguration {
 
     static func write(value: EC2ClientTypes.VpcEncryptionControlConfiguration?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2Exclusion"].write(value.apiGatewayV2Exclusion)
         try writer["EgressOnlyInternetGatewayExclusion"].write(value.egressOnlyInternetGatewayExclusion)
         try writer["ElasticFileSystemExclusion"].write(value.elasticFileSystemExclusion)
+        try writer["GlobalAcceleratorExclusion"].write(value.globalAcceleratorExclusion)
         try writer["InternetGatewayExclusion"].write(value.internetGatewayExclusion)
         try writer["LambdaExclusion"].write(value.lambdaExclusion)
         try writer["Mode"].write(value.mode)
@@ -142819,6 +146542,8 @@ extension EC2ClientTypes.VpcEncryptionControlExclusions {
         value.lambda = try reader["lambda"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         value.vpcLattice = try reader["vpcLattice"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         value.elasticFileSystem = try reader["elasticFileSystem"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
+        value.globalAccelerator = try reader["globalAccelerator"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
+        value.apiGatewayV2 = try reader["apiGatewayV2"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         return value
     }
 }
@@ -142910,6 +146635,8 @@ extension EC2ClientTypes.VpcEndpointConnection {
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcEndpointRegion = try reader["vpcEndpointRegion"].readIfPresent()
         value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
+        value.transitGatewayAttachmentOwner = try reader["transitGatewayAttachmentOwner"].readIfPresent()
         return value
     }
 }
@@ -142941,6 +146668,7 @@ extension EC2ClientTypes.VpcPeeringConnection {
         value.status = try reader["status"].readIfPresent(with: EC2ClientTypes.VpcPeeringConnectionStateReason.read(from:))
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcPeeringConnectionId = try reader["vpcPeeringConnectionId"].readIfPresent()
+        value.multipathResilienceStatus = try reader["multipathResilienceStatus"].readIfPresent()
         return value
     }
 }
@@ -142953,6 +146681,8 @@ extension EC2ClientTypes.VpcPeeringConnectionOptionsDescription {
         value.allowDnsResolutionFromRemoteVpc = try reader["allowDnsResolutionFromRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalClassicLinkToRemoteVpc = try reader["allowEgressFromLocalClassicLinkToRemoteVpc"].readIfPresent()
         value.allowEgressFromLocalVpcToRemoteClassicLink = try reader["allowEgressFromLocalVpcToRemoteClassicLink"].readIfPresent()
+        value.allowMultipathResilience = try reader["allowMultipathResilience"].readIfPresent()
+        value.multipathResilienceMode = try reader["multipathResilienceMode"].readIfPresent()
         return value
     }
 }
@@ -142981,6 +146711,30 @@ extension EC2ClientTypes.VpcPeeringConnectionVpcInfo {
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.VpnAdditionalKeyExchange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.VpnAdditionalKeyExchange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.VpnAdditionalKeyExchange()
+        value.additionalKeyExchangeRound = try reader["additionalKeyExchangeRound"].readIfPresent()
+        value.keyExchangeMethods = try reader["keyExchangeMethodSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AdditionalKeyExchangeMethodsListValue.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.requirement = try reader["requirement"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.VpnAdditionalKeyExchangeRequest {
+
+    static func write(value: EC2ClientTypes.VpnAdditionalKeyExchangeRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalKeyExchangeRound"].write(value.additionalKeyExchangeRound)
+        if !(value.keyExchangeMethods?.isEmpty ?? true) {
+            try writer["KeyExchangeMethod"].writeList(value.keyExchangeMethods, memberWritingClosure: EC2ClientTypes.AdditionalKeyExchangeMethodsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Requirement"].write(value.requirement)
     }
 }
 
@@ -143135,6 +146889,9 @@ extension EC2ClientTypes.VpnTunnelOptionsSpecification {
             try writer["IKEVersion"].writeList(value.ikeVersions, memberWritingClosure: EC2ClientTypes.IKEVersionsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["LogOptions"].write(value.logOptions, with: EC2ClientTypes.VpnTunnelLogOptionsSpecification.write(value:to:))
+        if !(value.phase1AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase1AdditionalKeyExchange"].writeList(value.phase1AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase1DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase1DHGroupNumber"].writeList(value.phase1DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase1DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -143145,6 +146902,9 @@ extension EC2ClientTypes.VpnTunnelOptionsSpecification {
             try writer["Phase1IntegrityAlgorithm"].writeList(value.phase1IntegrityAlgorithms, memberWritingClosure: EC2ClientTypes.Phase1IntegrityAlgorithmsRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Phase1LifetimeSeconds"].write(value.phase1LifetimeSeconds)
+        if !(value.phase2AdditionalKeyExchanges?.isEmpty ?? true) {
+            try writer["Phase2AdditionalKeyExchange"].writeList(value.phase2AdditionalKeyExchanges, memberWritingClosure: EC2ClientTypes.VpnAdditionalKeyExchangeRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.phase2DHGroupNumbers?.isEmpty ?? true) {
             try writer["Phase2DHGroupNumber"].writeList(value.phase2DHGroupNumbers, memberWritingClosure: EC2ClientTypes.Phase2DHGroupNumbersRequestListValue.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }

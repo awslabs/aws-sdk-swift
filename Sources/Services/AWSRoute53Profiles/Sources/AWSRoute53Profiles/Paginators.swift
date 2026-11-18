@@ -62,6 +62,7 @@ extension ListProfileResourceAssociationsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             profileId: self.profileId,
+            resourceArn: self.resourceArn,
             resourceType: self.resourceType
         )}
 }

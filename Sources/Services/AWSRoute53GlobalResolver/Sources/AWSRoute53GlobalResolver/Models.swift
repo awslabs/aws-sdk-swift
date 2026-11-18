@@ -317,12 +317,14 @@ extension Route53GlobalResolverClientTypes {
     public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipv4
         case ipv6
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IpAddressType] {
             return [
                 .ipv4,
-                .ipv6
+                .ipv6,
+                .none
             ]
         }
 
@@ -335,6 +337,7 @@ extension Route53GlobalResolverClientTypes {
             switch self {
             case .ipv4: return "IPV4"
             case .ipv6: return "IPV6"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -375,38 +378,45 @@ extension Route53GlobalResolverClientTypes {
 
 public struct CreateAccessSourceInput: Swift.Sendable {
     /// The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver.
-    /// This member is required.
     public var cidr: Swift.String?
     /// A unique string that identifies the request and ensures idempotency.
     public var clientToken: Swift.String?
+    /// The ID of the core network endpoint to associate with this access source.
+    public var coreNetworkEndpointId: Swift.String?
     /// The ID of the DNS view to associate with this access source.
     /// This member is required.
     public var dnsViewId: Swift.String?
-    /// The IP address type for this access source. Valid values are IPv4 and IPv6 (if the Route 53 Global Resolver supports dual-stack).
+    /// The IP address type for this access source. Valid values are IPV4, IPV6, and NONE. If you provide a CIDR range, this defaults to IPV4; otherwise it defaults to NONE.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// A descriptive name for the access source.
     public var name: Swift.String?
     /// The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS).
     /// This member is required.
     public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+    /// The name of the segment to associate with this access source.
+    public var segment: Swift.String?
     /// Tags to associate with the access source.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         cidr: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        coreNetworkEndpointId: Swift.String? = nil,
         dnsViewId: Swift.String? = nil,
         ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+        segment: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.cidr = cidr
         self.clientToken = clientToken
+        self.coreNetworkEndpointId = coreNetworkEndpointId
         self.dnsViewId = dnsViewId
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
+        self.segment = segment
         self.tags = tags
     }
 }
@@ -451,8 +461,9 @@ public struct CreateAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var arn: Swift.String?
     /// The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver.
-    /// This member is required.
     public var cidr: Swift.String?
+    /// The ID of the core network endpoint associated with this access source.
+    public var coreNetworkEndpointId: Swift.String?
     /// The date and time when the access source was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -462,14 +473,15 @@ public struct CreateAccessSourceOutput: Swift.Sendable {
     /// The unique identifier for the access source.
     /// This member is required.
     public var id: Swift.String?
-    /// The IP address type for this access source (IPv4 or IPv6).
-    /// This member is required.
+    /// The IP address type for this access source. Valid values are IPV4, IPV6, and NONE.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// The descriptive name of the access source.
     public var name: Swift.String?
     /// The DNS protocol that is permitted for this access source (Do53, DoT, or DoH).
     /// This member is required.
     public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+    /// The name of the segment associated with this access source.
+    public var segment: Swift.String?
     /// The operational status of the access source.
     /// This member is required.
     public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
@@ -479,24 +491,28 @@ public struct CreateAccessSourceOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
-        cidr: Swift.String? = nil,
+        cidr: Swift.String? = "",
+        coreNetworkEndpointId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         dnsViewId: Swift.String? = nil,
         id: Swift.String? = nil,
-        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = .`none`,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+        segment: Swift.String? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
         self.cidr = cidr
+        self.coreNetworkEndpointId = coreNetworkEndpointId
         self.createdAt = createdAt
         self.dnsViewId = dnsViewId
         self.id = id
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
+        self.segment = segment
         self.status = status
         self.updatedAt = updatedAt
     }
@@ -519,8 +535,9 @@ public struct DeleteAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var arn: Swift.String?
     /// The IP address or CIDR range of the deleted access source.
-    /// This member is required.
     public var cidr: Swift.String?
+    /// The ID of the core network endpoint associated with this access source.
+    public var coreNetworkEndpointId: Swift.String?
     /// The date and time when the access source was originally created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -530,14 +547,15 @@ public struct DeleteAccessSourceOutput: Swift.Sendable {
     /// The unique identifier of the deleted access source.
     /// This member is required.
     public var id: Swift.String?
-    /// The IP address type of the deleted access source (IPv4 or IPv6).
-    /// This member is required.
+    /// The IP address type of the deleted access source. Valid values are IPV4, IPV6, and NONE.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// The name of the deleted access source.
     public var name: Swift.String?
     /// The DNS protocol that was permitted for the deleted access source.
     /// This member is required.
     public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+    /// The name of the segment associated with this access source.
+    public var segment: Swift.String?
     /// The final status of the deleted access source.
     /// This member is required.
     public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
@@ -547,24 +565,28 @@ public struct DeleteAccessSourceOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
-        cidr: Swift.String? = nil,
+        cidr: Swift.String? = "",
+        coreNetworkEndpointId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         dnsViewId: Swift.String? = nil,
         id: Swift.String? = nil,
-        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = .`none`,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+        segment: Swift.String? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
         self.cidr = cidr
+        self.coreNetworkEndpointId = coreNetworkEndpointId
         self.createdAt = createdAt
         self.dnsViewId = dnsViewId
         self.id = id
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
+        self.segment = segment
         self.status = status
         self.updatedAt = updatedAt
     }
@@ -587,8 +609,9 @@ public struct GetAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var arn: Swift.String?
     /// The IP range for the rule's parameters in CIDR notation.
-    /// This member is required.
     public var cidr: Swift.String?
+    /// The ID of the core network endpoint associated with this access source.
+    public var coreNetworkEndpointId: Swift.String?
     /// The time and date the rule was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -599,13 +622,14 @@ public struct GetAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The IP address type.
-    /// This member is required.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// Name for the access source.
     public var name: Swift.String?
     /// The protocol determines how data is transmitted to a Global Resolver instance.
     /// This member is required.
     public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+    /// The name of the segment associated with this access source.
+    public var segment: Swift.String?
     /// Information about the status of the rule.
     /// This member is required.
     public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
@@ -615,24 +639,28 @@ public struct GetAccessSourceOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
-        cidr: Swift.String? = nil,
+        cidr: Swift.String? = "",
+        coreNetworkEndpointId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         dnsViewId: Swift.String? = nil,
         id: Swift.String? = nil,
-        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = .`none`,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+        segment: Swift.String? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
         self.cidr = cidr
+        self.coreNetworkEndpointId = coreNetworkEndpointId
         self.createdAt = createdAt
         self.dnsViewId = dnsViewId
         self.id = id
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
+        self.segment = segment
         self.status = status
         self.updatedAt = updatedAt
     }
@@ -665,8 +693,9 @@ extension Route53GlobalResolverClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The CIDR block that defines the IP address range for the access source.
-        /// This member is required.
         public var cidr: Swift.String?
+        /// The ID of the core network endpoint associated with this access source.
+        public var coreNetworkEndpointId: Swift.String?
         /// The date and time when the access source was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -677,13 +706,14 @@ extension Route53GlobalResolverClientTypes {
         /// This member is required.
         public var id: Swift.String?
         /// The IP address type of the access source.
-        /// This member is required.
         public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
         /// The name of the access source.
         public var name: Swift.String?
         /// The protocol used by the access source.
         /// This member is required.
         public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+        /// The name of the segment associated with this access source.
+        public var segment: Swift.String?
         /// The current status of the access source.
         /// This member is required.
         public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
@@ -693,24 +723,28 @@ extension Route53GlobalResolverClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            cidr: Swift.String? = nil,
+            cidr: Swift.String? = "",
+            coreNetworkEndpointId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             dnsViewId: Swift.String? = nil,
             id: Swift.String? = nil,
-            ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
+            ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = .`none`,
             name: Swift.String? = nil,
             `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+            segment: Swift.String? = nil,
             status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
             self.cidr = cidr
+            self.coreNetworkEndpointId = coreNetworkEndpointId
             self.createdAt = createdAt
             self.dnsViewId = dnsViewId
             self.id = id
             self.ipAddressType = ipAddressType
             self.name = name
             self.`protocol` = `protocol`
+            self.segment = segment
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -718,7 +752,7 @@ extension Route53GlobalResolverClientTypes {
 }
 
 public struct ListAccessSourcesOutput: Swift.Sendable {
-    /// An array containing information about the access sources, such as the ID, CIDR etc.
+    /// An array containing information about the access sources, such as the ID and CIDR.
     /// This member is required.
     public var accessSources: [Route53GlobalResolverClientTypes.AccessSourcesItem]?
     /// A pagination token used for large sets of results that can't be returned in a single response. Provide this token in the next call to get the results not returned in this call.
@@ -739,6 +773,8 @@ public struct UpdateAccessSourceInput: Swift.Sendable {
     public var accessSourceId: Swift.String?
     /// The CIDR block for the access source.
     public var cidr: Swift.String?
+    /// The ID of the DNS view to associate with this access source.
+    public var dnsViewId: Swift.String?
     /// The IP address type for the access source.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// The name of the access source.
@@ -749,12 +785,14 @@ public struct UpdateAccessSourceInput: Swift.Sendable {
     public init(
         accessSourceId: Swift.String? = nil,
         cidr: Swift.String? = nil,
+        dnsViewId: Swift.String? = nil,
         ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil
     ) {
         self.accessSourceId = accessSourceId
         self.cidr = cidr
+        self.dnsViewId = dnsViewId
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
@@ -766,8 +804,9 @@ public struct UpdateAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var arn: Swift.String?
     /// The CIDR block of the updated access source.
-    /// This member is required.
     public var cidr: Swift.String?
+    /// The ID of the core network endpoint associated with this access source.
+    public var coreNetworkEndpointId: Swift.String?
     /// The date and time when the access source was originally created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -778,13 +817,14 @@ public struct UpdateAccessSourceOutput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The IP address type of the updated access source.
-    /// This member is required.
     public var ipAddressType: Route53GlobalResolverClientTypes.IpAddressType?
     /// The name of the updated access source.
     public var name: Swift.String?
     /// The protocol of the updated access source.
     /// This member is required.
     public var `protocol`: Route53GlobalResolverClientTypes.DnsProtocol?
+    /// The name of the segment associated with this access source.
+    public var segment: Swift.String?
     /// The current status of the updated access source.
     /// This member is required.
     public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
@@ -794,24 +834,28 @@ public struct UpdateAccessSourceOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
-        cidr: Swift.String? = nil,
+        cidr: Swift.String? = "",
+        coreNetworkEndpointId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         dnsViewId: Swift.String? = nil,
         id: Swift.String? = nil,
-        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = nil,
+        ipAddressType: Route53GlobalResolverClientTypes.IpAddressType? = .`none`,
         name: Swift.String? = nil,
         `protocol`: Route53GlobalResolverClientTypes.DnsProtocol? = nil,
+        segment: Swift.String? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
         self.cidr = cidr
+        self.coreNetworkEndpointId = coreNetworkEndpointId
         self.createdAt = createdAt
         self.dnsViewId = dnsViewId
         self.id = id
         self.ipAddressType = ipAddressType
         self.name = name
         self.`protocol` = `protocol`
+        self.segment = segment
         self.status = status
         self.updatedAt = updatedAt
     }
@@ -1936,6 +1980,587 @@ public struct BatchUpdateFirewallRuleOutput: Swift.Sendable {
 
 extension Route53GlobalResolverClientTypes {
 
+    /// Indicates the scope of Amazon Web Services Regions that a DNS IP address of a core network endpoint applies to. Valid values are the following:
+    ///
+    /// * ALL - The IP address applies to all Amazon Web Services Regions in which the core network endpoint is available.
+    ///
+    /// * REGIONAL - The IP address applies only to the specific Amazon Web Services Regions that you identify in the regions field.
+    public enum RegionScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The IP address applies to all Amazon Web Services Regions in which the core network endpoint is available.
+        case all
+        /// The IP address applies only to the specific Amazon Web Services Regions that you identify in the regions field.
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionScopeType] {
+            return [
+                .all,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// A DNS IP address configuration that you provide when you create a core network endpoint. Each item specifies an IP address for the endpoint to receive DNS queries, along with its DNS label, and the scope and Amazon Web Services Regions in which the address applies.
+    public struct CoreNetworkEndpointDnsIpInputItem: Swift.Sendable {
+        /// The DNS label to associate with the IP address.
+        /// This member is required.
+        public var dnsLabel: Swift.String?
+        /// The IPv4 address for the core network endpoint to receive DNS queries.
+        public var ipv4Address: Swift.String?
+        /// The IPv6 address for the core network endpoint to receive DNS queries.
+        public var ipv6Address: Swift.String?
+        /// Indicates whether the IP address applies to all Amazon Web Services Regions or only to the specific Regions that you identify. When the value is REGIONAL, the Regions are listed in the regions field.
+        /// This member is required.
+        public var regionScope: Route53GlobalResolverClientTypes.RegionScopeType?
+        /// The Amazon Web Services Regions in which the IP address applies when the region scope is REGIONAL.
+        public var regions: [Swift.String]?
+
+        public init(
+            dnsLabel: Swift.String? = nil,
+            ipv4Address: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
+            regionScope: Route53GlobalResolverClientTypes.RegionScopeType? = nil,
+            regions: [Swift.String]? = nil
+        ) {
+            self.dnsLabel = dnsLabel
+            self.ipv4Address = ipv4Address
+            self.ipv6Address = ipv6Address
+            self.regionScope = regionScope
+            self.regions = regions
+        }
+    }
+}
+
+public struct CreateCoreNetworkEndpointInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that ensures the request is idempotent. Making the same request multiple times with the same clientToken produces the same result every time.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Cloud WAN core network to connect to this endpoint.
+    /// This member is required.
+    public var coreNetworkArn: Swift.String?
+    /// The ID of the Route 53 Global Resolver to associate with this core network endpoint.
+    /// This member is required.
+    public var globalResolverId: Swift.String?
+    /// The IP addresses that the core network endpoint uses to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    /// This member is required.
+    public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpInputItem]?
+    /// A descriptive name for the core network endpoint.
+    public var name: Swift.String?
+    /// An array of user-defined keys and optional values that you can use to categorize and organize the core network endpoint.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        coreNetworkArn: Swift.String? = nil,
+        globalResolverId: Swift.String? = nil,
+        ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpInputItem]? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.coreNetworkArn = coreNetworkArn
+        self.globalResolverId = globalResolverId
+        self.ipAddresses = ipAddresses
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// A DNS IP address configuration returned for a core network endpoint. Each item describes an IP address that the endpoint uses to receive DNS queries, along with its DNS label and name, and the scope and Amazon Web Services Regions in which the address applies.
+    public struct CoreNetworkEndpointDnsIpItem: Swift.Sendable {
+        /// The DNS label associated with the IP address.
+        /// This member is required.
+        public var dnsLabel: Swift.String?
+        /// The fully qualified DNS name associated with the IP address.
+        public var dnsName: Swift.String?
+        /// The IPv4 address that the core network endpoint uses to receive DNS queries.
+        public var ipv4Address: Swift.String?
+        /// The IPv6 address that the core network endpoint uses to receive DNS queries.
+        public var ipv6Address: Swift.String?
+        /// Indicates whether the IP address applies to all Amazon Web Services Regions or only to the specific Regions that you identify. When the value is REGIONAL, the Regions are listed in the regions field.
+        /// This member is required.
+        public var regionScope: Route53GlobalResolverClientTypes.RegionScopeType?
+        /// The Amazon Web Services Regions in which the IP address applies when the region scope is REGIONAL.
+        public var regions: [Swift.String]?
+
+        public init(
+            dnsLabel: Swift.String? = nil,
+            dnsName: Swift.String? = nil,
+            ipv4Address: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
+            regionScope: Route53GlobalResolverClientTypes.RegionScopeType? = nil,
+            regions: [Swift.String]? = nil
+        ) {
+            self.dnsLabel = dnsLabel
+            self.dnsName = dnsName
+            self.ipv4Address = ipv4Address
+            self.ipv6Address = ipv6Address
+            self.regionScope = regionScope
+            self.regions = regions
+        }
+    }
+}
+
+public struct CreateCoreNetworkEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the core network endpoint.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Web Services Regions in which the core network endpoint is available.
+    /// This member is required.
+    public var availableRegions: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Cloud WAN core network connected to the endpoint.
+    /// This member is required.
+    public var coreNetworkArn: Swift.String?
+    /// The date and time when the core network endpoint was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the Route 53 Global Resolver associated with the core network endpoint.
+    /// This member is required.
+    public var globalResolverId: Swift.String?
+    /// The unique identifier of the core network endpoint.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The IP addresses that the core network endpoint uses to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    /// This member is required.
+    public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]?
+    /// The name of the core network endpoint.
+    public var name: Swift.String?
+    /// The current status of the core network endpoint.
+    /// This member is required.
+    public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
+    /// The date and time when the core network endpoint was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        availableRegions: [Swift.String]? = nil,
+        coreNetworkArn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        globalResolverId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]? = nil,
+        name: Swift.String? = nil,
+        status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.availableRegions = availableRegions
+        self.coreNetworkArn = coreNetworkArn
+        self.createdAt = createdAt
+        self.globalResolverId = globalResolverId
+        self.id = id
+        self.ipAddresses = ipAddresses
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct DeleteCoreNetworkEndpointInput: Swift.Sendable {
+    /// The unique identifier of the core network endpoint to delete.
+    /// This member is required.
+    public var coreNetworkEndpointId: Swift.String?
+
+    public init(
+        coreNetworkEndpointId: Swift.String? = nil
+    ) {
+        self.coreNetworkEndpointId = coreNetworkEndpointId
+    }
+}
+
+public struct DeleteCoreNetworkEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted core network endpoint.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Web Services Regions in which the deleted core network endpoint was available.
+    /// This member is required.
+    public var availableRegions: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Cloud WAN core network that was connected to the deleted endpoint.
+    /// This member is required.
+    public var coreNetworkArn: Swift.String?
+    /// The date and time when the core network endpoint was originally created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the Route 53 Global Resolver that was associated with the deleted core network endpoint.
+    /// This member is required.
+    public var globalResolverId: Swift.String?
+    /// The unique identifier of the deleted core network endpoint.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The IP addresses that the deleted core network endpoint used to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    /// This member is required.
+    public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]?
+    /// The name of the deleted core network endpoint.
+    public var name: Swift.String?
+    /// The final status of the deleted core network endpoint.
+    /// This member is required.
+    public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
+    /// The date and time when the core network endpoint was last updated before deletion.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        availableRegions: [Swift.String]? = nil,
+        coreNetworkArn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        globalResolverId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]? = nil,
+        name: Swift.String? = nil,
+        status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.availableRegions = availableRegions
+        self.coreNetworkArn = coreNetworkArn
+        self.createdAt = createdAt
+        self.globalResolverId = globalResolverId
+        self.id = id
+        self.ipAddresses = ipAddresses
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetCoreNetworkEndpointInput: Swift.Sendable {
+    /// The unique identifier of the core network endpoint to retrieve information about.
+    /// This member is required.
+    public var coreNetworkEndpointId: Swift.String?
+
+    public init(
+        coreNetworkEndpointId: Swift.String? = nil
+    ) {
+        self.coreNetworkEndpointId = coreNetworkEndpointId
+    }
+}
+
+public struct GetCoreNetworkEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the core network endpoint.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Web Services Regions in which the core network endpoint is available.
+    /// This member is required.
+    public var availableRegions: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Cloud WAN core network connected to the endpoint.
+    /// This member is required.
+    public var coreNetworkArn: Swift.String?
+    /// The date and time when the core network endpoint was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the Route 53 Global Resolver associated with the core network endpoint.
+    /// This member is required.
+    public var globalResolverId: Swift.String?
+    /// The unique identifier of the core network endpoint.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The IP addresses that the core network endpoint uses to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    /// This member is required.
+    public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]?
+    /// The name of the core network endpoint.
+    public var name: Swift.String?
+    /// The current status of the core network endpoint.
+    /// This member is required.
+    public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
+    /// The date and time when the core network endpoint was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        availableRegions: [Swift.String]? = nil,
+        coreNetworkArn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        globalResolverId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]? = nil,
+        name: Swift.String? = nil,
+        status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.availableRegions = availableRegions
+        self.coreNetworkArn = coreNetworkArn
+        self.createdAt = createdAt
+        self.globalResolverId = globalResolverId
+        self.id = id
+        self.ipAddresses = ipAddresses
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListCoreNetworkEndpointsInput: Swift.Sendable {
+    /// Values to filter the results.
+    public var filters: [Swift.String: [Swift.String]]?
+    /// The maximum number of results to retrieve in a single call.
+    public var maxResults: Swift.Int?
+    /// A pagination token used for large sets of results that can't be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [Swift.String: [Swift.String]]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// Summary information about a core network endpoint. Route 53 Global Resolver returns one of these items for each endpoint in the response to a ListCoreNetworkEndpoints request. Each item describes the endpoint's identifiers, the Global Resolver and Cloud WAN core network that it connects, its DNS IP addresses, and its current status.
+    public struct CoreNetworkEndpointsItem: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the core network endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Web Services Regions in which the core network endpoint is available.
+        /// This member is required.
+        public var availableRegions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Cloud WAN core network that the endpoint connects to.
+        /// This member is required.
+        public var coreNetworkArn: Swift.String?
+        /// The date and time when the core network endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the Route 53 Global Resolver that the core network endpoint is associated with.
+        /// This member is required.
+        public var globalResolverId: Swift.String?
+        /// The unique identifier of the core network endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The DNS IP addresses that the core network endpoint uses to receive DNS queries.
+        /// This member is required.
+        public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]?
+        /// The name of the core network endpoint.
+        public var name: Swift.String?
+        /// The current status of the core network endpoint.
+        /// This member is required.
+        public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
+        /// The date and time when the core network endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            availableRegions: [Swift.String]? = nil,
+            coreNetworkArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            globalResolverId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]? = nil,
+            name: Swift.String? = nil,
+            status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.availableRegions = availableRegions
+            self.coreNetworkArn = coreNetworkArn
+            self.createdAt = createdAt
+            self.globalResolverId = globalResolverId
+            self.id = id
+            self.ipAddresses = ipAddresses
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListCoreNetworkEndpointsOutput: Swift.Sendable {
+    /// An array of information about the core network endpoints.
+    /// This member is required.
+    public var coreNetworkEndpoints: [Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem]?
+    /// A pagination token used for large sets of results that can't be returned in a single response. Provide this token in the next call to get the results not returned in this call.
+    public var nextToken: Swift.String?
+
+    public init(
+        coreNetworkEndpoints: [Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.coreNetworkEndpoints = coreNetworkEndpoints
+        self.nextToken = nextToken
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// The type of change to apply to a DNS IP address of a core network endpoint during an update. Valid values are the following:
+    ///
+    /// * ADD - Adds a new DNS IP address to the core network endpoint.
+    ///
+    /// * REMOVE - Removes an existing DNS IP address from the core network endpoint.
+    ///
+    /// * UPDATE - Updates the configuration of an existing DNS IP address on the core network endpoint.
+    public enum UpdateIpAddressOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Adds a new DNS IP address to the core network endpoint.
+        case add
+        /// Removes an existing DNS IP address from the core network endpoint.
+        case remove
+        /// Updates the configuration of an existing DNS IP address on the core network endpoint.
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateIpAddressOperation] {
+            return [
+                .add,
+                .remove,
+                .update
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .remove: return "REMOVE"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// A single change to apply to the DNS IP addresses of a core network endpoint when you update it. Each entry specifies the operation to perform and the IP address details that the operation acts on.
+    public struct UpdateIpAddressEntry: Swift.Sendable {
+        /// The DNS label associated with the IP address.
+        public var dnsLabel: Swift.String?
+        /// The IPv4 address that the operation acts on.
+        public var ipv4Address: Swift.String?
+        /// The IPv6 address that the operation acts on.
+        public var ipv6Address: Swift.String?
+        /// The operation to perform on the IP address. Valid values are ADD, REMOVE, and UPDATE.
+        /// This member is required.
+        public var operation: Route53GlobalResolverClientTypes.UpdateIpAddressOperation?
+        /// Indicates whether the IP address applies to all Amazon Web Services Regions or only to the specific Regions that you identify. When the value is REGIONAL, the Regions are listed in the regions field.
+        public var regionScope: Route53GlobalResolverClientTypes.RegionScopeType?
+        /// The Amazon Web Services Regions in which the IP address applies when the region scope is REGIONAL.
+        public var regions: [Swift.String]?
+
+        public init(
+            dnsLabel: Swift.String? = nil,
+            ipv4Address: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
+            operation: Route53GlobalResolverClientTypes.UpdateIpAddressOperation? = nil,
+            regionScope: Route53GlobalResolverClientTypes.RegionScopeType? = nil,
+            regions: [Swift.String]? = nil
+        ) {
+            self.dnsLabel = dnsLabel
+            self.ipv4Address = ipv4Address
+            self.ipv6Address = ipv6Address
+            self.operation = operation
+            self.regionScope = regionScope
+            self.regions = regions
+        }
+    }
+}
+
+public struct UpdateCoreNetworkEndpointInput: Swift.Sendable {
+    /// The unique identifier of the core network endpoint to update.
+    /// This member is required.
+    public var coreNetworkEndpointId: Swift.String?
+    /// The name of the core network endpoint.
+    public var name: Swift.String?
+    /// The IP address changes to apply to the core network endpoint. Use this parameter to add or remove the IP addresses that the endpoint uses to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    public var updateIpAddresses: [Route53GlobalResolverClientTypes.UpdateIpAddressEntry]?
+
+    public init(
+        coreNetworkEndpointId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updateIpAddresses: [Route53GlobalResolverClientTypes.UpdateIpAddressEntry]? = nil
+    ) {
+        self.coreNetworkEndpointId = coreNetworkEndpointId
+        self.name = name
+        self.updateIpAddresses = updateIpAddresses
+    }
+}
+
+public struct UpdateCoreNetworkEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated core network endpoint.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Web Services Regions in which the updated core network endpoint is available.
+    /// This member is required.
+    public var availableRegions: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Cloud WAN core network connected to the updated endpoint.
+    /// This member is required.
+    public var coreNetworkArn: Swift.String?
+    /// The date and time when the core network endpoint was originally created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the Route 53 Global Resolver associated with the updated core network endpoint.
+    /// This member is required.
+    public var globalResolverId: Swift.String?
+    /// The unique identifier of the updated core network endpoint.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The IP addresses that the updated core network endpoint uses to resolve DNS queries within the Amazon Web Services Cloud WAN core network.
+    /// This member is required.
+    public var ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]?
+    /// The name of the updated core network endpoint.
+    public var name: Swift.String?
+    /// The current status of the updated core network endpoint.
+    /// This member is required.
+    public var status: Route53GlobalResolverClientTypes.CRResourceStatus?
+    /// The date and time when the core network endpoint was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        availableRegions: [Swift.String]? = nil,
+        coreNetworkArn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        globalResolverId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddresses: [Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem]? = nil,
+        name: Swift.String? = nil,
+        status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.availableRegions = availableRegions
+        self.coreNetworkArn = coreNetworkArn
+        self.createdAt = createdAt
+        self.globalResolverId = globalResolverId
+        self.id = id
+        self.ipAddresses = ipAddresses
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
     public enum DnsSecValidationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -2435,6 +3060,38 @@ extension Route53GlobalResolverClientTypes {
     }
 }
 
+extension Route53GlobalResolverClientTypes {
+
+    public enum PublicIpStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabledReleased
+        case disabledReserved
+        case enabledReserved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublicIpStatus] {
+            return [
+                .disabledReleased,
+                .disabledReserved,
+                .enabledReserved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabledReleased: return "DISABLED_RELEASED"
+            case .disabledReserved: return "DISABLED_RESERVED"
+            case .enabledReserved: return "ENABLED_RESERVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateGlobalResolverInput: Swift.Sendable {
     /// A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created.
     public var clientToken: Swift.String?
@@ -2447,6 +3104,14 @@ public struct CreateGlobalResolverInput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
     public var observabilityRegion: Swift.String?
+    /// Specifies the public IP connectivity to configure for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+    ///
+    /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+    public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
     /// List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
     /// This member is required.
     public var regions: [Swift.String]?
@@ -2459,6 +3124,7 @@ public struct CreateGlobalResolverInput: Swift.Sendable {
         ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
+        publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
         regions: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -2467,6 +3133,7 @@ public struct CreateGlobalResolverInput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.publicIpStatus = publicIpStatus
         self.regions = regions
         self.tags = tags
     }
@@ -2502,6 +3169,14 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Region where observability data for the Route 53 Global Resolver is stored.
     public var observabilityRegion: Swift.String?
+    /// The public IP connectivity configured for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+    ///
+    /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+    public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
     /// The Amazon Web Services Regions where the Route 53 Global Resolver is deployed and operational.
     /// This member is required.
     public var regions: [Swift.String]?
@@ -2524,6 +3199,7 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
         ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
+        publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
         regions: [Swift.String]? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
@@ -2539,6 +3215,7 @@ public struct CreateGlobalResolverOutput: Swift.Sendable {
         self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.publicIpStatus = publicIpStatus
         self.regions = regions
         self.status = status
         self.updatedAt = updatedAt
@@ -3227,7 +3904,7 @@ extension Route53GlobalResolverClientTypes {
 }
 
 public struct ListDNSViewsOutput: Swift.Sendable {
-    /// An array of information about the DNS views, such as whether DNSSEC is enabled, creation time, etc.
+    /// An array of information about the DNS views, such as whether DNSSEC is enabled and the creation time.
     /// This member is required.
     public var dnsViews: [Route53GlobalResolverClientTypes.DNSViewSummary]?
     /// A pagination token used for large sets of results that can't be returned in a single response. Provide this token in the next call to get the results not returned in this call.
@@ -4023,6 +4700,14 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
+    /// The public IP connectivity configured for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+    ///
+    /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+    public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
     /// The Amazon Web Services Regions in which the Global Resolver operate.
     /// This member is required.
     public var regions: [Swift.String]?
@@ -4045,6 +4730,7 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
         ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
+        publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
         regions: [Swift.String]? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
@@ -4060,6 +4746,7 @@ public struct GetGlobalResolverOutput: Swift.Sendable {
         self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.publicIpStatus = publicIpStatus
         self.regions = regions
         self.status = status
         self.updatedAt = updatedAt
@@ -4114,6 +4801,14 @@ extension Route53GlobalResolverClientTypes {
         public var name: Swift.String?
         /// The Amazon Web Services Region where observability data is collected for the global resolver.
         public var observabilityRegion: Swift.String?
+        /// The public IP connectivity configured for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+        ///
+        /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+        ///
+        /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+        ///
+        /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+        public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
         /// The Amazon Web Services Regions where the global resolver is deployed.
         /// This member is required.
         public var regions: [Swift.String]?
@@ -4136,6 +4831,7 @@ extension Route53GlobalResolverClientTypes {
             ipv6Addresses: [Swift.String]? = nil,
             name: Swift.String? = nil,
             observabilityRegion: Swift.String? = nil,
+            publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
             regions: [Swift.String]? = nil,
             status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
             updatedAt: Foundation.Date? = nil
@@ -4151,6 +4847,7 @@ extension Route53GlobalResolverClientTypes {
             self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
+            self.publicIpStatus = publicIpStatus
             self.regions = regions
             self.status = status
             self.updatedAt = updatedAt
@@ -4186,6 +4883,14 @@ public struct UpdateGlobalResolverInput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
+    /// Specifies the public IP connectivity to configure for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+    ///
+    /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+    public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
     /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
     public var regions: [Swift.String]?
 
@@ -4195,6 +4900,7 @@ public struct UpdateGlobalResolverInput: Swift.Sendable {
         ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
+        publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
         regions: [Swift.String]? = nil
     ) {
         self.description = description
@@ -4202,6 +4908,7 @@ public struct UpdateGlobalResolverInput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.publicIpStatus = publicIpStatus
         self.regions = regions
     }
 }
@@ -4236,6 +4943,14 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
+    /// The public IP connectivity configured for the Route 53 Global Resolver. Public IP addresses let DNS clients send queries to the resolver over the internet. Valid values are the following:
+    ///
+    /// * ENABLED_RESERVED - Public IP connectivity is enabled, and the global anycast public IP addresses are reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RESERVED - Public IP connectivity is disabled, and the global anycast public IP addresses remain reserved for the Route 53 Global Resolver.
+    ///
+    /// * DISABLED_RELEASED - Public IP connectivity is disabled, and the global anycast public IP addresses are released.
+    public var publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus?
     /// The Amazon Web Services Regions in which the Global Resolver will operate.
     /// This member is required.
     public var regions: [Swift.String]?
@@ -4258,6 +4973,7 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
         ipv6Addresses: [Swift.String]? = nil,
         name: Swift.String? = nil,
         observabilityRegion: Swift.String? = nil,
+        publicIpStatus: Route53GlobalResolverClientTypes.PublicIpStatus? = nil,
         regions: [Swift.String]? = nil,
         status: Route53GlobalResolverClientTypes.CRResourceStatus? = nil,
         updatedAt: Foundation.Date? = nil
@@ -4273,6 +4989,7 @@ public struct UpdateGlobalResolverOutput: Swift.Sendable {
         self.ipv6Addresses = ipv6Addresses
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.publicIpStatus = publicIpStatus
         self.regions = regions
         self.status = status
         self.updatedAt = updatedAt
@@ -4812,6 +5529,13 @@ extension CreateAccessTokenInput {
     }
 }
 
+extension CreateCoreNetworkEndpointInput {
+
+    static func urlPathProvider(_ value: CreateCoreNetworkEndpointInput) -> Swift.String? {
+        return "/core-network-endpoints"
+    }
+}
+
 extension CreateDNSViewInput {
 
     static func urlPathProvider(_ value: CreateDNSViewInput) -> Swift.String? {
@@ -4863,6 +5587,16 @@ extension DeleteAccessTokenInput {
             return nil
         }
         return "/tokens/\(accessTokenId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCoreNetworkEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteCoreNetworkEndpointInput) -> Swift.String? {
+        guard let coreNetworkEndpointId = value.coreNetworkEndpointId else {
+            return nil
+        }
+        return "/core-network-endpoints/\(coreNetworkEndpointId.urlPercentEncoding())"
     }
 }
 
@@ -4956,6 +5690,16 @@ extension GetAccessTokenInput {
             return nil
         }
         return "/tokens/\(accessTokenId.urlPercentEncoding())"
+    }
+}
+
+extension GetCoreNetworkEndpointInput {
+
+    static func urlPathProvider(_ value: GetCoreNetworkEndpointInput) -> Swift.String? {
+        guard let coreNetworkEndpointId = value.coreNetworkEndpointId else {
+            return nil
+        }
+        return "/core-network-endpoints/\(coreNetworkEndpointId.urlPercentEncoding())"
     }
 }
 
@@ -5076,6 +5820,40 @@ extension ListAccessTokensInput {
 extension ListAccessTokensInput {
 
     static func queryItemProvider(_ value: ListAccessTokensInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let filters = value.filters {
+            let currentQueryItemNames = items.map({$0.name})
+            filters.forEach { key0, value0 in
+                if !currentQueryItemNames.contains(key0) {
+                    value0.forEach { value1 in
+                        let queryItem = Smithy.URIQueryItem(name: key0.urlPercentEncoding(), value: value1.urlPercentEncoding())
+                        items.append(queryItem)
+                    }
+                }
+            }
+        }
+        return items
+    }
+}
+
+extension ListCoreNetworkEndpointsInput {
+
+    static func urlPathProvider(_ value: ListCoreNetworkEndpointsInput) -> Swift.String? {
+        return "/core-network-endpoints"
+    }
+}
+
+extension ListCoreNetworkEndpointsInput {
+
+    static func queryItemProvider(_ value: ListCoreNetworkEndpointsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -5359,6 +6137,16 @@ extension UpdateAccessTokenInput {
     }
 }
 
+extension UpdateCoreNetworkEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateCoreNetworkEndpointInput) -> Swift.String? {
+        guard let coreNetworkEndpointId = value.coreNetworkEndpointId else {
+            return nil
+        }
+        return "/core-network-endpoints/\(coreNetworkEndpointId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDNSViewInput {
 
     static func urlPathProvider(_ value: UpdateDNSViewInput) -> Swift.String? {
@@ -5448,10 +6236,12 @@ extension CreateAccessSourceInput {
         guard let value else { return }
         try writer["cidr"].write(value.cidr)
         try writer["clientToken"].write(value.clientToken)
+        try writer["coreNetworkEndpointId"].write(value.coreNetworkEndpointId)
         try writer["dnsViewId"].write(value.dnsViewId)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["protocol"].write(value.`protocol`)
+        try writer["segment"].write(value.segment)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -5462,6 +6252,19 @@ extension CreateAccessTokenInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["expiresAt"].writeTimestamp(value.expiresAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateCoreNetworkEndpointInput {
+
+    static func write(value: CreateCoreNetworkEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["coreNetworkArn"].write(value.coreNetworkArn)
+        try writer["globalResolverId"].write(value.globalResolverId)
+        try writer["ipAddresses"].writeList(value.ipAddresses, memberWritingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpInputItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5522,6 +6325,7 @@ extension CreateGlobalResolverInput {
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["observabilityRegion"].write(value.observabilityRegion)
+        try writer["publicIpStatus"].write(value.publicIpStatus)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5567,6 +6371,7 @@ extension UpdateAccessSourceInput {
     static func write(value: UpdateAccessSourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidr"].write(value.cidr)
+        try writer["dnsViewId"].write(value.dnsViewId)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["protocol"].write(value.`protocol`)
@@ -5578,6 +6383,15 @@ extension UpdateAccessTokenInput {
     static func write(value: UpdateAccessTokenInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateCoreNetworkEndpointInput {
+
+    static func write(value: UpdateCoreNetworkEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["updateIpAddresses"].writeList(value.updateIpAddresses, memberWritingClosure: Route53GlobalResolverClientTypes.UpdateIpAddressEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5628,6 +6442,7 @@ extension UpdateGlobalResolverInput {
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["observabilityRegion"].write(value.observabilityRegion)
+        try writer["publicIpStatus"].write(value.publicIpStatus)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5707,12 +6522,14 @@ extension CreateAccessSourceOutput {
         var value = CreateAccessSourceOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.coreNetworkEndpointId = try reader["coreNetworkEndpointId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? Route53GlobalResolverClientTypes.IpAddressType.`none`
         value.name = try reader["name"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.segment = try reader["segment"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -5735,6 +6552,27 @@ extension CreateAccessTokenOutput {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateCoreNetworkEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCoreNetworkEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCoreNetworkEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availableRegions = try reader["availableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddresses = try reader["ipAddresses"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5828,6 +6666,7 @@ extension CreateGlobalResolverOutput {
         value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
+        value.publicIpStatus = try reader["publicIpStatus"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -5844,12 +6683,14 @@ extension DeleteAccessSourceOutput {
         var value = DeleteAccessSourceOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.coreNetworkEndpointId = try reader["coreNetworkEndpointId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? Route53GlobalResolverClientTypes.IpAddressType.`none`
         value.name = try reader["name"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.segment = try reader["segment"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -5866,6 +6707,27 @@ extension DeleteAccessTokenOutput {
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.id = try reader["id"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteCoreNetworkEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCoreNetworkEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCoreNetworkEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availableRegions = try reader["availableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddresses = try reader["ipAddresses"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6035,12 +6897,14 @@ extension GetAccessSourceOutput {
         var value = GetAccessSourceOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.coreNetworkEndpointId = try reader["coreNetworkEndpointId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? Route53GlobalResolverClientTypes.IpAddressType.`none`
         value.name = try reader["name"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.segment = try reader["segment"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -6065,6 +6929,27 @@ extension GetAccessTokenOutput {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetCoreNetworkEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCoreNetworkEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCoreNetworkEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availableRegions = try reader["availableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddresses = try reader["ipAddresses"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6160,6 +7045,7 @@ extension GetGlobalResolverOutput {
         value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
+        value.publicIpStatus = try reader["publicIpStatus"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -6236,6 +7122,19 @@ extension ListAccessTokensOutput {
         let reader = responseReader
         var value = ListAccessTokensOutput()
         value.accessTokens = try reader["accessTokens"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.AccessTokenItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCoreNetworkEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoreNetworkEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCoreNetworkEndpointsOutput()
+        value.coreNetworkEndpoints = try reader["coreNetworkEndpoints"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6380,12 +7279,14 @@ extension UpdateAccessSourceOutput {
         var value = UpdateAccessSourceOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.coreNetworkEndpointId = try reader["coreNetworkEndpointId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? Route53GlobalResolverClientTypes.IpAddressType.`none`
         value.name = try reader["name"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.segment = try reader["segment"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -6401,6 +7302,27 @@ extension UpdateAccessTokenOutput {
         var value = UpdateAccessTokenOutput()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateCoreNetworkEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCoreNetworkEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCoreNetworkEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availableRegions = try reader["availableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddresses = try reader["ipAddresses"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6488,6 +7410,7 @@ extension UpdateGlobalResolverOutput {
         value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.observabilityRegion = try reader["observabilityRegion"].readIfPresent()
+        value.publicIpStatus = try reader["publicIpStatus"].readIfPresent()
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -6625,6 +7548,26 @@ enum CreateAccessTokenOutputError {
     }
 }
 
+enum CreateCoreNetworkEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDNSViewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6724,6 +7667,25 @@ enum DeleteAccessSourceOutputError {
 }
 
 enum DeleteAccessTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCoreNetworkEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6913,6 +7875,24 @@ enum GetAccessTokenOutputError {
     }
 }
 
+enum GetCoreNetworkEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDNSViewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7076,6 +8056,23 @@ enum ListAccessTokensOutputError {
     }
 }
 
+enum ListCoreNetworkEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDNSViewsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7225,7 +8222,10 @@ enum ListTagsForResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7239,8 +8239,11 @@ enum TagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7255,7 +8258,10 @@ enum UntagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7283,6 +8289,26 @@ enum UpdateAccessSourceOutputError {
 }
 
 enum UpdateAccessTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCoreNetworkEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7520,12 +8546,14 @@ extension Route53GlobalResolverClientTypes.AccessSourcesItem {
         var value = Route53GlobalResolverClientTypes.AccessSourcesItem()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.coreNetworkEndpointId = try reader["coreNetworkEndpointId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? Route53GlobalResolverClientTypes.IpAddressType.`none`
         value.name = try reader["name"].readIfPresent()
         value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.segment = try reader["segment"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -7701,6 +8729,52 @@ extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleResult {
     }
 }
 
+extension Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dnsLabel"].write(value.dnsLabel)
+        try writer["ipv4Address"].write(value.ipv4Address)
+        try writer["ipv6Address"].write(value.ipv6Address)
+        try writer["regionScope"].write(value.regionScope)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem()
+        value.ipv4Address = try reader["ipv4Address"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
+        value.dnsLabel = try reader["dnsLabel"].readIfPresent() ?? ""
+        value.dnsName = try reader["dnsName"].readIfPresent()
+        value.regionScope = try reader["regionScope"].readIfPresent() ?? .sdkUnknown("")
+        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.CoreNetworkEndpointsItem()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.availableRegions = try reader["availableRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddresses = try reader["ipAddresses"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.CoreNetworkEndpointDnsIpItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension Route53GlobalResolverClientTypes.DNSViewSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.DNSViewSummary {
@@ -7784,6 +8858,7 @@ extension Route53GlobalResolverClientTypes.GlobalResolversItem {
         value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.publicIpStatus = try reader["publicIpStatus"].readIfPresent()
         return value
     }
 }
@@ -7837,6 +8912,19 @@ extension Route53GlobalResolverClientTypes.SharedDNSViewSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.UpdateIpAddressEntry {
+
+    static func write(value: Route53GlobalResolverClientTypes.UpdateIpAddressEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dnsLabel"].write(value.dnsLabel)
+        try writer["ipv4Address"].write(value.ipv4Address)
+        try writer["ipv6Address"].write(value.ipv6Address)
+        try writer["operation"].write(value.operation)
+        try writer["regionScope"].write(value.regionScope)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

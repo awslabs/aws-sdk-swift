@@ -334,6 +334,29 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// Contains additional tax information associated with your Tax Registration Number (TRN) in Colombia, derived from your Registro Único Tributario (RUT) document.
+    public struct ColombiaAdditionalInfo: Swift.Sendable {
+        /// The issue date of the RUT document from Box 61, in YYYY-MM-DD format.
+        public var issueDate: Swift.String?
+        /// The DIAN fiscal responsibility codes from Box 53 of the RUT document (for example, 48 for value-added tax (VAT) responsibility).
+        public var responsibilityCodes: [Swift.String]?
+        /// The taxpayer category from Box 24 of the RUT document (1 for a legal entity, 2 for a natural person).
+        public var taxpayerTypeCode: Swift.String?
+
+        public init(
+            issueDate: Swift.String? = nil,
+            responsibilityCodes: [Swift.String]? = nil,
+            taxpayerTypeCode: Swift.String? = nil
+        ) {
+            self.issueDate = issueDate
+            self.responsibilityCodes = responsibilityCodes
+            self.taxpayerTypeCode = taxpayerTypeCode
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// Additional tax information to specify for a TRN in Egypt.
     public struct EgyptAdditionalInfo: Swift.Sendable {
         /// The unique identification number provided by the Egypt Tax Authority.
@@ -1227,6 +1250,8 @@ extension TaxSettingsClientTypes {
         public var canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo?
         /// Additional tax information associated with your TRN in Chile.
         public var chileAdditionalInfo: TaxSettingsClientTypes.ChileAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Colombia.
+        public var colombiaAdditionalInfo: TaxSettingsClientTypes.ColombiaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Egypt.
         public var egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo?
         /// Additional tax information associated with your TRN in Estonia.
@@ -1281,6 +1306,7 @@ extension TaxSettingsClientTypes {
             brazilAdditionalInfo: TaxSettingsClientTypes.BrazilAdditionalInfo? = nil,
             canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo? = nil,
             chileAdditionalInfo: TaxSettingsClientTypes.ChileAdditionalInfo? = nil,
+            colombiaAdditionalInfo: TaxSettingsClientTypes.ColombiaAdditionalInfo? = nil,
             egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo? = nil,
             estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo? = nil,
             franceAdditionalInfo: TaxSettingsClientTypes.FranceAdditionalInfo? = nil,
@@ -1310,6 +1336,7 @@ extension TaxSettingsClientTypes {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.chileAdditionalInfo = chileAdditionalInfo
+            self.colombiaAdditionalInfo = colombiaAdditionalInfo
             self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.franceAdditionalInfo = franceAdditionalInfo
@@ -1341,12 +1368,17 @@ extension TaxSettingsClientTypes {
 extension TaxSettingsClientTypes {
 
     public enum TaxRegistrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdi
+        case ci
         case cnpj
         case cpf
+        case cuit
         case gst
+        case nie
         case nip
         case nric
         case pan
+        case rut
         case sst
         case tin
         case vat
@@ -1354,12 +1386,17 @@ extension TaxSettingsClientTypes {
 
         public static var allCases: [TaxRegistrationType] {
             return [
+                .cdi,
+                .ci,
                 .cnpj,
                 .cpf,
+                .cuit,
                 .gst,
+                .nie,
                 .nip,
                 .nric,
                 .pan,
+                .rut,
                 .sst,
                 .tin,
                 .vat
@@ -1373,12 +1410,17 @@ extension TaxSettingsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cdi: return "CDI"
+            case .ci: return "CI"
             case .cnpj: return "CNPJ"
             case .cpf: return "CPF"
+            case .cuit: return "CUIT"
             case .gst: return "GST"
+            case .nie: return "NIE"
             case .nip: return "NIP"
             case .nric: return "NRIC"
             case .pan: return "PAN"
+            case .rut: return "RUT"
             case .sst: return "SST"
             case .tin: return "TIN"
             case .vat: return "VAT"
@@ -1457,6 +1499,25 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// The reason that a tax registration was rejected.
+    public struct TaxRegistrationStatusReason: Swift.Sendable {
+        /// A code that identifies the rejection reason (for example, NIT_MISMATCH or ENCRYPTED_PDF). If the reason isn't recognized, the value is OTHER. New codes might be added in the future.
+        public var code: Swift.String?
+        /// A description of the rejection reason in English.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// The metadata for your tax document.
     public struct TaxDocumentMetadata: Swift.Sendable {
         /// The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. If you update your tax registration, the existing taxDocumentAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours.
@@ -1498,9 +1559,11 @@ extension TaxSettingsClientTypes {
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government.Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
         public var sector: TaxSettingsClientTypes.Sector?
-        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected.
+        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected. If the status is Rejected, see statusReason for the reason.
         /// This member is required.
         public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+        /// The reason that your TRN was rejected. This is returned only when status is Rejected.
+        public var statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason?
         /// The metadata for your tax document.
         public var taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]?
 
@@ -1513,6 +1576,7 @@ extension TaxSettingsClientTypes {
             registrationType: TaxSettingsClientTypes.TaxRegistrationType? = nil,
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
+            statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
         ) {
             self.additionalTaxInformation = additionalTaxInformation
@@ -1523,6 +1587,7 @@ extension TaxSettingsClientTypes {
             self.registrationType = registrationType
             self.sector = sector
             self.status = status
+            self.statusReason = statusReason
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
@@ -2530,9 +2595,11 @@ extension TaxSettingsClientTypes {
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government. Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
         public var sector: TaxSettingsClientTypes.Sector?
-        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected.
+        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected. If the status is Rejected, see statusReason for the reason.
         /// This member is required.
         public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+        /// The reason that your TRN was rejected. This is returned only when status is Rejected.
+        public var statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason?
         /// The metadata for your tax document.
         public var taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]?
 
@@ -2545,6 +2612,7 @@ extension TaxSettingsClientTypes {
             registrationType: TaxSettingsClientTypes.TaxRegistrationType? = nil,
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
+            statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
         ) {
             self.additionalTaxInformation = additionalTaxInformation
@@ -2555,6 +2623,7 @@ extension TaxSettingsClientTypes {
             self.registrationType = registrationType
             self.sector = sector
             self.status = status
+            self.statusReason = statusReason
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
@@ -3812,6 +3881,7 @@ extension TaxSettingsClientTypes.AdditionalInfoResponse {
         value.monacoAdditionalInfo = try reader["monacoAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.MonacoAdditionalInfo.read(from:))
         value.germanyAdditionalInfo = try reader["germanyAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.GermanyAdditionalInfo.read(from:))
         value.mexicoAdditionalInfo = try reader["mexicoAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.MexicoAdditionalInfo.read(from:))
+        value.colombiaAdditionalInfo = try reader["colombiaAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.ColombiaAdditionalInfo.read(from:))
         return value
     }
 }
@@ -3948,6 +4018,18 @@ extension TaxSettingsClientTypes.ChileAdditionalInfo {
         var value = TaxSettingsClientTypes.ChileAdditionalInfo()
         value.documentType = try reader["documentType"].readIfPresent()
         value.businessActivity = try reader["businessActivity"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.ColombiaAdditionalInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.ColombiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.ColombiaAdditionalInfo()
+        value.responsibilityCodes = try reader["responsibilityCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.taxpayerTypeCode = try reader["taxpayerTypeCode"].readIfPresent()
+        value.issueDate = try reader["issueDate"].readIfPresent()
         return value
     }
 }
@@ -4428,6 +4510,7 @@ extension TaxSettingsClientTypes.TaxRegistration {
         value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
         value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationStatusReason.read(from:))
         value.legalAddress = try reader["legalAddress"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
         return value
     }
@@ -4466,6 +4549,17 @@ extension TaxSettingsClientTypes.TaxRegistrationEntry {
     }
 }
 
+extension TaxSettingsClientTypes.TaxRegistrationStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistrationStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.TaxRegistrationStatusReason()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
@@ -4479,6 +4573,7 @@ extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
         value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
         value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationStatusReason.read(from:))
         value.jurisdiction = try reader["jurisdiction"].readIfPresent(with: TaxSettingsClientTypes.Jurisdiction.read(from:))
         return value
     }

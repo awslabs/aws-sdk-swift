@@ -1467,6 +1467,7 @@ extension ListRealtimeContactAnalysisSegmentsV2Input: ClientRuntime.PaginateToke
         return ListRealtimeContactAnalysisSegmentsV2Input(
             contactId: self.contactId,
             instanceId: self.instanceId,
+            listFilter: self.listFilter,
             maxResults: self.maxResults,
             nextToken: token,
             outputType: self.outputType,

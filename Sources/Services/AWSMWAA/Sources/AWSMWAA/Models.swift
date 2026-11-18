@@ -206,6 +206,25 @@ extension MWAAClientTypes {
 
 extension MWAAClientTypes {
 
+    /// Describes the Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your Amazon MWAA environment.
+    public struct IdentityCenterConfiguration: Swift.Sendable {
+        /// The identifier of the identity store associated with the IAM Identity Center instance for your environment. For example, d-1234567890.
+        public var identityStoreId: Swift.String?
+        /// The Amazon Web Services access portal URL of the IAM Identity Center instance associated with your environment. For example, https://my-portal.awsapps.com/start.
+        public var startUrl: Swift.String?
+
+        public init(
+            identityStoreId: Swift.String? = nil,
+            startUrl: Swift.String? = nil
+        ) {
+            self.identityStoreId = identityStoreId
+            self.startUrl = startUrl
+        }
+    }
+}
+
+extension MWAAClientTypes {
+
     public enum LoggingLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case critical
         case debug
@@ -315,6 +334,33 @@ extension MWAAClientTypes {
 
 extension MWAAClientTypes {
 
+    /// Describes the configuration for a single team in Apache Airflow multi-team support on your Amazon MWAA environment. A team configuration defines the Amazon S3 location of the DAG code for the team. The team name that maps to this configuration must match the display name of an Amazon Web Services IAM Identity Center group associated with your environment. For more information, refer to [Apache Airflow multi-team environments](https://docs.aws.amazon.com/mwaa/latest/userguide/multi-team-environments.html).
+    public struct TeamConfig: Swift.Sendable {
+        /// The relative path to the DAGs folder for the team in the team's Amazon S3 bucket. For example, dags/team-a. For more information, refer to [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html). DAG folders can't overlap. A team folder can't be inside the global folder or another team's folder, and the global folder can't be inside a team folder. Amazon Managed Workflows for Apache Airflow (Amazon MWAA) compares folder paths as Amazon S3 prefixes, so the trailing slash matters:
+        ///
+        /// * s3://amzn-s3-demo-bucket/dags/ and s3://amzn-s3-demo-bucket/dags/team-a/ overlap, because the first path is a prefix of the second.
+        ///
+        /// * s3://amzn-s3-demo-bucket/dags/ and s3://amzn-s3-demo-bucket/dags-team-a/ don't overlap.
+        ///
+        /// * s3://amzn-s3-demo-bucket/teams/team-a/ and s3://amzn-s3-demo-bucket/teams/team-b/ don't overlap.
+        /// This member is required.
+        public var dagS3Path: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where the team's DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
+        /// This member is required.
+        public var sourceBucketArn: Swift.String?
+
+        public init(
+            dagS3Path: Swift.String? = nil,
+            sourceBucketArn: Swift.String? = nil
+        ) {
+            self.dagS3Path = dagS3Path
+            self.sourceBucketArn = sourceBucketArn
+        }
+    }
+}
+
+extension MWAAClientTypes {
+
     public enum WebserverAccessMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case privateOnly
         case publicAndPrivate
@@ -361,6 +407,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     /// This member is required.
     public var executionRoleArn: Swift.String?
+    /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+    public var identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration?
     /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, refer to [Create an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/create-environment.html).
     public var kmsKey: Swift.String?
     /// Defines the Apache Airflow logs to send to CloudWatch Logs.
@@ -402,6 +450,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var startupScriptS3Path: Swift.String?
     /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, refer to [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String: Swift.String]?
+    /// A map of teams to configure for Apache Airflow multi-team support on your Amazon MWAA environment. Each entry maps a team name to a object that defines the Amazon S3 location of that team's DAG code. The team name must match the display name of an Amazon Web Services IAM Identity Center group that you associate with your environment, so you must configure IAM Identity Center for the environment before you add teams. You can configure between 1 and 20 teams. For more information, refer to [Apache Airflow multi-team environments](https://docs.aws.amazon.com/mwaa/latest/userguide/multi-team-environments.html).
+    public var teams: [Swift.String: MWAAClientTypes.TeamConfig]?
     /// Defines the access mode for the Apache Airflow web server. For more information, refer to [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html). If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
@@ -414,6 +464,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         endpointManagement: MWAAClientTypes.EndpointManagement? = nil,
         environmentClass: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
+        identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration? = nil,
         kmsKey: Swift.String? = nil,
         loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput? = nil,
         maxWebservers: Swift.Int? = nil,
@@ -431,6 +482,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         startupScriptS3ObjectVersion: Swift.String? = nil,
         startupScriptS3Path: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        teams: [Swift.String: MWAAClientTypes.TeamConfig]? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
     ) {
@@ -440,6 +492,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.endpointManagement = endpointManagement
         self.environmentClass = environmentClass
         self.executionRoleArn = executionRoleArn
+        self.identityCenterConfiguration = identityCenterConfiguration
         self.kmsKey = kmsKey
         self.loggingConfiguration = loggingConfiguration
         self.maxWebservers = maxWebservers
@@ -457,6 +510,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
         self.startupScriptS3Path = startupScriptS3Path
         self.tags = tags
+        self.teams = teams
         self.webserverAccessMode = webserverAccessMode
         self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
     }
@@ -464,7 +518,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), identityCenterConfiguration: \(Swift.String(describing: identityCenterConfiguration)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), teams: \(Swift.String(describing: teams)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentOutput: Swift.Sendable {
@@ -795,6 +849,8 @@ extension MWAAClientTypes {
         public var environmentClass: Swift.String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
         public var executionRoleArn: Swift.String?
+        /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+        public var identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration?
         /// The KMS encryption key used to encrypt the data in your environment.
         public var kmsKey: Swift.String?
         /// The status of the last update on the environment.
@@ -862,6 +918,8 @@ extension MWAAClientTypes {
         public var status: MWAAClientTypes.EnvironmentStatus?
         /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, refer to [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
         public var tags: [Swift.String: Swift.String]?
+        /// The teams configured for Apache Airflow multi-team support on your Amazon MWAA environment. Each entry maps a team name to its settings, which define the Amazon S3 location of that team's DAG code. Each team name matches the display name of the Amazon Web Services IAM Identity Center group associated with the team. For more information, refer to [Apache Airflow multi-team environments](https://docs.aws.amazon.com/mwaa/latest/userguide/multi-team-environments.html).
+        public var teams: [Swift.String: MWAAClientTypes.TeamConfig]?
         /// The Apache Airflow web server access mode. For more information, refer to [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html). If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
         /// The Apache Airflow web server host name for the Amazon MWAA environment. For more information, refer to [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
@@ -882,6 +940,7 @@ extension MWAAClientTypes {
             endpointManagement: MWAAClientTypes.EndpointManagement? = nil,
             environmentClass: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
+            identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration? = nil,
             kmsKey: Swift.String? = nil,
             lastUpdate: MWAAClientTypes.LastUpdate? = nil,
             loggingConfiguration: MWAAClientTypes.LoggingConfiguration? = nil,
@@ -902,6 +961,7 @@ extension MWAAClientTypes {
             startupScriptS3Path: Swift.String? = nil,
             status: MWAAClientTypes.EnvironmentStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            teams: [Swift.String: MWAAClientTypes.TeamConfig]? = nil,
             webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
             webserverUrl: Swift.String? = nil,
             webserverVpcEndpointService: Swift.String? = nil,
@@ -917,6 +977,7 @@ extension MWAAClientTypes {
             self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.kmsKey = kmsKey
             self.lastUpdate = lastUpdate
             self.loggingConfiguration = loggingConfiguration
@@ -937,6 +998,7 @@ extension MWAAClientTypes {
             self.startupScriptS3Path = startupScriptS3Path
             self.status = status
             self.tags = tags
+            self.teams = teams
             self.webserverAccessMode = webserverAccessMode
             self.webserverUrl = webserverUrl
             self.webserverVpcEndpointService = webserverVpcEndpointService
@@ -947,7 +1009,7 @@ extension MWAAClientTypes {
 
 extension MWAAClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), celeryExecutorQueue: \(Swift.String(describing: celeryExecutorQueue)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), databaseVpcEndpointService: \(Swift.String(describing: databaseVpcEndpointService)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), webserverVpcEndpointService: \(Swift.String(describing: webserverVpcEndpointService)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), celeryExecutorQueue: \(Swift.String(describing: celeryExecutorQueue)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), databaseVpcEndpointService: \(Swift.String(describing: databaseVpcEndpointService)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), identityCenterConfiguration: \(Swift.String(describing: identityCenterConfiguration)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), teams: \(Swift.String(describing: teams)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), webserverVpcEndpointService: \(Swift.String(describing: webserverVpcEndpointService)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentOutput: Swift.Sendable {
@@ -1453,6 +1515,25 @@ extension MWAAClientTypes {
     }
 }
 
+extension MWAAClientTypes {
+
+    /// Defines the changes to the teams configured for Apache Airflow multi-team support when you update your Amazon MWAA environment. Use AddOrUpdate to add or modify teams, and Remove to remove teams by name.
+    public struct UpdateTeamsInput: Swift.Sendable {
+        /// A map of teams to add to your environment, or to update if they already exist. Each entry maps a team name to its settings. Each team name must match the display name of an Amazon Web Services IAM Identity Center group associated with your environment. You can configure between 1 and 20 teams.
+        public var addOrUpdate: [Swift.String: MWAAClientTypes.TeamConfig]?
+        /// A list of team names to remove from your environment. For example, team-a. You can remove between 1 and 20 teams in a single update. Removing a team does not delete the team's DAG code from Amazon S3.
+        public var remove: [Swift.String]?
+
+        public init(
+            addOrUpdate: [Swift.String: MWAAClientTypes.TeamConfig]? = nil,
+            remove: [Swift.String]? = nil
+        ) {
+            self.addOrUpdate = addOrUpdate
+            self.remove = remove
+        }
+    }
+}
+
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, refer to [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
@@ -1464,6 +1545,8 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     public var environmentClass: Swift.String?
     /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     public var executionRoleArn: Swift.String?
+    /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+    public var identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration?
     /// The Apache Airflow log types to send to CloudWatch Logs.
     public var loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput?
     /// The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers. Valid values: For environments larger than mw1.micro, accepts values from 2 to 5. Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1.
@@ -1495,6 +1578,8 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     public var startupScriptS3ObjectVersion: Swift.String?
     /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh. Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
     public var startupScriptS3Path: Swift.String?
+    /// Updates the teams configured for Apache Airflow multi-team support on your Amazon MWAA environment. Use AddOrUpdate to add new teams or change the configuration of existing teams, and Remove to remove teams by name. For more information, refer to [Apache Airflow multi-team environments](https://docs.aws.amazon.com/mwaa/latest/userguide/multi-team-environments.html).
+    public var teams: MWAAClientTypes.UpdateTeamsInput?
     /// The Apache Airflow Web server access mode. For more information, refer to [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html). If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
@@ -1512,6 +1597,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         dagS3Path: Swift.String? = nil,
         environmentClass: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
+        identityCenterConfiguration: MWAAClientTypes.IdentityCenterConfiguration? = nil,
         loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput? = nil,
         maxWebservers: Swift.Int? = nil,
         maxWorkers: Swift.Int? = nil,
@@ -1527,6 +1613,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         sourceBucketArn: Swift.String? = nil,
         startupScriptS3ObjectVersion: Swift.String? = nil,
         startupScriptS3Path: Swift.String? = nil,
+        teams: MWAAClientTypes.UpdateTeamsInput? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil,
         workerReplacementStrategy: MWAAClientTypes.WorkerReplacementStrategy? = nil
@@ -1536,6 +1623,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         self.dagS3Path = dagS3Path
         self.environmentClass = environmentClass
         self.executionRoleArn = executionRoleArn
+        self.identityCenterConfiguration = identityCenterConfiguration
         self.loggingConfiguration = loggingConfiguration
         self.maxWebservers = maxWebservers
         self.maxWorkers = maxWorkers
@@ -1551,6 +1639,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         self.sourceBucketArn = sourceBucketArn
         self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
         self.startupScriptS3Path = startupScriptS3Path
+        self.teams = teams
         self.webserverAccessMode = webserverAccessMode
         self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
         self.workerReplacementStrategy = workerReplacementStrategy
@@ -1559,7 +1648,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), workerReplacementStrategy: \(Swift.String(describing: workerReplacementStrategy)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), identityCenterConfiguration: \(Swift.String(describing: identityCenterConfiguration)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), teams: \(Swift.String(describing: teams)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), workerReplacementStrategy: \(Swift.String(describing: workerReplacementStrategy)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentOutput: Swift.Sendable {
@@ -1732,6 +1821,7 @@ extension CreateEnvironmentInput {
         try writer["EndpointManagement"].write(value.endpointManagement)
         try writer["EnvironmentClass"].write(value.environmentClass)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: MWAAClientTypes.IdentityCenterConfiguration.write(value:to:))
         try writer["KmsKey"].write(value.kmsKey)
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: MWAAClientTypes.LoggingConfigurationInput.write(value:to:))
         try writer["MaxWebservers"].write(value.maxWebservers)
@@ -1748,6 +1838,7 @@ extension CreateEnvironmentInput {
         try writer["StartupScriptS3ObjectVersion"].write(value.startupScriptS3ObjectVersion)
         try writer["StartupScriptS3Path"].write(value.startupScriptS3Path)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Teams"].writeMap(value.teams, valueWritingClosure: MWAAClientTypes.TeamConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["WebserverAccessMode"].write(value.webserverAccessMode)
         try writer["WeeklyMaintenanceWindowStart"].write(value.weeklyMaintenanceWindowStart)
     }
@@ -1789,6 +1880,7 @@ extension UpdateEnvironmentInput {
         try writer["DagS3Path"].write(value.dagS3Path)
         try writer["EnvironmentClass"].write(value.environmentClass)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: MWAAClientTypes.IdentityCenterConfiguration.write(value:to:))
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: MWAAClientTypes.LoggingConfigurationInput.write(value:to:))
         try writer["MaxWebservers"].write(value.maxWebservers)
         try writer["MaxWorkers"].write(value.maxWorkers)
@@ -1803,6 +1895,7 @@ extension UpdateEnvironmentInput {
         try writer["SourceBucketArn"].write(value.sourceBucketArn)
         try writer["StartupScriptS3ObjectVersion"].write(value.startupScriptS3ObjectVersion)
         try writer["StartupScriptS3Path"].write(value.startupScriptS3Path)
+        try writer["Teams"].write(value.teams, with: MWAAClientTypes.UpdateTeamsInput.write(value:to:))
         try writer["WebserverAccessMode"].write(value.webserverAccessMode)
         try writer["WeeklyMaintenanceWindowStart"].write(value.weeklyMaintenanceWindowStart)
         try writer["WorkerReplacementStrategy"].write(value.workerReplacementStrategy)
@@ -2274,6 +2367,25 @@ extension MWAAClientTypes.Environment {
         value.endpointManagement = try reader["EndpointManagement"].readIfPresent()
         value.minWebservers = try reader["MinWebservers"].readIfPresent()
         value.maxWebservers = try reader["MaxWebservers"].readIfPresent()
+        value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: MWAAClientTypes.IdentityCenterConfiguration.read(from:))
+        value.teams = try reader["Teams"].readMapIfPresent(valueReadingClosure: MWAAClientTypes.TeamConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MWAAClientTypes.IdentityCenterConfiguration {
+
+    static func write(value: MWAAClientTypes.IdentityCenterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityStoreId"].write(value.identityStoreId)
+        try writer["StartUrl"].write(value.startUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAClientTypes.IdentityCenterConfiguration()
+        value.startUrl = try reader["StartUrl"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
         return value
     }
 }
@@ -2380,6 +2492,23 @@ extension MWAAClientTypes.StatisticSet {
     }
 }
 
+extension MWAAClientTypes.TeamConfig {
+
+    static func write(value: MWAAClientTypes.TeamConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DagS3Path"].write(value.dagS3Path)
+        try writer["SourceBucketArn"].write(value.sourceBucketArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.TeamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAClientTypes.TeamConfig()
+        value.sourceBucketArn = try reader["SourceBucketArn"].readIfPresent() ?? ""
+        value.dagS3Path = try reader["DagS3Path"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MWAAClientTypes.UpdateError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.UpdateError {
@@ -2396,6 +2525,15 @@ extension MWAAClientTypes.UpdateNetworkConfigurationInput {
     static func write(value: MWAAClientTypes.UpdateNetworkConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MWAAClientTypes.UpdateTeamsInput {
+
+    static func write(value: MWAAClientTypes.UpdateTeamsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddOrUpdate"].writeMap(value.addOrUpdate, valueWritingClosure: MWAAClientTypes.TeamConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Remove"].writeList(value.remove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

@@ -172,6 +172,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
 
         // Call CreateOAuth2Token with SignIn client to refresh token.
         let clientConfig = try await SigninClient.SigninClientConfig(
+            region: loginToken.refreshRegion,
             httpInterceptorProviders: [
                 DPoPInterceptorProvider(dpopKey: loginToken.dpopKey),
                 CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)
@@ -234,7 +235,8 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             refreshToken: refreshToken,
             idToken: loginToken.idToken,
             clientId: loginToken.clientId,
-            dpopKey: loginToken.dpopKey
+            dpopKey: loginToken.dpopKey,
+            signInRegion: loginToken.signInRegion
         )
 
         // Write the new LoginToken to loginTokenFileURL & return the new LoginToken.
@@ -254,6 +256,13 @@ struct LoginToken: Codable {
     let idToken: String
     let clientId: String
     let dpopKey: String
+    let signInRegion: String?
+
+    /// The region to send the refresh request to, or nil to use the default region resolution.
+    var refreshRegion: String? {
+        guard let signInRegion, !signInRegion.isEmpty else { return nil }
+        return signInRegion
+    }
 
     // Returns true if token is expired or will expire within 5 minutes.
     func needsRefresh() -> Bool {

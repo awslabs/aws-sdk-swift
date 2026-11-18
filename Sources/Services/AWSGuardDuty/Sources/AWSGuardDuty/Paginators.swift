@@ -312,6 +312,39 @@ extension PaginatorSequence where OperationStackInput == ListFindingsInput, Oper
     }
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListInvestigationRecordsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInvestigationRecordsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvestigationRecordsOutput`
+    public func listInvestigationRecordsPaginated(input: ListInvestigationRecordsInput) -> ClientRuntime.PaginatorSequence<ListInvestigationRecordsInput, ListInvestigationRecordsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvestigationRecords(input:))
+    }
+}
+
+extension ListInvestigationRecordsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInvestigationRecordsInput {
+        return ListInvestigationRecordsInput(
+            detectorId: self.detectorId,
+            investigationId: self.investigationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recordTypes: self.recordTypes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInvestigationRecordsInput, OperationStackOutput == ListInvestigationRecordsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInvestigationRecordsPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.InvestigationRecord]`
+    /// - Returns: `[GuardDutyClientTypes.InvestigationRecord]`
+    public func records() async throws -> [GuardDutyClientTypes.InvestigationRecord] {
+        return try await self.asyncCompactMap { item in item.records }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListInvestigationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -329,6 +362,7 @@ extension ListInvestigationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListInvestigationsInput {
         return ListInvestigationsInput(
             detectorId: self.detectorId,
+            filterCriteria: self.filterCriteria,
             maxResults: self.maxResults,
             nextToken: token,
             sortCriteria: self.sortCriteria

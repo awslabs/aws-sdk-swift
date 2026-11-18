@@ -313,7 +313,7 @@ extension BillingClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Billing"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -544,7 +544,7 @@ extension BillingClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Billing"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -606,7 +606,7 @@ extension BillingClient {
     public static func builder() -> ClientRuntime.ClientBuilder<BillingClient> {
         return ClientRuntime.ClientBuilder<BillingClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Billing"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1252,7 +1252,7 @@ extension BillingClient {
 
     /// Performs the `GetBillingPreferences` operation on the `Billing` service.
     ///
-    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options.
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, per-credit options, and which accounts an individual Reserved Instance or Savings Plan is shared with.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBillingPreferencesInput`)
     ///
@@ -2805,6 +2805,87 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SplitCredit` operation on the `Billing` service.
+    ///
+    /// Splits the available balance of a credit into 2 to 99 new credits in the same account, and cancels the original credit. The new credits keep the original credit's end date and applicable products. The available balance is the remaining balance minus any amount reserved for a bill that isn't finalized. The portions must add up to exactly the available balance. Each portion must be at least 100.00 in the currency of the credit. For example, if the credit is in USD, each portion must be at least USD $100.00. A reserved amount stays on the original credit and still applies to that bill. A credit and every credit split from it count toward a limit of 100 credits. After a split, you can't split or transfer the original credit. You can split or transfer its new credits, and you can split a credit after you transfer it. You must own the credit or be the payer of the account that owns it. You can't undo a split. This operation is idempotent and supports a dry run.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SplitCreditInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SplitCreditOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The request processing failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : You've reached the limit of resources you can create, or exceeded the size of an individual resource.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func splitCredit(input: SplitCreditInput) async throws -> SplitCreditOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BillingClient.splitCreditOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "splitCredit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<SplitCreditInput, SplitCreditOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SplitCreditInput, SplitCreditOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SplitCreditInput, SplitCreditOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SplitCreditInput, SplitCreditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SplitCreditOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Billing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SplitCreditOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SplitCreditInput, SplitCreditOutput>(overrides: ["X-Amz-Target": "AWSBilling.SplitCredit"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SplitCreditInput, SplitCreditOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SplitCreditOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SplitCreditInput, SplitCreditOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SplitCreditInput, SplitCreditOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Billing"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SplitCreditInput, SplitCreditOutput>(serviceID: serviceName, version: BillingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SplitCredit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `Billing` service.
     ///
     /// An API operation for adding one or more tags (key-value pairs) to a resource.
@@ -2871,6 +2952,87 @@ extension BillingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billing")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TransferCredit` operation on the `Billing` service.
+    ///
+    /// Moves a credit to another account in the same consolidated billing family. The credit keeps its ID, balance, end date, and applicable products. Only the account that owns the credit changes. The transfer removes the credit's sharing settings. The new owner or the payer can set them again. Any amount reserved for a bill that isn't finalized moves with the credit and still applies to that bill. You must be the payer of both accounts. You can't transfer a credit that has ended, has no available balance, or is the original credit of a split. A transfer creates no credit, so it doesn't count toward the split limit, and the payer can transfer the credit back. This operation is idempotent and supports a dry run.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TransferCreditInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TransferCreditOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerException` : The request processing failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : You've reached the limit of resources you can create, or exceeded the size of an individual resource.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func transferCredit(input: TransferCreditInput) async throws -> TransferCreditOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BillingClient.transferCreditOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "transferCredit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<TransferCreditInput, TransferCreditOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TransferCreditInput, TransferCreditOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferCreditInput, TransferCreditOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferCreditInput, TransferCreditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<TransferCreditOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Billing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransferCreditOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferCreditInput, TransferCreditOutput>(overrides: ["X-Amz-Target": "AWSBilling.TransferCredit"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferCreditInput, TransferCreditOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransferCreditOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TransferCreditInput, TransferCreditOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TransferCreditInput, TransferCreditOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Billing"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TransferCreditInput, TransferCreditOutput>(serviceID: serviceName, version: BillingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TransferCredit")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2963,7 +3125,7 @@ extension BillingClient {
 
     /// Performs the `UpdateBillingPreferences` operation on the `Billing` service.
     ///
-    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, and sharing keys under CREDIT_PREFERENCE_OPTIONS) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts for credits they own, or by the management account for any credit in the family.
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. To set sharing keys (RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, BENEFIT_LEVEL_SHARING, and sharing keys under CREDIT_PREFERENCE_OPTIONS), you must use the management account of a consolidated billing family. To set the credit/{creditId}/status key, you must own the credit or use the management account of its family.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateBillingPreferencesInput`)
     ///

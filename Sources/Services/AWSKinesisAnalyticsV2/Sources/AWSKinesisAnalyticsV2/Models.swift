@@ -14,7 +14,7 @@ import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 
-/// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+/// Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -106,7 +106,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The application is not available for this operation.
+/// The application or snapshot is not available for this operation.
 public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -129,7 +129,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-/// Specified application can't be found.
+/// The specified application, snapshot, or snapshot operation can't be found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1559,15 +1559,48 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
+    public enum SnapshotMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationSnapshotsLegacy
+        case enhancedSnapshots
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotMode] {
+            return [
+                .applicationSnapshotsLegacy,
+                .enhancedSnapshots
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationSnapshotsLegacy: return "APPLICATION_SNAPSHOTS_LEGACY"
+            case .enhancedSnapshots: return "ENHANCED_SNAPSHOTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
     /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfiguration: Swift.Sendable {
+        /// Specifies the snapshot mode for a Managed Service for Apache Flink application. To use enhanced snapshots, specify ENHANCED_SNAPSHOTS. If you don't specify this parameter, the application uses APPLICATION_SNAPSHOTS_LEGACY. For more information, see [Enhanced Snapshots](https://docs.aws.amazon.com/managed-flink/latest/java/how-snapshots.html). To use ENHANCED_SNAPSHOTS, the application must use Apache Flink version 1.20 or later.
+        public var snapshotMode: KinesisAnalyticsV2ClientTypes.SnapshotMode?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
         public init(
+            snapshotMode: KinesisAnalyticsV2ClientTypes.SnapshotMode? = nil,
             snapshotsEnabled: Swift.Bool? = nil
         ) {
+            self.snapshotMode = snapshotMode
             self.snapshotsEnabled = snapshotsEnabled
         }
     }
@@ -2118,13 +2151,17 @@ extension KinesisAnalyticsV2ClientTypes {
 
     /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfigurationDescription: Swift.Sendable {
+        /// Describes the snapshot mode of a Managed Service for Apache Flink application.
+        public var snapshotMode: KinesisAnalyticsV2ClientTypes.SnapshotMode?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
         public init(
+            snapshotMode: KinesisAnalyticsV2ClientTypes.SnapshotMode? = nil,
             snapshotsEnabled: Swift.Bool? = nil
         ) {
+            self.snapshotMode = snapshotMode
             self.snapshotsEnabled = snapshotsEnabled
         }
     }
@@ -2314,14 +2351,18 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Specifies how the application should be restored.
         /// This member is required.
         public var applicationRestoreType: KinesisAnalyticsV2ClientTypes.ApplicationRestoreType?
+        /// The identifier of an existing enhanced snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType and SnapshotMode is ENHANCED_SNAPSHOTS.
+        public var snapshotArn: Swift.String?
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType.
         public var snapshotName: Swift.String?
 
         public init(
             applicationRestoreType: KinesisAnalyticsV2ClientTypes.ApplicationRestoreType? = nil,
+            snapshotArn: Swift.String? = nil,
             snapshotName: Swift.String? = nil
         ) {
             self.applicationRestoreType = applicationRestoreType
+            self.snapshotArn = snapshotArn
             self.snapshotName = snapshotName
         }
     }
@@ -2593,13 +2634,17 @@ extension KinesisAnalyticsV2ClientTypes {
 
     /// Describes updates to whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfigurationUpdate: Swift.Sendable {
+        /// Describes updates to the snapshot mode of a Managed Service for Apache Flink application. You can update the snapshot mode from APPLICATION_SNAPSHOTS_LEGACY to ENHANCED_SNAPSHOTS. You can't use UpdateApplication to change the snapshot mode back to APPLICATION_SNAPSHOTS_LEGACY. To return to APPLICATION_SNAPSHOTS_LEGACY, use RollbackApplication. After you update an application that uses ENHANCED_SNAPSHOTS, you can't roll it back to APPLICATION_SNAPSHOTS_LEGACY. To use ENHANCED_SNAPSHOTS, the application must use Apache Flink version 1.20 or later.
+        public var snapshotModeUpdate: KinesisAnalyticsV2ClientTypes.SnapshotMode?
         /// Describes updates to whether snapshots are enabled for an application.
         /// This member is required.
         public var snapshotsEnabledUpdate: Swift.Bool?
 
         public init(
+            snapshotModeUpdate: KinesisAnalyticsV2ClientTypes.SnapshotMode? = nil,
             snapshotsEnabledUpdate: Swift.Bool? = nil
         ) {
+            self.snapshotModeUpdate = snapshotModeUpdate
             self.snapshotsEnabledUpdate = snapshotsEnabledUpdate
         }
     }
@@ -3497,6 +3542,25 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
+    /// Describes the application operation that initiated a snapshot operation. To get information about the application operation, use DescribeApplicationOperation.
+    public struct ApplicationOperationDescription: Swift.Sendable {
+        /// The name of the application.
+        public var applicationName: Swift.String?
+        /// The operation ID of the request.
+        public var applicationOperationId: Swift.String?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            applicationOperationId: Swift.String? = nil
+        ) {
+            self.applicationName = applicationName
+            self.applicationOperationId = applicationOperationId
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
     /// The status of the operation.
     public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
@@ -3963,6 +4027,128 @@ public struct CreateApplicationSnapshotOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct CreateSnapshotInput: Swift.Sendable {
+    /// The name of the application.
+    /// This member is required.
+    public var applicationName: Swift.String?
+    /// A summary description of the snapshot.
+    public var snapshotDescription: Swift.String?
+    /// The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+    /// A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    public var tags: [KinesisAnalyticsV2ClientTypes.Tag]?
+
+    public init(
+        applicationName: Swift.String? = nil,
+        snapshotDescription: Swift.String? = nil,
+        snapshotName: Swift.String? = nil,
+        tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
+    ) {
+        self.applicationName = applicationName
+        self.snapshotDescription = snapshotDescription
+        self.snapshotName = snapshotName
+        self.tags = tags
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotOperationStatus] {
+            return [
+                .cancelled,
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSnapshotOutput: Swift.Sendable {
+    /// The ARN of the enhanced snapshot.
+    /// This member is required.
+    public var snapshotArn: Swift.String?
+    /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the operation.
+    /// This member is required.
+    public var snapshotOperationId: Swift.String?
+    /// The status of the snapshot operation.
+    /// This member is required.
+    public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+    /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is CREATING.
+    /// This member is required.
+    public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+
+    public init(
+        snapshotArn: Swift.String? = nil,
+        snapshotOperationId: Swift.String? = nil,
+        snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil,
+        snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
+    ) {
+        self.snapshotArn = snapshotArn
+        self.snapshotOperationId = snapshotOperationId
+        self.snapshotOperationStatus = snapshotOperationStatus
+        self.snapshotStatus = snapshotStatus
+    }
+}
+
 public struct DeleteApplicationInput: Swift.Sendable {
     /// The name of the application to delete.
     /// This member is required.
@@ -4215,6 +4401,50 @@ public struct DeleteApplicationVpcConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteSnapshotInput: Swift.Sendable {
+    /// The creation timestamp of the enhanced snapshot to delete. Use the DescribeSnapshot operation to get this value.
+    /// This member is required.
+    public var snapshotCreationTimestamp: Foundation.Date?
+    /// The name of the enhanced snapshot to delete.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+
+    public init(
+        snapshotCreationTimestamp: Foundation.Date? = nil,
+        snapshotName: Swift.String? = nil
+    ) {
+        self.snapshotCreationTimestamp = snapshotCreationTimestamp
+        self.snapshotName = snapshotName
+    }
+}
+
+public struct DeleteSnapshotOutput: Swift.Sendable {
+    /// The ARN of the enhanced snapshot.
+    /// This member is required.
+    public var snapshotArn: Swift.String?
+    /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the operation.
+    /// This member is required.
+    public var snapshotOperationId: Swift.String?
+    /// The status of the snapshot operation.
+    /// This member is required.
+    public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+    /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is DELETING. If a snapshot operation, such as an export, uses the snapshot, the status stays DELETING until that operation finishes and Managed Service for Apache Flink deletes the snapshot.
+    /// This member is required.
+    public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+
+    public init(
+        snapshotArn: Swift.String? = nil,
+        snapshotOperationId: Swift.String? = nil,
+        snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil,
+        snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
+    ) {
+        self.snapshotArn = snapshotArn
+        self.snapshotOperationId = snapshotOperationId
+        self.snapshotOperationStatus = snapshotOperationStatus
+        self.snapshotStatus = snapshotStatus
+    }
+}
+
 public struct DescribeApplicationInput: Swift.Sendable {
     /// The name of the application.
     /// This member is required.
@@ -4287,41 +4517,6 @@ public struct DescribeApplicationSnapshotInput: Swift.Sendable {
     ) {
         self.applicationName = applicationName
         self.snapshotName = snapshotName
-    }
-}
-
-extension KinesisAnalyticsV2ClientTypes {
-
-    public enum SnapshotStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creating
-        case deleting
-        case failed
-        case ready
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SnapshotStatus] {
-            return [
-                .creating,
-                .deleting,
-                .failed,
-                .ready
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .failed: return "FAILED"
-            case .ready: return "READY"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -4400,6 +4595,526 @@ public struct DescribeApplicationVersionOutput: Swift.Sendable {
         applicationVersionDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
     ) {
         self.applicationVersionDetail = applicationVersionDetail
+    }
+}
+
+public struct DescribeSnapshotInput: Swift.Sendable {
+    /// The name of the enhanced snapshot. You can retrieve this value using ListSnapshots.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+
+    public init(
+        snapshotName: Swift.String? = nil
+    ) {
+        self.snapshotName = snapshotName
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Specifies the encryption configuration of snapshot data.
+    public struct SnapshotEncryptionConfiguration: Swift.Sendable {
+        /// The KMS key used for encryption. KeyId is used only when KeyType is CUSTOMER_MANAGED_KEY.
+        public var keyId: Swift.String?
+        /// Specifies the type of key used for encryption.
+        /// This member is required.
+        public var keyType: KinesisAnalyticsV2ClientTypes.KeyType?
+
+        public init(
+            keyId: Swift.String? = nil,
+            keyType: KinesisAnalyticsV2ClientTypes.KeyType? = nil
+        ) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canonical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotFormat] {
+            return [
+                .canonical
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canonical: return "CANONICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotInitiator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case system
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotInitiator] {
+            return [
+                .system,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .system: return "SYSTEM"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotInitiatorOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createsnapshot
+        case importsnapshot
+        case systemcreatesnapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotInitiatorOperation] {
+            return [
+                .createsnapshot,
+                .importsnapshot,
+                .systemcreatesnapshot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createsnapshot: return "CreateSnapshot"
+            case .importsnapshot: return "ImportSnapshot"
+            case .systemcreatesnapshot: return "SystemCreateSnapshot"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Specifies an Amazon S3 bucket and key prefix.
+    public struct S3PrefixLocation: Swift.Sendable {
+        /// The ARN of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucketARN: Swift.String?
+        /// The key prefix in the Amazon S3 bucket.
+        /// This member is required.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucketARN: Swift.String? = nil,
+            keyPrefix: Swift.String? = nil
+        ) {
+            self.bucketARN = bucketARN
+            self.keyPrefix = keyPrefix
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the application that an enhanced snapshot was created from.
+    public struct SourceApplicationDescription: Swift.Sendable {
+        /// The timestamp that indicates when the source application was created.
+        /// This member is required.
+        public var applicationCreationTimestamp: Foundation.Date?
+        /// The name of the application.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The version ID of the source application when the snapshot was created.
+        /// This member is required.
+        public var applicationVersionId: Swift.Int?
+
+        public init(
+            applicationCreationTimestamp: Foundation.Date? = nil,
+            applicationName: Swift.String? = nil,
+            applicationVersionId: Swift.Int? = nil
+        ) {
+            self.applicationCreationTimestamp = applicationCreationTimestamp
+            self.applicationName = applicationName
+            self.applicationVersionId = applicationVersionId
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the source of an enhanced snapshot. For a snapshot that was created from an application, SourceApplicationDescription is present. For an imported snapshot, S3PrefixLocation is present.
+    public struct SnapshotSourceDescription: Swift.Sendable {
+        /// The Amazon S3 location that the snapshot was imported from. This field is present only if SnapshotInitiatorOperation is ImportSnapshot.
+        public var s3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation?
+        /// Describes the application that the snapshot was created from. This field is not present for imported snapshots.
+        public var sourceApplicationDescription: KinesisAnalyticsV2ClientTypes.SourceApplicationDescription?
+
+        public init(
+            s3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation? = nil,
+            sourceApplicationDescription: KinesisAnalyticsV2ClientTypes.SourceApplicationDescription? = nil
+        ) {
+            self.s3PrefixLocation = s3PrefixLocation
+            self.sourceApplicationDescription = sourceApplicationDescription
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Provides details about an enhanced snapshot.
+    public struct SnapshotInfoDetails: Swift.Sendable {
+        /// The Flink runtime of the application that the snapshot was created from. This field is not present for imported snapshots.
+        public var runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
+        /// The ARN of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotArn: Swift.String?
+        /// The timestamp that indicates when the snapshot was created.
+        /// This member is required.
+        public var snapshotCreationTimestamp: Foundation.Date?
+        /// The summary description of the snapshot.
+        public var snapshotDescription: Swift.String?
+        /// Describes the encryption settings of data at rest for the snapshot.
+        public var snapshotEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration?
+        /// The format of the snapshot.
+        /// This member is required.
+        public var snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat?
+        /// Indicates who initiated the snapshot. USER indicates a snapshot that you created or imported. SYSTEM indicates a snapshot that Managed Service for Apache Flink created.
+        /// This member is required.
+        public var snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator?
+        /// The operation that created the snapshot.
+        /// This member is required.
+        public var snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation?
+        /// The name of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotName: Swift.String?
+        /// The size of the snapshot, in bytes. The value is 0 until the snapshot status is READY.
+        public var snapshotSizeInBytes: Swift.Int
+        /// Describes the source of the snapshot.
+        /// This member is required.
+        public var snapshotSourceDescription: KinesisAnalyticsV2ClientTypes.SnapshotSourceDescription?
+        /// The status of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+
+        public init(
+            runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
+            snapshotArn: Swift.String? = nil,
+            snapshotCreationTimestamp: Foundation.Date? = nil,
+            snapshotDescription: Swift.String? = nil,
+            snapshotEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration? = nil,
+            snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat? = nil,
+            snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator? = nil,
+            snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation? = nil,
+            snapshotName: Swift.String? = nil,
+            snapshotSizeInBytes: Swift.Int = 0,
+            snapshotSourceDescription: KinesisAnalyticsV2ClientTypes.SnapshotSourceDescription? = nil,
+            snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
+        ) {
+            self.runtimeEnvironment = runtimeEnvironment
+            self.snapshotArn = snapshotArn
+            self.snapshotCreationTimestamp = snapshotCreationTimestamp
+            self.snapshotDescription = snapshotDescription
+            self.snapshotEncryptionConfigurationDescription = snapshotEncryptionConfigurationDescription
+            self.snapshotFormat = snapshotFormat
+            self.snapshotInitiator = snapshotInitiator
+            self.snapshotInitiatorOperation = snapshotInitiatorOperation
+            self.snapshotName = snapshotName
+            self.snapshotSizeInBytes = snapshotSizeInBytes
+            self.snapshotSourceDescription = snapshotSourceDescription
+            self.snapshotStatus = snapshotStatus
+        }
+    }
+}
+
+public struct DescribeSnapshotOutput: Swift.Sendable {
+    /// An object containing information about the enhanced snapshot.
+    /// This member is required.
+    public var snapshotInfoDetails: KinesisAnalyticsV2ClientTypes.SnapshotInfoDetails?
+
+    public init(
+        snapshotInfoDetails: KinesisAnalyticsV2ClientTypes.SnapshotInfoDetails? = nil
+    ) {
+        self.snapshotInfoDetails = snapshotInfoDetails
+    }
+}
+
+public struct DescribeSnapshotOperationInput: Swift.Sendable {
+    /// The name of the enhanced snapshot.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+    /// The ID of the snapshot operation. You can retrieve this value using ListSnapshotOperations.
+    /// This member is required.
+    public var snapshotOperationId: Swift.String?
+
+    public init(
+        snapshotName: Swift.String? = nil,
+        snapshotOperationId: Swift.String? = nil
+    ) {
+        self.snapshotName = snapshotName
+        self.snapshotOperationId = snapshotOperationId
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the encryption configuration of snapshot data for a snapshot operation.
+    public struct EncryptionConfigurationDescription: Swift.Sendable {
+        /// The KMS key used for encryption.
+        public var keyId: Swift.String?
+        /// Specifies the type of key used for encryption.
+        /// This member is required.
+        public var keyType: KinesisAnalyticsV2ClientTypes.KeyType?
+
+        public init(
+            keyId: Swift.String? = nil,
+            keyType: KinesisAnalyticsV2ClientTypes.KeyType? = nil
+        ) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum StorageLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageLocationType] {
+            return [
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes an Amazon S3 bucket and key prefix for a snapshot operation.
+    public struct SnapshotOperationS3PrefixLocation: Swift.Sendable {
+        /// The ARN of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucketARN: Swift.String?
+        /// The full key prefix that the exported snapshot data was written to. This value includes the unique prefix that Managed Service for Apache Flink appends to KeyPrefix. This field is present only after an ExportSnapshot operation completes successfully.
+        public var exportedPrefix: Swift.String?
+        /// The key prefix in the Amazon S3 bucket that you specified in the request.
+        /// This member is required.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucketARN: Swift.String? = nil,
+            exportedPrefix: Swift.String? = nil,
+            keyPrefix: Swift.String? = nil
+        ) {
+            self.bucketARN = bucketARN
+            self.exportedPrefix = exportedPrefix
+            self.keyPrefix = keyPrefix
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the location of snapshot data for a snapshot operation.
+    public struct SnapshotOperationLocationDescription: Swift.Sendable {
+        /// The type of the location. The only supported value is S3.
+        /// This member is required.
+        public var locationType: KinesisAnalyticsV2ClientTypes.StorageLocationType?
+        /// Describes the Amazon S3 bucket and key prefix of the location.
+        /// This member is required.
+        public var s3PrefixLocation: KinesisAnalyticsV2ClientTypes.SnapshotOperationS3PrefixLocation?
+
+        public init(
+            locationType: KinesisAnalyticsV2ClientTypes.StorageLocationType? = nil,
+            s3PrefixLocation: KinesisAnalyticsV2ClientTypes.SnapshotOperationS3PrefixLocation? = nil
+        ) {
+            self.locationType = locationType
+            self.s3PrefixLocation = s3PrefixLocation
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    public enum SnapshotOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createsnapshot
+        case deletesnapshot
+        case exportsnapshot
+        case importsnapshot
+        case systemcreatesnapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotOperation] {
+            return [
+                .createsnapshot,
+                .deletesnapshot,
+                .exportsnapshot,
+                .importsnapshot,
+                .systemcreatesnapshot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createsnapshot: return "CreateSnapshot"
+            case .deletesnapshot: return "DeleteSnapshot"
+            case .exportsnapshot: return "ExportSnapshot"
+            case .importsnapshot: return "ImportSnapshot"
+            case .systemcreatesnapshot: return "SystemCreateSnapshot"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// A description of the error that caused a snapshot operation to fail.
+    public struct SnapshotErrorInfo: Swift.Sendable {
+        /// The error code that identifies the cause of the failure.
+        public var errorCode: Swift.String?
+        /// An error message that is returned when an operation fails.
+        public var errorString: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorString: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorString = errorString
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Provides a description of the snapshot operation failure.
+    public struct SnapshotOperationFailureDetails: Swift.Sendable {
+        /// A description of the error that caused the snapshot operation to fail.
+        public var errorInfo: KinesisAnalyticsV2ClientTypes.SnapshotErrorInfo?
+
+        public init(
+            errorInfo: KinesisAnalyticsV2ClientTypes.SnapshotErrorInfo? = nil
+        ) {
+            self.errorInfo = errorInfo
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// A description of a snapshot operation that provides information about the operation that was performed on an enhanced snapshot.
+    public struct SnapshotOperationInfoDetails: Swift.Sendable {
+        /// Describes the application operation that initiated the snapshot operation. This field is present only for SystemCreateSnapshot operations.
+        public var applicationOperationDescription: KinesisAnalyticsV2ClientTypes.ApplicationOperationDescription?
+        /// Describes the encryption configuration of the destination data. This field is present only for ImportSnapshot and ExportSnapshot operations.
+        public var destinationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.EncryptionConfigurationDescription?
+        /// The timestamp that indicates when the operation finished. This field is present only after the operation completes.
+        public var endTime: Foundation.Date?
+        /// The ARN of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotArn: Swift.String?
+        /// Describes the location that the snapshot data was written to. This field is present only for ExportSnapshot operations, after the operation completes.
+        public var snapshotDestinationLocationDescription: KinesisAnalyticsV2ClientTypes.SnapshotOperationLocationDescription?
+        /// The type of operation that was performed on the snapshot.
+        /// This member is required.
+        public var snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation?
+        /// Provides a description of the operation failure. This field is present only if SnapshotOperationStatus is FAILED.
+        public var snapshotOperationFailureDetails: KinesisAnalyticsV2ClientTypes.SnapshotOperationFailureDetails?
+        /// The ID of the snapshot operation.
+        /// This member is required.
+        public var snapshotOperationId: Swift.String?
+        /// The status of the snapshot operation.
+        /// This member is required.
+        public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+        /// Describes the location that the snapshot data was read from. This field is present only for ImportSnapshot operations.
+        public var snapshotSourceLocationDescription: KinesisAnalyticsV2ClientTypes.SnapshotOperationLocationDescription?
+        /// Describes the encryption configuration of the source data. This field is present only for ImportSnapshot operation.
+        public var sourceEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.EncryptionConfigurationDescription?
+        /// The timestamp that indicates when the operation was created.
+        public var startTime: Foundation.Date?
+
+        public init(
+            applicationOperationDescription: KinesisAnalyticsV2ClientTypes.ApplicationOperationDescription? = nil,
+            destinationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.EncryptionConfigurationDescription? = nil,
+            endTime: Foundation.Date? = nil,
+            snapshotArn: Swift.String? = nil,
+            snapshotDestinationLocationDescription: KinesisAnalyticsV2ClientTypes.SnapshotOperationLocationDescription? = nil,
+            snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation? = nil,
+            snapshotOperationFailureDetails: KinesisAnalyticsV2ClientTypes.SnapshotOperationFailureDetails? = nil,
+            snapshotOperationId: Swift.String? = nil,
+            snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil,
+            snapshotSourceLocationDescription: KinesisAnalyticsV2ClientTypes.SnapshotOperationLocationDescription? = nil,
+            sourceEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.EncryptionConfigurationDescription? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.applicationOperationDescription = applicationOperationDescription
+            self.destinationEncryptionConfigurationDescription = destinationEncryptionConfigurationDescription
+            self.endTime = endTime
+            self.snapshotArn = snapshotArn
+            self.snapshotDestinationLocationDescription = snapshotDestinationLocationDescription
+            self.snapshotOperation = snapshotOperation
+            self.snapshotOperationFailureDetails = snapshotOperationFailureDetails
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.snapshotSourceLocationDescription = snapshotSourceLocationDescription
+            self.sourceEncryptionConfigurationDescription = sourceEncryptionConfigurationDescription
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct DescribeSnapshotOperationOutput: Swift.Sendable {
+    /// An object containing information about the snapshot operation.
+    /// This member is required.
+    public var snapshotOperationInfoDetails: KinesisAnalyticsV2ClientTypes.SnapshotOperationInfoDetails?
+
+    public init(
+        snapshotOperationInfoDetails: KinesisAnalyticsV2ClientTypes.SnapshotOperationInfoDetails? = nil
+    ) {
+        self.snapshotOperationInfoDetails = snapshotOperationInfoDetails
     }
 }
 
@@ -4552,6 +5267,160 @@ public struct DiscoverInputSchemaOutput: Swift.Sendable {
     }
 }
 
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the destination of the exported snapshot data.
+    public struct ExportDestinationConfiguration: Swift.Sendable {
+        /// The encryption configuration of the exported snapshot data. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+        public var destinationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration?
+        /// The Amazon S3 bucket and key prefix to export the snapshot data to. Managed Service for Apache Flink writes the data under a unique prefix that it appends to the key prefix that you specify. After the export completes, use DescribeSnapshotOperation to get the full prefix. The bucket must be owned by your account and must be in the same Region as the request.
+        /// This member is required.
+        public var destinationS3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation?
+        /// The type of the destination location. The only supported value is S3.
+        /// This member is required.
+        public var destinationType: KinesisAnalyticsV2ClientTypes.StorageLocationType?
+        /// The ARN of the IAM role that Managed Service for Apache Flink assumes to write the snapshot data to the destination location. For information about the permissions that this role requires, see [Import and export](https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html).
+        /// This member is required.
+        public var exportRoleArn: Swift.String?
+
+        public init(
+            destinationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration? = nil,
+            destinationS3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation? = nil,
+            destinationType: KinesisAnalyticsV2ClientTypes.StorageLocationType? = nil,
+            exportRoleArn: Swift.String? = nil
+        ) {
+            self.destinationEncryptionConfiguration = destinationEncryptionConfiguration
+            self.destinationS3PrefixLocation = destinationS3PrefixLocation
+            self.destinationType = destinationType
+            self.exportRoleArn = exportRoleArn
+        }
+    }
+}
+
+public struct ExportSnapshotInput: Swift.Sendable {
+    /// Describes the location, IAM role, and encryption configuration of the export destination.
+    /// This member is required.
+    public var exportDestinationConfiguration: KinesisAnalyticsV2ClientTypes.ExportDestinationConfiguration?
+    /// The name of the enhanced snapshot to export.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+
+    public init(
+        exportDestinationConfiguration: KinesisAnalyticsV2ClientTypes.ExportDestinationConfiguration? = nil,
+        snapshotName: Swift.String? = nil
+    ) {
+        self.exportDestinationConfiguration = exportDestinationConfiguration
+        self.snapshotName = snapshotName
+    }
+}
+
+public struct ExportSnapshotOutput: Swift.Sendable {
+    /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the export.
+    /// This member is required.
+    public var snapshotOperationId: Swift.String?
+    /// The status of the snapshot operation.
+    /// This member is required.
+    public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+
+    public init(
+        snapshotOperationId: Swift.String? = nil,
+        snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil
+    ) {
+        self.snapshotOperationId = snapshotOperationId
+        self.snapshotOperationStatus = snapshotOperationStatus
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the source of the savepoint data to import.
+    public struct ImportSourceConfiguration: Swift.Sendable {
+        /// The ARN of the IAM role that Managed Service for Apache Flink assumes to read the savepoint data from the source location. For information about the permissions that this role requires, see [Import and export](https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html).
+        /// This member is required.
+        public var importRoleArn: Swift.String?
+        /// The encryption configuration of the savepoint data at the source location. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+        public var sourceEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration?
+        /// The Amazon S3 bucket and key prefix that contain the savepoint data to import. The bucket must be owned by your account and must be in the same Region as the request.
+        /// This member is required.
+        public var sourceS3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation?
+        /// The type of the source location. The only supported value is S3.
+        /// This member is required.
+        public var sourceType: KinesisAnalyticsV2ClientTypes.StorageLocationType?
+
+        public init(
+            importRoleArn: Swift.String? = nil,
+            sourceEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration? = nil,
+            sourceS3PrefixLocation: KinesisAnalyticsV2ClientTypes.S3PrefixLocation? = nil,
+            sourceType: KinesisAnalyticsV2ClientTypes.StorageLocationType? = nil
+        ) {
+            self.importRoleArn = importRoleArn
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceS3PrefixLocation = sourceS3PrefixLocation
+            self.sourceType = sourceType
+        }
+    }
+}
+
+public struct ImportSnapshotInput: Swift.Sendable {
+    /// The encryption configuration of the imported snapshot. If you don't specify this parameter, the snapshot is encrypted using a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+    public var destinationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration?
+    /// Describes the location, IAM role, and encryption configuration of the savepoint data to import.
+    /// This member is required.
+    public var importSourceConfiguration: KinesisAnalyticsV2ClientTypes.ImportSourceConfiguration?
+    /// A summary description of the snapshot.
+    public var snapshotDescription: Swift.String?
+    /// The format of the snapshot being imported.
+    public var snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat?
+    /// The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+    /// A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    public var tags: [KinesisAnalyticsV2ClientTypes.Tag]?
+
+    public init(
+        destinationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.SnapshotEncryptionConfiguration? = nil,
+        importSourceConfiguration: KinesisAnalyticsV2ClientTypes.ImportSourceConfiguration? = nil,
+        snapshotDescription: Swift.String? = nil,
+        snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat? = nil,
+        snapshotName: Swift.String? = nil,
+        tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
+    ) {
+        self.destinationEncryptionConfiguration = destinationEncryptionConfiguration
+        self.importSourceConfiguration = importSourceConfiguration
+        self.snapshotDescription = snapshotDescription
+        self.snapshotFormat = snapshotFormat
+        self.snapshotName = snapshotName
+        self.tags = tags
+    }
+}
+
+public struct ImportSnapshotOutput: Swift.Sendable {
+    /// The ARN of the enhanced snapshot.
+    /// This member is required.
+    public var snapshotArn: Swift.String?
+    /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the import.
+    /// This member is required.
+    public var snapshotOperationId: Swift.String?
+    /// The status of the snapshot operation.
+    /// This member is required.
+    public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+    /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is CREATING.
+    /// This member is required.
+    public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+
+    public init(
+        snapshotArn: Swift.String? = nil,
+        snapshotOperationId: Swift.String? = nil,
+        snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil,
+        snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
+    ) {
+        self.snapshotArn = snapshotArn
+        self.snapshotOperationId = snapshotOperationId
+        self.snapshotOperationStatus = snapshotOperationStatus
+        self.snapshotStatus = snapshotStatus
+    }
+}
+
 /// A request for a list of operations performed on an application.
 public struct ListApplicationOperationsInput: Swift.Sendable {
     /// The name of the application.
@@ -4695,6 +5564,181 @@ public struct ListApplicationVersionsOutput: Swift.Sendable {
     ) {
         self.applicationVersionSummaries = applicationVersionSummaries
         self.nextToken = nextToken
+    }
+}
+
+public struct ListSnapshotOperationsInput: Swift.Sendable {
+    /// The maximum number of snapshot operations to list.
+    public var limit: Swift.Int?
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// The name of the enhanced snapshot.
+    /// This member is required.
+    public var snapshotName: Swift.String?
+    /// Use this parameter to list only the operations of the specified type.
+    public var snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation?
+    /// Use this parameter to list only the operations with the specified status.
+    public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        snapshotName: Swift.String? = nil,
+        snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation? = nil,
+        snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil
+    ) {
+        self.limit = limit
+        self.nextToken = nextToken
+        self.snapshotName = snapshotName
+        self.snapshotOperation = snapshotOperation
+        self.snapshotOperationStatus = snapshotOperationStatus
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Provides summary information about an operation that was performed on an enhanced snapshot.
+    public struct SnapshotOperationInfo: Swift.Sendable {
+        /// The timestamp that indicates when the operation finished. This field is present only after the operation completes.
+        public var endTime: Foundation.Date?
+        /// The type of operation that was performed on the snapshot.
+        /// This member is required.
+        public var snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation?
+        /// The ID of the snapshot operation.
+        /// This member is required.
+        public var snapshotOperationId: Swift.String?
+        /// The status of the snapshot operation.
+        /// This member is required.
+        public var snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus?
+        /// The timestamp that indicates when the operation was created.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            snapshotOperation: KinesisAnalyticsV2ClientTypes.SnapshotOperation? = nil,
+            snapshotOperationId: Swift.String? = nil,
+            snapshotOperationStatus: KinesisAnalyticsV2ClientTypes.SnapshotOperationStatus? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.snapshotOperation = snapshotOperation
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct ListSnapshotOperationsOutput: Swift.Sendable {
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// A list of SnapshotOperationInfo objects.
+    /// This member is required.
+    public var snapshotOperationInfoList: [KinesisAnalyticsV2ClientTypes.SnapshotOperationInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        snapshotOperationInfoList: [KinesisAnalyticsV2ClientTypes.SnapshotOperationInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.snapshotOperationInfoList = snapshotOperationInfoList
+    }
+}
+
+public struct ListSnapshotsInput: Swift.Sendable {
+    /// The maximum number of snapshots to list.
+    public var limit: Swift.Int?
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// Use this parameter to list only the snapshots with the specified initiator.
+    public var snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator?
+    /// Use this parameter to list only the snapshots that were created by the specified operation.
+    public var snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation?
+    /// Use this parameter to list only the snapshots with the specified status.
+    public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+    /// The name of the application.
+    public var sourceApplicationName: Swift.String?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator? = nil,
+        snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation? = nil,
+        snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil,
+        sourceApplicationName: Swift.String? = nil
+    ) {
+        self.limit = limit
+        self.nextToken = nextToken
+        self.snapshotInitiator = snapshotInitiator
+        self.snapshotInitiatorOperation = snapshotInitiatorOperation
+        self.snapshotStatus = snapshotStatus
+        self.sourceApplicationName = sourceApplicationName
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Provides summary information about an enhanced snapshot.
+    public struct SnapshotInfo: Swift.Sendable {
+        /// The ARN of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotArn: Swift.String?
+        /// The timestamp that indicates when the snapshot was created.
+        /// This member is required.
+        public var snapshotCreationTimestamp: Foundation.Date?
+        /// The format of the snapshot.
+        /// This member is required.
+        public var snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat?
+        /// Indicates who initiated the snapshot. USER indicates a snapshot that you created or imported. SYSTEM indicates a snapshot that Managed Service for Apache Flink created.
+        /// This member is required.
+        public var snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator?
+        /// The operation that created the snapshot.
+        /// This member is required.
+        public var snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation?
+        /// The name of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotName: Swift.String?
+        /// The status of the enhanced snapshot.
+        /// This member is required.
+        public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
+        /// The name of the application.
+        public var sourceApplicationName: Swift.String?
+
+        public init(
+            snapshotArn: Swift.String? = nil,
+            snapshotCreationTimestamp: Foundation.Date? = nil,
+            snapshotFormat: KinesisAnalyticsV2ClientTypes.SnapshotFormat? = nil,
+            snapshotInitiator: KinesisAnalyticsV2ClientTypes.SnapshotInitiator? = nil,
+            snapshotInitiatorOperation: KinesisAnalyticsV2ClientTypes.SnapshotInitiatorOperation? = nil,
+            snapshotName: Swift.String? = nil,
+            snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil,
+            sourceApplicationName: Swift.String? = nil
+        ) {
+            self.snapshotArn = snapshotArn
+            self.snapshotCreationTimestamp = snapshotCreationTimestamp
+            self.snapshotFormat = snapshotFormat
+            self.snapshotInitiator = snapshotInitiator
+            self.snapshotInitiatorOperation = snapshotInitiatorOperation
+            self.snapshotName = snapshotName
+            self.snapshotStatus = snapshotStatus
+            self.sourceApplicationName = sourceApplicationName
+        }
+    }
+}
+
+public struct ListSnapshotsOutput: Swift.Sendable {
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// A list of SnapshotInfo objects.
+    /// This member is required.
+    public var snapshotInfoList: [KinesisAnalyticsV2ClientTypes.SnapshotInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        snapshotInfoList: [KinesisAnalyticsV2ClientTypes.SnapshotInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.snapshotInfoList = snapshotInfoList
     }
 }
 

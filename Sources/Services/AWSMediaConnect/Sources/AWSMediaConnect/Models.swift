@@ -57,6 +57,7 @@ extension MediaConnectClientTypes {
         case fujitsuQos
         case ndiSpeedHq
         case rist
+        case rtmpPush
         case rtp
         case rtpFec
         case srtCaller
@@ -73,6 +74,7 @@ extension MediaConnectClientTypes {
                 .fujitsuQos,
                 .ndiSpeedHq,
                 .rist,
+                .rtmpPush,
                 .rtp,
                 .rtpFec,
                 .srtCaller,
@@ -95,6 +97,7 @@ extension MediaConnectClientTypes {
             case .fujitsuQos: return "fujitsu-qos"
             case .ndiSpeedHq: return "ndi-speed-hq"
             case .rist: return "rist"
+            case .rtmpPush: return "rtmp-push"
             case .rtp: return "rtp"
             case .rtpFec: return "rtp-fec"
             case .srtCaller: return "srt-caller"
@@ -1021,6 +1024,96 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The TLS encryption configuration for destinations that present a certificate from a publicly trusted certificate authority. This type does not require any additional settings.
+    public struct PublicTlsEncryptionConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for TLS encryption.
+    public enum TlsEncryptionConfiguration: Swift.Sendable {
+        /// The TLS encryption configuration that validates the destination by using a publicly trusted certificate authority.
+        case `public`(MediaConnectClientTypes.PublicTlsEncryptionConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum TlsEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsEncryptionType] {
+            return [
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The Transport Layer Security (TLS) encryption settings used to establish a secure connection to a destination.
+    public struct TlsEncryption: Swift.Sendable {
+        /// The configuration settings for the specified TLS encryption type.
+        /// This member is required.
+        public var encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration?
+        /// The type of TLS encryption to use for the connection.
+        public var encryptionType: MediaConnectClientTypes.TlsEncryptionType?
+
+        public init(
+            encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration? = nil,
+            encryptionType: MediaConnectClientTypes.TlsEncryptionType? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.encryptionType = encryptionType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified. These settings include the application and stream names, and optional TLS encryption configuration.
+    public struct RtmpPushOutputSettings: Swift.Sendable {
+        /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The name of the RTMP stream that the output publishes to the destination application. The stream name forms the final segment of the RTMP URL path.
+        /// This member is required.
+        public var streamName: Swift.String?
+        /// The TLS encryption settings for the output. When you specify these settings, the output uses RTMPS (RTMP over TLS) to establish a secure, encrypted connection to the destination server.
+        public var tlsEncryption: MediaConnectClientTypes.TlsEncryption?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            streamName: Swift.String? = nil,
+            tlsEncryption: MediaConnectClientTypes.TlsEncryption? = nil
+        ) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+            self.tlsEncryption = tlsEncryption
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// A request to add an output to a flow.
     public struct AddOutputRequest: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -1065,6 +1158,8 @@ extension MediaConnectClientTypes {
         public var routerIntegrationState: MediaConnectClientTypes.State?
         /// The configuration that defines how content is encrypted during transit between the MediaConnect router and a MediaConnect flow.
         public var routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
+        /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+        public var rtmpPushSettings: MediaConnectClientTypes.RtmpPushOutputSettings?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
@@ -1094,6 +1189,7 @@ extension MediaConnectClientTypes {
             remoteId: Swift.String? = nil,
             routerIntegrationState: MediaConnectClientTypes.State? = nil,
             routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
+            rtmpPushSettings: MediaConnectClientTypes.RtmpPushOutputSettings? = nil,
             senderControlPort: Swift.Int? = nil,
             smoothingLatency: Swift.Int? = nil,
             streamId: Swift.String? = nil,
@@ -1118,6 +1214,7 @@ extension MediaConnectClientTypes {
             self.remoteId = remoteId
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
@@ -2732,6 +2829,61 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum RtmpPushNamingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RtmpPushNamingType] {
+            return [
+                .automatic,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+    public struct RtmpPushSourceSettings: Swift.Sendable {
+        /// The name of the RTMP application. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://ingestAddress/applicationName/streamName.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The naming type that the source uses. With AUTOMATIC naming, MediaConnect generates the application and stream names.
+        /// This member is required.
+        public var namingType: MediaConnectClientTypes.RtmpPushNamingType?
+        /// The name of the RTMP stream. The stream name forms the final segment of the RTMP URL path.
+        /// This member is required.
+        public var streamName: Swift.String?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            namingType: MediaConnectClientTypes.RtmpPushNamingType? = nil,
+            streamName: Swift.String? = nil
+        ) {
+            self.applicationName = applicationName
+            self.namingType = namingType
+            self.streamName = streamName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Attributes related to the transport stream that are used in a source or output.
     public struct Transport: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
@@ -2763,6 +2915,10 @@ extension MediaConnectClientTypes {
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The remote ID for the Zixi-pull stream.
         public var remoteId: Swift.String?
+        /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+        public var rtmpPushOutputSettings: MediaConnectClientTypes.RtmpPushOutputSettings?
+        /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+        public var rtmpPushSourceSettings: MediaConnectClientTypes.RtmpPushSourceSettings?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -2789,6 +2945,8 @@ extension MediaConnectClientTypes {
             ndiSpeedHqQuality: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
+            rtmpPushOutputSettings: MediaConnectClientTypes.RtmpPushOutputSettings? = nil,
+            rtmpPushSourceSettings: MediaConnectClientTypes.RtmpPushSourceSettings? = nil,
             senderControlPort: Swift.Int? = nil,
             senderIpAddress: Swift.String? = nil,
             smoothingLatency: Swift.Int? = nil,
@@ -2808,6 +2966,8 @@ extension MediaConnectClientTypes {
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.rtmpPushOutputSettings = rtmpPushOutputSettings
+            self.rtmpPushSourceSettings = rtmpPushSourceSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.smoothingLatency = smoothingLatency
@@ -3052,6 +3212,64 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The automatic RTMP naming configuration, where MediaConnect generates the application and stream names. This type does not require any additional settings.
+    public struct AutomaticRtmpPushNamingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The manual RTMP naming configuration, where you specify the application and stream names.
+    public struct ManualRtmpPushNamingConfiguration: Swift.Sendable {
+        /// The name of the RTMP application. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://ingestAddress/applicationName/streamName.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The name of the RTMP stream. The stream name forms the final segment of the RTMP URL path.
+        /// This member is required.
+        public var streamName: Swift.String?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            streamName: Swift.String? = nil
+        ) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for the RTMP (Real-Time Messaging Protocol) application and stream names.
+    public enum RtmpPushNamingConfiguration: Swift.Sendable {
+        /// The naming configuration where you specify the application and stream names.
+        case manual(MediaConnectClientTypes.ManualRtmpPushNamingConfiguration)
+        /// The naming configuration where MediaConnect generates the application and stream names.
+        case automatic(MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+    public struct SetRtmpPushSourceSettings: Swift.Sendable {
+        /// The configuration settings for the application and stream names.
+        /// This member is required.
+        public var namingConfiguration: MediaConnectClientTypes.RtmpPushNamingConfiguration?
+
+        public init(
+            namingConfiguration: MediaConnectClientTypes.RtmpPushNamingConfiguration? = nil
+        ) {
+            self.namingConfiguration = namingConfiguration
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The settings for the source of the flow.
     public struct SetSourceRequest: Swift.Sendable {
         /// The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
@@ -3084,6 +3302,8 @@ extension MediaConnectClientTypes {
         public var routerIntegrationState: MediaConnectClientTypes.State?
         /// The decryption configuration for the flow source when router integration is enabled. Specifies how the source content should be decrypted when router integration is used.
         public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
+        /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+        public var rtmpPushSettings: MediaConnectClientTypes.SetRtmpPushSourceSettings?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -3117,6 +3337,7 @@ extension MediaConnectClientTypes {
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             routerIntegrationState: MediaConnectClientTypes.State? = nil,
             routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
+            rtmpPushSettings: MediaConnectClientTypes.SetRtmpPushSourceSettings? = nil,
             senderControlPort: Swift.Int? = nil,
             senderIpAddress: Swift.String? = nil,
             sourceListenerAddress: Swift.String? = nil,
@@ -3141,6 +3362,7 @@ extension MediaConnectClientTypes {
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceListenerAddress = sourceListenerAddress
@@ -3284,6 +3506,8 @@ extension MediaConnectClientTypes {
         public var frameRate: Swift.String?
         /// The frame resolution used by the video stream.
         public var frameResolution: MediaConnectClientTypes.FrameResolution?
+        /// The language of the elementary stream.
+        public var language: Swift.String?
         /// The Packet ID (PID) as it is reported in the Program Map Table.
         /// This member is required.
         public var pid: Swift.Int?
@@ -3291,6 +3515,8 @@ extension MediaConnectClientTypes {
         public var sampleRate: Swift.Int?
         /// The sample bit size used by the audio stream.
         public var sampleSize: Swift.Int?
+        /// The scan mode used by the video stream.
+        public var scanMode: MediaConnectClientTypes.ScanMode?
         /// The Stream Type as it is reported in the Program Map Table.
         /// This member is required.
         public var streamType: Swift.String?
@@ -3301,9 +3527,11 @@ extension MediaConnectClientTypes {
             color: MediaConnectClientTypes.ColorInformation? = nil,
             frameRate: Swift.String? = nil,
             frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
+            language: Swift.String? = nil,
             pid: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil,
             sampleSize: Swift.Int? = nil,
+            scanMode: MediaConnectClientTypes.ScanMode? = nil,
             streamType: Swift.String? = nil
         ) {
             self.channels = channels
@@ -3311,9 +3539,11 @@ extension MediaConnectClientTypes {
             self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
+            self.language = language
             self.pid = pid
             self.sampleRate = sampleRate
             self.sampleSize = sampleSize
+            self.scanMode = scanMode
             self.streamType = streamType
         }
     }
@@ -3968,6 +4198,27 @@ extension MediaConnectClientTypes {
     public struct AutomaticEndpointEncryptionConfiguration: Swift.Sendable {
 
         public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for automatic Packet ID (PID) assignment. These settings apply to any PID mapping rule that uses the auto action, including the default action.
+    public struct AutoPidMapConfiguration: Swift.Sendable {
+        /// The number of PIDs in the range for automatic PID assignment.
+        /// This member is required.
+        public var pidsPerProgram: Swift.Int?
+        /// The first PID in the range for automatic PID assignment.
+        /// This member is required.
+        public var startPid: Swift.Int?
+
+        public init(
+            pidsPerProgram: Swift.Int? = nil,
+            startPid: Swift.Int? = nil
+        ) {
+            self.pidsPerProgram = pidsPerProgram
+            self.startPid = startPid
+        }
     }
 }
 
@@ -5210,6 +5461,31 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The configuration settings for a router input using the RTMP (Real-Time Messaging Protocol) protocol.
+    public struct RtmpPushRouterInputConfiguration: Swift.Sendable {
+        /// The configuration settings for the application and stream names.
+        /// This member is required.
+        public var namingConfiguration: MediaConnectClientTypes.RtmpPushNamingConfiguration?
+        /// The naming type. If you specify it, it must match the naming configuration.
+        public var namingType: MediaConnectClientTypes.RtmpPushNamingType?
+        /// The port number for the RTMP protocol. The only valid value is 1935.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            namingConfiguration: MediaConnectClientTypes.RtmpPushNamingConfiguration? = nil,
+            namingType: MediaConnectClientTypes.RtmpPushNamingType? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.namingConfiguration = namingConfiguration
+            self.namingType = namingType
+            self.port = port
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
     public struct RtpRouterInputConfiguration: Swift.Sendable {
         /// The state of forward error correction for the RTP protocol in the router input configuration.
@@ -5311,6 +5587,8 @@ extension MediaConnectClientTypes {
         case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
+        /// The configuration settings for a failover router input that uses the RTMP protocol.
+        case rtmppush(MediaConnectClientTypes.RtmpPushRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
         /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
@@ -5528,6 +5806,10 @@ extension MediaConnectClientTypes {
         case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
         /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
         case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
+        case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
+        case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5562,6 +5844,7 @@ extension MediaConnectClientTypes {
 
     public enum RouterInputProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rist
+        case rtmpPush
         case rtp
         case srtCaller
         case srtListener
@@ -5570,6 +5853,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [RouterInputProtocol] {
             return [
                 .rist,
+                .rtmpPush,
                 .rtp,
                 .srtCaller,
                 .srtListener
@@ -5584,6 +5868,7 @@ extension MediaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .rist: return "RIST"
+            case .rtmpPush: return "RTMP_PUSH"
             case .rtp: return "RTP"
             case .srtCaller: return "SRT_CALLER"
             case .srtListener: return "SRT_LISTENER"
@@ -5601,6 +5886,8 @@ extension MediaConnectClientTypes {
         case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
+        /// The configuration settings for a router input that uses the RTMP protocol.
+        case rtmppush(MediaConnectClientTypes.RtmpPushRouterInputConfiguration)
         /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
         /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
@@ -6063,8 +6350,31 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configuration details for an RTMP (Real-Time Messaging Protocol) router input stream, including the application and stream names.
+    public struct RtmpPushStreamDetails: Swift.Sendable {
+        /// The name of the RTMP application.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The name of the RTMP stream.
+        /// This member is required.
+        public var streamName: Swift.String?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            streamName: Swift.String? = nil
+        ) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Configuration details for an indexed stream in a failover router input setup.
     public struct FailoverRouterInputIndexedStreamDetails: Swift.Sendable {
+        /// The RTMP stream details for this indexed stream, including the application and stream names.
+        public var rtmpPush: MediaConnectClientTypes.RtmpPushStreamDetails?
         /// The index number (0 or 1) assigned to this source in the failover configuration.
         /// This member is required.
         public var sourceIndex: Swift.Int?
@@ -6072,9 +6382,11 @@ extension MediaConnectClientTypes {
         public var sourceIpAddress: Swift.String?
 
         public init(
+            rtmpPush: MediaConnectClientTypes.RtmpPushStreamDetails? = nil,
             sourceIndex: Swift.Int? = nil,
             sourceIpAddress: Swift.String? = nil
         ) {
+            self.rtmpPush = rtmpPush
             self.sourceIndex = sourceIndex
             self.sourceIpAddress = sourceIpAddress
         }
@@ -6165,12 +6477,16 @@ extension MediaConnectClientTypes {
 
     /// Configuration details for a standard router input stream type.
     public struct StandardRouterInputStreamDetails: Swift.Sendable {
+        /// The RTMP stream details for the standard router input stream, including the application and stream names.
+        public var rtmpPush: MediaConnectClientTypes.RtmpPushStreamDetails?
         /// The source IP address for the standard router input stream.
         public var sourceIpAddress: Swift.String?
 
         public init(
+            rtmpPush: MediaConnectClientTypes.RtmpPushStreamDetails? = nil,
             sourceIpAddress: Swift.String? = nil
         ) {
+            self.rtmpPush = rtmpPush
             self.sourceIpAddress = sourceIpAddress
         }
     }
@@ -6936,71 +7252,6 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The TLS encryption configuration for destinations that present a certificate from a publicly trusted certificate authority. This type does not require any additional settings.
-    public struct PublicTlsEncryptionConfiguration: Swift.Sendable {
-
-        public init() { }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The configuration settings for TLS encryption.
-    public enum TlsEncryptionConfiguration: Swift.Sendable {
-        /// The TLS encryption configuration that validates the destination by using a publicly trusted certificate authority.
-        case `public`(MediaConnectClientTypes.PublicTlsEncryptionConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public enum TlsEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `public`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TlsEncryptionType] {
-            return [
-                .public
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .public: return "PUBLIC"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The Transport Layer Security (TLS) encryption settings used to establish a secure connection to a destination.
-    public struct TlsEncryption: Swift.Sendable {
-        /// The configuration settings for the specified TLS encryption type.
-        /// This member is required.
-        public var encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration?
-        /// The type of TLS encryption to use for the connection.
-        public var encryptionType: MediaConnectClientTypes.TlsEncryptionType?
-
-        public init(
-            encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration? = nil,
-            encryptionType: MediaConnectClientTypes.TlsEncryptionType? = nil
-        ) {
-            self.encryptionConfiguration = encryptionConfiguration
-            self.encryptionType = encryptionType
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
     /// The configuration settings for a router output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified. These settings include the destination address and port, the application and stream names, and optional TLS encryption configuration.
     public struct RtmpPushRouterOutputConfiguration: Swift.Sendable {
         /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
@@ -7224,6 +7475,71 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The switching configuration where the router output switches to the new router input immediately. This type does not require any additional settings.
+    public struct ImmediateFabricSwitchingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The switching configuration where the router output waits for a key frame on the new router input before it switches.
+    public struct KeyFrameFabricSwitchingConfiguration: Swift.Sendable {
+        /// The maximum time, in milliseconds, that the router output waits for a key frame on the new input before it switches. Set this value to at least the GOP (Group of Pictures) duration of your content, which your upstream encoder determines. If the wait time is shorter than the GOP duration, MediaConnect makes a best effort to switch without a key frame. The default is 3000.
+        public var keyFrameWaitMilliseconds: Swift.Int?
+
+        public init(
+            keyFrameWaitMilliseconds: Swift.Int? = nil
+        ) {
+            self.keyFrameWaitMilliseconds = keyFrameWaitMilliseconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for switching between router inputs.
+    public enum FabricSwitchingConfiguration: Swift.Sendable {
+        /// The switching configuration where the router output switches to the new router input immediately.
+        case immediate(MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration)
+        /// The switching configuration where the router output waits for a key frame on the new router input before it switches.
+        case keyframe(MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum FabricSwitchingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case immediate
+        case keyFrame
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FabricSwitchingMode] {
+            return [
+                .immediate,
+                .keyFrame
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .immediate: return "IMMEDIATE"
+            case .keyFrame: return "KEY_FRAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The fabric configuration settings for the router output.
     public struct FabricConfiguration: Swift.Sendable {
         /// The recovery latency mode for the router fabric connection. Valid values include the following:
@@ -7233,11 +7549,26 @@ extension MediaConnectClientTypes {
         /// * LOW_LATENCY – Reduces latency at the potential cost of stream quality under adverse network conditions.
         /// This member is required.
         public var recoveryLatencyMode: MediaConnectClientTypes.FabricLatencyMode?
+        /// The configuration settings for the switching mode.
+        public var switchingConfiguration: MediaConnectClientTypes.FabricSwitchingConfiguration?
+        /// The switching mode that the router output uses when it switches to a new router input. Valid values include the following:
+        ///
+        /// * IMMEDIATE (default) – Switches to the new router input immediately.
+        ///
+        /// * KEY_FRAME – Waits for a key frame on the new router input before it switches.
+        ///
+        ///
+        /// If you specify it, it must match the switching configuration.
+        public var switchingMode: MediaConnectClientTypes.FabricSwitchingMode?
 
         public init(
-            recoveryLatencyMode: MediaConnectClientTypes.FabricLatencyMode? = nil
+            recoveryLatencyMode: MediaConnectClientTypes.FabricLatencyMode? = nil,
+            switchingConfiguration: MediaConnectClientTypes.FabricSwitchingConfiguration? = nil,
+            switchingMode: MediaConnectClientTypes.FabricSwitchingMode? = nil
         ) {
             self.recoveryLatencyMode = recoveryLatencyMode
+            self.switchingConfiguration = switchingConfiguration
+            self.switchingMode = switchingMode
         }
     }
 }
@@ -7294,6 +7625,140 @@ extension MediaConnectClientTypes {
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration that passes through the value from the source. This type does not require any additional settings.
+    public struct Passthrough: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for the Program Clock Reference (PCR) Packet ID (PID).
+    public enum ProgramClockReferencePidConfiguration: Swift.Sendable {
+        /// The PCR PID configuration that passes through the PCR PID from the source.
+        case passthrough(MediaConnectClientTypes.Passthrough)
+        /// The PCR PID to use for the router output. MediaConnect applies this value only when the PCR is carried on its own PID. If the PCR is carried on an elementary stream, this value has no effect. If you also set the PMT PID, the two values must be different.
+        case `set`(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for the Program Map Table (PMT) Packet ID (PID).
+    public enum ProgramMapTablePidConfiguration: Swift.Sendable {
+        /// The PMT PID configuration that passes through the PMT PID from the source.
+        case passthrough(MediaConnectClientTypes.Passthrough)
+        /// The PMT PID to use for the router output. If you also set the PCR PID, the two values must be different.
+        case `set`(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for the program number.
+    public enum ProgramNumberConfiguration: Swift.Sendable {
+        /// The program number configuration that passes through the program number from the source.
+        case passthrough(MediaConnectClientTypes.Passthrough)
+        /// The program number to use for the router output.
+        case `set`(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A rule that selects elementary streams and specifies the action to apply to them.
+    public struct PidMapRule: Swift.Sendable {
+        /// The action to apply to the elementary streams that match this rule.
+        /// This member is required.
+        public var action: Swift.String?
+        /// An expression that selects the elementary streams that this rule applies to.
+        /// This member is required.
+        public var matchExpression: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            matchExpression: Swift.String? = nil
+        ) {
+            self.action = action
+            self.matchExpression = matchExpression
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for the transport stream ID (TSID).
+    public enum TransportStreamIdConfiguration: Swift.Sendable {
+        /// The TSID configuration that passes through the TSID from the source.
+        case passthrough(MediaConnectClientTypes.Passthrough)
+        /// The TSID to use for the router output.
+        case `set`(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for remapping the identification numbers of elementary streams and program identifiers of a single-program transport stream.
+    public struct SingleProgramTransportStreamPidMapConfiguration: Swift.Sendable {
+        /// The settings for automatic Packet ID (PID) assignment. The default start PID is 512, with 32 PIDs per program.
+        public var auto: MediaConnectClientTypes.AutoPidMapConfiguration?
+        /// The action to apply to an elementary stream that doesn't match any rule.
+        /// This member is required.
+        public var defaultAction: Swift.String?
+        /// The Program Clock Reference (PCR) PID settings for the router output. By default, the router output passes through the PCR PID from the source.
+        public var programClockReferencePid: MediaConnectClientTypes.ProgramClockReferencePidConfiguration?
+        /// The Program Map Table (PMT) PID settings for the router output. By default, the router output passes through the PMT PID from the source.
+        public var programMapTablePid: MediaConnectClientTypes.ProgramMapTablePidConfiguration?
+        /// The program number settings for the router output. By default, the router output passes through the program number from the source.
+        public var programNumber: MediaConnectClientTypes.ProgramNumberConfiguration?
+        /// The ordered list of up to 32 rules that determine the action for each elementary stream. MediaConnect applies the first rule that matches.
+        /// This member is required.
+        public var rules: [MediaConnectClientTypes.PidMapRule]?
+        /// The transport stream ID (TSID) settings for the router output. By default, the router output passes through the TSID from the source.
+        public var transportStreamId: MediaConnectClientTypes.TransportStreamIdConfiguration?
+
+        public init(
+            auto: MediaConnectClientTypes.AutoPidMapConfiguration? = nil,
+            defaultAction: Swift.String? = nil,
+            programClockReferencePid: MediaConnectClientTypes.ProgramClockReferencePidConfiguration? = nil,
+            programMapTablePid: MediaConnectClientTypes.ProgramMapTablePidConfiguration? = nil,
+            programNumber: MediaConnectClientTypes.ProgramNumberConfiguration? = nil,
+            rules: [MediaConnectClientTypes.PidMapRule]? = nil,
+            transportStreamId: MediaConnectClientTypes.TransportStreamIdConfiguration? = nil
+        ) {
+            self.auto = auto
+            self.defaultAction = defaultAction
+            self.programClockReferencePid = programClockReferencePid
+            self.programMapTablePid = programMapTablePid
+            self.programNumber = programNumber
+            self.rules = rules
+            self.transportStreamId = transportStreamId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The processor settings for a router output.
+    public struct RouterOutputProcessors: Swift.Sendable {
+        /// The configuration settings for remapping the identification numbers of elementary streams and program identifiers of a single-program transport stream.
+        public var singleProgramTransportStreamPidMap: MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration?
+
+        public init(
+            singleProgramTransportStreamPidMap: MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration? = nil
+        ) {
+            self.singleProgramTransportStreamPidMap = singleProgramTransportStreamPidMap
         }
     }
 }
@@ -7527,6 +7992,8 @@ extension MediaConnectClientTypes {
         /// The type of the router output.
         /// This member is required.
         public var outputType: MediaConnectClientTypes.RouterOutputType?
+        /// The processor settings for the router output.
+        public var processors: MediaConnectClientTypes.RouterOutputProcessors?
         /// The Amazon Web Services Region where the router output is located.
         /// This member is required.
         public var regionName: Swift.String?
@@ -7584,6 +8051,7 @@ extension MediaConnectClientTypes {
             messages: [MediaConnectClientTypes.RouterOutputMessage]? = nil,
             name: Swift.String? = nil,
             outputType: MediaConnectClientTypes.RouterOutputType? = nil,
+            processors: MediaConnectClientTypes.RouterOutputProcessors? = nil,
             regionName: Swift.String? = nil,
             routedInputArn: Swift.String? = nil,
             routedState: MediaConnectClientTypes.RouterOutputRoutedState? = nil,
@@ -7610,6 +8078,7 @@ extension MediaConnectClientTypes {
             self.messages = messages
             self.name = name
             self.outputType = outputType
+            self.processors = processors
             self.regionName = regionName
             self.routedInputArn = routedInputArn
             self.routedState = routedState
@@ -9865,6 +10334,8 @@ public struct CreateRouterOutputInput: Swift.Sendable {
     /// The name of the router output.
     /// This member is required.
     public var name: Swift.String?
+    /// The processor settings for the router output.
+    public var processors: MediaConnectClientTypes.RouterOutputProcessors?
     /// The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
@@ -9897,6 +10368,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
+        processors: MediaConnectClientTypes.RouterOutputProcessors? = nil,
         regionName: Swift.String? = nil,
         routingScope: MediaConnectClientTypes.RoutingScope? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -9909,6 +10381,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
+        self.processors = processors
         self.regionName = regionName
         self.routingScope = routingScope
         self.tags = tags
@@ -10272,6 +10745,139 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum SourceMediaStreamType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
+        case data
+        case unknown
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceMediaStreamType] {
+            return [
+                .audio,
+                .data,
+                .unknown,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "AUDIO"
+            case .data: return "DATA"
+            case .unknown: return "UNKNOWN"
+            case .video: return "VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Information about a single audio or video stream that is part of an RTMP source. This includes details about the stream type, codec, resolution, frame rate, audio channels, and sample rate.
+    public struct RtmpMediaStreamInfo: Swift.Sendable {
+        /// The number of audio channels in the stream. Used when the streamType is AUDIO.
+        public var channels: Swift.Int?
+        /// The codec used for the stream.
+        /// This member is required.
+        public var codec: Swift.String?
+        /// The color signaling of the video stream. Used when the streamType is VIDEO.
+        public var color: MediaConnectClientTypes.ColorInformation?
+        /// The number of video frames displayed per second. Used when the streamType is VIDEO.
+        public var frameRate: Swift.String?
+        /// The width and height dimensions of the video frame in pixels. Used when the streamType is VIDEO.
+        public var frameResolution: MediaConnectClientTypes.FrameResolution?
+        /// The language of the audio stream. Used when the streamType is AUDIO.
+        public var language: Swift.String?
+        /// The number of audio samples captured per second. Used when the streamType is AUDIO.
+        public var sampleRate: Swift.Int?
+        /// The sample bit size used by the audio stream. Used when the streamType is AUDIO.
+        public var sampleSize: Swift.Int?
+        /// The method used to display video frames. Used when the streamType is VIDEO.
+        public var scanMode: MediaConnectClientTypes.ScanMode?
+        /// A unique identifier for the stream.
+        /// This member is required.
+        public var streamId: Swift.Int?
+        /// The type of stream (for example, VIDEO or AUDIO).
+        /// This member is required.
+        public var streamType: MediaConnectClientTypes.SourceMediaStreamType?
+
+        public init(
+            channels: Swift.Int? = nil,
+            codec: Swift.String? = nil,
+            color: MediaConnectClientTypes.ColorInformation? = nil,
+            frameRate: Swift.String? = nil,
+            frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
+            language: Swift.String? = nil,
+            sampleRate: Swift.Int? = nil,
+            sampleSize: Swift.Int? = nil,
+            scanMode: MediaConnectClientTypes.ScanMode? = nil,
+            streamId: Swift.Int? = nil,
+            streamType: MediaConnectClientTypes.SourceMediaStreamType? = nil
+        ) {
+            self.channels = channels
+            self.codec = codec
+            self.color = color
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.language = language
+            self.sampleRate = sampleRate
+            self.sampleSize = sampleSize
+            self.scanMode = scanMode
+            self.streamId = streamId
+            self.streamType = streamType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Metadata about the audio and video media that is part of the RTMP source content. This includes details about the individual streams.
+    public struct RtmpMediaInfo: Swift.Sendable {
+        /// A list of the individual audio and video streams that make up the RTMP source. This includes details about each stream's codec, resolution, frame rate, audio channels, and other parameters.
+        /// This member is required.
+        public var streams: [MediaConnectClientTypes.RtmpMediaStreamInfo]?
+
+        public init(
+            streams: [MediaConnectClientTypes.RtmpMediaStreamInfo]? = nil
+        ) {
+            self.streams = streams
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Information about the RTMP (Real-Time Messaging Protocol) source. This includes the application name, the stream name, and metadata about the audio and video streams.
+    public struct RtmpSourceMetadataInfo: Swift.Sendable {
+        /// The name of the RTMP application.
+        public var applicationName: Swift.String?
+        /// Information about the audio and video streams that are part of the RTMP source.
+        /// This member is required.
+        public var mediaInfo: MediaConnectClientTypes.RtmpMediaInfo?
+        /// The name of the RTMP stream.
+        public var streamName: Swift.String?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            mediaInfo: MediaConnectClientTypes.RtmpMediaInfo? = nil,
+            streamName: Swift.String? = nil
+        ) {
+            self.applicationName = applicationName
+            self.mediaInfo = mediaInfo
+            self.streamName = streamName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The metadata of the transport stream in the current flow's source.
     public struct TransportMediaInfo: Swift.Sendable {
         /// The list of transport stream programs in the current flow's source.
@@ -10297,6 +10903,8 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public var messages: [MediaConnectClientTypes.MessageDetail]?
     /// The NDI® specific information about the flow's source. This includes the current active NDI sender, a list of all discovered NDI senders, the associated media streams for the active NDI sender, and any relevant status messages.
     public var ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo?
+    /// The RTMP (Real-Time Messaging Protocol) specific information about the flow's source. This includes the application name, the stream name, and the associated audio and video streams.
+    public var rtmpInfo: MediaConnectClientTypes.RtmpSourceMetadataInfo?
     /// The timestamp of the most recent change in metadata for this flow’s source.
     public var timestamp: Foundation.Date?
     /// Information about the flow's transport media.
@@ -10306,12 +10914,14 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
         flowArn: Swift.String? = nil,
         messages: [MediaConnectClientTypes.MessageDetail]? = nil,
         ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo? = nil,
+        rtmpInfo: MediaConnectClientTypes.RtmpSourceMetadataInfo? = nil,
         timestamp: Foundation.Date? = nil,
         transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo? = nil
     ) {
         self.flowArn = flowArn
         self.messages = messages
         self.ndiInfo = ndiInfo
+        self.rtmpInfo = rtmpInfo
         self.timestamp = timestamp
         self.transportMediaInfo = transportMediaInfo
     }
@@ -11410,6 +12020,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var routerIntegrationState: MediaConnectClientTypes.State?
     /// The configuration that defines how content is encrypted during transit between the MediaConnect router and a MediaConnect flow.
     public var routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
+    /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+    public var rtmpPushSettings: MediaConnectClientTypes.RtmpPushOutputSettings?
     /// The port that the flow uses to send outbound requests to initiate connection with the sender.
     public var senderControlPort: Swift.Int?
     /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -11441,6 +12053,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         remoteId: Swift.String? = nil,
         routerIntegrationState: MediaConnectClientTypes.State? = nil,
         routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
+        rtmpPushSettings: MediaConnectClientTypes.RtmpPushOutputSettings? = nil,
         senderControlPort: Swift.Int? = nil,
         senderIpAddress: Swift.String? = nil,
         smoothingLatency: Swift.Int? = nil,
@@ -11466,6 +12079,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         self.remoteId = remoteId
         self.routerIntegrationState = routerIntegrationState
         self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
+        self.rtmpPushSettings = rtmpPushSettings
         self.senderControlPort = senderControlPort
         self.senderIpAddress = senderIpAddress
         self.smoothingLatency = smoothingLatency
@@ -11540,6 +12154,8 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
     public var routerIntegrationState: MediaConnectClientTypes.State?
     /// The encryption configuration for the flow source when router integration is enabled.
     public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
+    /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+    public var rtmpPushSettings: MediaConnectClientTypes.SetRtmpPushSourceSettings?
     /// The port that the flow uses to send outbound requests to initiate connection with the sender.
     public var senderControlPort: Swift.Int?
     /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -11574,6 +12190,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
         routerIntegrationState: MediaConnectClientTypes.State? = nil,
         routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
+        rtmpPushSettings: MediaConnectClientTypes.SetRtmpPushSourceSettings? = nil,
         senderControlPort: Swift.Int? = nil,
         senderIpAddress: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -11598,6 +12215,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         self.`protocol` = `protocol`
         self.routerIntegrationState = routerIntegrationState
         self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
+        self.rtmpPushSettings = rtmpPushSettings
         self.senderControlPort = senderControlPort
         self.senderIpAddress = senderIpAddress
         self.sourceArn = sourceArn
@@ -11761,6 +12379,8 @@ extension MediaConnectClientTypes {
     public enum RouterInputMetadata: Swift.Sendable {
         /// The metadata of the transport stream in the current flow's source.
         case transportstreammediainfo(MediaConnectClientTypes.TransportMediaInfo)
+        /// The RTMP (Real-Time Messaging Protocol) specific information about the router input's source. This includes the application name, the stream name, and the associated audio and video streams.
+        case rtmpinfo(MediaConnectClientTypes.RtmpSourceMetadataInfo)
         case sdkUnknown(Swift.String)
     }
 }
@@ -13064,6 +13684,8 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
     public var maximumBitrate: Swift.Int?
     /// The updated name for the router output.
     public var name: Swift.String?
+    /// The updated processor settings for the router output. When you update the processors, include every setting that you want to keep. MediaConnect resets the settings that you don't specify to their defaults.
+    public var processors: MediaConnectClientTypes.RouterOutputProcessors?
     /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     public var routingScope: MediaConnectClientTypes.RoutingScope?
     /// The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:
@@ -13089,6 +13711,7 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
+        processors: MediaConnectClientTypes.RouterOutputProcessors? = nil,
         routingScope: MediaConnectClientTypes.RoutingScope? = nil,
         tier: MediaConnectClientTypes.RouterOutputTier? = nil
     ) {
@@ -13098,6 +13721,7 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
+        self.processors = processors
         self.routingScope = routingScope
         self.tier = tier
     }
@@ -14671,6 +15295,7 @@ extension CreateRouterOutputInput {
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
+        try writer["processors"].write(value.processors, with: MediaConnectClientTypes.RouterOutputProcessors.write(value:to:))
         try writer["regionName"].write(value.regionName)
         try writer["routingScope"].write(value.routingScope)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -14892,6 +15517,7 @@ extension UpdateFlowOutputInput {
         try writer["remoteId"].write(value.remoteId)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["rtmpPushSettings"].write(value.rtmpPushSettings, with: MediaConnectClientTypes.RtmpPushOutputSettings.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["smoothingLatency"].write(value.smoothingLatency)
@@ -14918,6 +15544,7 @@ extension UpdateFlowSourceInput {
         try writer["protocol"].write(value.`protocol`)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["rtmpPushSettings"].write(value.rtmpPushSettings, with: MediaConnectClientTypes.SetRtmpPushSourceSettings.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
@@ -14969,6 +15596,7 @@ extension UpdateRouterOutputInput {
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
+        try writer["processors"].write(value.processors, with: MediaConnectClientTypes.RouterOutputProcessors.write(value:to:))
         try writer["routingScope"].write(value.routingScope)
         try writer["tier"].write(value.tier)
     }
@@ -15366,6 +15994,7 @@ extension DescribeFlowSourceMetadataOutput {
         value.flowArn = try reader["flowArn"].readIfPresent()
         value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ndiInfo = try reader["ndiInfo"].readIfPresent(with: MediaConnectClientTypes.NdiSourceMetadataInfo.read(from:))
+        value.rtmpInfo = try reader["rtmpInfo"].readIfPresent(with: MediaConnectClientTypes.RtmpSourceMetadataInfo.read(from:))
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.transportMediaInfo = try reader["transportMediaInfo"].readIfPresent(with: MediaConnectClientTypes.TransportMediaInfo.read(from:))
         return value
@@ -18369,6 +18998,7 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["remoteId"].write(value.remoteId)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["rtmpPushSettings"].write(value.rtmpPushSettings, with: MediaConnectClientTypes.RtmpPushOutputSettings.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["smoothingLatency"].write(value.smoothingLatency)
         try writer["streamId"].write(value.streamId)
@@ -18414,6 +19044,36 @@ extension MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.AutoPidMapConfiguration {
+
+    static func write(value: MediaConnectClientTypes.AutoPidMapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["pidsPerProgram"].write(value.pidsPerProgram)
+        try writer["startPid"].write(value.startPid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutoPidMapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.AutoPidMapConfiguration()
+        value.startPid = try reader["startPid"].readIfPresent() ?? 0
+        value.pidsPerProgram = try reader["pidsPerProgram"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -18974,13 +19634,45 @@ extension MediaConnectClientTypes.FabricConfiguration {
     static func write(value: MediaConnectClientTypes.FabricConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["recoveryLatencyMode"].write(value.recoveryLatencyMode)
+        try writer["switchingConfiguration"].write(value.switchingConfiguration, with: MediaConnectClientTypes.FabricSwitchingConfiguration.write(value:to:))
+        try writer["switchingMode"].write(value.switchingMode)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FabricConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.FabricConfiguration()
         value.recoveryLatencyMode = try reader["recoveryLatencyMode"].readIfPresent() ?? .sdkUnknown("")
+        value.switchingMode = try reader["switchingMode"].readIfPresent()
+        value.switchingConfiguration = try reader["switchingConfiguration"].readIfPresent(with: MediaConnectClientTypes.FabricSwitchingConfiguration.read(from:))
         return value
+    }
+}
+
+extension MediaConnectClientTypes.FabricSwitchingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FabricSwitchingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .immediate(immediate):
+                try writer["immediate"].write(immediate, with: MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration.write(value:to:))
+            case let .keyframe(keyframe):
+                try writer["keyFrame"].write(keyframe, with: MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FabricSwitchingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "immediate":
+                return .immediate(try reader["immediate"].read(with: MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration.read(from:)))
+            case "keyFrame":
+                return .keyframe(try reader["keyFrame"].read(with: MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -19033,6 +19725,7 @@ extension MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
         var value = MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails()
         value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
         value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        value.rtmpPush = try reader["rtmpPush"].readIfPresent(with: MediaConnectClientTypes.RtmpPushStreamDetails.read(from:))
         return value
     }
 }
@@ -19044,6 +19737,8 @@ extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
         switch value {
             case let .rist(rist):
                 try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtmppush(rtmppush):
+                try writer["rtmpPush"].write(rtmppush, with: MediaConnectClientTypes.RtmpPushRouterInputConfiguration.write(value:to:))
             case let .rtp(rtp):
                 try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
             case let .srtcaller(srtcaller):
@@ -19063,6 +19758,8 @@ extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "rtmpPush":
+                return .rtmppush(try reader["rtmpPush"].read(with: MediaConnectClientTypes.RtmpPushRouterInputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
             case "rtp":
@@ -19305,6 +20002,19 @@ extension MediaConnectClientTypes.GrantEntitlementRequest {
     }
 }
 
+extension MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.ImmediateFabricSwitchingConfiguration()
+    }
+}
+
 extension MediaConnectClientTypes.IngressGatewayBridge {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.IngressGatewayBridge {
@@ -19353,6 +20063,21 @@ extension MediaConnectClientTypes.InterfaceRequest {
     static func write(value: MediaConnectClientTypes.InterfaceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
+    }
+}
+
+extension MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyFrameWaitMilliseconds"].write(value.keyFrameWaitMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.KeyFrameFabricSwitchingConfiguration()
+        value.keyFrameWaitMilliseconds = try reader["keyFrameWaitMilliseconds"].readIfPresent()
+        return value
     }
 }
 
@@ -19599,6 +20324,23 @@ extension MediaConnectClientTypes.MaintenanceSchedule {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MediaConnectClientTypes.ManualRtmpPushNamingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ManualRtmpPushNamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationName"].write(value.applicationName)
+        try writer["streamName"].write(value.streamName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ManualRtmpPushNamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ManualRtmpPushNamingConfiguration()
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -19879,6 +20621,10 @@ extension MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
                 try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
             case let .rtp(rtp):
                 try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -19892,6 +20638,10 @@ extension MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
                 return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
             case "rist":
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -20129,6 +20879,36 @@ extension MediaConnectClientTypes.OwnedResourceShareDetails {
     }
 }
 
+extension MediaConnectClientTypes.Passthrough {
+
+    static func write(value: MediaConnectClientTypes.Passthrough?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Passthrough {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.Passthrough()
+    }
+}
+
+extension MediaConnectClientTypes.PidMapRule {
+
+    static func write(value: MediaConnectClientTypes.PidMapRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["matchExpression"].write(value.matchExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PidMapRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PidMapRule()
+        value.matchExpression = try reader["matchExpression"].readIfPresent() ?? ""
+        value.action = try reader["action"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
 
     static func write(value: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -20143,6 +20923,90 @@ extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
         value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
         value.time = try reader["time"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension MediaConnectClientTypes.ProgramClockReferencePidConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ProgramClockReferencePidConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .passthrough(passthrough):
+                try writer["passthrough"].write(passthrough, with: MediaConnectClientTypes.Passthrough.write(value:to:))
+            case let .`set`(`set`):
+                try writer["set"].write(`set`)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ProgramClockReferencePidConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "passthrough":
+                return .passthrough(try reader["passthrough"].read(with: MediaConnectClientTypes.Passthrough.read(from:)))
+            case "set":
+                return .`set`(try reader["set"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.ProgramMapTablePidConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ProgramMapTablePidConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .passthrough(passthrough):
+                try writer["passthrough"].write(passthrough, with: MediaConnectClientTypes.Passthrough.write(value:to:))
+            case let .`set`(`set`):
+                try writer["set"].write(`set`)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ProgramMapTablePidConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "passthrough":
+                return .passthrough(try reader["passthrough"].read(with: MediaConnectClientTypes.Passthrough.read(from:)))
+            case "set":
+                return .`set`(try reader["set"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.ProgramNumberConfiguration {
+
+    static func write(value: MediaConnectClientTypes.ProgramNumberConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .passthrough(passthrough):
+                try writer["passthrough"].write(passthrough, with: MediaConnectClientTypes.Passthrough.write(value:to:))
+            case let .`set`(`set`):
+                try writer["set"].write(`set`)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ProgramNumberConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "passthrough":
+                return .passthrough(try reader["passthrough"].read(with: MediaConnectClientTypes.Passthrough.read(from:)))
+            case "set":
+                return .`set`(try reader["set"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -20550,6 +21414,8 @@ extension MediaConnectClientTypes.RouterInputMetadata {
         switch name {
             case "transportStreamMediaInfo":
                 return .transportstreammediainfo(try reader["transportStreamMediaInfo"].read(with: MediaConnectClientTypes.TransportMediaInfo.read(from:)))
+            case "rtmpInfo":
+                return .rtmpinfo(try reader["rtmpInfo"].read(with: MediaConnectClientTypes.RtmpSourceMetadataInfo.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -20563,6 +21429,8 @@ extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
         switch value {
             case let .rist(rist):
                 try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtmppush(rtmppush):
+                try writer["rtmpPush"].write(rtmppush, with: MediaConnectClientTypes.RtmpPushRouterInputConfiguration.write(value:to:))
             case let .rtp(rtp):
                 try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
             case let .srtcaller(srtcaller):
@@ -20582,6 +21450,8 @@ extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "rtmpPush":
+                return .rtmppush(try reader["rtmpPush"].read(with: MediaConnectClientTypes.RtmpPushRouterInputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
             case "rtp":
@@ -20781,6 +21651,7 @@ extension MediaConnectClientTypes.RouterOutput {
         value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
         value.fabricConfiguration = try reader["fabricConfiguration"].readIfPresent(with: MediaConnectClientTypes.FabricConfiguration.read(from:))
+        value.processors = try reader["processors"].readIfPresent(with: MediaConnectClientTypes.RouterOutputProcessors.read(from:))
         value.associatedSourceEndpointArns = try reader["associatedSourceEndpointArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -20852,6 +21723,21 @@ extension MediaConnectClientTypes.RouterOutputMessage {
         var value = MediaConnectClientTypes.RouterOutputMessage()
         value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputProcessors {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputProcessors?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["singleProgramTransportStreamPidMap"].write(value.singleProgramTransportStreamPidMap, with: MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputProcessors {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputProcessors()
+        value.singleProgramTransportStreamPidMap = try reader["singleProgramTransportStreamPidMap"].readIfPresent(with: MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration.read(from:))
         return value
     }
 }
@@ -20956,6 +21842,102 @@ extension MediaConnectClientTypes.RouterOutputStreamDetails {
     }
 }
 
+extension MediaConnectClientTypes.RtmpMediaInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpMediaInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpMediaInfo()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RtmpMediaStreamInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpMediaStreamInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpMediaStreamInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpMediaStreamInfo()
+        value.streamId = try reader["streamId"].readIfPresent() ?? 0
+        value.streamType = try reader["streamType"].readIfPresent() ?? .sdkUnknown("")
+        value.codec = try reader["codec"].readIfPresent() ?? ""
+        value.frameRate = try reader["frameRate"].readIfPresent()
+        value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
+        value.scanMode = try reader["scanMode"].readIfPresent()
+        value.color = try reader["color"].readIfPresent(with: MediaConnectClientTypes.ColorInformation.read(from:))
+        value.channels = try reader["channels"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        value.sampleSize = try reader["sampleSize"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushNamingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtmpPushNamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration.write(value:to:))
+            case let .manual(manual):
+                try writer["manual"].write(manual, with: MediaConnectClientTypes.ManualRtmpPushNamingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushNamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "manual":
+                return .manual(try reader["manual"].read(with: MediaConnectClientTypes.ManualRtmpPushNamingConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticRtmpPushNamingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushOutputSettings {
+
+    static func write(value: MediaConnectClientTypes.RtmpPushOutputSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationName"].write(value.applicationName)
+        try writer["streamName"].write(value.streamName)
+        try writer["tlsEncryption"].write(value.tlsEncryption, with: MediaConnectClientTypes.TlsEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushOutputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpPushOutputSettings()
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
+        value.tlsEncryption = try reader["tlsEncryption"].readIfPresent(with: MediaConnectClientTypes.TlsEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtmpPushRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namingConfiguration"].write(value.namingConfiguration, with: MediaConnectClientTypes.RtmpPushNamingConfiguration.write(value:to:))
+        try writer["namingType"].write(value.namingType)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpPushRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.namingType = try reader["namingType"].readIfPresent()
+        value.namingConfiguration = try reader["namingConfiguration"].readIfPresent(with: MediaConnectClientTypes.RtmpPushNamingConfiguration.read(from:))
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.RtmpPushRouterOutputConfiguration {
 
     static func write(value: MediaConnectClientTypes.RtmpPushRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -20975,6 +21957,41 @@ extension MediaConnectClientTypes.RtmpPushRouterOutputConfiguration {
         value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
         value.streamName = try reader["streamName"].readIfPresent() ?? ""
         value.tlsEncryption = try reader["tlsEncryption"].readIfPresent(with: MediaConnectClientTypes.TlsEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushSourceSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpPushSourceSettings()
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
+        value.namingType = try reader["namingType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpPushStreamDetails()
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtmpSourceMetadataInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpSourceMetadataInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpSourceMetadataInfo()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.streamName = try reader["streamName"].readIfPresent()
+        value.mediaInfo = try reader["mediaInfo"].readIfPresent(with: MediaConnectClientTypes.RtmpMediaInfo.read(from:))
         return value
     }
 }
@@ -21094,6 +22111,14 @@ extension MediaConnectClientTypes.SetGatewayBridgeSourceRequest {
     }
 }
 
+extension MediaConnectClientTypes.SetRtmpPushSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.SetRtmpPushSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namingConfiguration"].write(value.namingConfiguration, with: MediaConnectClientTypes.RtmpPushNamingConfiguration.write(value:to:))
+    }
+}
+
 extension MediaConnectClientTypes.SetSourceRequest {
 
     static func write(value: MediaConnectClientTypes.SetSourceRequest?, to writer: SmithyJSON.Writer) throws {
@@ -21113,6 +22138,7 @@ extension MediaConnectClientTypes.SetSourceRequest {
         try writer["protocol"].write(value.`protocol`)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["rtmpPushSettings"].write(value.rtmpPushSettings, with: MediaConnectClientTypes.SetRtmpPushSourceSettings.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
@@ -21154,6 +22180,33 @@ extension MediaConnectClientTypes.SilentAudioConfiguration {
         var value = MediaConnectClientTypes.SilentAudioConfiguration()
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auto"].write(value.auto, with: MediaConnectClientTypes.AutoPidMapConfiguration.write(value:to:))
+        try writer["defaultAction"].write(value.defaultAction)
+        try writer["programClockReferencePid"].write(value.programClockReferencePid, with: MediaConnectClientTypes.ProgramClockReferencePidConfiguration.write(value:to:))
+        try writer["programMapTablePid"].write(value.programMapTablePid, with: MediaConnectClientTypes.ProgramMapTablePidConfiguration.write(value:to:))
+        try writer["programNumber"].write(value.programNumber, with: MediaConnectClientTypes.ProgramNumberConfiguration.write(value:to:))
+        try writer["rules"].writeList(value.rules, memberWritingClosure: MediaConnectClientTypes.PidMapRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["transportStreamId"].write(value.transportStreamId, with: MediaConnectClientTypes.TransportStreamIdConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SingleProgramTransportStreamPidMapConfiguration()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PidMapRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultAction = try reader["defaultAction"].readIfPresent() ?? ""
+        value.transportStreamId = try reader["transportStreamId"].readIfPresent(with: MediaConnectClientTypes.TransportStreamIdConfiguration.read(from:))
+        value.programNumber = try reader["programNumber"].readIfPresent(with: MediaConnectClientTypes.ProgramNumberConfiguration.read(from:))
+        value.programMapTablePid = try reader["programMapTablePid"].readIfPresent(with: MediaConnectClientTypes.ProgramMapTablePidConfiguration.read(from:))
+        value.programClockReferencePid = try reader["programClockReferencePid"].readIfPresent(with: MediaConnectClientTypes.ProgramClockReferencePidConfiguration.read(from:))
+        value.auto = try reader["auto"].readIfPresent(with: MediaConnectClientTypes.AutoPidMapConfiguration.read(from:))
         return value
     }
 }
@@ -21680,6 +22733,7 @@ extension MediaConnectClientTypes.StandardRouterInputStreamDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.StandardRouterInputStreamDetails()
         value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        value.rtmpPush = try reader["rtmpPush"].readIfPresent(with: MediaConnectClientTypes.RtmpPushStreamDetails.read(from:))
         return value
     }
 }
@@ -21900,6 +22954,8 @@ extension MediaConnectClientTypes.Transport {
         value.ndiSourceSettings = try reader["ndiSourceSettings"].readIfPresent(with: MediaConnectClientTypes.NdiSourceSettings.read(from:))
         value.ndiOutputTimecodeSource = try reader["ndiOutputTimecodeSource"].readIfPresent()
         value.ndiAudioReferenceLevel = try reader["ndiAudioReferenceLevel"].readIfPresent()
+        value.rtmpPushSourceSettings = try reader["rtmpPushSourceSettings"].readIfPresent(with: MediaConnectClientTypes.RtmpPushSourceSettings.read(from:))
+        value.rtmpPushOutputSettings = try reader["rtmpPushOutputSettings"].readIfPresent(with: MediaConnectClientTypes.RtmpPushOutputSettings.read(from:))
         return value
     }
 }
@@ -21928,8 +22984,38 @@ extension MediaConnectClientTypes.TransportStream {
         value.pid = try reader["pid"].readIfPresent() ?? 0
         value.sampleRate = try reader["sampleRate"].readIfPresent()
         value.sampleSize = try reader["sampleSize"].readIfPresent()
+        value.scanMode = try reader["scanMode"].readIfPresent()
         value.streamType = try reader["streamType"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent()
         return value
+    }
+}
+
+extension MediaConnectClientTypes.TransportStreamIdConfiguration {
+
+    static func write(value: MediaConnectClientTypes.TransportStreamIdConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .passthrough(passthrough):
+                try writer["passthrough"].write(passthrough, with: MediaConnectClientTypes.Passthrough.write(value:to:))
+            case let .`set`(`set`):
+                try writer["set"].write(`set`)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportStreamIdConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "passthrough":
+                return .passthrough(try reader["passthrough"].read(with: MediaConnectClientTypes.Passthrough.read(from:)))
+            case "set":
+                return .`set`(try reader["set"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

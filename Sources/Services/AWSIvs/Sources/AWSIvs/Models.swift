@@ -1361,11 +1361,11 @@ public struct CreateChannelOutput: Swift.Sendable {
 }
 
 public struct CreateFailoverSlateConfigurationInput: Swift.Sendable {
-    /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+    /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
     public var activationThresholdSeconds: Swift.Int?
-    /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+    /// Maximum number of seconds that the failover slate displays. Default: 60.
     public var maxSlateDisplaySeconds: Swift.Int?
-    /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+    /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
     public var minSlateDisplaySeconds: Swift.Int?
     /// Failover-slate-configuration name. The value does not need to be unique.
     public var name: Swift.String?
@@ -1426,14 +1426,14 @@ extension IvsClientTypes {
 
     /// Object specifying a failover slate configuration.
     public struct FailoverSlateConfiguration: Swift.Sendable {
-        /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
         public var activationThresholdSeconds: Swift.Int?
         /// Failover-slate-configuration ARN.
         /// This member is required.
         public var arn: Swift.String?
-        /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
         public var maxSlateDisplaySeconds: Swift.Int?
-        /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
         public var minSlateDisplaySeconds: Swift.Int?
         /// Failover-slate-configuration name.
         public var name: Swift.String?
@@ -2668,30 +2668,42 @@ public struct ImportPlaybackKeyPairOutput: Swift.Sendable {
 }
 
 public struct InsertAdBreakInput: Swift.Sendable {
+    /// Caller-specified unique identifier for the ad break to insert into the playlist.
+    public var adBreakId: Swift.String?
     /// ARN of the channel into which the ad break is inserted.
     /// This member is required.
     public var channelArn: Swift.String?
     /// Duration of the ad break, in seconds.
     /// This member is required.
     public var durationSeconds: Swift.Int?
+    /// Target time at which the ad break starts.
+    public var targetStartAt: Foundation.Date?
 
     public init(
+        adBreakId: Swift.String? = nil,
         channelArn: Swift.String? = nil,
-        durationSeconds: Swift.Int? = nil
+        durationSeconds: Swift.Int? = nil,
+        targetStartAt: Foundation.Date? = nil
     ) {
+        self.adBreakId = adBreakId
         self.channelArn = channelArn
         self.durationSeconds = durationSeconds
+        self.targetStartAt = targetStartAt
     }
 }
 
 public struct InsertAdBreakOutput: Swift.Sendable {
     /// Unique identifier for the ad break that was inserted into the playlist.
     public var adBreakId: Swift.String?
+    /// Target start time for the inserted ad break.
+    public var targetStartAt: Foundation.Date?
 
     public init(
-        adBreakId: Swift.String? = nil
+        adBreakId: Swift.String? = nil,
+        targetStartAt: Foundation.Date? = nil
     ) {
         self.adBreakId = adBreakId
+        self.targetStartAt = targetStartAt
     }
 }
 
@@ -2855,14 +2867,14 @@ extension IvsClientTypes {
 
     /// Summary information about a failover slate configuration.
     public struct FailoverSlateConfigurationSummary: Swift.Sendable {
-        /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
         public var activationThresholdSeconds: Swift.Int?
         /// Failover-slate-configuration ARN.
         /// This member is required.
         public var arn: Swift.String?
-        /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
         public var maxSlateDisplaySeconds: Swift.Int?
-        /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
         public var minSlateDisplaySeconds: Swift.Int?
         /// Failover-slate-configuration name.
         public var name: Swift.String?
@@ -3600,14 +3612,14 @@ public struct UpdateChannelOutput: Swift.Sendable {
 }
 
 public struct UpdateFailoverSlateConfigurationInput: Swift.Sendable {
-    /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+    /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
     public var activationThresholdSeconds: Swift.Int?
     /// ARN of the failover slate configuration to be updated.
     /// This member is required.
     public var arn: Swift.String?
-    /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+    /// Maximum number of seconds that the failover slate displays. Default: 60.
     public var maxSlateDisplaySeconds: Swift.Int?
-    /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+    /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
     public var minSlateDisplaySeconds: Swift.Int?
     /// Failover-slate-configuration name. The value does not need to be unique.
     public var name: Swift.String?
@@ -4269,8 +4281,10 @@ extension InsertAdBreakInput {
 
     static func write(value: InsertAdBreakInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["adBreakId"].write(value.adBreakId)
         try writer["channelArn"].write(value.channelArn)
         try writer["durationSeconds"].write(value.durationSeconds)
+        try writer["targetStartAt"].writeTimestamp(value.targetStartAt, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 
@@ -4804,6 +4818,7 @@ extension InsertAdBreakOutput {
         let reader = responseReader
         var value = InsertAdBreakOutput()
         value.adBreakId = try reader["adBreakId"].readIfPresent()
+        value.targetStartAt = try reader["targetStartAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

@@ -10,9 +10,9 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 
 public struct DescribeCustomerMetadataInput: Swift.Sendable {
@@ -31,7 +31,7 @@ public struct DescribeVirtualGatewaysInput: Swift.Sendable {
 }
 
 /// One or more parameters are not valid.
-public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DirectConnectClientException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -54,7 +54,7 @@ public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// A server-side error occurred.
-public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DirectConnectServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -755,7 +755,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
 }
 
 /// A tag key was specified more than once.
-public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DuplicateTagKeysException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -778,7 +778,7 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You have reached the limit on the number of tags that can be assigned.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct TooManyTagsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -980,7 +980,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
 }
 
 /// The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil

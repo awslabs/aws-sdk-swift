@@ -10,12 +10,12 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 /// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerError: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -44,7 +44,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 /// * You tried to update a property with a value that isn't among the available types.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -67,7 +67,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Unable to locate a resource using the parameters that you provided.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -90,7 +90,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Unable to process the request due to throttling limitations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -252,6 +252,41 @@ extension NetworkFirewallClientTypes {
             publishMetricAction: NetworkFirewallClientTypes.PublishMetricAction? = nil
         ) {
             self.publishMetricAction = publishMetricAction
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ActionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flow
+        case hook
+        case packet
+        case tx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionScope] {
+            return [
+                .flow,
+                .hook,
+                .packet,
+                .tx
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flow: return "FLOW"
+            case .hook: return "HOOK"
+            case .packet: return "PACKET"
+            case .tx: return "TX"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -465,7 +500,7 @@ extension NetworkFirewallClientTypes {
 }
 
 /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -488,7 +523,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidOperationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -511,7 +546,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The token you provided is stale or isn't valid for the operation.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidTokenException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -535,7 +570,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension NetworkFirewallClientTypes {
 
-    /// Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling [CreateFirewall], [AssociateAvailabilityZones], and [DisassociateAvailabilityZones]. To retrieve the current Availability Zone mappings for a firewall, use [DescribeFirewall].
+    /// Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling CreateFirewall, AssociateAvailabilityZones, and DisassociateAvailabilityZones. To retrieve the current Availability Zone mappings for a firewall, use DescribeFirewall.
     public struct AvailabilityZoneMapping: Swift.Sendable {
         /// The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a. The Availability Zone must be in the same Region as the transit gateway.
         /// This member is required.
@@ -645,6 +680,30 @@ public struct AssociateFirewallPolicyOutput: Swift.Sendable {
 
 extension NetworkFirewallClientTypes {
 
+    /// A NAT gateway that Network Firewall creates for a proxy mode firewall in one Availability Zone. You use this in CreateFirewall and AssociateSubnets. To create a public NAT gateway, specify AllocationIds, and one PrivateIps address for each Elastic IP address. To create a private NAT gateway, specify only PrivateIps. You must specify at least one of them. Each Elastic IP address and private IP address can appear only once in a request. The NAT gateway is a resource in your account. To change its IP addresses, use Amazon EC2 NAT gateway actions.
+    public struct NatGatewayCreateMapping: Swift.Sendable {
+        /// The allocation IDs of the Elastic IP addresses for a public NAT gateway, from 1 to 8. For each allocation ID, specify one address in PrivateIps. If you don't specify this, Network Firewall creates a private NAT gateway.
+        public var allocationIds: [Swift.String]?
+        /// The private IPv4 addresses of the NAT gateway. The addresses must be in the subnet that you specify and can't be the subnet's reserved addresses. For a public NAT gateway, you must specify exactly one address for each Elastic IP address in AllocationIds, even if you specify only one. For a private NAT gateway, specify from 1 to 8 addresses. The first address is the primary address.
+        public var privateIps: [Swift.String]?
+        /// The ID of the subnet where Network Firewall creates the NAT gateway. The subnet must be in the firewall's VPC and can't be one of the firewall endpoint subnets. Each mapping must be in a different Availability Zone.
+        /// This member is required.
+        public var subnetId: Swift.String?
+
+        public init(
+            allocationIds: [Swift.String]? = nil,
+            privateIps: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.allocationIds = allocationIds
+            self.privateIps = privateIps
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case ipv4
@@ -677,7 +736,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall, AssociateSubnets, and CreateVpcEndpointAssociation. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
     public struct SubnetMapping: Swift.Sendable {
         /// The subnet's IP address type. You can't change the IP address type after you create the subnet.
         public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
@@ -700,6 +759,8 @@ public struct AssociateSubnetsInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The NAT gateways that Network Firewall creates for the Availability Zones that you add to a proxy mode firewall. For a proxy mode firewall, you must specify one mapping for each Availability Zone in SubnetMappings, and no other Availability Zones. Each NAT gateway subnet must be in the firewall's VPC and can't be one of the firewall endpoint subnets. You can't specify this for a firewall that isn't a proxy mode firewall.
+    public var natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]?
     /// The IDs of the subnets that you want to associate with the firewall.
     /// This member is required.
     public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
@@ -709,11 +770,13 @@ public struct AssociateSubnetsInput: Swift.Sendable {
     public init(
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]? = nil,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.natGatewayCreateMappings = natGatewayCreateMappings
         self.subnetMappings = subnetMappings
         self.updateToken = updateToken
     }
@@ -791,7 +854,7 @@ extension NetworkFirewallClientTypes {
     ///
     /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
     public struct Attachment: Swift.Sendable {
-        /// The DNS name that resolves to the firewall endpoint in the subnet. This is populated for proxy mode firewalls, where clients direct traffic to the firewall's proxy using this name.
+        /// The proxy DNS name of a proxy mode firewall. Your clients send proxy requests to the firewall at this name. It's your ProxySettingsDomainName if you specified one, or a name that Network Firewall generates in the format proxy-id.nfw.region.amazonaws.com. The firewall has one proxy DNS name for every Availability Zone and VPC that it serves. In each Availability Zone, the name resolves to the firewall endpoint in that Availability Zone, so traffic stays in your client's Availability Zone. Your clients must use the VPC's Route 53 Resolver.
         public var dnsName: Swift.String?
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
@@ -834,211 +897,6 @@ extension NetworkFirewallClientTypes {
         ) {
             self.attachment = attachment
         }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// The proxy rule group(s) to attach to the proxy configuration
-    public struct ProxyRuleGroupAttachment: Swift.Sendable {
-        /// Where to insert a proxy rule group in a proxy configuration.
-        public var insertPosition: Swift.Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var proxyRuleGroupName: Swift.String?
-
-        public init(
-            insertPosition: Swift.Int? = nil,
-            proxyRuleGroupName: Swift.String? = nil
-        ) {
-            self.insertPosition = insertPosition
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-    }
-}
-
-public struct AttachRuleGroupsToProxyConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-    /// The proxy rule group(s) to attach to the proxy configuration
-    /// This member is required.
-    public var ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupAttachment]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupAttachment]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-        self.ruleGroups = ruleGroups
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    public enum ProxyRulePhaseAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case alert
-        case allow
-        case deny
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ProxyRulePhaseAction] {
-            return [
-                .alert,
-                .allow,
-                .deny
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .alert: return "ALERT"
-            case .allow: return "ALLOW"
-            case .deny: return "DENY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. This data type is used specifically for the [CreateProxyConfiguration] and [UpdateProxyConfiguration] APIs.
-    public struct ProxyConfigDefaultRulePhaseActionsRequest: Swift.Sendable {
-        /// After receiving response.
-        public var postRESPONSE: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-        /// Before domain resolution.
-        public var preDNS: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-        /// After DNS, before request.
-        public var preREQUEST: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-
-        public init(
-            postRESPONSE: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
-            preDNS: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
-            preREQUEST: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil
-        ) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Proxy rule group contained within a proxy configuration.
-    public struct ProxyConfigRuleGroup: Swift.Sendable {
-        /// Priority of the proxy rule group in the proxy configuration.
-        public var priority: Swift.Int?
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public var proxyRuleGroupArn: Swift.String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var proxyRuleGroupName: Swift.String?
-        /// Proxy rule group type.
-        public var type: Swift.String?
-
-        public init(
-            priority: Swift.Int? = nil,
-            proxyRuleGroupArn: Swift.String? = nil,
-            proxyRuleGroupName: Swift.String? = nil,
-            type: Swift.String? = nil
-        ) {
-            self.priority = priority
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.type = type
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource.
-    public struct Tag: Swift.Sendable {
-        /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
-    public struct ProxyConfiguration: Swift.Sendable {
-        /// Time the Proxy Configuration was created.
-        public var createTime: Foundation.Date?
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
-        public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
-        /// Time the Proxy Configuration was deleted.
-        public var deleteTime: Foundation.Date?
-        /// A description of the proxy configuration.
-        public var description: Swift.String?
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public var proxyConfigurationArn: Swift.String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public var proxyConfigurationName: Swift.String?
-        /// Proxy rule groups within the proxy configuration.
-        public var ruleGroups: [NetworkFirewallClientTypes.ProxyConfigRuleGroup]?
-        /// The key:value pairs to associate with the resource.
-        public var tags: [NetworkFirewallClientTypes.Tag]?
-
-        public init(
-            createTime: Foundation.Date? = nil,
-            defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
-            deleteTime: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            proxyConfigurationArn: Swift.String? = nil,
-            proxyConfigurationName: Swift.String? = nil,
-            ruleGroups: [NetworkFirewallClientTypes.ProxyConfigRuleGroup]? = nil,
-            tags: [NetworkFirewallClientTypes.Tag]? = nil
-        ) {
-            self.createTime = createTime
-            self.defaultRulePhaseActions = defaultRulePhaseActions
-            self.deleteTime = deleteTime
-            self.description = description
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroups = ruleGroups
-            self.tags = tags
-        }
-    }
-}
-
-public struct AttachRuleGroupsToProxyConfigurationOutput: Swift.Sendable {
-    /// The updated proxy configuration resource that reflects the updates from the request.
-    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfiguration = proxyConfiguration
-        self.updateToken = updateToken
     }
 }
 
@@ -1371,8 +1229,207 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case securityGroup
+        case subnet
+        case tgwAttachment
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .securityGroup,
+                .subnet,
+                .tgwAttachment,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .securityGroup: return "SecurityGroup"
+            case .subnet: return "Subnet"
+            case .tgwAttachment: return "TGWAttachment"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Filters for ListResourcesInContextStore. Both filters are optional. If you specify both, Network Firewall returns only the resources that match both.
+    public struct ContextFilters: Swift.Sendable {
+        /// The Amazon Web Services Region of the resources to return, for example us-east-1.
+        public var region: Swift.String?
+        /// The type of resource to return. Each resource type corresponds to the ContextType that Network Firewall reports for the resource:
+        ///
+        /// * SecurityGroup - Security groups. Reported with the SegmentId context type.
+        ///
+        /// * VPC - VPCs. Reported with the ResourceId context type.
+        ///
+        /// * Subnet - Subnets. Reported with the Subnet context type.
+        ///
+        /// * TGWAttachment - Transit gateway attachments. Reported with the Attachment context type.
+        public var resourceType: NetworkFirewallClientTypes.ResourceType?
+
+        public init(
+            region: Swift.String? = nil,
+            resourceType: NetworkFirewallClientTypes.ResourceType? = nil
+        ) {
+            self.region = region
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A list of resource identifiers from the context store that is associated with the firewall. Use a context set to write stateful rules against Amazon Web Services resources instead of IP addresses. This is part of a [RuleVariables].
+    public struct ContextSet: Swift.Sendable {
+        /// The list of resource identifiers. Each entry is the ID of a resource that the context store records, for example vpc-1234567890abcdef0, subnet-1234567890abcdef0, sg-1234567890abcdef0, or tgw-attach-1234567890abcdef0. You can specify 1-1,000 entries.
+        /// This member is required.
+        public var definition: [Swift.String]?
+
+        public init(
+            definition: [Swift.String]? = nil
+        ) {
+            self.definition = definition
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Contains details about a context store, including its unique identifier and the account that owns it.
+    public struct ContextStore: Swift.Sendable {
+        /// The unique identifier of the context store. Use this value in ListResourcesInContextStore to list the resources that the context store records.
+        /// This member is required.
+        public var contextStoreId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the context store.
+        /// This member is required.
+        public var contextStoreOwnerAccountId: Swift.String?
+
+        public init(
+            contextStoreId: Swift.String? = nil,
+            contextStoreOwnerAccountId: Swift.String? = nil
+        ) {
+            self.contextStoreId = contextStoreId
+            self.contextStoreOwnerAccountId = contextStoreOwnerAccountId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContextStoreSyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullyResolved
+        case partiallyResolved
+        case syncing
+        case syncFailed
+        case unresolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextStoreSyncStatus] {
+            return [
+                .fullyResolved,
+                .partiallyResolved,
+                .syncing,
+                .syncFailed,
+                .unresolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullyResolved: return "FULLY_RESOLVED"
+            case .partiallyResolved: return "PARTIALLY_RESOLVED"
+            case .syncing: return "SYNCING"
+            case .syncFailed: return "SYNC_FAILED"
+            case .unresolved: return "UNRESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The synchronization state of a firewall's context sets with its context store. This indicates whether the resource identifiers in the firewall's context sets resolve to resources that the context store records.
+    public struct ContextStoreSyncState: Swift.Sendable {
+        /// A message that provides additional information about the synchronization status, particularly when the status is not FULLY_RESOLVED.
+        public var statusMessage: Swift.String?
+        /// The synchronization status of the firewall's context sets. Valid values:
+        ///
+        /// * SYNCING - The firewall is applying the latest context store data.
+        ///
+        /// * FULLY_RESOLVED - All resource identifiers in the firewall's context sets resolve to resources in the context store.
+        ///
+        /// * PARTIALLY_RESOLVED - Some resource identifiers in the firewall's context sets don't resolve to resources in the context store.
+        ///
+        /// * SYNC_FAILED - The firewall couldn't sync with the context store. For details, see StatusMessage.
+        public var syncStatus: NetworkFirewallClientTypes.ContextStoreSyncStatus?
+
+        public init(
+            statusMessage: Swift.String? = nil,
+            syncStatus: NetworkFirewallClientTypes.ContextStoreSyncStatus? = nil
+        ) {
+            self.statusMessage = statusMessage
+            self.syncStatus = syncStatus
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case resourceId
+        case segmentId
+        case subnet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextType] {
+            return [
+                .attachment,
+                .resourceId,
+                .segmentId,
+                .subnet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "Attachment"
+            case .resourceId: return "ResourceId"
+            case .segmentId: return "SegmentId"
+            case .subnet: return "Subnet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Unable to perform the operation because doing so would violate a limit setting.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1391,6 +1448,27 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource.
+    public struct Tag: Swift.Sendable {
+        /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
     }
 }
 
@@ -1522,22 +1600,6 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used in [CreateFirewall] when NoSourcePreservation is TRUE.
-    public struct NatGatewayMapping: Swift.Sendable {
-        /// A unique identifier for the NAT gateway to use with proxy resources.
-        /// This member is required.
-        public var natGatewayId: Swift.String?
-
-        public init(
-            natGatewayId: Swift.String? = nil
-        ) {
-            self.natGatewayId = natGatewayId
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
     public enum ListenerPropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http
         case https
@@ -1586,15 +1648,23 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The listener configuration for a proxy mode firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    /// The proxy settings of a proxy mode firewall: the ports and protocols on which the firewall's proxy listens for traffic, and optionally your own domain name and certificate.
     public struct ProxySettings: Swift.Sendable {
-        /// Listener properties for HTTP and HTTPS traffic.
+        /// The Amazon Resource Name (ARN) of the certificate that the firewall's HTTPS proxy listener presents to clients. The certificate must be an Certificate Manager (ACM) certificate in the same account and Region as the firewall. Its subject alternative names must cover DomainName, either exactly or with a wildcard that matches exactly one label. For example, *.example.com covers proxy.example.com. If you don't specify this, Network Firewall uses a certificate that it manages for a domain name that it generates. You manage and renew the certificate in ACM, and Network Firewall uses renewed certificates automatically. While the firewall uses the certificate, you can't delete it from ACM. Your clients must trust the certificate's certificate authority. If you specify CertificateArn, you must also specify DomainName. You can set them only when you create the firewall. When you call UpdateProxySettings, specify the same values.
+        public var certificateArn: Swift.String?
+        /// The domain name that your clients use to reach the firewall's proxy. The name must have at least two labels and at most 253 characters. It can't contain a wildcard or use the proxy-id.nfw.region.amazonaws.com format, and the certificate in CertificateArn must cover it. If you don't specify this, Network Firewall generates a domain name. Network Firewall creates the Route 53 private hosted zones that resolve this name to the firewall endpoints, so you don't need to configure DNS. A VPC can have only one private hosted zone with a given name. If a VPC that the firewall serves already has one with this name, Network Firewall can't set up the Availability Zones in that VPC. If you specify DomainName, you must also specify CertificateArn. You can set them only when you create the firewall. When you call UpdateProxySettings, specify the same values.
+        public var domainName: Swift.String?
+        /// The listeners of the firewall's proxy. Specify at least one listener, and at most one HTTP listener and one HTTPS listener. Each listener needs a port from 1 to 65535, and the two listeners must use different ports. If you don't specify listeners when you create the firewall, the firewall listens for HTTP on port 3128 and HTTPS on port 8443.
         /// This member is required.
         public var listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]?
 
         public init(
+            certificateArn: Swift.String? = nil,
+            domainName: Swift.String? = nil,
             listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]? = nil
         ) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
             self.listenerProperties = listenerProperties
         }
     }
@@ -1602,12 +1672,41 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The VPC and subnets for a proxy mode firewall endpoint. This is used in [CreateFirewall] when NoSourcePreservation is TRUE, to specify where Network Firewall creates the firewall endpoint. This differs from [VpcEndpointAssociation], which defines additional secondary endpoints for a firewall in other VPCs.
+    public enum TransparentFilteringNatScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case natAll
+        case natNone
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransparentFilteringNatScope] {
+            return [
+                .natAll,
+                .natNone
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .natAll: return "NAT_ALL"
+            case .natNone: return "NAT_NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The VPC and subnets for the endpoints of a proxy mode firewall. You use this in CreateFirewall. Network Firewall creates the firewall endpoints and the firewall's NAT gateways in this VPC. This differs from VpcEndpointAssociation, which defines additional endpoints for a firewall in other VPCs.
     public struct VpcEndpoint: Swift.Sendable {
-        /// The subnets in which Network Firewall creates the firewall endpoint for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC.
+        /// The subnets where Network Firewall creates the firewall endpoints of a proxy mode firewall. Specify one subnet for each Availability Zone, and a NAT gateway mapping in each of those Availability Zones.
         /// This member is required.
         public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
-        /// The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint.
+        /// The ID of the VPC where Network Firewall creates the endpoints and NAT gateways of a proxy mode firewall.
         /// This member is required.
         public var vpcId: Swift.String?
 
@@ -1642,11 +1741,9 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var firewallPolicyArn: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var firewallPolicyChangeProtection: Swift.Bool?
-    /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
-    public var natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]?
-    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source. When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings. You can't change this setting after you create the firewall. Default value: FALSE
-    public var noSourcePreservation: Swift.Bool?
-    /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    /// The NAT gateways that Network Firewall creates for a proxy mode firewall, one for each Availability Zone. When you specify this, you create a proxy mode firewall. Destinations see the IP address of the NAT gateway in the client's Availability Zone as the source of the traffic. Specify one mapping for each Availability Zone in VpcEndpoint, and no other Availability Zones. Each NAT gateway subnet must be in the VpcEndpoint VPC and can't be one of the firewall endpoint subnets. You need permission to call the Amazon EC2 CreateNatGateway action. If Network Firewall can't set up an Availability Zone, for example because Amazon EC2 rejects the NAT gateway, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status is FAILED, and its status message explains why. You can add the Availability Zone again with AssociateSubnets. If no Availability Zone can be set up, the firewall status is FAILED.
+    public var natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]?
+    /// The proxy settings for a proxy mode firewall: the ports and protocols on which the firewall's proxy listens for traffic, and optionally your own domain name and certificate. If you don't specify listeners, the firewall listens for HTTP on port 3128 and HTTPS on port 8443. To change the listeners later, use UpdateProxySettings.
     public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var subnetChangeProtection: Swift.Bool?
@@ -1656,7 +1753,16 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var tags: [NetworkFirewallClientTypes.Tag]?
     /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager. After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall. For information about creating firewalls, see [CreateFirewall]. For specific guidance about transit gateway-attached firewalls, see [Considerations for transit gateway-attached firewalls](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tgw-firewall-considerations.html) in the Network Firewall Developer Guide.
     public var transitGatewayId: Swift.String?
-    /// The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here. For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
+    /// How a proxy mode firewall handles traffic that isn't sent to its proxy listener. If you don't specify a value, the firewall uses NAT_ALL. You can choose from the following values:
+    ///
+    /// * NAT_ALL - After inspection, the firewall sends this traffic out through its NAT gateway, which translates the source address.
+    ///
+    /// * NAT_NONE - After inspection, the firewall returns this traffic to the firewall endpoint without address translation.
+    ///
+    ///
+    /// You can specify this only for a proxy mode firewall, and you can't change it after you create the firewall.
+    public var transparentFilteringNatScope: NetworkFirewallClientTypes.TransparentFilteringNatScope?
+    /// The VPC and subnets for the endpoints of a proxy mode firewall. Network Firewall creates a firewall endpoint in each subnet that you specify. It also creates the firewall's NAT gateways in this VPC, in the subnets that you specify in NatGatewayCreateMappings. To create a proxy mode firewall, you must specify VpcEndpoint and NatGatewayCreateMappings, and you must not specify the top-level VpcId and SubnetMappings. Specify one subnet for each Availability Zone where you want to use the firewall.
     public var vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint?
     /// The unique identifier of the VPC where Network Firewall should create the firewall. You can't change this setting after you create the firewall.
     public var vpcId: Swift.String?
@@ -1671,13 +1777,13 @@ public struct CreateFirewallInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool? = false,
-        natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]? = nil,
-        noSourcePreservation: Swift.Bool? = false,
+        natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]? = nil,
         proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
         subnetChangeProtection: Swift.Bool? = false,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         transitGatewayId: Swift.String? = nil,
+        transparentFilteringNatScope: NetworkFirewallClientTypes.TransparentFilteringNatScope? = nil,
         vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint? = nil,
         vpcId: Swift.String? = nil
     ) {
@@ -1690,13 +1796,13 @@ public struct CreateFirewallInput: Swift.Sendable {
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
-        self.natGatewayMappings = natGatewayMappings
-        self.noSourcePreservation = noSourcePreservation
+        self.natGatewayCreateMappings = natGatewayCreateMappings
         self.proxySettings = proxySettings
         self.subnetChangeProtection = subnetChangeProtection
         self.subnetMappings = subnetMappings
         self.tags = tags
         self.transitGatewayId = transitGatewayId
+        self.transparentFilteringNatScope = transparentFilteringNatScope
         self.vpcEndpoint = vpcEndpoint
         self.vpcId = vpcId
     }
@@ -1710,6 +1816,10 @@ extension NetworkFirewallClientTypes {
         public var availabilityZoneChangeProtection: Swift.Bool
         /// The Availability Zones where the firewall endpoints are created for a transit gateway-attached firewall. Each mapping specifies an Availability Zone where the firewall processes traffic.
         public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+        /// The unique identifier of the context store that the firewall uses to resolve context sets in its rule groups. Network Firewall discovers the context store from the transit gateway association in Network Manager. This field is only present for transit gateway-attached firewalls whose transit gateway is associated with a context store.
+        public var contextStoreId: Swift.String?
+        /// The Amazon Web Services account ID that owns the context store. This may be different from the firewall owner's account ID.
+        public var contextStoreOwnerAccountId: Swift.String?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public var deleteProtection: Swift.Bool
         /// A description of the firewall.
@@ -1730,13 +1840,11 @@ extension NetworkFirewallClientTypes {
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var firewallPolicyChangeProtection: Swift.Bool
-        /// The NAT gateways that the firewall uses to proxy traffic. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
-        public var natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]?
-        /// Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When this value is TRUE, the firewall proxies traffic through a NAT gateway and uses the NAT gateway's IP address as the source for traffic reaching the destination.
-        public var noSourcePreservation: Swift.Bool
+        /// The NAT gateways that you specified for Network Firewall to create for a proxy mode firewall. To get the IDs and status of the NAT gateways that are attached to the firewall, see NatGatewayAttachments in the firewall's SyncStates.
+        public var natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]?
         /// The number of VpcEndpointAssociation resources that use this firewall.
         public var numberOfAssociations: Swift.Int?
-        /// The listener configuration for the firewall's proxy. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        /// The proxy settings of a proxy mode firewall: its listeners and, if you specified them, your own CertificateArn and DomainName.
         public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var subnetChangeProtection: Swift.Bool
@@ -1749,7 +1857,9 @@ extension NetworkFirewallClientTypes {
         public var transitGatewayId: Swift.String?
         /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
         public var transitGatewayOwnerAccountId: Swift.String?
-        /// The VPC and subnets for the firewall endpoint. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        /// How a proxy mode firewall handles traffic that isn't sent to its proxy listener. NAT_ALL sends this traffic out through the firewall's NAT gateway after inspection. NAT_NONE returns it to the firewall endpoint without address translation.
+        public var transparentFilteringNatScope: NetworkFirewallClientTypes.TransparentFilteringNatScope?
+        /// The VPC and subnets for the endpoints of a proxy mode firewall.
         public var vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint?
         /// The unique identifier of the VPC where the firewall is in use.
         /// This member is required.
@@ -1758,6 +1868,8 @@ extension NetworkFirewallClientTypes {
         public init(
             availabilityZoneChangeProtection: Swift.Bool = false,
             availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+            contextStoreId: Swift.String? = nil,
+            contextStoreOwnerAccountId: Swift.String? = nil,
             deleteProtection: Swift.Bool = false,
             description: Swift.String? = nil,
             enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
@@ -1767,8 +1879,7 @@ extension NetworkFirewallClientTypes {
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyChangeProtection: Swift.Bool = false,
-            natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]? = nil,
-            noSourcePreservation: Swift.Bool = false,
+            natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]? = nil,
             numberOfAssociations: Swift.Int? = nil,
             proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
             subnetChangeProtection: Swift.Bool = false,
@@ -1776,11 +1887,14 @@ extension NetworkFirewallClientTypes {
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             transitGatewayId: Swift.String? = nil,
             transitGatewayOwnerAccountId: Swift.String? = nil,
+            transparentFilteringNatScope: NetworkFirewallClientTypes.TransparentFilteringNatScope? = nil,
             vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
+            self.contextStoreId = contextStoreId
+            self.contextStoreOwnerAccountId = contextStoreOwnerAccountId
             self.deleteProtection = deleteProtection
             self.description = description
             self.enabledAnalysisTypes = enabledAnalysisTypes
@@ -1790,8 +1904,7 @@ extension NetworkFirewallClientTypes {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
-            self.natGatewayMappings = natGatewayMappings
-            self.noSourcePreservation = noSourcePreservation
+            self.natGatewayCreateMappings = natGatewayCreateMappings
             self.numberOfAssociations = numberOfAssociations
             self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
@@ -1799,6 +1912,7 @@ extension NetworkFirewallClientTypes {
             self.tags = tags
             self.transitGatewayId = transitGatewayId
             self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
+            self.transparentFilteringNatScope = transparentFilteringNatScope
             self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
@@ -1937,17 +2051,17 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The definition and status of the attachment between a proxy mode firewall and a NAT gateway that proxies its traffic.
+    /// The NAT gateway that's attached to a proxy mode firewall in an Availability Zone, and the status of the attachment. Traffic that the firewall allows in the Availability Zone leaves through this NAT gateway.
     public struct NatGatewayAttachment: Swift.Sendable {
-        /// The DNS name that resolves to the firewall's proxy for traffic sent through this NAT gateway attachment.
+        /// The proxy DNS name of the firewall in this Availability Zone. This is the same as the DnsName of the firewall's Attachment.
         public var dnsName: Swift.String?
-        /// A unique identifier for the NAT gateway to use with proxy resources.
+        /// The ID of the NAT gateway.
         /// This member is required.
         public var natGatewayId: Swift.String?
-        /// The current status of the NAT gateway attachment. When this value is READY, the attachment is available to proxy traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
+        /// The status of the NAT gateway attachment. READY means that the NAT gateway is attached and the firewall can send traffic through it. Other values are CREATING, UPDATING, DELETING, and FAILED.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.NatGatewayAttachmentStatus?
-        /// If Network Firewall encounters an issue with the NAT gateway attachment, it populates this with an explanation of the problem.
+        /// The reason that Network Firewall couldn't create or attach the NAT gateway, if it couldn't.
         public var statusMessage: Swift.String?
 
         public init(
@@ -1979,7 +2093,7 @@ extension NetworkFirewallClientTypes {
         public var attachment: NetworkFirewallClientTypes.Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public var config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]?
-        /// The status of the NAT gateway attachments for a proxy mode firewall in the Availability Zone. This reflects the attachment of the firewall to each NAT gateway that proxies its traffic.
+        /// The NAT gateway that's attached to a proxy mode firewall in the Availability Zone, and the status of the attachment. To get NAT gateway details, such as IP addresses, use the Amazon EC2 DescribeNatGateways action. A proxy mode firewall is READY when at least one Availability Zone's firewall endpoint and NAT gateway attachment are READY.
         public var natGatewayAttachments: [NetworkFirewallClientTypes.NatGatewayAttachment]?
 
         public init(
@@ -2065,6 +2179,8 @@ extension NetworkFirewallClientTypes {
         /// The configuration sync state for the firewall. This summarizes the Config settings in the SyncStates for this firewall status object. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all Availability Zones that have subnets defined for the firewall. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness. It's based on this setting and the readiness of the firewall endpoints to take traffic.
         /// This member is required.
         public var configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState?
+        /// The synchronization state of the context sets in the firewall's rule groups with the firewall's context store. This field is only present when the firewall has a context store and its rule groups reference context sets.
+        public var contextStoreSyncState: NetworkFirewallClientTypes.ContextStoreSyncState?
         /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.FirewallStatusValue?
@@ -2076,12 +2192,14 @@ extension NetworkFirewallClientTypes {
         public init(
             capacityUsageSummary: NetworkFirewallClientTypes.CapacityUsageSummary? = nil,
             configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState? = nil,
+            contextStoreSyncState: NetworkFirewallClientTypes.ContextStoreSyncState? = nil,
             status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
             syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]? = nil,
             transitGatewayAttachmentSyncState: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState? = nil
         ) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
+            self.contextStoreSyncState = contextStoreSyncState
             self.status = status
             self.syncStates = syncStates
             self.transitGatewayAttachmentSyncState = transitGatewayAttachmentSyncState
@@ -2201,7 +2319,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The policy-level configuration for resolved IP validation. When you set this on a firewall policy, you require that the destination IP address of a connection is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. The Route 53 Resolver must have returned the response in a VPC that's associated with the Route 53 Resolver DNS Firewall rule group identified by DNSFirewallRuleGroupId. At the policy level, this verifies that the destination IP address was resolved for some domain. To match specific domains, also configure stateful rule groups that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain rule keyword.
+    /// The policy-level configuration for resolved IP validation. When you set this on a firewall policy, you require that the destination IP address of a connection is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. The Route 53 Resolver must have returned the response in a VPC that's associated with the Route 53 Resolver DNS Firewall rule group identified by DNSFirewallRuleGroupId. At the policy level, this verifies that the destination IP address was resolved for some domain. To match specific domains, also configure stateful rule groups that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain rule keyword. Enabling or disabling resolved IP validation, or changing DNSFirewallRuleGroupId, may require a restart of the stateful engine in order to apply the change. When this occurs, existing connections will be treated according to your stream exception policy configuration. Changes to Action, DNSExpiryExceptionPolicy, SourceIPRanges, and BypassDestinationValidationIPRanges don't require a restart.
     public struct Route53ResolvedIPValidation: Swift.Sendable {
         /// The action that Network Firewall takes for a connection whose destination IP address fails resolved IP validation. A destination IP address fails validation when the Route 53 Resolver didn't return it in a DNS response in an associated VPC. Valid values are the following:
         ///
@@ -2223,7 +2341,7 @@ extension NetworkFirewallClientTypes {
         /// * REJECT – Blocks traffic to the IP address after its resolution has expired and sends a TCP reset (RST) to the client. Network Firewall drops non-TCP traffic instead of resetting it.
         /// This member is required.
         public var dnsExpiryExceptionPolicy: NetworkFirewallClientTypes.DNSExpiryExceptionPolicy?
-        /// The ID of the Route 53 Resolver DNS Firewall rule group that determines which VPCs' DNS resolutions count for resolved IP validation. A destination IP address counts as resolved for a domain only when the Route 53 Resolver returned it in a DNS response within a VPC that's associated with this rule group. Associate the rule group with the VPCs that send traffic to the firewall. The ID must match the pattern ^rslvr-frg-[0-9a-f]+$. It must also exist and be accessible from your account. Network Firewall validates this when you create or update the policy. Changing this value swaps the managed rule group association. Network Firewall processes the swap asynchronously. Each policy can have only one managed Route 53 Resolver DNS Firewall association. While a swap is in progress, Network Firewall rejects further changes to this setting. Wait until the swap completes, then retry.
+        /// The ID of the Route 53 Resolver DNS Firewall rule group that determines which VPCs' DNS resolutions count for resolved IP validation. A destination IP address counts as resolved for a domain only when the Route 53 Resolver returned it in a DNS response within a VPC that's associated with this rule group. Associate the rule group with the VPCs that send traffic to the firewall. The ID must match the pattern ^rslvr-frg-[0-9a-f]+$. It must also exist and be accessible from your account. Network Firewall validates this when you create or update the policy. Changing this value swaps the managed rule group association. Network Firewall processes the swap asynchronously. Each policy can have only one managed Route 53 Resolver DNS Firewall association. While a swap is in progress, Network Firewall rejects further changes to this setting. Wait until the swap completes, then retry. The change may also require a restart of the stateful engine. When this occurs, existing connections will be treated according to your stream exception policy configuration.
         /// This member is required.
         public var dnsFirewallRuleGroupId: Swift.String?
         /// The client source IP address ranges whose connections are subject to resolved IP validation. Specify each entry as an IPv4 or IPv6 address or CIDR range, up to 100 entries. If you omit this field, resolved IP validation applies to the CIDR ranges of the firewall's VPC and of any additional VPCs attached to the firewall. Specifying an empty list is not the same as omitting the field: an empty list means that Network Firewall doesn't validate any source addresses. This scope applies to the policy-level check only. Stateful rules that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain keyword still evaluate their destinations regardless of SourceIPRanges.
@@ -2473,7 +2591,7 @@ extension NetworkFirewallClientTypes {
         public var enableTLSSessionHolding: Swift.Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public var policyVariables: NetworkFirewallClientTypes.PolicyVariables?
-        /// The settings that enable resolved IP validation for the policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. The response must come from a VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see [Route53ResolvedIPValidation].
+        /// The settings that enable resolved IP validation for the policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. A VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify must send the response. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see [Route53ResolvedIPValidation].
         public var route53ResolvedIPValidation: NetworkFirewallClientTypes.Route53ResolvedIPValidation?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:
         ///
@@ -2754,61 +2872,21 @@ public struct CreateFirewallPolicyOutput: Swift.Sendable {
     }
 }
 
-/// The operation you requested isn't supported by Network Firewall.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedOperationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension NetworkFirewallClientTypes {
 
-    /// This data type is used specifically for the [CreateProxy] and [UpdateProxy] APIs. Open port for taking HTTP or HTTPS traffic.
-    public struct ListenerPropertyRequest: Swift.Sendable {
-        /// Port for processing traffic.
-        /// This member is required.
-        public var port: Swift.Int?
-        /// Selection of HTTP or HTTPS traffic.
-        /// This member is required.
-        public var type: NetworkFirewallClientTypes.ListenerPropertyType?
-
-        public init(
-            port: Swift.Int? = nil,
-            type: NetworkFirewallClientTypes.ListenerPropertyType? = nil
-        ) {
-            self.port = port
-            self.type = type
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    public enum TlsInterceptMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
+    public enum PolicyDefaultAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accept
+        case alert
+        case drop
+        case reject
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [TlsInterceptMode] {
+        public static var allCases: [PolicyDefaultAction] {
             return [
-                .disabled,
-                .enabled
+                .accept,
+                .alert,
+                .drop,
+                .reject
             ]
         }
 
@@ -2819,534 +2897,13 @@ extension NetworkFirewallClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
+            case .accept: return "ACCEPT"
+            case .alert: return "ALERT"
+            case .drop: return "DROP"
+            case .reject: return "REJECT"
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// This data type is used specifically for the [CreateProxy] and [UpdateProxy] APIs. TLS decryption on traffic to filter on attributes in the HTTP header.
-    public struct TlsInterceptPropertiesRequest: Swift.Sendable {
-        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
-        public var pcaArn: Swift.String?
-        /// Specifies whether to enable or disable TLS Intercept Mode.
-        public var tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode?
-
-        public init(
-            pcaArn: Swift.String? = nil,
-            tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode? = nil
-        ) {
-            self.pcaArn = pcaArn
-            self.tlsInterceptMode = tlsInterceptMode
-        }
-    }
-}
-
-public struct CreateProxyInput: Swift.Sendable {
-    /// Listener properties for HTTP and HTTPS traffic.
-    public var listenerProperties: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
-    /// A unique identifier for the NAT gateway to use with proxy resources.
-    /// This member is required.
-    public var natGatewayId: Swift.String?
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-    /// This member is required.
-    public var proxyName: Swift.String?
-    /// The key:value pairs to associate with the resource.
-    public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// TLS decryption on traffic to filter on attributes in the HTTP header.
-    /// This member is required.
-    public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest?
-
-    public init(
-        listenerProperties: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
-        natGatewayId: Swift.String? = nil,
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        proxyName: Swift.String? = nil,
-        tags: [NetworkFirewallClientTypes.Tag]? = nil,
-        tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest? = nil
-    ) {
-        self.listenerProperties = listenerProperties
-        self.natGatewayId = natGatewayId
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-        self.proxyName = proxyName
-        self.tags = tags
-        self.tlsInterceptProperties = tlsInterceptProperties
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    public enum ProxyModifyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case completed
-        case failed
-        case modifying
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ProxyModifyState] {
-            return [
-                .completed,
-                .failed,
-                .modifying
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .modifying: return "MODIFYING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    public enum ProxyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case attached
-        case attaching
-        case attachFailed
-        case detached
-        case detaching
-        case detachFailed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ProxyState] {
-            return [
-                .attached,
-                .attaching,
-                .attachFailed,
-                .detached,
-                .detaching,
-                .detachFailed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .attached: return "ATTACHED"
-            case .attaching: return "ATTACHING"
-            case .attachFailed: return "ATTACH_FAILED"
-            case .detached: return "DETACHED"
-            case .detaching: return "DETACHING"
-            case .detachFailed: return "DETACH_FAILED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// TLS decryption on traffic to filter on attributes in the HTTP header.
-    public struct TlsInterceptProperties: Swift.Sendable {
-        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
-        public var pcaArn: Swift.String?
-        /// Specifies whether to enable or disable TLS Intercept Mode.
-        public var tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode?
-
-        public init(
-            pcaArn: Swift.String? = nil,
-            tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode? = nil
-        ) {
-            self.pcaArn = pcaArn
-            self.tlsInterceptMode = tlsInterceptMode
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Proxy attached to a NAT gateway.
-    public struct Proxy: Swift.Sendable {
-        /// Time the Proxy was created.
-        public var createTime: Foundation.Date?
-        /// Time the Proxy was deleted.
-        public var deleteTime: Foundation.Date?
-        /// Failure code for cases when the Proxy fails to attach or update.
-        public var failureCode: Swift.String?
-        /// Failure message for cases when the Proxy fails to attach or update.
-        public var failureMessage: Swift.String?
-        /// Listener properties for HTTP and HTTPS traffic.
-        public var listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]?
-        /// The NAT Gateway for the proxy.
-        public var natGatewayId: Swift.String?
-        /// The Amazon Resource Name (ARN) of a proxy.
-        public var proxyArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public var proxyConfigurationArn: Swift.String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public var proxyConfigurationName: Swift.String?
-        /// Current modification status of the Proxy.
-        public var proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-        public var proxyName: Swift.String?
-        /// Current attachment/detachment status of the Proxy.
-        public var proxyState: NetworkFirewallClientTypes.ProxyState?
-        /// The key:value pairs to associate with the resource.
-        public var tags: [NetworkFirewallClientTypes.Tag]?
-        /// TLS decryption on traffic to filter on attributes in the HTTP header.
-        public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties?
-        /// Time the Proxy was updated.
-        public var updateTime: Foundation.Date?
-
-        public init(
-            createTime: Foundation.Date? = nil,
-            deleteTime: Foundation.Date? = nil,
-            failureCode: Swift.String? = nil,
-            failureMessage: Swift.String? = nil,
-            listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]? = nil,
-            natGatewayId: Swift.String? = nil,
-            proxyArn: Swift.String? = nil,
-            proxyConfigurationArn: Swift.String? = nil,
-            proxyConfigurationName: Swift.String? = nil,
-            proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState? = nil,
-            proxyName: Swift.String? = nil,
-            proxyState: NetworkFirewallClientTypes.ProxyState? = nil,
-            tags: [NetworkFirewallClientTypes.Tag]? = nil,
-            tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties? = nil,
-            updateTime: Foundation.Date? = nil
-        ) {
-            self.createTime = createTime
-            self.deleteTime = deleteTime
-            self.failureCode = failureCode
-            self.failureMessage = failureMessage
-            self.listenerProperties = listenerProperties
-            self.natGatewayId = natGatewayId
-            self.proxyArn = proxyArn
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.proxyModifyState = proxyModifyState
-            self.proxyName = proxyName
-            self.proxyState = proxyState
-            self.tags = tags
-            self.tlsInterceptProperties = tlsInterceptProperties
-            self.updateTime = updateTime
-        }
-    }
-}
-
-public struct CreateProxyOutput: Swift.Sendable {
-    /// Proxy attached to a NAT gateway.
-    public var proxy: NetworkFirewallClientTypes.Proxy?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxy: NetworkFirewallClientTypes.Proxy? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxy = proxy
-        self.updateToken = updateToken
-    }
-}
-
-public struct CreateProxyConfigurationInput: Swift.Sendable {
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    /// This member is required.
-    public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
-    /// A description of the proxy configuration.
-    public var description: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-    /// This member is required.
-    public var proxyConfigurationName: Swift.String?
-    /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
-    public var ruleGroupArns: [Swift.String]?
-    /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
-    public var ruleGroupNames: [Swift.String]?
-    /// The key:value pairs to associate with the resource.
-    public var tags: [NetworkFirewallClientTypes.Tag]?
-
-    public init(
-        defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
-        description: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        ruleGroupArns: [Swift.String]? = nil,
-        ruleGroupNames: [Swift.String]? = nil,
-        tags: [NetworkFirewallClientTypes.Tag]? = nil
-    ) {
-        self.defaultRulePhaseActions = defaultRulePhaseActions
-        self.description = description
-        self.proxyConfigurationName = proxyConfigurationName
-        self.ruleGroupArns = ruleGroupArns
-        self.ruleGroupNames = ruleGroupNames
-        self.tags = tags
-    }
-}
-
-public struct CreateProxyConfigurationOutput: Swift.Sendable {
-    /// The properties that define the proxy configuration.
-    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfiguration = proxyConfiguration
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Match criteria that specify what traffic attributes to examine.
-    public struct ProxyRuleCondition: Swift.Sendable {
-        /// Defines what is to be matched.
-        public var conditionKey: Swift.String?
-        /// Defines how to perform a match.
-        public var conditionOperator: Swift.String?
-        /// Specifes the exact value that needs to be matched against.
-        public var conditionValues: [Swift.String]?
-
-        public init(
-            conditionKey: Swift.String? = nil,
-            conditionOperator: Swift.String? = nil,
-            conditionValues: [Swift.String]? = nil
-        ) {
-            self.conditionKey = conditionKey
-            self.conditionOperator = conditionOperator
-            self.conditionValues = conditionValues
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    public struct CreateProxyRule: Swift.Sendable {
-        /// Action to take.
-        public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public var conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
-        /// A description of the proxy rule.
-        public var description: Swift.String?
-        /// Where to insert a proxy rule in a proxy rule group.
-        public var insertPosition: Swift.Int?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public var proxyRuleName: Swift.String?
-
-        public init(
-            action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
-            conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
-            description: Swift.String? = nil,
-            insertPosition: Swift.Int? = nil,
-            proxyRuleName: Swift.String? = nil
-        ) {
-            self.action = action
-            self.conditions = conditions
-            self.description = description
-            self.insertPosition = insertPosition
-            self.proxyRuleName = proxyRuleName
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    public struct ProxyRule: Swift.Sendable {
-        /// Action to take.
-        public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public var conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
-        /// A description of the proxy rule.
-        public var description: Swift.String?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public var proxyRuleName: Swift.String?
-
-        public init(
-            action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
-            conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
-            description: Swift.String? = nil,
-            proxyRuleName: Swift.String? = nil
-        ) {
-            self.action = action
-            self.conditions = conditions
-            self.description = description
-            self.proxyRuleName = proxyRuleName
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    public struct ProxyRulesByRequestPhase: Swift.Sendable {
-        /// After receiving response.
-        public var postRESPONSE: [NetworkFirewallClientTypes.ProxyRule]?
-        /// Before domain resolution.
-        public var preDNS: [NetworkFirewallClientTypes.ProxyRule]?
-        /// After DNS, before request.
-        public var preREQUEST: [NetworkFirewallClientTypes.ProxyRule]?
-
-        public init(
-            postRESPONSE: [NetworkFirewallClientTypes.ProxyRule]? = nil,
-            preDNS: [NetworkFirewallClientTypes.ProxyRule]? = nil,
-            preREQUEST: [NetworkFirewallClientTypes.ProxyRule]? = nil
-        ) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-    }
-}
-
-public struct CreateProxyRuleGroupInput: Swift.Sendable {
-    /// A description of the proxy rule group.
-    public var description: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-    /// This member is required.
-    public var proxyRuleGroupName: Swift.String?
-    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    public var rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?
-    /// The key:value pairs to associate with the resource.
-    public var tags: [NetworkFirewallClientTypes.Tag]?
-
-    public init(
-        description: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase? = nil,
-        tags: [NetworkFirewallClientTypes.Tag]? = nil
-    ) {
-        self.description = description
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.rules = rules
-        self.tags = tags
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations.
-    public struct ProxyRuleGroup: Swift.Sendable {
-        /// Time the Proxy Rule Group was created.
-        public var createTime: Foundation.Date?
-        /// Time the Proxy Rule Group was deleted.
-        public var deleteTime: Foundation.Date?
-        /// A description of the proxy rule group.
-        public var description: Swift.String?
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public var proxyRuleGroupArn: Swift.String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var proxyRuleGroupName: Swift.String?
-        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-        public var rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?
-        /// The key:value pairs to associate with the resource.
-        public var tags: [NetworkFirewallClientTypes.Tag]?
-
-        public init(
-            createTime: Foundation.Date? = nil,
-            deleteTime: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            proxyRuleGroupArn: Swift.String? = nil,
-            proxyRuleGroupName: Swift.String? = nil,
-            rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase? = nil,
-            tags: [NetworkFirewallClientTypes.Tag]? = nil
-        ) {
-            self.createTime = createTime
-            self.deleteTime = deleteTime
-            self.description = description
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.rules = rules
-            self.tags = tags
-        }
-    }
-}
-
-public struct CreateProxyRuleGroupOutput: Swift.Sendable {
-    /// The properties that define the proxy rule group.
-    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroup = proxyRuleGroup
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. This data type is used specifically for the [CreateProxyRules] API. Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
-    public struct CreateProxyRulesByRequestPhase: Swift.Sendable {
-        /// After receiving response.
-        public var postRESPONSE: [NetworkFirewallClientTypes.CreateProxyRule]?
-        /// Before domain resolution.
-        public var preDNS: [NetworkFirewallClientTypes.CreateProxyRule]?
-        /// After DNS, before request.
-        public var preREQUEST: [NetworkFirewallClientTypes.CreateProxyRule]?
-
-        public init(
-            postRESPONSE: [NetworkFirewallClientTypes.CreateProxyRule]? = nil,
-            preDNS: [NetworkFirewallClientTypes.CreateProxyRule]? = nil,
-            preREQUEST: [NetworkFirewallClientTypes.CreateProxyRule]? = nil
-        ) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-    }
-}
-
-public struct CreateProxyRulesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    /// This member is required.
-    public var rules: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        rules: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.rules = rules
-    }
-}
-
-public struct CreateProxyRulesOutput: Swift.Sendable {
-    /// The properties that define the proxy rule group with the newly created proxy rule(s).
-    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroup = proxyRuleGroup
-        self.updateToken = updateToken
     }
 }
 
@@ -3376,6 +2933,928 @@ extension NetworkFirewallClientTypes {
             ipSetReferences: [Swift.String: NetworkFirewallClientTypes.IPSetReference]? = nil
         ) {
             self.ipSetReferences = ipSetReferences
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FirewallRuleAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accept
+        case drop
+        case reject
+        case rejectBoth
+        case rejectDst
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallRuleAction] {
+            return [
+                .accept,
+                .drop,
+                .reject,
+                .rejectBoth,
+                .rejectDst
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accept: return "ACCEPT"
+            case .drop: return "DROP"
+            case .reject: return "REJECT"
+            case .rejectBoth: return "REJECT_BOTH"
+            case .rejectDst: return "REJECT_DST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum HookKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bittorrentDhtRequestComplete
+        case bittorrentDhtRequestStarted
+        case bittorrentDhtResponseComplete
+        case bittorrentDhtResponseStarted
+        case dcerpcRequestComplete
+        case dcerpcRequestStarted
+        case dcerpcResponseComplete
+        case dcerpcResponseStarted
+        case dhcpRequestComplete
+        case dhcpRequestStarted
+        case dhcpResponseComplete
+        case dhcpResponseStarted
+        case dnp3RequestComplete
+        case dnp3RequestStarted
+        case dnp3ResponseComplete
+        case dnp3ResponseStarted
+        case dnsRequestComplete
+        case dnsRequestStarted
+        case dnsResponseComplete
+        case dnsResponseStarted
+        case doh2GlobalRequestComplete
+        case doh2GlobalRequestStarted
+        case doh2GlobalResponseComplete
+        case doh2GlobalResponseStarted
+        case doh2StreamRequestClosed
+        case doh2StreamRequestComplete
+        case doh2StreamRequestData
+        case doh2StreamRequestHeaders
+        case doh2StreamRequestStarted
+        case doh2StreamResponseClosed
+        case doh2StreamResponseComplete
+        case doh2StreamResponseData
+        case doh2StreamResponseHeaders
+        case doh2StreamResponseStarted
+        case ftpDataRequestComplete
+        case ftpDataRequestStarted
+        case ftpDataResponseComplete
+        case ftpDataResponseStarted
+        case ftpRequestComplete
+        case ftpRequestStarted
+        case ftpResponseComplete
+        case ftpResponseStarted
+        case http1RequestBody
+        case http1RequestComplete
+        case http1RequestHeaders
+        case http1RequestLine
+        case http1RequestStarted
+        case http1RequestTrailer
+        case http1ResponseBody
+        case http1ResponseComplete
+        case http1ResponseHeaders
+        case http1ResponseLine
+        case http1ResponseStarted
+        case http1ResponseTrailer
+        case http2GlobalRequestComplete
+        case http2GlobalRequestStarted
+        case http2GlobalResponseComplete
+        case http2GlobalResponseStarted
+        case http2StreamRequestClosed
+        case http2StreamRequestComplete
+        case http2StreamRequestData
+        case http2StreamRequestHeaders
+        case http2StreamRequestStarted
+        case http2StreamResponseClosed
+        case http2StreamResponseComplete
+        case http2StreamResponseData
+        case http2StreamResponseHeaders
+        case http2StreamResponseStarted
+        case icmpv4All
+        case icmpv4FlowStart
+        case icmpv4PreFlow
+        case icmpv4PreStream
+        case icmpv6All
+        case icmpv6FlowStart
+        case icmpv6PreFlow
+        case icmpv6PreStream
+        case icmpAll
+        case icmpFlowStart
+        case icmpPreFlow
+        case icmpPreStream
+        case ikeRequestComplete
+        case ikeRequestStarted
+        case ikeResponseComplete
+        case ikeResponseStarted
+        case ipv4All
+        case ipv4FlowStart
+        case ipv4PreFlow
+        case ipv4PreStream
+        case ipv6All
+        case ipv6FlowStart
+        case ipv6PreFlow
+        case ipv6PreStream
+        case ipAll
+        case ipFlowStart
+        case ipPreFlow
+        case ipPreStream
+        case krb5RequestComplete
+        case krb5RequestStarted
+        case krb5ResponseComplete
+        case krb5ResponseStarted
+        case ldapRequestComplete
+        case ldapRequestStarted
+        case ldapResponseComplete
+        case ldapResponseStarted
+        case mdnsRequestComplete
+        case mdnsRequestStarted
+        case mdnsResponseComplete
+        case mdnsResponseStarted
+        case mqttRequestComplete
+        case mqttRequestStarted
+        case mqttResponseComplete
+        case mqttResponseStarted
+        case nfsRequestComplete
+        case nfsRequestStarted
+        case nfsResponseComplete
+        case nfsResponseStarted
+        case ntpRequestComplete
+        case ntpRequestStarted
+        case ntpResponseComplete
+        case ntpResponseStarted
+        case pgsqlRequestComplete
+        case pgsqlRequestStarted
+        case pgsqlResponseComplete
+        case pgsqlResponseStarted
+        case pop3RequestComplete
+        case pop3RequestStarted
+        case pop3ResponseComplete
+        case pop3ResponseStarted
+        case quicRequestComplete
+        case quicRequestStarted
+        case quicResponseComplete
+        case quicResponseStarted
+        case rdpRequestComplete
+        case rdpRequestStarted
+        case rdpResponseComplete
+        case rdpResponseStarted
+        case rfbRequestComplete
+        case rfbRequestStarted
+        case rfbResponseComplete
+        case rfbResponseStarted
+        case sctpAll
+        case sctpFlowStart
+        case sctpPreFlow
+        case sctpPreStream
+        case smbRequestComplete
+        case smbRequestStarted
+        case smbResponseComplete
+        case smbResponseStarted
+        case smtpRequestComplete
+        case smtpRequestData
+        case smtpRequestStarted
+        case smtpResponseComplete
+        case smtpResponseData
+        case smtpResponseStarted
+        case snmpRequestComplete
+        case snmpRequestStarted
+        case snmpResponseComplete
+        case snmpResponseStarted
+        case sshRequestBannerDone
+        case sshRequestBannerWaitEol
+        case sshRequestFinished
+        case sshRequestInProgress
+        case sshResponseBannerDone
+        case sshResponseBannerWaitEol
+        case sshResponseFinished
+        case sshResponseInProgress
+        case tcpAll
+        case tcpFlowStart
+        case tcpPreFlow
+        case tcpPreStream
+        case telnetRequestComplete
+        case telnetRequestStarted
+        case telnetResponseComplete
+        case telnetResponseStarted
+        case tftpRequestComplete
+        case tftpRequestStarted
+        case tftpResponseComplete
+        case tftpResponseStarted
+        case tlsClientCert
+        case tlsClientData
+        case tlsClientFinished
+        case tlsClientHello
+        case tlsClientStarted
+        case tlsServerCert
+        case tlsServerData
+        case tlsServerFinished
+        case tlsServerHello
+        case tlsServerStarted
+        case udpAll
+        case udpFlowStart
+        case udpPreFlow
+        case udpPreStream
+        case websocketRequestComplete
+        case websocketRequestStarted
+        case websocketResponseComplete
+        case websocketResponseStarted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HookKey] {
+            return [
+                .bittorrentDhtRequestComplete,
+                .bittorrentDhtRequestStarted,
+                .bittorrentDhtResponseComplete,
+                .bittorrentDhtResponseStarted,
+                .dcerpcRequestComplete,
+                .dcerpcRequestStarted,
+                .dcerpcResponseComplete,
+                .dcerpcResponseStarted,
+                .dhcpRequestComplete,
+                .dhcpRequestStarted,
+                .dhcpResponseComplete,
+                .dhcpResponseStarted,
+                .dnp3RequestComplete,
+                .dnp3RequestStarted,
+                .dnp3ResponseComplete,
+                .dnp3ResponseStarted,
+                .dnsRequestComplete,
+                .dnsRequestStarted,
+                .dnsResponseComplete,
+                .dnsResponseStarted,
+                .doh2GlobalRequestComplete,
+                .doh2GlobalRequestStarted,
+                .doh2GlobalResponseComplete,
+                .doh2GlobalResponseStarted,
+                .doh2StreamRequestClosed,
+                .doh2StreamRequestComplete,
+                .doh2StreamRequestData,
+                .doh2StreamRequestHeaders,
+                .doh2StreamRequestStarted,
+                .doh2StreamResponseClosed,
+                .doh2StreamResponseComplete,
+                .doh2StreamResponseData,
+                .doh2StreamResponseHeaders,
+                .doh2StreamResponseStarted,
+                .ftpDataRequestComplete,
+                .ftpDataRequestStarted,
+                .ftpDataResponseComplete,
+                .ftpDataResponseStarted,
+                .ftpRequestComplete,
+                .ftpRequestStarted,
+                .ftpResponseComplete,
+                .ftpResponseStarted,
+                .http1RequestBody,
+                .http1RequestComplete,
+                .http1RequestHeaders,
+                .http1RequestLine,
+                .http1RequestStarted,
+                .http1RequestTrailer,
+                .http1ResponseBody,
+                .http1ResponseComplete,
+                .http1ResponseHeaders,
+                .http1ResponseLine,
+                .http1ResponseStarted,
+                .http1ResponseTrailer,
+                .http2GlobalRequestComplete,
+                .http2GlobalRequestStarted,
+                .http2GlobalResponseComplete,
+                .http2GlobalResponseStarted,
+                .http2StreamRequestClosed,
+                .http2StreamRequestComplete,
+                .http2StreamRequestData,
+                .http2StreamRequestHeaders,
+                .http2StreamRequestStarted,
+                .http2StreamResponseClosed,
+                .http2StreamResponseComplete,
+                .http2StreamResponseData,
+                .http2StreamResponseHeaders,
+                .http2StreamResponseStarted,
+                .icmpv4All,
+                .icmpv4FlowStart,
+                .icmpv4PreFlow,
+                .icmpv4PreStream,
+                .icmpv6All,
+                .icmpv6FlowStart,
+                .icmpv6PreFlow,
+                .icmpv6PreStream,
+                .icmpAll,
+                .icmpFlowStart,
+                .icmpPreFlow,
+                .icmpPreStream,
+                .ikeRequestComplete,
+                .ikeRequestStarted,
+                .ikeResponseComplete,
+                .ikeResponseStarted,
+                .ipv4All,
+                .ipv4FlowStart,
+                .ipv4PreFlow,
+                .ipv4PreStream,
+                .ipv6All,
+                .ipv6FlowStart,
+                .ipv6PreFlow,
+                .ipv6PreStream,
+                .ipAll,
+                .ipFlowStart,
+                .ipPreFlow,
+                .ipPreStream,
+                .krb5RequestComplete,
+                .krb5RequestStarted,
+                .krb5ResponseComplete,
+                .krb5ResponseStarted,
+                .ldapRequestComplete,
+                .ldapRequestStarted,
+                .ldapResponseComplete,
+                .ldapResponseStarted,
+                .mdnsRequestComplete,
+                .mdnsRequestStarted,
+                .mdnsResponseComplete,
+                .mdnsResponseStarted,
+                .mqttRequestComplete,
+                .mqttRequestStarted,
+                .mqttResponseComplete,
+                .mqttResponseStarted,
+                .nfsRequestComplete,
+                .nfsRequestStarted,
+                .nfsResponseComplete,
+                .nfsResponseStarted,
+                .ntpRequestComplete,
+                .ntpRequestStarted,
+                .ntpResponseComplete,
+                .ntpResponseStarted,
+                .pgsqlRequestComplete,
+                .pgsqlRequestStarted,
+                .pgsqlResponseComplete,
+                .pgsqlResponseStarted,
+                .pop3RequestComplete,
+                .pop3RequestStarted,
+                .pop3ResponseComplete,
+                .pop3ResponseStarted,
+                .quicRequestComplete,
+                .quicRequestStarted,
+                .quicResponseComplete,
+                .quicResponseStarted,
+                .rdpRequestComplete,
+                .rdpRequestStarted,
+                .rdpResponseComplete,
+                .rdpResponseStarted,
+                .rfbRequestComplete,
+                .rfbRequestStarted,
+                .rfbResponseComplete,
+                .rfbResponseStarted,
+                .sctpAll,
+                .sctpFlowStart,
+                .sctpPreFlow,
+                .sctpPreStream,
+                .smbRequestComplete,
+                .smbRequestStarted,
+                .smbResponseComplete,
+                .smbResponseStarted,
+                .smtpRequestComplete,
+                .smtpRequestData,
+                .smtpRequestStarted,
+                .smtpResponseComplete,
+                .smtpResponseData,
+                .smtpResponseStarted,
+                .snmpRequestComplete,
+                .snmpRequestStarted,
+                .snmpResponseComplete,
+                .snmpResponseStarted,
+                .sshRequestBannerDone,
+                .sshRequestBannerWaitEol,
+                .sshRequestFinished,
+                .sshRequestInProgress,
+                .sshResponseBannerDone,
+                .sshResponseBannerWaitEol,
+                .sshResponseFinished,
+                .sshResponseInProgress,
+                .tcpAll,
+                .tcpFlowStart,
+                .tcpPreFlow,
+                .tcpPreStream,
+                .telnetRequestComplete,
+                .telnetRequestStarted,
+                .telnetResponseComplete,
+                .telnetResponseStarted,
+                .tftpRequestComplete,
+                .tftpRequestStarted,
+                .tftpResponseComplete,
+                .tftpResponseStarted,
+                .tlsClientCert,
+                .tlsClientData,
+                .tlsClientFinished,
+                .tlsClientHello,
+                .tlsClientStarted,
+                .tlsServerCert,
+                .tlsServerData,
+                .tlsServerFinished,
+                .tlsServerHello,
+                .tlsServerStarted,
+                .udpAll,
+                .udpFlowStart,
+                .udpPreFlow,
+                .udpPreStream,
+                .websocketRequestComplete,
+                .websocketRequestStarted,
+                .websocketResponseComplete,
+                .websocketResponseStarted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bittorrentDhtRequestComplete: return "BITTORRENT_DHT_REQUEST_COMPLETE"
+            case .bittorrentDhtRequestStarted: return "BITTORRENT_DHT_REQUEST_STARTED"
+            case .bittorrentDhtResponseComplete: return "BITTORRENT_DHT_RESPONSE_COMPLETE"
+            case .bittorrentDhtResponseStarted: return "BITTORRENT_DHT_RESPONSE_STARTED"
+            case .dcerpcRequestComplete: return "DCERPC_REQUEST_COMPLETE"
+            case .dcerpcRequestStarted: return "DCERPC_REQUEST_STARTED"
+            case .dcerpcResponseComplete: return "DCERPC_RESPONSE_COMPLETE"
+            case .dcerpcResponseStarted: return "DCERPC_RESPONSE_STARTED"
+            case .dhcpRequestComplete: return "DHCP_REQUEST_COMPLETE"
+            case .dhcpRequestStarted: return "DHCP_REQUEST_STARTED"
+            case .dhcpResponseComplete: return "DHCP_RESPONSE_COMPLETE"
+            case .dhcpResponseStarted: return "DHCP_RESPONSE_STARTED"
+            case .dnp3RequestComplete: return "DNP3_REQUEST_COMPLETE"
+            case .dnp3RequestStarted: return "DNP3_REQUEST_STARTED"
+            case .dnp3ResponseComplete: return "DNP3_RESPONSE_COMPLETE"
+            case .dnp3ResponseStarted: return "DNP3_RESPONSE_STARTED"
+            case .dnsRequestComplete: return "DNS_REQUEST_COMPLETE"
+            case .dnsRequestStarted: return "DNS_REQUEST_STARTED"
+            case .dnsResponseComplete: return "DNS_RESPONSE_COMPLETE"
+            case .dnsResponseStarted: return "DNS_RESPONSE_STARTED"
+            case .doh2GlobalRequestComplete: return "DOH2_GLOBAL_REQUEST_COMPLETE"
+            case .doh2GlobalRequestStarted: return "DOH2_GLOBAL_REQUEST_STARTED"
+            case .doh2GlobalResponseComplete: return "DOH2_GLOBAL_RESPONSE_COMPLETE"
+            case .doh2GlobalResponseStarted: return "DOH2_GLOBAL_RESPONSE_STARTED"
+            case .doh2StreamRequestClosed: return "DOH2_STREAM_REQUEST_CLOSED"
+            case .doh2StreamRequestComplete: return "DOH2_STREAM_REQUEST_COMPLETE"
+            case .doh2StreamRequestData: return "DOH2_STREAM_REQUEST_DATA"
+            case .doh2StreamRequestHeaders: return "DOH2_STREAM_REQUEST_HEADERS"
+            case .doh2StreamRequestStarted: return "DOH2_STREAM_REQUEST_STARTED"
+            case .doh2StreamResponseClosed: return "DOH2_STREAM_RESPONSE_CLOSED"
+            case .doh2StreamResponseComplete: return "DOH2_STREAM_RESPONSE_COMPLETE"
+            case .doh2StreamResponseData: return "DOH2_STREAM_RESPONSE_DATA"
+            case .doh2StreamResponseHeaders: return "DOH2_STREAM_RESPONSE_HEADERS"
+            case .doh2StreamResponseStarted: return "DOH2_STREAM_RESPONSE_STARTED"
+            case .ftpDataRequestComplete: return "FTP_DATA_REQUEST_COMPLETE"
+            case .ftpDataRequestStarted: return "FTP_DATA_REQUEST_STARTED"
+            case .ftpDataResponseComplete: return "FTP_DATA_RESPONSE_COMPLETE"
+            case .ftpDataResponseStarted: return "FTP_DATA_RESPONSE_STARTED"
+            case .ftpRequestComplete: return "FTP_REQUEST_COMPLETE"
+            case .ftpRequestStarted: return "FTP_REQUEST_STARTED"
+            case .ftpResponseComplete: return "FTP_RESPONSE_COMPLETE"
+            case .ftpResponseStarted: return "FTP_RESPONSE_STARTED"
+            case .http1RequestBody: return "HTTP1_REQUEST_BODY"
+            case .http1RequestComplete: return "HTTP1_REQUEST_COMPLETE"
+            case .http1RequestHeaders: return "HTTP1_REQUEST_HEADERS"
+            case .http1RequestLine: return "HTTP1_REQUEST_LINE"
+            case .http1RequestStarted: return "HTTP1_REQUEST_STARTED"
+            case .http1RequestTrailer: return "HTTP1_REQUEST_TRAILER"
+            case .http1ResponseBody: return "HTTP1_RESPONSE_BODY"
+            case .http1ResponseComplete: return "HTTP1_RESPONSE_COMPLETE"
+            case .http1ResponseHeaders: return "HTTP1_RESPONSE_HEADERS"
+            case .http1ResponseLine: return "HTTP1_RESPONSE_LINE"
+            case .http1ResponseStarted: return "HTTP1_RESPONSE_STARTED"
+            case .http1ResponseTrailer: return "HTTP1_RESPONSE_TRAILER"
+            case .http2GlobalRequestComplete: return "HTTP2_GLOBAL_REQUEST_COMPLETE"
+            case .http2GlobalRequestStarted: return "HTTP2_GLOBAL_REQUEST_STARTED"
+            case .http2GlobalResponseComplete: return "HTTP2_GLOBAL_RESPONSE_COMPLETE"
+            case .http2GlobalResponseStarted: return "HTTP2_GLOBAL_RESPONSE_STARTED"
+            case .http2StreamRequestClosed: return "HTTP2_STREAM_REQUEST_CLOSED"
+            case .http2StreamRequestComplete: return "HTTP2_STREAM_REQUEST_COMPLETE"
+            case .http2StreamRequestData: return "HTTP2_STREAM_REQUEST_DATA"
+            case .http2StreamRequestHeaders: return "HTTP2_STREAM_REQUEST_HEADERS"
+            case .http2StreamRequestStarted: return "HTTP2_STREAM_REQUEST_STARTED"
+            case .http2StreamResponseClosed: return "HTTP2_STREAM_RESPONSE_CLOSED"
+            case .http2StreamResponseComplete: return "HTTP2_STREAM_RESPONSE_COMPLETE"
+            case .http2StreamResponseData: return "HTTP2_STREAM_RESPONSE_DATA"
+            case .http2StreamResponseHeaders: return "HTTP2_STREAM_RESPONSE_HEADERS"
+            case .http2StreamResponseStarted: return "HTTP2_STREAM_RESPONSE_STARTED"
+            case .icmpv4All: return "ICMPV4_ALL"
+            case .icmpv4FlowStart: return "ICMPV4_FLOW_START"
+            case .icmpv4PreFlow: return "ICMPV4_PRE_FLOW"
+            case .icmpv4PreStream: return "ICMPV4_PRE_STREAM"
+            case .icmpv6All: return "ICMPV6_ALL"
+            case .icmpv6FlowStart: return "ICMPV6_FLOW_START"
+            case .icmpv6PreFlow: return "ICMPV6_PRE_FLOW"
+            case .icmpv6PreStream: return "ICMPV6_PRE_STREAM"
+            case .icmpAll: return "ICMP_ALL"
+            case .icmpFlowStart: return "ICMP_FLOW_START"
+            case .icmpPreFlow: return "ICMP_PRE_FLOW"
+            case .icmpPreStream: return "ICMP_PRE_STREAM"
+            case .ikeRequestComplete: return "IKE_REQUEST_COMPLETE"
+            case .ikeRequestStarted: return "IKE_REQUEST_STARTED"
+            case .ikeResponseComplete: return "IKE_RESPONSE_COMPLETE"
+            case .ikeResponseStarted: return "IKE_RESPONSE_STARTED"
+            case .ipv4All: return "IPV4_ALL"
+            case .ipv4FlowStart: return "IPV4_FLOW_START"
+            case .ipv4PreFlow: return "IPV4_PRE_FLOW"
+            case .ipv4PreStream: return "IPV4_PRE_STREAM"
+            case .ipv6All: return "IPV6_ALL"
+            case .ipv6FlowStart: return "IPV6_FLOW_START"
+            case .ipv6PreFlow: return "IPV6_PRE_FLOW"
+            case .ipv6PreStream: return "IPV6_PRE_STREAM"
+            case .ipAll: return "IP_ALL"
+            case .ipFlowStart: return "IP_FLOW_START"
+            case .ipPreFlow: return "IP_PRE_FLOW"
+            case .ipPreStream: return "IP_PRE_STREAM"
+            case .krb5RequestComplete: return "KRB5_REQUEST_COMPLETE"
+            case .krb5RequestStarted: return "KRB5_REQUEST_STARTED"
+            case .krb5ResponseComplete: return "KRB5_RESPONSE_COMPLETE"
+            case .krb5ResponseStarted: return "KRB5_RESPONSE_STARTED"
+            case .ldapRequestComplete: return "LDAP_REQUEST_COMPLETE"
+            case .ldapRequestStarted: return "LDAP_REQUEST_STARTED"
+            case .ldapResponseComplete: return "LDAP_RESPONSE_COMPLETE"
+            case .ldapResponseStarted: return "LDAP_RESPONSE_STARTED"
+            case .mdnsRequestComplete: return "MDNS_REQUEST_COMPLETE"
+            case .mdnsRequestStarted: return "MDNS_REQUEST_STARTED"
+            case .mdnsResponseComplete: return "MDNS_RESPONSE_COMPLETE"
+            case .mdnsResponseStarted: return "MDNS_RESPONSE_STARTED"
+            case .mqttRequestComplete: return "MQTT_REQUEST_COMPLETE"
+            case .mqttRequestStarted: return "MQTT_REQUEST_STARTED"
+            case .mqttResponseComplete: return "MQTT_RESPONSE_COMPLETE"
+            case .mqttResponseStarted: return "MQTT_RESPONSE_STARTED"
+            case .nfsRequestComplete: return "NFS_REQUEST_COMPLETE"
+            case .nfsRequestStarted: return "NFS_REQUEST_STARTED"
+            case .nfsResponseComplete: return "NFS_RESPONSE_COMPLETE"
+            case .nfsResponseStarted: return "NFS_RESPONSE_STARTED"
+            case .ntpRequestComplete: return "NTP_REQUEST_COMPLETE"
+            case .ntpRequestStarted: return "NTP_REQUEST_STARTED"
+            case .ntpResponseComplete: return "NTP_RESPONSE_COMPLETE"
+            case .ntpResponseStarted: return "NTP_RESPONSE_STARTED"
+            case .pgsqlRequestComplete: return "PGSQL_REQUEST_COMPLETE"
+            case .pgsqlRequestStarted: return "PGSQL_REQUEST_STARTED"
+            case .pgsqlResponseComplete: return "PGSQL_RESPONSE_COMPLETE"
+            case .pgsqlResponseStarted: return "PGSQL_RESPONSE_STARTED"
+            case .pop3RequestComplete: return "POP3_REQUEST_COMPLETE"
+            case .pop3RequestStarted: return "POP3_REQUEST_STARTED"
+            case .pop3ResponseComplete: return "POP3_RESPONSE_COMPLETE"
+            case .pop3ResponseStarted: return "POP3_RESPONSE_STARTED"
+            case .quicRequestComplete: return "QUIC_REQUEST_COMPLETE"
+            case .quicRequestStarted: return "QUIC_REQUEST_STARTED"
+            case .quicResponseComplete: return "QUIC_RESPONSE_COMPLETE"
+            case .quicResponseStarted: return "QUIC_RESPONSE_STARTED"
+            case .rdpRequestComplete: return "RDP_REQUEST_COMPLETE"
+            case .rdpRequestStarted: return "RDP_REQUEST_STARTED"
+            case .rdpResponseComplete: return "RDP_RESPONSE_COMPLETE"
+            case .rdpResponseStarted: return "RDP_RESPONSE_STARTED"
+            case .rfbRequestComplete: return "RFB_REQUEST_COMPLETE"
+            case .rfbRequestStarted: return "RFB_REQUEST_STARTED"
+            case .rfbResponseComplete: return "RFB_RESPONSE_COMPLETE"
+            case .rfbResponseStarted: return "RFB_RESPONSE_STARTED"
+            case .sctpAll: return "SCTP_ALL"
+            case .sctpFlowStart: return "SCTP_FLOW_START"
+            case .sctpPreFlow: return "SCTP_PRE_FLOW"
+            case .sctpPreStream: return "SCTP_PRE_STREAM"
+            case .smbRequestComplete: return "SMB_REQUEST_COMPLETE"
+            case .smbRequestStarted: return "SMB_REQUEST_STARTED"
+            case .smbResponseComplete: return "SMB_RESPONSE_COMPLETE"
+            case .smbResponseStarted: return "SMB_RESPONSE_STARTED"
+            case .smtpRequestComplete: return "SMTP_REQUEST_COMPLETE"
+            case .smtpRequestData: return "SMTP_REQUEST_DATA"
+            case .smtpRequestStarted: return "SMTP_REQUEST_STARTED"
+            case .smtpResponseComplete: return "SMTP_RESPONSE_COMPLETE"
+            case .smtpResponseData: return "SMTP_RESPONSE_DATA"
+            case .smtpResponseStarted: return "SMTP_RESPONSE_STARTED"
+            case .snmpRequestComplete: return "SNMP_REQUEST_COMPLETE"
+            case .snmpRequestStarted: return "SNMP_REQUEST_STARTED"
+            case .snmpResponseComplete: return "SNMP_RESPONSE_COMPLETE"
+            case .snmpResponseStarted: return "SNMP_RESPONSE_STARTED"
+            case .sshRequestBannerDone: return "SSH_REQUEST_BANNER_DONE"
+            case .sshRequestBannerWaitEol: return "SSH_REQUEST_BANNER_WAIT_EOL"
+            case .sshRequestFinished: return "SSH_REQUEST_FINISHED"
+            case .sshRequestInProgress: return "SSH_REQUEST_IN_PROGRESS"
+            case .sshResponseBannerDone: return "SSH_RESPONSE_BANNER_DONE"
+            case .sshResponseBannerWaitEol: return "SSH_RESPONSE_BANNER_WAIT_EOL"
+            case .sshResponseFinished: return "SSH_RESPONSE_FINISHED"
+            case .sshResponseInProgress: return "SSH_RESPONSE_IN_PROGRESS"
+            case .tcpAll: return "TCP_ALL"
+            case .tcpFlowStart: return "TCP_FLOW_START"
+            case .tcpPreFlow: return "TCP_PRE_FLOW"
+            case .tcpPreStream: return "TCP_PRE_STREAM"
+            case .telnetRequestComplete: return "TELNET_REQUEST_COMPLETE"
+            case .telnetRequestStarted: return "TELNET_REQUEST_STARTED"
+            case .telnetResponseComplete: return "TELNET_RESPONSE_COMPLETE"
+            case .telnetResponseStarted: return "TELNET_RESPONSE_STARTED"
+            case .tftpRequestComplete: return "TFTP_REQUEST_COMPLETE"
+            case .tftpRequestStarted: return "TFTP_REQUEST_STARTED"
+            case .tftpResponseComplete: return "TFTP_RESPONSE_COMPLETE"
+            case .tftpResponseStarted: return "TFTP_RESPONSE_STARTED"
+            case .tlsClientCert: return "TLS_CLIENT_CERT"
+            case .tlsClientData: return "TLS_CLIENT_DATA"
+            case .tlsClientFinished: return "TLS_CLIENT_FINISHED"
+            case .tlsClientHello: return "TLS_CLIENT_HELLO"
+            case .tlsClientStarted: return "TLS_CLIENT_STARTED"
+            case .tlsServerCert: return "TLS_SERVER_CERT"
+            case .tlsServerData: return "TLS_SERVER_DATA"
+            case .tlsServerFinished: return "TLS_SERVER_FINISHED"
+            case .tlsServerHello: return "TLS_SERVER_HELLO"
+            case .tlsServerStarted: return "TLS_SERVER_STARTED"
+            case .udpAll: return "UDP_ALL"
+            case .udpFlowStart: return "UDP_FLOW_START"
+            case .udpPreFlow: return "UDP_PRE_FLOW"
+            case .udpPreStream: return "UDP_PRE_STREAM"
+            case .websocketRequestComplete: return "WEBSOCKET_REQUEST_COMPLETE"
+            case .websocketRequestStarted: return "WEBSOCKET_REQUEST_STARTED"
+            case .websocketResponseComplete: return "WEBSOCKET_RESPONSE_COMPLETE"
+            case .websocketResponseStarted: return "WEBSOCKET_RESPONSE_STARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FirewallRuleProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case any
+        case bittorrentDht
+        case dcerpc
+        case dhcp
+        case dnp3
+        case dns
+        case doh2
+        case ftp
+        case ftpData
+        case http
+        case http2
+        case icmp
+        case icmpv4
+        case icmpv6
+        case ikev2
+        case ipv4
+        case ipv6
+        case krb5
+        case ldap
+        case mdns
+        case mqtt
+        case msn
+        case nfs
+        case ntp
+        case pgsql
+        case pop3
+        case quic
+        case rdp
+        case rfb
+        case sctp
+        case smb
+        case smtp
+        case snmp
+        case ssh
+        case tcp
+        case telnet
+        case tftp
+        case tls
+        case udp
+        case websocket
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallRuleProtocol] {
+            return [
+                .any,
+                .bittorrentDht,
+                .dcerpc,
+                .dhcp,
+                .dnp3,
+                .dns,
+                .doh2,
+                .ftp,
+                .ftpData,
+                .http,
+                .http2,
+                .icmp,
+                .icmpv4,
+                .icmpv6,
+                .ikev2,
+                .ipv4,
+                .ipv6,
+                .krb5,
+                .ldap,
+                .mdns,
+                .mqtt,
+                .msn,
+                .nfs,
+                .ntp,
+                .pgsql,
+                .pop3,
+                .quic,
+                .rdp,
+                .rfb,
+                .sctp,
+                .smb,
+                .smtp,
+                .snmp,
+                .ssh,
+                .tcp,
+                .telnet,
+                .tftp,
+                .tls,
+                .udp,
+                .websocket
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .any: return "IP"
+            case .bittorrentDht: return "BITTORRENT_DHT"
+            case .dcerpc: return "DCERPC"
+            case .dhcp: return "DHCP"
+            case .dnp3: return "DNP3"
+            case .dns: return "DNS"
+            case .doh2: return "DOH2"
+            case .ftp: return "FTP"
+            case .ftpData: return "FTP_DATA"
+            case .http: return "HTTP"
+            case .http2: return "HTTP2"
+            case .icmp: return "ICMP"
+            case .icmpv4: return "ICMPV4"
+            case .icmpv6: return "ICMPV6"
+            case .ikev2: return "IKEV2"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case .krb5: return "KRB5"
+            case .ldap: return "LDAP"
+            case .mdns: return "MDNS"
+            case .mqtt: return "MQTT"
+            case .msn: return "MSN"
+            case .nfs: return "NFS"
+            case .ntp: return "NTP"
+            case .pgsql: return "PGSQL"
+            case .pop3: return "POP3"
+            case .quic: return "QUIC"
+            case .rdp: return "RDP"
+            case .rfb: return "RFB"
+            case .sctp: return "SCTP"
+            case .smb: return "SMB"
+            case .smtp: return "SMTP"
+            case .snmp: return "SNMP"
+            case .ssh: return "SSH"
+            case .tcp: return "TCP"
+            case .telnet: return "TELNET"
+            case .tftp: return "TFTP"
+            case .tls: return "TLS"
+            case .udp: return "UDP"
+            case .websocket: return "WEBSOCKET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Metadata for a single firewall engine rule. Use it to disable a rule without removing it and to attach a description. When you describe a rule group in RULES_STRING format, Network Firewall renders a disabled rule and its description as # comment lines above the rule.
+    public struct RuleMetadata: Swift.Sendable {
+        /// A description of the rule, up to 512 characters. The description can span multiple lines. A description line can't itself look like a firewall rule; to disable a rule, set RuleEnabled to FALSE instead.
+        public var ruleDescription: Swift.String?
+        /// Specifies whether the rule is active. The default is TRUE. When you set this to FALSE, Network Firewall keeps the rule in the rule group but doesn't evaluate it against traffic and doesn't count it toward the rule group's consumed capacity.
+        public var ruleEnabled: Swift.Bool?
+
+        public init(
+            ruleDescription: Swift.String? = nil,
+            ruleEnabled: Swift.Bool? = nil
+        ) {
+            self.ruleDescription = ruleDescription
+            self.ruleEnabled = ruleEnabled
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
+    public struct RuleOption: Swift.Sendable {
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html#rule-options) in the Suricata documentation.
+        /// This member is required.
+        public var keyword: Swift.String?
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html#rule-options).
+        public var settings: [Swift.String]?
+
+        public init(
+            keyword: Swift.String? = nil,
+            settings: [Swift.String]? = nil
+        ) {
+            self.keyword = keyword
+            self.settings = settings
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A single structured firewall engine rule, for use in a firewall engine rule group or as an embedded rule in a Next Generation policy. A firewall rule accepts, drops, or rejects traffic at a connection-state hook. For more information about authoring firewall engine rules, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+    public struct FirewallRule: Swift.Sendable {
+        /// Whether Network Firewall automatically accepts the earlier application-layer hooks that a connection must pass to reach this rule's hook. Because the firewall engine is drop by default, accepting prior hooks lets you author a single rule for the hook you care about, instead of also authoring a rule for each earlier hook. This setting accepts the earlier application-layer hooks only; it doesn't accept the TCP layer. For more information, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+        public var acceptPriorHooks: Swift.Bool?
+        /// The action that the firewall engine takes on traffic that matches the rule. The firewall engine supports the following actions:
+        ///
+        /// * ACCEPT - Allow the traffic.
+        ///
+        /// * DROP - Block the traffic and discontinue inspection.
+        ///
+        /// * REJECT - Block the traffic and send a TCP reset packet back to the client.
+        ///
+        /// * REJECT_DST - Block the traffic and send a TCP reset packet to the destination.
+        ///
+        /// * REJECT_BOTH - Block the traffic and send a TCP reset packet to both the client and the destination.
+        ///
+        ///
+        /// You combine the action with an action scope, for example accept:flow. To send accepted traffic straight to its destination and skip the IPS engine, pair an accept action with the BypassIPSEnabled setting. For more information, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+        /// This member is required.
+        public var action: NetworkFirewallClientTypes.FirewallRuleAction?
+        /// The scope that controls how much of the matched traffic the action applies to. The valid scopes depend on the action: ACCEPT supports all four scopes, and DROP, REJECT, REJECT_DST, and REJECT_BOTH support only PACKET and FLOW.
+        ///
+        /// * PACKET - The current packet only.
+        ///
+        /// * HOOK - The current hook only. The firewall engine evaluates the connection again at the next hook.
+        ///
+        /// * TX - The current transaction. The firewall engine continues to evaluate later transactions on the connection.
+        ///
+        /// * FLOW - The entire connection. For an accept action, the connection skips the firewall engine's remaining hooks and advances to the IPS engine.
+        ///
+        ///
+        /// In a Suricata-compatible rule string, you write the scope in lowercase, for example accept:flow.
+        /// This member is required.
+        public var actionScope: NetworkFirewallClientTypes.ActionScope?
+        /// Specifies whether the rule also generates an alert log for the traffic that it matches. Turning on alerting adds a secondary alert action to the rule, so that Network Firewall logs the match in addition to taking the rule's primary action.
+        public var alertEnabled: Swift.Bool?
+        /// Specifies whether an accepted connection bypasses the IPS engine. By default, traffic that the firewall engine accepts advances to the IPS engine for threat inspection. When you turn on this setting for an accept rule, the accepted traffic goes straight to its destination without IPS inspection. You can set the bypass only on accept rules, and it uses the same scope as the rule's accept action; only the flow and packet scopes support a bypass. For more information, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+        public var bypassIPSEnabled: Swift.Bool?
+        /// The destination IP addresses and address ranges to inspect for, in CIDR notation. A firewall rule always compiles to a forward-direction rule, so you express inbound compared to outbound traffic through the source and destination addresses.
+        public var destIPs: Swift.String?
+        /// The destination ports to inspect for.
+        public var destPorts: Swift.String?
+        /// The connection-state hook at which the firewall engine evaluates the rule. The hook encodes both the protocol and the connection state, for example a TCP hook or a TLS client_hello hook. For the hooks that the firewall engine supports and how they map to the connection lifecycle, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide and the [Suricata firewall mode documentation](https://suricata.readthedocs.io/en/suricata-8.0.3/firewall/firewall-design.html).
+        /// This member is required.
+        public var hook: NetworkFirewallClientTypes.HookKey?
+        /// The protocol of the rule's hook. The protocol is derived from the hook and must match the hook's protocol prefix. Network Firewall rejects a rule whose protocol doesn't match its hook.
+        /// This member is required.
+        public var `protocol`: NetworkFirewallClientTypes.FirewallRuleProtocol?
+        /// Optional metadata for the rule: whether the rule is enabled and a description. Metadata doesn't change how the rule matches or acts on traffic.
+        public var ruleMetadata: NetworkFirewallClientTypes.RuleMetadata?
+        /// Additional options for the rule. These are the Suricata RuleOptions settings, such as the signature ID (sid) and match keywords.
+        public var ruleOptions: [NetworkFirewallClientTypes.RuleOption]?
+        /// The source IP addresses and address ranges to inspect for, in CIDR notation. A firewall rule always compiles to a forward-direction rule, so you express inbound compared to outbound traffic through the source and destination addresses.
+        public var sourceIPs: Swift.String?
+        /// The source ports to inspect for.
+        public var sourcePorts: Swift.String?
+
+        public init(
+            acceptPriorHooks: Swift.Bool? = nil,
+            action: NetworkFirewallClientTypes.FirewallRuleAction? = nil,
+            actionScope: NetworkFirewallClientTypes.ActionScope? = nil,
+            alertEnabled: Swift.Bool? = nil,
+            bypassIPSEnabled: Swift.Bool? = nil,
+            destIPs: Swift.String? = nil,
+            destPorts: Swift.String? = nil,
+            hook: NetworkFirewallClientTypes.HookKey? = nil,
+            `protocol`: NetworkFirewallClientTypes.FirewallRuleProtocol? = nil,
+            ruleMetadata: NetworkFirewallClientTypes.RuleMetadata? = nil,
+            ruleOptions: [NetworkFirewallClientTypes.RuleOption]? = nil,
+            sourceIPs: Swift.String? = nil,
+            sourcePorts: Swift.String? = nil
+        ) {
+            self.acceptPriorHooks = acceptPriorHooks
+            self.action = action
+            self.actionScope = actionScope
+            self.alertEnabled = alertEnabled
+            self.bypassIPSEnabled = bypassIPSEnabled
+            self.destIPs = destIPs
+            self.destPorts = destPorts
+            self.hook = hook
+            self.`protocol` = `protocol`
+            self.ruleMetadata = ruleMetadata
+            self.ruleOptions = ruleOptions
+            self.sourceIPs = sourceIPs
+            self.sourcePorts = sourcePorts
         }
     }
 }
@@ -3463,9 +3942,9 @@ extension NetworkFirewallClientTypes {
         /// * TLS_SNI – Match the domain against the Server Name Indication (SNI) of HTTPS traffic.
         ///
         ///
-        /// AWS_ROUTE_53_RESOLVED_DOMAIN matches on how the destination IP address was resolved, rather than on the domain that the client asserts in its TLS SNI or HTTP Host header. This target type takes effect when you configure resolved IP validation on the firewall policy. For more information, see [Route53ResolvedIPValidation]. Whether you include AWS_ROUTE_53_RESOLVED_DOMAIN changes what the generated rules match, together with GeneratedRulesType:
+        /// AWS_ROUTE_53_RESOLVED_DOMAIN matches on how the destination IP address was resolved, rather than on the domain that the client asserts in its TLS SNI or HTTP Host header. This target type takes effect when you configure resolved IP validation on the firewall policy. For more information, see the Route53ResolvedIPValidation firewall policy setting. Whether you include AWS_ROUTE_53_RESOLVED_DOMAIN changes what the generated rules match, together with GeneratedRulesType:
         ///
-        /// * Combining AWS_ROUTE_53_RESOLVED_DOMAIN with TLS_SNI or HTTP_HOST in an ALLOWLIST requires both conditions to match. The SNI or Host header must match the domain, and the Route 53 Resolver must have resolved the destination IP address for that domain. Network Firewall allows traffic only in that case. Traffic that matches one condition, such as a spoofed Host header sent to an unresolved IP address, is not allowed.
+        /// * In an ALLOWLIST, combining AWS_ROUTE_53_RESOLVED_DOMAIN with TLS_SNI or HTTP_HOST requires both conditions to match: the SNI or Host header matches the domain, and the Route 53 Resolver resolved the destination IP address for that domain. Network Firewall allows the traffic only when both conditions match, so it blocks traffic that matches just one—for example, a spoofed Host header sent to an unresolved IP address.
         ///
         /// * In a DENYLIST, or when AWS_ROUTE_53_RESOLVED_DOMAIN is the only target type, Network Firewall evaluates each condition independently: a match on either the domain (SNI or Host) or the resolved destination IP address triggers the rule.
         ///
@@ -3492,6 +3971,442 @@ extension NetworkFirewallClientTypes {
             self.targetTypes = targetTypes
             self.targets = targets
         }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The source of the rules for a firewall engine rule group. You provide the rules as a single Suricata-compatible rule string, as a list of structured firewall rules, or as a list of domain names to generate rules from.
+    public struct FirewallRulesSource: Swift.Sendable {
+        /// An array of individual firewall engine rules, provided as structured rules rather than as a rule string.
+        public var firewallRules: [NetworkFirewallClientTypes.FirewallRule]?
+        /// Stateful inspection criteria for a domain list, specified as the list of domain names that Network Firewall generates firewall engine rules from.
+        public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
+        /// Firewall engine rules, provided as a single Suricata-compatible rule string in firewall mode. Use this to provide rules that you've already written in the Suricata firewall-mode format. For the rule format, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+        public var rulesString: Swift.String?
+
+        public init(
+            firewallRules: [NetworkFirewallClientTypes.FirewallRule]? = nil,
+            rulesSourceList: NetworkFirewallClientTypes.RulesSourceList? = nil,
+            rulesString: Swift.String? = nil
+        ) {
+            self.firewallRules = firewallRules
+            self.rulesSourceList = rulesSourceList
+            self.rulesString = rulesString
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A set of port ranges for use in the rules in a rule group.
+    public struct PortSet: Swift.Sendable {
+        /// The set of port ranges.
+        public var definition: [Swift.String]?
+
+        public init(
+            definition: [Swift.String]? = nil
+        ) {
+            self.definition = definition
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Settings that are available for use in the rules in the [RuleGroup] where this is defined. See [CreateRuleGroup] or [UpdateRuleGroup] for usage.
+    public struct RuleVariables: Swift.Sendable {
+        /// A list of context sets. Each context set lists resources from the context store that is associated with the firewall.
+        public var contextSets: [Swift.String: NetworkFirewallClientTypes.ContextSet]?
+        /// A list of IP addresses and address ranges, in CIDR notation.
+        public var ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]?
+        /// A list of port ranges.
+        public var portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]?
+
+        public init(
+            contextSets: [Swift.String: NetworkFirewallClientTypes.ContextSet]? = nil,
+            ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]? = nil,
+            portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]? = nil
+        ) {
+            self.contextSets = contextSets
+            self.ipSets = ipSets
+            self.portSets = portSets
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The object that defines a firewall engine rule group, for use in a Next Generation policy. A firewall engine rule group provides access-control rules that the firewall engine evaluates at connection-state hooks. You provide the rules as a Suricata-compatible rule string, as structured firewall rules, or generated from a list of domain names. For more information, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+    public struct FirewallRuleGroup: Swift.Sendable {
+        /// The list of a rule group's reference sets. Firewall engine rule groups don't support IP set references (reference sets); this setting applies to IPS engine rule groups. To use CIDR ranges in firewall engine rules, use rule variables instead.
+        public var referenceSets: NetworkFirewallClientTypes.ReferenceSets?
+        /// Settings that are available for use in the rules in the firewall engine rule group, such as IP set and port variables that the rules reference.
+        public var ruleVariables: NetworkFirewallClientTypes.RuleVariables?
+        /// The stateful inspection criteria for the firewall engine rule group.
+        /// This member is required.
+        public var rulesSource: NetworkFirewallClientTypes.FirewallRulesSource?
+
+        public init(
+            referenceSets: NetworkFirewallClientTypes.ReferenceSets? = nil,
+            ruleVariables: NetworkFirewallClientTypes.RuleVariables? = nil,
+            rulesSource: NetworkFirewallClientTypes.FirewallRulesSource? = nil
+        ) {
+            self.referenceSets = referenceSets
+            self.ruleVariables = ruleVariables
+            self.rulesSource = rulesSource
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A single entry in the firewall section of a Next Generation policy. An entry either references an existing firewall engine rule group by ARN or embeds a rule group directly in the policy, and it carries the priority that sets the rule group's evaluation order within the firewall section.
+    public struct FirewallRuleGroupEntry: Swift.Sendable {
+        /// A firewall engine rule group defined directly in the policy, instead of referenced by ARN. Provide either InlineRuleGroup to embed a rule group or ResourceArn to reference an existing rule group. An embedded rule group can't use a domain list rules source; to filter on a domain list, reference a standalone rule group by ARN instead.
+        public var inlineRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup?
+        /// The priority of the rule group entry within the firewall section. Network Firewall evaluates the firewall section's entries in order of increasing priority value. Each entry in the firewall section must have a unique priority.
+        public var priority: Swift.Int?
+        /// The Amazon Resource Name (ARN) of an existing firewall engine rule group to reference in this entry. Provide either ResourceArn to reference an existing rule group or InlineRuleGroup to embed a rule group in the policy.
+        public var resourceArn: Swift.String?
+
+        public init(
+            inlineRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup? = nil,
+            priority: Swift.Int? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.inlineRuleGroup = inlineRuleGroup
+            self.priority = priority
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The source of the rules for an IPS engine rule group.
+    public struct IpsRulesSource: Swift.Sendable {
+        /// IPS engine rules, provided as a single Suricata-compatible rule string. For the rule format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html) on the Suricata website.
+        public var rulesString: Swift.String?
+
+        public init(
+            rulesString: Swift.String? = nil
+        ) {
+            self.rulesString = rulesString
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The object that defines an IPS engine rule group, for use in a Next Generation policy. An IPS engine rule group provides threat-detection rules that the IPS engine evaluates in the context of the traffic flow. You provide the rules as a Suricata-compatible rule string. For more information, see [Rule groups for a firewall using a Next Generation policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-v2.html) in the Network Firewall Developer Guide.
+    public struct IpsRuleGroup: Swift.Sendable {
+        /// The list of a rule group's reference sets.
+        public var referenceSets: NetworkFirewallClientTypes.ReferenceSets?
+        /// Settings that are available for use in the rules in the IPS engine rule group.
+        public var ruleVariables: NetworkFirewallClientTypes.RuleVariables?
+        /// The stateful inspection criteria for the IPS engine rule group.
+        /// This member is required.
+        public var rulesSource: NetworkFirewallClientTypes.IpsRulesSource?
+
+        public init(
+            referenceSets: NetworkFirewallClientTypes.ReferenceSets? = nil,
+            ruleVariables: NetworkFirewallClientTypes.RuleVariables? = nil,
+            rulesSource: NetworkFirewallClientTypes.IpsRulesSource? = nil
+        ) {
+            self.referenceSets = referenceSets
+            self.ruleVariables = ruleVariables
+            self.rulesSource = rulesSource
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The setting that allows the policy owner to change the behavior of an IPS engine rule group within a Next Generation policy.
+    public struct IpsRuleGroupOverride: Swift.Sendable {
+        /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
+        public var action: NetworkFirewallClientTypes.OverrideAction?
+
+        public init(
+            action: NetworkFirewallClientTypes.OverrideAction? = nil
+        ) {
+            self.action = action
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A single entry in the IPS section of a Next Generation policy. An entry either references an existing IPS engine rule group by ARN or embeds a rule group directly in the policy. IPS section entries don't use a priority.
+    public struct IpsRuleGroupEntry: Swift.Sendable {
+        /// An IPS engine rule group defined directly in the policy, instead of referenced by ARN. Provide either InlineRuleGroup to embed a rule group or ResourceArn to reference an existing rule group.
+        public var inlineRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup?
+        /// The setting that allows the policy owner to change the behavior of the IPS engine rule group within this policy, such as changing a managed rule group's action from DROP to ALERT.
+        public var `override`: NetworkFirewallClientTypes.IpsRuleGroupOverride?
+        /// The Amazon Resource Name (ARN) of an existing IPS engine rule group to reference in this entry. Provide either ResourceArn to reference an existing rule group or InlineRuleGroup to embed a rule group in the policy.
+        public var resourceArn: Swift.String?
+
+        public init(
+            inlineRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup? = nil,
+            `override`: NetworkFirewallClientTypes.IpsRuleGroupOverride? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.inlineRuleGroup = inlineRuleGroup
+            self.`override` = `override`
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum PolicyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enforce
+        case monitor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyMode] {
+            return [
+                .enforce,
+                .monitor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enforce: return "ENFORCE"
+            case .monitor: return "MONITOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum StreamExceptionPolicyV2: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drop
+        case reject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamExceptionPolicyV2] {
+            return [
+                .drop,
+                .reject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drop: return "DROP"
+            case .reject: return "REJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Configuration settings for the handling of stateful traffic in a Next Generation policy.
+    public struct StatefulEngineOptionsV2: Swift.Sendable {
+        /// The amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
+        public var flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts?
+        /// How Network Firewall handles traffic on a network connection that breaks midstream. A Next Generation policy supports DROP and REJECT. For more information, see [Stream exception policy options in your firewall policy](https://docs.aws.amazon.com/network-firewall/latest/developerguide/stream-exception-policy.html) in the Network Firewall Developer Guide.
+        public var streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicyV2?
+
+        public init(
+            flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts? = nil,
+            streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicyV2? = nil
+        ) {
+            self.flowTimeouts = flowTimeouts
+            self.streamExceptionPolicy = streamExceptionPolicy
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The object that defines a Next Generation policy. This, along with the [FirewallPolicyV2Response], define the policy. A Next Generation policy defines how the firewall engine and IPS engine inspect and control your VPC network traffic. You define the policy as a firewall section and an IPS section, each a collection of rule groups, along with policy-wide settings such as the policy mode and default actions. For more information, see [Next Generation policies](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-policies-v2.html) in the Network Firewall Developer Guide.
+    public struct FirewallPolicyV2: Swift.Sendable {
+        /// The action that the firewall engine takes on traffic that doesn't match any firewall engine rule at a hook. The firewall engine is drop by default. You can set the default action to one of the following:
+        ///
+        /// * DROP - Block the traffic.
+        ///
+        /// * ACCEPT - Allow the traffic.
+        ///
+        /// * REJECT - Block the traffic and send a TCP reset packet back to the client.
+        ///
+        /// * ALERT - Allow the traffic and generate an alert log for the traffic that reaches the default action at every hook. This is distinct from setting the policy mode to MONITOR.
+        ///
+        ///
+        /// For more information, see [Next Generation policies](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-policies-v2.html) in the Network Firewall Developer Guide.
+        public var firewallDefaultAction: NetworkFirewallClientTypes.PolicyDefaultAction?
+        /// The firewall section of the policy—the rule groups that the firewall engine evaluates. Each entry references an existing firewall engine rule group or embeds a rule group directly in the policy, and each entry has a unique priority that sets its evaluation order within the section.
+        public var firewallRuleGroupEntries: [NetworkFirewallClientTypes.FirewallRuleGroupEntry]?
+        /// The IPS section of the policy—the rule groups that the IPS engine evaluates. Each entry references an existing IPS engine rule group or embeds a rule group directly in the policy. IPS section entries don't use a priority.
+        public var ipsRuleGroupEntries: [NetworkFirewallClientTypes.IpsRuleGroupEntry]?
+        /// Indicates whether the policy's engines enforce their verdicts or only report them. In ENFORCE mode, the firewall engine and IPS engine apply their verdicts to traffic. In MONITOR mode, the engines evaluate traffic and generate logs and metrics, but don't block traffic, so you can observe how a policy would behave before you enforce it. For more information, see [Next Generation policies](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-policies-v2.html) in the Network Firewall Developer Guide.
+        public var policyMode: NetworkFirewallClientTypes.PolicyMode?
+        /// Contains variables that you can use to override default Suricata settings in your Next Generation policy.
+        public var policyVariables: NetworkFirewallClientTypes.PolicyVariables?
+        /// The settings that enable resolved IP validation for the Next Generation policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. A VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify must send the response. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see [Route53ResolvedIPValidation].
+        public var route53ResolvedIPValidation: NetworkFirewallClientTypes.Route53ResolvedIPValidation?
+        /// Additional options governing how the engines handle stateful traffic, such as the stream exception policy and flow timeouts.
+        public var statefulEngineOptions: NetworkFirewallClientTypes.StatefulEngineOptionsV2?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration to use to decrypt traffic for inspection. Next Generation policies support session holding only. For more information, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+        public var tlsInspectionConfigurationArn: Swift.String?
+
+        public init(
+            firewallDefaultAction: NetworkFirewallClientTypes.PolicyDefaultAction? = nil,
+            firewallRuleGroupEntries: [NetworkFirewallClientTypes.FirewallRuleGroupEntry]? = nil,
+            ipsRuleGroupEntries: [NetworkFirewallClientTypes.IpsRuleGroupEntry]? = nil,
+            policyMode: NetworkFirewallClientTypes.PolicyMode? = nil,
+            policyVariables: NetworkFirewallClientTypes.PolicyVariables? = nil,
+            route53ResolvedIPValidation: NetworkFirewallClientTypes.Route53ResolvedIPValidation? = nil,
+            statefulEngineOptions: NetworkFirewallClientTypes.StatefulEngineOptionsV2? = nil,
+            tlsInspectionConfigurationArn: Swift.String? = nil
+        ) {
+            self.firewallDefaultAction = firewallDefaultAction
+            self.firewallRuleGroupEntries = firewallRuleGroupEntries
+            self.ipsRuleGroupEntries = ipsRuleGroupEntries
+            self.policyMode = policyMode
+            self.policyVariables = policyVariables
+            self.route53ResolvedIPValidation = route53ResolvedIPValidation
+            self.statefulEngineOptions = statefulEngineOptions
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+        }
+    }
+}
+
+public struct CreateFirewallPolicyV2Input: Swift.Sendable {
+    /// A description of the firewall policy.
+    public var description: Swift.String?
+    /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
+    public var dryRun: Swift.Bool?
+    /// A complex type that contains settings for encryption of your firewall policy resources.
+    public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// The rule groups and other settings that define the Next Generation policy.
+    /// This member is required.
+    public var firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2?
+    /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
+    /// This member is required.
+    public var firewallPolicyV2Name: Swift.String?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+
+    public init(
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
+        encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2? = nil,
+        firewallPolicyV2Name: Swift.String? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil
+    ) {
+        self.description = description
+        self.dryRun = dryRun
+        self.encryptionConfiguration = encryptionConfiguration
+        self.firewallPolicyV2 = firewallPolicyV2
+        self.firewallPolicyV2Name = firewallPolicyV2Name
+        self.tags = tags
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The high-level properties of a Next Generation policy. This includes the policy's identity, status, consumed capacity, and association count. Network Firewall returns this object in response to the Next Generation policy operations. To retrieve the policy's rule groups and settings, use the FirewallPolicyV2 object.
+    public struct FirewallPolicyV2Response: Swift.Sendable {
+        /// The number of firewall engine rule capacity units that the policy's firewall section currently consumes.
+        public var consumedFirewallRuleCapacity: Swift.Int?
+        /// The number of IPS domain list capacity units that the policy's IPS section currently consumes.
+        public var consumedIpsDomainCapacity: Swift.Int?
+        /// The number of IPS engine rule capacity units that the policy's IPS section currently consumes.
+        public var consumedIpsRuleCapacity: Swift.Int?
+        /// A description of the Next Generation policy.
+        public var description: Swift.String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your Next Generation policy.
+        public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+        /// Any configuration errors that apply to the Next Generation policy. Network Firewall detects these errors asynchronously, after you create or update the policy, so an error can appear after the request that caused it has already succeeded. Each entry describes the problem and how to resolve it, and Network Firewall clears it automatically after you resolve the problem.
+        public var errors: [NetworkFirewallClientTypes.FirewallPolicyError]?
+        /// The Amazon Resource Name (ARN) of the Next Generation policy.
+        /// This member is required.
+        public var firewallPolicyV2Arn: Swift.String?
+        /// The unique identifier of the Next Generation policy. Network Firewall assigns this identifier when you create the policy.
+        /// This member is required.
+        public var firewallPolicyV2Id: Swift.String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
+        /// This member is required.
+        public var firewallPolicyV2Name: Swift.String?
+        /// The current status of the Next Generation policy. A policy must be in the ACTIVE state before you can use it in a firewall.
+        public var firewallPolicyV2Status: NetworkFirewallClientTypes.ResourceStatus?
+        /// The last time that the Next Generation policy was changed.
+        public var lastModifiedTime: Foundation.Date?
+        /// The number of firewalls that are associated with the Next Generation policy.
+        public var numberOfAssociations: Swift.Int?
+        /// Additional information about the current status of the Next Generation policy.
+        public var statusMessage: Swift.String?
+        /// The key-value tag pairs that are associated with the Next Generation policy.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+
+        public init(
+            consumedFirewallRuleCapacity: Swift.Int? = nil,
+            consumedIpsDomainCapacity: Swift.Int? = nil,
+            consumedIpsRuleCapacity: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+            errors: [NetworkFirewallClientTypes.FirewallPolicyError]? = nil,
+            firewallPolicyV2Arn: Swift.String? = nil,
+            firewallPolicyV2Id: Swift.String? = nil,
+            firewallPolicyV2Name: Swift.String? = nil,
+            firewallPolicyV2Status: NetworkFirewallClientTypes.ResourceStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            numberOfAssociations: Swift.Int? = nil,
+            statusMessage: Swift.String? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil
+        ) {
+            self.consumedFirewallRuleCapacity = consumedFirewallRuleCapacity
+            self.consumedIpsDomainCapacity = consumedIpsDomainCapacity
+            self.consumedIpsRuleCapacity = consumedIpsRuleCapacity
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.errors = errors
+            self.firewallPolicyV2Arn = firewallPolicyV2Arn
+            self.firewallPolicyV2Id = firewallPolicyV2Id
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+            self.firewallPolicyV2Status = firewallPolicyV2Status
+            self.lastModifiedTime = lastModifiedTime
+            self.numberOfAssociations = numberOfAssociations
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateFirewallPolicyV2Output: Swift.Sendable {
+    /// The high-level properties of the Next Generation policy. This, along with the [FirewallPolicyV2], define the policy. You can retrieve all objects for a Next Generation policy by calling [DescribeFirewallPolicyV2].
+    /// This member is required.
+    public var firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request. To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.firewallPolicyV2Response = firewallPolicyV2Response
+        self.updateToken = updateToken
     }
 }
 
@@ -3710,27 +4625,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
-    public struct RuleOption: Swift.Sendable {
-        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html#rule-options) in the Suricata documentation.
-        /// This member is required.
-        public var keyword: Swift.String?
-        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html#rule-options).
-        public var settings: [Swift.String]?
-
-        public init(
-            keyword: Swift.String? = nil,
-            settings: [Swift.String]? = nil
-        ) {
-            self.keyword = keyword
-            self.settings = settings
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html) on the Suricata website.
     public struct StatefulRule: Swift.Sendable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -3968,7 +4863,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can't use the priority keyword if the RuleOrder option in [StatefulRuleOptions] is set to STRICT_ORDER.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-8.0.3/rules/intro.html) on the Suricata website.
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -3983,40 +4878,6 @@ extension NetworkFirewallClientTypes {
             self.rulesString = rulesString
             self.statefulRules = statefulRules
             self.statelessRulesAndCustomActions = statelessRulesAndCustomActions
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// A set of port ranges for use in the rules in a rule group.
-    public struct PortSet: Swift.Sendable {
-        /// The set of port ranges.
-        public var definition: [Swift.String]?
-
-        public init(
-            definition: [Swift.String]? = nil
-        ) {
-            self.definition = definition
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Settings that are available for use in the rules in the [RuleGroup] where this is defined. See [CreateRuleGroup] or [UpdateRuleGroup] for usage.
-    public struct RuleVariables: Swift.Sendable {
-        /// A list of IP addresses and address ranges, in CIDR notation.
-        public var ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]?
-        /// A list of port ranges.
-        public var portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]?
-
-        public init(
-            ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]? = nil,
-            portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]? = nil
-        ) {
-            self.ipSets = ipSets
-            self.portSets = portSets
         }
     }
 }
@@ -4138,6 +4999,8 @@ extension NetworkFirewallClientTypes {
 extension NetworkFirewallClientTypes {
 
     public enum RuleGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case firewall
+        case ips
         case stateful
         case statefulDomain
         case stateless
@@ -4145,6 +5008,8 @@ extension NetworkFirewallClientTypes {
 
         public static var allCases: [RuleGroupType] {
             return [
+                .firewall,
+                .ips,
                 .stateful,
                 .statefulDomain,
                 .stateless
@@ -4158,6 +5023,8 @@ extension NetworkFirewallClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .firewall: return "FIREWALL"
+            case .ips: return "IPS"
             case .stateful: return "STATEFUL"
             case .statefulDomain: return "STATEFUL_DOMAIN"
             case .stateless: return "STATELESS"
@@ -4188,6 +5055,10 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+    public var firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup?
+    /// An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+    public var ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
     public var ruleGroup: NetworkFirewallClientTypes.RuleGroup?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
@@ -4207,7 +5078,15 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
     /// This member is required.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
@@ -4217,6 +5096,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         dryRun: Swift.Bool? = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup? = nil,
+        ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupName: Swift.String? = nil,
         rules: Swift.String? = nil,
@@ -4230,6 +5111,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         self.description = description
         self.dryRun = dryRun
         self.encryptionConfiguration = encryptionConfiguration
+        self.firewallRuleGroup = firewallRuleGroup
+        self.ipsRuleGroup = ipsRuleGroup
         self.ruleGroup = ruleGroup
         self.ruleGroupName = ruleGroupName
         self.rules = rules
@@ -4281,7 +5164,15 @@ extension NetworkFirewallClientTypes {
         public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public var tags: [NetworkFirewallClientTypes.Tag]?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
+        /// Indicates the type of the rule group. Valid values are:
+        ///
+        /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+        ///
+        /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+        ///
+        /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+        ///
+        /// * IPS - IPS engine rules, for use in a Next Generation policy.
         public var type: NetworkFirewallClientTypes.RuleGroupType?
 
         public init(
@@ -4341,12 +5232,105 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
 
 extension NetworkFirewallClientTypes {
 
+    public enum DecryptionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bypass
+        case decrypt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DecryptionAction] {
+            return [
+                .bypass,
+                .decrypt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bypass: return "BYPASS"
+            case .decrypt: return "DECRYPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum TLSInspectionScopeDeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case explicitProxyOnly
+        case transparentFirewallOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TLSInspectionScopeDeploymentMode] {
+            return [
+                .all,
+                .explicitProxyOnly,
+                .transparentFirewallOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .explicitProxyOnly: return "EXPLICIT_PROXY_ONLY"
+            case .transparentFirewallOnly: return "TRANSPARENT_FIREWALL_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The domains that a [ServerCertificateScope] matches for SSL/TLS inspection on a proxy mode firewall.
+    public struct DomainMatch: Swift.Sendable {
+        /// The domains to match. You can specify an exact domain, such as example.com, or a domain with a single leading wildcard label, such as *.example.com. You can specify from 1 to 50 domains, and each domain can be up to 255 characters long.
+        /// This member is required.
+        public var domains: [Swift.String]?
+
+        public init(
+            domains: [Swift.String]? = nil
+        ) {
+            self.domains = domains
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     /// Settings that define the Secure Sockets Layer/Transport Layer Security (SSL/TLS) traffic that Network Firewall should decrypt for inspection by the stateful rule engine.
     public struct ServerCertificateScope: Swift.Sendable {
+        /// Whether the firewall decrypts traffic that matches this scope. You can choose from the following values:
+        ///
+        /// * DECRYPT - The firewall decrypts the traffic for inspection.
+        ///
+        /// * BYPASS - The firewall doesn't decrypt the traffic.
+        public var decryptionAction: NetworkFirewallClientTypes.DecryptionAction?
+        /// The type of firewall that this scope applies to. If you don't specify a value, the scope applies to both types, the same as ALL. You can choose from the following values:
+        ///
+        /// * ALL - The scope applies to both transparent firewalls and proxy mode firewalls.
+        ///
+        /// * TRANSPARENT_FIREWALL_ONLY - The scope applies only to transparent firewalls.
+        ///
+        /// * EXPLICIT_PROXY_ONLY - The scope applies only to proxy mode firewalls. A scope that specifies DomainMatch must use this value.
+        public var deploymentMode: NetworkFirewallClientTypes.TLSInspectionScopeDeploymentMode?
         /// The destination ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any destination port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
         public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
         /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this matches with any destination address.
         public var destinations: [NetworkFirewallClientTypes.Address]?
+        /// The domains that this scope matches, based on the host name in the client's HTTP CONNECT request. Domain matching applies only to proxy mode firewalls. If you specify DomainMatch, you must set DeploymentMode to EXPLICIT_PROXY_ONLY. If you don't specify DomainMatch, the scope matches traffic by its source, destination, ports, and protocols only.
+        public var domainMatch: NetworkFirewallClientTypes.DomainMatch?
         /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol. Network Firewall currently supports only TCP.
         public var protocols: [Swift.Int]?
         /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
@@ -4355,14 +5339,20 @@ extension NetworkFirewallClientTypes {
         public var sources: [NetworkFirewallClientTypes.Address]?
 
         public init(
+            decryptionAction: NetworkFirewallClientTypes.DecryptionAction? = nil,
+            deploymentMode: NetworkFirewallClientTypes.TLSInspectionScopeDeploymentMode? = nil,
             destinationPorts: [NetworkFirewallClientTypes.PortRange]? = nil,
             destinations: [NetworkFirewallClientTypes.Address]? = nil,
+            domainMatch: NetworkFirewallClientTypes.DomainMatch? = nil,
             protocols: [Swift.Int]? = nil,
             sourcePorts: [NetworkFirewallClientTypes.PortRange]? = nil,
             sources: [NetworkFirewallClientTypes.Address]? = nil
         ) {
+            self.decryptionAction = decryptionAction
+            self.deploymentMode = deploymentMode
             self.destinationPorts = destinationPorts
             self.destinations = destinations
+            self.domainMatch = domainMatch
             self.protocols = protocols
             self.sourcePorts = sourcePorts
             self.sources = sources
@@ -4400,6 +5390,12 @@ extension NetworkFirewallClientTypes {
         public var certificateAuthorityArn: Swift.String?
         /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in [ServerCertificateConfiguration].
         public var checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions?
+        /// What the firewall does with SSL/TLS traffic that doesn't match any scope in this server certificate configuration. This setting applies only to proxy mode firewalls. If you don't specify a value, the firewall uses BYPASS. You can choose from the following values:
+        ///
+        /// * BYPASS - The firewall doesn't decrypt the traffic.
+        ///
+        /// * DECRYPT - The firewall decrypts the traffic for inspection. You can use DECRYPT only if every scope in the configuration sets DeploymentMode to EXPLICIT_PROXY_ONLY.
+        public var defaultDecryptionBehavior: NetworkFirewallClientTypes.DecryptionAction?
         /// A list of scopes.
         public var scopes: [NetworkFirewallClientTypes.ServerCertificateScope]?
         /// The list of server certificates to use for inbound SSL/TLS inspection.
@@ -4408,11 +5404,13 @@ extension NetworkFirewallClientTypes {
         public init(
             certificateAuthorityArn: Swift.String? = nil,
             checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions? = nil,
+            defaultDecryptionBehavior: NetworkFirewallClientTypes.DecryptionAction? = nil,
             scopes: [NetworkFirewallClientTypes.ServerCertificateScope]? = nil,
             serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]? = nil
         ) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
+            self.defaultDecryptionBehavior = defaultDecryptionBehavior
             self.scopes = scopes
             self.serverCertificates = serverCertificates
         }
@@ -4544,7 +5542,7 @@ public struct CreateVpcEndpointAssociationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall.
     /// This member is required.
     public var firewallArn: Swift.String?
-    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall, AssociateSubnets, and CreateVpcEndpointAssociation. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
     /// This member is required.
     public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
     /// The key:value pairs to associate with the resource.
@@ -4584,7 +5582,7 @@ extension NetworkFirewallClientTypes {
         /// The Amazon Resource Name (ARN) of the firewall.
         /// This member is required.
         public var firewallArn: Swift.String?
-        /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+        /// The ID for a subnet that's used in an association with a firewall. This is used in CreateFirewall, AssociateSubnets, and CreateVpcEndpointAssociation. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
         /// This member is required.
         public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
         /// The key:value pairs to associate with the resource.
@@ -4687,16 +5685,50 @@ public struct DeleteContainerAssociationOutput: Swift.Sendable {
     }
 }
 
+/// The operation you requested isn't supported by Network Firewall.
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteFirewallInput: Swift.Sendable {
+    /// Specifies whether to delete the NAT gateways that Network Firewall created for a proxy mode firewall when you delete the firewall. You can choose from the following values:
+    ///
+    /// * FALSE - Network Firewall detaches the NAT gateways from the firewall and keeps them. This is the default.
+    ///
+    /// * TRUE - Network Firewall also deletes the NAT gateways. The firewall status stays DELETING until they're deleted. You need permission to call the Amazon EC2 DeleteNatGateway action.
+    ///
+    ///
+    /// You can't specify TRUE for a firewall that isn't a proxy mode firewall.
+    public var deleteAssociatedNatGateways: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
 
     public init(
+        deleteAssociatedNatGateways: Swift.Bool? = false,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil
     ) {
+        self.deleteAssociatedNatGateways = deleteAssociatedNatGateways
         self.firewallArn = firewallArn
         self.firewallName = firewallName
     }
@@ -4741,6 +5773,33 @@ public struct DeleteFirewallPolicyOutput: Swift.Sendable {
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil
     ) {
         self.firewallPolicyResponse = firewallPolicyResponse
+    }
+}
+
+public struct DeleteFirewallPolicyV2Input: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Arn: Swift.String?
+    /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Name: Swift.String?
+
+    public init(
+        firewallPolicyV2Arn: Swift.String? = nil,
+        firewallPolicyV2Name: Swift.String? = nil
+    ) {
+        self.firewallPolicyV2Arn = firewallPolicyV2Arn
+        self.firewallPolicyV2Name = firewallPolicyV2Name
+    }
+}
+
+public struct DeleteFirewallPolicyV2Output: Swift.Sendable {
+    /// The high-level properties of the Next Generation policy that you asked to delete.
+    /// This member is required.
+    public var firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response?
+
+    public init(
+        firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response? = nil
+    ) {
+        self.firewallPolicyV2Response = firewallPolicyV2Response
     }
 }
 
@@ -4830,99 +5889,8 @@ public struct DeleteProxyOutput: Swift.Sendable {
     }
 }
 
-public struct DeleteProxyConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-    }
-}
-
-public struct DeleteProxyConfigurationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-    public var proxyConfigurationName: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-    }
-}
-
-public struct DeleteProxyRuleGroupInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-    }
-}
-
-public struct DeleteProxyRuleGroupOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-    public var proxyRuleGroupName: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-    }
-}
-
-public struct DeleteProxyRulesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-    /// The proxy rule(s) to remove from the existing proxy rule group.
-    /// This member is required.
-    public var rules: [Swift.String]?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        rules: [Swift.String]? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.rules = rules
-    }
-}
-
-public struct DeleteProxyRulesOutput: Swift.Sendable {
-    /// The properties that define the proxy rule group with the newly created proxy rule(s).
-    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
-
-    public init(
-        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil
-    ) {
-        self.proxyRuleGroup = proxyRuleGroup
-    }
-}
-
 /// The policy statement failed validation.
-public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -4966,7 +5934,18 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
     public var ruleGroupArn: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     public var ruleGroupName: Swift.String?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
+    ///
+    ///
+    /// This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
     public init(
@@ -5220,6 +6199,75 @@ public struct DescribeFirewallPolicyOutput: Swift.Sendable {
     ) {
         self.firewallPolicy = firewallPolicy
         self.firewallPolicyResponse = firewallPolicyResponse
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum RuleOutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case firewallRules
+        case rulesString
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleOutputFormat] {
+            return [
+                .firewallRules,
+                .rulesString
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .firewallRules: return "FIREWALL_RULES"
+            case .rulesString: return "RULES_STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeFirewallPolicyV2Input: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Arn: Swift.String?
+    /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Name: Swift.String?
+    /// The format in which to return the rules of any firewall engine rule groups that are embedded in the policy. Specify FIREWALL_RULES for structured FirewallRule objects or RULES_STRING for a Suricata-compatible firewall-mode rule string. If you don't specify a format, Network Firewall returns each embedded rule group in the format you provided it in. Referenced rule groups aren't affected.
+    public var ruleOutputFormat: NetworkFirewallClientTypes.RuleOutputFormat?
+
+    public init(
+        firewallPolicyV2Arn: Swift.String? = nil,
+        firewallPolicyV2Name: Swift.String? = nil,
+        ruleOutputFormat: NetworkFirewallClientTypes.RuleOutputFormat? = nil
+    ) {
+        self.firewallPolicyV2Arn = firewallPolicyV2Arn
+        self.firewallPolicyV2Name = firewallPolicyV2Name
+        self.ruleOutputFormat = ruleOutputFormat
+    }
+}
+
+public struct DescribeFirewallPolicyV2Output: Swift.Sendable {
+    /// The rule groups and other settings that define the specified Next Generation policy.
+    public var firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2?
+    /// The high-level properties of the Next Generation policy. This, along with the [FirewallPolicyV2], define the policy.
+    /// This member is required.
+    public var firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request. To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2? = nil,
+        firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.firewallPolicyV2 = firewallPolicyV2
+        self.firewallPolicyV2Response = firewallPolicyV2Response
         self.updateToken = updateToken
     }
 }
@@ -5591,6 +6639,127 @@ public struct DescribeProxyInput: Swift.Sendable {
 
 extension NetworkFirewallClientTypes {
 
+    public enum ProxyModifyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case modifying
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyModifyState] {
+            return [
+                .completed,
+                .failed,
+                .modifying
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ProxyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case attaching
+        case attachFailed
+        case detached
+        case detaching
+        case detachFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyState] {
+            return [
+                .attached,
+                .attaching,
+                .attachFailed,
+                .detached,
+                .detaching,
+                .detachFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "ATTACHED"
+            case .attaching: return "ATTACHING"
+            case .attachFailed: return "ATTACH_FAILED"
+            case .detached: return "DETACHED"
+            case .detaching: return "DETACHING"
+            case .detachFailed: return "DETACH_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum TlsInterceptMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsInterceptMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// TLS decryption on traffic to filter on attributes in the HTTP header.
+    public struct TlsInterceptProperties: Swift.Sendable {
+        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
+        public var pcaArn: Swift.String?
+        /// Specifies whether to enable or disable TLS Intercept Mode.
+        public var tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode?
+
+        public init(
+            pcaArn: Swift.String? = nil,
+            tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode? = nil
+        ) {
+            self.pcaArn = pcaArn
+            self.tlsInterceptMode = tlsInterceptMode
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     /// Proxy attached to a NAT gateway.
     public struct DescribeProxyResource: Swift.Sendable {
         /// Time the Proxy was created.
@@ -5683,101 +6852,6 @@ public struct DescribeProxyOutput: Swift.Sendable {
     }
 }
 
-public struct DescribeProxyConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-    }
-}
-
-public struct DescribeProxyConfigurationOutput: Swift.Sendable {
-    /// The configuration for the specified proxy configuration.
-    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfiguration = proxyConfiguration
-        self.updateToken = updateToken
-    }
-}
-
-public struct DescribeProxyRuleInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-    /// This member is required.
-    public var proxyRuleName: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        proxyRuleName: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.proxyRuleName = proxyRuleName
-    }
-}
-
-public struct DescribeProxyRuleOutput: Swift.Sendable {
-    /// The configuration for the specified proxy rule.
-    public var proxyRule: NetworkFirewallClientTypes.ProxyRule?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRule: NetworkFirewallClientTypes.ProxyRule? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRule = proxyRule
-        self.updateToken = updateToken
-    }
-}
-
-public struct DescribeProxyRuleGroupInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-    }
-}
-
-public struct DescribeProxyRuleGroupOutput: Swift.Sendable {
-    /// The configuration for the specified proxy rule group.
-    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroup = proxyRuleGroup
-        self.updateToken = updateToken
-    }
-}
-
 public struct DescribeResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
     /// This member is required.
@@ -5808,23 +6882,49 @@ public struct DescribeRuleGroupInput: Swift.Sendable {
     public var ruleGroupArn: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     public var ruleGroupName: Swift.String?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
+    /// For a firewall engine rule group, the format in which to return the rules. Specify one of the following values:
+    ///
+    /// * FIREWALL_RULES - Returns the rules as structured FirewallRule objects.
+    ///
+    /// * RULES_STRING - Returns the rules as a Suricata-compatible firewall-mode rule string.
+    ///
+    ///
+    /// If you don't specify a format, Network Firewall returns the rules in the format you provided them in. This setting applies only to FIREWALL and IPS rule groups; IPS engine rule groups support only RULES_STRING.
+    public var ruleOutputFormat: NetworkFirewallClientTypes.RuleOutputFormat?
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
+    ///
+    ///
+    /// This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
     public init(
         analyzeRuleGroup: Swift.Bool? = false,
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
+        ruleOutputFormat: NetworkFirewallClientTypes.RuleOutputFormat? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     ) {
         self.analyzeRuleGroup = analyzeRuleGroup
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
+        self.ruleOutputFormat = ruleOutputFormat
         self.type = type
     }
 }
 
 public struct DescribeRuleGroupOutput: Swift.Sendable {
+    /// The object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+    public var firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup?
+    /// The object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+    public var ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup?
     /// The object that defines the rules in a rule group. This, along with [RuleGroupResponse], define the rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup]. Network Firewall uses a rule group to inspect and control network traffic. You define stateless rule groups to inspect individual packets and you define stateful rule groups to inspect packets in the context of their traffic flow. To use a rule group, you include it by reference in an Network Firewall firewall policy, then you use the policy in a firewall. You can reference a rule group from more than one firewall policy, and you can use a firewall policy in more than one firewall.
     public var ruleGroup: NetworkFirewallClientTypes.RuleGroup?
     /// The high-level properties of a rule group. This, along with the [RuleGroup], define the rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup].
@@ -5835,10 +6935,14 @@ public struct DescribeRuleGroupOutput: Swift.Sendable {
     public var updateToken: Swift.String?
 
     public init(
+        firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup? = nil,
+        ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupResponse: NetworkFirewallClientTypes.RuleGroupResponse? = nil,
         updateToken: Swift.String? = nil
     ) {
+        self.firewallRuleGroup = firewallRuleGroup
+        self.ipsRuleGroup = ipsRuleGroup
         self.ruleGroup = ruleGroup
         self.ruleGroupResponse = ruleGroupResponse
         self.updateToken = updateToken
@@ -5850,7 +6954,18 @@ public struct DescribeRuleGroupMetadataInput: Swift.Sendable {
     public var ruleGroupArn: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     public var ruleGroupName: Swift.String?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
+    ///
+    ///
+    /// This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
     public init(
@@ -5883,7 +6998,18 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var ruleGroupName: Swift.String?
     /// Additional options governing how Network Firewall handles the rule group. You can only use these for stateful rule groups.
     public var statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
+    ///
+    ///
+    /// This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
     /// The name of the Amazon Web Services Marketplace vendor that provides this rule group.
     public var vendorName: Swift.String?
@@ -6068,49 +7194,6 @@ public struct DescribeVpcEndpointAssociationOutput: Swift.Sendable {
     }
 }
 
-public struct DetachRuleGroupsFromProxyConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-    /// The proxy rule group arns to detach from the proxy configuration
-    public var ruleGroupArns: [Swift.String]?
-    /// The proxy rule group names to detach from the proxy configuration
-    public var ruleGroupNames: [Swift.String]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        ruleGroupArns: [Swift.String]? = nil,
-        ruleGroupNames: [Swift.String]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-        self.ruleGroupArns = ruleGroupArns
-        self.ruleGroupNames = ruleGroupNames
-        self.updateToken = updateToken
-    }
-}
-
-public struct DetachRuleGroupsFromProxyConfigurationOutput: Swift.Sendable {
-    /// The updated proxy configuration resource that reflects the updates from the request.
-    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfiguration = proxyConfiguration
-        self.updateToken = updateToken
-    }
-}
-
 public struct DisassociateAvailabilityZonesInput: Swift.Sendable {
     /// Required. The Availability Zones to remove from the firewall's configuration.
     /// This member is required.
@@ -6235,6 +7318,25 @@ extension NetworkFirewallClientTypes {
         /// The Amazon Resource Name (ARN) of the firewall policy.
         public var arn: Swift.String?
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a Next Generation policy, returned in a list of policies. To retrieve the policy's full properties, rule groups, and settings, use the Next Generation policy describe operation.
+    public struct FirewallPolicyV2Metadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Next Generation policy.
+        public var arn: Swift.String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
         public var name: Swift.String?
 
         public init(
@@ -6448,6 +7550,37 @@ public struct ListContainerAssociationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListContextStoresInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextStoresOutput: Swift.Sendable {
+    /// The context stores that are associated with your firewalls.
+    /// This member is required.
+    public var contextStores: [NetworkFirewallClientTypes.ContextStore]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStores: [NetworkFirewallClientTypes.ContextStore]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStores = contextStores
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListFirewallPoliciesInput: Swift.Sendable {
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
@@ -6474,6 +7607,37 @@ public struct ListFirewallPoliciesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.firewallPolicies = firewallPolicies
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFirewallPoliciesV2Input: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFirewallPoliciesV2Output: Swift.Sendable {
+    /// The metadata for the Next Generation policies. Depending on your setting for max results and the number of firewall policies that you have, this might not be the full list.
+    /// This member is required.
+    public var firewallPoliciesV2: [NetworkFirewallClientTypes.FirewallPolicyV2Metadata]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        firewallPoliciesV2: [NetworkFirewallClientTypes.FirewallPolicyV2Metadata]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.firewallPoliciesV2 = firewallPoliciesV2
         self.nextToken = nextToken
     }
 }
@@ -6659,16 +7823,25 @@ public struct ListFlowOperationsOutput: Swift.Sendable {
     }
 }
 
-public struct ListProxiesInput: Swift.Sendable {
+public struct ListResourcesInContextStoreInput: Swift.Sendable {
+    /// The unique identifier of the context store. To get the identifiers of the context stores that are associated with your firewalls, call ListContextStores.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// Optional filters that limit the results to resources in a specific Region, of a specific resource type, or both. If you specify both filters, Network Firewall returns only the resources that match both.
+    public var filters: NetworkFirewallClientTypes.ContextFilters?
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. A token is valid only for the same ContextStoreId and filters as the request that returned it.
     public var nextToken: Swift.String?
 
     public init(
+        contextStoreId: Swift.String? = nil,
+        filters: NetworkFirewallClientTypes.ContextFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.contextStoreId = contextStoreId
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6676,133 +7849,57 @@ public struct ListProxiesInput: Swift.Sendable {
 
 extension NetworkFirewallClientTypes {
 
-    /// High-level information about a proxy, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy. You can retrieve all objects for a proxy by calling [DescribeProxy].
-    public struct ProxyMetadata: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a proxy.
-        public var arn: Swift.String?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-        public var name: Swift.String?
+    /// A resource that a context store records, which ListResourcesInContextStore returns.
+    public struct ResourceContext: Swift.Sendable {
+        /// The type of the transit gateway attachment. Present for attachments.
+        public var attachmentType: Swift.String?
+        /// The Availability Zone of the resource. Present for subnets.
+        public var availabilityZone: Swift.String?
+        /// The kind of context that the context store records for the resource. Valid values:
+        ///
+        /// * ResourceId - A VPC.
+        ///
+        /// * SegmentId - A security group.
+        ///
+        /// * Subnet - A subnet.
+        ///
+        /// * Attachment - A transit gateway attachment.
+        public var contextType: NetworkFirewallClientTypes.ContextType?
+        /// The identifier of the resource, for example vpc-1234567890abcdef0, subnet-1234567890abcdef0, sg-1234567890abcdef0, or tgw-attach-1234567890abcdef0.
+        /// This member is required.
+        public var publicId: Swift.String?
+        /// The Amazon Web Services Region of the resource.
+        public var region: Swift.String?
 
         public init(
-            arn: Swift.String? = nil,
-            name: Swift.String? = nil
+            attachmentType: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            contextType: NetworkFirewallClientTypes.ContextType? = nil,
+            publicId: Swift.String? = nil,
+            region: Swift.String? = nil
         ) {
-            self.arn = arn
-            self.name = name
+            self.attachmentType = attachmentType
+            self.availabilityZone = availabilityZone
+            self.contextType = contextType
+            self.publicId = publicId
+            self.region = region
         }
     }
 }
 
-public struct ListProxiesOutput: Swift.Sendable {
+public struct ListResourcesInContextStoreOutput: Swift.Sendable {
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
     public var nextToken: Swift.String?
-    /// The metadata for the proxies. Depending on your setting for max results and the number of proxies that you have, this might not be the full list.
-    public var proxies: [NetworkFirewallClientTypes.ProxyMetadata]?
+    /// The resources that the context store records and that match your filters.
+    /// This member is required.
+    public var resourceContexts: [NetworkFirewallClientTypes.ResourceContext]?
 
     public init(
         nextToken: Swift.String? = nil,
-        proxies: [NetworkFirewallClientTypes.ProxyMetadata]? = nil
+        resourceContexts: [NetworkFirewallClientTypes.ResourceContext]? = nil
     ) {
         self.nextToken = nextToken
-        self.proxies = proxies
-    }
-}
-
-public struct ListProxyConfigurationsInput: Swift.Sendable {
-    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    public var maxResults: Swift.Int?
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// High-level information about a proxy configuration, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy configuration. You can retrieve all objects for a proxy configuration by calling [DescribeProxyConfiguration].
-    public struct ProxyConfigurationMetadata: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public var arn: Swift.String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public var name: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.name = name
-        }
-    }
-}
-
-public struct ListProxyConfigurationsOutput: Swift.Sendable {
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    public var nextToken: Swift.String?
-    /// The metadata for the proxy configurations. Depending on your setting for max results and the number of proxy configurations that you have, this might not be the full list.
-    public var proxyConfigurations: [NetworkFirewallClientTypes.ProxyConfigurationMetadata]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        proxyConfigurations: [NetworkFirewallClientTypes.ProxyConfigurationMetadata]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.proxyConfigurations = proxyConfigurations
-    }
-}
-
-public struct ListProxyRuleGroupsInput: Swift.Sendable {
-    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    public var maxResults: Swift.Int?
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// High-level information about a proxy rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy rule group. You can retrieve all objects for a proxy rule group by calling [DescribeProxyRuleGroup].
-    public struct ProxyRuleGroupMetadata: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public var arn: Swift.String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var name: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.name = name
-        }
-    }
-}
-
-public struct ListProxyRuleGroupsOutput: Swift.Sendable {
-    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    public var nextToken: Swift.String?
-    /// The metadata for the proxy rule groups. Depending on your setting for max results and the number of proxy rule groups that you have, this might not be the full list.
-    public var proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupMetadata]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupMetadata]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.proxyRuleGroups = proxyRuleGroups
+        self.resourceContexts = resourceContexts
     }
 }
 
@@ -7102,7 +8199,7 @@ public struct ListVpcEndpointAssociationsOutput: Swift.Sendable {
 }
 
 /// Unable to send logs to a configured logging destination.
-public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LogDestinationPermissionException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7410,7 +8507,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Unable to change the resource because your account doesn't own it.
-public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -7850,6 +8947,60 @@ public struct UpdateFirewallPolicyChangeProtectionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateFirewallPolicyV2Input: Swift.Sendable {
+    /// A description of the firewall policy.
+    public var description: Swift.String?
+    /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
+    public var dryRun: Swift.Bool?
+    /// A complex type that contains settings for encryption of your firewall policy resources.
+    public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// The updated rule groups and other settings that define the Next Generation policy.
+    /// This member is required.
+    public var firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2?
+    /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Arn: Swift.String?
+    /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallPolicyV2Name: Swift.String?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request. To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
+        encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        firewallPolicyV2: NetworkFirewallClientTypes.FirewallPolicyV2? = nil,
+        firewallPolicyV2Arn: Swift.String? = nil,
+        firewallPolicyV2Name: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.description = description
+        self.dryRun = dryRun
+        self.encryptionConfiguration = encryptionConfiguration
+        self.firewallPolicyV2 = firewallPolicyV2
+        self.firewallPolicyV2Arn = firewallPolicyV2Arn
+        self.firewallPolicyV2Name = firewallPolicyV2Name
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateFirewallPolicyV2Output: Swift.Sendable {
+    /// The high-level properties of the Next Generation policy. This, along with the [FirewallPolicyV2], define the policy. You can retrieve all objects for a Next Generation policy by calling [DescribeFirewallPolicyV2].
+    /// This member is required.
+    public var firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request. To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        firewallPolicyV2Response: NetworkFirewallClientTypes.FirewallPolicyV2Response? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.firewallPolicyV2Response = firewallPolicyV2Response
+        self.updateToken = updateToken
+    }
+}
+
 public struct UpdateLoggingConfigurationInput: Swift.Sendable {
     /// A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall. The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs. After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console. Specify TRUE to enable the the detailed monitoring dashboard on the firewall. Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
     public var enableMonitoringDashboard: Swift.Bool?
@@ -7896,350 +9047,12 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
     }
 }
 
-public struct UpdateProxyInput: Swift.Sendable {
-    /// Listener properties for HTTP and HTTPS traffic to add.
-    public var listenerPropertiesToAdd: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
-    /// Listener properties for HTTP and HTTPS traffic to remove.
-    public var listenerPropertiesToRemove: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
-    /// The NAT Gateway the proxy is attached to.
-    /// This member is required.
-    public var natGatewayId: Swift.String?
-    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
-    public var proxyArn: Swift.String?
-    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyName: Swift.String?
-    /// TLS decryption on traffic to filter on attributes in the HTTP header.
-    public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        listenerPropertiesToAdd: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
-        listenerPropertiesToRemove: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
-        natGatewayId: Swift.String? = nil,
-        proxyArn: Swift.String? = nil,
-        proxyName: Swift.String? = nil,
-        tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.listenerPropertiesToAdd = listenerPropertiesToAdd
-        self.listenerPropertiesToRemove = listenerPropertiesToRemove
-        self.natGatewayId = natGatewayId
-        self.proxyArn = proxyArn
-        self.proxyName = proxyName
-        self.tlsInterceptProperties = tlsInterceptProperties
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyOutput: Swift.Sendable {
-    /// The updated proxy resource that reflects the updates from the request.
-    public var proxy: NetworkFirewallClientTypes.Proxy?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxy: NetworkFirewallClientTypes.Proxy? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxy = proxy
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyConfigurationInput: Swift.Sendable {
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    /// This member is required.
-    public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.defaultRulePhaseActions = defaultRulePhaseActions
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyConfigurationOutput: Swift.Sendable {
-    /// The updated proxy configuration resource that reflects the updates from the request.
-    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfiguration = proxyConfiguration
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyRuleInput: Swift.Sendable {
-    /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action.
-    public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
-    /// Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-    public var addConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
-    /// A description of the proxy rule.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-    /// This member is required.
-    public var proxyRuleName: Swift.String?
-    /// Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-    public var removeConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
-        addConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
-        description: Swift.String? = nil,
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        proxyRuleName: Swift.String? = nil,
-        removeConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.action = action
-        self.addConditions = addConditions
-        self.description = description
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.proxyRuleName = proxyRuleName
-        self.removeConditions = removeConditions
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyRuleOutput: Swift.Sendable {
-    /// The updated proxy rule resource that reflects the updates from the request.
-    public var proxyRule: NetworkFirewallClientTypes.ProxyRule?
-    /// Proxy rule conditions removed from the rule.
-    public var removedConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRule: NetworkFirewallClientTypes.ProxyRule? = nil,
-        removedConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRule = proxyRule
-        self.removedConditions = removedConditions
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Proxy rule group name and new desired position.
-    public struct ProxyRuleGroupPriority: Swift.Sendable {
-        /// Where to move a proxy rule group in a proxy configuration.
-        public var newPosition: Swift.Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var proxyRuleGroupName: Swift.String?
-
-        public init(
-            newPosition: Swift.Int? = nil,
-            proxyRuleGroupName: Swift.String? = nil
-        ) {
-            self.newPosition = newPosition
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-    }
-}
-
-public struct UpdateProxyRuleGroupPrioritiesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationArn: Swift.String?
-    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyConfigurationName: Swift.String?
-    /// proxy rule group resources to update to new positions.
-    /// This member is required.
-    public var ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriority]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyConfigurationArn: Swift.String? = nil,
-        proxyConfigurationName: Swift.String? = nil,
-        ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriority]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyConfigurationArn = proxyConfigurationArn
-        self.proxyConfigurationName = proxyConfigurationName
-        self.ruleGroups = ruleGroups
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Proxy rule group along with its priority.
-    public struct ProxyRuleGroupPriorityResult: Swift.Sendable {
-        /// Priority of the proxy rule group in the proxy configuration.
-        public var priority: Swift.Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public var proxyRuleGroupName: Swift.String?
-
-        public init(
-            priority: Swift.Int? = nil,
-            proxyRuleGroupName: Swift.String? = nil
-        ) {
-            self.priority = priority
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-    }
-}
-
-public struct UpdateProxyRuleGroupPrioritiesOutput: Swift.Sendable {
-    /// The updated proxy rule group hierarchy that reflects the updates from the request.
-    public var proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroups = proxyRuleGroups
-        self.updateToken = updateToken
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    public enum RuleGroupRequestPhase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case postRes
-        case preDns
-        case preReq
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RuleGroupRequestPhase] {
-            return [
-                .postRes,
-                .preDns,
-                .preReq
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .postRes: return "POST_RES"
-            case .preDns: return "PRE_DNS"
-            case .preReq: return "PRE_REQ"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Proxy rule name and new desired position.
-    public struct ProxyRulePriority: Swift.Sendable {
-        /// Where to move a proxy rule in a proxy rule group.
-        public var newPosition: Swift.Int?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public var proxyRuleName: Swift.String?
-
-        public init(
-            newPosition: Swift.Int? = nil,
-            proxyRuleName: Swift.String? = nil
-        ) {
-            self.newPosition = newPosition
-            self.proxyRuleName = proxyRuleName
-        }
-    }
-}
-
-public struct UpdateProxyRulePrioritiesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    public var proxyRuleGroupName: Swift.String?
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    /// This member is required.
-    public var ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase?
-    /// proxy rule resources to update to new positions.
-    /// This member is required.
-    public var rules: [NetworkFirewallClientTypes.ProxyRulePriority]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    /// This member is required.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase? = nil,
-        rules: [NetworkFirewallClientTypes.ProxyRulePriority]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.ruleGroupRequestPhase = ruleGroupRequestPhase
-        self.rules = rules
-        self.updateToken = updateToken
-    }
-}
-
-public struct UpdateProxyRulePrioritiesOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of a proxy rule group.
-    public var proxyRuleGroupArn: Swift.String?
-    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-    public var proxyRuleGroupName: Swift.String?
-    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    public var ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase?
-    /// The updated proxy rule hierarchy that reflects the updates from the request.
-    public var rules: [NetworkFirewallClientTypes.ProxyRulePriority]?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    public var updateToken: Swift.String?
-
-    public init(
-        proxyRuleGroupArn: Swift.String? = nil,
-        proxyRuleGroupName: Swift.String? = nil,
-        ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase? = nil,
-        rules: [NetworkFirewallClientTypes.ProxyRulePriority]? = nil,
-        updateToken: Swift.String? = nil
-    ) {
-        self.proxyRuleGroupArn = proxyRuleGroupArn
-        self.proxyRuleGroupName = proxyRuleGroupName
-        self.ruleGroupRequestPhase = ruleGroupRequestPhase
-        self.rules = rules
-        self.updateToken = updateToken
-    }
-}
-
 public struct UpdateProxySettingsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
-    /// The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    /// The proxy settings to set on the firewall. These replace the current proxy settings. Specify at least one listener, and at most one HTTP listener and one HTTPS listener, on different ports. If the firewall uses your own CertificateArn and DomainName, specify the same values that you used to create the firewall.
     public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
@@ -8262,7 +9075,7 @@ public struct UpdateProxySettingsOutput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     public var firewallName: Swift.String?
-    /// The updated proxy listener configuration on the firewall.
+    /// The updated proxy settings for the firewall.
     public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
@@ -8289,6 +9102,10 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+    public var firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup?
+    /// An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+    public var ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
     public var ruleGroup: NetworkFirewallClientTypes.RuleGroup?
     /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
@@ -8301,7 +9118,18 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
     /// Updates the selected summary configuration for a rule group. Changes affect subsequent responses from [DescribeRuleGroupSummary].
     public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
-    /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
+    /// Indicates the type of the rule group. Valid values are:
+    ///
+    /// * STATELESS - Stateless rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.
+    ///
+    /// * FIREWALL - Firewall engine rules, for use in a Next Generation policy.
+    ///
+    /// * IPS - IPS engine rules, for use in a Next Generation policy.
+    ///
+    ///
+    /// This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
     /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request. To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     /// This member is required.
@@ -8312,6 +9140,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         dryRun: Swift.Bool? = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        firewallRuleGroup: NetworkFirewallClientTypes.FirewallRuleGroup? = nil,
+        ipsRuleGroup: NetworkFirewallClientTypes.IpsRuleGroup? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
@@ -8325,6 +9155,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         self.description = description
         self.dryRun = dryRun
         self.encryptionConfiguration = encryptionConfiguration
+        self.firewallRuleGroup = firewallRuleGroup
+        self.ipsRuleGroup = ipsRuleGroup
         self.ruleGroup = ruleGroup
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName

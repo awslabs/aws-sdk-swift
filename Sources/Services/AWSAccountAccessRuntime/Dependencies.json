@@ -1,0 +1,19 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/account-access-runtime.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuth",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyJSON",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTimestamps"
+  ]
+}

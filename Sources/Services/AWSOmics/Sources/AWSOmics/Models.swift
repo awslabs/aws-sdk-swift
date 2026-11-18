@@ -2934,7 +2934,7 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
-    /// If you are using the ECR pull through cache feature, the registry mapping maps between the ECR repository and the upstream registry where container images are pulled and synchronized.
+    /// Maps an upstream container registry to a repository prefix in your Amazon Elastic Container Registry (Amazon ECR) private registry. For registries that Amazon ECR pull through cache supports, you create a pull through cache rule that synchronizes the upstream repositories with your private repositories. You can also use some registries that pull through cache doesn't support. For these registries, specify credentialArn, and Amazon Web Services HealthOmics copies each image into a private Amazon ECR repository the first time a task needs it.
     public struct RegistryMapping: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that holds the credentials for the upstream registry. You must specify this value when Amazon Elastic Container Registry (Amazon ECR) doesn't support pull through cache for the upstream registry. HealthOmics supports only some of these registries. The workflow role must have permission to call the secretsmanager:GetSecretValue operation on the secret. For more information about the supported registries, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the Amazon Web Services HealthOmics User Guide.
         public var credentialArn: Swift.String?
@@ -2971,7 +2971,7 @@ extension OmicsClientTypes {
     public struct ContainerRegistryMap: Swift.Sendable {
         /// Image mappings specify path mappings between the ECR private repository and their corresponding external repositories.
         public var imageMappings: [OmicsClientTypes.ImageMapping]?
-        /// Mapping that provides the ECR repository path where upstream container images are pulled and synchronized.
+        /// The mappings between upstream container registries and repository prefixes in your Amazon Elastic Container Registry (Amazon ECR) private registry. The list can include both pull through cache mappings and mappings for registries that Amazon Web Services HealthOmics copies images from.
         public var registryMappings: [OmicsClientTypes.RegistryMapping]?
 
         public init(
@@ -6298,6 +6298,40 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
+    /// The mode controls the path prefixes that the service adds beneath outputUri. Valid values:
+    ///
+    /// * SERVICE_DEFINED – Adds a run-specific prefix
+    ///
+    /// * NONE_WITH_OVERWRITE – Adds no prefix and overwrites existing objects at the run's output keys
+    public enum RunOutputUriPrefixMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noneWithOverwrite
+        case serviceDefined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunOutputUriPrefixMode] {
+            return [
+                .noneWithOverwrite,
+                .serviceDefined
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noneWithOverwrite: return "NONE_WITH_OVERWRITE"
+            case .serviceDefined: return "SERVICE_DEFINED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum RunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
@@ -6380,6 +6414,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var networkingMode: OmicsClientTypes.NetworkingMode?
     /// The run's output URI.
     public var outputUri: Swift.String?
+    /// The service returns the value that the StartRun request specified for outputUriPrefixMode. The service returns SERVICE_DEFINED if the request did not specify a value.
+    public var outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode?
     /// The run's parameters.
     public var parameters: Smithy.Document?
     /// The run's priority.
@@ -6450,6 +6486,7 @@ public struct GetRunOutput: Swift.Sendable {
         name: Swift.String? = nil,
         networkingMode: OmicsClientTypes.NetworkingMode? = nil,
         outputUri: Swift.String? = nil,
+        outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode? = nil,
         parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
         resourceDigests: [Swift.String: Swift.String]? = nil,
@@ -6494,6 +6531,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.name = name
         self.networkingMode = networkingMode
         self.outputUri = outputUri
+        self.outputUriPrefixMode = outputUriPrefixMode
         self.parameters = parameters
         self.priority = priority
         self.resourceDigests = resourceDigests
@@ -9762,6 +9800,8 @@ public struct StartRunInput: Swift.Sendable {
     /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
     /// This member is required.
     public var outputUri: Swift.String?
+    /// You can control the path prefixes that the service adds beneath outputUri. If you don't specify a value, the service uses SERVICE_DEFINED, which adds a run-specific prefix.
+    public var outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode?
     /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
     public var parameters: Smithy.Document?
     /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see [Run priority](https://docs.aws.amazon.com/omics/latest/dev/creating-run-groups.html#run-priority) in the Amazon Web Services HealthOmics User Guide.
@@ -9806,6 +9846,7 @@ public struct StartRunInput: Swift.Sendable {
         name: Swift.String? = nil,
         networkingMode: OmicsClientTypes.NetworkingMode? = nil,
         outputUri: Swift.String? = nil,
+        outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode? = nil,
         parameters: Smithy.Document? = nil,
         priority: Swift.Int? = nil,
         requestId: Swift.String? = nil,
@@ -9831,6 +9872,7 @@ public struct StartRunInput: Swift.Sendable {
         self.name = name
         self.networkingMode = networkingMode
         self.outputUri = outputUri
+        self.outputUriPrefixMode = outputUriPrefixMode
         self.parameters = parameters
         self.priority = priority
         self.requestId = requestId
@@ -12602,6 +12644,7 @@ extension StartRunInput {
         try writer["name"].write(value.name)
         try writer["networkingMode"].write(value.networkingMode)
         try writer["outputUri"].write(value.outputUri)
+        try writer["outputUriPrefixMode"].write(value.outputUriPrefixMode)
         try writer["parameters"].write(value.parameters)
         try writer["priority"].write(value.priority)
         try writer["requestId"].write(value.requestId)
@@ -13475,6 +13518,7 @@ extension GetRunOutput {
         value.name = try reader["name"].readIfPresent()
         value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.outputUri = try reader["outputUri"].readIfPresent()
+        value.outputUriPrefixMode = try reader["outputUriPrefixMode"].readIfPresent()
         value.parameters = try reader["parameters"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.resourceDigests = try reader["resourceDigests"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

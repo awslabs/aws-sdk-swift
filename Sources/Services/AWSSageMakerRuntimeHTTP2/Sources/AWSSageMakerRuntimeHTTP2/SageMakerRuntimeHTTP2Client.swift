@@ -312,7 +312,7 @@ extension SageMakerRuntimeHTTP2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SageMaker Runtime HTTP2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -543,7 +543,7 @@ extension SageMakerRuntimeHTTP2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SageMaker Runtime HTTP2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -605,7 +605,7 @@ extension SageMakerRuntimeHTTP2Client {
     public static func builder() -> ClientRuntime.ClientBuilder<SageMakerRuntimeHTTP2Client> {
         return ClientRuntime.ClientBuilder<SageMakerRuntimeHTTP2Client>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "SageMaker Runtime HTTP2"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -655,7 +655,7 @@ extension SageMakerRuntimeHTTP2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput>(InvokeEndpointWithBidirectionalStreamInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput, SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent>(keyPath: \.body, defaultBody: "{}", marshalClosure: SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput, SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent>(keyPath: \.body, defaultBody: "{}", marshalClosure: SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent.marshal, errorMarshalClosure: SageMakerRuntimeHTTP2ClientTypes.RequestStreamEvent.marshalError))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointWithBidirectionalStreamOutput>(InvokeEndpointWithBidirectionalStreamOutput.httpOutput(from:), InvokeEndpointWithBidirectionalStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointWithBidirectionalStreamInput, InvokeEndpointWithBidirectionalStreamOutput>(clientLogMode: config.clientLogMode))

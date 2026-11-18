@@ -315,7 +315,7 @@ extension BedrockAgentRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock Agent Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -546,7 +546,7 @@ extension BedrockAgentRuntimeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock Agent Runtime"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -608,7 +608,7 @@ extension BedrockAgentRuntimeClient {
     public static func builder() -> ClientRuntime.ClientBuilder<BedrockAgentRuntimeClient> {
         return ClientRuntime.ClientBuilder<BedrockAgentRuntimeClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Bedrock Agent Runtime"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1290,7 +1290,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `GetDocumentContent` operation on the `BedrockAgentRuntime` service.
     ///
-    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    /// Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a Retrieve result.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDocumentContentInput`)
     ///

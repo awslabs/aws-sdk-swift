@@ -3567,6 +3567,99 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// AutomaticCutoverToPrimaryCluster cuts the domain back over to the primary cluster if you haven't cut over by the scheduled time. DeletePrimaryCluster deletes the primary cluster when the retention period ends.
+    public enum ClonedBlueGreenScheduledActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automaticCutoverToPrimary
+        case deletePrimaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClonedBlueGreenScheduledActionType] {
+            return [
+                .automaticCutoverToPrimary,
+                .deletePrimaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automaticCutoverToPrimary: return "AutomaticCutoverToPrimaryCluster"
+            case .deletePrimaryCluster: return "DeletePrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// An action that the service takes automatically at a scheduled time during a cloned blue/green upgrade.
+    public struct ClonedBlueGreenScheduledAction: Swift.Sendable {
+        /// The action that the service takes.
+        public var action: ElasticsearchClientTypes.ClonedBlueGreenScheduledActionType?
+        /// The time at which the service takes the action.
+        public var scheduledTime: Foundation.Date?
+
+        public init(
+            action: ElasticsearchClientTypes.ClonedBlueGreenScheduledActionType? = nil,
+            scheduledTime: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.scheduledTime = scheduledTime
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The split of search traffic between the primary and cloned clusters.
+    public struct TrafficPercents: Swift.Sendable {
+        /// The percentage of search traffic sent to the cloned cluster.
+        /// This member is required.
+        public var cloneReadTrafficPercent: Swift.Int
+        /// The percentage of search traffic sent to the primary cluster.
+        /// This member is required.
+        public var primaryReadTrafficPercent: Swift.Int
+
+        public init(
+            cloneReadTrafficPercent: Swift.Int = 0,
+            primaryReadTrafficPercent: Swift.Int = 0
+        ) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.primaryReadTrafficPercent = primaryReadTrafficPercent
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The state of a cloned blue/green upgrade. Members that don't apply are omitted.
+    public struct ClonedBlueGreenUpgradeDetails: Swift.Sendable {
+        /// The retention period, in hours, for the cluster that you cut over from.
+        public var retentionInHours: Swift.Int?
+        /// The action that the service takes automatically if you don't act before the scheduled time.
+        public var scheduledAction: ElasticsearchClientTypes.ClonedBlueGreenScheduledAction?
+        /// The current split of search traffic between the primary and cloned clusters.
+        public var trafficSplit: ElasticsearchClientTypes.TrafficPercents?
+
+        public init(
+            retentionInHours: Swift.Int? = nil,
+            scheduledAction: ElasticsearchClientTypes.ClonedBlueGreenScheduledAction? = nil,
+            trafficSplit: ElasticsearchClientTypes.TrafficPercents? = nil
+        ) {
+            self.retentionInHours = retentionInHours
+            self.scheduledAction = scheduledAction
+            self.trafficSplit = trafficSplit
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// The overall status value of the domain configuration change.
     public enum OverallChangeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
@@ -3609,6 +3702,8 @@ extension ElasticsearchClientTypes {
         public var changeId: Swift.String?
         /// The specific stages that the domain is going through to perform the configuration change.
         public var changeProgressStages: [ElasticsearchClientTypes.ChangeProgressStage]?
+        /// Details about a cloned blue/green upgrade, when the change is one.
+        public var clonedBlueGreenUpgradeDetails: ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails?
         /// The list of properties involved in the domain configuration change that are completed.
         public var completedProperties: [Swift.String]?
         /// The current status of the configuration change.
@@ -3629,6 +3724,7 @@ extension ElasticsearchClientTypes {
         public init(
             changeId: Swift.String? = nil,
             changeProgressStages: [ElasticsearchClientTypes.ChangeProgressStage]? = nil,
+            clonedBlueGreenUpgradeDetails: ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails? = nil,
             completedProperties: [Swift.String]? = nil,
             configChangeStatus: ElasticsearchClientTypes.ConfigChangeStatus? = nil,
             initiatedBy: ElasticsearchClientTypes.InitiatedBy? = nil,
@@ -3640,6 +3736,7 @@ extension ElasticsearchClientTypes {
         ) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
+            self.clonedBlueGreenUpgradeDetails = clonedBlueGreenUpgradeDetails
             self.completedProperties = completedProperties
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -5781,6 +5878,310 @@ public struct StartElasticsearchServiceSoftwareUpdateOutput: Swift.Sendable {
     }
 }
 
+extension ElasticsearchClientTypes {
+
+    /// The cluster to cut over to in a cloned blue/green upgrade.
+    public enum CutoverTarget: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clonedCluster
+        case primaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CutoverTarget] {
+            return [
+                .clonedCluster,
+                .primaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clonedCluster: return "ClonedCluster"
+            case .primaryCluster: return "PrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The cutover to perform for a cloned blue/green upgrade.
+    public struct CutoverRequestOptions: Swift.Sendable {
+        /// The cluster to cut over to. ClonedCluster makes the cloned cluster serve the domain. PrimaryCluster keeps the primary cluster and ends the upgrade.
+        /// This member is required.
+        public var target: ElasticsearchClientTypes.CutoverTarget?
+
+        public init(
+            target: ElasticsearchClientTypes.CutoverTarget? = nil
+        ) {
+            self.target = target
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The action that ends the retention period. RollbackToPrimaryCluster moves the domain back to the primary cluster. DeletePrimaryCluster deletes the primary cluster.
+    public enum RetentionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deletePrimaryCluster
+        case rollbackToPrimaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetentionAction] {
+            return [
+                .deletePrimaryCluster,
+                .rollbackToPrimaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deletePrimaryCluster: return "DeletePrimaryCluster"
+            case .rollbackToPrimaryCluster: return "RollbackToPrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Controls how long the cluster that you cut over from is kept after cutover completes. Specify exactly one of RetentionInHours or RetentionAction.
+    public enum RetentionOptions: Swift.Sendable {
+        /// The number of hours to keep the cluster that you cut over from. The retention period starts when cutover completes. The minimum is 1 hour. In an UpdateClone response after cutover completes, this value is the number of hours remaining in the retention period, rounded up.
+        case retentioninhours(Swift.Int)
+        /// Ends the retention period now. Valid only after cutover completes.
+        case retentionaction(ElasticsearchClientTypes.RetentionAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The strategy used to shift traffic between the primary and cloned clusters.
+    public enum TrafficStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shiftReadTrafficPercent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficStrategy] {
+            return [
+                .shiftReadTrafficPercent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shiftReadTrafficPercent: return "ShiftReadTrafficPercent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The traffic shift to perform for a cloned blue/green upgrade.
+    public struct TrafficSplitRequestOptions: Swift.Sendable {
+        /// The percentage of search traffic, from 0 to 100, to send to the cloned cluster. The rest goes to the primary cluster.
+        /// This member is required.
+        public var cloneReadTrafficPercent: Swift.Int
+        /// The traffic shifting strategy. The only valid value is ShiftReadTrafficPercent.
+        /// This member is required.
+        public var strategy: ElasticsearchClientTypes.TrafficStrategy?
+
+        public init(
+            cloneReadTrafficPercent: Swift.Int = 0,
+            strategy: ElasticsearchClientTypes.TrafficStrategy? = nil
+        ) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.strategy = strategy
+        }
+    }
+}
+
+/// Container for the request parameters to the UpdateClone operation.
+public struct UpdateCloneInput: Swift.Sendable {
+    /// Cuts the domain over to the cloned cluster or back to the primary cluster.
+    public var cutoverOptions: ElasticsearchClientTypes.CutoverRequestOptions?
+    /// The name of the domain that has a cloned blue/green upgrade in progress.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Changes the retention period, or ends it after cutover completes.
+    public var retentionOptions: ElasticsearchClientTypes.RetentionOptions?
+    /// Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+    public var trafficSplitOptions: ElasticsearchClientTypes.TrafficSplitRequestOptions?
+
+    public init(
+        cutoverOptions: ElasticsearchClientTypes.CutoverRequestOptions? = nil,
+        domainName: Swift.String? = nil,
+        retentionOptions: ElasticsearchClientTypes.RetentionOptions? = nil,
+        trafficSplitOptions: ElasticsearchClientTypes.TrafficSplitRequestOptions? = nil
+    ) {
+        self.cutoverOptions = cutoverOptions
+        self.domainName = domainName
+        self.retentionOptions = retentionOptions
+        self.trafficSplitOptions = trafficSplitOptions
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The status of a cutover.
+    public enum CutoverStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CutoverStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The cutover target and status for a cloned blue/green upgrade.
+    public struct CutoverOptions: Swift.Sendable {
+        /// The status of the cutover.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.CutoverStatus?
+        /// The cluster that the domain is cutting over to.
+        /// This member is required.
+        public var target: ElasticsearchClientTypes.CutoverTarget?
+
+        public init(
+            status: ElasticsearchClientTypes.CutoverStatus? = nil,
+            target: ElasticsearchClientTypes.CutoverTarget? = nil
+        ) {
+            self.status = status
+            self.target = target
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The status of a traffic shift.
+    public enum TrafficSplitStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficSplitStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The traffic split and status for a cloned blue/green upgrade.
+    public struct TrafficSplitOptions: Swift.Sendable {
+        /// The traffic split currently in effect.
+        /// This member is required.
+        public var current: ElasticsearchClientTypes.TrafficPercents?
+        /// The status of the traffic shift.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.TrafficSplitStatus?
+        /// The requested traffic split.
+        /// This member is required.
+        public var target: ElasticsearchClientTypes.TrafficPercents?
+
+        public init(
+            current: ElasticsearchClientTypes.TrafficPercents? = nil,
+            status: ElasticsearchClientTypes.TrafficSplitStatus? = nil,
+            target: ElasticsearchClientTypes.TrafficPercents? = nil
+        ) {
+            self.current = current
+            self.status = status
+            self.target = target
+        }
+    }
+}
+
+/// Container for the response returned by the UpdateClone operation.
+public struct UpdateCloneOutput: Swift.Sendable {
+    /// The unique identifier of the configuration change. Use it with DescribeDomainChangeProgress to track the change.
+    /// This member is required.
+    public var changeId: Swift.String?
+    /// The requested cutover target and the status of the cutover.
+    public var cutoverOptions: ElasticsearchClientTypes.CutoverOptions?
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The retention settings for the upgrade.
+    public var retentionOptions: ElasticsearchClientTypes.RetentionOptions?
+    /// The current and requested traffic split, and the status of the traffic shift.
+    public var trafficSplitOptions: ElasticsearchClientTypes.TrafficSplitOptions?
+
+    public init(
+        changeId: Swift.String? = nil,
+        cutoverOptions: ElasticsearchClientTypes.CutoverOptions? = nil,
+        domainName: Swift.String? = nil,
+        retentionOptions: ElasticsearchClientTypes.RetentionOptions? = nil,
+        trafficSplitOptions: ElasticsearchClientTypes.TrafficSplitOptions? = nil
+    ) {
+        self.changeId = changeId
+        self.cutoverOptions = cutoverOptions
+        self.domainName = domainName
+        self.retentionOptions = retentionOptions
+        self.trafficSplitOptions = trafficSplitOptions
+    }
+}
+
 /// Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster.
 public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
     /// IAM access policy as a JSON-formatted string.
@@ -5970,8 +6371,72 @@ public struct UpdateVpcEndpointOutput: Swift.Sendable {
     }
 }
 
+extension ElasticsearchClientTypes {
+
+    /// Options for a cloned blue/green upgrade.
+    public struct ClonedBlueGreenOptions: Swift.Sendable {
+        /// How long to keep the cluster that you cut over from after cutover completes. When you start the upgrade, only RetentionInHours is accepted.
+        public var retentionOptions: ElasticsearchClientTypes.RetentionOptions?
+
+        public init(
+            retentionOptions: ElasticsearchClientTypes.RetentionOptions? = nil
+        ) {
+            self.retentionOptions = retentionOptions
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The deployment strategy override for an operation. The only valid value is ClonedBlueGreen.
+    public enum DeploymentStrategyOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clonedBlueGreen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategyOverride] {
+            return [
+                .clonedBlueGreen
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clonedBlueGreen: return "ClonedBlueGreen"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Overrides the deployment strategy for a single operation, such as a version upgrade.
+    public struct DeploymentStrategyOverrideOptions: Swift.Sendable {
+        /// Options that apply when DeploymentStrategy is ClonedBlueGreen.
+        public var clonedBlueGreenOptions: ElasticsearchClientTypes.ClonedBlueGreenOptions?
+        /// The deployment strategy to use for this operation. The only valid value is ClonedBlueGreen, which creates a cloned cluster on the target version next to the primary cluster so that you can validate it and shift traffic to it before you cut over.
+        /// This member is required.
+        public var deploymentStrategy: ElasticsearchClientTypes.DeploymentStrategyOverride?
+
+        public init(
+            clonedBlueGreenOptions: ElasticsearchClientTypes.ClonedBlueGreenOptions? = nil,
+            deploymentStrategy: ElasticsearchClientTypes.DeploymentStrategyOverride? = nil
+        ) {
+            self.clonedBlueGreenOptions = clonedBlueGreenOptions
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+}
+
 /// Container for request parameters to [UpgradeElasticsearchDomain] operation.
 public struct UpgradeElasticsearchDomainInput: Swift.Sendable {
+    /// Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
+    public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions?
     /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -5982,10 +6447,12 @@ public struct UpgradeElasticsearchDomainInput: Swift.Sendable {
     public var targetVersion: Swift.String?
 
     public init(
+        deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions? = nil,
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
     ) {
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
         self.targetVersion = targetVersion
@@ -5996,6 +6463,8 @@ public struct UpgradeElasticsearchDomainInput: Swift.Sendable {
 public struct UpgradeElasticsearchDomainOutput: Swift.Sendable {
     /// Specifies change details of the domain configuration change.
     public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
+    /// The deployment strategy override used for the upgrade.
+    public var deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions?
     /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     public var domainName: Swift.String?
     /// This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
@@ -6005,11 +6474,13 @@ public struct UpgradeElasticsearchDomainOutput: Swift.Sendable {
 
     public init(
         changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
+        deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions? = nil,
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
     ) {
         self.changeProgressDetails = changeProgressDetails
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
         self.targetVersion = targetVersion
@@ -6683,6 +7154,16 @@ extension StartElasticsearchServiceSoftwareUpdateInput {
     }
 }
 
+extension UpdateCloneInput {
+
+    static func urlPathProvider(_ value: UpdateCloneInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/clone"
+    }
+}
+
 extension UpdateElasticsearchDomainConfigInput {
 
     static func urlPathProvider(_ value: UpdateElasticsearchDomainConfigInput) -> Swift.String? {
@@ -6886,6 +7367,16 @@ extension StartElasticsearchServiceSoftwareUpdateInput {
     }
 }
 
+extension UpdateCloneInput {
+
+    static func write(value: UpdateCloneInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CutoverOptions"].write(value.cutoverOptions, with: ElasticsearchClientTypes.CutoverRequestOptions.write(value:to:))
+        try writer["RetentionOptions"].write(value.retentionOptions, with: ElasticsearchClientTypes.RetentionOptions.write(value:to:))
+        try writer["TrafficSplitOptions"].write(value.trafficSplitOptions, with: ElasticsearchClientTypes.TrafficSplitRequestOptions.write(value:to:))
+    }
+}
+
 extension UpdateElasticsearchDomainConfigInput {
 
     static func write(value: UpdateElasticsearchDomainConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -6935,6 +7426,7 @@ extension UpgradeElasticsearchDomainInput {
 
     static func write(value: UpgradeElasticsearchDomainInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions.write(value:to:))
         try writer["DomainName"].write(value.domainName)
         try writer["PerformCheckOnly"].write(value.performCheckOnly)
         try writer["TargetVersion"].write(value.targetVersion)
@@ -7511,6 +8003,22 @@ extension StartElasticsearchServiceSoftwareUpdateOutput {
     }
 }
 
+extension UpdateCloneOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCloneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCloneOutput()
+        value.changeId = try reader["ChangeId"].readIfPresent() ?? ""
+        value.cutoverOptions = try reader["CutoverOptions"].readIfPresent(with: ElasticsearchClientTypes.CutoverOptions.read(from:))
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.retentionOptions = try reader["RetentionOptions"].readIfPresent(with: ElasticsearchClientTypes.RetentionOptions.read(from:))
+        value.trafficSplitOptions = try reader["TrafficSplitOptions"].readIfPresent(with: ElasticsearchClientTypes.TrafficSplitOptions.read(from:))
+        return value
+    }
+}
+
 extension UpdateElasticsearchDomainConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateElasticsearchDomainConfigOutput {
@@ -7556,6 +8064,7 @@ extension UpgradeElasticsearchDomainOutput {
         let reader = responseReader
         var value = UpgradeElasticsearchDomainOutput()
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: ElasticsearchClientTypes.ChangeProgressDetails.read(from:))
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions.read(from:))
         value.domainName = try reader["DomainName"].readIfPresent()
         value.performCheckOnly = try reader["PerformCheckOnly"].readIfPresent()
         value.targetVersion = try reader["TargetVersion"].readIfPresent()
@@ -8374,6 +8883,24 @@ enum StartElasticsearchServiceSoftwareUpdateOutputError {
     }
 }
 
+enum UpdateCloneOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateElasticsearchDomainConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8868,6 +9395,45 @@ extension ElasticsearchClientTypes.ChangeProgressStatusDetails {
         value.configChangeStatus = try reader["ConfigChangeStatus"].readIfPresent()
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.clonedBlueGreenUpgradeDetails = try reader["ClonedBlueGreenUpgradeDetails"].readIfPresent(with: ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.ClonedBlueGreenOptions {
+
+    static func write(value: ElasticsearchClientTypes.ClonedBlueGreenOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionOptions"].write(value.retentionOptions, with: ElasticsearchClientTypes.RetentionOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ClonedBlueGreenOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.ClonedBlueGreenOptions()
+        value.retentionOptions = try reader["RetentionOptions"].readIfPresent(with: ElasticsearchClientTypes.RetentionOptions.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.ClonedBlueGreenScheduledAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ClonedBlueGreenScheduledAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.ClonedBlueGreenScheduledAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.scheduledTime = try reader["ScheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.ClonedBlueGreenUpgradeDetails()
+        value.trafficSplit = try reader["TrafficSplit"].readIfPresent(with: ElasticsearchClientTypes.TrafficPercents.read(from:))
+        value.scheduledAction = try reader["ScheduledAction"].readIfPresent(with: ElasticsearchClientTypes.ClonedBlueGreenScheduledAction.read(from:))
+        value.retentionInHours = try reader["RetentionInHours"].readIfPresent()
         return value
     }
 }
@@ -8930,6 +9496,25 @@ extension ElasticsearchClientTypes.CompatibleVersionsMap {
     }
 }
 
+extension ElasticsearchClientTypes.CutoverOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.CutoverOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.CutoverOptions()
+        value.target = try reader["Target"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.CutoverRequestOptions {
+
+    static func write(value: ElasticsearchClientTypes.CutoverRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Target"].write(value.target)
+    }
+}
+
 extension ElasticsearchClientTypes.DeploymentStrategyOptions {
 
     static func write(value: ElasticsearchClientTypes.DeploymentStrategyOptions?, to writer: SmithyJSON.Writer) throws {
@@ -8952,6 +9537,23 @@ extension ElasticsearchClientTypes.DeploymentStrategyOptionsStatus {
         var value = ElasticsearchClientTypes.DeploymentStrategyOptionsStatus()
         value.options = try reader["Options"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptions.read(from:))
         value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.DeploymentStrategyOverrideOptions {
+
+    static func write(value: ElasticsearchClientTypes.DeploymentStrategyOverrideOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClonedBlueGreenOptions"].write(value.clonedBlueGreenOptions, with: ElasticsearchClientTypes.ClonedBlueGreenOptions.write(value:to:))
+        try writer["DeploymentStrategy"].write(value.deploymentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.DeploymentStrategyOverrideOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.DeploymentStrategyOverrideOptions()
+        value.deploymentStrategy = try reader["DeploymentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.clonedBlueGreenOptions = try reader["ClonedBlueGreenOptions"].readIfPresent(with: ElasticsearchClientTypes.ClonedBlueGreenOptions.read(from:))
         return value
     }
 }
@@ -9556,6 +10158,34 @@ extension ElasticsearchClientTypes.ReservedElasticsearchInstanceOffering {
     }
 }
 
+extension ElasticsearchClientTypes.RetentionOptions {
+
+    static func write(value: ElasticsearchClientTypes.RetentionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .retentionaction(retentionaction):
+                try writer["RetentionAction"].write(retentionaction)
+            case let .retentioninhours(retentioninhours):
+                try writer["RetentionInHours"].write(retentioninhours)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.RetentionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RetentionInHours":
+                return .retentioninhours(try reader["RetentionInHours"].read())
+            case "RetentionAction":
+                return .retentionaction(try reader["RetentionAction"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ElasticsearchClientTypes.SAMLIdp {
 
     static func write(value: ElasticsearchClientTypes.SAMLIdp?, to writer: SmithyJSON.Writer) throws {
@@ -9694,6 +10324,38 @@ extension ElasticsearchClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ElasticsearchClientTypes.TrafficPercents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.TrafficPercents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.TrafficPercents()
+        value.primaryReadTrafficPercent = try reader["PrimaryReadTrafficPercent"].readIfPresent() ?? 0
+        value.cloneReadTrafficPercent = try reader["CloneReadTrafficPercent"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.TrafficSplitOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.TrafficSplitOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.TrafficSplitOptions()
+        value.current = try reader["Current"].readIfPresent(with: ElasticsearchClientTypes.TrafficPercents.read(from:))
+        value.target = try reader["Target"].readIfPresent(with: ElasticsearchClientTypes.TrafficPercents.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.TrafficSplitRequestOptions {
+
+    static func write(value: ElasticsearchClientTypes.TrafficSplitRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloneReadTrafficPercent"].write(value.cloneReadTrafficPercent)
+        try writer["Strategy"].write(value.strategy)
     }
 }
 

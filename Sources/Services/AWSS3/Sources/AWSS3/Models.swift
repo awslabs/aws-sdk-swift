@@ -440,11 +440,15 @@ extension S3ClientTypes {
 public struct AbortMultipartUploadOutput: Swift.Sendable {
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
+    /// Version ID of the object. Returns the Version ID of the object for the aborted multipart upload, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+    public var versionId: Swift.String?
 
     public init(
-        requestCharged: S3ClientTypes.RequestCharged? = nil
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        versionId: Swift.String? = nil
     ) {
         self.requestCharged = requestCharged
+        self.versionId = versionId
     }
 }
 
@@ -3000,6 +3004,8 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
     public var ssekmsKeyId: Swift.String?
     /// ID for the initiated multipart upload.
     public var uploadId: Swift.String?
+    /// Version ID of the object. Returns the Version ID of the object for the initiated multipart upload, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+    public var versionId: Swift.String?
 
     public init(
         abortDate: Foundation.Date? = nil,
@@ -3015,7 +3021,8 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
-        uploadId: Swift.String? = nil
+        uploadId: Swift.String? = nil,
+        versionId: Swift.String? = nil
     ) {
         self.abortDate = abortDate
         self.abortRuleId = abortRuleId
@@ -3031,12 +3038,13 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
         self.ssekmsEncryptionContext = ssekmsEncryptionContext
         self.ssekmsKeyId = ssekmsKeyId
         self.uploadId = uploadId
+        self.versionId = versionId
     }
 }
 
 extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMultipartUploadOutput(abortDate: \(Swift.String(describing: abortDate)), abortRuleId: \(Swift.String(describing: abortRuleId)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumType: \(Swift.String(describing: checksumType)), key: \(Swift.String(describing: key)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CreateMultipartUploadOutput(abortDate: \(Swift.String(describing: abortDate)), abortRuleId: \(Swift.String(describing: abortRuleId)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumType: \(Swift.String(describing: checksumType)), key: \(Swift.String(describing: key)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 /// The specified bucket does not exist.
@@ -3735,8 +3743,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3746,8 +3752,6 @@ extension S3ClientTypes {
         /// * Description: There is a problem with your Amazon Web Services account that prevents the action from completing successfully. Contact Amazon Web Services Support for further assistance.
         ///
         /// * HTTP Status Code: 403 Forbidden
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3759,8 +3763,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3770,8 +3772,6 @@ extension S3ClientTypes {
         /// * Description: The email address you provided is associated with more than one account.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3795,8 +3795,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3806,8 +3804,6 @@ extension S3ClientTypes {
         /// * Description: The requested bucket name is not available. The bucket namespace is shared by all users of the system. Please select a different name and try again.
         ///
         /// * HTTP Status Code: 409 Conflict
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3819,8 +3815,6 @@ extension S3ClientTypes {
         ///
         /// * Code: 409 Conflict (in all Regions except the North Virginia Region)
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3830,8 +3824,6 @@ extension S3ClientTypes {
         /// * Description: The bucket you tried to delete is not empty.
         ///
         /// * HTTP Status Code: 409 Conflict
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3843,8 +3835,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3854,8 +3844,6 @@ extension S3ClientTypes {
         /// * Description: Cross-location logging not allowed. Buckets in one geographic location cannot log information to a bucket in another location.
         ///
         /// * HTTP Status Code: 403 Forbidden
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3867,8 +3855,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3878,8 +3864,6 @@ extension S3ClientTypes {
         /// * Description: Your proposed upload exceeds the maximum allowed object size.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3891,8 +3875,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3902,8 +3884,6 @@ extension S3ClientTypes {
         /// * Description: Indicates that the versioning configuration specified in the request is invalid.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3915,8 +3895,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3926,8 +3904,6 @@ extension S3ClientTypes {
         /// * Description: POST requires exactly one file upload per request.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3939,8 +3915,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3950,8 +3924,6 @@ extension S3ClientTypes {
         /// * Description: We encountered an internal error. Please try again.
         ///
         /// * HTTP Status Code: 500 Internal Server Error
-        ///
-        /// * SOAP Fault Code Prefix: Server
         ///
         ///
         ///
@@ -3963,8 +3935,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3974,8 +3944,6 @@ extension S3ClientTypes {
         /// * Description: You must specify the Anonymous role.
         ///
         /// * HTTP Status Code: N/A
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -3987,8 +3955,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -3998,8 +3964,6 @@ extension S3ClientTypes {
         /// * Description: The specified bucket is not valid.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4011,8 +3975,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 409 Conflict
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4022,8 +3984,6 @@ extension S3ClientTypes {
         /// * Description: The Content-MD5 you specified is not valid.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4035,8 +3995,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4046,8 +4004,6 @@ extension S3ClientTypes {
         /// * Description: The specified location constraint is not valid. For more information about Regions, see [How to Select a Region for Your Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro).
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4059,8 +4015,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4070,8 +4024,6 @@ extension S3ClientTypes {
         /// * Description: One or more of the specified parts could not be found. The part might not have been uploaded, or the specified entity tag might not have matched the part's entity tag.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4083,8 +4035,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4094,8 +4044,6 @@ extension S3ClientTypes {
         /// * Description: All access to this object has been disabled. Please contact Amazon Web Services Support for further assistance.
         ///
         /// * HTTP Status Code: 403 Forbidden
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4107,8 +4055,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4118,8 +4064,6 @@ extension S3ClientTypes {
         /// * Description: The requested range cannot be satisfied.
         ///
         /// * HTTP Status Code: 416 Requested Range Not Satisfiable
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4132,18 +4076,6 @@ extension S3ClientTypes {
         /// * HTTP Status Code: 400 Bad Request
         ///
         /// * Code: N/A
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// * Code: InvalidRequest
-        ///
-        /// * Description: SOAP requests must be made over an HTTPS connection.
-        ///
-        /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4239,20 +4171,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// * Code: InvalidSOAPRequest
-        ///
-        /// * Description: The SOAP request body is invalid.
-        ///
-        /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4262,8 +4180,6 @@ extension S3ClientTypes {
         /// * Description: The storage class you specified is not valid.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4275,8 +4191,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4286,8 +4200,6 @@ extension S3ClientTypes {
         /// * Description: The provided token is malformed or otherwise invalid.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4299,8 +4211,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4310,8 +4220,6 @@ extension S3ClientTypes {
         /// * Description: Your key is too long.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4323,8 +4231,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4334,8 +4240,6 @@ extension S3ClientTypes {
         /// * Description: The body of your POST request is not well-formed multipart/form-data.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4347,8 +4251,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4358,8 +4260,6 @@ extension S3ClientTypes {
         /// * Description: Your request was too big.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4371,8 +4271,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4382,8 +4280,6 @@ extension S3ClientTypes {
         /// * Description: Your metadata headers exceed the maximum allowed metadata size.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4395,20 +4291,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 405 Method Not Allowed
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// * Code: MissingAttachment
-        ///
-        /// * Description: A SOAP attachment was expected, but none were found.
-        ///
-        /// * HTTP Status Code: N/A
-        ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4418,8 +4300,6 @@ extension S3ClientTypes {
         /// * Description: You must provide the Content-Length HTTP header.
         ///
         /// * HTTP Status Code: 411 Length Required
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4431,20 +4311,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// * Code: MissingSecurityElement
-        ///
-        /// * Description: The SOAP 1.1 request is missing a security element.
-        ///
-        /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4454,8 +4320,6 @@ extension S3ClientTypes {
         /// * Description: Your request is missing a required header.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4467,8 +4331,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4478,8 +4340,6 @@ extension S3ClientTypes {
         /// * Description: The specified bucket does not exist.
         ///
         /// * HTTP Status Code: 404 Not Found
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4491,8 +4351,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 404 Not Found
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4502,8 +4360,6 @@ extension S3ClientTypes {
         /// * Description: The specified key does not exist.
         ///
         /// * HTTP Status Code: 404 Not Found
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4515,8 +4371,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 404 Not Found
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4526,8 +4380,6 @@ extension S3ClientTypes {
         /// * Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.
         ///
         /// * HTTP Status Code: 404 Not Found
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4539,8 +4391,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 404 Not Found
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4550,8 +4400,6 @@ extension S3ClientTypes {
         /// * Description: A header you provided implies functionality that is not implemented.
         ///
         /// * HTTP Status Code: 501 Not Implemented
-        ///
-        /// * SOAP Fault Code Prefix: Server
         ///
         ///
         ///
@@ -4563,8 +4411,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4574,8 +4420,6 @@ extension S3ClientTypes {
         /// * Description: A conflicting conditional action is currently in progress against this resource. Try again.
         ///
         /// * HTTP Status Code: 409 Conflict
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4587,8 +4431,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 301 Moved Permanently
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4598,8 +4440,6 @@ extension S3ClientTypes {
         /// * Description: At least one of the preconditions you specified did not hold.
         ///
         /// * HTTP Status Code: 412 Precondition Failed
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4611,8 +4451,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 307 Moved Temporarily
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4622,8 +4460,6 @@ extension S3ClientTypes {
         /// * Description: Object restore is already in progress.
         ///
         /// * HTTP Status Code: 409 Conflict
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4635,8 +4471,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4646,8 +4480,6 @@ extension S3ClientTypes {
         /// * Description: Your socket connection to the server was not read from or written to within the timeout period.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4659,8 +4491,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 403 Forbidden
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4671,19 +4501,15 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
         ///
         /// * Code: SignatureDoesNotMatch
         ///
-        /// * Description: The request signature we calculated does not match the signature you provided. Check your Amazon Web Services secret access key and signing method. For more information, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) and [SOAP Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/SOAPAuthentication.html) for details.
+        /// * Description: The request signature we calculated does not match the signature you provided. Check your Amazon Web Services secret access key and signing method. For more information, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html) for details.
         ///
         /// * HTTP Status Code: 403 Forbidden
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4695,8 +4521,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 503 Service Unavailable
         ///
-        /// * SOAP Fault Code Prefix: Server
-        ///
         ///
         ///
         ///
@@ -4706,8 +4530,6 @@ extension S3ClientTypes {
         /// * Description: Reduce your request rate.
         ///
         /// * HTTP Status Code: 503 Slow Down
-        ///
-        /// * SOAP Fault Code Prefix: Server
         ///
         ///
         ///
@@ -4719,8 +4541,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 307 Moved Temporarily
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4730,8 +4550,6 @@ extension S3ClientTypes {
         /// * Description: The provided token must be refreshed.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4743,8 +4561,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4754,8 +4570,6 @@ extension S3ClientTypes {
         /// * Description: This request does not support content.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         ///
         ///
         ///
@@ -4767,8 +4581,6 @@ extension S3ClientTypes {
         ///
         /// * HTTP Status Code: 400 Bad Request
         ///
-        /// * SOAP Fault Code Prefix: Client
-        ///
         ///
         ///
         ///
@@ -4778,8 +4590,6 @@ extension S3ClientTypes {
         /// * Description: The bucket POST must contain the specified field name. If it is specified, check the order of the fields.
         ///
         /// * HTTP Status Code: 400 Bad Request
-        ///
-        /// * SOAP Fault Code Prefix: Client
         public var code: Swift.String?
         /// The error key.
         public var key: Swift.String?
@@ -10578,6 +10388,8 @@ extension S3ClientTypes {
         public var storageClass: S3ClientTypes.StorageClass?
         /// Upload ID that identifies the multipart upload.
         public var uploadId: Swift.String?
+        /// Version ID of the object. Returns the Version ID of the object for the multipart upload, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+        public var versionId: Swift.String?
 
         public init(
             checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
@@ -10587,7 +10399,8 @@ extension S3ClientTypes {
             key: Swift.String? = nil,
             owner: S3ClientTypes.Owner? = nil,
             storageClass: S3ClientTypes.StorageClass? = nil,
-            uploadId: Swift.String? = nil
+            uploadId: Swift.String? = nil,
+            versionId: Swift.String? = nil
         ) {
             self.checksumAlgorithm = checksumAlgorithm
             self.checksumType = checksumType
@@ -10597,6 +10410,7 @@ extension S3ClientTypes {
             self.owner = owner
             self.storageClass = storageClass
             self.uploadId = uploadId
+            self.versionId = versionId
         }
     }
 }
@@ -11561,6 +11375,8 @@ public struct ListPartsOutput: Swift.Sendable {
     public var storageClass: S3ClientTypes.StorageClass?
     /// Upload ID identifying the multipart upload whose parts are being listed.
     public var uploadId: Swift.String?
+    /// Version ID of the object. Returns the Version ID of the object for the listed parts, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+    public var versionId: Swift.String?
 
     public init(
         abortDate: Foundation.Date? = nil,
@@ -11578,7 +11394,8 @@ public struct ListPartsOutput: Swift.Sendable {
         parts: [S3ClientTypes.Part]? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
-        uploadId: Swift.String? = nil
+        uploadId: Swift.String? = nil,
+        versionId: Swift.String? = nil
     ) {
         self.abortDate = abortDate
         self.abortRuleId = abortRuleId
@@ -11596,6 +11413,7 @@ public struct ListPartsOutput: Swift.Sendable {
         self.requestCharged = requestCharged
         self.storageClass = storageClass
         self.uploadId = uploadId
+        self.versionId = versionId
     }
 }
 
@@ -14678,6 +14496,8 @@ public struct UploadPartOutput: Swift.Sendable {
     public var sseCustomerKeyMD5: Swift.String?
     /// If present, indicates the ID of the KMS key that was used for object encryption.
     public var ssekmsKeyId: Swift.String?
+    /// Version ID of the object. Returns the Version ID of the object for the uploaded part, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+    public var versionId: Swift.String?
 
     public init(
         bucketKeyEnabled: Swift.Bool? = nil,
@@ -14696,7 +14516,8 @@ public struct UploadPartOutput: Swift.Sendable {
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil
+        ssekmsKeyId: Swift.String? = nil,
+        versionId: Swift.String? = nil
     ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.checksumCRC32 = checksumCRC32
@@ -14715,12 +14536,13 @@ public struct UploadPartOutput: Swift.Sendable {
         self.sseCustomerAlgorithm = sseCustomerAlgorithm
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
         self.ssekmsKeyId = ssekmsKeyId
+        self.versionId = versionId
     }
 }
 
 extension UploadPartOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UploadPartOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), eTag: \(Swift.String(describing: eTag)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "UploadPartOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), eTag: \(Swift.String(describing: eTag)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct UploadPartCopyInput: Swift.Sendable {
@@ -14906,6 +14728,8 @@ public struct UploadPartCopyOutput: Swift.Sendable {
     public var sseCustomerKeyMD5: Swift.String?
     /// If present, indicates the ID of the KMS key that was used for object encryption.
     public var ssekmsKeyId: Swift.String?
+    /// Version ID of the object. Returns the Version ID of the object for the copied part, if bucket versioning is enabled. This functionality is not supported for directory buckets.
+    public var versionId: Swift.String?
 
     public init(
         bucketKeyEnabled: Swift.Bool? = nil,
@@ -14915,7 +14739,8 @@ public struct UploadPartCopyOutput: Swift.Sendable {
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil
+        ssekmsKeyId: Swift.String? = nil,
+        versionId: Swift.String? = nil
     ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.copyPartResult = copyPartResult
@@ -14925,12 +14750,13 @@ public struct UploadPartCopyOutput: Swift.Sendable {
         self.sseCustomerAlgorithm = sseCustomerAlgorithm
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
         self.ssekmsKeyId = ssekmsKeyId
+        self.versionId = versionId
     }
 }
 
 extension UploadPartCopyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UploadPartCopyOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyPartResult: \(Swift.String(describing: copyPartResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "UploadPartCopyOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyPartResult: \(Swift.String(describing: copyPartResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct WriteGetObjectResponseInput: Swift.Sendable {
@@ -20174,6 +20000,9 @@ extension AbortMultipartUploadOutput {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
         return value
     }
 }
@@ -20331,6 +20160,9 @@ extension CreateMultipartUploadOutput {
         }
         if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
             value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
         }
         value.bucket = try reader["Bucket"].readIfPresent()
         value.key = try reader["Key"].readIfPresent()
@@ -21588,6 +21420,9 @@ extension ListPartsOutput {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
         value.bucket = try reader["Bucket"].readIfPresent()
         value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
         value.checksumType = try reader["ChecksumType"].readIfPresent()
@@ -22057,6 +21892,9 @@ extension UploadPartOutput {
         if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
             value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
         }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
+        }
         return value
     }
 }
@@ -22088,6 +21926,9 @@ extension UploadPartCopyOutput {
         }
         if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
             value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            value.versionId = versionIdHeaderValue
         }
         value.copyPartResult = try reader.readIfPresent(with: S3ClientTypes.CopyPartResult.read(from:))
         return value
@@ -25403,6 +25244,7 @@ extension S3ClientTypes.MultipartUpload {
         value.initiator = try reader["Initiator"].readIfPresent(with: S3ClientTypes.Initiator.read(from:))
         value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
         value.checksumType = try reader["ChecksumType"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
         return value
     }
 }

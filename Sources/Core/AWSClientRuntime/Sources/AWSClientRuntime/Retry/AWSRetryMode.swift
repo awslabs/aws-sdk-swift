@@ -17,6 +17,8 @@ public enum AWSRetryMode: String, Sendable {
     /// Use "Standard" retry behavior.  Initial requests are always made immediately, but retries
     /// are delayed using exponential backoff.  Retries are performed up to the specified maximum
     /// number, but may be further limited by a token system.
+    ///
+    /// This is the default mode, and it follows "Retry Behavior 2.1".
     case standard
 
     /// Use "Adaptive" retry behavior.  Like "Standard" but requests may be additionally delayed

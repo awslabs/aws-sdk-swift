@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -270,6 +271,46 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
+    /// Identifies one version of a question set. You specify it in CustomQuestionsConfig.
+    public struct QuestionSetReference: Swift.Sendable {
+        /// The ID of the question set. The question set must be in your account.
+        /// This member is required.
+        public var questionSetId: Swift.String?
+        /// The version of the question set: DRAFT or the number of a published version. The version must exist. If you specify DRAFT, the output uses the current DRAFT questions and picks up changes that you make later by using UpdateQuestionSet. To keep the questions for the output fixed, specify a published version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            questionSetId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.questionSetId = questionSetId
+            self.version = version
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The question sets that you ask Elemental Inference about the media in a contextual metadata output. You must specify at least one of shot or scene. They can reference the same version of the same question set.
+    public struct CustomQuestionsConfig: Swift.Sendable {
+        /// The version of a question set to ask Elemental Inference about each scene.
+        public var scene: ElementalInferenceClientTypes.QuestionSetReference?
+        /// The version of a question set to ask Elemental Inference about each shot.
+        public var shot: ElementalInferenceClientTypes.QuestionSetReference?
+
+        public init(
+            scene: ElementalInferenceClientTypes.QuestionSetReference? = nil,
+            shot: ElementalInferenceClientTypes.QuestionSetReference? = nil
+        ) {
+            self.scene = scene
+            self.shot = shot
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     public enum ExtendedAnalysisMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -330,11 +371,16 @@ extension ElementalInferenceClientTypes {
 
     /// The output configuration settings for the contextual metadata feature. Use this structure when the feed output generates metadata that describes the media content.
     public struct ContextualMetadataConfig: Swift.Sendable {
+        /// The question sets that you ask Elemental Inference about each shot, each scene, or both, in this output. If you specify customQuestions, you must also set extendedAnalysis to DISABLED. If you omit extendedAnalysis, it defaults to ENABLED, and the request fails. While a feed references a version of a question set, you can't delete that version or the question set.
+        public var customQuestions: ElementalInferenceClientTypes.CustomQuestionsConfig?
         /// Specifies whether Elemental Inference generates extended analysis of the media content for this output. Extended analysis identifies the people, environments, brands, and on-screen text in the media content. This setting is independent of summaryGeneration. Valid values:
         ///
         /// * ENABLED (default) – Elemental Inference populates the people, environments, brands, and on-screen text fields.
         ///
         /// * DISABLED – Elemental Inference doesn't populate the people, environments, brands, and on-screen text fields.
+        ///
+        ///
+        /// If you specify customQuestions, you must set this property to DISABLED.
         public var extendedAnalysis: ElementalInferenceClientTypes.ExtendedAnalysisMode?
         /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output, along with the objects and actions that it detects. This setting is independent of extendedAnalysis. Valid values:
         ///
@@ -344,9 +390,11 @@ extension ElementalInferenceClientTypes {
         public var summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode?
 
         public init(
+            customQuestions: ElementalInferenceClientTypes.CustomQuestionsConfig? = nil,
             extendedAnalysis: ElementalInferenceClientTypes.ExtendedAnalysisMode? = nil,
             summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode? = nil
         ) {
+            self.customQuestions = customQuestions
             self.extendedAnalysis = extendedAnalysis
             self.summaryGeneration = summaryGeneration
         }
@@ -385,6 +433,243 @@ extension ElementalInferenceClientTypes {
             templateGroups: [ElementalInferenceClientTypes.TemplateGroup]? = nil
         ) {
             self.templateGroups = templateGroups
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The event clipping output on this feed that provides events for a perClip trigger and media.clip for a function. Specify this structure for a perClip trigger, and for a function that references media.clip on a fixedInterval trigger. If the function output is ENABLED, the output that you name must also be ENABLED.
+    public struct ClippingSettings: Swift.Sendable {
+        /// The name of an ENABLED event clipping output on this feed.
+        /// This member is required.
+        public var outputName: Swift.String?
+
+        public init(
+            outputName: Swift.String? = nil
+        ) {
+            self.outputName = outputName
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The contextual metadata output on this feed that provides scenes for a perScene trigger and media.contextual for a function. Specify this structure for a perScene trigger, and for a function that references media.contextual on a perShot trigger. If the function output is ENABLED, the output that you name must also be ENABLED.
+    public struct ContextualMetadataSettings: Swift.Sendable {
+        /// The name of an ENABLED contextual metadata output on this feed.
+        /// This member is required.
+        public var outputName: Swift.String?
+
+        public init(
+            outputName: Swift.String? = nil
+        ) {
+            self.outputName = outputName
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    public enum FrameSamplingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case first
+        case last
+        case uniform
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameSamplingMode] {
+            return [
+                .first,
+                .last,
+                .uniform
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .first: return "FIRST"
+            case .last: return "LAST"
+            case .uniform: return "UNIFORM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Specifies how Elemental Inference chooses frames from the media of each run, and how many frames it chooses. The media of a run is the interval, shot, scene, or clips that the run covers.
+    public struct FrameSamplingStrategy: Swift.Sendable {
+        /// The number of frames to send on each run. Valid range: 1 to 64. The default is 1. Each frame adds to the size of the model request and to what the model charges for it.
+        public var count: Swift.Int?
+        /// Which frames of the window to send: FIRST (the first frames), UNIFORM (frames spread evenly across the window), or LAST (the last frames).
+        /// This member is required.
+        public var mode: ElementalInferenceClientTypes.FrameSamplingMode?
+
+        public init(
+            count: Swift.Int? = nil,
+            mode: ElementalInferenceClientTypes.FrameSamplingMode? = nil
+        ) {
+            self.count = count
+            self.mode = mode
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The dimensions, in pixels, of each frame that a function sends. Elemental Inference resizes each frame to exactly this width and height.
+    public struct FrameSize: Swift.Sendable {
+        /// The height of each frame, in pixels. Valid range: 1 to 720.
+        /// This member is required.
+        public var heightPixels: Swift.Int?
+        /// The width of each frame, in pixels. Valid range: 1 to 1280.
+        /// This member is required.
+        public var widthPixels: Swift.Int?
+
+        public init(
+            heightPixels: Swift.Int? = nil,
+            widthPixels: Swift.Int? = nil
+        ) {
+            self.heightPixels = heightPixels
+            self.widthPixels = widthPixels
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The frames that a function receives in media.frames on each run: which frames, how many, and at what size. Elemental Inference applies these settings only to a function that references media.frames. When you add or change the function output, Elemental Inference estimates the size of the frames and rejects settings whose frames won't fit in one model request. To send more frames in each request, specify a smaller frameSize.
+    public struct FrameSettings: Swift.Sendable {
+        /// The method for choosing which frames to send.
+        /// This member is required.
+        public var frameSampling: ElementalInferenceClientTypes.FrameSamplingStrategy?
+        /// The size to resize each frame to. If you omit this structure, frames keep their source size. Smaller frames reduce the size of the model request.
+        public var frameSize: ElementalInferenceClientTypes.FrameSize?
+
+        public init(
+            frameSampling: ElementalInferenceClientTypes.FrameSamplingStrategy? = nil,
+            frameSize: ElementalInferenceClientTypes.FrameSize? = nil
+        ) {
+            self.frameSampling = frameSampling
+            self.frameSize = frameSize
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The smart subtitles output on this feed that a function reads media.transcript from. Specify this structure for a function that references media.transcript. That function must use a fixedInterval trigger. If the function output is ENABLED, the output that you name must also be ENABLED.
+    public struct SubtitlingSettings: Swift.Sendable {
+        /// The name of an ENABLED smart subtitles output on this feed.
+        /// This member is required.
+        public var outputName: Swift.String?
+
+        public init(
+            outputName: Swift.String? = nil
+        ) {
+            self.outputName = outputName
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The settings of the fixedInterval trigger, which runs the function once for every intervalSeconds of content. A function that references media.transcript must use this trigger. You can't use this trigger with a function that references media.contextual. If the function references media.transcript, specify subtitlingSettings. If the function references media.clip, specify clippingSettings. Each run then receives the events that the event clipping output reported during the interval, in media.clip.events.
+    public struct FixedIntervalTrigger: Swift.Sendable {
+        /// The amount of content, in seconds, between runs of the function. Valid range: 1 to 60. For a function with eventBridgeDelivery set to ENABLED, the minimum is 4.
+        /// This member is required.
+        public var intervalSeconds: Swift.Int?
+
+        public init(
+            intervalSeconds: Swift.Int? = nil
+        ) {
+            self.intervalSeconds = intervalSeconds
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The perClip trigger, which runs the function each time an event clipping output reports events. Events that the output reports together share one run, and media.clip.events contains all of them. To choose this trigger, set perClip to an empty object. Specify clippingSettings to name the event clipping output that reports the events. You can't use this trigger with a function that references media.transcript or media.contextual.
+    public struct ClipTrigger: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The perScene trigger, which runs the function once for each scene that a contextual metadata output reports. The function runs after the scene ends, with the media of that scene. To choose this trigger, set perScene to an empty object. Specify contextualMetadataSettings to name the contextual metadata output that reports the scenes. You can't use this trigger with a function that references media.transcript or media.clip.
+    public struct SceneTrigger: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The perShot trigger, which runs the function once for each shot that Elemental Inference detects in the video. The function runs after the shot ends, with the media of that shot. To choose this trigger, set perShot to an empty object. The feed must have a video input. You can't use this trigger with a function that references media.transcript or media.clip. If the function references media.contextual, specify contextualMetadataSettings.
+    public struct ShotTrigger: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Determines when a function runs. Specify exactly one member.
+    public enum Trigger: Swift.Sendable {
+        /// Run the function at a fixed interval of content. This is the only trigger for a function that references media.transcript. Can't be used with a function that references media.contextual.
+        case fixedinterval(ElementalInferenceClientTypes.FixedIntervalTrigger)
+        /// Run the function once for each shot that Elemental Inference detects. Can't be used with a function that references media.transcript or media.clip.
+        case pershot(ElementalInferenceClientTypes.ShotTrigger)
+        /// Run the function once for each scene boundary that a contextual metadata output reports. Requires contextualMetadataSettings. Can't be used with a function that references media.transcript or media.clip.
+        case perscene(ElementalInferenceClientTypes.SceneTrigger)
+        /// Run the function once for each clip that an event clipping output detects. Requires clippingSettings. Can't be used with a function that references media.transcript or media.contextual.
+        case perclip(ElementalInferenceClientTypes.ClipTrigger)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The output configuration settings for a function. Use this structure to run a function on this feed. The name of the output is the name that you pass to GetMetadata to read the results. Include the settings that the function's media context and trigger require. Elemental Inference ignores settings that neither uses. It also rejects settings whose frames are estimated to exceed the size of a single model request. A feed that has an enabled function output must also have an enabled cropping, clipping, subtitling, or contextual metadata output. A feed that runs a function with a Bedrock target must specify an accessRoleArn.
+    public struct FunctionConfig: Swift.Sendable {
+        /// The event clipping output on this feed to read clips from. Required for a perClip trigger, and for a function that references media.clip.
+        public var clippingSettings: ElementalInferenceClientTypes.ClippingSettings?
+        /// The contextual metadata output on this feed to read scenes and classifications from. Required for a perScene trigger, and for a function that references media.contextual on a perShot trigger.
+        public var contextualMetadataSettings: ElementalInferenceClientTypes.ContextualMetadataSettings?
+        /// The frames to send on each run: how many, which ones, and at what size. Applies to a function that references media.frames. If you omit this structure, Elemental Inference sends the first frame of the window, at its source size.
+        public var frameSettings: ElementalInferenceClientTypes.FrameSettings?
+        /// The ARN of the function to run. The function must exist in the same account and the same Region as the feed.
+        /// This member is required.
+        public var functionArn: Swift.String?
+        /// The smart subtitles output on this feed to read the transcript from. Required for a function that references media.transcript.
+        public var subtitlingSettings: ElementalInferenceClientTypes.SubtitlingSettings?
+        /// Determines when the function runs.
+        /// This member is required.
+        public var trigger: ElementalInferenceClientTypes.Trigger?
+
+        public init(
+            clippingSettings: ElementalInferenceClientTypes.ClippingSettings? = nil,
+            contextualMetadataSettings: ElementalInferenceClientTypes.ContextualMetadataSettings? = nil,
+            frameSettings: ElementalInferenceClientTypes.FrameSettings? = nil,
+            functionArn: Swift.String? = nil,
+            subtitlingSettings: ElementalInferenceClientTypes.SubtitlingSettings? = nil,
+            trigger: ElementalInferenceClientTypes.Trigger? = nil
+        ) {
+            self.clippingSettings = clippingSettings
+            self.contextualMetadataSettings = contextualMetadataSettings
+            self.frameSettings = frameSettings
+            self.functionArn = functionArn
+            self.subtitlingSettings = subtitlingSettings
+            self.trigger = trigger
         }
     }
 }
@@ -511,6 +796,8 @@ extension ElementalInferenceClientTypes {
         case subtitling(ElementalInferenceClientTypes.SubtitlingConfig)
         /// The output config type that applies to the contextual metadata feature.
         case contextualmetadata(ElementalInferenceClientTypes.ContextualMetadataConfig)
+        /// The output config type that applies to a function.
+        case function(ElementalInferenceClientTypes.FunctionConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -619,6 +906,111 @@ public struct AssociateFeedOutput: Swift.Sendable {
 
 extension ElementalInferenceClientTypes {
 
+    public enum BedrockApi: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invokeModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BedrockApi] {
+            return [
+                .invokeModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invokeModel: return "INVOKE_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// An Amazon Bedrock model to invoke. Elemental Inference invokes the model in your account by assuming the feed's access role, so a feed that runs this function must specify an accessRoleArn. The invocation is subject to your Amazon Bedrock quotas and appears on your bill.
+    public struct BedrockFunctionTarget: Swift.Sendable {
+        /// The Amazon Bedrock API to call. The only valid value is INVOKE_MODEL.
+        /// This member is required.
+        public var api: ElementalInferenceClientTypes.BedrockApi?
+        /// The model to invoke. Specify one of the following:
+        ///
+        /// * A model ID.
+        ///
+        /// * An inference profile ID.
+        ///
+        /// * The ARN of a custom model.
+        ///
+        /// * The ARN of a provisioned model.
+        ///
+        ///
+        /// Elemental Inference invokes the model in the Region of the feed. To use a model in other Regions, specify a cross-Region inference profile ID. A custom or provisioned model must be in the Region of the feed. The request expression must produce a request body that this model accepts, and the model must accept the kind of media that the request expression references. For example, a text-only model can't accept a request that references media.frames.
+        /// This member is required.
+        public var model: Swift.String?
+
+        public init(
+            api: ElementalInferenceClientTypes.BedrockApi? = nil,
+            model: Swift.String? = nil
+        ) {
+            self.api = api
+            self.model = model
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// An option in a yesNoPerOption question or a chooseOne question.
+    public struct QuestionOption: Swift.Sendable {
+        /// A name for the option. The name must be unique among the options of the question. The name can be up to 64 characters. It must start with a letter or an underscore, and can contain only the letters A-Z and a-z, the digits 0-9, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The text of the option. The text must be unique among the options of the question, ignoring case. The text can be up to 16 bytes, encoded in UTF-8. It can contain the same characters as the text of a question.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.name = name
+            self.text = text
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// A question that you ask Elemental Inference, which answers by choosing one of its options. You specify it in the chooseOne array of a question set.
+    public struct ChooseOneQuestion: Swift.Sendable {
+        /// A name for the question. The name must be unique among all the questions in the version, across all question types. The name can be up to 64 characters. It must start with a letter or an underscore, and can contain only the letters A-Z and a-z, the digits 0-9, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The options that Elemental Inference chooses from. You can specify from 2 to 26 options. The question counts as one item toward the limit of 100 scored items in a version, regardless of how many options it has.
+        /// This member is required.
+        public var options: [ElementalInferenceClientTypes.QuestionOption]?
+        /// The text of the question. The text can be up to 256 bytes, encoded in UTF-8. It can contain letters in any language, combining marks, digits, spaces, and the following characters: . , ? ! ' " ( ) - : ; / & %, plus the curly apostrophe and quotation marks (U+2019, U+201C, and U+201D).
+        /// This member is required.
+        public var question: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            options: [ElementalInferenceClientTypes.QuestionOption]? = nil,
+            question: Swift.String? = nil
+        ) {
+            self.name = name
+            self.options = options
+            self.question = question
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     /// Contains information about one competitor in a fixture. It is used in the FixtureSummary that is in the SearchFixtures response.
     public struct Competitor: Swift.Sendable {
         /// Specifies whether this competitor is the home side in the fixture. If true, this competitor is the home side. If false, this competitor is the away side.
@@ -632,6 +1024,53 @@ extension ElementalInferenceClientTypes {
         ) {
             self.isHome = isHome
             self.name = name
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// One kind of media context that a function reads. Elemental Inference derives this value from the media paths that the request expression references:
+    ///
+    /// * FRAMES – Derived from media.frames.
+    ///
+    /// * SUBTITLES – Derived from media.transcript.
+    ///
+    /// * CONTEXTUAL_METADATA – Derived from media.contextual.
+    ///
+    /// * CLIP_METADATA – Derived from media.clip.
+    ///
+    ///
+    /// A request expression can reference at most one of SUBTITLES, CONTEXTUAL_METADATA, and CLIP_METADATA, in addition to FRAMES.
+    public enum ContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clipMetadata
+        case contextualMetadata
+        case frames
+        case subtitles
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextType] {
+            return [
+                .clipMetadata,
+                .contextualMetadata,
+                .frames,
+                .subtitles
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clipMetadata: return "CLIP_METADATA"
+            case .contextualMetadata: return "CONTEXTUAL_METADATA"
+            case .frames: return "FRAMES"
+            case .subtitles: return "SUBTITLES"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -945,6 +1384,441 @@ public struct CreateFeedOutput: Swift.Sendable {
         self.outputs = outputs
         self.status = status
         self.tags = tags
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Whether Elemental Inference sends a function's marked results to Amazon EventBridge.
+    ///
+    /// * ENABLED – Elemental Inference sends each result that is a JSON object with a top-level eventBridge field set to true as an event.
+    ///
+    /// * DISABLED – Elemental Inference doesn't send events.
+    public enum EventBridgeDeliveryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventBridgeDeliveryMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// A target that invokes nothing. Elemental Inference evaluates your request expression, then evaluates your response expression against that result. If the function has no response expression, Elemental Inference stores the result of the request expression. A passthrough function can't reference media.frames. It also needs no access role on the feed.
+    public struct PassthroughFunctionTarget: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The destination for the request that a function builds. Specify exactly one member.
+    public enum FunctionTarget: Swift.Sendable {
+        /// Send the request to an Amazon Bedrock model.
+        case bedrock(ElementalInferenceClientTypes.BedrockFunctionTarget)
+        /// Send the request nowhere. Use this target to reshape the metadata that Elemental Inference already produces, with no model invocation and no model charges.
+        case passthrough(ElementalInferenceClientTypes.PassthroughFunctionTarget)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateFunctionInput: Swift.Sendable {
+    /// The description of the function. Maximum length: 1,024 characters.
+    public var description: Swift.String?
+    /// Specifies whether Elemental Inference also sends this function's results to Amazon EventBridge. Elemental Inference sends a result only when the result is a JSON object with a top-level eventBridge field set to true. It sends the result, unchanged, as a Function Metadata Generated event to the default event bus in your account, after the result is available from GetMetadata. If the result is larger than 64 KB, the event has resultOmitted set to true in place of the result. Valid values:
+    ///
+    /// * ENABLED – Elemental Inference sends each marked result as an event.
+    ///
+    /// * DISABLED (default) – Elemental Inference doesn't send events.
+    ///
+    ///
+    /// For a Bedrock target, ENABLED requires a response expression, because the model response itself never has a top-level eventBridge field. A feed output that runs a function with ENABLED can't use a fixedInterval trigger shorter than 4 seconds.
+    public var eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode?
+    /// A name for this function.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The JSONata expression that builds the request. Elemental Inference evaluates it against the media object of the feed, which holds the media and metadata that the function asked for. Maximum length: 5,120 characters. When you save the function, Elemental Inference evaluates the expression against sample media and rejects it if the evaluation fails. For a Bedrock target, the result must be a JSON object; Elemental Inference doesn't check that the object is a valid request body for the model. The expression can reference at most one of media.transcript, media.contextual, and media.clip. For a passthrough target, it can't reference media.frames.
+    /// This member is required.
+    public var requestExpression: Swift.String?
+    /// The JSONata expression that selects what to store. Elemental Inference evaluates it against the result as its root: the model response for a Bedrock target, or the output of the request expression for a passthrough target. If a function has no response expression, Elemental Inference stores the entire result. Maximum length: 5,120 characters. When you save the function, Elemental Inference checks that the expression is valid JSONata. For a passthrough target, it also evaluates the request and response expressions together against sample media, and rejects them if they produce no value.
+    public var responseExpression: Swift.String?
+    /// The tags to associate with this function.
+    public var tags: [Swift.String: Swift.String]?
+    /// The destination for the request that the function builds.
+    /// This member is required.
+    public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+    public init(
+        description: Swift.String? = nil,
+        eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode? = nil,
+        name: Swift.String? = nil,
+        requestExpression: Swift.String? = nil,
+        responseExpression: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        target: ElementalInferenceClientTypes.FunctionTarget? = nil
+    ) {
+        self.description = description
+        self.eventBridgeDelivery = eventBridgeDelivery
+        self.name = name
+        self.requestExpression = requestExpression
+        self.responseExpression = responseExpression
+        self.tags = tags
+        self.target = target
+    }
+}
+
+extension CreateFunctionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFunctionInput(eventBridgeDelivery: \(Swift.String(describing: eventBridgeDelivery)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", requestExpression: \"CONTENT_REDACTED\", responseExpression: \"CONTENT_REDACTED\")"}
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The status of a function.
+    ///
+    /// * CREATING – CreateFunction returns this status. The function is ready to use as soon as the request succeeds.
+    ///
+    /// * AVAILABLE – No feed references the function. Every property can be changed, and the function can be deleted.
+    ///
+    /// * REFERENCED – At least one feed references the function, so the function can't be deleted. Only the expressions and the description can be changed, and eventBridgeDelivery can be set to DISABLED but not to ENABLED. The request expression must keep referencing the same media context.
+    ///
+    /// * DELETING – DeleteFunction returns this status. The function is removed as soon as the request succeeds.
+    ///
+    /// * DELETED – Not currently returned.
+    public enum FunctionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case referenced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionStatus] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .referenced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .referenced: return "REFERENCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateFunctionOutput: Swift.Sendable {
+    /// The ARN of the function.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The kinds of media context that this function uses. Elemental Inference derives this field from the media paths that the request expression references; you can't set it. An empty list means that the expression references no media, so Elemental Inference supplies none at run time.
+    public var contextTypes: [ElementalInferenceClientTypes.ContextType]?
+    /// The description of the function.
+    public var description: Swift.String?
+    /// Indicates whether Elemental Inference also sends this function's results to Amazon EventBridge. With ENABLED, each result that is a JSON object with a top-level eventBridge field set to true is also sent as a Function Metadata Generated event to the default event bus in your account.
+    public var eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode?
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the function.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IDs of the feeds that have a function output, enabled or disabled, that references this function. While this list isn't empty, the function can't be deleted, and its name and target can't be changed.
+    public var references: [Swift.String]?
+    /// The JSONata expression that builds the request. Elemental Inference evaluates it against the media object of the feed, which holds the media and metadata that the function asked for.
+    /// This member is required.
+    public var requestExpression: Swift.String?
+    /// The JSONata expression that selects what to store. Elemental Inference evaluates it against the result as its root: the model response for a Bedrock target, or the output of the request expression for a passthrough target. If a function has no response expression, Elemental Inference stores the entire result.
+    public var responseExpression: Swift.String?
+    /// The status of the function. A successful request returns CREATING. The function is ready to use as soon as the request succeeds.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.FunctionStatus?
+    /// The tags associated with the function.
+    public var tags: [Swift.String: Swift.String]?
+    /// The destination for the request that the function builds.
+    /// This member is required.
+    public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+    public init(
+        arn: Swift.String? = nil,
+        contextTypes: [ElementalInferenceClientTypes.ContextType]? = nil,
+        description: Swift.String? = nil,
+        eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode? = .disabled,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        requestExpression: Swift.String? = nil,
+        responseExpression: Swift.String? = nil,
+        status: ElementalInferenceClientTypes.FunctionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        target: ElementalInferenceClientTypes.FunctionTarget? = nil
+    ) {
+        self.arn = arn
+        self.contextTypes = contextTypes
+        self.description = description
+        self.eventBridgeDelivery = eventBridgeDelivery
+        self.id = id
+        self.name = name
+        self.references = references
+        self.requestExpression = requestExpression
+        self.responseExpression = responseExpression
+        self.status = status
+        self.tags = tags
+        self.target = target
+    }
+}
+
+extension CreateFunctionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFunctionOutput(arn: \(Swift.String(describing: arn)), contextTypes: \(Swift.String(describing: contextTypes)), eventBridgeDelivery: \(Swift.String(describing: eventBridgeDelivery)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), references: \(Swift.String(describing: references)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", requestExpression: \"CONTENT_REDACTED\", responseExpression: \"CONTENT_REDACTED\")"}
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// A question that you ask Elemental Inference, which answers with yes or no. You specify it in the yesNo array of a question set.
+    public struct YesNoQuestion: Swift.Sendable {
+        /// A name for the question. The name must be unique among all the questions in the version, across all question types. The name can be up to 64 characters. It must start with a letter or an underscore, and can contain only the letters A-Z and a-z, the digits 0-9, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The text of the question. The text can be up to 256 bytes, encoded in UTF-8. It can contain letters in any language, combining marks, digits, spaces, and the following characters: . , ? ! ' " ( ) - : ; / & %, plus the curly apostrophe and quotation marks (U+2019, U+201C, and U+201D).
+        /// This member is required.
+        public var question: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            question: Swift.String? = nil
+        ) {
+            self.name = name
+            self.question = question
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// A question that you ask Elemental Inference separately about each of its options. Elemental Inference answers yes or no for each option. Word the question so that it fits any of the options. For example, ask Is this overlay visible? with one option for each overlay. You specify it in the yesNoPerOption array of a question set.
+    public struct YesNoPerOptionQuestion: Swift.Sendable {
+        /// A name for the question. The name must be unique among all the questions in the version, across all question types. The name can be up to 64 characters. It must start with a letter or an underscore, and can contain only the letters A-Z and a-z, the digits 0-9, and underscores.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The options that you ask the question about. You can specify from 1 to 50 options. Each option counts as one item toward the limit of 100 scored items in a version.
+        /// This member is required.
+        public var options: [ElementalInferenceClientTypes.QuestionOption]?
+        /// The text of the question. The text can be up to 256 bytes, encoded in UTF-8. It can contain letters in any language, combining marks, digits, spaces, and the following characters: . , ? ! ' " ( ) - : ; / & %, plus the curly apostrophe and quotation marks (U+2019, U+201C, and U+201D).
+        /// This member is required.
+        public var question: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            options: [ElementalInferenceClientTypes.QuestionOption]? = nil,
+            question: Swift.String? = nil
+        ) {
+            self.name = name
+            self.options = options
+            self.question = question
+        }
+    }
+}
+
+public struct CreateQuestionSetInput: Swift.Sendable {
+    /// An array of questions that Elemental Inference answers by choosing one of their options. You can specify up to 10 chooseOne questions. An empty array is the same as omitting this property.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// A user-friendly name for this question set.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Optional tags to associate with the question set. You can also add tags later, using TagResource.
+    public var tags: [Swift.String: Swift.String]?
+    /// An array of questions that Elemental Inference answers with yes or no. You can specify up to 50 yesNo questions. An empty array is the same as omitting this property.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// An array of questions that you ask about each of their options. Elemental Inference answers yes or no for each option. You can specify up to 10 yesNoPerOption questions. An empty array is the same as omitting this property.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.chooseOne = chooseOne
+        self.name = name
+        self.tags = tags
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
+    }
+}
+
+public struct CreateQuestionSetOutput: Swift.Sendable {
+    /// The ARN of the question set.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The chooseOne questions that you specified in the request, in the order that you specified them. Elemental Inference doesn't return this property if the request didn't include any chooseOne questions.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// The description of the version. Elemental Inference doesn't return this property for CreateQuestionSet, because the DRAFT version has no description.
+    public var description: Swift.String?
+    /// A unique ID that Elemental Inference assigns to the question set.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The number of the highest version that you have published for this question set. Elemental Inference doesn't return this property for CreateQuestionSet, because a new question set has no published versions.
+    public var latestVersion: Swift.String?
+    /// The name that you specified in the request.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this version of the question set. For a new question set, the list is empty.
+    public var references: [Swift.String]?
+    /// The SHA-256 hash of the DRAFT version, as 64 lowercase hexadecimal characters. The hash covers the name of the question set and its questions. You can specify this value in a CreateQuestionSetVersion request, so that Elemental Inference publishes DRAFT only if it hasn't changed.
+    /// This member is required.
+    public var sha256: Swift.String?
+    /// Any tags that you included when you created the question set.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version that this response describes. For CreateQuestionSet, the version is always DRAFT.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The yesNo questions that you specified in the request, in the order that you specified them. Elemental Inference doesn't return this property if the request didn't include any yesNo questions.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// The yesNoPerOption questions that you specified in the request, in the order that you specified them. Elemental Inference doesn't return this property if the request didn't include any yesNoPerOption questions.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        arn: Swift.String? = nil,
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        latestVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        sha256: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.arn = arn
+        self.chooseOne = chooseOne
+        self.description = description
+        self.id = id
+        self.latestVersion = latestVersion
+        self.name = name
+        self.references = references
+        self.sha256 = sha256
+        self.tags = tags
+        self.version = version
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
+    }
+}
+
+public struct CreateQuestionSetVersionInput: Swift.Sendable {
+    /// A description of the new version. You can't change the description after Elemental Inference publishes the version. If DRAFT hasn't changed since the latest version, Elemental Inference ignores this value and returns the latest version with its existing description. The description can be up to 256 characters. It can contain the letters A-Z and a-z, the digits 0-9, underscores, spaces, and the following characters: - . ' , @ : ;.
+    public var description: Swift.String?
+    /// The ID of the question set whose DRAFT version you want to publish.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The SHA-256 hash of the DRAFT version that you want to publish, as returned by GetQuestionSet or UpdateQuestionSet. If you specify this value, Elemental Inference publishes DRAFT only if its current hash matches. If it doesn't match, because DRAFT changed after you retrieved it, the request fails with ConflictException. If you don't specify this value, Elemental Inference publishes DRAFT as it is when it receives the request.
+    public var sha256: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        sha256: Swift.String? = nil
+    ) {
+        self.description = description
+        self.id = id
+        self.sha256 = sha256
+    }
+}
+
+public struct CreateQuestionSetVersionOutput: Swift.Sendable {
+    /// The ARN of the question set.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The chooseOne questions in this version. Elemental Inference doesn't return this property if the version has no chooseOne questions.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// The description of the version. For a new version, this is the description that you specified in the request. If DRAFT hadn't changed since the latest version, this is the description of that existing version. Elemental Inference doesn't return this property if the version has no description.
+    public var description: Swift.String?
+    /// The ID of the question set.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The number of the highest version that you have published for this question set. It's the same as version.
+    public var latestVersion: Swift.String?
+    /// The name of the question set at this version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this version of the question set. For a new version, the list is empty.
+    public var references: [Swift.String]?
+    /// The SHA-256 hash of the version, as 64 lowercase hexadecimal characters. It's the same as the hash of the DRAFT version that Elemental Inference published.
+    /// This member is required.
+    public var sha256: Swift.String?
+    /// Any tags associated with the question set.
+    public var tags: [Swift.String: Swift.String]?
+    /// The number of the version that Elemental Inference published. If DRAFT hadn't changed since the latest version, this is the number of that existing version.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The yesNo questions in this version. Elemental Inference doesn't return this property if the version has no yesNo questions.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// The yesNoPerOption questions in this version. Elemental Inference doesn't return this property if the version has no yesNoPerOption questions.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        arn: Swift.String? = nil,
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        latestVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        sha256: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.arn = arn
+        self.chooseOne = chooseOne
+        self.description = description
+        self.id = id
+        self.latestVersion = latestVersion
+        self.name = name
+        self.references = references
+        self.sha256 = sha256
+        self.tags = tags
+        self.version = version
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
     }
 }
 
@@ -1293,6 +2167,91 @@ public struct DeleteFeedPolicyInput: Swift.Sendable {
     ) {
         self.id = id
     }
+}
+
+public struct DeleteFunctionInput: Swift.Sendable {
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteFunctionOutput: Swift.Sendable {
+    /// The ARN of the function.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The status of the function. A successful request returns DELETING. Elemental Inference removes the function before it returns the response.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.FunctionStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: ElementalInferenceClientTypes.FunctionStatus? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.status = status
+    }
+}
+
+public struct DeleteQuestionSetInput: Swift.Sendable {
+    /// The ID of the question set to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteQuestionSetOutput: Swift.Sendable {
+    /// The ARN of the deleted question set.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the deleted question set.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+public struct DeleteQuestionSetVersionInput: Swift.Sendable {
+    /// The ID of the question set that contains the version.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The number of the published version to delete. You can't specify DRAFT.
+    /// This member is required.
+    public var questionSetVersion: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        questionSetVersion: Swift.String? = nil
+    ) {
+        self.id = id
+        self.questionSetVersion = questionSetVersion
+    }
+}
+
+public struct DeleteQuestionSetVersionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteScheduleActionInput: Swift.Sendable {
@@ -1921,6 +2880,270 @@ public struct UpdateFeedOutput: Swift.Sendable {
     }
 }
 
+public struct GetFunctionInput: Swift.Sendable {
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct GetFunctionOutput: Swift.Sendable {
+    /// The ARN of the function.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The kinds of media context that this function uses. Elemental Inference derives this field from the media paths that the request expression references; you can't set it. An empty list means that the expression references no media, so Elemental Inference supplies none at run time.
+    public var contextTypes: [ElementalInferenceClientTypes.ContextType]?
+    /// The description of the function.
+    public var description: Swift.String?
+    /// Indicates whether Elemental Inference also sends this function's results to Amazon EventBridge. With ENABLED, each result that is a JSON object with a top-level eventBridge field set to true is also sent as a Function Metadata Generated event to the default event bus in your account.
+    public var eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode?
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the function.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IDs of the feeds that have a function output, enabled or disabled, that references this function. While this list isn't empty, the function can't be deleted, and its name and target can't be changed.
+    public var references: [Swift.String]?
+    /// The JSONata expression that builds the request. Elemental Inference evaluates it against the media object of the feed, which holds the media and metadata that the function asked for.
+    /// This member is required.
+    public var requestExpression: Swift.String?
+    /// The JSONata expression that selects what to store. Elemental Inference evaluates it against the result as its root: the model response for a Bedrock target, or the output of the request expression for a passthrough target. If a function has no response expression, Elemental Inference stores the entire result.
+    public var responseExpression: Swift.String?
+    /// The status of the function.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.FunctionStatus?
+    /// The tags associated with the function.
+    public var tags: [Swift.String: Swift.String]?
+    /// The destination for the request that the function builds.
+    /// This member is required.
+    public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+    public init(
+        arn: Swift.String? = nil,
+        contextTypes: [ElementalInferenceClientTypes.ContextType]? = nil,
+        description: Swift.String? = nil,
+        eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode? = .disabled,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        requestExpression: Swift.String? = nil,
+        responseExpression: Swift.String? = nil,
+        status: ElementalInferenceClientTypes.FunctionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        target: ElementalInferenceClientTypes.FunctionTarget? = nil
+    ) {
+        self.arn = arn
+        self.contextTypes = contextTypes
+        self.description = description
+        self.eventBridgeDelivery = eventBridgeDelivery
+        self.id = id
+        self.name = name
+        self.references = references
+        self.requestExpression = requestExpression
+        self.responseExpression = responseExpression
+        self.status = status
+        self.tags = tags
+        self.target = target
+    }
+}
+
+extension GetFunctionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFunctionOutput(arn: \(Swift.String(describing: arn)), contextTypes: \(Swift.String(describing: contextTypes)), eventBridgeDelivery: \(Swift.String(describing: eventBridgeDelivery)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), references: \(Swift.String(describing: references)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", requestExpression: \"CONTENT_REDACTED\", responseExpression: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListFunctionsInput: Swift.Sendable {
+    /// The maximum number of functions to return in one response. Valid range: 1 to 100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the page of results to return. Use the nextToken value from a previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Contains identifying and configuration details for a function, including its name, target, status, and derived media context.
+    public struct FunctionSummary: Swift.Sendable {
+        /// The ARN of the function.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The kinds of media context that this function uses. Elemental Inference derives this field from the media paths that the request expression references; you can't set it. An empty list means that the expression references no media, so Elemental Inference supplies none at run time.
+        public var contextTypes: [ElementalInferenceClientTypes.ContextType]?
+        /// The description of the function.
+        public var description: Swift.String?
+        /// The ID of the function.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the function.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the function.
+        /// This member is required.
+        public var status: ElementalInferenceClientTypes.FunctionStatus?
+        /// The destination for the request that the function builds.
+        public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+        public init(
+            arn: Swift.String? = nil,
+            contextTypes: [ElementalInferenceClientTypes.ContextType]? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ElementalInferenceClientTypes.FunctionStatus? = nil,
+            target: ElementalInferenceClientTypes.FunctionTarget? = nil
+        ) {
+            self.arn = arn
+            self.contextTypes = contextTypes
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.target = target
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes.FunctionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FunctionSummary(arn: \(Swift.String(describing: arn)), contextTypes: \(Swift.String(describing: contextTypes)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListFunctionsOutput: Swift.Sendable {
+    /// An array of function summaries.
+    /// This member is required.
+    public var functions: [ElementalInferenceClientTypes.FunctionSummary]?
+    /// The token to use in a subsequent request to get the next page of results. This field is absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        functions: [ElementalInferenceClientTypes.FunctionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.functions = functions
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateFunctionInput: Swift.Sendable {
+    /// A new description for the function.
+    public var description: Swift.String?
+    /// Specifies whether Elemental Inference also sends this function's marked results to Amazon EventBridge, as described for CreateFunction. If you omit this parameter, the current value is kept. While a feed references the function, you can change this value to DISABLED, but not to ENABLED.
+    public var eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode?
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A new name for the function. You can't change the name while the function is referenced by a feed.
+    public var name: Swift.String?
+    /// A new request expression for the function. Elemental Inference derives contextTypes again from the new expression. While a feed references the function, the new expression must reference the same media context as the current one.
+    public var requestExpression: Swift.String?
+    /// A new response expression for the function. To remove the response expression, specify an empty string. A function with a Bedrock target and eventBridgeDelivery set to ENABLED must keep a response expression.
+    public var responseExpression: Swift.String?
+    /// A new target for the function. You can't change the target while the function is referenced by a feed.
+    public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+    public init(
+        description: Swift.String? = nil,
+        eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        requestExpression: Swift.String? = nil,
+        responseExpression: Swift.String? = nil,
+        target: ElementalInferenceClientTypes.FunctionTarget? = nil
+    ) {
+        self.description = description
+        self.eventBridgeDelivery = eventBridgeDelivery
+        self.id = id
+        self.name = name
+        self.requestExpression = requestExpression
+        self.responseExpression = responseExpression
+        self.target = target
+    }
+}
+
+extension UpdateFunctionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFunctionInput(eventBridgeDelivery: \(Swift.String(describing: eventBridgeDelivery)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", requestExpression: \"CONTENT_REDACTED\", responseExpression: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateFunctionOutput: Swift.Sendable {
+    /// The ARN of the function.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The kinds of media context that this function uses. Elemental Inference derives this field from the media paths that the request expression references; you can't set it. An empty list means that the expression references no media, so Elemental Inference supplies none at run time.
+    public var contextTypes: [ElementalInferenceClientTypes.ContextType]?
+    /// The description of the function.
+    public var description: Swift.String?
+    /// Indicates whether Elemental Inference also sends this function's results to Amazon EventBridge. With ENABLED, each result that is a JSON object with a top-level eventBridge field set to true is also sent as a Function Metadata Generated event to the default event bus in your account.
+    public var eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode?
+    /// The ID of the function.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the function.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IDs of the feeds that have a function output, enabled or disabled, that references this function. While this list isn't empty, the function can't be deleted, and its name and target can't be changed.
+    public var references: [Swift.String]?
+    /// The JSONata expression that builds the request. Elemental Inference evaluates it against the media object of the feed, which holds the media and metadata that the function asked for.
+    /// This member is required.
+    public var requestExpression: Swift.String?
+    /// The JSONata expression that selects what to store. Elemental Inference evaluates it against the result as its root: the model response for a Bedrock target, or the output of the request expression for a passthrough target. If a function has no response expression, Elemental Inference stores the entire result.
+    public var responseExpression: Swift.String?
+    /// The status of the function.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.FunctionStatus?
+    /// The tags associated with the function.
+    public var tags: [Swift.String: Swift.String]?
+    /// The destination for the request that the function builds.
+    /// This member is required.
+    public var target: ElementalInferenceClientTypes.FunctionTarget?
+
+    public init(
+        arn: Swift.String? = nil,
+        contextTypes: [ElementalInferenceClientTypes.ContextType]? = nil,
+        description: Swift.String? = nil,
+        eventBridgeDelivery: ElementalInferenceClientTypes.EventBridgeDeliveryMode? = .disabled,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        requestExpression: Swift.String? = nil,
+        responseExpression: Swift.String? = nil,
+        status: ElementalInferenceClientTypes.FunctionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        target: ElementalInferenceClientTypes.FunctionTarget? = nil
+    ) {
+        self.arn = arn
+        self.contextTypes = contextTypes
+        self.description = description
+        self.eventBridgeDelivery = eventBridgeDelivery
+        self.id = id
+        self.name = name
+        self.references = references
+        self.requestExpression = requestExpression
+        self.responseExpression = responseExpression
+        self.status = status
+        self.tags = tags
+        self.target = target
+    }
+}
+
+extension UpdateFunctionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFunctionOutput(arn: \(Swift.String(describing: arn)), contextTypes: \(Swift.String(describing: contextTypes)), eventBridgeDelivery: \(Swift.String(describing: eventBridgeDelivery)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), references: \(Swift.String(describing: references)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", requestExpression: \"CONTENT_REDACTED\", responseExpression: \"CONTENT_REDACTED\")"}
+}
+
 /// The request timed out before the service returned a response. This is a temporary condition. Retry the request. If the problem persists, contact AWS Support.
 public struct GatewayTimedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2036,6 +3259,297 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct GetQuestionSetInput: Swift.Sendable {
+    /// The ID of the question set to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The version of the question set to retrieve: DRAFT or the number of a published version. If you don't specify a version, Elemental Inference returns DRAFT.
+    public var questionSetVersion: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        questionSetVersion: Swift.String? = nil
+    ) {
+        self.id = id
+        self.questionSetVersion = questionSetVersion
+    }
+}
+
+public struct GetQuestionSetOutput: Swift.Sendable {
+    /// The ARN of the question set.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The chooseOne questions in this version. Elemental Inference doesn't return this property if the version has no chooseOne questions.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// The description that you specified when you published this version. Elemental Inference doesn't return this property for DRAFT, or for a version that you published without a description.
+    public var description: Swift.String?
+    /// The ID of the question set.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The number of the highest version that you have published for this question set, even if you have since deleted that version. Elemental Inference doesn't return this property if you haven't published a version.
+    public var latestVersion: Swift.String?
+    /// The name of the question set at this version. For a published version, this is the name that the question set had when the version was published.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this version of the question set. The list doesn't include feeds that reference other versions.
+    public var references: [Swift.String]?
+    /// The SHA-256 hash of this version, as 64 lowercase hexadecimal characters. The hash covers the name of the question set and its questions at this version. For DRAFT, you can specify this value in a CreateQuestionSetVersion request, so that Elemental Inference publishes DRAFT only if it hasn't changed.
+    /// This member is required.
+    public var sha256: Swift.String?
+    /// The tags associated with the question set.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version that this response describes: DRAFT or the number of a published version.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The yesNo questions in this version. Elemental Inference doesn't return this property if the version has no yesNo questions.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// The yesNoPerOption questions in this version. Elemental Inference doesn't return this property if the version has no yesNoPerOption questions.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        arn: Swift.String? = nil,
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        latestVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        sha256: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.arn = arn
+        self.chooseOne = chooseOne
+        self.description = description
+        self.id = id
+        self.latestVersion = latestVersion
+        self.name = name
+        self.references = references
+        self.sha256 = sha256
+        self.tags = tags
+        self.version = version
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
+    }
+}
+
+public struct ListQuestionSetsInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the next batch of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Contains summary information about a question set. Used in the ListQuestionSets response.
+    public struct QuestionSetSummary: Swift.Sendable {
+        /// The ARN of the question set.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the question set.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The number of the highest version that you have published for this question set, even if you have since deleted that version. Elemental Inference doesn't return this property if you haven't published a version.
+        public var latestVersion: Swift.String?
+        /// The name of the question set.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            latestVersion: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.latestVersion = latestVersion
+            self.name = name
+        }
+    }
+}
+
+public struct ListQuestionSetsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next batch of results.
+    public var nextToken: Swift.String?
+    /// A list of QuestionSetSummary objects.
+    /// This member is required.
+    public var questionSets: [ElementalInferenceClientTypes.QuestionSetSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        questionSets: [ElementalInferenceClientTypes.QuestionSetSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.questionSets = questionSets
+    }
+}
+
+public struct ListQuestionSetVersionsInput: Swift.Sendable {
+    /// The ID of the question set whose versions you want to list.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return per API request. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the next batch of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Contains summary information about one version of a question set. Used in the ListQuestionSetVersions response.
+    public struct QuestionSetVersionSummary: Swift.Sendable {
+        /// The description that you specified when you published this version. Elemental Inference doesn't return this property for DRAFT, or for a version that you published without a description.
+        public var description: Swift.String?
+        /// For DRAFT, the time when you created the question set or last updated DRAFT. For a published version, the time when you published it.
+        /// This member is required.
+        public var lastModifiedAt: Foundation.Date?
+        /// The SHA-256 hash of this version, as 64 lowercase hexadecimal characters. The hash covers the name of the question set and its questions at this version.
+        /// This member is required.
+        public var sha256: Swift.String?
+        /// The version: DRAFT or the number of a published version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            sha256: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.description = description
+            self.lastModifiedAt = lastModifiedAt
+            self.sha256 = sha256
+            self.version = version
+        }
+    }
+}
+
+public struct ListQuestionSetVersionsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next batch of results.
+    public var nextToken: Swift.String?
+    /// A list of QuestionSetVersionSummary objects.
+    /// This member is required.
+    public var versions: [ElementalInferenceClientTypes.QuestionSetVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        versions: [ElementalInferenceClientTypes.QuestionSetVersionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.versions = versions
+    }
+}
+
+public struct UpdateQuestionSetInput: Swift.Sendable {
+    /// An array of questions that Elemental Inference answers by choosing one of their options, to replace all the chooseOne questions in DRAFT. You can specify up to 10 chooseOne questions. If not specified, the chooseOne questions are not changed. To remove all the chooseOne questions, specify an empty array.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// The ID of the question set to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A new name for the question set. If not specified, the name is not changed.
+    public var name: Swift.String?
+    /// An array of questions that Elemental Inference answers with yes or no, to replace all the yesNo questions in DRAFT. You can specify up to 50 yesNo questions. If not specified, the yesNo questions are not changed. To remove all the yesNo questions, specify an empty array.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// An array of questions that you ask about each of their options, to replace all the yesNoPerOption questions in DRAFT. You can specify up to 10 yesNoPerOption questions. If not specified, the yesNoPerOption questions are not changed. To remove all the yesNoPerOption questions, specify an empty array.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.chooseOne = chooseOne
+        self.id = id
+        self.name = name
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
+    }
+}
+
+public struct UpdateQuestionSetOutput: Swift.Sendable {
+    /// The ARN of the question set.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The chooseOne questions in this version. Elemental Inference doesn't return this property if the version has no chooseOne questions.
+    public var chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]?
+    /// The description of the version. Elemental Inference doesn't return this property for UpdateQuestionSet, because the DRAFT version has no description.
+    public var description: Swift.String?
+    /// The ID of the question set.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The number of the highest version that you have published for this question set, even if you have since deleted that version. Elemental Inference doesn't return this property if you haven't published a version.
+    public var latestVersion: Swift.String?
+    /// The updated or original name of the question set.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference the DRAFT version of the question set.
+    public var references: [Swift.String]?
+    /// The SHA-256 hash of the DRAFT version after the update, as 64 lowercase hexadecimal characters. The hash covers the name of the question set and its questions, so it changes when you rename the question set. You can specify this value in a CreateQuestionSetVersion request, so that Elemental Inference publishes DRAFT only if it hasn't changed since this update.
+    /// This member is required.
+    public var sha256: Swift.String?
+    /// Any tags associated with the question set.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version that this response describes. For UpdateQuestionSet, the version is always DRAFT.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The yesNo questions in this version. Elemental Inference doesn't return this property if the version has no yesNo questions.
+    public var yesNo: [ElementalInferenceClientTypes.YesNoQuestion]?
+    /// The yesNoPerOption questions in this version. Elemental Inference doesn't return this property if the version has no yesNoPerOption questions.
+    public var yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]?
+
+    public init(
+        arn: Swift.String? = nil,
+        chooseOne: [ElementalInferenceClientTypes.ChooseOneQuestion]? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        latestVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        sha256: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil,
+        yesNo: [ElementalInferenceClientTypes.YesNoQuestion]? = nil,
+        yesNoPerOption: [ElementalInferenceClientTypes.YesNoPerOptionQuestion]? = nil
+    ) {
+        self.arn = arn
+        self.chooseOne = chooseOne
+        self.description = description
+        self.id = id
+        self.latestVersion = latestVersion
+        self.name = name
+        self.references = references
+        self.sha256 = sha256
+        self.tags = tags
+        self.version = version
+        self.yesNo = yesNo
+        self.yesNoPerOption = yesNoPerOption
     }
 }
 
@@ -2232,6 +3746,30 @@ extension CreateFeedInput {
     }
 }
 
+extension CreateFunctionInput {
+
+    static func urlPathProvider(_ value: CreateFunctionInput) -> Swift.String? {
+        return "/v1/function"
+    }
+}
+
+extension CreateQuestionSetInput {
+
+    static func urlPathProvider(_ value: CreateQuestionSetInput) -> Swift.String? {
+        return "/v1/question-set"
+    }
+}
+
+extension CreateQuestionSetVersionInput {
+
+    static func urlPathProvider(_ value: CreateQuestionSetVersionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())/versions"
+    }
+}
+
 extension CreateScheduleActionInput {
 
     static func urlPathProvider(_ value: CreateScheduleActionInput) -> Swift.String? {
@@ -2269,6 +3807,39 @@ extension DeleteFeedPolicyInput {
             return nil
         }
         return "/v1/feed/\(id.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteFunctionInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/function/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteQuestionSetInput {
+
+    static func urlPathProvider(_ value: DeleteQuestionSetInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteQuestionSetVersionInput {
+
+    static func urlPathProvider(_ value: DeleteQuestionSetVersionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        guard let questionSetVersion = value.questionSetVersion else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())/versions/\(questionSetVersion.urlPercentEncoding())"
     }
 }
 
@@ -2356,6 +3927,38 @@ extension GetFixtureInput {
     }
 }
 
+extension GetFunctionInput {
+
+    static func urlPathProvider(_ value: GetFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/function/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetQuestionSetInput {
+
+    static func urlPathProvider(_ value: GetQuestionSetInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetQuestionSetInput {
+
+    static func queryItemProvider(_ value: GetQuestionSetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let questionSetVersion = value.questionSetVersion {
+            let questionSetVersionQueryItem = Smithy.URIQueryItem(name: "questionSetVersion".urlPercentEncoding(), value: Swift.String(questionSetVersion).urlPercentEncoding())
+            items.append(questionSetVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDictionariesInput {
 
     static func urlPathProvider(_ value: ListDictionariesInput) -> Swift.String? {
@@ -2389,6 +3992,78 @@ extension ListFeedsInput {
 extension ListFeedsInput {
 
     static func queryItemProvider(_ value: ListFeedsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListFunctionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionsInput) -> Swift.String? {
+        return "/v1/functions"
+    }
+}
+
+extension ListFunctionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQuestionSetsInput {
+
+    static func urlPathProvider(_ value: ListQuestionSetsInput) -> Swift.String? {
+        return "/v1/question-sets"
+    }
+}
+
+extension ListQuestionSetsInput {
+
+    static func queryItemProvider(_ value: ListQuestionSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQuestionSetVersionsInput {
+
+    static func urlPathProvider(_ value: ListQuestionSetVersionsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListQuestionSetVersionsInput {
+
+    static func queryItemProvider(_ value: ListQuestionSetVersionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -2511,6 +4186,26 @@ extension UpdateFeedInput {
     }
 }
 
+extension UpdateFunctionInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/function/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateQuestionSetInput {
+
+    static func urlPathProvider(_ value: UpdateQuestionSetInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/question-set/\(id.urlPercentEncoding())"
+    }
+}
+
 extension AssociateFeedInput {
 
     static func write(value: AssociateFeedInput?, to writer: SmithyJSON.Writer) throws {
@@ -2540,6 +4235,41 @@ extension CreateFeedInput {
         try writer["name"].write(value.name)
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: ElementalInferenceClientTypes.CreateOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateFunctionInput {
+
+    static func write(value: CreateFunctionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["eventBridgeDelivery"].write(value.eventBridgeDelivery)
+        try writer["name"].write(value.name)
+        try writer["requestExpression"].write(value.requestExpression)
+        try writer["responseExpression"].write(value.responseExpression)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["target"].write(value.target, with: ElementalInferenceClientTypes.FunctionTarget.write(value:to:))
+    }
+}
+
+extension CreateQuestionSetInput {
+
+    static func write(value: CreateQuestionSetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chooseOne"].writeList(value.chooseOne, memberWritingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["yesNo"].writeList(value.yesNo, memberWritingClosure: ElementalInferenceClientTypes.YesNoQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["yesNoPerOption"].writeList(value.yesNoPerOption, memberWritingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateQuestionSetVersionInput {
+
+    static func write(value: CreateQuestionSetVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["sha256"].write(value.sha256)
     }
 }
 
@@ -2611,6 +4341,30 @@ extension UpdateFeedInput {
     }
 }
 
+extension UpdateFunctionInput {
+
+    static func write(value: UpdateFunctionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["eventBridgeDelivery"].write(value.eventBridgeDelivery)
+        try writer["name"].write(value.name)
+        try writer["requestExpression"].write(value.requestExpression)
+        try writer["responseExpression"].write(value.responseExpression)
+        try writer["target"].write(value.target, with: ElementalInferenceClientTypes.FunctionTarget.write(value:to:))
+    }
+}
+
+extension UpdateQuestionSetInput {
+
+    static func write(value: UpdateQuestionSetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chooseOne"].writeList(value.chooseOne, memberWritingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["yesNo"].writeList(value.yesNo, memberWritingClosure: ElementalInferenceClientTypes.YesNoQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["yesNoPerOption"].writeList(value.yesNoPerOption, memberWritingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension AssociateFeedOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateFeedOutput {
@@ -2658,6 +4412,75 @@ extension CreateFeedOutput {
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.GetOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateFunctionOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.contextTypes = try reader["contextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElementalInferenceClientTypes.ContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.eventBridgeDelivery = try reader["eventBridgeDelivery"].readIfPresent() ?? ElementalInferenceClientTypes.EventBridgeDeliveryMode.disabled
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestExpression = try reader["requestExpression"].readIfPresent() ?? ""
+        value.responseExpression = try reader["responseExpression"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.target = try reader["target"].readIfPresent(with: ElementalInferenceClientTypes.FunctionTarget.read(from:))
+        return value
+    }
+}
+
+extension CreateQuestionSetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQuestionSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQuestionSetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.chooseOne = try reader["chooseOne"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sha256 = try reader["sha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.yesNo = try reader["yesNo"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.yesNoPerOption = try reader["yesNoPerOption"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateQuestionSetVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQuestionSetVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQuestionSetVersionOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.chooseOne = try reader["chooseOne"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sha256 = try reader["sha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.yesNo = try reader["yesNo"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.yesNoPerOption = try reader["yesNoPerOption"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2710,6 +4533,40 @@ extension DeleteFeedPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFeedPolicyOutput {
         return DeleteFeedPolicyOutput()
+    }
+}
+
+extension DeleteFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteFunctionOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteQuestionSetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuestionSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteQuestionSetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteQuestionSetVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuestionSetVersionOutput {
+        return DeleteQuestionSetVersionOutput()
     }
 }
 
@@ -2817,6 +4674,52 @@ extension GetFixtureOutput {
     }
 }
 
+extension GetFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFunctionOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.contextTypes = try reader["contextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElementalInferenceClientTypes.ContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.eventBridgeDelivery = try reader["eventBridgeDelivery"].readIfPresent() ?? ElementalInferenceClientTypes.EventBridgeDeliveryMode.disabled
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestExpression = try reader["requestExpression"].readIfPresent() ?? ""
+        value.responseExpression = try reader["responseExpression"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.target = try reader["target"].readIfPresent(with: ElementalInferenceClientTypes.FunctionTarget.read(from:))
+        return value
+    }
+}
+
+extension GetQuestionSetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQuestionSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQuestionSetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.chooseOne = try reader["chooseOne"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sha256 = try reader["sha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.yesNo = try reader["yesNo"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.yesNoPerOption = try reader["yesNoPerOption"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListDictionariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDictionariesOutput {
@@ -2839,6 +4742,45 @@ extension ListFeedsOutput {
         var value = ListFeedsOutput()
         value.feeds = try reader["feeds"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.FeedSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFunctionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFunctionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFunctionsOutput()
+        value.functions = try reader["functions"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.FunctionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListQuestionSetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuestionSetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQuestionSetsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.questionSets = try reader["questionSets"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.QuestionSetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListQuestionSetVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuestionSetVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQuestionSetVersionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.QuestionSetVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2940,6 +4882,52 @@ extension UpdateFeedOutput {
     }
 }
 
+extension UpdateFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFunctionOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.contextTypes = try reader["contextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElementalInferenceClientTypes.ContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.eventBridgeDelivery = try reader["eventBridgeDelivery"].readIfPresent() ?? ElementalInferenceClientTypes.EventBridgeDeliveryMode.disabled
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestExpression = try reader["requestExpression"].readIfPresent() ?? ""
+        value.responseExpression = try reader["responseExpression"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.target = try reader["target"].readIfPresent(with: ElementalInferenceClientTypes.FunctionTarget.read(from:))
+        return value
+    }
+}
+
+extension UpdateQuestionSetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQuestionSetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQuestionSetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.chooseOne = try reader["chooseOne"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ChooseOneQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sha256 = try reader["sha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.yesNo = try reader["yesNo"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.yesNoPerOption = try reader["yesNoPerOption"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.YesNoPerOptionQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 enum AssociateFeedOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2990,6 +4978,64 @@ enum CreateFeedOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQuestionSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQuestionSetVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3065,6 +5111,63 @@ enum DeleteFeedPolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQuestionSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQuestionSetVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
@@ -3203,6 +5306,42 @@ enum GetFixtureOutputError {
     }
 }
 
+enum GetFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQuestionSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDictionariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3221,6 +5360,58 @@ enum ListDictionariesOutputError {
 }
 
 enum ListFeedsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFunctionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQuestionSetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQuestionSetVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3389,6 +5580,44 @@ enum UpdateFeedOutputError {
     }
 }
 
+enum UpdateFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQuestionSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -3523,6 +5752,42 @@ extension ElementalInferenceClientTypes.AspectRatio {
     }
 }
 
+extension ElementalInferenceClientTypes.BedrockFunctionTarget {
+
+    static func write(value: ElementalInferenceClientTypes.BedrockFunctionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["api"].write(value.api)
+        try writer["model"].write(value.model)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.BedrockFunctionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.BedrockFunctionTarget()
+        value.api = try reader["api"].readIfPresent() ?? .sdkUnknown("")
+        value.model = try reader["model"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ChooseOneQuestion {
+
+    static func write(value: ElementalInferenceClientTypes.ChooseOneQuestion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["options"].writeList(value.options, memberWritingClosure: ElementalInferenceClientTypes.QuestionOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["question"].write(value.question)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ChooseOneQuestion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ChooseOneQuestion()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.question = try reader["question"].readIfPresent() ?? ""
+        value.options = try reader["options"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.QuestionOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.ClippingConfig {
 
     static func write(value: ElementalInferenceClientTypes.ClippingConfig?, to writer: SmithyJSON.Writer) throws {
@@ -3537,6 +5802,34 @@ extension ElementalInferenceClientTypes.ClippingConfig {
         value.callbackMetadata = try reader["callbackMetadata"].readIfPresent()
         value.dataSourceConfiguration = try reader["dataSourceConfiguration"].readIfPresent(with: ElementalInferenceClientTypes.DataSourceConfiguration.read(from:))
         return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ClippingSettings {
+
+    static func write(value: ElementalInferenceClientTypes.ClippingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputName"].write(value.outputName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ClippingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ClippingSettings()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ClipTrigger {
+
+    static func write(value: ElementalInferenceClientTypes.ClipTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ClipTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ElementalInferenceClientTypes.ClipTrigger()
     }
 }
 
@@ -3555,6 +5848,7 @@ extension ElementalInferenceClientTypes.ContextualMetadataConfig {
 
     static func write(value: ElementalInferenceClientTypes.ContextualMetadataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customQuestions"].write(value.customQuestions, with: ElementalInferenceClientTypes.CustomQuestionsConfig.write(value:to:))
         try writer["extendedAnalysis"].write(value.extendedAnalysis)
         try writer["summaryGeneration"].write(value.summaryGeneration)
     }
@@ -3564,6 +5858,22 @@ extension ElementalInferenceClientTypes.ContextualMetadataConfig {
         var value = ElementalInferenceClientTypes.ContextualMetadataConfig()
         value.summaryGeneration = try reader["summaryGeneration"].readIfPresent()
         value.extendedAnalysis = try reader["extendedAnalysis"].readIfPresent()
+        value.customQuestions = try reader["customQuestions"].readIfPresent(with: ElementalInferenceClientTypes.CustomQuestionsConfig.read(from:))
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ContextualMetadataSettings {
+
+    static func write(value: ElementalInferenceClientTypes.ContextualMetadataSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputName"].write(value.outputName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ContextualMetadataSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ContextualMetadataSettings()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3590,6 +5900,23 @@ extension ElementalInferenceClientTypes.CroppingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElementalInferenceClientTypes.CroppingConfig()
         value.templateGroups = try reader["templateGroups"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.TemplateGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.CustomQuestionsConfig {
+
+    static func write(value: ElementalInferenceClientTypes.CustomQuestionsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scene"].write(value.scene, with: ElementalInferenceClientTypes.QuestionSetReference.write(value:to:))
+        try writer["shot"].write(value.shot, with: ElementalInferenceClientTypes.QuestionSetReference.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.CustomQuestionsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.CustomQuestionsConfig()
+        value.shot = try reader["shot"].readIfPresent(with: ElementalInferenceClientTypes.QuestionSetReference.read(from:))
+        value.scene = try reader["scene"].readIfPresent(with: ElementalInferenceClientTypes.QuestionSetReference.read(from:))
         return value
     }
 }
@@ -3647,6 +5974,21 @@ extension ElementalInferenceClientTypes.FeedSummary {
     }
 }
 
+extension ElementalInferenceClientTypes.FixedIntervalTrigger {
+
+    static func write(value: ElementalInferenceClientTypes.FixedIntervalTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intervalSeconds"].write(value.intervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FixedIntervalTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FixedIntervalTrigger()
+        value.intervalSeconds = try reader["intervalSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings {
 
     static func write(value: ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings?, to writer: SmithyJSON.Writer) throws {
@@ -3677,6 +6019,126 @@ extension ElementalInferenceClientTypes.FixtureSummary {
     }
 }
 
+extension ElementalInferenceClientTypes.FrameSamplingStrategy {
+
+    static func write(value: ElementalInferenceClientTypes.FrameSamplingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["count"].write(value.count)
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FrameSamplingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FrameSamplingStrategy()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.count = try reader["count"].readIfPresent()
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.FrameSettings {
+
+    static func write(value: ElementalInferenceClientTypes.FrameSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["frameSampling"].write(value.frameSampling, with: ElementalInferenceClientTypes.FrameSamplingStrategy.write(value:to:))
+        try writer["frameSize"].write(value.frameSize, with: ElementalInferenceClientTypes.FrameSize.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FrameSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FrameSettings()
+        value.frameSampling = try reader["frameSampling"].readIfPresent(with: ElementalInferenceClientTypes.FrameSamplingStrategy.read(from:))
+        value.frameSize = try reader["frameSize"].readIfPresent(with: ElementalInferenceClientTypes.FrameSize.read(from:))
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.FrameSize {
+
+    static func write(value: ElementalInferenceClientTypes.FrameSize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["heightPixels"].write(value.heightPixels)
+        try writer["widthPixels"].write(value.widthPixels)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FrameSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FrameSize()
+        value.widthPixels = try reader["widthPixels"].readIfPresent() ?? 0
+        value.heightPixels = try reader["heightPixels"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.FunctionConfig {
+
+    static func write(value: ElementalInferenceClientTypes.FunctionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clippingSettings"].write(value.clippingSettings, with: ElementalInferenceClientTypes.ClippingSettings.write(value:to:))
+        try writer["contextualMetadataSettings"].write(value.contextualMetadataSettings, with: ElementalInferenceClientTypes.ContextualMetadataSettings.write(value:to:))
+        try writer["frameSettings"].write(value.frameSettings, with: ElementalInferenceClientTypes.FrameSettings.write(value:to:))
+        try writer["functionArn"].write(value.functionArn)
+        try writer["subtitlingSettings"].write(value.subtitlingSettings, with: ElementalInferenceClientTypes.SubtitlingSettings.write(value:to:))
+        try writer["trigger"].write(value.trigger, with: ElementalInferenceClientTypes.Trigger.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FunctionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FunctionConfig()
+        value.functionArn = try reader["functionArn"].readIfPresent() ?? ""
+        value.trigger = try reader["trigger"].readIfPresent(with: ElementalInferenceClientTypes.Trigger.read(from:))
+        value.frameSettings = try reader["frameSettings"].readIfPresent(with: ElementalInferenceClientTypes.FrameSettings.read(from:))
+        value.subtitlingSettings = try reader["subtitlingSettings"].readIfPresent(with: ElementalInferenceClientTypes.SubtitlingSettings.read(from:))
+        value.contextualMetadataSettings = try reader["contextualMetadataSettings"].readIfPresent(with: ElementalInferenceClientTypes.ContextualMetadataSettings.read(from:))
+        value.clippingSettings = try reader["clippingSettings"].readIfPresent(with: ElementalInferenceClientTypes.ClippingSettings.read(from:))
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.FunctionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FunctionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FunctionSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.target = try reader["target"].readIfPresent(with: ElementalInferenceClientTypes.FunctionTarget.read(from:))
+        value.contextTypes = try reader["contextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElementalInferenceClientTypes.ContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.FunctionTarget {
+
+    static func write(value: ElementalInferenceClientTypes.FunctionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bedrock(bedrock):
+                try writer["bedrock"].write(bedrock, with: ElementalInferenceClientTypes.BedrockFunctionTarget.write(value:to:))
+            case let .passthrough(passthrough):
+                try writer["passthrough"].write(passthrough, with: ElementalInferenceClientTypes.PassthroughFunctionTarget.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FunctionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bedrock":
+                return .bedrock(try reader["bedrock"].read(with: ElementalInferenceClientTypes.BedrockFunctionTarget.read(from:)))
+            case "passthrough":
+                return .passthrough(try reader["passthrough"].read(with: ElementalInferenceClientTypes.PassthroughFunctionTarget.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ElementalInferenceClientTypes.GetOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.GetOutput {
@@ -3702,6 +6164,8 @@ extension ElementalInferenceClientTypes.OutputConfig {
                 try writer["contextualMetadata"].write(contextualmetadata, with: ElementalInferenceClientTypes.ContextualMetadataConfig.write(value:to:))
             case let .cropping(cropping):
                 try writer["cropping"].write(cropping, with: ElementalInferenceClientTypes.CroppingConfig.write(value:to:))
+            case let .function(function):
+                try writer["function"].write(function, with: ElementalInferenceClientTypes.FunctionConfig.write(value:to:))
             case let .subtitling(subtitling):
                 try writer["subtitling"].write(subtitling, with: ElementalInferenceClientTypes.SubtitlingConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -3721,9 +6185,84 @@ extension ElementalInferenceClientTypes.OutputConfig {
                 return .subtitling(try reader["subtitling"].read(with: ElementalInferenceClientTypes.SubtitlingConfig.read(from:)))
             case "contextualMetadata":
                 return .contextualmetadata(try reader["contextualMetadata"].read(with: ElementalInferenceClientTypes.ContextualMetadataConfig.read(from:)))
+            case "function":
+                return .function(try reader["function"].read(with: ElementalInferenceClientTypes.FunctionConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ElementalInferenceClientTypes.PassthroughFunctionTarget {
+
+    static func write(value: ElementalInferenceClientTypes.PassthroughFunctionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.PassthroughFunctionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ElementalInferenceClientTypes.PassthroughFunctionTarget()
+    }
+}
+
+extension ElementalInferenceClientTypes.QuestionOption {
+
+    static func write(value: ElementalInferenceClientTypes.QuestionOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.QuestionOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.QuestionOption()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.QuestionSetReference {
+
+    static func write(value: ElementalInferenceClientTypes.QuestionSetReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["questionSetId"].write(value.questionSetId)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.QuestionSetReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.QuestionSetReference()
+        value.questionSetId = try reader["questionSetId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.QuestionSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.QuestionSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.QuestionSetSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.QuestionSetVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.QuestionSetVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.QuestionSetVersionSummary()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.sha256 = try reader["sha256"].readIfPresent() ?? ""
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -3739,6 +6278,19 @@ extension ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration {
         var value = ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration()
         value.outputName = try reader["outputName"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ElementalInferenceClientTypes.SceneTrigger {
+
+    static func write(value: ElementalInferenceClientTypes.SceneTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.SceneTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ElementalInferenceClientTypes.SceneTrigger()
     }
 }
 
@@ -3832,6 +6384,19 @@ extension ElementalInferenceClientTypes.SearchFilter {
     }
 }
 
+extension ElementalInferenceClientTypes.ShotTrigger {
+
+    static func write(value: ElementalInferenceClientTypes.ShotTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ShotTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ElementalInferenceClientTypes.ShotTrigger()
+    }
+}
+
 extension ElementalInferenceClientTypes.SubtitlingConfig {
 
     static func write(value: ElementalInferenceClientTypes.SubtitlingConfig?, to writer: SmithyJSON.Writer) throws {
@@ -3853,6 +6418,21 @@ extension ElementalInferenceClientTypes.SubtitlingConfig {
     }
 }
 
+extension ElementalInferenceClientTypes.SubtitlingSettings {
+
+    static func write(value: ElementalInferenceClientTypes.SubtitlingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputName"].write(value.outputName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.SubtitlingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.SubtitlingSettings()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.TemplateGroup {
 
     static func write(value: ElementalInferenceClientTypes.TemplateGroup?, to writer: SmithyJSON.Writer) throws {
@@ -3867,6 +6447,42 @@ extension ElementalInferenceClientTypes.TemplateGroup {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.templateUris = try reader["templateUris"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension ElementalInferenceClientTypes.Trigger {
+
+    static func write(value: ElementalInferenceClientTypes.Trigger?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fixedinterval(fixedinterval):
+                try writer["fixedInterval"].write(fixedinterval, with: ElementalInferenceClientTypes.FixedIntervalTrigger.write(value:to:))
+            case let .perclip(perclip):
+                try writer["perClip"].write(perclip, with: ElementalInferenceClientTypes.ClipTrigger.write(value:to:))
+            case let .perscene(perscene):
+                try writer["perScene"].write(perscene, with: ElementalInferenceClientTypes.SceneTrigger.write(value:to:))
+            case let .pershot(pershot):
+                try writer["perShot"].write(pershot, with: ElementalInferenceClientTypes.ShotTrigger.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.Trigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fixedInterval":
+                return .fixedinterval(try reader["fixedInterval"].read(with: ElementalInferenceClientTypes.FixedIntervalTrigger.read(from:)))
+            case "perShot":
+                return .pershot(try reader["perShot"].read(with: ElementalInferenceClientTypes.ShotTrigger.read(from:)))
+            case "perScene":
+                return .perscene(try reader["perScene"].read(with: ElementalInferenceClientTypes.SceneTrigger.read(from:)))
+            case "perClip":
+                return .perclip(try reader["perClip"].read(with: ElementalInferenceClientTypes.ClipTrigger.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -3912,6 +6528,42 @@ extension ElementalInferenceClientTypes.UpdateOutputStatus {
         var value = ElementalInferenceClientTypes.UpdateOutputStatus()
         value.outputName = try reader["outputName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.YesNoPerOptionQuestion {
+
+    static func write(value: ElementalInferenceClientTypes.YesNoPerOptionQuestion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["options"].writeList(value.options, memberWritingClosure: ElementalInferenceClientTypes.QuestionOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["question"].write(value.question)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.YesNoPerOptionQuestion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.YesNoPerOptionQuestion()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.question = try reader["question"].readIfPresent() ?? ""
+        value.options = try reader["options"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.QuestionOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.YesNoQuestion {
+
+    static func write(value: ElementalInferenceClientTypes.YesNoQuestion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["question"].write(value.question)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.YesNoQuestion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.YesNoQuestion()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.question = try reader["question"].readIfPresent() ?? ""
         return value
     }
 }

@@ -39,6 +39,7 @@ val codegenTests = listOf(
     ProtocolTest("EventStream", "aws.protocoltests.eventstream#TestService", true),
     ProtocolTest("RPCEventStream", "aws.protocoltests.eventstream#RPCTestService"),
     ProtocolTest("StringArrayEndpointParam", "aws.endpointtests.stringarray#EndpointStringArray", true)
+    ProtocolTest("EndpointBDD", "aws.endpointtests.bdd#ServiceWithEndpointBdd"),
 )
 
 fun generateSmithyBuild(tests: List<ProtocolTest>): String {

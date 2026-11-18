@@ -314,7 +314,7 @@ extension MarketplaceAgreementClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Marketplace Agreement"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension MarketplaceAgreementClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Marketplace Agreement"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,13 +607,95 @@ extension MarketplaceAgreementClient {
     public static func builder() -> ClientRuntime.ClientBuilder<MarketplaceAgreementClient> {
         return ClientRuntime.ClientBuilder<MarketplaceAgreementClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Marketplace Agreement"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
 }
 
 extension MarketplaceAgreementClient {
+    /// Performs the `AcceptAgreementApproval` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows the management account or a delegated administrator of the buyer's AWS organization to approve an agreement approval that is in PENDING_APPROVAL status, as the organization administrator approver or on behalf of another approver. Once every level is approved, the agreement approval transitions to APPROVED status. You can optionally provide purchase order references and a note.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AcceptAgreementApprovalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AcceptAgreementApprovalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Request was denied due to a resource conflict.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func acceptAgreementApproval(input: AcceptAgreementApprovalInput) async throws -> AcceptAgreementApprovalOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.acceptAgreementApprovalOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptAgreementApproval")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementApprovalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptAgreementApprovalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAgreementApprovalInput, AcceptAgreementApprovalOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptAgreementApproval")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AcceptAgreementCancellationRequest` operation on the `MarketplaceAgreement` service.
     ///
     /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed. Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status.
@@ -793,6 +875,7 @@ extension MarketplaceAgreementClient {
     /// - `ConflictException` : Request was denied due to a resource conflict.
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request exceeded the maximum allowed limit (quota) for a specific resource or API operation.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func acceptAgreementRequest(input: AcceptAgreementRequestInput) async throws -> AcceptAgreementRequestOutput {
@@ -1187,6 +1270,88 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelAgreementRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows buyers (acceptors) to cancel an agreement request that is in PENDING_APPROVAL status, or in APPROVED status when no agreement has been created from it. Once cancelled, the agreement request transitions to CANCELLED status and its open agreement approvals are cancelled.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelAgreementRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelAgreementRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Request was denied due to a resource conflict.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func cancelAgreementRequest(input: CancelAgreementRequestInput) async throws -> CancelAgreementRequestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.cancelAgreementRequestOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelAgreementRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelAgreementRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelAgreementRequestInput, CancelAgreementRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelAgreementRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAgreementRequest` operation on the `MarketplaceAgreement` service.
     ///
     /// Creates an agreement request that acts as a quote for the terms you want to accept. The agreement request captures the requested terms, calculates charges, and returns a summary. Use AcceptAgreementRequest with the returned agreementRequestId to finalize the agreement.
@@ -1352,6 +1517,87 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgreementApproval` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves detailed information about a specific agreement approval, including its approval levels, the approvers at each level, and the decision of each approver. The acceptor, or the management account or a delegated administrator of the acceptor's AWS organization, can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementApprovalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementApprovalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementApproval(input: GetAgreementApprovalInput) async throws -> GetAgreementApprovalOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.getAgreementApprovalOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementApproval")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementApprovalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementApprovalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementApprovalInput, GetAgreementApprovalOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementApproval")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAgreementCancellationRequest` operation on the `MarketplaceAgreement` service.
     ///
     /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements.
@@ -1421,6 +1667,87 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementCancellationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgreementContacts` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Obtains details about the acceptor's contact information for an active agreement that you participate in as the proposer, acceptor, or manufacturer. If the acceptor's contact information isn't available, the operation succeeds but doesn't return acceptorContact. This happens when the acceptor didn't provide it, the information was removed, or the agreement isn't active.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementContactsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementContactsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementContacts(input: GetAgreementContactsInput) async throws -> GetAgreementContactsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.getAgreementContactsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementContacts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementContactsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementContactsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementContactsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementContactsInput, GetAgreementContactsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementContacts")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1595,6 +1922,249 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgreementRequest` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves detailed information about a specific agreement request, including its status, intent, approval requirement, and charges. The acceptor, or the management account or a delegated administrator of the acceptor's AWS organization, can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementRequest(input: GetAgreementRequestInput) async throws -> GetAgreementRequestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.getAgreementRequestOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementRequestInput, GetAgreementRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgreementRequestApprovalPlans` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves the approval plans that apply to an agreement request. Only the acceptor of the agreement request can call this operation. Each approval plan lists its approval levels and the approvers at each level. Pass the planReference of an approval plan to StartAgreementApprovals to start an agreement approval for it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementRequestApprovalPlansInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementRequestApprovalPlansOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementRequestApprovalPlans(input: GetAgreementRequestApprovalPlansInput) async throws -> GetAgreementRequestApprovalPlansOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.getAgreementRequestApprovalPlansOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementRequestApprovalPlans")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementRequestApprovalPlansOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementRequestApprovalPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementRequestApprovalPlansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementRequestApprovalPlansInput, GetAgreementRequestApprovalPlansOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementRequestApprovalPlans")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgreementRequestTerms` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Retrieves the terms proposed for an agreement request, such as pricing, legal, and renewal terms. The acceptor, or the management account or a delegated administrator of the acceptor's AWS organization, can call this operation. This operation is similar to GetAgreementTerms, but it takes an agreementRequestId instead of an agreementId.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementRequestTermsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgreementRequestTermsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgreementRequestTerms(input: GetAgreementRequestTermsInput) async throws -> GetAgreementRequestTermsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.getAgreementRequestTermsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgreementRequestTerms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementRequestTermsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementRequestTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementRequestTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementRequestTermsInput, GetAgreementRequestTermsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgreementRequestTerms")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAgreementTerms` operation on the `MarketplaceAgreement` service.
     ///
     /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include:
@@ -1756,6 +2326,86 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBillingAdjustmentRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAgreementApprovals` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Lists agreement approvals available to you as a buyer. Use REQUESTER as the partyType to list the agreement approvals that your account started. Use AWS_ORGANIZATION_ADMIN to list the agreement approvals in your AWS organization, if your account is the management account or a delegated administrator of the organization. You can filter the results by agreement request, approval type, and status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementApprovalsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgreementApprovalsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listAgreementApprovals(input: ListAgreementApprovalsInput) async throws -> ListAgreementApprovalsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.listAgreementApprovalsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgreementApprovals")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementApprovalsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementApprovalsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementApprovalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementApprovalsInput, ListAgreementApprovalsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgreementApprovals")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2089,6 +2739,86 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAgreementRequests` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Lists agreement requests available to you as a buyer (acceptor). You can filter the results by catalog, status, and resourceId.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementRequestsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgreementRequestsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listAgreementRequests(input: ListAgreementRequestsInput) async throws -> ListAgreementRequestsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.listAgreementRequestsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgreementRequests")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementRequestsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementRequestsInput, ListAgreementRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgreementRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListBillingAdjustmentRequests` operation on the `MarketplaceAgreement` service.
     ///
     /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement.
@@ -2157,6 +2887,88 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBillingAdjustmentRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RejectAgreementApproval` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows the management account or a delegated administrator of the buyer's AWS organization to reject an agreement approval that is in PENDING_APPROVAL status, as the organization administrator approver or on behalf of another approver. Once rejected, the agreement approval and its agreement request transition to REJECTED status. You must provide a reason for the rejection.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RejectAgreementApprovalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RejectAgreementApprovalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Request was denied due to a resource conflict.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func rejectAgreementApproval(input: RejectAgreementApprovalInput) async throws -> RejectAgreementApprovalOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.rejectAgreementApprovalOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rejectAgreementApproval")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RejectAgreementApprovalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectAgreementApprovalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectAgreementApprovalInput, RejectAgreementApprovalOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectAgreementApproval")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2567,6 +3379,88 @@ extension MarketplaceAgreementClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendAgreementPaymentRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartAgreementApprovals` operation on the `MarketplaceAgreement` service.
+    ///
+    /// Allows buyers (acceptors) to start the approvals that their organization requires for an agreement request. You start one agreement approval for each approval plan that you specify. Use GetAgreementRequestApprovalPlans to retrieve the approval plans of the agreement request. Once the agreement approvals start, the agreement request transitions to PENDING_APPROVAL status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartAgreementApprovalsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartAgreementApprovalsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Request was denied due to a resource conflict.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func startAgreementApprovals(input: StartAgreementApprovalsInput) async throws -> StartAgreementApprovalsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = MarketplaceAgreementClient.startAgreementApprovalsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAgreementApprovals")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartAgreementApprovalsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAgreementApprovalsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAgreementApprovalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAgreementApprovalsInput, StartAgreementApprovalsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAgreementApprovals")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

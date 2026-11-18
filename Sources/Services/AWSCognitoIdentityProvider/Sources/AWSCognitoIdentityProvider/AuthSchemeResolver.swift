@@ -73,6 +73,8 @@ public struct DefaultCognitoIdentityProviderAuthSchemeResolver: CognitoIdentityP
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "listDevices":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
+            case "listUserSessions":
+                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "listWebAuthnCredentials":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "resendConfirmationCode":
@@ -80,6 +82,8 @@ public struct DefaultCognitoIdentityProviderAuthSchemeResolver: CognitoIdentityP
             case "respondToAuthChallenge":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "revokeToken":
+                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
+            case "revokeUserSession":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "setUserMFAPreference":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))

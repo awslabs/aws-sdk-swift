@@ -699,12 +699,33 @@ public struct AssociateResourceShareOutput: Swift.Sendable {
     }
 }
 
+extension RAMClientTypes {
+
+    /// Contains the name and values to assign to a template parameter when associating a permission template with a resource share.
+    public struct PermissionTemplateParameterInput: Swift.Sendable {
+        /// The name of the template parameter to assign a value to. This must match a parameter name declared in the permission template.
+        public var name: Swift.String?
+        /// The values to assign to the template parameter. For STRING type parameters, provide a single value. For STRING_LIST type parameters, provide one or more values.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
 public struct AssociateResourceSharePermissionInput: Swift.Sendable {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// This member is required.
     public var permissionArn: Swift.String?
+    /// Specifies the template parameter values for the permission being associated. You must provide values for all parameters declared in the permission template. This parameter is required only if the specified permission has template parameters.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]?
     /// Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true, then this operation updates an outdated version of the permission to the current default version. You don't need to specify this parameter because the default behavior is to use the version that is currently set as the default version for the permission. This parameter is supported for backwards compatibility.
     public var permissionVersion: Swift.Int?
     /// Specifies whether the specified permission should replace the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false. A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
@@ -716,12 +737,14 @@ public struct AssociateResourceSharePermissionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]? = nil,
         permissionVersion: Swift.Int? = nil,
         replace: Swift.Bool? = nil,
         resourceShareArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.permissionVersion = permissionVersion
         self.replace = replace
         self.resourceShareArn = resourceShareArn
@@ -841,6 +864,62 @@ public struct PermissionLimitExceededException: ClientRuntime.ModeledError, AWSC
 
 extension RAMClientTypes {
 
+    public enum PermissionTemplateParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionTemplateParameterType] {
+            return [
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .string: return "STRING"
+            case .stringList: return "STRING_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RAMClientTypes {
+
+    /// Describes a template parameter declaration for a customer managed permission. Each declaration defines a named placeholder that can be used in the permission's policy template.
+    public struct PermissionTemplateParameterDeclaration: Swift.Sendable {
+        /// A description of the template parameter that helps consumers understand what value to provide.
+        public var description: Swift.String?
+        /// The name of the template parameter. This name is used as the placeholder in the policy template using the syntax @{parameterName}.
+        public var name: Swift.String?
+        /// The type of the template parameter. This can be one of the following values:
+        ///
+        /// * STRING – A single string value that is substituted directly into the template.
+        ///
+        /// * STRING_LIST – One or more string values that expand to an array in the rendered policy.
+        public var type: RAMClientTypes.PermissionTemplateParameterType?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: RAMClientTypes.PermissionTemplateParameterType? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension RAMClientTypes {
+
     /// A structure containing a tag. A tag is metadata that you can attach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public struct Tag: Swift.Sendable {
         /// The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive.
@@ -864,6 +943,8 @@ public struct CreatePermissionInput: Swift.Sendable {
     /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies a list of template parameter declarations for this permission. Each declaration defines a named placeholder that can be used in the policy template using the syntax @{parameterName}. Template parameters can only appear in Condition Key and Condition Value fields of the policy. When you associate this permission with a resource share, you must provide values for all declared parameters.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]?
     /// A string in JSON format string that contains the following elements of a resource-based policy:
     ///
     /// * Effect: must be set to ALLOW.
@@ -885,12 +966,14 @@ public struct CreatePermissionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]? = nil,
         policyTemplate: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         tags: [RAMClientTypes.Tag]? = nil
     ) {
         self.clientToken = clientToken
         self.name = name
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.policyTemplate = policyTemplate
         self.resourceType = resourceType
         self.tags = tags
@@ -931,6 +1014,37 @@ extension RAMClientTypes {
 
 extension RAMClientTypes {
 
+    /// Contains the declaration of a template parameter for a customer managed permission. When returned in the context of a permission association, it also includes the values assigned to that parameter.
+    public struct PermissionTemplateParameter: Swift.Sendable {
+        /// A description of the template parameter.
+        public var description: Swift.String?
+        /// The name of the template parameter.
+        public var name: Swift.String?
+        /// The type of the template parameter. This can be one of the following values:
+        ///
+        /// * STRING – A single string value.
+        ///
+        /// * STRING_LIST – One or more string values.
+        public var type: RAMClientTypes.PermissionTemplateParameterType?
+        /// The values assigned to this template parameter in the context of a permission association. This field is present only when the parameter has been assigned values (for example, in the response from [ListPermissionAssociations] or [ListResourceSharePermissions]).
+        public var values: [Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: RAMClientTypes.PermissionTemplateParameterType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+    }
+}
+
+extension RAMClientTypes {
+
     public enum PermissionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsManaged
         case customerManaged
@@ -952,6 +1066,35 @@ extension RAMClientTypes {
             switch self {
             case .awsManaged: return "AWS_MANAGED"
             case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RAMClientTypes {
+
+    public enum ResourceOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case otherAccounts
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwner] {
+            return [
+                .otherAccounts,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .otherAccounts: return "OTHER-ACCOUNTS"
+            case .self: return "SELF"
             case let .sdkUnknown(s): return s
             }
         }
@@ -982,12 +1125,20 @@ extension RAMClientTypes {
         public var lastUpdatedTime: Foundation.Date?
         /// The name of this managed permission.
         public var name: Swift.String?
+        /// The list of template parameters defined for this permission, including their names, types, descriptions, and values. This field is present only if the permission is a template with declared parameters. When returned in the context of a permission association, the values are also included.
+        public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]?
         /// The type of managed permission. This can be one of the following values:
         ///
         /// * AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.
         ///
         /// * CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
         public var permissionType: RAMClientTypes.PermissionType?
+        /// The owner of the permission. This can be one of the following values:
+        ///
+        /// * SELF – The permission is owned by the current account.
+        ///
+        /// * OTHER-ACCOUNTS – The permission is owned by another account and shared with the current account.
+        public var resourceOwner: RAMClientTypes.ResourceOwner?
         /// The type of resource to which this permission applies. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public var resourceType: Swift.String?
         /// The current status of the permission.
@@ -1005,7 +1156,9 @@ extension RAMClientTypes {
             isResourceTypeDefault: Swift.Bool? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]? = nil,
             permissionType: RAMClientTypes.PermissionType? = nil,
+            resourceOwner: RAMClientTypes.ResourceOwner? = nil,
             resourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             tags: [RAMClientTypes.Tag]? = nil,
@@ -1018,7 +1171,9 @@ extension RAMClientTypes {
             self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionType = permissionType
+            self.resourceOwner = resourceOwner
             self.resourceType = resourceType
             self.status = status
             self.tags = tags
@@ -1072,6 +1227,8 @@ public struct CreatePermissionVersionInput: Swift.Sendable {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission you're creating a new version for.
     /// This member is required.
     public var permissionArn: Swift.String?
+    /// Specifies a list of template parameter declarations for this version of the permission. Each declaration defines a named placeholder that can be used in the policy template. Because each version is independent, you can define the same or a different set of template parameters for each version.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]?
     /// A string in JSON format string that contains the following elements of a resource-based policy:
     ///
     /// * Effect: must be set to ALLOW.
@@ -1088,10 +1245,12 @@ public struct CreatePermissionVersionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]? = nil,
         policyTemplate: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.policyTemplate = policyTemplate
     }
 }
@@ -1102,6 +1261,7 @@ extension RAMClientTypes {
         case attachable
         case deleted
         case deleting
+        case deprecated
         case unattachable
         case sdkUnknown(Swift.String)
 
@@ -1110,6 +1270,7 @@ extension RAMClientTypes {
                 .attachable,
                 .deleted,
                 .deleting,
+                .deprecated,
                 .unattachable
             ]
         }
@@ -1124,6 +1285,7 @@ extension RAMClientTypes {
             case .attachable: return "ATTACHABLE"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .deprecated: return "DEPRECATED"
             case .unattachable: return "UNATTACHABLE"
             case let .sdkUnknown(s): return s
             }
@@ -1157,12 +1319,20 @@ extension RAMClientTypes {
         public var name: Swift.String?
         /// The permission's effect and actions in JSON format. The effect indicates whether the specified actions are allowed or denied. The actions list the operations to which the principal is granted or denied access.
         public var permission: Swift.String?
+        /// The list of template parameter declarations defined for this permission. Each declaration includes the parameter name, type, and description. This field is present only if the permission is a template with declared parameters.
+        public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]?
         /// The type of managed permission. This can be one of the following values:
         ///
         /// * AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.
         ///
         /// * CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
         public var permissionType: RAMClientTypes.PermissionType?
+        /// The owner of the permission. This can be one of the following values:
+        ///
+        /// * SELF – The permission is owned by the current account.
+        ///
+        /// * OTHER-ACCOUNTS – The permission is owned by another account and shared with the current account.
+        public var resourceOwner: RAMClientTypes.ResourceOwner?
         /// The resource type to which this permission applies.
         public var resourceType: Swift.String?
         /// The current status of the association between the permission and the resource share. The following are the possible values:
@@ -1174,6 +1344,8 @@ extension RAMClientTypes {
         /// * DELETING – This permission or version is in the process of being deleted.
         ///
         /// * DELETED – This permission or version is deleted.
+        ///
+        /// * DEPRECATED – The permission owner deprecated this permission. It can't be associated with new resource shares, but existing associations continue to function.
         public var status: RAMClientTypes.PermissionStatus?
         /// The tag key and value pairs attached to the resource share.
         public var tags: [RAMClientTypes.Tag]?
@@ -1189,7 +1361,9 @@ extension RAMClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             permission: Swift.String? = nil,
+            permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterDeclaration]? = nil,
             permissionType: RAMClientTypes.PermissionType? = nil,
+            resourceOwner: RAMClientTypes.ResourceOwner? = nil,
             resourceType: Swift.String? = nil,
             status: RAMClientTypes.PermissionStatus? = nil,
             tags: [RAMClientTypes.Tag]? = nil,
@@ -1203,7 +1377,9 @@ extension RAMClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.permission = permission
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionType = permissionType
+            self.resourceOwner = resourceOwner
             self.resourceType = resourceType
             self.status = status
             self.tags = tags
@@ -1215,7 +1391,7 @@ extension RAMClientTypes {
 public struct CreatePermissionVersionOutput: Swift.Sendable {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
-    /// Information about a RAM managed permission.
+    /// The details of the new permission version, including its [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html), version number, status, and policy document.
     public var permission: RAMClientTypes.ResourceSharePermissionDetail?
 
     public init(
@@ -1277,6 +1453,25 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
 
 extension RAMClientTypes {
 
+    /// Contains a permission ARN and its associated template parameter values. The [CreateResourceShare] operation uses this structure when associating permissions that have template parameters.
+    public struct PermissionArnAndTemplateParameters: Swift.Sendable {
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission to associate with the resource share.
+        public var permissionArn: Swift.String?
+        /// The list of template parameter values to assign for this permission. You must provide values for all parameters declared in the permission template.
+        public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]?
+
+        public init(
+            permissionArn: Swift.String? = nil,
+            permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]? = nil
+        ) {
+            self.permissionArn = permissionArn
+            self.permissionTemplateParameters = permissionTemplateParameters
+        }
+    }
+}
+
+extension RAMClientTypes {
+
     /// The configuration of the resource share
     public struct ResourceShareConfiguration: Swift.Sendable {
         /// Specifies whether the consumer account retains access to the resource share after leaving the organization.
@@ -1300,6 +1495,8 @@ public struct CreateResourceShareInput: Swift.Sendable {
     public var name: Swift.String?
     /// Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
     public var permissionArns: [Swift.String]?
+    /// Specifies the template parameter values for each permission being associated that has template parameters. Each entry maps a permission ARN to the parameter values to use when rendering the permission template for this resource share. You must provide values for all parameters declared in each permission template.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionArnAndTemplateParameters]?
     /// Specifies a list of one or more principals to associate with the resource share. You can include the following values:
     ///
     /// * An Amazon Web Services account ID, for example: 123456789012
@@ -1331,6 +1528,7 @@ public struct CreateResourceShareInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         permissionArns: [Swift.String]? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionArnAndTemplateParameters]? = nil,
         principals: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
         resourceShareConfiguration: RAMClientTypes.ResourceShareConfiguration? = nil,
@@ -1341,6 +1539,7 @@ public struct CreateResourceShareInput: Swift.Sendable {
         self.clientToken = clientToken
         self.name = name
         self.permissionArns = permissionArns
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.principals = principals
         self.resourceArns = resourceArns
         self.resourceShareConfiguration = resourceShareConfiguration
@@ -1719,14 +1918,18 @@ public struct GetPermissionInput: Swift.Sendable {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// This member is required.
     public var permissionArn: Swift.String?
+    /// Specifies the template parameter values to use when rendering the permission's policy template. Each entry supplies a parameter name and its values. When you provide this parameter, the response contains the rendered policy with the specified values in place of the template parameter placeholders. For STRING type parameters, provide a single value. For STRING_LIST type parameters, provide one or more values. You can specify this parameter only for permissions that declare template parameters. You must provide values for all parameters declared in the permission template.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]?
     /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use [ListPermissionVersions].
     public var permissionVersion: Swift.Int?
 
     public init(
         permissionArn: Swift.String? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]? = nil,
         permissionVersion: Swift.Int? = nil
     ) {
         self.permissionArn = permissionArn
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.permissionVersion = permissionVersion
     }
 }
@@ -1943,35 +2146,6 @@ public struct GetResourceShareInvitationsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.resourceShareInvitations = resourceShareInvitations
-    }
-}
-
-extension RAMClientTypes {
-
-    public enum ResourceOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case otherAccounts
-        case `self`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceOwner] {
-            return [
-                .otherAccounts,
-                .self
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .otherAccounts: return "OTHER-ACCOUNTS"
-            case .self: return "SELF"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -2294,6 +2468,17 @@ public struct ListPermissionAssociationsInput: Swift.Sendable {
     public var permissionArn: Swift.String?
     /// Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
     public var permissionVersion: Swift.Int?
+    /// Specifies that you want to list only those associations with resource shares owned by a specific entity:
+    ///
+    /// * SELF – returns only associations with resource shares owned by the calling account.
+    ///
+    /// * OTHER-ACCOUNTS – returns only associations with resource shares owned by other Amazon Web Services accounts.
+    ///
+    ///
+    /// If you don't specify this parameter, the default is SELF.
+    public var resourceOwner: RAMClientTypes.ResourceOwner?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share for which you want to retrieve permission associations.
+    public var resourceShareArn: Swift.String?
     /// Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
     public var resourceType: Swift.String?
 
@@ -2305,6 +2490,8 @@ public struct ListPermissionAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
         permissionVersion: Swift.Int? = nil,
+        resourceOwner: RAMClientTypes.ResourceOwner? = nil,
+        resourceShareArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
     ) {
         self.associationStatus = associationStatus
@@ -2314,6 +2501,8 @@ public struct ListPermissionAssociationsInput: Swift.Sendable {
         self.nextToken = nextToken
         self.permissionArn = permissionArn
         self.permissionVersion = permissionVersion
+        self.resourceOwner = resourceOwner
+        self.resourceShareArn = resourceShareArn
         self.resourceType = resourceType
     }
 }
@@ -2336,6 +2525,8 @@ extension RAMClientTypes {
         public var featureSet: RAMClientTypes.PermissionFeatureSet?
         /// The date and time when the association between the permission and the resource share was last updated.
         public var lastUpdatedTime: Foundation.Date?
+        /// The template parameter values provided when the permission was associated with this resource share. If the permission has no declared template parameters, this member doesn't appear in the response.
+        public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]?
         /// The version of the permission currently associated with the resource share.
         public var permissionVersion: Swift.String?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share associated with this permission.
@@ -2351,6 +2542,8 @@ extension RAMClientTypes {
         /// * DELETING – This permission or version is in the process of being deleted.
         ///
         /// * DELETED – This permission or version is deleted.
+        ///
+        /// * DEPRECATED – The permission owner deprecated this permission. It can't be associated with new resource shares, but existing associations continue to function.
         public var status: Swift.String?
 
         public init(
@@ -2358,6 +2551,7 @@ extension RAMClientTypes {
             defaultVersion: Swift.Bool? = nil,
             featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]? = nil,
             permissionVersion: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
@@ -2367,6 +2561,7 @@ extension RAMClientTypes {
             self.defaultVersion = defaultVersion
             self.featureSet = featureSet
             self.lastUpdatedTime = lastUpdatedTime
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionVersion = permissionVersion
             self.resourceShareArn = resourceShareArn
             self.resourceType = resourceType
@@ -2427,6 +2622,8 @@ public struct ListPermissionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
+    /// Specifies that you want to filter the results to include only permissions with the specified status. For example, use ATTACHABLE to list only permissions that can be associated with resource shares, or DEPRECATED to list only deprecated permissions.
+    public var permissionStatus: RAMClientTypes.PermissionStatus?
     /// Specifies that you want to list only permissions of this type:
     ///
     /// * AWS – returns only Amazon Web Services managed permissions.
@@ -2438,18 +2635,28 @@ public struct ListPermissionsInput: Swift.Sendable {
     ///
     /// If you don't specify this parameter, the default is All.
     public var permissionType: RAMClientTypes.PermissionTypeFilter?
+    /// Specifies that you want to list only permissions owned by a specific entity:
+    ///
+    /// * SELF – returns only permissions owned by the calling account.
+    ///
+    /// * OTHER-ACCOUNTS – returns only permissions shared with the calling account by other accounts.
+    public var resourceOwner: RAMClientTypes.ResourceOwner?
     /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the [ListResourceTypes] operation to get the specific string required.
     public var resourceType: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        permissionStatus: RAMClientTypes.PermissionStatus? = nil,
         permissionType: RAMClientTypes.PermissionTypeFilter? = nil,
+        resourceOwner: RAMClientTypes.ResourceOwner? = nil,
         resourceType: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.permissionStatus = permissionStatus
         self.permissionType = permissionType
+        self.resourceOwner = resourceOwner
         self.resourceType = resourceType
     }
 }
@@ -2678,6 +2885,8 @@ extension RAMClientTypes {
         public var id: Swift.String?
         /// The date and time when the status of this background task was last updated.
         public var lastUpdatedTime: Foundation.Date?
+        /// The template parameter values to apply when replacing the permission. This field is present only if the target permission is a template with declared parameters.
+        public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]?
         /// Specifies the current status of the background tasks for the specified ID. The output is one of the following strings:
         ///
         /// * IN_PROGRESS
@@ -2699,6 +2908,7 @@ extension RAMClientTypes {
             fromPermissionVersion: Swift.String? = nil,
             id: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameter]? = nil,
             status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus? = nil,
             statusMessage: Swift.String? = nil,
             toPermissionArn: Swift.String? = nil,
@@ -2709,6 +2919,7 @@ extension RAMClientTypes {
             self.fromPermissionVersion = fromPermissionVersion
             self.id = id
             self.lastUpdatedTime = lastUpdatedTime
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.status = status
             self.statusMessage = statusMessage
             self.toPermissionArn = toPermissionArn
@@ -3038,7 +3249,7 @@ public struct PromotePermissionCreatedFromPolicyInput: Swift.Sendable {
 public struct PromotePermissionCreatedFromPolicyOutput: Swift.Sendable {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
-    /// Information about an RAM permission.
+    /// The details of the promoted customer managed permission, including its [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html), version, and status.
     public var permission: RAMClientTypes.ResourceSharePermissionSummary?
 
     public init(
@@ -3136,6 +3347,8 @@ public struct ReplacePermissionAssociationsInput: Swift.Sendable {
     public var fromPermissionArn: Swift.String?
     /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed permission.
     public var fromPermissionVersion: Swift.Int?
+    /// Specifies the template parameter values to apply when replacing the permission. You must provide values for all parameters declared in the target permission template. This parameter is required only if the target permission (toPermissionArn) has template parameters.
+    public var permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]?
     /// Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion. The operation always associates the version that is currently the default for the specified managed permission.
     /// This member is required.
     public var toPermissionArn: Swift.String?
@@ -3144,11 +3357,13 @@ public struct ReplacePermissionAssociationsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         fromPermissionArn: Swift.String? = nil,
         fromPermissionVersion: Swift.Int? = nil,
+        permissionTemplateParameters: [RAMClientTypes.PermissionTemplateParameterInput]? = nil,
         toPermissionArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.fromPermissionArn = fromPermissionArn
         self.fromPermissionVersion = fromPermissionVersion
+        self.permissionTemplateParameters = permissionTemplateParameters
         self.toPermissionArn = toPermissionArn
     }
 }
@@ -3252,6 +3467,75 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension RAMClientTypes {
+
+    public enum UpdatePermissionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachable
+        case deprecated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdatePermissionStatus] {
+            return [
+                .attachable,
+                .deprecated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachable: return "ATTACHABLE"
+            case .deprecated: return "DEPRECATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdatePermissionInput: Swift.Sendable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission that you want to update.
+    /// This member is required.
+    public var permissionArn: Swift.String?
+    /// Specifies the new status for the permission. This can be one of the following values:
+    ///
+    /// * ATTACHABLE – Restores a previously deprecated permission so it can be associated with resource shares again.
+    ///
+    /// * DEPRECATED – Deprecates the permission so it can no longer be associated with new resource shares.
+    /// This member is required.
+    public var status: RAMClientTypes.UpdatePermissionStatus?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        permissionArn: Swift.String? = nil,
+        status: RAMClientTypes.UpdatePermissionStatus? = nil
+    ) {
+        self.clientToken = clientToken
+        self.permissionArn = permissionArn
+        self.status = status
+    }
+}
+
+public struct UpdatePermissionOutput: Swift.Sendable {
+    /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
+    public var clientToken: Swift.String?
+    /// The updated status of the permission.
+    public var permissionStatus: RAMClientTypes.UpdatePermissionStatus?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        permissionStatus: RAMClientTypes.UpdatePermissionStatus? = nil
+    ) {
+        self.clientToken = clientToken
+        self.permissionStatus = permissionStatus
+    }
 }
 
 public struct UpdateResourceShareInput: Swift.Sendable {
@@ -3605,6 +3889,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdatePermissionInput {
+
+    static func urlPathProvider(_ value: UpdatePermissionInput) -> Swift.String? {
+        return "/updatepermission"
+    }
+}
+
 extension UpdateResourceShareInput {
 
     static func urlPathProvider(_ value: UpdateResourceShareInput) -> Swift.String? {
@@ -3639,6 +3930,7 @@ extension AssociateResourceSharePermissionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["permissionArn"].write(value.permissionArn)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["permissionVersion"].write(value.permissionVersion)
         try writer["replace"].write(value.replace)
         try writer["resourceShareArn"].write(value.resourceShareArn)
@@ -3651,6 +3943,7 @@ extension CreatePermissionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["policyTemplate"].write(value.policyTemplate)
         try writer["resourceType"].write(value.resourceType)
         try writer["tags"].writeList(value.tags, memberWritingClosure: RAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3663,6 +3956,7 @@ extension CreatePermissionVersionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["permissionArn"].write(value.permissionArn)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["policyTemplate"].write(value.policyTemplate)
     }
 }
@@ -3675,6 +3969,7 @@ extension CreateResourceShareInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["permissionArns"].writeList(value.permissionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionArnAndTemplateParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["principals"].writeList(value.principals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceShareConfiguration"].write(value.resourceShareConfiguration, with: RAMClientTypes.ResourceShareConfiguration.write(value:to:))
@@ -3710,6 +4005,7 @@ extension GetPermissionInput {
     static func write(value: GetPermissionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["permissionArn"].write(value.permissionArn)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["permissionVersion"].write(value.permissionVersion)
     }
 }
@@ -3788,6 +4084,8 @@ extension ListPermissionAssociationsInput {
         try writer["nextToken"].write(value.nextToken)
         try writer["permissionArn"].write(value.permissionArn)
         try writer["permissionVersion"].write(value.permissionVersion)
+        try writer["resourceOwner"].write(value.resourceOwner)
+        try writer["resourceShareArn"].write(value.resourceShareArn)
         try writer["resourceType"].write(value.resourceType)
     }
 }
@@ -3798,7 +4096,9 @@ extension ListPermissionsInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["permissionStatus"].write(value.permissionStatus)
         try writer["permissionType"].write(value.permissionType)
+        try writer["resourceOwner"].write(value.resourceOwner)
         try writer["resourceType"].write(value.resourceType)
     }
 }
@@ -3912,6 +4212,7 @@ extension ReplacePermissionAssociationsInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["fromPermissionArn"].write(value.fromPermissionArn)
         try writer["fromPermissionVersion"].write(value.fromPermissionVersion)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toPermissionArn"].write(value.toPermissionArn)
     }
 }
@@ -3943,6 +4244,16 @@ extension UntagResourceInput {
         try writer["resourceArn"].write(value.resourceArn)
         try writer["resourceShareArn"].write(value.resourceShareArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdatePermissionInput {
+
+    static func write(value: UpdatePermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["permissionArn"].write(value.permissionArn)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -4386,6 +4697,19 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdatePermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePermissionOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.permissionStatus = try reader["permissionStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateResourceShareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateResourceShareOutput {
@@ -4503,6 +4827,7 @@ enum CreatePermissionVersionOutputError {
             case "InvalidPolicy": return try InvalidPolicyException.makeError(baseError: baseError)
             case "InvalidArn.Malformed": return try MalformedArnException.makeError(baseError: baseError)
             case "MalformedPolicyTemplateException": return try MalformedPolicyTemplateException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "PermissionVersionsLimitExceededException": return try PermissionVersionsLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
             case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -5098,6 +5423,28 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdatePermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IdempotentParameterMismatch": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
+            case "InvalidClientToken": return try InvalidClientTokenException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidArn.Malformed": return try MalformedArnException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "PermissionLimitExceededException": return try PermissionLimitExceededException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "InvalidResourceShareArn.NotFound": return try UnknownResourceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateResourceShareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5497,6 +5844,7 @@ extension RAMClientTypes.AssociatedPermission {
         value.featureSet = try reader["featureSet"].readIfPresent()
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.permissionTemplateParameters = try reader["permissionTemplateParameters"].readListIfPresent(memberReadingClosure: RAMClientTypes.PermissionTemplateParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5514,6 +5862,56 @@ extension RAMClientTypes.AssociatedSource {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
+    }
+}
+
+extension RAMClientTypes.PermissionArnAndTemplateParameters {
+
+    static func write(value: RAMClientTypes.PermissionArnAndTemplateParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["permissionArn"].write(value.permissionArn)
+        try writer["permissionTemplateParameters"].writeList(value.permissionTemplateParameters, memberWritingClosure: RAMClientTypes.PermissionTemplateParameterInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RAMClientTypes.PermissionTemplateParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.PermissionTemplateParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.PermissionTemplateParameter()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RAMClientTypes.PermissionTemplateParameterDeclaration {
+
+    static func write(value: RAMClientTypes.PermissionTemplateParameterDeclaration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.PermissionTemplateParameterDeclaration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.PermissionTemplateParameterDeclaration()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.PermissionTemplateParameterInput {
+
+    static func write(value: RAMClientTypes.PermissionTemplateParameterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5541,6 +5939,7 @@ extension RAMClientTypes.ReplacePermissionAssociationsWork {
         value.fromPermissionVersion = try reader["fromPermissionVersion"].readIfPresent()
         value.toPermissionArn = try reader["toPermissionArn"].readIfPresent()
         value.toPermissionVersion = try reader["toPermissionVersion"].readIfPresent()
+        value.permissionTemplateParameters = try reader["permissionTemplateParameters"].readListIfPresent(memberReadingClosure: RAMClientTypes.PermissionTemplateParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5649,6 +6048,7 @@ extension RAMClientTypes.ResourceSharePermissionDetail {
         value.name = try reader["name"].readIfPresent()
         value.resourceType = try reader["resourceType"].readIfPresent()
         value.permission = try reader["permission"].readIfPresent()
+        value.permissionTemplateParameters = try reader["permissionTemplateParameters"].readListIfPresent(memberReadingClosure: RAMClientTypes.PermissionTemplateParameterDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
@@ -5656,6 +6056,7 @@ extension RAMClientTypes.ResourceSharePermissionDetail {
         value.featureSet = try reader["featureSet"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent()
         return value
     }
 }
@@ -5676,7 +6077,9 @@ extension RAMClientTypes.ResourceSharePermissionSummary {
         value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
         value.permissionType = try reader["permissionType"].readIfPresent()
         value.featureSet = try reader["featureSet"].readIfPresent()
+        value.permissionTemplateParameters = try reader["permissionTemplateParameters"].readListIfPresent(memberReadingClosure: RAMClientTypes.PermissionTemplateParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent()
         return value
     }
 }

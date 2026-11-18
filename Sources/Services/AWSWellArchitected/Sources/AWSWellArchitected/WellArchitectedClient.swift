@@ -316,7 +316,7 @@ extension WellArchitectedClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "WellArchitected"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -547,7 +547,7 @@ extension WellArchitectedClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "WellArchitected"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -609,7 +609,7 @@ extension WellArchitectedClient {
     public static func builder() -> ClientRuntime.ClientBuilder<WellArchitectedClient> {
         return ClientRuntime.ClientBuilder<WellArchitectedClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "WellArchitected"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -762,6 +762,79 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateAgentBasicProfile` operation on the `WellArchitected` service.
+    ///
+    /// Creates a Basic profile for the calling account. No configuration input is required because the account and region are inferred from the caller. The profile uses the reserved name basic. This operation is idempotent. Calling it twice returns the same ARN. Each account can have at most one Basic profile.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentBasicProfileInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAgentBasicProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func createAgentBasicProfile(input: CreateAgentBasicProfileInput) async throws -> CreateAgentBasicProfileOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAgentBasicProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>(CreateAgentBasicProfileInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgentBasicProfileInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentBasicProfileOutput>(CreateAgentBasicProfileOutput.httpOutput(from:), CreateAgentBasicProfileOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentBasicProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgentBasicProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentBasicProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAgentBasicProfileInput, CreateAgentBasicProfileOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAgentBasicProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAgentContext` operation on the `WellArchitected` service.
     ///
     /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
@@ -900,6 +973,155 @@ extension WellArchitectedClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAgentGoal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAgentOrganizationalProfile` operation on the `WellArchitected` service.
+    ///
+    /// Creates an Organizational Profile for use with AWS Organizations integration. Organizational Profiles are scoped to an AWS Organization and do not require an execution role or aggregation configuration. The organization is inferred from the caller's identity.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentOrganizationalProfileInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAgentOrganizationalProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func createAgentOrganizationalProfile(input: CreateAgentOrganizationalProfileInput) async throws -> CreateAgentOrganizationalProfileOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAgentOrganizationalProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(CreateAgentOrganizationalProfileInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgentOrganizationalProfileInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentOrganizationalProfileOutput>(CreateAgentOrganizationalProfileOutput.httpOutput(from:), CreateAgentOrganizationalProfileOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentOrganizationalProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgentOrganizationalProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAgentOrganizationalProfileInput, CreateAgentOrganizationalProfileOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAgentOrganizationalProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAgentOrganizationalReport` operation on the `WellArchitected` service.
+    ///
+    /// Creates an Organizational Report, which is an asynchronously-materialized, point-in-time snapshot of recommendations across all Agent Profiles within the caller's AWS Organization. You can optionally narrow the scope with filters. The operation is idempotent on the caller-supplied clientToken. The AWS Organization the report belongs to is inferred from the caller's authorization context. Reports are retained for 90 days from creation, after which they are automatically deleted. Use DeleteAgentOrganizationalReport to delete a report earlier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentOrganizationalReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAgentOrganizationalReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func createAgentOrganizationalReport(input: CreateAgentOrganizationalReportInput) async throws -> CreateAgentOrganizationalReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAgentOrganizationalReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(CreateAgentOrganizationalReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgentOrganizationalReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentOrganizationalReportOutput>(CreateAgentOrganizationalReportOutput.httpOutput(from:), CreateAgentOrganizationalReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentOrganizationalReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgentOrganizationalReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAgentOrganizationalReportInput, CreateAgentOrganizationalReportOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAgentOrganizationalReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1806,6 +2028,75 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteAgentOrganizationalReport` operation on the `WellArchitected` service.
+    ///
+    /// Deletes an Organizational Report and its associated artifacts. The operation is idempotent, so repeated calls for a report that has already been deleted return success.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentOrganizationalReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAgentOrganizationalReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func deleteAgentOrganizationalReport(input: DeleteAgentOrganizationalReportInput) async throws -> DeleteAgentOrganizationalReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAgentOrganizationalReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>(DeleteAgentOrganizationalReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentOrganizationalReportOutput>(DeleteAgentOrganizationalReportOutput.httpOutput(from:), DeleteAgentOrganizationalReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentOrganizationalReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgentOrganizationalReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAgentOrganizationalReportInput, DeleteAgentOrganizationalReportOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAgentOrganizationalReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAgentProfile` operation on the `WellArchitected` service.
     ///
     /// Deletes an optimization profile and its associated configuration. This action cannot be undone.
@@ -1864,6 +2155,144 @@ extension WellArchitectedClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAgentProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAgentProfilePolicy` operation on the `WellArchitected` service.
+    ///
+    /// Removes the resource-based policy from an Agent Profile. This revokes all cross-account access previously granted by the policy. Only the profile owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentProfilePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAgentProfilePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func deleteAgentProfilePolicy(input: DeleteAgentProfilePolicyInput) async throws -> DeleteAgentProfilePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAgentProfilePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>(DeleteAgentProfilePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentProfilePolicyOutput>(DeleteAgentProfilePolicyOutput.httpOutput(from:), DeleteAgentProfilePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentProfilePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgentProfilePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAgentProfilePolicyInput, DeleteAgentProfilePolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAgentProfilePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAgentRecommendationPolicy` operation on the `WellArchitected` service.
+    ///
+    /// Removes the resource-based policy from an individual Agent Recommendation. This revokes all cross-account access previously granted by the policy. The recommendation owner or any principal with profile write access on the parent profile can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentRecommendationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAgentRecommendationPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func deleteAgentRecommendationPolicy(input: DeleteAgentRecommendationPolicyInput) async throws -> DeleteAgentRecommendationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAgentRecommendationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>(DeleteAgentRecommendationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentRecommendationPolicyOutput>(DeleteAgentRecommendationPolicyOutput.httpOutput(from:), DeleteAgentRecommendationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentRecommendationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgentRecommendationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAgentRecommendationPolicyInput, DeleteAgentRecommendationPolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAgentRecommendationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2806,6 +3235,213 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgentOrganizationalReport` operation on the `WellArchitected` service.
+    ///
+    /// Retrieves metadata and current state for a single Organizational Report. The coverageSummary is populated once the report reaches COMPLETED and is absent for reports still in progress or in a failed state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentOrganizationalReportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentOrganizationalReportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getAgentOrganizationalReport(input: GetAgentOrganizationalReportInput) async throws -> GetAgentOrganizationalReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentOrganizationalReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>(GetAgentOrganizationalReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentOrganizationalReportOutput>(GetAgentOrganizationalReportOutput.httpOutput(from:), GetAgentOrganizationalReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentOrganizationalReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentOrganizationalReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentOrganizationalReportInput, GetAgentOrganizationalReportOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentOrganizationalReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgentOrganizationalReportData` operation on the `WellArchitected` service.
+    ///
+    /// Retrieves the data artifact for a completed Organizational Report as a short-lived presigned S3 URL. The response contains the URL in downloadUrl and its expiration in expiresAt. To have the service write the artifact directly into a caller-owned bucket instead, use SendAgentOrganizationalReportDataToS3.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentOrganizationalReportDataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentOrganizationalReportDataOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getAgentOrganizationalReportData(input: GetAgentOrganizationalReportDataInput) async throws -> GetAgentOrganizationalReportDataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentOrganizationalReportData")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>(GetAgentOrganizationalReportDataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>(GetAgentOrganizationalReportDataInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentOrganizationalReportDataOutput>(GetAgentOrganizationalReportDataOutput.httpOutput(from:), GetAgentOrganizationalReportDataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentOrganizationalReportDataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentOrganizationalReportDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentOrganizationalReportDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentOrganizationalReportDataInput, GetAgentOrganizationalReportDataOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentOrganizationalReportData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgentPreferences` operation on the `WellArchitected` service.
+    ///
+    /// Returns the caller's complete set of Well-Architected Agent preferences with their current states.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentPreferencesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentPreferencesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getAgentPreferences(input: GetAgentPreferencesInput) async throws -> GetAgentPreferencesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentPreferences")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentPreferencesInput, GetAgentPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>(GetAgentPreferencesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentPreferencesOutput>(GetAgentPreferencesOutput.httpOutput(from:), GetAgentPreferencesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentPreferencesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentPreferencesInput, GetAgentPreferencesOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentPreferences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAgentProfile` operation on the `WellArchitected` service.
     ///
     /// Retrieves detailed information about an optimization profile, including its configuration and metadata.
@@ -2875,9 +3511,78 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgentProfilePolicy` operation on the `WellArchitected` service.
+    ///
+    /// Retrieves the resource-based policy attached to an Agent Profile. Only the profile owner can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentProfilePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentProfilePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getAgentProfilePolicy(input: GetAgentProfilePolicyInput) async throws -> GetAgentProfilePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentProfilePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>(GetAgentProfilePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentProfilePolicyOutput>(GetAgentProfilePolicyOutput.httpOutput(from:), GetAgentProfilePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentProfilePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentProfilePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentProfilePolicyInput, GetAgentProfilePolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentProfilePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAgentRecommendation` operation on the `WellArchitected` service.
     ///
-    /// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
+    /// Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it. Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAgentRecommendationInput`)
     ///
@@ -2947,7 +3652,7 @@ extension WellArchitectedClient {
 
     /// Performs the `GetAgentRecommendationGeneration` operation on the `WellArchitected` service.
     ///
-    /// Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
+    /// Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it. Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAgentRecommendationGenerationInput`)
     ///
@@ -3002,6 +3707,75 @@ extension WellArchitectedClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentRecommendationGeneration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgentRecommendationPolicy` operation on the `WellArchitected` service.
+    ///
+    /// Retrieves the resource-based policy attached to an individual Agent Recommendation. The recommendation owner or any principal with profile write access on the parent profile can call this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentRecommendationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentRecommendationPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getAgentRecommendationPolicy(input: GetAgentRecommendationPolicyInput) async throws -> GetAgentRecommendationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentRecommendationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>(GetAgentRecommendationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentRecommendationPolicyOutput>(GetAgentRecommendationPolicyOutput.httpOutput(from:), GetAgentRecommendationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentRecommendationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentRecommendationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentRecommendationPolicyInput, GetAgentRecommendationPolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentRecommendationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4199,6 +4973,75 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAgentOrganizationalReports` operation on the `WellArchitected` service.
+    ///
+    /// Lists Organizational Reports owned by the caller's account within the caller's AWS Organization, ordered by most recently created first. Supports pagination and an optional state filter.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgentOrganizationalReportsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgentOrganizationalReportsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func listAgentOrganizationalReports(input: ListAgentOrganizationalReportsInput) async throws -> ListAgentOrganizationalReportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgentOrganizationalReports")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(ListAgentOrganizationalReportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(ListAgentOrganizationalReportsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentOrganizationalReportsOutput>(ListAgentOrganizationalReportsOutput.httpOutput(from:), ListAgentOrganizationalReportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentOrganizationalReportsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgentOrganizationalReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgentOrganizationalReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgentOrganizationalReports")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAgentProfiles` operation on the `WellArchitected` service.
     ///
     /// Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
@@ -4270,7 +5113,7 @@ extension WellArchitectedClient {
 
     /// Performs the `ListAgentRecommendationGenerations` operation on the `WellArchitected` service.
     ///
-    /// Lists recommendation generation processes for a specified profile.
+    /// Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it. Lists recommendation generation processes for a specified profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAgentRecommendationGenerationsInput`)
     ///
@@ -4340,7 +5183,7 @@ extension WellArchitectedClient {
 
     /// Performs the `ListAgentRecommendationItems` operation on the `WellArchitected` service.
     ///
-    /// Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
+    /// Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it. Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAgentRecommendationItemsInput`)
     ///
@@ -4410,7 +5253,7 @@ extension WellArchitectedClient {
 
     /// Performs the `ListAgentRecommendations` operation on the `WellArchitected` service.
     ///
-    /// Lists active optimization recommendations for a specified profile with optional filtering by state.
+    /// Application-level recommendations are a new recommendation format currently in beta. We are actively seeking customer feedback to improve their quality and relevance. As with any AI-generated content, please thoroughly review each recommendation before taking any action based on it. Lists active optimization recommendations for a specified profile with optional filtering by state.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAgentRecommendationsInput`)
     ///
@@ -5807,6 +6650,150 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutAgentPreferences` operation on the `WellArchitected` service.
+    ///
+    /// Creates or replaces the caller's Well-Architected Agent preferences. Each supplied update sets the desired state of one preference. Preferences not named in the request are left unchanged. Enabling or disabling is performed synchronously, so a failure to reach the requested state is returned as a modeled exception rather than a FAILED status. On success the operation returns an empty response. Call GetAgentPreferences to read the resulting state. The account the preferences belong to is inferred from the caller's authorization context.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAgentPreferencesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAgentPreferencesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func putAgentPreferences(input: PutAgentPreferencesInput) async throws -> PutAgentPreferencesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAgentPreferences")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAgentPreferencesInput, PutAgentPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>(PutAgentPreferencesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAgentPreferencesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAgentPreferencesOutput>(PutAgentPreferencesOutput.httpOutput(from:), PutAgentPreferencesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAgentPreferencesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAgentPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAgentPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAgentPreferencesInput, PutAgentPreferencesOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAgentPreferences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAgentProfilePolicy` operation on the `WellArchitected` service.
+    ///
+    /// Attaches or replaces a resource-based policy on an Agent Profile. The policy controls cross-account access to the profile and its child resources such as recommendations, goals, and contexts. Only the profile owner can call this operation. The policy must be valid IAM JSON with Allow-only statements and no negation condition operators.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAgentProfilePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAgentProfilePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func putAgentProfilePolicy(input: PutAgentProfilePolicyInput) async throws -> PutAgentProfilePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAgentProfilePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>(PutAgentProfilePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAgentProfilePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAgentProfilePolicyOutput>(PutAgentProfilePolicyOutput.httpOutput(from:), PutAgentProfilePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAgentProfilePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAgentProfilePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAgentProfilePolicyInput, PutAgentProfilePolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAgentProfilePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutAgentRecommendationFeedback` operation on the `WellArchitected` service.
     ///
     /// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
@@ -5879,9 +6866,153 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutAgentRecommendationPolicy` operation on the `WellArchitected` service.
+    ///
+    /// Attaches or replaces a resource-based policy on an individual Agent Recommendation. The policy controls cross-account access to the recommendation and its child resources such as items and remediations. The recommendation owner or any principal with profile write access on the parent profile can call this operation. The policy must be valid IAM JSON with Allow-only statements and no negation condition operators.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAgentRecommendationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAgentRecommendationPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func putAgentRecommendationPolicy(input: PutAgentRecommendationPolicyInput) async throws -> PutAgentRecommendationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAgentRecommendationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>(PutAgentRecommendationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAgentRecommendationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAgentRecommendationPolicyOutput>(PutAgentRecommendationPolicyOutput.httpOutput(from:), PutAgentRecommendationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAgentRecommendationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAgentRecommendationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAgentRecommendationPolicyInput, PutAgentRecommendationPolicyOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAgentRecommendationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SendAgentOrganizationalReportDataToS3` operation on the `WellArchitected` service.
+    ///
+    /// Writes the data artifact for a completed Organizational Report directly into a caller-owned S3 bucket. The artifact is written in the requested format to the supplied bucketArn and objectKey, and the resulting S3 location is returned in deliveredTo. This operation creates an S3 object and should not be retried indiscriminately. To download the artifact through a short-lived presigned URL instead, use GetAgentOrganizationalReportData.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendAgentOrganizationalReportDataToS3Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendAgentOrganizationalReportDataToS3Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func sendAgentOrganizationalReportDataToS3(input: SendAgentOrganizationalReportDataToS3Input) async throws -> SendAgentOrganizationalReportDataToS3Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendAgentOrganizationalReportDataToS3")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>(SendAgentOrganizationalReportDataToS3Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendAgentOrganizationalReportDataToS3Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendAgentOrganizationalReportDataToS3Output>(SendAgentOrganizationalReportDataToS3Output.httpOutput(from:), SendAgentOrganizationalReportDataToS3OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendAgentOrganizationalReportDataToS3Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendAgentOrganizationalReportDataToS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgentOrganizationalReportDataToS3Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendAgentOrganizationalReportDataToS3Input, SendAgentOrganizationalReportDataToS3Output>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendAgentOrganizationalReportDataToS3")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartAgentRecommendationGeneration` operation on the `WellArchitected` service.
     ///
-    /// Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
+    /// Starts a recommendation generation process for the specified agent profile. This asynchronous operation returns immediately. Use GetAgentRecommendationGeneration to check the status of the generation. Currently, only the ARCHITECTURE recommendation type is supported. RESOURCE and APPLICATION recommendations are generated only by the scheduled generation cycle and cannot be started with this operation. For the ARCHITECTURE type, the generation analyzes the infrastructure as code (IaC) template that you specify in additionalContext, and returns updated templates with best practice fixes applied. You must specify scope and additionalContext. You can optionally specify name. Architecture review generations are subject to a daily quota for each profile. For more information, see [Quotas and limits](https://docs.aws.amazon.com/wellarchitected/latest/userguide/agent-quotas.html) in the Amazon Web Services Well-Architected User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartAgentRecommendationGenerationInput`)
     ///
@@ -6234,9 +7365,82 @@ extension WellArchitectedClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateAgentOrganizationalProfile` operation on the `WellArchitected` service.
+    ///
+    /// Updates an Organizational Profile. Organizational Profiles are specific to Profiles created using AWS Organizations integration. Include only the fields you want to change; any field you omit from the request keeps its current value. To clear an optional text field, supply an empty string for it; the field is then unset, and a subsequent read omits it rather than returning an empty string. Omitting the field from the request leaves the stored value in place. description and businessOverview can be cleared this way. displayName cannot be cleared because a display name is required, though you can change it. pillars cannot be cleared because a profile must target at least one pillar. organizationalAggregationConfiguration behaves differently because it is a structure rather than a text field. Supplying it with both its organizationalUnits and accounts lists empty removes every monitored organizational unit and account, but the field itself remains set: a subsequent read returns the structure with two empty lists rather than omitting it. Omitting the field from the request keeps the stored boundary.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentOrganizationalProfileInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAgentOrganizationalProfileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func updateAgentOrganizationalProfile(input: UpdateAgentOrganizationalProfileInput) async throws -> UpdateAgentOrganizationalProfileOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAgentOrganizationalProfile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(UpdateAgentOrganizationalProfileInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAgentOrganizationalProfileInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentOrganizationalProfileOutput>(UpdateAgentOrganizationalProfileOutput.httpOutput(from:), UpdateAgentOrganizationalProfileOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentOrganizationalProfileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WellArchitected", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, subServiceType: "AGENT", useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAgentOrganizationalProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WellArchitected"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAgentOrganizationalProfileInput, UpdateAgentOrganizationalProfileOutput>(serviceID: serviceName, version: WellArchitectedClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WellArchitected")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAgentOrganizationalProfile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateAgentProfile` operation on the `WellArchitected` service.
     ///
-    /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
+    /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings. Include only the fields you want to change. Any field you omit from the request keeps its current value, so you do not need to retrieve the profile first and resend the fields you are not changing. To clear an optional text field, supply an empty string for it; the field is then unset, and a subsequent read omits it rather than returning an empty string. Omitting the field from the request leaves the stored value in place. description and businessOverview can be cleared this way. displayName cannot be cleared because a display name is required, though you can change it. pillars cannot be cleared because a profile must target at least one pillar. aggregationConfiguration behaves differently because it is a list of per-account configurations rather than a text field. Supplying an empty list removes every account entry, but the field itself remains set: a subsequent read returns an empty list rather than omitting the field. Omitting it from the request keeps the stored entries.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAgentProfileInput`)
     ///
@@ -6248,6 +7452,7 @@ extension WellArchitectedClient {
     /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     public func updateAgentProfile(input: UpdateAgentProfileInput) async throws -> UpdateAgentProfileOutput {

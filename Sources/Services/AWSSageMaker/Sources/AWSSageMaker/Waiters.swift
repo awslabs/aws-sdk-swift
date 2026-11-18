@@ -138,7 +138,7 @@ extension SageMakerClient {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeImageInput, result: Swift.Result<DescribeImageOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeImageInput, result: Swift.Result<DescribeImageOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ImageStatus"
@@ -260,7 +260,7 @@ extension SageMakerClient {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeImageVersionInput, result: Swift.Result<DescribeImageVersionOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
-                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFound"
             }),
             .init(state: .failure, matcher: { (input: DescribeImageVersionInput, result: Swift.Result<DescribeImageVersionOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ImageVersionStatus"

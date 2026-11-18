@@ -243,6 +243,35 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
+    public enum AmiArchitecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AmiArchitecture] {
+            return [
+                .arm64,
+                .x8664
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "arm64"
+            case .x8664: return "x86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
     /// A lifecycle rule that deletes application versions after the specified number of days.
     public struct MaxAgeRule: Swift.Sendable {
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
@@ -1655,7 +1684,7 @@ extension ElasticBeanstalkClientTypes {
 
     /// The source of the container image for an application version: an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle.
     public struct ImageConfiguration: Swift.Sendable {
-        /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. If you specify Build, also specify the request's SourceBundle parameter, and don't specify Source.
+        /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. If you specify Build, also specify the request's SourceBundle parameter, and don't specify Source. To build the image when you create the application version instead of on first deployment, also set Process to true.
         public var build: ElasticBeanstalkClientTypes.ImageBuildConfiguration?
         /// The location of a container image that you built and pushed to a container registry yourself. Elastic Beanstalk deploys the image without a build step. If you specify Source, don't specify Build or the request's SourceBundle parameter.
         public var source: ElasticBeanstalkClientTypes.ImageSource?
@@ -1683,7 +1712,7 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
     public var description: Swift.String?
     /// The source of the container image for this application version. You can specify an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle. Specify exactly one of the Source and Build members. Don't specify ImageConfiguration together with BuildConfiguration, which configures an CodeBuild build instead.
     public var imageConfiguration: ElasticBeanstalkClientTypes.ImageConfiguration?
-    /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+    /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. For application versions with ImageConfiguration.Build, Process determines when Elastic Beanstalk builds the container image. Set it to true to build the image when you create the application version. If you don't, Elastic Beanstalk builds the image when you first deploy the application version to an environment. The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
     public var process: Swift.Bool?
     /// Specify a commit in an CodeCommit Git repository to use as the source code for the application version.
     public var sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation?
@@ -3989,6 +4018,25 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
+    /// An AMI that Elastic Beanstalk uses by default for a platform version and processor architecture.
+    public struct DefaultAmi: Swift.Sendable {
+        /// The processor architecture of the AMI.
+        public var architecture: ElasticBeanstalkClientTypes.AmiArchitecture?
+        /// The ID of the AMI.
+        public var imageId: Swift.String?
+
+        public init(
+            architecture: ElasticBeanstalkClientTypes.AmiArchitecture? = nil,
+            imageId: Swift.String? = nil
+        ) {
+            self.architecture = architecture
+            self.imageId = imageId
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
     /// A framework supported by the platform.
     public struct PlatformFramework: Swift.Sendable {
         /// The name of the framework.
@@ -4029,12 +4077,14 @@ extension ElasticBeanstalkClientTypes {
 
     /// Detailed information about a platform version.
     public struct PlatformDescription: Swift.Sendable {
-        /// The custom AMIs supported by the platform version.
+        /// The AMIs of the platform version, by virtualization type. For Elastic Beanstalk managed platforms, these are the default x86_64 AMIs; for custom platforms, the hvm entry is the AMI built for the platform version. To find a managed platform's default AMIs for every supported processor architecture, including arm64, use DefaultAmiList.
         public var customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]?
         /// The date when the platform version was created.
         public var dateCreated: Foundation.Date?
         /// The date when the platform version was last updated.
         public var dateUpdated: Foundation.Date?
+        /// The AMIs that Elastic Beanstalk uses by default for the platform version, one for each supported processor architecture. When an environment doesn't specify a custom AMI, Elastic Beanstalk chooses the default AMI that matches the environment's architecture. This list isn't returned for custom platforms.
+        public var defaultAmiList: [ElasticBeanstalkClientTypes.DefaultAmi]?
         /// The description of the platform version.
         public var description: Swift.String?
         /// The frameworks supported by the platform version.
@@ -4076,6 +4126,7 @@ extension ElasticBeanstalkClientTypes {
             customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]? = nil,
             dateCreated: Foundation.Date? = nil,
             dateUpdated: Foundation.Date? = nil,
+            defaultAmiList: [ElasticBeanstalkClientTypes.DefaultAmi]? = nil,
             description: Swift.String? = nil,
             frameworks: [ElasticBeanstalkClientTypes.PlatformFramework]? = nil,
             maintainer: Swift.String? = nil,
@@ -4098,6 +4149,7 @@ extension ElasticBeanstalkClientTypes {
             self.customAmiList = customAmiList
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
+            self.defaultAmiList = defaultAmiList
             self.description = description
             self.frameworks = frameworks
             self.maintainer = maintainer
@@ -7914,6 +7966,17 @@ extension ElasticBeanstalkClientTypes.CustomAmi {
     }
 }
 
+extension ElasticBeanstalkClientTypes.DefaultAmi {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.DefaultAmi {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.DefaultAmi()
+        value.architecture = try reader["Architecture"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        return value
+    }
+}
+
 extension ElasticBeanstalkClientTypes.Deployment {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Deployment {
@@ -8319,6 +8382,7 @@ extension ElasticBeanstalkClientTypes.PlatformDescription {
         value.programmingLanguages = try reader["ProgrammingLanguages"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.PlatformProgrammingLanguage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.frameworks = try reader["Frameworks"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.PlatformFramework.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customAmiList = try reader["CustomAmiList"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.CustomAmi.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAmiList = try reader["DefaultAmiList"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.DefaultAmi.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedTierList = try reader["SupportedTierList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedAddonList = try reader["SupportedAddonList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.platformLifecycleState = try reader["PlatformLifecycleState"].readIfPresent()

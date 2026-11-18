@@ -318,7 +318,7 @@ extension LexRuntimeV2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Lex Runtime V2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -549,7 +549,7 @@ extension LexRuntimeV2Client {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Lex Runtime V2"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -611,7 +611,7 @@ extension LexRuntimeV2Client {
     public static func builder() -> ClientRuntime.ClientBuilder<LexRuntimeV2Client> {
         return ClientRuntime.ClientBuilder<LexRuntimeV2Client>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Lex Runtime V2"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1078,7 +1078,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartConversationInput, StartConversationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<StartConversationInput, StartConversationOutput>(StartConversationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartConversationInput, StartConversationOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<StartConversationInput, StartConversationOutput, LexRuntimeV2ClientTypes.StartConversationRequestEventStream>(keyPath: \.requestEventStream, defaultBody: "{}", marshalClosure: LexRuntimeV2ClientTypes.StartConversationRequestEventStream.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<StartConversationInput, StartConversationOutput, LexRuntimeV2ClientTypes.StartConversationRequestEventStream>(keyPath: \.requestEventStream, defaultBody: "{}", marshalClosure: LexRuntimeV2ClientTypes.StartConversationRequestEventStream.marshal, errorMarshalClosure: LexRuntimeV2ClientTypes.StartConversationRequestEventStream.marshalError))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConversationInput, StartConversationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConversationOutput>(StartConversationOutput.httpOutput(from:), StartConversationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConversationInput, StartConversationOutput>(clientLogMode: config.clientLogMode))

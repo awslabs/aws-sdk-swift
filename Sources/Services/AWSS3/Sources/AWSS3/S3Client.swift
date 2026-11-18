@@ -389,7 +389,7 @@ extension S3Client {
                 useGlobalEndpoint: nil,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "S3"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -676,7 +676,7 @@ extension S3Client {
                 useGlobalEndpoint: nil,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "S3"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -746,7 +746,7 @@ extension S3Client {
     public static func builder() -> ClientRuntime.ClientBuilder<S3Client> {
         return ClientRuntime.ClientBuilder<S3Client>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "S3"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1418,7 +1418,14 @@ extension S3Client {
 
     /// Performs the `CreateMultipartUpload` operation on the `S3` service.
     ///
-    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This action initiates a multipart upload and returns an upload ID. This upload ID is used to associate all of the parts in the specific multipart upload. You specify this upload ID in each of your subsequent upload part requests (see [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html)). You also include this upload ID in the final request to either complete or abort the multipart upload request. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide. After you initiate a multipart upload and upload one or more parts, to stop being charged for storing the uploaded parts, you must either complete or abort the multipart upload. Amazon S3 frees up the space used to store the parts and stops charging you for storing them only after you either complete or abort a multipart upload. If you have configured a lifecycle rule to abort incomplete multipart uploads, the created multipart upload must be completed within the number of days specified in the bucket lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the multipart upload. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config).
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This action initiates a multipart upload and returns an upload ID. This upload ID is used to associate all of the parts in the specific multipart upload. You specify this upload ID in each of your subsequent upload part requests (see [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html)). You also include this upload ID in the final request to either complete or abort the multipart upload request. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide.
+    ///
+    /// * After you initiate a multipart upload and upload one or more parts, to stop being charged for storing the uploaded parts, you must either complete or abort the multipart upload. Amazon S3 frees up the space used to store the parts and stops charging you for storing them only after you either complete or abort a multipart upload.
+    ///
+    /// * When you initiate a multipart upload, Amazon S3 records the bucket configuration in place at that time and uses it for the rest of the upload. Changes that you make to the bucket configuration after you initiate the upload don't apply to that upload. To apply new bucket configuration to uploads in progress, use [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html) to find them and [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html) to stop them. Then start the uploads again.
+    ///
+    ///
+    /// If you have configured a lifecycle rule to abort incomplete multipart uploads, the created multipart upload must be completed within the number of days specified in the bucket lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the multipart upload. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config).
     ///
     /// * Directory buckets - S3 Lifecycle is not supported by directory buckets.
     ///
@@ -2282,7 +2289,7 @@ extension S3Client {
 
     /// Performs the `DeleteBucketMetadataTableConfiguration` operation on the `S3` service.
     ///
-    /// We recommend that you delete your S3 Metadata configurations by using the V2 [DeleteBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetadataTableConfiguration.html) API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table. Deletes a V1 S3 Metadata configuration from a general purpose bucket. For more information, see [Accelerating data discovery with S3 Metadata](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-overview.html) in the Amazon S3 User Guide. You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata table configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Make sure that you update your processes to use the new V2 API operations (CreateBucketMetadataConfiguration, GetBucketMetadataConfiguration, and DeleteBucketMetadataConfiguration) instead of the V1 API operations. Permissions To use this operation, you must have the s3:DeleteBucketMetadataTableConfiguration permission. For more information, see [Setting up permissions for configuring metadata tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-permissions.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketMetadataTableConfiguration:
+    /// We recommend that you delete your S3 Metadata configurations by using the V2 [DeleteBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetadataConfiguration.html) API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table. Deletes a V1 S3 Metadata configuration from a general purpose bucket. For more information, see [Accelerating data discovery with S3 Metadata](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-overview.html) in the Amazon S3 User Guide. You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata table configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Make sure that you update your processes to use the new V2 API operations (CreateBucketMetadataConfiguration, GetBucketMetadataConfiguration, and DeleteBucketMetadataConfiguration) instead of the V1 API operations. Permissions To use this operation, you must have the s3:DeleteBucketMetadataTableConfiguration permission. For more information, see [Setting up permissions for configuring metadata tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-permissions.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketMetadataTableConfiguration:
     ///
     /// * [CreateBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataTableConfiguration.html)
     ///
@@ -3886,8 +3893,6 @@ extension S3Client {
     ///
     /// * HTTP Status Code: 404 Not Found
     ///
-    /// * SOAP Fault Code Prefix: Client
-    ///
     ///
     ///
     ///
@@ -4194,7 +4199,7 @@ extension S3Client {
 
     /// Performs the `GetBucketMetadataTableConfiguration` operation on the `S3` service.
     ///
-    /// We recommend that you retrieve your S3 Metadata configurations by using the V2 [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html) API operation. We no longer recommend using the V1 GetBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table. Retrieves the V1 S3 Metadata configuration for a general purpose bucket. For more information, see [Accelerating data discovery with S3 Metadata](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-overview.html) in the Amazon S3 User Guide. You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata table configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Make sure that you update your processes to use the new V2 API operations (CreateBucketMetadataConfiguration, GetBucketMetadataConfiguration, and DeleteBucketMetadataConfiguration) instead of the V1 API operations. Permissions To use this operation, you must have the s3:GetBucketMetadataTableConfiguration permission. For more information, see [Setting up permissions for configuring metadata tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-permissions.html) in the Amazon S3 User Guide. The following operations are related to GetBucketMetadataTableConfiguration:
+    /// We recommend that you retrieve your S3 Metadata configurations by using the V2 [GetBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html) API operation. We no longer recommend using the V1 GetBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table. Retrieves the V1 S3 Metadata configuration for a general purpose bucket. For more information, see [Accelerating data discovery with S3 Metadata](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-overview.html) in the Amazon S3 User Guide. You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata table configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed error. Make sure that you update your processes to use the new V2 API operations (CreateBucketMetadataConfiguration, GetBucketMetadataConfiguration, and DeleteBucketMetadataConfiguration) instead of the V1 API operations. Permissions To use this operation, you must have the s3:GetBucketMetadataTableConfiguration permission. For more information, see [Setting up permissions for configuring metadata tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-permissions.html) in the Amazon S3 User Guide. The following operations are related to GetBucketMetadataTableConfiguration:
     ///
     /// * [CreateBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataTableConfiguration.html)
     ///
@@ -9724,8 +9729,6 @@ extension S3Client {
     ///
     /// * HTTP Status Code: 409 Conflict
     ///
-    /// * SOAP Fault Code Prefix: Client
-    ///
     ///
     ///
     ///
@@ -9735,8 +9738,6 @@ extension S3Client {
     /// * Cause: expedited retrievals are currently not available. Try again later. (Returned if there is insufficient capacity to process the Expedited request. This error applies only to Expedited retrievals and not to S3 Standard or Bulk retrievals.)
     ///
     /// * HTTP Status Code: 503
-    ///
-    /// * SOAP Fault Code Prefix: N/A
     ///
     ///
     ///
@@ -10339,8 +10340,6 @@ extension S3Client {
     ///
     /// * HTTP Status Code: 404 Not Found
     ///
-    /// * SOAP Fault Code Prefix: Client
-    ///
     ///
     ///
     ///
@@ -10804,8 +10803,6 @@ extension S3Client {
     ///
     /// * HTTP Status Code: 404 Not Found
     ///
-    /// * SOAP Fault Code Prefix: Client
-    ///
     ///
     ///
     ///
@@ -11011,8 +11008,6 @@ extension S3Client {
     /// * Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.
     ///
     /// * HTTP Status Code: 404 Not Found
-    ///
-    /// * SOAP Fault Code Prefix: Client
     ///
     ///
     ///

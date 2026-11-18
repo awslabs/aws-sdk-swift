@@ -2567,6 +2567,34 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes {
 
+    /// The network access controls for your Identity Center instance. These controls restrict which networks can reach your instance and applications.
+    public struct NetworkConfigurationInfo: Swift.Sendable {
+        /// Allows access from the IPv4 or IPv6 CIDR blocks that you specify, in addition to the VPCs allowed by RestrictSourceVpcs. If you don't specify this value, no additional IP address ranges are allowed.
+        public var allowSourceIps: [Swift.String]?
+        /// Exempts the applications that you specify from the network access control, so that access to them is unchanged. You can specify both Amazon Web Services managed applications and customer managed applications, and you can use wildcards. These applications are not restricted by RestrictSourceVpcs or AllowSourceIps. If you don't specify this value, the controls apply to all applications.
+        public var excludeApplicationArns: [Swift.String]?
+        /// Limits access to the VPC endpoints in the VPCs that you specify. These VPCs must be in your organization, or in the Amazon Web Services account for an account instance. If you don't specify this value, access is allowed from any VPC in your organization or Amazon Web Services account.
+        public var restrictSourceVpcs: [Swift.String]?
+        /// Specifies whether access to your Identity Center instance and to applications must originate from a VPC endpoint. When this value is true and no other field is specified, access is allowed from any VPC in your organization, or from any VPC in the Amazon Web Services account for an account instance, and applies to all applications. When this value is false, no network access control is enforced and the values of RestrictSourceVpcs, AllowSourceIps, and ExcludeApplicationArns are cleared.
+        /// This member is required.
+        public var vpceAccessRequired: Swift.Bool?
+
+        public init(
+            allowSourceIps: [Swift.String]? = nil,
+            excludeApplicationArns: [Swift.String]? = nil,
+            restrictSourceVpcs: [Swift.String]? = nil,
+            vpceAccessRequired: Swift.Bool? = nil
+        ) {
+            self.allowSourceIps = allowSourceIps
+            self.excludeApplicationArns = excludeApplicationArns
+            self.restrictSourceVpcs = restrictSourceVpcs
+            self.vpceAccessRequired = vpceAccessRequired
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+
     /// Contains information about an enabled Region of an IAM Identity Center instance, including the Region name, status, date added, and whether it is the primary Region.
     public struct RegionMetadata: Swift.Sendable {
         /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the instance creation time.
@@ -2640,6 +2668,8 @@ public struct DescribeInstanceOutput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// Specifies the instance name.
     public var name: Swift.String?
+    /// The network access controls configured for your Identity Center instance, including whether VPC endpoint access is required, and any VPC, IP address range, or application controls applied to instance traffic. Present only after a network configuration has been set on the instance.
+    public var networkConfigurationDetails: SSOAdminClientTypes.NetworkConfigurationInfo?
     /// The identifier of the Amazon Web Services account for which the instance was created.
     public var ownerAccountId: Swift.String?
     /// Indicates whether permission sets are enabled for this Identity Center instance.
@@ -2660,6 +2690,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
         identityStoreId: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkConfigurationDetails: SSOAdminClientTypes.NetworkConfigurationInfo? = nil,
         ownerAccountId: Swift.String? = nil,
         permissionSetsEnabled: Swift.Bool? = nil,
         primaryRegion: Swift.String? = nil,
@@ -2673,6 +2704,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
         self.identityStoreId = identityStoreId
         self.instanceArn = instanceArn
         self.name = name
+        self.networkConfigurationDetails = networkConfigurationDetails
         self.ownerAccountId = ownerAccountId
         self.permissionSetsEnabled = permissionSetsEnabled
         self.primaryRegion = primaryRegion
@@ -4383,25 +4415,29 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 }
 
 public struct UpdateInstanceInput: Swift.Sendable {
-    /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
+    /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data. You can't set more than one of EncryptionConfiguration, PermissionSetsEnabled, and NetworkConfiguration in the same request. To configure more than one of them, make a separate UpdateInstance call for each. These calls can be made in parallel.
     public var encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration?
     /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// Updates the instance name.
     public var name: Swift.String?
-    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. You can make these calls in parallel.
+    /// Specifies the network access controls for your Identity Center instance. Use this to require that access to your instance and to applications originates from VPC endpoints, and to optionally restrict which VPCs are permitted, allow specific IP address ranges that bypass the VPC endpoint requirement, or exempt specific applications from the controls. If you omit NetworkConfiguration, the stored network configuration is preserved. If you specify NetworkConfiguration, it replaces the stored network configuration in its entirety. Any list that you omit from the object, or include as an empty list, is cleared.
+    public var networkConfiguration: SSOAdminClientTypes.NetworkConfigurationInfo?
+    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.
     public var permissionSetsEnabled: Swift.Bool?
 
     public init(
         encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkConfiguration: SSOAdminClientTypes.NetworkConfigurationInfo? = nil,
         permissionSetsEnabled: Swift.Bool? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.instanceArn = instanceArn
         self.name = name
+        self.networkConfiguration = networkConfiguration
         self.permissionSetsEnabled = permissionSetsEnabled
     }
 }

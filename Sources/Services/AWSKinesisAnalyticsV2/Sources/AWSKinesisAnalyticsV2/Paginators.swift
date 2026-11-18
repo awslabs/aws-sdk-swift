@@ -135,3 +135,70 @@ extension PaginatorSequence where OperationStackInput == ListApplicationVersions
         return try await self.asyncCompactMap { item in item.applicationVersionSummaries }
     }
 }
+extension KinesisAnalyticsV2Client {
+    /// Paginate over `[ListSnapshotOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSnapshotOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotOperationsOutput`
+    public func listSnapshotOperationsPaginated(input: ListSnapshotOperationsInput) -> ClientRuntime.PaginatorSequence<ListSnapshotOperationsInput, ListSnapshotOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSnapshotOperations(input:))
+    }
+}
+
+extension ListSnapshotOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSnapshotOperationsInput {
+        return ListSnapshotOperationsInput(
+            limit: self.limit,
+            nextToken: token,
+            snapshotName: self.snapshotName,
+            snapshotOperation: self.snapshotOperation,
+            snapshotOperationStatus: self.snapshotOperationStatus
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSnapshotOperationsInput, OperationStackOutput == ListSnapshotOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSnapshotOperationsPaginated`
+    /// to access the nested member `[KinesisAnalyticsV2ClientTypes.SnapshotOperationInfo]`
+    /// - Returns: `[KinesisAnalyticsV2ClientTypes.SnapshotOperationInfo]`
+    public func snapshotOperationInfoList() async throws -> [KinesisAnalyticsV2ClientTypes.SnapshotOperationInfo] {
+        return try await self.asyncCompactMap { item in item.snapshotOperationInfoList }
+    }
+}
+extension KinesisAnalyticsV2Client {
+    /// Paginate over `[ListSnapshotsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSnapshotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotsOutput`
+    public func listSnapshotsPaginated(input: ListSnapshotsInput) -> ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSnapshots(input:))
+    }
+}
+
+extension ListSnapshotsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSnapshotsInput {
+        return ListSnapshotsInput(
+            limit: self.limit,
+            nextToken: token,
+            snapshotInitiator: self.snapshotInitiator,
+            snapshotInitiatorOperation: self.snapshotInitiatorOperation,
+            snapshotStatus: self.snapshotStatus,
+            sourceApplicationName: self.sourceApplicationName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSnapshotsInput, OperationStackOutput == ListSnapshotsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSnapshotsPaginated`
+    /// to access the nested member `[KinesisAnalyticsV2ClientTypes.SnapshotInfo]`
+    /// - Returns: `[KinesisAnalyticsV2ClientTypes.SnapshotInfo]`
+    public func snapshotInfoList() async throws -> [KinesisAnalyticsV2ClientTypes.SnapshotInfo] {
+        return try await self.asyncCompactMap { item in item.snapshotInfoList }
+    }
+}

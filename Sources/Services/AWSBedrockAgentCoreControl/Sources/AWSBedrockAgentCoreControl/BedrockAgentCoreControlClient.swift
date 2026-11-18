@@ -316,7 +316,7 @@ extension BedrockAgentCoreControlClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock AgentCore Control"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -547,7 +547,7 @@ extension BedrockAgentCoreControlClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Bedrock AgentCore Control"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -609,7 +609,7 @@ extension BedrockAgentCoreControlClient {
     public static func builder() -> ClientRuntime.ClientBuilder<BedrockAgentCoreControlClient> {
         return ClientRuntime.ClientBuilder<BedrockAgentCoreControlClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Bedrock AgentCore Control"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -5080,6 +5080,75 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgentInsightStore` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Returns the account's service-defined default Agent Insight Store. The logical default exists for every enrolled account; its backing state may be initialized on first access.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentInsightStoreInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentInsightStoreOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getAgentInsightStore(input: GetAgentInsightStoreInput) async throws -> GetAgentInsightStoreOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentInsightStore")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentInsightStoreInput, GetAgentInsightStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>(GetAgentInsightStoreInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentInsightStoreOutput>(GetAgentInsightStoreOutput.httpOutput(from:), GetAgentInsightStoreOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentInsightStoreOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentInsightStoreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentInsightStoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock AgentCore Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentInsightStoreInput, GetAgentInsightStoreOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentInsightStore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAgentRuntime` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Gets an Amazon Bedrock AgentCore Runtime.
@@ -7530,6 +7599,75 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAgentInsightStores` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Lists the account's service-defined default Agent Insight Store. The singleton backing state may be initialized on first access.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAgentInsightStoresInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAgentInsightStoresOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listAgentInsightStores(input: ListAgentInsightStoresInput) async throws -> ListAgentInsightStoresOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAgentInsightStores")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAgentInsightStoresInput, ListAgentInsightStoresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>(ListAgentInsightStoresInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>(ListAgentInsightStoresInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentInsightStoresOutput>(ListAgentInsightStoresOutput.httpOutput(from:), ListAgentInsightStoresOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentInsightStoresOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgentInsightStoresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgentInsightStoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock AgentCore Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgentInsightStoresInput, ListAgentInsightStoresOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAgentInsightStores")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAgentRuntimeEndpoints` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Lists all endpoints for a specific Amazon Secure Agent.
@@ -8375,7 +8513,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListDatasetExamples` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
+    /// Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. A request with a pagination token can omit datasetVersion. If it sets a version that differs from the token's version, the request fails with a ValidationException.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDatasetExamplesInput`)
     ///
@@ -8392,7 +8530,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listDatasetExamples(input: ListDatasetExamplesInput) async throws -> ListDatasetExamplesOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDatasetExamples")
                       .withUnsignedPayloadTrait(value: false)
@@ -8413,7 +8551,9 @@ extension BedrockAgentCoreControlClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>(ListDatasetExamplesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>(ListDatasetExamplesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetExamplesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetExamplesOutput>(ListDatasetExamplesOutput.httpOutput(from:), ListDatasetExamplesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetExamplesInput, ListDatasetExamplesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -8462,7 +8602,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listDatasetVersions(input: ListDatasetVersionsInput) async throws -> ListDatasetVersionsOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDatasetVersions")
                       .withUnsignedPayloadTrait(value: false)
@@ -8483,7 +8623,9 @@ extension BedrockAgentCoreControlClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>(ListDatasetVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>(ListDatasetVersionsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetVersionsOutput>(ListDatasetVersionsOutput.httpOutput(from:), ListDatasetVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetVersionsInput, ListDatasetVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -8531,7 +8673,7 @@ extension BedrockAgentCoreControlClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDatasets")
                       .withUnsignedPayloadTrait(value: false)
@@ -8552,7 +8694,9 @@ extension BedrockAgentCoreControlClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetsInput, ListDatasetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -10980,6 +11124,81 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAgentInsightStore` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Updates the enablement status or encryption configuration of an Agent Insight Store.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentInsightStoreInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAgentInsightStoreOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updateAgentInsightStore(input: UpdateAgentInsightStoreInput) async throws -> UpdateAgentInsightStoreOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAgentInsightStore")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(UpdateAgentInsightStoreInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAgentInsightStoreInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentInsightStoreOutput>(UpdateAgentInsightStoreOutput.httpOutput(from:), UpdateAgentInsightStoreOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentInsightStoreOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAgentInsightStoreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgentInsightStoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock AgentCore Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAgentInsightStoreInput, UpdateAgentInsightStoreOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAgentInsightStore")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

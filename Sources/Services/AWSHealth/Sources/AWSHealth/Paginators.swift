@@ -28,6 +28,7 @@ extension DescribeAffectedAccountsForOrganizationInput: ClientRuntime.PaginateTo
     public func usingPaginationToken(_ token: Swift.String) -> DescribeAffectedAccountsForOrganizationInput {
         return DescribeAffectedAccountsForOrganizationInput(
             eventArn: self.eventArn,
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -263,5 +264,66 @@ extension PaginatorSequence where OperationStackInput == DescribeServiceLifecycl
     /// - Returns: `[HealthClientTypes.ServiceLifecycle]`
     public func serviceLifecycles() async throws -> [HealthClientTypes.ServiceLifecycle] {
         return try await self.asyncCompactMap { item in item.serviceLifecycles }
+    }
+}
+extension HealthClient {
+    /// Paginate over `[DescribeTagsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
+    public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTags(input:))
+    }
+}
+
+extension DescribeTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeTagsInput {
+        return DescribeTagsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
+    /// to access the nested member `[HealthClientTypes.AccountTag]`
+    /// - Returns: `[HealthClientTypes.AccountTag]`
+    public func tags() async throws -> [HealthClientTypes.AccountTag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
+extension HealthClient {
+    /// Paginate over `[DescribeTagsForOrganizationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTagsForOrganizationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsForOrganizationOutput`
+    public func describeTagsForOrganizationPaginated(input: DescribeTagsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeTagsForOrganizationInput, DescribeTagsForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTagsForOrganizationInput, DescribeTagsForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTagsForOrganization(input:))
+    }
+}
+
+extension DescribeTagsForOrganizationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeTagsForOrganizationInput {
+        return DescribeTagsForOrganizationInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeTagsForOrganizationInput, OperationStackOutput == DescribeTagsForOrganizationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTagsForOrganizationPaginated`
+    /// to access the nested member `[HealthClientTypes.OrganizationTag]`
+    /// - Returns: `[HealthClientTypes.OrganizationTag]`
+    public func tags() async throws -> [HealthClientTypes.OrganizationTag] {
+        return try await self.asyncCompactMap { item in item.tags }
     }
 }

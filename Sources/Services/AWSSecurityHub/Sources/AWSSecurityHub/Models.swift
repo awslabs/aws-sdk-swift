@@ -1401,6 +1401,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum ConfigurationPolicyAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case failed
         case pending
         case success
@@ -1408,6 +1409,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [ConfigurationPolicyAssociationStatus] {
             return [
+                .disabled,
                 .failed,
                 .pending,
                 .success
@@ -1421,6 +1423,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "DISABLED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .success: return "SUCCESS"
@@ -1463,7 +1466,7 @@ extension SecurityHubClientTypes {
 
     /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration policy, AssociationType, or AssociationStatus.
     public struct AssociationFilters: Swift.Sendable {
-        /// The current status of the association between a target and a configuration policy.
+        /// The current status of the association between a target and a configuration policy. Possible values are PENDING, SUCCESS, FAILED, and DISABLED. The value is DISABLED when central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
         public var associationType: SecurityHubClientTypes.AssociationType?
@@ -19928,6 +19931,8 @@ extension SecurityHubClientTypes {
         public var codeRepository: SecurityHubClientTypes.CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
         public var container: SecurityHubClientTypes.ContainerDetails?
+        /// Details about a GCP resource that is related to a finding.
+        public var gcpResource: Smithy.Document?
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.
         ///
         /// * The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.
@@ -20036,6 +20041,7 @@ extension SecurityHubClientTypes {
             azureResource: Smithy.Document? = nil,
             codeRepository: SecurityHubClientTypes.CodeRepositoryDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
+            gcpResource: Smithy.Document? = nil,
             other: [Swift.String: Swift.String]? = nil
         ) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
@@ -20138,6 +20144,7 @@ extension SecurityHubClientTypes {
             self.azureResource = azureResource
             self.codeRepository = codeRepository
             self.container = container
+            self.gcpResource = gcpResource
             self.other = other
         }
     }
@@ -20238,12 +20245,14 @@ extension SecurityHubClientTypes {
     public enum CloudProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CloudProviderName] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -20256,6 +20265,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -21859,12 +21869,14 @@ extension SecurityHubClientTypes {
     public enum StandardsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StandardsProvider] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -21877,6 +21889,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22005,7 +22018,7 @@ extension SecurityHubClientTypes {
 
     /// A resource that represents your subscription to a supported standard.
     public struct StandardsSubscription: Swift.Sendable {
-        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the standard evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         /// This member is required.
@@ -22216,7 +22229,15 @@ extension SecurityHubClientTypes {
 
     /// An object that contains the details of a configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
     public struct ConfigurationPolicyAssociationSummary: Swift.Sendable {
-        /// The current status of the association between the specified target and the configuration.
+        /// The current status of the association between the specified target and the configuration. Possible values are:
+        ///
+        /// * PENDING - The association is in progress.
+        ///
+        /// * SUCCESS - The association succeeded.
+        ///
+        /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+        ///
+        /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// The explanation for a FAILED value for AssociationStatus.
         public var associationStatusMessage: Swift.String?
@@ -22379,12 +22400,14 @@ extension SecurityHubClientTypes {
     public enum SecurityControlsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SecurityControlsProvider] {
             return [
                 .aws,
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -22397,6 +22420,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .aws: return "AWS"
             case .azure: return "Azure"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22507,7 +22531,7 @@ extension SecurityHubClientTypes {
         public var lastUpdateReason: Swift.String?
         /// An object that identifies the name of a control parameter, its current value, and whether it has been customized.
         public var parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]?
-        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the security control evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
@@ -24286,6 +24310,7 @@ extension SecurityHubClientTypes {
 
     public enum ConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case jiraCloud
         case servicenow
         case sdkUnknown(Swift.String)
@@ -24293,6 +24318,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [ConnectorProviderName] {
             return [
                 .azure,
+                .gcp,
                 .jiraCloud,
                 .servicenow
             ]
@@ -24306,6 +24332,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case .jiraCloud: return "JIRA_CLOUD"
             case .servicenow: return "SERVICENOW"
             case let .sdkUnknown(s): return s
@@ -24401,6 +24428,82 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// The type of scope for a GCP connector. Valid values are ORGANIZATION (monitor all projects in the organization) and PROJECT (monitor specific projects).
+    public enum GcpScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organization
+        case project
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GcpScopeType] {
+            return [
+                .organization,
+                .project
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .organization: return "ORGANIZATION"
+            case .project: return "PROJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The scope configuration for a GCP connector, defining the organization or project scope.
+    public struct GcpScopeConfiguration: Swift.Sendable {
+        /// The type of scope. Valid values are ORGANIZATION and PROJECT.
+        /// This member is required.
+        public var scopeType: SecurityHubClientTypes.GcpScopeType?
+        /// The list of scope values. Use an organization ID when the scope type is ORGANIZATION, or project IDs when the scope type is PROJECT.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            scopeType: SecurityHubClientTypes.GcpScopeType? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The detailed GCP configuration for a connector.
+    public struct GcpDetail: Swift.Sendable {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to GCP.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of GCP regions being monitored.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The scope configuration that defines which GCP resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Information about the configuration and status of a Jira Cloud integration.
     public struct JiraCloudDetail: Swift.Sendable {
         /// The status of the authorization between Jira Cloud and the service.
@@ -24465,6 +24568,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowDetail)
         /// Details about a Microsoft Azure CSPM integration.
         case azure(SecurityHubClientTypes.AzureDetail)
+        /// Details about a Google Cloud Platform (GCP) CSPM integration.
+        case gcp(SecurityHubClientTypes.GcpDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25199,10 +25304,38 @@ public struct CreateConfigurationPolicyOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// The cloud provider configuration for creating a connector. This is a union type that currently supports Azure.
+    /// The configuration for connecting to a GCP environment.
+    public struct GcpProviderConfiguration: Swift.Sendable {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to GCP.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of GCP regions to monitor.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The scope configuration that defines which GCP resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The cloud provider configuration for creating a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderConfiguration: Swift.Sendable {
         /// The Azure provider configuration.
         case azure(SecurityHubClientTypes.AzureProviderConfiguration)
+        /// The GCP provider configuration.
+        case gcp(SecurityHubClientTypes.GcpProviderConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25379,6 +25512,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowProviderConfiguration)
         /// The configuration settings required to establish a CSPM integration with Microsoft Azure.
         case azure(SecurityHubClientTypes.AzureProviderConfiguration)
+        /// The configuration settings required to establish a CSPM integration with Google Cloud Platform (GCP).
+        case gcp(SecurityHubClientTypes.GcpProviderConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25640,6 +25775,8 @@ extension SecurityHubClientTypes {
 
     public enum CriticalitySourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automationRule
+        case cloudwatchTelemetryInference
+        case installedSoftwareAndPackageInference
         case resourceName
         case tagInference
         case sdkUnknown(Swift.String)
@@ -25647,6 +25784,8 @@ extension SecurityHubClientTypes {
         public static var allCases: [CriticalitySourceType] {
             return [
                 .automationRule,
+                .cloudwatchTelemetryInference,
+                .installedSoftwareAndPackageInference,
                 .resourceName,
                 .tagInference
             ]
@@ -25660,6 +25799,8 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .automationRule: return "AutomationRule"
+            case .cloudwatchTelemetryInference: return "CloudWatchTelemetryInference"
+            case .installedSoftwareAndPackageInference: return "InstalledSoftwareAndPackageInference"
             case .resourceName: return "ResourceName"
             case .tagInference: return "TagInference"
             case let .sdkUnknown(s): return s
@@ -25694,11 +25835,13 @@ extension SecurityHubClientTypes {
     /// The name of the cloud provider for a CSPM connector.
     public enum CspmConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CspmConnectorProviderName] {
             return [
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -25710,6 +25853,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -25718,10 +25862,12 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure.
+    /// The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderDetail: Swift.Sendable {
         /// The Azure provider detail.
         case azure(SecurityHubClientTypes.AzureDetail)
+        /// The GCP provider detail.
+        case gcp(SecurityHubClientTypes.GcpDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -25889,10 +26035,33 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The cloud provider configuration for updating a connector. This is a union type that currently supports Azure.
+    /// The configuration for updating a GCP connector's scope and regions.
+    public struct GcpUpdateConfiguration: Swift.Sendable {
+        /// The updated list of GCP regions to monitor.
+        /// This member is required.
+        public var gcpRegions: [Swift.String]?
+        /// The updated scope configuration.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration?
+
+        public init(
+            gcpRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.GcpScopeConfiguration? = nil
+        ) {
+            self.gcpRegions = gcpRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The cloud provider configuration for updating a connector. This is a union type that currently supports Azure and GCP.
     public enum CspmProviderUpdateConfiguration: Swift.Sendable {
         /// The Azure update configuration.
         case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
+        /// The GCP update configuration.
+        case gcp(SecurityHubClientTypes.GcpUpdateConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -26260,6 +26429,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum OrganizationConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case enabled
         case failed
         case pending
@@ -26267,6 +26437,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [OrganizationConfigurationStatus] {
             return [
+                .disabled,
                 .enabled,
                 .failed,
                 .pending
@@ -26280,6 +26451,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
@@ -26295,7 +26467,7 @@ extension SecurityHubClientTypes {
     public struct OrganizationConfiguration: Swift.Sendable {
         /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub CSPM delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub CSPM and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub CSPM, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
         public var configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType?
-        /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED.
+        /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED. If the value of Status is DISABLED, central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var status: SecurityHubClientTypes.OrganizationConfigurationStatus?
         /// Provides an explanation if the value of Status is equal to FAILED when ConfigurationType is equal to CENTRAL.
         public var statusMessage: Swift.String?
@@ -26643,7 +26815,7 @@ public struct DescribeStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources.
+    /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources, or GCP to return only standards that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.StandardsProvider]?
 
     public init(
@@ -26686,7 +26858,7 @@ extension SecurityHubClientTypes {
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
-        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the standard evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         public var standardsArn: Swift.String?
@@ -28248,7 +28420,15 @@ public struct GetConfigurationPolicyAssociationInput: Swift.Sendable {
 }
 
 public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
-    /// The current status of the association between the specified target and the configuration.
+    /// The current status of the association between the specified target and the configuration. Possible values are:
+    ///
+    /// * PENDING - The association is in progress.
+    ///
+    /// * SUCCESS - The association succeeded.
+    ///
+    /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+    ///
+    /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// The explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?
@@ -28450,7 +28630,7 @@ public struct GetEnabledStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources.
+    /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources, or GCP to return only enabled standards that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.StandardsProvider]?
     /// The list of the standards subscription ARNs for the standards to retrieve.
     public var standardsSubscriptionArns: [Swift.String]?
@@ -30905,7 +31085,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// An object that provides a security control parameter name, description, and the options for customizing it. This object is excluded for a control that doesn't support custom parameters.
         public var parameterDefinitions: [Swift.String: SecurityHubClientTypes.ParameterDefinition]?
-        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        /// The cloud provider whose resources the security control evaluates. For example, AWS, Azure, or GCP.
         public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
@@ -30953,6 +31133,285 @@ public struct GetSecurityControlDefinitionOutput: Swift.Sendable {
         securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition? = nil
     ) {
         self.securityControlDefinition = securityControlDefinition
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The software or resource field to filter on.
+    public enum SoftwareStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case packageName
+        case packageType
+        case packageVersion
+        case region
+        case resourceCloudPartition
+        case resourceId
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareStringField] {
+            return [
+                .accountId,
+                .packageName,
+                .packageType,
+                .packageVersion,
+                .region,
+                .resourceCloudPartition,
+                .resourceId,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .packageName: return "PackageName"
+            case .packageType: return "PackageType"
+            case .packageVersion: return "PackageVersion"
+            case .region: return "Region"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceId: return "ResourceId"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of software packages based on string field values.
+    public struct SoftwareStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.SoftwareStringField?
+        /// The string value and comparison operator to filter on. Supported comparisons are EQUALS, NOT_EQUALS, PREFIX, and PREFIX_NOT_EQUALS.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.SoftwareStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the data boundary for a software query. Scopes determine which organizational units or organizations to retrieve data from.
+    public struct SoftwareScopes: Swift.Sendable {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public var awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]?
+
+        public init(
+            awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]? = nil
+        ) {
+            self.awsOrganizations = awsOrganizations
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides information about a resource that contains a software package.
+    public struct SoftwareResourceResult: Swift.Sendable {
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Web Services Region that recorded the resource data in Security Hub.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The cloud partition where the resource exists. For Amazon Web Services, valid values include aws, aws-cn, and aws-us-gov. This field isn't returned for cloud providers that don't use partitions.
+        public var resourceCloudPartition: Swift.String?
+        /// The unique identifier for a resource.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public var resourceOwnerAccountId: Swift.String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public var resourceOwnerOrgId: Swift.String?
+        /// The cloud provider where the resource exists. Valid values are AWS and Azure.
+        public var resourceProvider: Swift.String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2).
+        public var resourceRegion: Swift.String?
+        /// The type of resource, for example AWS::EC2::Instance or AWS::Lambda::Function.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceCloudPartition: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceOwnerAccountId: Swift.String? = nil,
+            resourceOwnerOrgId: Swift.String? = nil,
+            resourceProvider: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.region = region
+            self.resourceCloudPartition = resourceCloudPartition
+            self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceProvider = resourceProvider
+            self.resourceRegion = resourceRegion
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct GetSoftwareResourcesV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// An array of resources that contain the specified software package.
+    /// This member is required.
+    public var softwareResources: [SecurityHubClientTypes.SoftwareResourceResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        softwareResources: [SecurityHubClientTypes.SoftwareResourceResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.softwareResources = softwareResources
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The software or resource field to group statistics by.
+    public enum SoftwareGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case packageName
+        case packageType
+        case packageVersion
+        case region
+        case resourceCloudPartition
+        case resourceId
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareGroupByField] {
+            return [
+                .accountId,
+                .packageName,
+                .packageType,
+                .packageVersion,
+                .region,
+                .resourceCloudPartition,
+                .resourceId,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .packageName: return "PackageName"
+            case .packageType: return "PackageType"
+            case .packageVersion: return "PackageVersion"
+            case .region: return "Region"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceId: return "ResourceId"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSoftwareStatisticsV2Output: Swift.Sendable {
+    /// The aggregated statistics about software based on the specified grouping rule.
+    /// This member is required.
+    public var groupByResults: [SecurityHubClientTypes.GroupByResult]?
+
+    public init(
+        groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
+    ) {
+        self.groupByResults = groupByResults
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides information about a software package installed on one or more of your resources.
+    public struct SoftwareResult: Swift.Sendable {
+        /// The name of the software package.
+        /// This member is required.
+        public var packageName: Swift.String?
+        /// The type of the software package, for example operating-system, application, or library.
+        /// This member is required.
+        public var packageType: Swift.String?
+        /// The version of the software package.
+        public var packageVersion: Swift.String?
+        /// The number of resources that contain this software package. To list these resources, call GetSoftwareResourcesV2.
+        /// This member is required.
+        public var resourceCount: Swift.Int?
+
+        public init(
+            packageName: Swift.String? = nil,
+            packageType: Swift.String? = nil,
+            packageVersion: Swift.String? = nil,
+            resourceCount: Swift.Int? = nil
+        ) {
+            self.packageName = packageName
+            self.packageType = packageType
+            self.packageVersion = packageVersion
+            self.resourceCount = resourceCount
+        }
+    }
+}
+
+public struct GetSoftwareV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// An array of software packages returned by the operation.
+    /// This member is required.
+    public var software: [SecurityHubClientTypes.SoftwareResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        software: [SecurityHubClientTypes.SoftwareResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.software = software
     }
 }
 
@@ -31539,7 +31998,7 @@ public struct ListSecurityControlDefinitionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
     public var nextToken: Swift.String?
-    /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources.
+    /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources, or GCP to return only controls that evaluate GCP resources.
     public var providers: [SecurityHubClientTypes.SecurityControlsProvider]?
     /// The Amazon Resource Name (ARN) of the standard that you want to view controls for.
     public var standardsArn: Swift.String?
@@ -31708,6 +32167,8 @@ extension SecurityHubClientTypes {
         case servicenow(SecurityHubClientTypes.ServiceNowUpdateConfiguration)
         /// The parameters required to update the configuration for a Microsoft Azure CSPM integration.
         case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
+        /// The parameters required to update the configuration for a Google Cloud Platform (GCP) CSPM integration.
+        case gcp(SecurityHubClientTypes.GcpUpdateConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -31789,7 +32250,15 @@ public struct StartConfigurationPolicyAssociationInput: Swift.Sendable {
 }
 
 public struct StartConfigurationPolicyAssociationOutput: Swift.Sendable {
-    /// The current status of the association between the specified target and the configuration.
+    /// The current status of the association between the specified target and the configuration. Possible values are:
+    ///
+    /// * PENDING - The association is in progress.
+    ///
+    /// * SUCCESS - The association succeeded.
+    ///
+    /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+    ///
+    /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// An explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?
@@ -32435,6 +32904,29 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Enables the creation of criteria for software packages in Security Hub.
+    public struct SoftwareCompositeFilter: Swift.Sendable {
+        /// Provides an additional level of filtering, creating a three-layer nested structure. The first layer is a CompositeFilters array with a CompositeOperator (AND/OR). The second layer is a CompositeFilter object that contains direct filters and NestedCompositeFilters. The third layer is NestedCompositeFilters, which contains additional filter conditions.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.SoftwareStringFilter]?
+
+        public init(
+            nestedCompositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.SoftwareStringFilter]? = nil
+        ) {
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// The structure that defines filters to apply to findings trend data queries.
     public struct FindingsTrendsFilters: Swift.Sendable {
         /// A list of composite filters to apply to the findings trend data.
@@ -32511,6 +33003,25 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Enables filtering of software packages and the resources that contain them.
+    public struct SoftwareFilters: Swift.Sendable {
+        /// A collection of complex filtering conditions that can be applied to software packages.
+        public var compositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions in the structure.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// The configuration for a findings export: the output format, an optional set of filters, and the fields to include.
     public struct FindingsOutput: Swift.Sendable {
         /// An optional set of OCSF finding filters that restrict which findings are exported. The filter structure is the same as the one used by GetFindingsV2. If you omit this member, Security Hub exports all findings available to the caller. When echoed by GetExportJobV2, relative date ranges are returned unresolved.
@@ -32570,6 +33081,26 @@ extension SecurityHubClientTypes {
         public init(
             filters: SecurityHubClientTypes.ResourcesFilters? = nil,
             groupByField: SecurityHubClientTypes.ResourceGroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the configuration for organizing and categorizing software packages installed on your resources.
+    public struct SoftwareGroupByRule: Swift.Sendable {
+        /// The criteria used to select the software packages included in the statistics. You can nest composite filters up to three levels deep.
+        public var filters: SecurityHubClientTypes.SoftwareFilters?
+        /// Specifies the attribute that software statistics should be grouped by.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.SoftwareGroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+            groupByField: SecurityHubClientTypes.SoftwareGroupByField? = nil
         ) {
             self.filters = filters
             self.groupByField = groupByField
@@ -32689,6 +33220,74 @@ public struct GetResourcesV2Input: Swift.Sendable {
     }
 }
 
+public struct GetSoftwareResourcesV2Input: Swift.Sendable {
+    /// Filters the returned resources based on a set of criteria. You can nest composite filters up to three levels deep.
+    public var filters: SecurityHubClientTypes.SoftwareFilters?
+    /// The maximum number of results to return. Valid values are 1–100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change the request parameters between calls, the token is no longer valid and the request fails with a ValidationException.
+    public var nextToken: Swift.String?
+    /// The name of the software package, for example openssl. This value must match the PackageName returned by GetSoftwareV2.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The type of the software package, for example operating-system, application, or library. This value must match the PackageType returned by GetSoftwareV2.
+    /// This member is required.
+    public var packageType: Swift.String?
+    /// The version of the software package, for example 3.0.8. If you omit this value, the response includes resources that contain any version of the package.
+    public var packageVersion: Swift.String?
+    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// The resource attribute used to sort the list of returned resources, for example Region or ResourceType. You can specify one sort criterion.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        packageType: Swift.String? = nil,
+        packageVersion: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageName = packageName
+        self.packageType = packageType
+        self.packageVersion = packageVersion
+        self.scopes = scopes
+        self.sortCriteria = sortCriteria
+    }
+}
+
+public struct GetSoftwareV2Input: Swift.Sendable {
+    /// Filters software packages based on a set of criteria. You can nest composite filters up to three levels deep.
+    public var filters: SecurityHubClientTypes.SoftwareFilters?
+    /// The maximum number of results to return. Valid values are 1–100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change Filters or SortCriteria between calls, the token is no longer valid and the request fails with a ValidationException.
+    public var nextToken: Swift.String?
+    /// Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees software from all accounts across the entire organization. Other accounts see only software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// The software attributes used to sort the list of returned software packages. You can't sort by ResourceCount.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scopes = scopes
+        self.sortCriteria = sortCriteria
+    }
+}
+
 extension SecurityHubClientTypes {
 
     /// Specifies what data to export and how to format it. This is a union: you must specify exactly one member. Currently, the only supported member is Findings.
@@ -32794,6 +33393,30 @@ public struct GetResourcesStatisticsV2Input: Swift.Sendable {
         groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
         maxStatisticResults: Swift.Int? = nil,
         scopes: SecurityHubClientTypes.ResourceScopes? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct GetSoftwareStatisticsV2Input: Swift.Sendable {
+    /// How software statistics should be aggregated and organized in the response.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.SoftwareGroupByRule]?
+    /// The maximum number of grouping values to return. Valid values are 1–400. The default is 400.
+    public var maxStatisticResults: Swift.Int?
+    /// Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// Sorts aggregated statistics by count. The default is descending, which returns the values with the highest counts first.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.SoftwareGroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
         sortOrder: SecurityHubClientTypes.SortOrder? = nil
     ) {
         self.groupByRules = groupByRules
@@ -33748,6 +34371,27 @@ extension GetSecurityControlDefinitionInput {
         let securityControlIdQueryItem = Smithy.URIQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
         items.append(securityControlIdQueryItem)
         return items
+    }
+}
+
+extension GetSoftwareResourcesV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareResourcesV2Input) -> Swift.String? {
+        return "/softwarev2/resources"
+    }
+}
+
+extension GetSoftwareStatisticsV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareStatisticsV2Input) -> Swift.String? {
+        return "/softwarev2/statistics"
+    }
+}
+
+extension GetSoftwareV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareV2Input) -> Swift.String? {
+        return "/softwarev2"
     }
 }
 
@@ -34824,6 +35468,44 @@ extension GetResourcesV2Input {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.ResourceScopes.write(value:to:))
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetSoftwareResourcesV2Input {
+
+    static func write(value: GetSoftwareResourcesV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PackageName"].write(value.packageName)
+        try writer["PackageType"].write(value.packageType)
+        try writer["PackageVersion"].write(value.packageVersion)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetSoftwareStatisticsV2Input {
+
+    static func write(value: GetSoftwareStatisticsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.SoftwareGroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension GetSoftwareV2Input {
+
+    static func write(value: GetSoftwareV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
         try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -36092,6 +36774,44 @@ extension GetSecurityControlDefinitionOutput {
         let reader = responseReader
         var value = GetSecurityControlDefinitionOutput()
         value.securityControlDefinition = try reader["SecurityControlDefinition"].readIfPresent(with: SecurityHubClientTypes.SecurityControlDefinition.read(from:))
+        return value
+    }
+}
+
+extension GetSoftwareResourcesV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareResourcesV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareResourcesV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.softwareResources = try reader["SoftwareResources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SoftwareResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetSoftwareStatisticsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareStatisticsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareStatisticsV2Output()
+        value.groupByResults = try reader["GroupByResults"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetSoftwareV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.software = try reader["Software"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SoftwareResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -38087,6 +38807,69 @@ enum GetSecurityControlDefinitionOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSoftwareResourcesV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSoftwareStatisticsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSoftwareV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -51438,6 +52221,8 @@ extension SecurityHubClientTypes.CspmProviderConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpProviderConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -51452,6 +52237,8 @@ extension SecurityHubClientTypes.CspmProviderDetail {
         switch name {
             case "Azure":
                 return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
+            case "GCP":
+                return .gcp(try reader["GCP"].read(with: SecurityHubClientTypes.GcpDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -51477,6 +52264,8 @@ extension SecurityHubClientTypes.CspmProviderUpdateConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpUpdateConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -52061,6 +52850,54 @@ extension SecurityHubClientTypes.FreeTrialStatus {
         value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GcpDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GcpDetail()
+        value.awsConfigConnectorArn = try reader["AWSConfigConnectorArn"].readIfPresent() ?? ""
+        value.scopeConfiguration = try reader["ScopeConfiguration"].readIfPresent(with: SecurityHubClientTypes.GcpScopeConfiguration.read(from:))
+        value.gcpRegions = try reader["GCPRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["GCPRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.GcpScopeConfiguration.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.GcpScopeConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpScopeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScopeType"].write(value.scopeType)
+        try writer["ScopeValues"].writeList(value.scopeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GcpScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GcpScopeConfiguration()
+        value.scopeType = try reader["ScopeType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeValues = try reader["ScopeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.GcpUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.GcpUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GCPRegions"].writeList(value.gcpRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.GcpScopeConfiguration.write(value:to:))
     }
 }
 
@@ -53211,6 +54048,8 @@ extension SecurityHubClientTypes.ProviderConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpProviderConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudProviderConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -53233,6 +54072,8 @@ extension SecurityHubClientTypes.ProviderDetail {
                 return .servicenow(try reader["ServiceNow"].read(with: SecurityHubClientTypes.ServiceNowDetail.read(from:)))
             case "Azure":
                 return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
+            case "GCP":
+                return .gcp(try reader["GCP"].read(with: SecurityHubClientTypes.GcpDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -53258,6 +54099,8 @@ extension SecurityHubClientTypes.ProviderUpdateConfiguration {
         switch value {
             case let .azure(azure):
                 try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
+            case let .gcp(gcp):
+                try writer["GCP"].write(gcp, with: SecurityHubClientTypes.GcpUpdateConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudUpdateConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -53733,6 +54576,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         try writer["AzureResource"].write(value.azureResource)
         try writer["CodeRepository"].write(value.codeRepository, with: SecurityHubClientTypes.CodeRepositoryDetails.write(value:to:))
         try writer["Container"].write(value.container, with: SecurityHubClientTypes.ContainerDetails.write(value:to:))
+        try writer["GcpResource"].write(value.gcpResource)
         try writer["Other"].writeMap(value.other, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
@@ -53840,6 +54684,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         value.awsEc2ClientVpnEndpoint = try reader["AwsEc2ClientVpnEndpoint"].readIfPresent(with: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.read(from:))
         value.codeRepository = try reader["CodeRepository"].readIfPresent(with: SecurityHubClientTypes.CodeRepositoryDetails.read(from:))
         value.azureResource = try reader["AzureResource"].readIfPresent()
+        value.gcpResource = try reader["GcpResource"].readIfPresent()
         return value
     }
 }
@@ -54874,6 +55719,34 @@ extension SecurityHubClientTypes.Signal {
     }
 }
 
+extension SecurityHubClientTypes.SoftwareCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.SoftwareCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareFilters {
+
+    static func write(value: SecurityHubClientTypes.SoftwareFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareGroupByRule {
+
+    static func write(value: SecurityHubClientTypes.SoftwareGroupByRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["GroupByField"].write(value.groupByField)
+    }
+}
+
 extension SecurityHubClientTypes.SoftwarePackage {
 
     static func write(value: SecurityHubClientTypes.SoftwarePackage?, to writer: SmithyJSON.Writer) throws {
@@ -54906,6 +55779,54 @@ extension SecurityHubClientTypes.SoftwarePackage {
         value.sourceLayerHash = try reader["SourceLayerHash"].readIfPresent()
         value.sourceLayerArn = try reader["SourceLayerArn"].readIfPresent()
         return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareResourceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SoftwareResourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.SoftwareResourceResult()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceProvider = try reader["ResourceProvider"].readIfPresent()
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readIfPresent()
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readIfPresent()
+        value.resourceCloudPartition = try reader["ResourceCloudPartition"].readIfPresent()
+        value.resourceRegion = try reader["ResourceRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SoftwareResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.SoftwareResult()
+        value.packageName = try reader["PackageName"].readIfPresent() ?? ""
+        value.packageVersion = try reader["PackageVersion"].readIfPresent()
+        value.packageType = try reader["PackageType"].readIfPresent() ?? ""
+        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareScopes {
+
+    static func write(value: SecurityHubClientTypes.SoftwareScopes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareStringFilter {
+
+    static func write(value: SecurityHubClientTypes.SoftwareStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
     }
 }
 

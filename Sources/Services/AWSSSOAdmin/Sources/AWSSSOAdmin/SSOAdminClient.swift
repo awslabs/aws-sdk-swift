@@ -313,7 +313,7 @@ extension SSOAdminClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SSO Admin"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -544,7 +544,7 @@ extension SSOAdminClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "SSO Admin"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -606,7 +606,7 @@ extension SSOAdminClient {
     public static func builder() -> ClientRuntime.ClientBuilder<SSOAdminClient> {
         return ClientRuntime.ClientBuilder<SSOAdminClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "SSO Admin"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -6571,8 +6571,10 @@ extension SSOAdminClient {
     ///
     /// * Enable permission sets for the instance by specifying PermissionSetsEnabled.
     ///
+    /// * Update the network configuration of the instance by specifying NetworkConfiguration.
     ///
-    /// If you specify both EncryptionConfiguration and PermissionSetsEnabled in a request, the request returns a ValidationException. To perform both operations, call UpdateInstance separately for each. You can make the two calls in parallel.
+    ///
+    /// A request that specifies more than one of EncryptionConfiguration, PermissionSetsEnabled, and NetworkConfiguration returns a ValidationException. To perform more than one of these operations, call UpdateInstance separately for each. The calls can be made in parallel.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInstanceInput`)
     ///

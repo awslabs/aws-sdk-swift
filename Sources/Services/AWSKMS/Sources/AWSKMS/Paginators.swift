@@ -188,7 +188,8 @@ extension ListKeysInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListKeysInput {
         return ListKeysInput(
             limit: self.limit,
-            marker: token
+            marker: token,
+            resourceOwners: self.resourceOwners
         )}
 }
 

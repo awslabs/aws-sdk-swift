@@ -1591,6 +1591,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum DashBandwidthReportingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case average
+        case max
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashBandwidthReportingMode] {
+            return [
+                .average,
+                .max
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .max: return "MAX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The base URLs to use for retrieving segments. You can specify multiple locations and indicate the priority and weight for when each should be used, for use in mutli-CDN workflows.
     public struct DashBaseUrl: Swift.Sendable {
         /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
@@ -2121,6 +2150,15 @@ extension MediaPackageV2ClientTypes {
         public var audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
         public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
+        /// Specifies how MediaPackage calculates the bandwidth attribute of regular (non-iFrame) video Representation elements in the DASH manifest. Audio, subtitle, image, and iFrame-only (trick-play) representations are unchanged. The allowed values are:
+        ///
+        /// * AVERAGE – MediaPackage reports the average bitrate of the source video track. This is the default.
+        ///
+        /// * MAX – MediaPackage reports the peak bitrate of the video stream.
+        ///
+        ///
+        /// For information about bandwidth reporting, see [DASH bandwidth reporting](https://docs.aws.amazon.com/mediapackage/latest/userguide/dash-bandwidth-reporting.html) in the Elemental MediaPackage v2 User Guide.
+        public var bandwidthReportingMode: MediaPackageV2ClientTypes.DashBandwidthReportingMode?
         /// The base URLs to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see [DASH manifest compactness](https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html) in the Elemental MediaPackage v2 User Guide.
@@ -2164,6 +2202,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern? = nil,
             availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
+            bandwidthReportingMode: MediaPackageV2ClientTypes.DashBandwidthReportingMode? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -2185,6 +2224,7 @@ extension MediaPackageV2ClientTypes {
         ) {
             self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
+            self.bandwidthReportingMode = bandwidthReportingMode
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -3329,6 +3369,15 @@ extension MediaPackageV2ClientTypes {
         public var audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
         public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
+        /// Specifies how MediaPackage calculates the bandwidth attribute of regular (non-iFrame) video Representation elements in the DASH manifest. Audio, subtitle, image, and iFrame-only (trick-play) representations are unchanged. The allowed values are:
+        ///
+        /// * AVERAGE – MediaPackage reports the average bitrate of the source video track. This is the default.
+        ///
+        /// * MAX – MediaPackage reports the peak bitrate of the video stream.
+        ///
+        ///
+        /// For information about bandwidth reporting, see [DASH bandwidth reporting](https://docs.aws.amazon.com/mediapackage/latest/userguide/dash-bandwidth-reporting.html) in the Elemental MediaPackage v2 User Guide.
+        public var bandwidthReportingMode: MediaPackageV2ClientTypes.DashBandwidthReportingMode?
         /// The base URL to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -3375,6 +3424,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern? = nil,
             availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
+            bandwidthReportingMode: MediaPackageV2ClientTypes.DashBandwidthReportingMode? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -3397,6 +3447,7 @@ extension MediaPackageV2ClientTypes {
         ) {
             self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
+            self.bandwidthReportingMode = bandwidthReportingMode
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -7189,6 +7240,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
         guard let value else { return }
         try writer["AudioTimelinePattern"].write(value.audioTimelinePattern)
         try writer["AvailabilityStartTimeConfiguration"].write(value.availabilityStartTimeConfiguration, with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.write(value:to:))
+        try writer["BandwidthReportingMode"].write(value.bandwidthReportingMode)
         try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Compactness"].write(value.compactness)
         try writer["DrmSignaling"].write(value.drmSignaling)
@@ -7559,6 +7611,7 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         value.programInformation = try reader["ProgramInformation"].readIfPresent(with: MediaPackageV2ClientTypes.DashProgramInformation.read(from:))
         value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
         value.compactness = try reader["Compactness"].readIfPresent()
+        value.bandwidthReportingMode = try reader["BandwidthReportingMode"].readIfPresent()
         value.audioTimelinePattern = try reader["AudioTimelinePattern"].readIfPresent()
         value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
         value.uriPathType = try reader["UriPathType"].readIfPresent()

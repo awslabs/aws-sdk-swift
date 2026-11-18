@@ -858,6 +858,21 @@ extension ControlTowerClientTypes {
 
 extension ControlTowerClientTypes {
 
+    /// The source drift summary for the enabled baseline. Source drift occurs when an enabled baseline no longer matches the landing zone's configuration.
+    public struct EnabledBaselineSourceDrift: Swift.Sendable {
+        /// The source drift status for the enabled baseline.
+        public var status: ControlTowerClientTypes.EnabledBaselineDriftStatus?
+
+        public init(
+            status: ControlTowerClientTypes.EnabledBaselineDriftStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
     /// The types of drift that can be detected for an enabled baseline.
     ///
     /// * Amazon Web Services Control Tower detects inheritance drift on the enabled baselines that target OUs: AWSControlTowerBaseline and BackupBaseline.
@@ -869,11 +884,15 @@ extension ControlTowerClientTypes {
     public struct EnabledBaselineDriftTypes: Swift.Sendable {
         /// At least one account within the target OU does not match the baseline configuration defined on that OU. An account is in inheritance drift when it does not match the configuration of a parent OU, possibly a new parent OU, if the account is moved.
         public var inheritance: ControlTowerClientTypes.EnabledBaselineInheritanceDrift?
+        /// Source drift occurs when an enabled baseline no longer matches the landing zone's configuration.
+        public var source: ControlTowerClientTypes.EnabledBaselineSourceDrift?
 
         public init(
-            inheritance: ControlTowerClientTypes.EnabledBaselineInheritanceDrift? = nil
+            inheritance: ControlTowerClientTypes.EnabledBaselineInheritanceDrift? = nil,
+            source: ControlTowerClientTypes.EnabledBaselineSourceDrift? = nil
         ) {
             self.inheritance = inheritance
+            self.source = source
         }
     }
 }
@@ -1039,6 +1058,8 @@ extension ControlTowerClientTypes {
         public var inheritanceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]?
         /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
         public var parentIdentifiers: [Swift.String]?
+        /// A list of EnabledBaselineDriftStatus items for enabled baselines.
+        public var sourceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]?
         /// A list of EnablementStatus items.
         public var statuses: [ControlTowerClientTypes.EnablementStatus]?
         /// Identifiers for the targets of the Baseline filter operation.
@@ -1048,12 +1069,14 @@ extension ControlTowerClientTypes {
             baselineIdentifiers: [Swift.String]? = nil,
             inheritanceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]? = nil,
             parentIdentifiers: [Swift.String]? = nil,
+            sourceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]? = nil,
             statuses: [ControlTowerClientTypes.EnablementStatus]? = nil,
             targetIdentifiers: [Swift.String]? = nil
         ) {
             self.baselineIdentifiers = baselineIdentifiers
             self.inheritanceDriftStatuses = inheritanceDriftStatuses
             self.parentIdentifiers = parentIdentifiers
+            self.sourceDriftStatuses = sourceDriftStatuses
             self.statuses = statuses
             self.targetIdentifiers = targetIdentifiers
         }
@@ -3801,6 +3824,7 @@ extension ControlTowerClientTypes.EnabledBaselineDriftTypes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineDriftTypes()
         value.inheritance = try reader["inheritance"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineInheritanceDrift.read(from:))
+        value.source = try reader["source"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineSourceDrift.read(from:))
         return value
     }
 }
@@ -3812,6 +3836,7 @@ extension ControlTowerClientTypes.EnabledBaselineFilter {
         try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnabledBaselineDriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceDriftStatuses"].writeList(value.sourceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnabledBaselineDriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -3843,6 +3868,16 @@ extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
         var value = ControlTowerClientTypes.EnabledBaselineParameterSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineSourceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineSourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineSourceDrift()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }

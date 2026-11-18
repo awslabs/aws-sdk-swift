@@ -113,6 +113,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAccountAccess](/sdk-for-swift/latest/api/awsaccountaccess/documentation/awsaccountaccess)
 
+[AWSAccountAccessRuntime](/sdk-for-swift/latest/api/awsaccountaccessruntime/documentation/awsaccountaccessruntime)
+
 [AWSAgentRegistry](/sdk-for-swift/latest/api/awsagentregistry/documentation/awsagentregistry)
 
 [AWSAgentRegistryControl](/sdk-for-swift/latest/api/awsagentregistrycontrol/documentation/awsagentregistrycontrol)
@@ -312,6 +314,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSConnectHealth](/sdk-for-swift/latest/api/awsconnecthealth/documentation/awsconnecthealth)
 
 [AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
+
+[AWSConnectScheduling](/sdk-for-swift/latest/api/awsconnectscheduling/documentation/awsconnectscheduling)
 
 [AWSContinuum](/sdk-for-swift/latest/api/awscontinuum/documentation/awscontinuum)
 
@@ -679,6 +683,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSOpenSearch](/sdk-for-swift/latest/api/awsopensearch/documentation/awsopensearch)
 
+[AWSOpenSearchMemory](/sdk-for-swift/latest/api/awsopensearchmemory/documentation/awsopensearchmemory)
+
 [AWSOpenSearchServerless](/sdk-for-swift/latest/api/awsopensearchserverless/documentation/awsopensearchserverless)
 
 [AWSOrganizations](/sdk-for-swift/latest/api/awsorganizations/documentation/awsorganizations)
@@ -838,6 +844,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSageMakerFeatureStoreRuntime](/sdk-for-swift/latest/api/awssagemakerfeaturestoreruntime/documentation/awssagemakerfeaturestoreruntime)
 
 [AWSSageMakerGeospatial](/sdk-for-swift/latest/api/awssagemakergeospatial/documentation/awssagemakergeospatial)
+
+[AWSSageMakerInferenceRouterRuntime](/sdk-for-swift/latest/api/awssagemakerinferencerouterruntime/documentation/awssagemakerinferencerouterruntime)
 
 [AWSSageMakerMetrics](/sdk-for-swift/latest/api/awssagemakermetrics/documentation/awssagemakermetrics)
 

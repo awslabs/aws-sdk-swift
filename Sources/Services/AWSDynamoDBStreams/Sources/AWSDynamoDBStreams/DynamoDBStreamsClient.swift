@@ -24,6 +24,7 @@ import class Smithy.ContextBuilder
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSClientRuntime.AccountIDEndpointMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
@@ -123,6 +124,7 @@ extension DynamoDBStreamsClient {
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
+        public var accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode?
         public var endpointResolver: EndpointResolver
         public var telemetryProvider: ClientRuntime.TelemetryProvider
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
@@ -169,6 +171,7 @@ extension DynamoDBStreamsClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -195,6 +198,7 @@ extension DynamoDBStreamsClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
+            self.accountIdEndpointMode = try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode()
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
             self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "DynamoDB Streams")
@@ -224,6 +228,7 @@ extension DynamoDBStreamsClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -250,6 +255,7 @@ extension DynamoDBStreamsClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.accountIdEndpointMode = try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode()
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
             self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "DynamoDB Streams")
@@ -280,6 +286,7 @@ extension DynamoDBStreamsClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
+                accountIdEndpointMode: nil,
                 endpointResolver: nil,
                 telemetryProvider: nil,
                 retryStrategyOptions: nil,
@@ -310,9 +317,10 @@ extension DynamoDBStreamsClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: region,
                 signingRegion: region,
+                accountIdEndpointMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "DynamoDB Streams"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -354,6 +362,7 @@ extension DynamoDBStreamsClient {
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
+        public var accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode?
         public var endpointResolver: EndpointResolver
         public var telemetryProvider: ClientRuntime.TelemetryProvider
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
@@ -400,6 +409,7 @@ extension DynamoDBStreamsClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -426,6 +436,7 @@ extension DynamoDBStreamsClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
+            self.accountIdEndpointMode = try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode()
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
             self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "DynamoDB Streams")
@@ -455,6 +466,7 @@ extension DynamoDBStreamsClient {
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
             endpointResolver: EndpointResolver? = nil,
             telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
             retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
@@ -481,6 +493,7 @@ extension DynamoDBStreamsClient {
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.accountIdEndpointMode = try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode()
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
             self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "DynamoDB Streams")
@@ -511,6 +524,7 @@ extension DynamoDBStreamsClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: nil,
                 signingRegion: nil,
+                accountIdEndpointMode: nil,
                 endpointResolver: nil,
                 telemetryProvider: nil,
                 retryStrategyOptions: nil,
@@ -541,9 +555,10 @@ extension DynamoDBStreamsClient {
                 ignoreConfiguredEndpointURLs: nil,
                 region: region,
                 signingRegion: region,
+                accountIdEndpointMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "DynamoDB Streams"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -575,6 +590,7 @@ extension DynamoDBStreamsClient {
                 ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
                 region: self.region,
                 signingRegion: self.signingRegion,
+                accountIdEndpointMode: self.accountIdEndpointMode,
                 endpointResolver: self.endpointResolver,
                 telemetryProvider: self.telemetryProvider,
                 retryStrategyOptions: self.retryStrategyOptions,
@@ -605,7 +621,7 @@ extension DynamoDBStreamsClient {
     public static func builder() -> ClientRuntime.ClientBuilder<DynamoDBStreamsClient> {
         return ClientRuntime.ClientBuilder<DynamoDBStreamsClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "DynamoDB Streams"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -638,6 +654,7 @@ extension DynamoDBStreamsClient {
                       .withOperation(value: "describeStream")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -661,7 +678,7 @@ extension DynamoDBStreamsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB Streams", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, streamArn: input.streamArn, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStreamInput, DescribeStreamOutput>(overrides: ["X-Amz-Target": "DynamoDBStreams_20120810.DescribeStream"]))
@@ -720,6 +737,7 @@ extension DynamoDBStreamsClient {
                       .withOperation(value: "getRecords")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -743,7 +761,7 @@ extension DynamoDBStreamsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB Streams", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, shardIterator: input.shardIterator, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRecordsInput, GetRecordsOutput>(overrides: ["X-Amz-Target": "DynamoDBStreams_20120810.GetRecords"]))
@@ -800,6 +818,7 @@ extension DynamoDBStreamsClient {
                       .withOperation(value: "getShardIterator")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -823,7 +842,7 @@ extension DynamoDBStreamsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB Streams", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, streamArn: input.streamArn, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetShardIteratorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(overrides: ["X-Amz-Target": "DynamoDBStreams_20120810.GetShardIterator"]))
@@ -875,6 +894,7 @@ extension DynamoDBStreamsClient {
                       .withOperation(value: "listStreams")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -898,7 +918,7 @@ extension DynamoDBStreamsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB Streams", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStreamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStreamsInput, ListStreamsOutput>(overrides: ["X-Amz-Target": "DynamoDBStreams_20120810.ListStreams"]))

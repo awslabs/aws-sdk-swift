@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -2879,6 +2880,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Configure Licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Launch configuration template map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Parameters encryption key.
@@ -2904,6 +2907,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -2921,6 +2925,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.largeVolumeConf = largeVolumeConf
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
@@ -2933,7 +2938,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingKey: \(Swift.String(describing: mapAutoTaggingKey)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
@@ -2962,6 +2967,8 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Configure Licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Launch configuration template map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Parameters encryption key.
@@ -2990,6 +2997,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -3010,6 +3018,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
@@ -3022,7 +3031,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateLaunchConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingKey: \(Swift.String(describing: mapAutoTaggingKey)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteLaunchConfigurationTemplateInput: Swift.Sendable {
@@ -3089,6 +3098,8 @@ extension MgnClientTypes {
         public var launchDisposition: MgnClientTypes.LaunchDisposition?
         /// Configure Licensing.
         public var licensing: MgnClientTypes.Licensing?
+        /// Launch configuration template map auto tagging key.
+        public var mapAutoTaggingKey: Swift.String?
         /// Launch configuration template map auto tagging MPE ID.
         public var mapAutoTaggingMpeID: Swift.String?
         /// Parameters encryption key.
@@ -3117,6 +3128,7 @@ extension MgnClientTypes {
             launchConfigurationTemplateID: Swift.String? = nil,
             launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
             licensing: MgnClientTypes.Licensing? = nil,
+            mapAutoTaggingKey: Swift.String? = nil,
             mapAutoTaggingMpeID: Swift.String? = nil,
             parametersEncryptionKey: Swift.String? = nil,
             postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -3137,6 +3149,7 @@ extension MgnClientTypes {
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.mapAutoTaggingKey = mapAutoTaggingKey
             self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
             self.parametersEncryptionKey = parametersEncryptionKey
             self.postLaunchActions = postLaunchActions
@@ -3150,7 +3163,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingKey: \(Swift.String(describing: mapAutoTaggingKey)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Sendable {
@@ -3455,6 +3468,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Configure Licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Launch configuration template map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Parameters encryption key.
@@ -3479,6 +3494,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -3496,6 +3512,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
@@ -3531,6 +3548,8 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Configure Licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Launch configuration template map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Parameters encryption key.
@@ -3559,6 +3578,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -3579,6 +3599,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
@@ -3591,7 +3612,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateLaunchConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "UpdateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingKey: \(Swift.String(describing: mapAutoTaggingKey)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -3955,11 +3976,42 @@ extension MgnClientTypes {
 
 extension MgnClientTypes {
 
+    public enum DefinitionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case migration
+        case newNetwork
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefinitionType] {
+            return [
+                .migration,
+                .newNetwork
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .migration: return "MIGRATION"
+            case .newNetwork: return "NEW_NETWORK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     public enum SourceEnvironment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsDiscoveryCollector
         case ciscoAci
+        case f5Bigip
         case fortigateFirewall
         case logicalModel
+        case migrationPlanningArtifacts
         case modelizeIt
         case nsx
         case paloAltoFirewall
@@ -3970,8 +4022,10 @@ extension MgnClientTypes {
             return [
                 .awsDiscoveryCollector,
                 .ciscoAci,
+                .f5Bigip,
                 .fortigateFirewall,
                 .logicalModel,
+                .migrationPlanningArtifacts,
                 .modelizeIt,
                 .nsx,
                 .paloAltoFirewall,
@@ -3988,8 +4042,10 @@ extension MgnClientTypes {
             switch self {
             case .awsDiscoveryCollector: return "AWS_DISCOVERY_COLLECTOR"
             case .ciscoAci: return "CISCO_ACI"
+            case .f5Bigip: return "F5_BIGIP"
             case .fortigateFirewall: return "FORTIGATE_FIREWALL"
             case .logicalModel: return "LOGICAL_MODEL"
+            case .migrationPlanningArtifacts: return "MIGRATION_PLANNING_ARTIFACTS"
             case .modelizeIt: return "MODELIZE_IT"
             case .nsx: return "NSX"
             case .paloAltoFirewall: return "PALO_ALTO_FIREWALL"
@@ -4186,6 +4242,10 @@ extension MgnClientTypes {
 public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
     /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Specifies the type of the definition. MIGRATION migrates an existing network. NEW_NETWORK designs a new network. If you omit this value, the definition type is MIGRATION.
+    public var definitionType: MgnClientTypes.DefinitionType?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -4210,6 +4270,8 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
 
     public init(
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
+        clientToken: Swift.String? = nil,
+        definitionType: MgnClientTypes.DefinitionType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         scopeTags: [Swift.String: Swift.String]? = nil,
@@ -4221,6 +4283,8 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
         vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.cidrMappings = cidrMappings
+        self.clientToken = clientToken
+        self.definitionType = definitionType
         self.description = description
         self.name = name
         self.scopeTags = scopeTags
@@ -4235,7 +4299,7 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
 
 extension CreateNetworkMigrationDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), clientToken: \(Swift.String(describing: clientToken)), definitionType: \(Swift.String(describing: definitionType)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
@@ -4245,6 +4309,8 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
+    /// Specifies the type of the definition. MIGRATION migrates an existing network. NEW_NETWORK designs a new network.
+    public var definitionType: MgnClientTypes.DefinitionType?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -4272,6 +4338,7 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
+        definitionType: MgnClientTypes.DefinitionType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
@@ -4287,6 +4354,7 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.arn = arn
         self.cidrMappings = cidrMappings
         self.createdAt = createdAt
+        self.definitionType = definitionType
         self.description = description
         self.name = name
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -4303,7 +4371,7 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
 
 extension CreateNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), definitionType: \(Swift.String(describing: definitionType)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteNetworkMigrationDefinitionInput: Swift.Sendable {
@@ -4342,6 +4410,8 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
+    /// Specifies the type of the definition. MIGRATION migrates an existing network. NEW_NETWORK designs a new network.
+    public var definitionType: MgnClientTypes.DefinitionType?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -4369,6 +4439,7 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
+        definitionType: MgnClientTypes.DefinitionType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
@@ -4384,6 +4455,7 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.arn = arn
         self.cidrMappings = cidrMappings
         self.createdAt = createdAt
+        self.definitionType = definitionType
         self.description = description
         self.name = name
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -4400,7 +4472,7 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
 
 extension GetNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "GetNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), definitionType: \(Swift.String(describing: definitionType)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetNetworkMigrationMapperSegmentConstructInput: Swift.Sendable {
@@ -4432,8 +4504,75 @@ public struct GetNetworkMigrationMapperSegmentConstructInput: Swift.Sendable {
 
 extension MgnClientTypes {
 
+    /// The associations that bind a security group to source machines before they are provisioned.
+    public struct SecurityGroupAssociations: Swift.Sendable {
+        /// The CIDR ranges associated with the security group. A provided list replaces the stored list; an empty list clears it, and omitting the field leaves it unchanged.
+        public var cidrs: [Swift.String]?
+        /// The user-provided identifiers of the source machines associated with the security group.
+        public var userProvidedIDs: [Swift.String]?
+        /// The UUIDs of the source machines associated with the security group.
+        public var vmUUIDs: [Swift.String]?
+
+        public init(
+            cidrs: [Swift.String]? = nil,
+            userProvidedIDs: [Swift.String]? = nil,
+            vmUUIDs: [Swift.String]? = nil
+        ) {
+            self.cidrs = cidrs
+            self.userProvidedIDs = userProvidedIDs
+            self.vmUUIDs = vmUUIDs
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Behavioral configuration for a security group construct.
+    public struct SecurityGroupConfiguration: Swift.Sendable {
+        /// The CIDR ranges and machine identifiers that associate source machines with the security group. Each list provided replaces the stored list rather than merging into it.
+        public var associations: MgnClientTypes.SecurityGroupAssociations?
+
+        public init(
+            associations: MgnClientTypes.SecurityGroupAssociations? = nil
+        ) {
+            self.associations = associations
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Behavioral configuration for a security group rule construct.
+    public struct SecurityGroupRuleConfiguration: Swift.Sendable {
+        /// Whether automatic conversion of CIDR-based sources and destinations to security group references applies to this rule.
+        public var enableReferencing: Swift.Bool?
+
+        public init(
+            enableReferencing: Swift.Bool? = nil
+        ) {
+            self.enableReferencing = enableReferencing
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Construct-type-specific behavioral configuration. The variant provided must match the construct type.
+    public enum OperationConfigurationUnion: Swift.Sendable {
+        /// Behavioral configuration for a security group construct.
+        case securitygroup(MgnClientTypes.SecurityGroupConfiguration)
+        /// Behavioral configuration for a security group rule construct.
+        case securitygrouprule(MgnClientTypes.SecurityGroupRuleConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MgnClientTypes {
+
     /// Represents a construct within a mapper segment. A construct is an individual infrastructure component such as a VPC, subnet, security group, route table, or other network resource that is part of the network migration.
     public struct NetworkMigrationMapperSegmentConstruct: Swift.Sendable {
+        /// The construct-type-specific behavioral configuration. Returned by Get, and by List when includeConfiguration is true.
+        public var configuration: MgnClientTypes.OperationConfigurationUnion?
         /// The unique identifier of the construct.
         public var constructID: Swift.String?
         /// The type of the construct, such as VPC, subnet, security group, or route table.
@@ -4442,6 +4581,8 @@ extension MgnClientTypes {
         public var createdAt: Foundation.Date?
         /// A description of the construct.
         public var description: Swift.String?
+        /// The construct properties using their native value types. Returned by Get, and by List when includeEnrichedProperties is true.
+        public var enrichedProperties: [Swift.String: Smithy.Document]?
         /// Whether this construct is excluded from the migration.
         public var excluded: Swift.Bool?
         /// The logical identifier for the construct in the infrastructure code.
@@ -4454,20 +4595,24 @@ extension MgnClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            configuration: MgnClientTypes.OperationConfigurationUnion? = nil,
             constructID: Swift.String? = nil,
             constructType: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            enrichedProperties: [Swift.String: Smithy.Document]? = nil,
             excluded: Swift.Bool? = nil,
             logicalID: Swift.String? = nil,
             name: Swift.String? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.configuration = configuration
             self.constructID = constructID
             self.constructType = constructType
             self.createdAt = createdAt
             self.description = description
+            self.enrichedProperties = enrichedProperties
             self.excluded = excluded
             self.logicalID = logicalID
             self.name = name
@@ -5295,6 +5440,8 @@ extension MgnClientTypes {
     public struct NetworkMigrationDefinitionSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the network migration definition.
         public var arn: Swift.String?
+        /// The type of the network migration definition.
+        public var definitionType: MgnClientTypes.DefinitionType?
         /// The name of the network migration definition.
         public var name: Swift.String?
         /// The unique identifier of the network migration definition.
@@ -5308,6 +5455,7 @@ extension MgnClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            definitionType: MgnClientTypes.DefinitionType? = nil,
             name: Swift.String? = nil,
             networkMigrationDefinitionID: Swift.String? = nil,
             scopeTags: [Swift.String: Swift.String]? = nil,
@@ -5315,6 +5463,7 @@ extension MgnClientTypes {
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
+            self.definitionType = definitionType
             self.name = name
             self.networkMigrationDefinitionID = networkMigrationDefinitionID
             self.scopeTags = scopeTags
@@ -5326,7 +5475,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.NetworkMigrationDefinitionSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "NetworkMigrationDefinitionSummary(arn: \(Swift.String(describing: arn)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceEnvironment: \(Swift.String(describing: sourceEnvironment)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "NetworkMigrationDefinitionSummary(arn: \(Swift.String(describing: arn)), definitionType: \(Swift.String(describing: definitionType)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceEnvironment: \(Swift.String(describing: sourceEnvironment)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNetworkMigrationDefinitionsOutput: Swift.Sendable {
@@ -5832,6 +5981,311 @@ public struct ListNetworkMigrationExecutionsOutput: Swift.Sendable {
 
 extension MgnClientTypes {
 
+    /// The type of a network migration insight.
+    public enum InsightType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behaviorChange
+        case context
+        case error
+        case excluded
+        case info
+        case intentGap
+        case question
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightType] {
+            return [
+                .behaviorChange,
+                .context,
+                .error,
+                .excluded,
+                .info,
+                .intentGap,
+                .question,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .behaviorChange: return "BEHAVIOR_CHANGE"
+            case .context: return "CONTEXT"
+            case .error: return "ERROR"
+            case .excluded: return "EXCLUDED"
+            case .info: return "INFO"
+            case .intentGap: return "INTENT_GAP"
+            case .question: return "QUESTION"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Filters for listing network migration insights.
+    public struct ListNetworkMigrationInsightsFilters: Swift.Sendable {
+        /// The insight types to include in the results.
+        public var insightTypes: [MgnClientTypes.InsightType]?
+
+        public init(
+            insightTypes: [MgnClientTypes.InsightType]? = nil
+        ) {
+            self.insightTypes = insightTypes
+        }
+    }
+}
+
+public struct ListNetworkMigrationInsightsInput: Swift.Sendable {
+    /// The unique identifier of the construct to narrow the results to.
+    public var constructID: Swift.String?
+    /// Filters to apply when listing insights.
+    public var filters: MgnClientTypes.ListNetworkMigrationInsightsFilters?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The unique identifier of the network migration definition.
+    /// This member is required.
+    public var networkMigrationDefinitionID: Swift.String?
+    /// The unique identifier of the network migration execution to narrow the results to.
+    public var networkMigrationExecutionID: Swift.String?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the job or API request to narrow the results to.
+    public var producerID: Swift.String?
+    /// The unique identifier of the segment to narrow the results to.
+    public var segmentID: Swift.String?
+
+    public init(
+        constructID: Swift.String? = nil,
+        filters: MgnClientTypes.ListNetworkMigrationInsightsFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        networkMigrationDefinitionID: Swift.String? = nil,
+        networkMigrationExecutionID: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        producerID: Swift.String? = nil,
+        segmentID: Swift.String? = nil
+    ) {
+        self.constructID = constructID
+        self.filters = filters
+        self.maxResults = maxResults
+        self.networkMigrationDefinitionID = networkMigrationDefinitionID
+        self.networkMigrationExecutionID = networkMigrationExecutionID
+        self.nextToken = nextToken
+        self.producerID = producerID
+        self.segmentID = segmentID
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The level that a network migration insight applies to: the run, a segment, or a construct.
+    public enum InsightLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case construct
+        case run
+        case segment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightLevel] {
+            return [
+                .construct,
+                .run,
+                .segment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .construct: return "CONSTRUCT"
+            case .run: return "RUN"
+            case .segment: return "SEGMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The content of a network migration insight.
+    public struct InsightMessage: Swift.Sendable {
+        /// A stable identifier for the kind of insight.
+        public var code: Swift.String?
+        /// The human-readable insight message.
+        public var message: Swift.String?
+        /// The topic that the insight relates to.
+        public var topic: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            topic: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.topic = topic
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The job type or API name that produced a network migration insight.
+    public enum InsightProducerName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyze
+        case codeGeneration
+        case deploy
+        case deployedStacksDeletion
+        case mapping
+        case mappingUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightProducerName] {
+            return [
+                .analyze,
+                .codeGeneration,
+                .deploy,
+                .deployedStacksDeletion,
+                .mapping,
+                .mappingUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .analyze: return "ANALYZE"
+            case .codeGeneration: return "CODE_GENERATION"
+            case .deploy: return "DEPLOY"
+            case .deployedStacksDeletion: return "DEPLOYED_STACKS_DELETION"
+            case .mapping: return "MAPPING"
+            case .mappingUpdate: return "MAPPING_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Whether a network migration insight was produced by a job or by an API request.
+    public enum InsightProducerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case api
+        case job
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightProducerType] {
+            return [
+                .api,
+                .job
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .api: return "API"
+            case .job: return "JOB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// An insight produced during a network migration, such as a warning, decision, question, or other context beyond the migrated output.
+    public struct NetworkMigrationInsight: Swift.Sendable {
+        /// The unique identifier of the construct the insight relates to; absent for run-level and segment-level insights.
+        public var constructID: Swift.String?
+        /// The timestamp when the insight was created.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the insight.
+        public var insightID: Swift.String?
+        /// The level that the insight applies to: the run, a segment, or a construct.
+        public var insightLevel: MgnClientTypes.InsightLevel?
+        /// The content of the insight.
+        public var insightMessage: MgnClientTypes.InsightMessage?
+        /// The type of the insight.
+        public var insightType: MgnClientTypes.InsightType?
+        /// The unique identifier of the network migration definition the insight belongs to.
+        public var networkMigrationDefinitionID: Swift.String?
+        /// The unique identifier of the network migration execution the insight belongs to.
+        public var networkMigrationExecutionID: Swift.String?
+        /// The identifier of the job or API request that produced the insight.
+        public var producerID: Swift.String?
+        /// The job type or API name that produced the insight.
+        public var producerName: MgnClientTypes.InsightProducerName?
+        /// Whether the insight was produced by a job or by an API request.
+        public var producerType: MgnClientTypes.InsightProducerType?
+        /// The unique identifier of the segment the insight relates to; absent for run-level insights.
+        public var segmentID: Swift.String?
+
+        public init(
+            constructID: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            insightID: Swift.String? = nil,
+            insightLevel: MgnClientTypes.InsightLevel? = nil,
+            insightMessage: MgnClientTypes.InsightMessage? = nil,
+            insightType: MgnClientTypes.InsightType? = nil,
+            networkMigrationDefinitionID: Swift.String? = nil,
+            networkMigrationExecutionID: Swift.String? = nil,
+            producerID: Swift.String? = nil,
+            producerName: MgnClientTypes.InsightProducerName? = nil,
+            producerType: MgnClientTypes.InsightProducerType? = nil,
+            segmentID: Swift.String? = nil
+        ) {
+            self.constructID = constructID
+            self.createdAt = createdAt
+            self.insightID = insightID
+            self.insightLevel = insightLevel
+            self.insightMessage = insightMessage
+            self.insightType = insightType
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.producerID = producerID
+            self.producerName = producerName
+            self.producerType = producerType
+            self.segmentID = segmentID
+        }
+    }
+}
+
+public struct ListNetworkMigrationInsightsOutput: Swift.Sendable {
+    /// A list of network migration insights.
+    public var items: [MgnClientTypes.NetworkMigrationInsight]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.NetworkMigrationInsight]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension MgnClientTypes {
+
     /// Filters for listing mapper segment constructs.
     public struct ListNetworkMigrationMapperSegmentConstructsFilters: Swift.Sendable {
         /// A list of construct IDs to filter by.
@@ -5852,6 +6306,10 @@ extension MgnClientTypes {
 public struct ListNetworkMigrationMapperSegmentConstructsInput: Swift.Sendable {
     /// Filters to apply when listing constructs, such as construct type or ID.
     public var filters: MgnClientTypes.ListNetworkMigrationMapperSegmentConstructsFilters?
+    /// Whether to return construct-type-specific behavioral configuration.
+    public var includeConfiguration: Swift.Bool?
+    /// Whether to return construct properties using their native value types.
+    public var includeEnrichedProperties: Swift.Bool?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The unique identifier of the network migration definition.
@@ -5868,6 +6326,8 @@ public struct ListNetworkMigrationMapperSegmentConstructsInput: Swift.Sendable {
 
     public init(
         filters: MgnClientTypes.ListNetworkMigrationMapperSegmentConstructsFilters? = nil,
+        includeConfiguration: Swift.Bool? = nil,
+        includeEnrichedProperties: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
         networkMigrationExecutionID: Swift.String? = nil,
@@ -5875,6 +6335,8 @@ public struct ListNetworkMigrationMapperSegmentConstructsInput: Swift.Sendable {
         segmentID: Swift.String? = nil
     ) {
         self.filters = filters
+        self.includeConfiguration = includeConfiguration
+        self.includeEnrichedProperties = includeEnrichedProperties
         self.maxResults = maxResults
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
         self.networkMigrationExecutionID = networkMigrationExecutionID
@@ -6411,6 +6873,33 @@ public struct StartNetworkMigrationMappingOutput: Swift.Sendable {
 
 extension MgnClientTypes {
 
+    /// An operation that creates a new construct in the segment.
+    public struct CreateOperation: Swift.Sendable {
+        /// The initial construct-type-specific behavioral configuration for the new construct.
+        public var configuration: MgnClientTypes.OperationConfigurationUnion?
+        /// Whether the new construct is excluded from the migration.
+        public var excluded: Swift.Bool?
+        /// The name for the new construct.
+        public var name: Swift.String?
+        /// The properties of the new construct, using their native value types.
+        public var properties: [Swift.String: Smithy.Document]?
+
+        public init(
+            configuration: MgnClientTypes.OperationConfigurationUnion? = nil,
+            excluded: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            properties: [Swift.String: Smithy.Document]? = nil
+        ) {
+            self.configuration = configuration
+            self.excluded = excluded
+            self.name = name
+            self.properties = properties
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     /// An operation that deletes a construct from the mapping.
     public struct DeleteOperation: Swift.Sendable {
 
@@ -6507,6 +6996,37 @@ extension MgnClientTypes {
 
 extension MgnClientTypes {
 
+    /// An operation that updates a construct using native property value types and construct-type-specific behavioral configuration.
+    public struct UpdateOperationV2: Swift.Sendable {
+        /// Construct-type-specific behavioral configuration to apply, such as security group associations or security group rule referencing.
+        public var configuration: MgnClientTypes.OperationConfigurationUnion?
+        /// Whether to exclude this construct from the migration.
+        public var excluded: Swift.Bool?
+        /// The updated name for the construct.
+        public var name: Swift.String?
+        /// The properties to set or overwrite on the construct, using their native value types; omitted keys are unchanged.
+        public var properties: [Swift.String: Smithy.Document]?
+        /// The property keys to remove from the construct.
+        public var propertiesToDelete: [Swift.String]?
+
+        public init(
+            configuration: MgnClientTypes.OperationConfigurationUnion? = nil,
+            excluded: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            properties: [Swift.String: Smithy.Document]? = nil,
+            propertiesToDelete: [Swift.String]? = nil
+        ) {
+            self.configuration = configuration
+            self.excluded = excluded
+            self.name = name
+            self.properties = properties
+            self.propertiesToDelete = propertiesToDelete
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     /// A union type representing the operation to perform on a construct during a mapping update.
     public enum OperationUnion: Swift.Sendable {
         /// A merge operation to combine constructs from different segments.
@@ -6517,6 +7037,10 @@ extension MgnClientTypes {
         case delete(MgnClientTypes.DeleteOperation)
         /// An update operation to modify construct properties.
         case update(MgnClientTypes.UpdateOperation)
+        /// An update operation that modifies a construct using native property value types and behavioral configuration, with partial updates and property removal.
+        case updatev2(MgnClientTypes.UpdateOperationV2)
+        /// A create operation that adds a new construct to the segment, identified by the constructLogicalID on the parent construct entry.
+        case create(MgnClientTypes.CreateOperation)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6526,28 +7050,122 @@ extension MgnClientTypes {
     /// A construct update to apply during a mapping update operation.
     public struct StartNetworkMigrationMappingUpdateConstruct: Swift.Sendable {
         /// The ID of the construct to update.
-        /// This member is required.
         public var constructID: Swift.String?
+        /// The logical identifier for a construct created by a create operation; other operations identify the construct by constructID. Other entries in the same request can reference the new construct as {"Ref": "<constructLogicalID>"}.
+        public var constructLogicalID: Swift.String?
         /// The type of the construct.
         /// This member is required.
         public var constructType: Swift.String?
         /// The operation to perform on the construct.
         public var operation: MgnClientTypes.OperationUnion?
         /// The ID of the segment containing the construct.
-        /// This member is required.
         public var segmentID: Swift.String?
+        /// The identifier of a segment created in the same request that this construct belongs to. Use it instead of segmentID for a new segment.
+        public var segmentLogicalID: Swift.String?
 
         public init(
             constructID: Swift.String? = nil,
+            constructLogicalID: Swift.String? = nil,
             constructType: Swift.String? = nil,
             operation: MgnClientTypes.OperationUnion? = nil,
-            segmentID: Swift.String? = nil
+            segmentID: Swift.String? = nil,
+            segmentLogicalID: Swift.String? = nil
         ) {
             self.constructID = constructID
+            self.constructLogicalID = constructLogicalID
             self.constructType = constructType
             self.operation = operation
             self.segmentID = segmentID
+            self.segmentLogicalID = segmentLogicalID
         }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// An operation that creates a segment.
+    public struct SegmentCreateOperation: Swift.Sendable {
+        /// A description of the new segment.
+        public var description: Swift.String?
+        /// The name of the new segment.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Scope tags for the new segment.
+        public var scopeTags: [Swift.String: Swift.String]?
+        /// The target AWS account for the new segment.
+        public var targetAccount: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            scopeTags: [Swift.String: Swift.String]? = nil,
+            targetAccount: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.scopeTags = scopeTags
+            self.targetAccount = targetAccount
+        }
+    }
+}
+
+extension MgnClientTypes.SegmentCreateOperation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SegmentCreateOperation(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), targetAccount: \(Swift.String(describing: targetAccount)), scopeTags: \"CONTENT_REDACTED\")"}
+}
+
+extension MgnClientTypes {
+
+    /// An operation that deletes a segment from the mapping.
+    public struct SegmentDeleteOperation: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// An operation that updates the properties of a segment.
+    public struct SegmentUpdateOperation: Swift.Sendable {
+        /// The updated description for the segment.
+        public var description: Swift.String?
+        /// The updated name for the segment.
+        public var name: Swift.String?
+        /// The updated scope tags for the segment.
+        public var scopeTags: [Swift.String: Swift.String]?
+        /// The updated target AWS account for the segment.
+        public var targetAccount: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            scopeTags: [Swift.String: Swift.String]? = nil,
+            targetAccount: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.scopeTags = scopeTags
+            self.targetAccount = targetAccount
+        }
+    }
+}
+
+extension MgnClientTypes.SegmentUpdateOperation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SegmentUpdateOperation(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), targetAccount: \(Swift.String(describing: targetAccount)), scopeTags: \"CONTENT_REDACTED\")"}
+}
+
+extension MgnClientTypes {
+
+    /// Specifies the operation to perform on a segment during a mapping update. Specify one of a create, update, or delete operation.
+    public enum SegmentOperation: Swift.Sendable {
+        /// A create operation to add a new segment.
+        case create(MgnClientTypes.SegmentCreateOperation)
+        /// An update operation to modify segment properties.
+        case update(MgnClientTypes.SegmentUpdateOperation)
+        /// A delete operation to remove a segment from the mapping.
+        case delete(MgnClientTypes.SegmentDeleteOperation)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -6555,21 +7173,28 @@ extension MgnClientTypes {
 
     /// A segment update to apply during a mapping update operation.
     public struct StartNetworkMigrationMappingUpdateSegment: Swift.Sendable {
+        /// The operation to perform on the segment.
+        public var operation: MgnClientTypes.SegmentOperation?
         /// The updated scope tags for the segment.
         public var scopeTags: [Swift.String: Swift.String]?
         /// The ID of the segment to update.
-        /// This member is required.
         public var segmentID: Swift.String?
+        /// An identifier that you choose for a segment created by this request. You can use it in other constructs in the same request to refer to the new segment.
+        public var segmentLogicalID: Swift.String?
         /// The updated target AWS account for the segment.
         public var targetAccount: Swift.String?
 
         public init(
+            operation: MgnClientTypes.SegmentOperation? = nil,
             scopeTags: [Swift.String: Swift.String]? = nil,
             segmentID: Swift.String? = nil,
+            segmentLogicalID: Swift.String? = nil,
             targetAccount: Swift.String? = nil
         ) {
+            self.operation = operation
             self.scopeTags = scopeTags
             self.segmentID = segmentID
+            self.segmentLogicalID = segmentLogicalID
             self.targetAccount = targetAccount
         }
     }
@@ -6577,7 +7202,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.StartNetworkMigrationMappingUpdateSegment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartNetworkMigrationMappingUpdateSegment(segmentID: \(Swift.String(describing: segmentID)), targetAccount: \(Swift.String(describing: targetAccount)), scopeTags: \"CONTENT_REDACTED\")"}
+        "StartNetworkMigrationMappingUpdateSegment(operation: \(Swift.String(describing: operation)), segmentID: \(Swift.String(describing: segmentID)), segmentLogicalID: \(Swift.String(describing: segmentLogicalID)), targetAccount: \(Swift.String(describing: targetAccount)), scopeTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartNetworkMigrationMappingUpdateInput: Swift.Sendable {
@@ -6665,6 +7290,8 @@ extension MgnClientTypes {
 public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
     /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
+    /// The updated type of the network migration definition.
+    public var definitionType: MgnClientTypes.DefinitionType?
     /// The updated description of the network migration definition.
     public var description: Swift.String?
     /// The updated name of the network migration definition.
@@ -6687,6 +7314,7 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
 
     public init(
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
+        definitionType: MgnClientTypes.DefinitionType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
@@ -6698,6 +7326,7 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
         vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.cidrMappings = cidrMappings
+        self.definitionType = definitionType
         self.description = description
         self.name = name
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -6712,7 +7341,7 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
 
 extension UpdateNetworkMigrationDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\")"}
+        "UpdateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), definitionType: \(Swift.String(describing: definitionType)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
@@ -6722,6 +7351,8 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
+    /// Specifies the type of the definition. MIGRATION migrates an existing network. NEW_NETWORK designs a new network.
+    public var definitionType: MgnClientTypes.DefinitionType?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -6749,6 +7380,7 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
+        definitionType: MgnClientTypes.DefinitionType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
@@ -6764,6 +7396,7 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.arn = arn
         self.cidrMappings = cidrMappings
         self.createdAt = createdAt
+        self.definitionType = definitionType
         self.description = description
         self.name = name
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -6780,7 +7413,7 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
 
 extension UpdateNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), definitionType: \(Swift.String(describing: definitionType)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateNetworkMigrationMapperSegmentInput: Swift.Sendable {
@@ -6884,6 +7517,644 @@ public struct UpdateNetworkMigrationMapperSegmentOutput: Swift.Sendable {
 extension UpdateNetworkMigrationMapperSegmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdateNetworkMigrationMapperSegmentOutput(checksum: \(Swift.String(describing: checksum)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), jobID: \(Swift.String(describing: jobID)), logicalID: \(Swift.String(describing: logicalID)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), networkMigrationExecutionID: \(Swift.String(describing: networkMigrationExecutionID)), outputS3Configuration: \(Swift.String(describing: outputS3Configuration)), referencedSegments: \(Swift.String(describing: referencedSegments)), segmentID: \(Swift.String(describing: segmentID)), segmentType: \(Swift.String(describing: segmentType)), targetAccount: \(Swift.String(describing: targetAccount)), updatedAt: \(Swift.String(describing: updatedAt)), scopeTags: \"CONTENT_REDACTED\")"}
+}
+
+extension MgnClientTypes {
+
+    /// The status of a source action invocation. Can be PENDING, IN_PROGRESS, DELAYED, SUCCESS, CANCELLED, TIMED_OUT, FAILED, CANCELLING, or STALLED.
+    public enum RemoteSourceActionInvocationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case delayed
+        case failed
+        case inProgress
+        case pending
+        case stalled
+        case success
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoteSourceActionInvocationStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .delayed,
+                .failed,
+                .inProgress,
+                .pending,
+                .stalled,
+                .success,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .delayed: return "DELAYED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .stalled: return "STALLED"
+            case .success: return "SUCCESS"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Filters for listing source action invocations.
+    public struct ListRemoteSourceActionInvocationsRequestFilters: Swift.Sendable {
+        /// A list of source action ARNs to filter by.
+        public var remoteSourceActionArns: [Swift.String]?
+        /// A list of source server ARNs to filter by.
+        public var sourceServerArns: [Swift.String]?
+        /// A list of invocation statuses to filter by.
+        public var statuses: [MgnClientTypes.RemoteSourceActionInvocationStatus]?
+
+        public init(
+            remoteSourceActionArns: [Swift.String]? = nil,
+            sourceServerArns: [Swift.String]? = nil,
+            statuses: [MgnClientTypes.RemoteSourceActionInvocationStatus]? = nil
+        ) {
+            self.remoteSourceActionArns = remoteSourceActionArns
+            self.sourceServerArns = sourceServerArns
+            self.statuses = statuses
+        }
+    }
+}
+
+public struct ListRemoteSourceActionInvocationsInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// Filters to apply when listing invocations, such as source server or status.
+    public var filters: MgnClientTypes.ListRemoteSourceActionInvocationsRequestFilters?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the job to list invocations for.
+    /// This member is required.
+    public var remoteSourceActionJobID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        filters: MgnClientTypes.ListRemoteSourceActionInvocationsRequestFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        remoteSourceActionJobID: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.remoteSourceActionJobID = remoteSourceActionJobID
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The run of a source action on one source server as part of a job.
+    public struct RemoteSourceActionInvocation: Swift.Sendable {
+        /// The timestamp when the command finished.
+        public var endedAt: Foundation.Date?
+        /// The ARN of the source action.
+        public var remoteSourceActionArn: Swift.String?
+        /// The ARN of the source server.
+        public var sourceServerArn: Swift.String?
+        /// The ID of the AWS Systems Manager command that runs the source action on the connector.
+        public var ssmCommandInvocationID: Swift.String?
+        /// The timestamp when the command started running.
+        public var startedAt: Foundation.Date?
+        /// The current status of the invocation.
+        public var status: MgnClientTypes.RemoteSourceActionInvocationStatus?
+
+        public init(
+            endedAt: Foundation.Date? = nil,
+            remoteSourceActionArn: Swift.String? = nil,
+            sourceServerArn: Swift.String? = nil,
+            ssmCommandInvocationID: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: MgnClientTypes.RemoteSourceActionInvocationStatus? = nil
+        ) {
+            self.endedAt = endedAt
+            self.remoteSourceActionArn = remoteSourceActionArn
+            self.sourceServerArn = sourceServerArn
+            self.ssmCommandInvocationID = ssmCommandInvocationID
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+public struct ListRemoteSourceActionInvocationsOutput: Swift.Sendable {
+    /// A list of source action invocations.
+    public var items: [MgnClientTypes.RemoteSourceActionInvocation]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.RemoteSourceActionInvocation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Filters for listing source action jobs.
+    public struct ListRemoteSourceActionJobsRequestFilters: Swift.Sendable {
+        /// A list of job IDs to filter by.
+        public var remoteSourceActionJobIDs: [Swift.String]?
+
+        public init(
+            remoteSourceActionJobIDs: [Swift.String]? = nil
+        ) {
+            self.remoteSourceActionJobIDs = remoteSourceActionJobIDs
+        }
+    }
+}
+
+public struct ListRemoteSourceActionJobsInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// Filters to apply when listing source action jobs.
+    public var filters: MgnClientTypes.ListRemoteSourceActionJobsRequestFilters?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        filters: MgnClientTypes.ListRemoteSourceActionJobsRequestFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The status of a source action job. Can be PENDING, RUNNING, COMPLETED, FAILED, or STALLED.
+    public enum RemoteSourceActionJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case running
+        case stalled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoteSourceActionJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending,
+                .running,
+                .stalled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .stalled: return "STALLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// A job that runs a source action on source servers through a connector.
+    public struct RemoteSourceActionJob: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the job.
+        public var arn: Swift.String?
+        /// The ARN of the connector that runs the job.
+        public var connectorArn: Swift.String?
+        /// The timestamp when the job completed or failed.
+        public var endedAt: Foundation.Date?
+        /// The ARNs of the source actions that the job runs.
+        public var remoteSourceActionArns: [Swift.String]?
+        /// The unique identifier of the job.
+        public var remoteSourceActionJobID: Swift.String?
+        /// The ARNs of the source servers that the job runs on.
+        public var sourceServerArns: [Swift.String]?
+        /// The timestamp when the job started running.
+        public var startedAt: Foundation.Date?
+        /// The current status of the job.
+        public var status: MgnClientTypes.RemoteSourceActionJobStatus?
+        /// The reason the job failed.
+        public var statusReason: Swift.String?
+        /// Tags assigned to the job.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            connectorArn: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            remoteSourceActionArns: [Swift.String]? = nil,
+            remoteSourceActionJobID: Swift.String? = nil,
+            sourceServerArns: [Swift.String]? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: MgnClientTypes.RemoteSourceActionJobStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.arn = arn
+            self.connectorArn = connectorArn
+            self.endedAt = endedAt
+            self.remoteSourceActionArns = remoteSourceActionArns
+            self.remoteSourceActionJobID = remoteSourceActionJobID
+            self.sourceServerArns = sourceServerArns
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+    }
+}
+
+extension MgnClientTypes.RemoteSourceActionJob: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteSourceActionJob(arn: \(Swift.String(describing: arn)), connectorArn: \(Swift.String(describing: connectorArn)), endedAt: \(Swift.String(describing: endedAt)), remoteSourceActionArns: \(Swift.String(describing: remoteSourceActionArns)), remoteSourceActionJobID: \(Swift.String(describing: remoteSourceActionJobID)), sourceServerArns: \(Swift.String(describing: sourceServerArns)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRemoteSourceActionJobsOutput: Swift.Sendable {
+    /// A list of source action jobs.
+    public var items: [MgnClientTypes.RemoteSourceActionJob]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.RemoteSourceActionJob]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartRemoteSourceActionJobInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ARN of the connector that runs the source actions.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// The ARNs of the source actions to run.
+    /// This member is required.
+    public var remoteSourceActionArns: [Swift.String]?
+    /// The ARNs of the source servers to run the source actions on.
+    /// This member is required.
+    public var sourceServerArns: [Swift.String]?
+    /// Tags to assign to the job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accountID: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        connectorArn: Swift.String? = nil,
+        remoteSourceActionArns: [Swift.String]? = nil,
+        sourceServerArns: [Swift.String]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.accountID = accountID
+        self.clientToken = clientToken
+        self.connectorArn = connectorArn
+        self.remoteSourceActionArns = remoteSourceActionArns
+        self.sourceServerArns = sourceServerArns
+        self.tags = tags
+    }
+}
+
+extension StartRemoteSourceActionJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartRemoteSourceActionJobInput(accountID: \(Swift.String(describing: accountID)), clientToken: \(Swift.String(describing: clientToken)), connectorArn: \(Swift.String(describing: connectorArn)), remoteSourceActionArns: \(Swift.String(describing: remoteSourceActionArns)), sourceServerArns: \(Swift.String(describing: sourceServerArns)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartRemoteSourceActionJobOutput: Swift.Sendable {
+    /// The job that was started.
+    public var remoteSourceActionJob: MgnClientTypes.RemoteSourceActionJob?
+
+    public init(
+        remoteSourceActionJob: MgnClientTypes.RemoteSourceActionJob? = nil
+    ) {
+        self.remoteSourceActionJob = remoteSourceActionJob
+    }
+}
+
+public struct CreateRemoteSourceActionInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// A description of the source action.
+    public var description: Swift.String?
+    /// The name of the source action.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The operating system of the source servers that the script runs on. Set to linux or windows to run the script only on source servers with that operating system, or all to run it on both.
+    public var operatingSystem: Swift.String?
+    /// AWS Systems Manager Parameter Store parameter name.
+    /// This member is required.
+    public var ssmParameterName: Swift.String?
+    /// Tags to assign to the source action.
+    public var tags: [Swift.String: Swift.String]?
+    /// The maximum time, in seconds, that the script can run on each source server.
+    public var timeoutSeconds: Swift.Int?
+
+    public init(
+        accountID: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        operatingSystem: Swift.String? = nil,
+        ssmParameterName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutSeconds: Swift.Int? = nil
+    ) {
+        self.accountID = accountID
+        self.description = description
+        self.name = name
+        self.operatingSystem = operatingSystem
+        self.ssmParameterName = ssmParameterName
+        self.tags = tags
+        self.timeoutSeconds = timeoutSeconds
+    }
+}
+
+extension CreateRemoteSourceActionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRemoteSourceActionInput(accountID: \(Swift.String(describing: accountID)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), operatingSystem: \(Swift.String(describing: operatingSystem)), ssmParameterName: \(Swift.String(describing: ssmParameterName)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRemoteSourceActionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source action.
+    public var arn: Swift.String?
+    /// A description of the source action.
+    public var description: Swift.String?
+    /// The name of the source action.
+    public var name: Swift.String?
+    /// The operating system of the source servers that the script runs on. Absent when the script runs on both Linux and Windows.
+    public var operatingSystem: Swift.String?
+    /// The unique identifier of the source action.
+    public var remoteSourceActionID: Swift.String?
+    /// AWS Systems Manager Parameter Store parameter name.
+    public var ssmParameterName: Swift.String?
+    /// Tags assigned to the source action.
+    public var tags: [Swift.String: Swift.String]?
+    /// The maximum time, in seconds, that the script can run on each source server.
+    public var timeoutSeconds: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        operatingSystem: Swift.String? = nil,
+        remoteSourceActionID: Swift.String? = nil,
+        ssmParameterName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutSeconds: Swift.Int? = nil
+    ) {
+        self.arn = arn
+        self.description = description
+        self.name = name
+        self.operatingSystem = operatingSystem
+        self.remoteSourceActionID = remoteSourceActionID
+        self.ssmParameterName = ssmParameterName
+        self.tags = tags
+        self.timeoutSeconds = timeoutSeconds
+    }
+}
+
+extension CreateRemoteSourceActionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRemoteSourceActionOutput(arn: \(Swift.String(describing: arn)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), operatingSystem: \(Swift.String(describing: operatingSystem)), remoteSourceActionID: \(Swift.String(describing: remoteSourceActionID)), ssmParameterName: \(Swift.String(describing: ssmParameterName)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct DeleteRemoteSourceActionInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// The unique identifier of the source action to delete.
+    /// This member is required.
+    public var remoteSourceActionID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        remoteSourceActionID: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.remoteSourceActionID = remoteSourceActionID
+    }
+}
+
+public struct DeleteRemoteSourceActionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension MgnClientTypes {
+
+    /// Filters for listing source actions.
+    public struct ListRemoteSourceActionsRequestFilters: Swift.Sendable {
+        /// A list of source action IDs to filter by.
+        public var remoteSourceActionIDs: [Swift.String]?
+
+        public init(
+            remoteSourceActionIDs: [Swift.String]? = nil
+        ) {
+            self.remoteSourceActionIDs = remoteSourceActionIDs
+        }
+    }
+}
+
+public struct ListRemoteSourceActionsInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// Filters to apply when listing source actions.
+    public var filters: MgnClientTypes.ListRemoteSourceActionsRequestFilters?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        filters: MgnClientTypes.ListRemoteSourceActionsRequestFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension MgnClientTypes {
+
+    /// A source action, which references a script in AWS Systems Manager Parameter Store that Application Migration Service runs on source servers through a connector.
+    public struct RemoteSourceAction: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source action.
+        public var arn: Swift.String?
+        /// A description of the source action.
+        public var description: Swift.String?
+        /// The name of the source action.
+        public var name: Swift.String?
+        /// The operating system of the source servers that the script runs on. Absent when the script runs on both Linux and Windows.
+        public var operatingSystem: Swift.String?
+        /// The unique identifier of the source action.
+        public var remoteSourceActionID: Swift.String?
+        /// AWS Systems Manager Parameter Store parameter name.
+        public var ssmParameterName: Swift.String?
+        /// Tags assigned to the source action.
+        public var tags: [Swift.String: Swift.String]?
+        /// The maximum time, in seconds, that the script can run on each source server.
+        public var timeoutSeconds: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            operatingSystem: Swift.String? = nil,
+            remoteSourceActionID: Swift.String? = nil,
+            ssmParameterName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            timeoutSeconds: Swift.Int? = nil
+        ) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.remoteSourceActionID = remoteSourceActionID
+            self.ssmParameterName = ssmParameterName
+            self.tags = tags
+            self.timeoutSeconds = timeoutSeconds
+        }
+    }
+}
+
+extension MgnClientTypes.RemoteSourceAction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteSourceAction(arn: \(Swift.String(describing: arn)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), operatingSystem: \(Swift.String(describing: operatingSystem)), remoteSourceActionID: \(Swift.String(describing: remoteSourceActionID)), ssmParameterName: \(Swift.String(describing: ssmParameterName)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRemoteSourceActionsOutput: Swift.Sendable {
+    /// A list of source actions.
+    public var items: [MgnClientTypes.RemoteSourceAction]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.RemoteSourceAction]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateRemoteSourceActionInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// The updated description of the source action.
+    public var description: Swift.String?
+    /// The updated name of the source action.
+    public var name: Swift.String?
+    /// The updated operating system of the source servers that the script runs on. Set to linux or windows to run the script only on source servers with that operating system, or all to run it on both.
+    public var operatingSystem: Swift.String?
+    /// The unique identifier of the source action to update.
+    /// This member is required.
+    public var remoteSourceActionID: Swift.String?
+    /// AWS Systems Manager Parameter Store parameter name.
+    public var ssmParameterName: Swift.String?
+    /// The updated maximum time, in seconds, that the script can run on each source server.
+    public var timeoutSeconds: Swift.Int?
+
+    public init(
+        accountID: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        operatingSystem: Swift.String? = nil,
+        remoteSourceActionID: Swift.String? = nil,
+        ssmParameterName: Swift.String? = nil,
+        timeoutSeconds: Swift.Int? = nil
+    ) {
+        self.accountID = accountID
+        self.description = description
+        self.name = name
+        self.operatingSystem = operatingSystem
+        self.remoteSourceActionID = remoteSourceActionID
+        self.ssmParameterName = ssmParameterName
+        self.timeoutSeconds = timeoutSeconds
+    }
+}
+
+public struct UpdateRemoteSourceActionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source action.
+    public var arn: Swift.String?
+    /// A description of the source action.
+    public var description: Swift.String?
+    /// The name of the source action.
+    public var name: Swift.String?
+    /// The operating system of the source servers that the script runs on. Absent when the script runs on both Linux and Windows.
+    public var operatingSystem: Swift.String?
+    /// The unique identifier of the source action.
+    public var remoteSourceActionID: Swift.String?
+    /// AWS Systems Manager Parameter Store parameter name.
+    public var ssmParameterName: Swift.String?
+    /// Tags assigned to the source action.
+    public var tags: [Swift.String: Swift.String]?
+    /// The maximum time, in seconds, that the script can run on each source server.
+    public var timeoutSeconds: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        operatingSystem: Swift.String? = nil,
+        remoteSourceActionID: Swift.String? = nil,
+        ssmParameterName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutSeconds: Swift.Int? = nil
+    ) {
+        self.arn = arn
+        self.description = description
+        self.name = name
+        self.operatingSystem = operatingSystem
+        self.remoteSourceActionID = remoteSourceActionID
+        self.ssmParameterName = ssmParameterName
+        self.tags = tags
+        self.timeoutSeconds = timeoutSeconds
+    }
+}
+
+extension UpdateRemoteSourceActionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRemoteSourceActionOutput(arn: \(Swift.String(describing: arn)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), operatingSystem: \(Swift.String(describing: operatingSystem)), remoteSourceActionID: \(Swift.String(describing: remoteSourceActionID)), ssmParameterName: \(Swift.String(describing: ssmParameterName)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -7007,6 +8278,35 @@ extension MgnClientTypes {
 
 extension MgnClientTypes {
 
+    public enum OutpostSnapshotLocation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case outpost
+        case region
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutpostSnapshotLocation] {
+            return [
+                .outpost,
+                .region
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .outpost: return "OUTPOST"
+            case .region: return "REGION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     /// FSx for ONTAP storage configuration.
     public struct FsxOntapConfiguration: Swift.Sendable {
         /// FSx ONTAP configuration credentials secret ARN.
@@ -7098,6 +8398,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryptionKeyArn: Swift.String?
     /// Request to configure the internet protocol to IPv4 or IPv6.
     public var internetProtocol: MgnClientTypes.InternetProtocol?
+    /// Request to set the location of replication snapshots when the staging area subnet is on an AWS Outpost during Replication Settings template creation. Set to OUTPOST to keep replication snapshots on the Outpost, or REGION to store them in the AWS Region. Required when the staging area subnet is on an Outpost, and not allowed otherwise.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Request to configure the Replication Server instance type during Replication Settings template creation.
     /// This member is required.
     public var replicationServerInstanceType: Swift.String?
@@ -7131,6 +8433,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
@@ -7149,6 +8452,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
@@ -7163,7 +8467,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -7185,6 +8489,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryptionKeyArn: Swift.String?
     /// Replication Configuration template internet protocol.
     public var internetProtocol: MgnClientTypes.InternetProtocol?
+    /// Indicates the location of replication snapshots in the Replication Configuration template when the staging area subnet is on an AWS Outpost. OUTPOST keeps replication snapshots on the Outpost, and REGION stores them in the AWS Region.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Replication Configuration template ID.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -7217,6 +8523,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -7237,6 +8544,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -7252,7 +8560,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
@@ -7312,6 +8620,8 @@ extension MgnClientTypes {
         public var ebsEncryptionKeyArn: Swift.String?
         /// Replication Configuration template internet protocol.
         public var internetProtocol: MgnClientTypes.InternetProtocol?
+        /// Indicates the location of replication snapshots in the Replication Configuration template when the staging area subnet is on an AWS Outpost. OUTPOST keeps replication snapshots on the Outpost, and REGION stores them in the AWS Region.
+        public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
         /// Replication Configuration template ID.
         /// This member is required.
         public var replicationConfigurationTemplateID: Swift.String?
@@ -7344,6 +8654,7 @@ extension MgnClientTypes {
             ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
             ebsEncryptionKeyArn: Swift.String? = nil,
             internetProtocol: MgnClientTypes.InternetProtocol? = nil,
+            outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
             replicationConfigurationTemplateID: Swift.String? = nil,
             replicationServerInstanceType: Swift.String? = nil,
             replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -7364,6 +8675,7 @@ extension MgnClientTypes {
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
             self.internetProtocol = internetProtocol
+            self.outpostSnapshotLocation = outpostSnapshotLocation
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -7380,7 +8692,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -7417,6 +8729,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryptionKeyArn: Swift.String?
     /// Update replication configuration template internet protocol request.
     public var internetProtocol: MgnClientTypes.InternetProtocol?
+    /// Updates the location of replication snapshots in the Replication Configuration template when the staging area subnet is on an AWS Outpost. Set to OUTPOST to keep replication snapshots on the Outpost, or REGION to store them in the AWS Region. Required when the staging area subnet is on an Outpost, and not allowed otherwise.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Update replication configuration template template ID request.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -7447,6 +8761,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -7466,6 +8781,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -7480,7 +8796,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -7502,6 +8818,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryptionKeyArn: Swift.String?
     /// Replication Configuration template internet protocol.
     public var internetProtocol: MgnClientTypes.InternetProtocol?
+    /// Indicates the location of replication snapshots in the Replication Configuration template when the staging area subnet is on an AWS Outpost. OUTPOST keeps replication snapshots on the Outpost, and REGION stores them in the AWS Region.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Replication Configuration template ID.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -7534,6 +8852,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -7554,6 +8873,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -7569,7 +8889,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -8005,6 +9325,8 @@ extension MgnClientTypes {
         public var replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]?
         /// Replication server instance ID.
         public var replicatorId: Swift.String?
+        /// The ARN of the AWS Outpost that hosts the staging area, when the staging area subnet is on an Outpost.
+        public var stagingOutpostArn: Swift.String?
 
         public init(
             dataReplicationError: MgnClientTypes.DataReplicationError? = nil,
@@ -8014,7 +9336,8 @@ extension MgnClientTypes {
             lagDuration: Swift.String? = nil,
             lastSnapshotDateTime: Swift.String? = nil,
             replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]? = nil,
-            replicatorId: Swift.String? = nil
+            replicatorId: Swift.String? = nil,
+            stagingOutpostArn: Swift.String? = nil
         ) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
@@ -8024,6 +9347,7 @@ extension MgnClientTypes {
             self.lastSnapshotDateTime = lastSnapshotDateTime
             self.replicatedDisks = replicatedDisks
             self.replicatorId = replicatorId
+            self.stagingOutpostArn = stagingOutpostArn
         }
     }
 }
@@ -9029,6 +10353,8 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Launch configuration OS licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Launch configuration name.
@@ -9048,6 +10374,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         enableMapAutoTagging: Swift.Bool? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         name: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -9061,11 +10388,111 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         self.enableMapAutoTagging = enableMapAutoTagging
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.name = name
         self.postLaunchActions = postLaunchActions
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+    }
+}
+
+public struct GetLaunchConfigurationDefaultsInput: Swift.Sendable {
+    /// Request to get the launch configuration defaults by Account ID.
+    public var accountID: Swift.String?
+    /// Request to get the launch configuration defaults by Source Server ID.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        sourceServerID: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.sourceServerID = sourceServerID
+    }
+}
+
+extension MgnClientTypes {
+
+    public enum DeleteOnTermination: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteOnTermination] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// Contains the Amazon Elastic Block Store (Amazon EBS) volume configuration for the disk mappings created later in the source server's Amazon Elastic Compute Cloud (Amazon EC2) launch template. Fields that aren't set get the service's default values.
+    public struct SourceServerVolumeConfiguration: Swift.Sendable {
+        /// Specifies whether the volume is deleted when the launched instance terminates.
+        public var deleteOnTermination: MgnClientTypes.DeleteOnTermination?
+        /// Provisioned IOPS, for io1, io2 and gp3 volumes.
+        public var iops: Swift.Int?
+        /// Throughput in MiB/s, for gp3 volumes only.
+        public var throughput: Swift.Int?
+        /// Provisioned rate for volume initialization, in MiB/s.
+        public var volumeInitializationRate: Swift.Int?
+        /// EBS volume type.
+        public var volumeType: MgnClientTypes.VolumeType?
+
+        public init(
+            deleteOnTermination: MgnClientTypes.DeleteOnTermination? = nil,
+            iops: Swift.Int? = nil,
+            throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
+            volumeType: MgnClientTypes.VolumeType? = nil
+        ) {
+            self.deleteOnTermination = deleteOnTermination
+            self.iops = iops
+            self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
+            self.volumeType = volumeType
+        }
+    }
+}
+
+public struct GetLaunchConfigurationDefaultsOutput: Swift.Sendable {
+    /// Volume configuration for disks larger than smallVolumeMaxSize. Omitted when none of its fields is set.
+    public var largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Volume configuration for disks up to smallVolumeMaxSize. Omitted when none of its fields is set.
+    public var smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Disks up to this size, in GiB, use the small volume configuration, and larger disks use the large one. 0 means every disk uses the large one.
+    public var smallVolumeMaxSize: Swift.Int
+    /// Source Server ID of the launch configuration defaults.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeMaxSize: Swift.Int = 0,
+        sourceServerID: Swift.String? = nil
+    ) {
+        self.largeVolumeConfiguration = largeVolumeConfiguration
+        self.smallVolumeConfiguration = smallVolumeConfiguration
+        self.smallVolumeMaxSize = smallVolumeMaxSize
+        self.sourceServerID = sourceServerID
     }
 }
 
@@ -9185,6 +10612,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration name.
     public var name: Swift.String?
+    /// Indicates the location of replication snapshots when the staging area subnet is on an AWS Outpost. OUTPOST keeps replication snapshots on the Outpost, and REGION stores them in the AWS Region.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Replication Configuration replicated disks.
     public var replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]?
     /// Replication Configuration Replication Server instance type.
@@ -9216,6 +10645,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -9236,6 +10666,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
         self.name = name
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -9251,7 +10682,77 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRemoteSourceActionInvocationResultsInput: Swift.Sendable {
+    /// Account ID.
+    public var accountID: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the source server to list invocation results for.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sourceServerID: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sourceServerID = sourceServerID
+    }
+}
+
+extension MgnClientTypes {
+
+    /// The latest invocation result of a source action on a source server.
+    public struct RemoteSourceActionInvocationResult: Swift.Sendable {
+        /// The ID of the account that owns the connector that ran the source action.
+        public var connectorOwnerAccountID: Swift.String?
+        /// The timestamp when the command finished.
+        public var endedAt: Foundation.Date?
+        /// The unique identifier of the source action.
+        public var remoteSourceActionID: Swift.String?
+        /// The timestamp when the command started running.
+        public var startedAt: Foundation.Date?
+        /// The status of the latest invocation.
+        public var status: MgnClientTypes.RemoteSourceActionInvocationStatus?
+
+        public init(
+            connectorOwnerAccountID: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            remoteSourceActionID: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: MgnClientTypes.RemoteSourceActionInvocationStatus? = nil
+        ) {
+            self.connectorOwnerAccountID = connectorOwnerAccountID
+            self.endedAt = endedAt
+            self.remoteSourceActionID = remoteSourceActionID
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+public struct ListRemoteSourceActionInvocationResultsOutput: Swift.Sendable {
+    /// A list of source action invocation results.
+    public var items: [MgnClientTypes.RemoteSourceActionInvocationResult]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MgnClientTypes.RemoteSourceActionInvocationResult]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
 }
 
 extension MgnClientTypes {
@@ -10146,6 +11647,8 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Update Launch configuration licensing request.
     public var licensing: MgnClientTypes.Licensing?
+    /// Launch configuration map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Launch configuration map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Update Launch configuration name request.
@@ -10166,6 +11669,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         enableMapAutoTagging: Swift.Bool? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         name: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -10179,6 +11683,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         self.enableMapAutoTagging = enableMapAutoTagging
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.name = name
         self.postLaunchActions = postLaunchActions
@@ -10202,6 +11707,8 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
     public var launchDisposition: MgnClientTypes.LaunchDisposition?
     /// Launch configuration OS licensing.
     public var licensing: MgnClientTypes.Licensing?
+    /// Map auto tagging key.
+    public var mapAutoTaggingKey: Swift.String?
     /// Map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
     /// Launch configuration name.
@@ -10221,6 +11728,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         enableMapAutoTagging: Swift.Bool? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
+        mapAutoTaggingKey: Swift.String? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
         name: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
@@ -10234,11 +11742,63 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         self.enableMapAutoTagging = enableMapAutoTagging
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.mapAutoTaggingKey = mapAutoTaggingKey
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
         self.name = name
         self.postLaunchActions = postLaunchActions
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+    }
+}
+
+public struct UpdateLaunchConfigurationDefaultsInput: Swift.Sendable {
+    /// Request to update the launch configuration defaults by Account ID.
+    public var accountID: Swift.String?
+    /// Volume configuration for disks larger than smallVolumeMaxSize. If you omit it, the current one is kept. If you send it, it replaces the current one: fields you omit are cleared, and an empty configuration, {}, clears all of them.
+    public var largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Volume configuration for disks up to smallVolumeMaxSize. If you omit it, the current one is kept. If you send it, it replaces the current one: fields you omit are cleared, and an empty configuration, {}, clears all of them.
+    public var smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Disks up to this size, in GiB, use the small volume configuration, and larger disks use the large one. 0 means every disk uses the large one. If you omit it, the current value is kept.
+    public var smallVolumeMaxSize: Swift.Int?
+    /// Request to update the launch configuration defaults by Source Server ID.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        accountID: Swift.String? = nil,
+        largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeMaxSize: Swift.Int? = 0,
+        sourceServerID: Swift.String? = nil
+    ) {
+        self.accountID = accountID
+        self.largeVolumeConfiguration = largeVolumeConfiguration
+        self.smallVolumeConfiguration = smallVolumeConfiguration
+        self.smallVolumeMaxSize = smallVolumeMaxSize
+        self.sourceServerID = sourceServerID
+    }
+}
+
+public struct UpdateLaunchConfigurationDefaultsOutput: Swift.Sendable {
+    /// Volume configuration for disks larger than smallVolumeMaxSize. Omitted when none of its fields is set.
+    public var largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Volume configuration for disks up to smallVolumeMaxSize. Omitted when none of its fields is set.
+    public var smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration?
+    /// Disks up to this size, in GiB, use the small volume configuration, and larger disks use the large one. 0 means every disk uses the large one.
+    public var smallVolumeMaxSize: Swift.Int
+    /// Source Server ID of the launch configuration defaults.
+    public var sourceServerID: Swift.String?
+
+    public init(
+        largeVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeConfiguration: MgnClientTypes.SourceServerVolumeConfiguration? = nil,
+        smallVolumeMaxSize: Swift.Int = 0,
+        sourceServerID: Swift.String? = nil
+    ) {
+        self.largeVolumeConfiguration = largeVolumeConfiguration
+        self.smallVolumeConfiguration = smallVolumeConfiguration
+        self.smallVolumeMaxSize = smallVolumeMaxSize
+        self.sourceServerID = sourceServerID
     }
 }
 
@@ -10263,6 +11823,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Update replication configuration name request.
     public var name: Swift.String?
+    /// Updates the location of replication snapshots when the staging area subnet is on an AWS Outpost. Set to OUTPOST to keep replication snapshots on the Outpost, or REGION to store them in the AWS Region. Required when the staging area subnet is on an Outpost, and not allowed otherwise.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Update replication configuration replicated disks request.
     public var replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]?
     /// Update replication configuration Replication Server instance type request.
@@ -10296,6 +11858,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -10317,6 +11880,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
         self.name = name
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -10332,7 +11896,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -10354,6 +11918,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration name.
     public var name: Swift.String?
+    /// Indicates the location of replication snapshots when the staging area subnet is on an AWS Outpost. OUTPOST keeps replication snapshots on the Outpost, and REGION stores them in the AWS Region.
+    public var outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation?
     /// Replication Configuration replicated disks.
     public var replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]?
     /// Replication Configuration Replication Server instance type.
@@ -10385,6 +11951,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         ebsEncryptionKeyArn: Swift.String? = nil,
         internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
+        outpostSnapshotLocation: MgnClientTypes.OutpostSnapshotLocation? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -10405,6 +11972,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
         self.internetProtocol = internetProtocol
         self.name = name
+        self.outpostSnapshotLocation = outpostSnapshotLocation
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -10420,7 +11988,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), outpostSnapshotLocation: \(Swift.String(describing: outpostSnapshotLocation)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), storeSnapshotOnLocalZone: \(Swift.String(describing: storeSnapshotOnLocalZone)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSourceServerInput: Swift.Sendable {
@@ -11454,6 +13022,13 @@ extension CreateNetworkMigrationDefinitionInput {
     }
 }
 
+extension CreateRemoteSourceActionInput {
+
+    static func urlPathProvider(_ value: CreateRemoteSourceActionInput) -> Swift.String? {
+        return "/CreateRemoteSourceAction"
+    }
+}
+
 extension CreateReplicationConfigurationTemplateInput {
 
     static func urlPathProvider(_ value: CreateReplicationConfigurationTemplateInput) -> Swift.String? {
@@ -11500,6 +13075,13 @@ extension DeleteNetworkMigrationDefinitionInput {
 
     static func urlPathProvider(_ value: DeleteNetworkMigrationDefinitionInput) -> Swift.String? {
         return "/network-migration/DeleteNetworkMigrationDefinition"
+    }
+}
+
+extension DeleteRemoteSourceActionInput {
+
+    static func urlPathProvider(_ value: DeleteRemoteSourceActionInput) -> Swift.String? {
+        return "/DeleteRemoteSourceAction"
     }
 }
 
@@ -11621,6 +13203,13 @@ extension GetLaunchConfigurationInput {
 
     static func urlPathProvider(_ value: GetLaunchConfigurationInput) -> Swift.String? {
         return "/GetLaunchConfiguration"
+    }
+}
+
+extension GetLaunchConfigurationDefaultsInput {
+
+    static func urlPathProvider(_ value: GetLaunchConfigurationDefaultsInput) -> Swift.String? {
+        return "/GetLaunchConfigurationDefaults"
     }
 }
 
@@ -11764,6 +13353,13 @@ extension ListNetworkMigrationExecutionsInput {
     }
 }
 
+extension ListNetworkMigrationInsightsInput {
+
+    static func urlPathProvider(_ value: ListNetworkMigrationInsightsInput) -> Swift.String? {
+        return "/network-migration/ListNetworkMigrationInsights"
+    }
+}
+
 extension ListNetworkMigrationMapperSegmentConstructsInput {
 
     static func urlPathProvider(_ value: ListNetworkMigrationMapperSegmentConstructsInput) -> Swift.String? {
@@ -11789,6 +13385,34 @@ extension ListNetworkMigrationMappingUpdatesInput {
 
     static func urlPathProvider(_ value: ListNetworkMigrationMappingUpdatesInput) -> Swift.String? {
         return "/network-migration/ListNetworkMigrationMappingUpdates"
+    }
+}
+
+extension ListRemoteSourceActionInvocationResultsInput {
+
+    static func urlPathProvider(_ value: ListRemoteSourceActionInvocationResultsInput) -> Swift.String? {
+        return "/ListRemoteSourceActionInvocationResults"
+    }
+}
+
+extension ListRemoteSourceActionInvocationsInput {
+
+    static func urlPathProvider(_ value: ListRemoteSourceActionInvocationsInput) -> Swift.String? {
+        return "/ListRemoteSourceActionInvocations"
+    }
+}
+
+extension ListRemoteSourceActionJobsInput {
+
+    static func urlPathProvider(_ value: ListRemoteSourceActionJobsInput) -> Swift.String? {
+        return "/ListRemoteSourceActionJobs"
+    }
+}
+
+extension ListRemoteSourceActionsInput {
+
+    static func urlPathProvider(_ value: ListRemoteSourceActionsInput) -> Swift.String? {
+        return "/ListRemoteSourceActions"
     }
 }
 
@@ -11942,6 +13566,13 @@ extension StartNetworkMigrationMappingUpdateInput {
     }
 }
 
+extension StartRemoteSourceActionJobInput {
+
+    static func urlPathProvider(_ value: StartRemoteSourceActionJobInput) -> Swift.String? {
+        return "/StartRemoteSourceActionJob"
+    }
+}
+
 extension StartReplicationInput {
 
     static func urlPathProvider(_ value: StartReplicationInput) -> Swift.String? {
@@ -12041,6 +13672,13 @@ extension UpdateLaunchConfigurationInput {
     }
 }
 
+extension UpdateLaunchConfigurationDefaultsInput {
+
+    static func urlPathProvider(_ value: UpdateLaunchConfigurationDefaultsInput) -> Swift.String? {
+        return "/UpdateLaunchConfigurationDefaults"
+    }
+}
+
 extension UpdateLaunchConfigurationTemplateInput {
 
     static func urlPathProvider(_ value: UpdateLaunchConfigurationTemplateInput) -> Swift.String? {
@@ -12059,6 +13697,13 @@ extension UpdateNetworkMigrationMapperSegmentInput {
 
     static func urlPathProvider(_ value: UpdateNetworkMigrationMapperSegmentInput) -> Swift.String? {
         return "/network-migration/UpdateNetworkMigrationMapperSegment"
+    }
+}
+
+extension UpdateRemoteSourceActionInput {
+
+    static func urlPathProvider(_ value: UpdateRemoteSourceActionInput) -> Swift.String? {
+        return "/UpdateRemoteSourceAction"
     }
 }
 
@@ -12180,6 +13825,7 @@ extension CreateLaunchConfigurationTemplateInput {
         try writer["largeVolumeConf"].write(value.largeVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
         try writer["launchDisposition"].write(value.launchDisposition)
         try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
+        try writer["mapAutoTaggingKey"].write(value.mapAutoTaggingKey)
         try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
         try writer["parametersEncryptionKey"].write(value.parametersEncryptionKey)
         try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
@@ -12195,6 +13841,8 @@ extension CreateNetworkMigrationDefinitionInput {
     static func write(value: CreateNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidrMappings"].writeList(value.cidrMappings, memberWritingClosure: MgnClientTypes.CidrMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["definitionType"].write(value.definitionType)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12204,6 +13852,20 @@ extension CreateNetworkMigrationDefinitionInput {
         try writer["targetNetwork"].write(value.targetNetwork, with: MgnClientTypes.TargetNetwork.write(value:to:))
         try writer["targetS3Configuration"].write(value.targetS3Configuration, with: MgnClientTypes.TargetS3Configuration.write(value:to:))
         try writer["vpcProvisioningStrategy"].write(value.vpcProvisioningStrategy)
+    }
+}
+
+extension CreateRemoteSourceActionInput {
+
+    static func write(value: CreateRemoteSourceActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["operatingSystem"].write(value.operatingSystem)
+        try writer["ssmParameterName"].write(value.ssmParameterName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
     }
 }
 
@@ -12219,6 +13881,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
         try writer["internetProtocol"].write(value.internetProtocol)
+        try writer["outpostSnapshotLocation"].write(value.outpostSnapshotLocation)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
@@ -12281,6 +13944,15 @@ extension DeleteNetworkMigrationDefinitionInput {
     static func write(value: DeleteNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
+    }
+}
+
+extension DeleteRemoteSourceActionInput {
+
+    static func write(value: DeleteRemoteSourceActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["remoteSourceActionID"].write(value.remoteSourceActionID)
     }
 }
 
@@ -12412,6 +14084,15 @@ extension FinalizeCutoverInput {
 extension GetLaunchConfigurationInput {
 
     static func write(value: GetLaunchConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["sourceServerID"].write(value.sourceServerID)
+    }
+}
+
+extension GetLaunchConfigurationDefaultsInput {
+
+    static func write(value: GetLaunchConfigurationDefaultsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountID"].write(value.accountID)
         try writer["sourceServerID"].write(value.sourceServerID)
@@ -12618,11 +14299,28 @@ extension ListNetworkMigrationExecutionsInput {
     }
 }
 
+extension ListNetworkMigrationInsightsInput {
+
+    static func write(value: ListNetworkMigrationInsightsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["constructID"].write(value.constructID)
+        try writer["filters"].write(value.filters, with: MgnClientTypes.ListNetworkMigrationInsightsFilters.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
+        try writer["networkMigrationExecutionID"].write(value.networkMigrationExecutionID)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["producerID"].write(value.producerID)
+        try writer["segmentID"].write(value.segmentID)
+    }
+}
+
 extension ListNetworkMigrationMapperSegmentConstructsInput {
 
     static func write(value: ListNetworkMigrationMapperSegmentConstructsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filters"].write(value.filters, with: MgnClientTypes.ListNetworkMigrationMapperSegmentConstructsFilters.write(value:to:))
+        try writer["includeConfiguration"].write(value.includeConfiguration)
+        try writer["includeEnrichedProperties"].write(value.includeEnrichedProperties)
         try writer["maxResults"].write(value.maxResults)
         try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
         try writer["networkMigrationExecutionID"].write(value.networkMigrationExecutionID)
@@ -12663,6 +14361,51 @@ extension ListNetworkMigrationMappingUpdatesInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
         try writer["networkMigrationExecutionID"].write(value.networkMigrationExecutionID)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListRemoteSourceActionInvocationResultsInput {
+
+    static func write(value: ListRemoteSourceActionInvocationResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sourceServerID"].write(value.sourceServerID)
+    }
+}
+
+extension ListRemoteSourceActionInvocationsInput {
+
+    static func write(value: ListRemoteSourceActionInvocationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["filters"].write(value.filters, with: MgnClientTypes.ListRemoteSourceActionInvocationsRequestFilters.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["remoteSourceActionJobID"].write(value.remoteSourceActionJobID)
+    }
+}
+
+extension ListRemoteSourceActionJobsInput {
+
+    static func write(value: ListRemoteSourceActionJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["filters"].write(value.filters, with: MgnClientTypes.ListRemoteSourceActionJobsRequestFilters.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListRemoteSourceActionsInput {
+
+    static func write(value: ListRemoteSourceActionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["filters"].write(value.filters, with: MgnClientTypes.ListRemoteSourceActionsRequestFilters.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -12889,6 +14632,19 @@ extension StartNetworkMigrationMappingUpdateInput {
     }
 }
 
+extension StartRemoteSourceActionJobInput {
+
+    static func write(value: StartRemoteSourceActionJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["connectorArn"].write(value.connectorArn)
+        try writer["remoteSourceActionArns"].writeList(value.remoteSourceActionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceServerArns"].writeList(value.sourceServerArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension StartReplicationInput {
 
     static func write(value: StartReplicationInput?, to writer: SmithyJSON.Writer) throws {
@@ -12985,11 +14741,24 @@ extension UpdateLaunchConfigurationInput {
         try writer["enableMapAutoTagging"].write(value.enableMapAutoTagging)
         try writer["launchDisposition"].write(value.launchDisposition)
         try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
+        try writer["mapAutoTaggingKey"].write(value.mapAutoTaggingKey)
         try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
         try writer["name"].write(value.name)
         try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
         try writer["sourceServerID"].write(value.sourceServerID)
         try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
+    }
+}
+
+extension UpdateLaunchConfigurationDefaultsInput {
+
+    static func write(value: UpdateLaunchConfigurationDefaultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["largeVolumeConfiguration"].write(value.largeVolumeConfiguration, with: MgnClientTypes.SourceServerVolumeConfiguration.write(value:to:))
+        try writer["smallVolumeConfiguration"].write(value.smallVolumeConfiguration, with: MgnClientTypes.SourceServerVolumeConfiguration.write(value:to:))
+        try writer["smallVolumeMaxSize"].write(value.smallVolumeMaxSize)
+        try writer["sourceServerID"].write(value.sourceServerID)
     }
 }
 
@@ -13007,6 +14776,7 @@ extension UpdateLaunchConfigurationTemplateInput {
         try writer["launchConfigurationTemplateID"].write(value.launchConfigurationTemplateID)
         try writer["launchDisposition"].write(value.launchDisposition)
         try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
+        try writer["mapAutoTaggingKey"].write(value.mapAutoTaggingKey)
         try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
         try writer["parametersEncryptionKey"].write(value.parametersEncryptionKey)
         try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
@@ -13021,6 +14791,7 @@ extension UpdateNetworkMigrationDefinitionInput {
     static func write(value: UpdateNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidrMappings"].writeList(value.cidrMappings, memberWritingClosure: MgnClientTypes.CidrMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["definitionType"].write(value.definitionType)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
@@ -13044,6 +14815,20 @@ extension UpdateNetworkMigrationMapperSegmentInput {
     }
 }
 
+extension UpdateRemoteSourceActionInput {
+
+    static func write(value: UpdateRemoteSourceActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountID"].write(value.accountID)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["operatingSystem"].write(value.operatingSystem)
+        try writer["remoteSourceActionID"].write(value.remoteSourceActionID)
+        try writer["ssmParameterName"].write(value.ssmParameterName)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+    }
+}
+
 extension UpdateReplicationConfigurationInput {
 
     static func write(value: UpdateReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -13058,6 +14843,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
         try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
+        try writer["outpostSnapshotLocation"].write(value.outpostSnapshotLocation)
         try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13084,6 +14870,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
         try writer["internetProtocol"].write(value.internetProtocol)
+        try writer["outpostSnapshotLocation"].write(value.outpostSnapshotLocation)
         try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13267,6 +15054,7 @@ extension CreateLaunchConfigurationTemplateOutput {
         value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.mapAutoTaggingKey = try reader["mapAutoTaggingKey"].readIfPresent()
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
         value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
@@ -13288,6 +15076,7 @@ extension CreateNetworkMigrationDefinitionOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.definitionType = try reader["definitionType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.networkMigrationDefinitionID = try reader["networkMigrationDefinitionID"].readIfPresent()
@@ -13299,6 +15088,25 @@ extension CreateNetworkMigrationDefinitionOutput {
         value.targetS3Configuration = try reader["targetS3Configuration"].readIfPresent(with: MgnClientTypes.TargetS3Configuration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcProvisioningStrategy = try reader["vpcProvisioningStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateRemoteSourceActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRemoteSourceActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRemoteSourceActionOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.remoteSourceActionID = try reader["remoteSourceActionID"].readIfPresent()
+        value.ssmParameterName = try reader["ssmParameterName"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
         return value
     }
 }
@@ -13319,6 +15127,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        value.outpostSnapshotLocation = try reader["outpostSnapshotLocation"].readIfPresent()
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -13385,6 +15194,13 @@ extension DeleteNetworkMigrationDefinitionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkMigrationDefinitionOutput {
         return DeleteNetworkMigrationDefinitionOutput()
+    }
+}
+
+extension DeleteRemoteSourceActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRemoteSourceActionOutput {
+        return DeleteRemoteSourceActionOutput()
     }
 }
 
@@ -13572,11 +15388,27 @@ extension GetLaunchConfigurationOutput {
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.mapAutoTaggingKey = try reader["mapAutoTaggingKey"].readIfPresent()
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension GetLaunchConfigurationDefaultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLaunchConfigurationDefaultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLaunchConfigurationDefaultsOutput()
+        value.largeVolumeConfiguration = try reader["largeVolumeConfiguration"].readIfPresent(with: MgnClientTypes.SourceServerVolumeConfiguration.read(from:))
+        value.smallVolumeConfiguration = try reader["smallVolumeConfiguration"].readIfPresent(with: MgnClientTypes.SourceServerVolumeConfiguration.read(from:))
+        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         return value
     }
 }
@@ -13591,6 +15423,7 @@ extension GetNetworkMigrationDefinitionOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.definitionType = try reader["definitionType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.networkMigrationDefinitionID = try reader["networkMigrationDefinitionID"].readIfPresent()
@@ -13634,6 +15467,7 @@ extension GetReplicationConfigurationOutput {
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.outpostSnapshotLocation = try reader["outpostSnapshotLocation"].readIfPresent()
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -13863,6 +15697,19 @@ extension ListNetworkMigrationExecutionsOutput {
     }
 }
 
+extension ListNetworkMigrationInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNetworkMigrationInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNetworkMigrationInsightsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkMigrationInsight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNetworkMigrationMapperSegmentConstructsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNetworkMigrationMapperSegmentConstructsOutput {
@@ -13910,6 +15757,58 @@ extension ListNetworkMigrationMappingUpdatesOutput {
         let reader = responseReader
         var value = ListNetworkMigrationMappingUpdatesOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkMigrationMappingUpdateJobDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRemoteSourceActionInvocationResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRemoteSourceActionInvocationResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRemoteSourceActionInvocationResultsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.RemoteSourceActionInvocationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRemoteSourceActionInvocationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRemoteSourceActionInvocationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRemoteSourceActionInvocationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.RemoteSourceActionInvocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRemoteSourceActionJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRemoteSourceActionJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRemoteSourceActionJobsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.RemoteSourceActionJob.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRemoteSourceActionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRemoteSourceActionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRemoteSourceActionsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: MgnClientTypes.RemoteSourceAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -14235,6 +16134,18 @@ extension StartNetworkMigrationMappingUpdateOutput {
     }
 }
 
+extension StartRemoteSourceActionJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRemoteSourceActionJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRemoteSourceActionJobOutput()
+        value.remoteSourceActionJob = try reader["remoteSourceActionJob"].readIfPresent(with: MgnClientTypes.RemoteSourceActionJob.read(from:))
+        return value
+    }
+}
+
 extension StartReplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartReplicationOutput {
@@ -14416,11 +16327,27 @@ extension UpdateLaunchConfigurationOutput {
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.mapAutoTaggingKey = try reader["mapAutoTaggingKey"].readIfPresent()
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateLaunchConfigurationDefaultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLaunchConfigurationDefaultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLaunchConfigurationDefaultsOutput()
+        value.largeVolumeConfiguration = try reader["largeVolumeConfiguration"].readIfPresent(with: MgnClientTypes.SourceServerVolumeConfiguration.read(from:))
+        value.smallVolumeConfiguration = try reader["smallVolumeConfiguration"].readIfPresent(with: MgnClientTypes.SourceServerVolumeConfiguration.read(from:))
+        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         return value
     }
 }
@@ -14444,6 +16371,7 @@ extension UpdateLaunchConfigurationTemplateOutput {
         value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.mapAutoTaggingKey = try reader["mapAutoTaggingKey"].readIfPresent()
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
         value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
@@ -14465,6 +16393,7 @@ extension UpdateNetworkMigrationDefinitionOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.definitionType = try reader["definitionType"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.networkMigrationDefinitionID = try reader["networkMigrationDefinitionID"].readIfPresent()
@@ -14506,6 +16435,25 @@ extension UpdateNetworkMigrationMapperSegmentOutput {
     }
 }
 
+extension UpdateRemoteSourceActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRemoteSourceActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRemoteSourceActionOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.remoteSourceActionID = try reader["remoteSourceActionID"].readIfPresent()
+        value.ssmParameterName = try reader["ssmParameterName"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateReplicationConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateReplicationConfigurationOutput {
@@ -14522,6 +16470,7 @@ extension UpdateReplicationConfigurationOutput {
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.outpostSnapshotLocation = try reader["outpostSnapshotLocation"].readIfPresent()
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -14552,6 +16501,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        value.outpostSnapshotLocation = try reader["outpostSnapshotLocation"].readIfPresent()
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -14783,6 +16733,23 @@ enum CreateNetworkMigrationDefinitionOutputError {
     }
 }
 
+enum CreateRemoteSourceActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateReplicationConfigurationTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14890,6 +16857,23 @@ enum DeleteNetworkMigrationDefinitionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRemoteSourceActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15127,6 +17111,22 @@ enum GetLaunchConfigurationOutputError {
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetLaunchConfigurationDefaultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15441,6 +17441,23 @@ enum ListNetworkMigrationExecutionsOutputError {
     }
 }
 
+enum ListNetworkMigrationInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNetworkMigrationMapperSegmentConstructsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15503,6 +17520,68 @@ enum ListNetworkMigrationMappingUpdatesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRemoteSourceActionInvocationResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRemoteSourceActionInvocationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRemoteSourceActionJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRemoteSourceActionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15868,6 +17947,24 @@ enum StartNetworkMigrationMappingUpdateOutputError {
     }
 }
 
+enum StartRemoteSourceActionJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartReplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16053,6 +18150,22 @@ enum UpdateLaunchConfigurationOutputError {
     }
 }
 
+enum UpdateLaunchConfigurationDefaultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateLaunchConfigurationTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16096,6 +18209,23 @@ enum UpdateNetworkMigrationMapperSegmentOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRemoteSourceActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16444,6 +18574,17 @@ extension MgnClientTypes.CPU {
     }
 }
 
+extension MgnClientTypes.CreateOperation {
+
+    static func write(value: MgnClientTypes.CreateOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MgnClientTypes.OperationConfigurationUnion.write(value:to:))
+        try writer["excluded"].write(value.excluded)
+        try writer["name"].write(value.name)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension MgnClientTypes.DataReplicationError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
@@ -16468,6 +18609,7 @@ extension MgnClientTypes.DataReplicationInfo {
         value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: MgnClientTypes.DataReplicationError.read(from:))
         value.lastSnapshotDateTime = try reader["lastSnapshotDateTime"].readIfPresent()
         value.replicatorId = try reader["replicatorId"].readIfPresent()
+        value.stagingOutpostArn = try reader["stagingOutpostArn"].readIfPresent()
         return value
     }
 }
@@ -16783,6 +18925,18 @@ extension MgnClientTypes.ImportTaskSummaryWaves {
     }
 }
 
+extension MgnClientTypes.InsightMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.InsightMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.InsightMessage()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.topic = try reader["topic"].readIfPresent()
+        return value
+    }
+}
+
 extension MgnClientTypes.Job {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
@@ -16866,6 +19020,7 @@ extension MgnClientTypes.LaunchConfigurationTemplate {
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
+        value.mapAutoTaggingKey = try reader["mapAutoTaggingKey"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
@@ -17137,6 +19292,14 @@ extension MgnClientTypes.ListNetworkMigrationExecutionRequestFilters {
     }
 }
 
+extension MgnClientTypes.ListNetworkMigrationInsightsFilters {
+
+    static func write(value: MgnClientTypes.ListNetworkMigrationInsightsFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["insightTypes"].writeList(value.insightTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.InsightType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MgnClientTypes.ListNetworkMigrationMapperSegmentConstructsFilters {
 
     static func write(value: MgnClientTypes.ListNetworkMigrationMapperSegmentConstructsFilters?, to writer: SmithyJSON.Writer) throws {
@@ -17167,6 +19330,32 @@ extension MgnClientTypes.ListNetworkMigrationMappingUpdatesFilters {
     static func write(value: MgnClientTypes.ListNetworkMigrationMappingUpdatesFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListRemoteSourceActionInvocationsRequestFilters {
+
+    static func write(value: MgnClientTypes.ListRemoteSourceActionInvocationsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["remoteSourceActionArns"].writeList(value.remoteSourceActionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceServerArns"].writeList(value.sourceServerArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.RemoteSourceActionInvocationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListRemoteSourceActionJobsRequestFilters {
+
+    static func write(value: MgnClientTypes.ListRemoteSourceActionJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["remoteSourceActionJobIDs"].writeList(value.remoteSourceActionJobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListRemoteSourceActionsRequestFilters {
+
+    static func write(value: MgnClientTypes.ListRemoteSourceActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["remoteSourceActionIDs"].writeList(value.remoteSourceActionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -17336,6 +19525,7 @@ extension MgnClientTypes.NetworkMigrationDefinitionSummary {
         value.arn = try reader["arn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.scopeTags = try reader["scopeTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.definitionType = try reader["definitionType"].readIfPresent()
         return value
     }
 }
@@ -17400,6 +19590,27 @@ extension MgnClientTypes.NetworkMigrationFailedResourceDetails {
     }
 }
 
+extension MgnClientTypes.NetworkMigrationInsight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.NetworkMigrationInsight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.NetworkMigrationInsight()
+        value.networkMigrationDefinitionID = try reader["networkMigrationDefinitionID"].readIfPresent()
+        value.networkMigrationExecutionID = try reader["networkMigrationExecutionID"].readIfPresent()
+        value.producerID = try reader["producerID"].readIfPresent()
+        value.producerType = try reader["producerType"].readIfPresent()
+        value.producerName = try reader["producerName"].readIfPresent()
+        value.segmentID = try reader["segmentID"].readIfPresent()
+        value.constructID = try reader["constructID"].readIfPresent()
+        value.insightID = try reader["insightID"].readIfPresent()
+        value.insightLevel = try reader["insightLevel"].readIfPresent()
+        value.insightType = try reader["insightType"].readIfPresent()
+        value.insightMessage = try reader["insightMessage"].readIfPresent(with: MgnClientTypes.InsightMessage.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension MgnClientTypes.NetworkMigrationMapperSegment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.NetworkMigrationMapperSegment {
@@ -17438,6 +19649,8 @@ extension MgnClientTypes.NetworkMigrationMapperSegmentConstruct {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.enrichedProperties = try reader["enrichedProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.configuration = try reader["configuration"].readIfPresent(with: MgnClientTypes.OperationConfigurationUnion.read(from:))
         return value
     }
 }
@@ -17474,11 +19687,41 @@ extension MgnClientTypes.NetworkMigrationMappingUpdateJobDetails {
     }
 }
 
+extension MgnClientTypes.OperationConfigurationUnion {
+
+    static func write(value: MgnClientTypes.OperationConfigurationUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .securitygroup(securitygroup):
+                try writer["securityGroup"].write(securitygroup, with: MgnClientTypes.SecurityGroupConfiguration.write(value:to:))
+            case let .securitygrouprule(securitygrouprule):
+                try writer["securityGroupRule"].write(securitygrouprule, with: MgnClientTypes.SecurityGroupRuleConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OperationConfigurationUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "securityGroup":
+                return .securitygroup(try reader["securityGroup"].read(with: MgnClientTypes.SecurityGroupConfiguration.read(from:)))
+            case "securityGroupRule":
+                return .securitygrouprule(try reader["securityGroupRule"].read(with: MgnClientTypes.SecurityGroupRuleConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension MgnClientTypes.OperationUnion {
 
     static func write(value: MgnClientTypes.OperationUnion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .create(create):
+                try writer["create"].write(create, with: MgnClientTypes.CreateOperation.write(value:to:))
             case let .delete(delete):
                 try writer["delete"].write(delete, with: MgnClientTypes.DeleteOperation.write(value:to:))
             case let .merge(merge):
@@ -17487,6 +19730,8 @@ extension MgnClientTypes.OperationUnion {
                 try writer["split"].write(split, with: MgnClientTypes.SplitOperation.write(value:to:))
             case let .update(update):
                 try writer["update"].write(update, with: MgnClientTypes.UpdateOperation.write(value:to:))
+            case let .updatev2(updatev2):
+                try writer["updateV2"].write(updatev2, with: MgnClientTypes.UpdateOperationV2.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -17550,6 +19795,71 @@ extension MgnClientTypes.PostLaunchActionsStatus {
     }
 }
 
+extension MgnClientTypes.RemoteSourceAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.RemoteSourceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.RemoteSourceAction()
+        value.remoteSourceActionID = try reader["remoteSourceActionID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.ssmParameterName = try reader["ssmParameterName"].readIfPresent()
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.RemoteSourceActionInvocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.RemoteSourceActionInvocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.RemoteSourceActionInvocation()
+        value.sourceServerArn = try reader["sourceServerArn"].readIfPresent()
+        value.remoteSourceActionArn = try reader["remoteSourceActionArn"].readIfPresent()
+        value.ssmCommandInvocationID = try reader["ssmCommandInvocationID"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MgnClientTypes.RemoteSourceActionInvocationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.RemoteSourceActionInvocationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.RemoteSourceActionInvocationResult()
+        value.remoteSourceActionID = try reader["remoteSourceActionID"].readIfPresent()
+        value.connectorOwnerAccountID = try reader["connectorOwnerAccountID"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MgnClientTypes.RemoteSourceActionJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.RemoteSourceActionJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.RemoteSourceActionJob()
+        value.remoteSourceActionJobID = try reader["remoteSourceActionJobID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.sourceServerArns = try reader["sourceServerArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remoteSourceActionArns = try reader["remoteSourceActionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MgnClientTypes.ReplicationConfigurationReplicatedDisk {
 
     static func write(value: MgnClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
@@ -17596,6 +19906,7 @@ extension MgnClientTypes.ReplicationConfigurationTemplate {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.storeSnapshotOnLocalZone = try reader["storeSnapshotOnLocalZone"].readIfPresent()
+        value.outpostSnapshotLocation = try reader["outpostSnapshotLocation"].readIfPresent()
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: MgnClientTypes.StorageConfiguration.read(from:))
         return value
     }
@@ -17629,6 +19940,102 @@ extension MgnClientTypes.S3Configuration {
         value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
         value.s3Key = try reader["s3Key"].readIfPresent()
         return value
+    }
+}
+
+extension MgnClientTypes.SecurityGroupAssociations {
+
+    static func write(value: MgnClientTypes.SecurityGroupAssociations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userProvidedIDs"].writeList(value.userProvidedIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vmUUIDs"].writeList(value.vmUUIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SecurityGroupAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SecurityGroupAssociations()
+        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vmUUIDs = try reader["vmUUIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userProvidedIDs = try reader["userProvidedIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.SecurityGroupConfiguration {
+
+    static func write(value: MgnClientTypes.SecurityGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associations"].write(value.associations, with: MgnClientTypes.SecurityGroupAssociations.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SecurityGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SecurityGroupConfiguration()
+        value.associations = try reader["associations"].readIfPresent(with: MgnClientTypes.SecurityGroupAssociations.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.SecurityGroupRuleConfiguration {
+
+    static func write(value: MgnClientTypes.SecurityGroupRuleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableReferencing"].write(value.enableReferencing)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SecurityGroupRuleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SecurityGroupRuleConfiguration()
+        value.enableReferencing = try reader["enableReferencing"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.SegmentCreateOperation {
+
+    static func write(value: MgnClientTypes.SegmentCreateOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targetAccount"].write(value.targetAccount)
+    }
+}
+
+extension MgnClientTypes.SegmentDeleteOperation {
+
+    static func write(value: MgnClientTypes.SegmentDeleteOperation?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension MgnClientTypes.SegmentOperation {
+
+    static func write(value: MgnClientTypes.SegmentOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .create(create):
+                try writer["create"].write(create, with: MgnClientTypes.SegmentCreateOperation.write(value:to:))
+            case let .delete(delete):
+                try writer["delete"].write(delete, with: MgnClientTypes.SegmentDeleteOperation.write(value:to:))
+            case let .update(update):
+                try writer["update"].write(update, with: MgnClientTypes.SegmentUpdateOperation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MgnClientTypes.SegmentUpdateOperation {
+
+    static func write(value: MgnClientTypes.SegmentUpdateOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targetAccount"].write(value.targetAccount)
     }
 }
 
@@ -17754,6 +20161,29 @@ extension MgnClientTypes.SourceServerConnectorAction {
     }
 }
 
+extension MgnClientTypes.SourceServerVolumeConfiguration {
+
+    static func write(value: MgnClientTypes.SourceServerVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deleteOnTermination"].write(value.deleteOnTermination)
+        try writer["iops"].write(value.iops)
+        try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
+        try writer["volumeType"].write(value.volumeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServerVolumeConfiguration()
+        value.volumeType = try reader["volumeType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent()
+        value.throughput = try reader["throughput"].readIfPresent()
+        value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
+        value.deleteOnTermination = try reader["deleteOnTermination"].readIfPresent()
+        return value
+    }
+}
+
 extension MgnClientTypes.SplitConstruct {
 
     static func write(value: MgnClientTypes.SplitConstruct?, to writer: SmithyJSON.Writer) throws {
@@ -17841,9 +20271,11 @@ extension MgnClientTypes.StartNetworkMigrationMappingUpdateConstruct {
     static func write(value: MgnClientTypes.StartNetworkMigrationMappingUpdateConstruct?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["constructID"].write(value.constructID)
+        try writer["constructLogicalID"].write(value.constructLogicalID)
         try writer["constructType"].write(value.constructType)
         try writer["operation"].write(value.operation, with: MgnClientTypes.OperationUnion.write(value:to:))
         try writer["segmentID"].write(value.segmentID)
+        try writer["segmentLogicalID"].write(value.segmentLogicalID)
     }
 }
 
@@ -17851,8 +20283,10 @@ extension MgnClientTypes.StartNetworkMigrationMappingUpdateSegment {
 
     static func write(value: MgnClientTypes.StartNetworkMigrationMappingUpdateSegment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["operation"].write(value.operation, with: MgnClientTypes.SegmentOperation.write(value:to:))
         try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["segmentID"].write(value.segmentID)
+        try writer["segmentLogicalID"].write(value.segmentLogicalID)
         try writer["targetAccount"].write(value.targetAccount)
     }
 }
@@ -17969,6 +20403,18 @@ extension MgnClientTypes.UpdateOperation {
         try writer["excluded"].write(value.excluded)
         try writer["name"].write(value.name)
         try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.UpdateOperationV2 {
+
+    static func write(value: MgnClientTypes.UpdateOperationV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MgnClientTypes.OperationConfigurationUnion.write(value:to:))
+        try writer["excluded"].write(value.excluded)
+        try writer["name"].write(value.name)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertiesToDelete"].writeList(value.propertiesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

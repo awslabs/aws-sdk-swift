@@ -6258,6 +6258,35 @@ public struct GetBucketVersioningOutput: Swift.Sendable {
 
 extension S3ControlClientTypes {
 
+    public enum InstanceScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceScope] {
+            return [
+                .all,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum Privilege: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case minimal
@@ -6293,6 +6322,12 @@ public struct GetDataAccessInput: Swift.Sendable {
     public var auditContext: Swift.String?
     /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
     public var durationSeconds: Swift.Int?
+    /// The scope of S3 Access Grants instances to search for a grant matching the requested S3 URI path.
+    ///
+    /// * SELF – Searches only the instance of the Amazon Web Services account ID in the request.
+    ///
+    /// * ALL – Searches the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+    public var instanceScope: S3ControlClientTypes.InstanceScope?
     /// The type of permission granted to your S3 data, which can be set to one of the following values:
     ///
     /// * READ – Grant read-only access to the S3 data.
@@ -6318,6 +6353,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         auditContext: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
+        instanceScope: S3ControlClientTypes.InstanceScope? = nil,
         permission: S3ControlClientTypes.Permission? = nil,
         privilege: S3ControlClientTypes.Privilege? = nil,
         target: Swift.String? = nil,
@@ -6326,6 +6362,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         self.accountId = accountId
         self.auditContext = auditContext
         self.durationSeconds = durationSeconds
+        self.instanceScope = instanceScope
         self.permission = permission
         self.privilege = privilege
         self.target = target
@@ -6373,21 +6410,25 @@ public struct GetDataAccessOutput: Swift.Sendable {
     public var grantee: S3ControlClientTypes.Grantee?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
     public var matchedGrantTarget: Swift.String?
+    /// The Amazon Resource Name (ARN) of the S3 Access Grants instance containing the grant that matched the requested S3 URI path.
+    public var matchedInstanceArn: Swift.String?
 
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
-        matchedGrantTarget: Swift.String? = nil
+        matchedGrantTarget: Swift.String? = nil,
+        matchedInstanceArn: Swift.String? = nil
     ) {
         self.credentials = credentials
         self.grantee = grantee
         self.matchedGrantTarget = matchedGrantTarget
+        self.matchedInstanceArn = matchedInstanceArn
     }
 }
 
 extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
+        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), matchedInstanceArn: \(Swift.String(describing: matchedInstanceArn)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetJobTaggingInput: Swift.Sendable {
@@ -6787,6 +6828,60 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A container for the selection criteria used by the S3 Storage Lens Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR) publish configuration. The selection criteria specifies the minimum and maximum prefix depth (both inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither; MinDepth must be less than or equal to MaxDepth, and the difference must not exceed 4. If neither is provided, MinDepth defaults to 1 and MaxDepth defaults to 3.
+    public struct StorageLensCostAndUsageReportsSelectionCriteria: Swift.Sendable {
+        /// The maximum prefix depth (inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither. If neither is provided, MaxDepth defaults to 3.
+        public var maxDepth: Swift.Int?
+        /// The minimum prefix depth (inclusive) for which cost data is published to Amazon Web Services CUR. You must provide both MinDepth and MaxDepth together, or neither. If neither is provided, MinDepth defaults to 1.
+        public var minDepth: Swift.Int?
+
+        public init(
+            maxDepth: Swift.Int? = nil,
+            minDepth: Swift.Int? = nil
+        ) {
+            self.maxDepth = maxDepth
+            self.minDepth = minDepth
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A container for the prefix-level configuration that determines the prefixes for which S3 Storage Lens publishes cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+    public struct StorageLensCostAndUsageReportsPrefixLevel: Swift.Sendable {
+        /// Indicates whether prefix-level cost data publishing to Amazon Web Services CUR is enabled.
+        /// This member is required.
+        public var isEnabled: Swift.Bool
+        /// A container for the selection criteria that determines the prefix depths for which cost data is published to Amazon Web Services CUR.
+        public var selectionCriteria: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria?
+
+        public init(
+            isEnabled: Swift.Bool = false,
+            selectionCriteria: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria? = nil
+        ) {
+            self.isEnabled = isEnabled
+            self.selectionCriteria = selectionCriteria
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A container for the configuration used to publish S3 Storage Lens cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+    public struct StorageLensCostAndUsageReportsPublish: Swift.Sendable {
+        /// A container for the prefix-level configuration that determines the prefixes for which S3 Storage Lens publishes cost data to Amazon Web Services CUR.
+        public var prefixLevel: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel?
+
+        public init(
+            prefixLevel: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel? = nil
+        ) {
+            self.prefixLevel = prefixLevel
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics. For more information about publishing S3 Storage Lens metrics to CloudWatch, see [Monitor S3 Storage Lens metrics in CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html) in the Amazon S3 User Guide.
     public struct CloudWatchMetrics: Swift.Sendable {
         /// A container that indicates whether CloudWatch publishing for S3 Storage Lens metrics is enabled. A value of true indicates that CloudWatch publishing for S3 Storage Lens metrics is enabled.
@@ -7041,6 +7136,21 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// The container for S3 Storage Lens Intelligent-Tiering access tier metrics. When enabled, S3 Storage Lens produces metrics for each individual S3 Intelligent-Tiering access tier instead of reporting a single aggregate value for the INTELLIGENT_TIERING storage class. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct IntAccessTiers: Swift.Sendable {
+        /// A container that indicates whether S3 Storage Lens Intelligent-Tiering access tier metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init(
+            isEnabled: Swift.Bool = false
+        ) {
+            self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// A container for the Amazon S3 Storage Lens configuration.
     public struct StorageLensConfiguration: Swift.Sendable {
         /// A container for all the account-level configurations of your S3 Storage Lens configuration.
@@ -7048,6 +7158,8 @@ extension S3ControlClientTypes {
         public var accountLevel: S3ControlClientTypes.AccountLevel?
         /// A container for the Amazon Web Services organization for this S3 Storage Lens configuration.
         public var awsOrg: S3ControlClientTypes.StorageLensAwsOrg?
+        /// A container for the configuration used to publish S3 Storage Lens cost data to Amazon Web Services Cost and Usage Reports (Amazon Web Services CUR).
+        public var costAndUsageReportsPublish: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish?
         /// A container to specify the properties of your S3 Storage Lens metrics export including, the destination, schema and format.
         public var dataExport: S3ControlClientTypes.StorageLensDataExport?
         /// A container for what is excluded in this configuration. This container can only be valid if there is no Include container submitted, and it's not empty.
@@ -7059,6 +7171,8 @@ extension S3ControlClientTypes {
         public var id: Swift.String?
         /// A container for what is included in this configuration. This container can only be valid if there is no Exclude container submitted, and it's not empty.
         public var include: S3ControlClientTypes.Include?
+        /// A container element for S3 Storage Lens Intelligent-Tiering access tier metrics.
+        public var intAccessTiers: S3ControlClientTypes.IntAccessTiers?
         /// A container for whether the S3 Storage Lens configuration is enabled.
         /// This member is required.
         public var isEnabled: Swift.Bool
@@ -7076,22 +7190,26 @@ extension S3ControlClientTypes {
         public init(
             accountLevel: S3ControlClientTypes.AccountLevel? = nil,
             awsOrg: S3ControlClientTypes.StorageLensAwsOrg? = nil,
+            costAndUsageReportsPublish: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish? = nil,
             dataExport: S3ControlClientTypes.StorageLensDataExport? = nil,
             exclude: S3ControlClientTypes.Exclude? = nil,
             expandedPrefixesDataExport: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport? = nil,
             id: Swift.String? = nil,
             include: S3ControlClientTypes.Include? = nil,
+            intAccessTiers: S3ControlClientTypes.IntAccessTiers? = nil,
             isEnabled: Swift.Bool = false,
             prefixDelimiter: Swift.String? = nil,
             storageLensArn: Swift.String? = nil
         ) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
+            self.costAndUsageReportsPublish = costAndUsageReportsPublish
             self.dataExport = dataExport
             self.exclude = exclude
             self.expandedPrefixesDataExport = expandedPrefixesDataExport
             self.id = id
             self.include = include
+            self.intAccessTiers = intAccessTiers
             self.isEnabled = isEnabled
             self.prefixDelimiter = prefixDelimiter
             self.storageLensArn = storageLensArn
@@ -7481,6 +7599,12 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
     public var allowedByApplication: Swift.Bool?
     /// The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
     public var grantScope: Swift.String?
+    /// The scope of S3 Access Grants instances to list grants from.
+    ///
+    /// * SELF – Lists grants from the instance of the Amazon Web Services account ID in the request.
+    ///
+    /// * ALL – Lists grants from the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+    public var instanceScope: S3ControlClientTypes.InstanceScope?
     /// The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
     public var maxResults: Swift.Int?
     /// A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
@@ -7490,12 +7614,14 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         allowedByApplication: Swift.Bool? = false,
         grantScope: Swift.String? = nil,
+        instanceScope: S3ControlClientTypes.InstanceScope? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.allowedByApplication = allowedByApplication
         self.grantScope = grantScope
+        self.instanceScope = instanceScope
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7503,8 +7629,10 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
 
 extension S3ControlClientTypes {
 
-    /// Part of ListCallerAccessGrantsResult. Each entry includes the permission level (READ, WRITE, or READWRITE) and the grant scope of the access grant. If the grant also includes an application ARN, the grantee can only access the S3 data through this application.
+    /// Part of ListCallerAccessGrantsResult. Each entry includes the permission level (READ, WRITE, or READWRITE) and the grant scope of the access grant. Each entry also includes the ARN of the S3 Access Grants instance in which the grant was created. If the grant also includes an application ARN, the grantee can only access the S3 data through this application.
     public struct ListCallerAccessGrantsEntry: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance in which the grant was created.
+        public var accessGrantsInstanceArn: Swift.String?
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
         public var applicationArn: Swift.String?
         /// The S3 path of the data to which you have been granted access.
@@ -7519,10 +7647,12 @@ extension S3ControlClientTypes {
         public var permission: S3ControlClientTypes.Permission?
 
         public init(
+            accessGrantsInstanceArn: Swift.String? = nil,
             applicationArn: Swift.String? = nil,
             grantScope: Swift.String? = nil,
             permission: S3ControlClientTypes.Permission? = nil
         ) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.applicationArn = applicationArn
             self.grantScope = grantScope
             self.permission = permission
@@ -9868,6 +9998,10 @@ extension GetDataAccessInput {
             let targetTypeQueryItem = Smithy.URIQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
             items.append(targetTypeQueryItem)
         }
+        if let instanceScope = value.instanceScope {
+            let instanceScopeQueryItem = Smithy.URIQueryItem(name: "instanceScope".urlPercentEncoding(), value: Swift.String(instanceScope.rawValue).urlPercentEncoding())
+            items.append(instanceScopeQueryItem)
+        }
         if let durationSeconds = value.durationSeconds {
             let durationSecondsQueryItem = Smithy.URIQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
             items.append(durationSecondsQueryItem)
@@ -10351,6 +10485,10 @@ extension ListCallerAccessGrantsInput {
         if let allowedByApplication = value.allowedByApplication {
             let allowedByApplicationQueryItem = Smithy.URIQueryItem(name: "allowedByApplication".urlPercentEncoding(), value: Swift.String(allowedByApplication).urlPercentEncoding())
             items.append(allowedByApplicationQueryItem)
+        }
+        if let instanceScope = value.instanceScope {
+            let instanceScopeQueryItem = Smithy.URIQueryItem(name: "instanceScope".urlPercentEncoding(), value: Swift.String(instanceScope.rawValue).urlPercentEncoding())
+            items.append(instanceScopeQueryItem)
         }
         return items
     }
@@ -11907,6 +12045,7 @@ extension GetDataAccessOutput {
         value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
         value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
         value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
+        value.matchedInstanceArn = try reader["MatchedInstanceArn"].readIfPresent()
         return value
     }
 }
@@ -14315,6 +14454,21 @@ extension S3ControlClientTypes.Include {
     }
 }
 
+extension S3ControlClientTypes.IntAccessTiers {
+
+    static func write(value: S3ControlClientTypes.IntAccessTiers?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.IntAccessTiers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.IntAccessTiers()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension S3ControlClientTypes.JobDescriptor {
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobDescriptor {
@@ -14755,6 +14909,7 @@ extension S3ControlClientTypes.ListCallerAccessGrantsEntry {
         value.permission = try reader["Permission"].readIfPresent()
         value.grantScope = try reader["GrantScope"].readIfPresent()
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
         return value
     }
 }
@@ -16042,11 +16197,13 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         guard let value else { return }
         try writer["AccountLevel"].write(value.accountLevel, with: S3ControlClientTypes.AccountLevel.write(value:to:))
         try writer["AwsOrg"].write(value.awsOrg, with: S3ControlClientTypes.StorageLensAwsOrg.write(value:to:))
+        try writer["CostAndUsageReportsPublish"].write(value.costAndUsageReportsPublish, with: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish.write(value:to:))
         try writer["DataExport"].write(value.dataExport, with: S3ControlClientTypes.StorageLensDataExport.write(value:to:))
         try writer["Exclude"].write(value.exclude, with: S3ControlClientTypes.Exclude.write(value:to:))
         try writer["ExpandedPrefixesDataExport"].write(value.expandedPrefixesDataExport, with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Include"].write(value.include, with: S3ControlClientTypes.Include.write(value:to:))
+        try writer["IntAccessTiers"].write(value.intAccessTiers, with: S3ControlClientTypes.IntAccessTiers.write(value:to:))
         try writer["IsEnabled"].write(value.isEnabled)
         try writer["PrefixDelimiter"].write(value.prefixDelimiter)
         try writer["StorageLensArn"].write(value.storageLensArn)
@@ -16061,10 +16218,61 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         value.exclude = try reader["Exclude"].readIfPresent(with: S3ControlClientTypes.Exclude.read(from:))
         value.dataExport = try reader["DataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExport.read(from:))
         value.expandedPrefixesDataExport = try reader["ExpandedPrefixesDataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.read(from:))
+        value.costAndUsageReportsPublish = try reader["CostAndUsageReportsPublish"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish.read(from:))
         value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         value.awsOrg = try reader["AwsOrg"].readIfPresent(with: S3ControlClientTypes.StorageLensAwsOrg.read(from:))
         value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
         value.prefixDelimiter = try reader["PrefixDelimiter"].readIfPresent()
+        value.intAccessTiers = try reader["IntAccessTiers"].readIfPresent(with: S3ControlClientTypes.IntAccessTiers.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+        try writer["SelectionCriteria"].write(value.selectionCriteria, with: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsPublish {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsPublish?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PrefixLevel"].write(value.prefixLevel, with: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsPublish {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsPublish()
+        value.prefixLevel = try reader["PrefixLevel"].readIfPresent(with: S3ControlClientTypes.StorageLensCostAndUsageReportsPrefixLevel.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria {
+
+    static func write(value: S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDepth"].write(value.maxDepth)
+        try writer["MinDepth"].write(value.minDepth)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensCostAndUsageReportsSelectionCriteria()
+        value.minDepth = try reader["MinDepth"].readIfPresent()
+        value.maxDepth = try reader["MaxDepth"].readIfPresent()
         return value
     }
 }

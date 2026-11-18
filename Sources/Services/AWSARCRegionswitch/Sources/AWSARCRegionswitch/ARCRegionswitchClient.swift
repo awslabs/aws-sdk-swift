@@ -314,7 +314,7 @@ extension ARCRegionswitchClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "ARC Region switch"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension ARCRegionswitchClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "ARC Region switch"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,7 +607,7 @@ extension ARCRegionswitchClient {
     public static func builder() -> ClientRuntime.ClientBuilder<ARCRegionswitchClient> {
         return ClientRuntime.ClientBuilder<ARCRegionswitchClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "ARC Region switch"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -2102,6 +2102,7 @@ extension ARCRegionswitchClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found. HTTP Status Code: 404
+    /// - `RetryableConflictException` : The request conflicted with a concurrent modification of the same resource and did not take effect.
     public func updatePlan(input: UpdatePlanInput) async throws -> UpdatePlanOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]

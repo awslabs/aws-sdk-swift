@@ -527,7 +527,7 @@ extension AgentRegistryControlClientTypes {
         public var allowedScopes: [Swift.String]?
         /// Additional custom claim validations applied to the inbound JWT.
         public var customClaims: [AgentRegistryControlClientTypes.CustomClaimValidationType]?
-        /// The OpenID Connect discovery URL used to retrieve the identity provider's metadata and signing keys.
+        /// The OpenID Connect discovery or OAuth 2.0 authorization server metadata URL used to retrieve the identity provider's metadata and signing keys.
         /// This member is required.
         public var discoveryUrl: Swift.String?
         /// The private endpoint used to reach the identity provider's discovery URL over a private network path.

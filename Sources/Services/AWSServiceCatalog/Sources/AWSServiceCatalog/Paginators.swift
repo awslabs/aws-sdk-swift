@@ -268,6 +268,39 @@ extension ListPrincipalsForPortfolioInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
+    /// Paginate over `[ListProvisionedProductPlansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProvisionedProductPlansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProvisionedProductPlansOutput`
+    public func listProvisionedProductPlansPaginated(input: ListProvisionedProductPlansInput) -> ClientRuntime.PaginatorSequence<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput> {
+        return ClientRuntime.PaginatorSequence<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listProvisionedProductPlans(input:))
+    }
+}
+
+extension ListProvisionedProductPlansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProvisionedProductPlansInput {
+        return ListProvisionedProductPlansInput(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
+            pageSize: self.pageSize,
+            pageToken: token,
+            provisionProductId: self.provisionProductId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProvisionedProductPlansInput, OperationStackOutput == ListProvisionedProductPlansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProvisionedProductPlansPaginated`
+    /// to access the nested member `[ServiceCatalogClientTypes.ProvisionedProductPlanSummary]`
+    /// - Returns: `[ServiceCatalogClientTypes.ProvisionedProductPlanSummary]`
+    public func provisionedProductPlans() async throws -> [ServiceCatalogClientTypes.ProvisionedProductPlanSummary] {
+        return try await self.asyncCompactMap { item in item.provisionedProductPlans }
+    }
+}
+extension ServiceCatalogClient {
     /// Paginate over `[ListProvisioningArtifactsForServiceActionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -289,6 +322,39 @@ extension ListProvisioningArtifactsForServiceActionInput: ClientRuntime.Paginate
             pageToken: token,
             serviceActionId: self.serviceActionId
         )}
+}
+extension ServiceCatalogClient {
+    /// Paginate over `[ListRecordHistoryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecordHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecordHistoryOutput`
+    public func listRecordHistoryPaginated(input: ListRecordHistoryInput) -> ClientRuntime.PaginatorSequence<ListRecordHistoryInput, ListRecordHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecordHistoryInput, ListRecordHistoryOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listRecordHistory(input:))
+    }
+}
+
+extension ListRecordHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecordHistoryInput {
+        return ListRecordHistoryInput(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
+            pageSize: self.pageSize,
+            pageToken: token,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecordHistoryInput, OperationStackOutput == ListRecordHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecordHistoryPaginated`
+    /// to access the nested member `[ServiceCatalogClientTypes.RecordDetail]`
+    /// - Returns: `[ServiceCatalogClientTypes.RecordDetail]`
+    public func recordDetails() async throws -> [ServiceCatalogClientTypes.RecordDetail] {
+        return try await self.asyncCompactMap { item in item.recordDetails }
+    }
 }
 extension ServiceCatalogClient {
     /// Paginate over `[ListResourcesForTagOptionOutput]` results.
@@ -360,6 +426,38 @@ extension ListServiceActionsForProvisioningArtifactInput: ClientRuntime.Paginate
         )}
 }
 extension ServiceCatalogClient {
+    /// Paginate over `[ListStackInstancesForProvisionedProductOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStackInstancesForProvisionedProductInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackInstancesForProvisionedProductOutput`
+    public func listStackInstancesForProvisionedProductPaginated(input: ListStackInstancesForProvisionedProductInput) -> ClientRuntime.PaginatorSequence<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listStackInstancesForProvisionedProduct(input:))
+    }
+}
+
+extension ListStackInstancesForProvisionedProductInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStackInstancesForProvisionedProductInput {
+        return ListStackInstancesForProvisionedProductInput(
+            acceptLanguage: self.acceptLanguage,
+            pageSize: self.pageSize,
+            pageToken: token,
+            provisionedProductId: self.provisionedProductId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListStackInstancesForProvisionedProductInput, OperationStackOutput == ListStackInstancesForProvisionedProductOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listStackInstancesForProvisionedProductPaginated`
+    /// to access the nested member `[ServiceCatalogClientTypes.StackInstance]`
+    /// - Returns: `[ServiceCatalogClientTypes.StackInstance]`
+    public func stackInstances() async throws -> [ServiceCatalogClientTypes.StackInstance] {
+        return try await self.asyncCompactMap { item in item.stackInstances }
+    }
+}
+extension ServiceCatalogClient {
     /// Paginate over `[ListTagOptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -380,6 +478,38 @@ extension ListTagOptionsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize,
             pageToken: token
         )}
+}
+extension ServiceCatalogClient {
+    /// Paginate over `[ScanProvisionedProductsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ScanProvisionedProductsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ScanProvisionedProductsOutput`
+    public func scanProvisionedProductsPaginated(input: ScanProvisionedProductsInput) -> ClientRuntime.PaginatorSequence<ScanProvisionedProductsInput, ScanProvisionedProductsOutput> {
+        return ClientRuntime.PaginatorSequence<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.scanProvisionedProducts(input:))
+    }
+}
+
+extension ScanProvisionedProductsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ScanProvisionedProductsInput {
+        return ScanProvisionedProductsInput(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
+            pageSize: self.pageSize,
+            pageToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ScanProvisionedProductsInput, OperationStackOutput == ScanProvisionedProductsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `scanProvisionedProductsPaginated`
+    /// to access the nested member `[ServiceCatalogClientTypes.ProvisionedProductDetail]`
+    /// - Returns: `[ServiceCatalogClientTypes.ProvisionedProductDetail]`
+    public func provisionedProducts() async throws -> [ServiceCatalogClientTypes.ProvisionedProductDetail] {
+        return try await self.asyncCompactMap { item in item.provisionedProducts }
+    }
 }
 extension ServiceCatalogClient {
     /// Paginate over `[SearchProductsOutput]` results.

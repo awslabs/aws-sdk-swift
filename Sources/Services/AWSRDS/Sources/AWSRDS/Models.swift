@@ -2529,9 +2529,34 @@ public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+extension RDSClientTypes {
+
+    /// The tags to apply to resources when creating or modifying a DB instance or DB cluster, or when copying a DB instance snapshot. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail.
+    public struct TagSpecification: Swift.Sendable {
+        /// The type of resource to tag on creation. Valid Values:
+        ///
+        /// * auto-backup - The DB instance's automated backup.
+        ///
+        /// * cluster-auto-backup - The DB cluster's automated backup.
+        ///
+        /// * og - The copied option group. Valid only for CopyDBSnapshot.
+        public var resourceType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tags: [RDSClientTypes.Tag]?
+
+        public init(
+            resourceType: Swift.String? = nil,
+            tags: [RDSClientTypes.Tag]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+    }
+}
+
 ///
 public struct CopyDBSnapshotInput: Swift.Sendable {
-    /// Specifies whether to copy the DB option group associated with the source DB snapshot to the target Amazon Web Services account and associate with the target DB snapshot. The associated option group can be copied only with cross-account snapshot copy calls.
+    /// Specifies whether to copy the DB option group associated with the source DB snapshot to the target Amazon Web Services account or Amazon Web Services Region and associate it with the target DB snapshot.
     public var copyOptionGroup: Swift.Bool?
     /// Specifies whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags aren't copied.
     public var copyTags: Swift.Bool?
@@ -2568,6 +2593,15 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
     /// Example: rds:mydb-2012-04-02-00-01 Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
     /// This member is required.
     public var sourceDBSnapshotIdentifier: Swift.String?
+    /// Tags to assign to the copied option group. By default, the copied option group isn't tagged. Valid Values:
+    ///
+    /// * og - The copied option group.
+    ///
+    ///
+    /// Constraints:
+    ///
+    /// * Can only be specified when CopyOptionGroup is true
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The external custom Availability Zone (CAZ) identifier for the target CAZ. Example: rds-caz-aiqhTgQv.
@@ -2596,6 +2630,7 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         snapshotAvailabilityZone: Swift.String? = nil,
         snapshotTarget: Swift.String? = nil,
         sourceDBSnapshotIdentifier: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetCustomAvailabilityZone: Swift.String? = nil,
         targetDBSnapshotIdentifier: Swift.String? = nil
@@ -2608,6 +2643,7 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         self.snapshotAvailabilityZone = snapshotAvailabilityZone
         self.snapshotTarget = snapshotTarget
         self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.targetCustomAvailabilityZone = targetCustomAvailabilityZone
         self.targetDBSnapshotIdentifier = targetDBSnapshotIdentifier
@@ -2616,7 +2652,7 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
 
 extension CopyDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CopyDBSnapshotInput(copyOptionGroup: \(Swift.String(describing: copyOptionGroup)), copyTags: \(Swift.String(describing: copyTags)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), optionGroupName: \(Swift.String(describing: optionGroupName)), snapshotAvailabilityZone: \(Swift.String(describing: snapshotAvailabilityZone)), snapshotTarget: \(Swift.String(describing: snapshotTarget)), sourceDBSnapshotIdentifier: \(Swift.String(describing: sourceDBSnapshotIdentifier)), tags: \(Swift.String(describing: tags)), targetCustomAvailabilityZone: \(Swift.String(describing: targetCustomAvailabilityZone)), targetDBSnapshotIdentifier: \(Swift.String(describing: targetDBSnapshotIdentifier)), preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CopyDBSnapshotInput(copyOptionGroup: \(Swift.String(describing: copyOptionGroup)), copyTags: \(Swift.String(describing: copyTags)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), optionGroupName: \(Swift.String(describing: optionGroupName)), snapshotAvailabilityZone: \(Swift.String(describing: snapshotAvailabilityZone)), snapshotTarget: \(Swift.String(describing: snapshotTarget)), sourceDBSnapshotIdentifier: \(Swift.String(describing: sourceDBSnapshotIdentifier)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetCustomAvailabilityZone: \(Swift.String(describing: targetCustomAvailabilityZone)), targetDBSnapshotIdentifier: \(Swift.String(describing: targetDBSnapshotIdentifier)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -3143,6 +3179,8 @@ extension RDSClientTypes {
         public var sourceAccountId: Swift.String?
         /// Specifies the name of the option group from which this option group is copied.
         public var sourceOptionGroup: Swift.String?
+        /// Specifies the Amazon Web Services Region for the option group from which this option group is copied.
+        public var sourceRegion: Swift.String?
         /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field.
         public var vpcId: Swift.String?
 
@@ -3157,6 +3195,7 @@ extension RDSClientTypes {
             options: [RDSClientTypes.Option]? = nil,
             sourceAccountId: Swift.String? = nil,
             sourceOptionGroup: Swift.String? = nil,
+            sourceRegion: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMemberships
@@ -3169,6 +3208,7 @@ extension RDSClientTypes {
             self.options = options
             self.sourceAccountId = sourceAccountId
             self.sourceOptionGroup = sourceOptionGroup
+            self.sourceRegion = sourceRegion
             self.vpcId = vpcId
         }
     }
@@ -4824,29 +4864,6 @@ extension RDSClientTypes {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.secondsUntilAutoPause = secondsUntilAutoPause
-        }
-    }
-}
-
-extension RDSClientTypes {
-
-    /// The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail.
-    public struct TagSpecification: Swift.Sendable {
-        /// The type of resource to tag on creation. Valid Values:
-        ///
-        /// * auto-backup - The DB instance's automated backup.
-        ///
-        /// * cluster-auto-backup - The DB cluster's automated backup.
-        public var resourceType: Swift.String?
-        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
-        public var tags: [RDSClientTypes.Tag]?
-
-        public init(
-            resourceType: Swift.String? = nil,
-            tags: [RDSClientTypes.Tag]? = nil
-        ) {
-            self.resourceType = resourceType
-            self.tags = tags
         }
     }
 }
@@ -16459,6 +16476,8 @@ extension RDSClientTypes {
     public struct OptionGroupOption: Swift.Sendable {
         /// Indicates whether the option can be copied across Amazon Web Services accounts.
         public var copyableCrossAccount: Swift.Bool?
+        /// Indicates whether the option can be copied across Amazon Web Services Regions.
+        public var copyableCrossRegion: Swift.Bool?
         /// If the option requires a port, specifies the default port for the option.
         public var defaultPort: Swift.Int?
         /// The description of the option.
@@ -16494,6 +16513,7 @@ extension RDSClientTypes {
 
         public init(
             copyableCrossAccount: Swift.Bool? = nil,
+            copyableCrossRegion: Swift.Bool? = nil,
             defaultPort: Swift.Int? = nil,
             description: Swift.String? = nil,
             engineName: Swift.String? = nil,
@@ -16512,6 +16532,7 @@ extension RDSClientTypes {
             vpcOnly: Swift.Bool? = nil
         ) {
             self.copyableCrossAccount = copyableCrossAccount
+            self.copyableCrossRegion = copyableCrossRegion
             self.defaultPort = defaultPort
             self.description = description
             self.engineName = engineName
@@ -25123,6 +25144,7 @@ extension CopyDBSnapshotInput {
         try writer["SnapshotAvailabilityZone"].write(value.snapshotAvailabilityZone)
         try writer["SnapshotTarget"].write(value.snapshotTarget)
         try writer["SourceDBSnapshotIdentifier"].write(value.sourceDBSnapshotIdentifier)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetCustomAvailabilityZone"].write(value.targetCustomAvailabilityZone)
         try writer["TargetDBSnapshotIdentifier"].write(value.targetDBSnapshotIdentifier)
@@ -36342,6 +36364,7 @@ extension RDSClientTypes.OptionGroup {
         value.sourceOptionGroup = try reader["SourceOptionGroup"].readIfPresent()
         value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
         value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
         return value
     }
 }
@@ -36379,6 +36402,7 @@ extension RDSClientTypes.OptionGroupOption {
         value.optionGroupOptionSettings = try reader["OptionGroupOptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionGroupOptionSetting.read(from:), memberNodeInfo: "OptionGroupOptionSetting", isFlattened: false)
         value.optionGroupOptionVersions = try reader["OptionGroupOptionVersions"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionVersion.read(from:), memberNodeInfo: "OptionVersion", isFlattened: false)
         value.copyableCrossAccount = try reader["CopyableCrossAccount"].readIfPresent()
+        value.copyableCrossRegion = try reader["CopyableCrossRegion"].readIfPresent()
         return value
     }
 }

@@ -866,11 +866,15 @@ extension MarketplaceDiscoveryClientTypes {
 
     public enum ReviewSourceId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsMarketplace
+        case g2
+        case peerspot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReviewSourceId] {
             return [
-                .awsMarketplace
+                .awsMarketplace,
+                .g2,
+                .peerspot
             ]
         }
 
@@ -882,6 +886,8 @@ extension MarketplaceDiscoveryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsMarketplace: return "AWS_MARKETPLACE"
+            case .g2: return "G2"
+            case .peerspot: return "PEERSPOT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -895,10 +901,22 @@ extension MarketplaceDiscoveryClientTypes {
         /// The average rating across all reviews from this source.
         /// This member is required.
         public var averageRating: Swift.String?
-        /// The machine-readable identifier of the review source.
+        /// The machine-readable identifier of the review source. This field has one of the following values:
+        ///
+        /// * AWS_MARKETPLACE – The reviews come from AWS Marketplace.
+        ///
+        /// * G2 – The reviews come from G2.
+        ///
+        /// * PEERSPOT – The reviews come from PeerSpot.
         /// This member is required.
         public var sourceId: MarketplaceDiscoveryClientTypes.ReviewSourceId?
-        /// The name of the review source, such as AWS Marketplace.
+        /// The name of the review source. This field has one of the following values:
+        ///
+        /// * AWS Marketplace
+        ///
+        /// * G2
+        ///
+        /// * PeerSpot
         /// This member is required.
         public var sourceName: Swift.String?
         /// The URL where the reviews can be accessed at the source.
@@ -927,7 +945,7 @@ extension MarketplaceDiscoveryClientTypes {
 
     /// A summary of customer reviews available for a listing, aggregated by review source.
     public struct ReviewSummary: Swift.Sendable {
-        /// Review summaries from different sources, such as AWS Marketplace.
+        /// Review summaries from different sources, such as AWS Marketplace, G2, and PeerSpot.
         /// This member is required.
         public var reviewSourceSummaries: [MarketplaceDiscoveryClientTypes.ReviewSourceSummary]?
 

@@ -200,6 +200,52 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes {
 
+    public enum AnyResourceSupportedTypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnyResourceSupportedTypes] {
+            return [
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// Represents all resources of the specified type in a Data Catalog, including resources that are created after the grant.
+    public struct AnyResource: Swift.Sendable {
+        /// The ID of the Data Catalog. By default, it's your account ID.
+        public var catalogId: Swift.String?
+        /// The type of resource that the grant covers. The only supported value is TABLE.
+        /// This member is required.
+        public var resourceType: LakeFormationClientTypes.AnyResourceSupportedTypes?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            resourceType: LakeFormationClientTypes.AnyResourceSupportedTypes? = nil
+        ) {
+            self.catalogId = catalogId
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A structure for the catalog object.
     public struct CatalogResource: Swift.Sendable {
         /// An identifier for the catalog resource.
@@ -510,8 +556,47 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes {
 
+    /// A wildcard object representing every user-defined function in a database.
+    public struct UserDefinedFunctionWildcard: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// Identifies a user-defined function, or all user-defined functions in a database, as a resource that you can grant permissions on. You can grant permissions only on functions whose GovernanceMode is LAKE_FORMATION.
+    public struct UserDefinedFunctionResource: Swift.Sendable {
+        /// The ID of the Data Catalog. By default, it's your account ID.
+        public var catalogId: Swift.String?
+        /// The name of the database that contains the function.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The name of the function. Exactly one of UserDefinedFunctionResource$Name or UserDefinedFunctionResource$UserDefinedFunctionWildcard is required.
+        public var name: Swift.String?
+        /// A wildcard object representing every user-defined function in the database, including functions created after the grant. Exactly one of UserDefinedFunctionResource$Name or UserDefinedFunctionResource$UserDefinedFunctionWildcard is required.
+        public var userDefinedFunctionWildcard: LakeFormationClientTypes.UserDefinedFunctionWildcard?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            name: Swift.String? = nil,
+            userDefinedFunctionWildcard: LakeFormationClientTypes.UserDefinedFunctionWildcard? = nil
+        ) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.name = name
+            self.userDefinedFunctionWildcard = userDefinedFunctionWildcard
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A structure for the resource.
     public struct Resource: Swift.Sendable {
+        /// All resources of the specified type in a Data Catalog. When you grant or revoke permissions on this resource, the principal must be a user-defined function whose GovernanceMode is LAKE_FORMATION, and the Data Catalog must be in your account.
+        public var anyResource: LakeFormationClientTypes.AnyResource?
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public var catalog: LakeFormationClientTypes.CatalogResource?
         /// A data cell filter.
@@ -532,8 +617,21 @@ extension LakeFormationClientTypes {
         public var table: LakeFormationClientTypes.TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public var tableWithColumns: LakeFormationClientTypes.TableWithColumnsResource?
+        /// The user-defined function that you want to grant or revoke permissions on. The function's GovernanceMode must be LAKE_FORMATION. You can grant the following permissions:
+        ///
+        /// * EXECUTE – Use the function in a job, and get credentials to download its artifacts.
+        ///
+        /// * DESCRIBE – View the function's definition.
+        ///
+        /// * ALTER – Update the function.
+        ///
+        /// * DROP – Delete the function.
+        ///
+        /// * ALL – All of the preceding permissions.
+        public var userDefinedFunction: LakeFormationClientTypes.UserDefinedFunctionResource?
 
         public init(
+            anyResource: LakeFormationClientTypes.AnyResource? = nil,
             catalog: LakeFormationClientTypes.CatalogResource? = nil,
             dataCellsFilter: LakeFormationClientTypes.DataCellsFilterResource? = nil,
             dataLocation: LakeFormationClientTypes.DataLocationResource? = nil,
@@ -543,8 +641,10 @@ extension LakeFormationClientTypes {
             lfTagPolicy: LakeFormationClientTypes.LFTagPolicyResource? = nil,
             rlsPolicy: LakeFormationClientTypes.RLSPolicyResource? = nil,
             table: LakeFormationClientTypes.TableResource? = nil,
-            tableWithColumns: LakeFormationClientTypes.TableWithColumnsResource? = nil
+            tableWithColumns: LakeFormationClientTypes.TableWithColumnsResource? = nil,
+            userDefinedFunction: LakeFormationClientTypes.UserDefinedFunctionResource? = nil
         ) {
+            self.anyResource = anyResource
             self.catalog = catalog
             self.dataCellsFilter = dataCellsFilter
             self.dataLocation = dataLocation
@@ -555,6 +655,7 @@ extension LakeFormationClientTypes {
             self.rlsPolicy = rlsPolicy
             self.table = table
             self.tableWithColumns = tableWithColumns
+            self.userDefinedFunction = userDefinedFunction
         }
     }
 }
@@ -888,6 +989,7 @@ extension LakeFormationClientTypes {
         case delete
         case describe
         case drop
+        case execute
         case grantWithLfTagExpression
         case insert
         case select
@@ -908,6 +1010,7 @@ extension LakeFormationClientTypes {
                 .delete,
                 .describe,
                 .drop,
+                .execute,
                 .grantWithLfTagExpression,
                 .insert,
                 .select,
@@ -934,6 +1037,7 @@ extension LakeFormationClientTypes {
             case .delete: return "DELETE"
             case .describe: return "DESCRIBE"
             case .drop: return "DROP"
+            case .execute: return "EXECUTE"
             case .grantWithLfTagExpression: return "GRANT_WITH_LF_TAG_EXPRESSION"
             case .insert: return "INSERT"
             case .select: return "SELECT"
@@ -2289,6 +2393,37 @@ public struct GetEffectivePermissionsForPathOutput: Swift.Sendable {
     }
 }
 
+public struct GetGlueFunctionSessionContextInput: Swift.Sendable {
+    /// The number of seconds the session context is valid. The default is 86,400 (24 hours).
+    public var durationSeconds: Swift.Int?
+    /// The ARNs of one or more user-defined functions to include in the session context, each in the format arn:aws:glue:region:account-id:userDefinedFunction/database-name/function-name .
+    /// This member is required.
+    public var userDefinedFunctionArns: [Swift.String]?
+
+    public init(
+        durationSeconds: Swift.Int? = nil,
+        userDefinedFunctionArns: [Swift.String]? = nil
+    ) {
+        self.durationSeconds = durationSeconds
+        self.userDefinedFunctionArns = userDefinedFunctionArns
+    }
+}
+
+public struct GetGlueFunctionSessionContextOutput: Swift.Sendable {
+    /// The date and time when the session context expires.
+    public var expiration: Foundation.Date?
+    /// The ID of the session context.
+    public var sessionContextId: Swift.String?
+
+    public init(
+        expiration: Foundation.Date? = nil,
+        sessionContextId: Swift.String? = nil
+    ) {
+        self.expiration = expiration
+        self.sessionContextId = sessionContextId
+    }
+}
+
 public struct GetLFTagInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
@@ -2957,6 +3092,45 @@ public struct GetTemporaryDataLocationCredentialsOutput: Swift.Sendable {
     }
 }
 
+public struct GetTemporaryGlueFunctionCredentialsInput: Swift.Sendable {
+    /// Context for the request, such as the column names and query ID, that Lake Formation uses for auditing.
+    public var auditContext: LakeFormationClientTypes.AuditContext?
+    /// The ARN of the user-defined function whose artifacts you want to download, in the format arn:aws:glue:region:account-id:userDefinedFunction/database-name/function-name .
+    /// This member is required.
+    public var userDefinedFunctionArn: Swift.String?
+
+    public init(
+        auditContext: LakeFormationClientTypes.AuditContext? = nil,
+        userDefinedFunctionArn: Swift.String? = nil
+    ) {
+        self.auditContext = auditContext
+        self.userDefinedFunctionArn = userDefinedFunctionArn
+    }
+}
+
+public struct GetTemporaryGlueFunctionCredentialsOutput: Swift.Sendable {
+    /// The access key ID for the temporary credentials.
+    public var accessKeyId: Swift.String?
+    /// The date and time when the temporary credentials expire.
+    public var expiration: Foundation.Date?
+    /// The secret key for the temporary credentials.
+    public var secretAccessKey: Swift.String?
+    /// The session token for the temporary credentials.
+    public var sessionToken: Swift.String?
+
+    public init(
+        accessKeyId: Swift.String? = nil,
+        expiration: Foundation.Date? = nil,
+        secretAccessKey: Swift.String? = nil,
+        sessionToken: Swift.String? = nil
+    ) {
+        self.accessKeyId = accessKeyId
+        self.expiration = expiration
+        self.secretAccessKey = secretAccessKey
+        self.sessionToken = sessionToken
+    }
+}
+
 /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
 public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3586,6 +3760,7 @@ public struct ListLFTagsOutput: Swift.Sendable {
 extension LakeFormationClientTypes {
 
     public enum DataLakeResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anyResource
         case catalog
         case database
         case dataLocation
@@ -3595,10 +3770,12 @@ extension LakeFormationClientTypes {
         case lfTagPolicyDatabase
         case lfTagPolicyTable
         case table
+        case userDefinedFunction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DataLakeResourceType] {
             return [
+                .anyResource,
                 .catalog,
                 .database,
                 .dataLocation,
@@ -3607,7 +3784,8 @@ extension LakeFormationClientTypes {
                 .lfTagPolicy,
                 .lfTagPolicyDatabase,
                 .lfTagPolicyTable,
-                .table
+                .table,
+                .userDefinedFunction
             ]
         }
 
@@ -3618,6 +3796,7 @@ extension LakeFormationClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .anyResource: return "ANY_RESOURCE"
             case .catalog: return "CATALOG"
             case .database: return "DATABASE"
             case .dataLocation: return "DATA_LOCATION"
@@ -3627,6 +3806,7 @@ extension LakeFormationClientTypes {
             case .lfTagPolicyDatabase: return "LF_TAG_POLICY_DATABASE"
             case .lfTagPolicyTable: return "LF_TAG_POLICY_TABLE"
             case .table: return "TABLE"
+            case .userDefinedFunction: return "USER_DEFINED_FUNCTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4985,6 +5165,13 @@ extension GetEffectivePermissionsForPathInput {
     }
 }
 
+extension GetGlueFunctionSessionContextInput {
+
+    static func urlPathProvider(_ value: GetGlueFunctionSessionContextInput) -> Swift.String? {
+        return "/GetGlueFunctionSessionContext"
+    }
+}
+
 extension GetLFTagInput {
 
     static func urlPathProvider(_ value: GetLFTagInput) -> Swift.String? {
@@ -5038,6 +5225,13 @@ extension GetTemporaryDataLocationCredentialsInput {
 
     static func urlPathProvider(_ value: GetTemporaryDataLocationCredentialsInput) -> Swift.String? {
         return "/GetTemporaryDataLocationCredentials"
+    }
+}
+
+extension GetTemporaryGlueFunctionCredentialsInput {
+
+    static func urlPathProvider(_ value: GetTemporaryGlueFunctionCredentialsInput) -> Swift.String? {
+        return "/GetTemporaryGlueFunctionCredentials"
     }
 }
 
@@ -5535,6 +5729,15 @@ extension GetEffectivePermissionsForPathInput {
     }
 }
 
+extension GetGlueFunctionSessionContextInput {
+
+    static func write(value: GetGlueFunctionSessionContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationSeconds"].write(value.durationSeconds)
+        try writer["UserDefinedFunctionArns"].writeList(value.userDefinedFunctionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GetLFTagInput {
 
     static func write(value: GetLFTagInput?, to writer: SmithyJSON.Writer) throws {
@@ -5610,6 +5813,15 @@ extension GetTemporaryDataLocationCredentialsInput {
         try writer["CredentialsScope"].write(value.credentialsScope)
         try writer["DataLocations"].writeList(value.dataLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DurationSeconds"].write(value.durationSeconds)
+    }
+}
+
+extension GetTemporaryGlueFunctionCredentialsInput {
+
+    static func write(value: GetTemporaryGlueFunctionCredentialsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: LakeFormationClientTypes.AuditContext.write(value:to:))
+        try writer["UserDefinedFunctionArn"].write(value.userDefinedFunctionArn)
     }
 }
 
@@ -6240,6 +6452,19 @@ extension GetEffectivePermissionsForPathOutput {
     }
 }
 
+extension GetGlueFunctionSessionContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetGlueFunctionSessionContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetGlueFunctionSessionContextOutput()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sessionContextId = try reader["SessionContextId"].readIfPresent()
+        return value
+    }
+}
+
 extension GetLFTagOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLFTagOutput {
@@ -6345,6 +6570,21 @@ extension GetTemporaryDataLocationCredentialsOutput {
         value.accessibleDataLocations = try reader["AccessibleDataLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.credentials = try reader["Credentials"].readIfPresent(with: LakeFormationClientTypes.TemporaryCredentials.read(from:))
         value.credentialsScope = try reader["CredentialsScope"].readIfPresent()
+        return value
+    }
+}
+
+extension GetTemporaryGlueFunctionCredentialsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTemporaryGlueFunctionCredentialsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTemporaryGlueFunctionCredentialsOutput()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
         return value
     }
 }
@@ -7242,6 +7482,24 @@ enum GetEffectivePermissionsForPathOutputError {
     }
 }
 
+enum GetGlueFunctionSessionContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetLFTagOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7380,6 +7638,25 @@ enum GetTemporaryDataLocationCredentialsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTemporaryGlueFunctionCredentialsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
@@ -8215,6 +8492,23 @@ extension LakeFormationClientTypes.AllRowsWildcard {
     }
 }
 
+extension LakeFormationClientTypes.AnyResource {
+
+    static func write(value: LakeFormationClientTypes.AnyResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.AnyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.AnyResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LakeFormationClientTypes.AuditContext {
 
     static func write(value: LakeFormationClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
@@ -8798,6 +9092,7 @@ extension LakeFormationClientTypes.Resource {
 
     static func write(value: LakeFormationClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AnyResource"].write(value.anyResource, with: LakeFormationClientTypes.AnyResource.write(value:to:))
         try writer["Catalog"].write(value.catalog, with: LakeFormationClientTypes.CatalogResource.write(value:to:))
         try writer["DataCellsFilter"].write(value.dataCellsFilter, with: LakeFormationClientTypes.DataCellsFilterResource.write(value:to:))
         try writer["DataLocation"].write(value.dataLocation, with: LakeFormationClientTypes.DataLocationResource.write(value:to:))
@@ -8808,11 +9103,13 @@ extension LakeFormationClientTypes.Resource {
         try writer["RLSPolicy"].write(value.rlsPolicy, with: LakeFormationClientTypes.RLSPolicyResource.write(value:to:))
         try writer["Table"].write(value.table, with: LakeFormationClientTypes.TableResource.write(value:to:))
         try writer["TableWithColumns"].write(value.tableWithColumns, with: LakeFormationClientTypes.TableWithColumnsResource.write(value:to:))
+        try writer["UserDefinedFunction"].write(value.userDefinedFunction, with: LakeFormationClientTypes.UserDefinedFunctionResource.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.Resource()
+        value.anyResource = try reader["AnyResource"].readIfPresent(with: LakeFormationClientTypes.AnyResource.read(from:))
         value.catalog = try reader["Catalog"].readIfPresent(with: LakeFormationClientTypes.CatalogResource.read(from:))
         value.database = try reader["Database"].readIfPresent(with: LakeFormationClientTypes.DatabaseResource.read(from:))
         value.table = try reader["Table"].readIfPresent(with: LakeFormationClientTypes.TableResource.read(from:))
@@ -8823,6 +9120,7 @@ extension LakeFormationClientTypes.Resource {
         value.lfTagPolicy = try reader["LFTagPolicy"].readIfPresent(with: LakeFormationClientTypes.LFTagPolicyResource.read(from:))
         value.lfTagExpression = try reader["LFTagExpression"].readIfPresent(with: LakeFormationClientTypes.LFTagExpressionResource.read(from:))
         value.rlsPolicy = try reader["RLSPolicy"].readIfPresent(with: LakeFormationClientTypes.RLSPolicyResource.read(from:))
+        value.userDefinedFunction = try reader["UserDefinedFunction"].readIfPresent(with: LakeFormationClientTypes.UserDefinedFunctionResource.read(from:))
         return value
     }
 }
@@ -9060,6 +9358,40 @@ extension LakeFormationClientTypes.TransactionDescription {
         value.transactionStartTime = try reader["TransactionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.transactionEndTime = try reader["TransactionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension LakeFormationClientTypes.UserDefinedFunctionResource {
+
+    static func write(value: LakeFormationClientTypes.UserDefinedFunctionResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Name"].write(value.name)
+        try writer["UserDefinedFunctionWildcard"].write(value.userDefinedFunctionWildcard, with: LakeFormationClientTypes.UserDefinedFunctionWildcard.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.UserDefinedFunctionResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.UserDefinedFunctionResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.userDefinedFunctionWildcard = try reader["UserDefinedFunctionWildcard"].readIfPresent(with: LakeFormationClientTypes.UserDefinedFunctionWildcard.read(from:))
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.UserDefinedFunctionWildcard {
+
+    static func write(value: LakeFormationClientTypes.UserDefinedFunctionWildcard?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.UserDefinedFunctionWildcard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return LakeFormationClientTypes.UserDefinedFunctionWildcard()
     }
 }
 

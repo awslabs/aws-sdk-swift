@@ -771,6 +771,32 @@ extension DevOpsAgentClientTypes.AgentSpace: Swift.CustomDebugStringConvertible 
         "AgentSpace(agentSpaceId: \(Swift.String(describing: agentSpaceId)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
+extension DevOpsAgentClientTypes {
+
+    public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chatArchived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConflictExceptionReason] {
+            return [
+                .chatArchived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatArchived: return "CHAT_ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The request conflicts with the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -778,6 +804,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         /// Detailed error message describing the conflict.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
+        /// A machine-readable reason code that explains why the request conflicted with the current state of the resource. For example, CHAT_ARCHIVED indicates that the request acted on a chat that is archived. This field is absent when no specific reason applies.
+        public internal(set) var reason: DevOpsAgentClientTypes.ConflictExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -790,9 +818,11 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: DevOpsAgentClientTypes.ConflictExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -949,6 +979,8 @@ extension DevOpsAgentClientTypes {
 
     /// AWS DevOps Agent capability types representing the set of automated capabilities that can be enabled per association.
     public enum CapabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeChangeRiskAnalysis
+        case codeChangeRiskAnalysisAutomatedTesting
         /// Release readiness review auto-trigger capability.
         case releaseReadinessReview
         /// Release readiness review automated testing capability.
@@ -957,6 +989,8 @@ extension DevOpsAgentClientTypes {
 
         public static var allCases: [CapabilityType] {
             return [
+                .codeChangeRiskAnalysis,
+                .codeChangeRiskAnalysisAutomatedTesting,
                 .releaseReadinessReview,
                 .releaseReadinessReviewAutomatedTesting
             ]
@@ -969,6 +1003,8 @@ extension DevOpsAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeChangeRiskAnalysis: return "CODE_CHANGE_RISK_ANALYSIS"
+            case .codeChangeRiskAnalysisAutomatedTesting: return "CODE_CHANGE_RISK_ANALYSIS_AUTOMATED_TESTING"
             case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
             case .releaseReadinessReviewAutomatedTesting: return "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"
             case let .sdkUnknown(s): return s
@@ -1476,6 +1512,26 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for bidirectional communication with a Microsoft Teams channel. When enabled, the agent receives and responds to mentions in the configured channel in addition to sending notifications.
+    public struct MSTeamsBidirectionalConfiguration: Swift.Sendable {
+        /// Specifies whether bidirectional communication is enabled for this association. If you set this value to true, you can mention the agent in the configured Microsoft Teams channel and it responds in that channel. If you omit this parameter or set it to false, the agent only sends one-way notifications.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the agent assumes to exchange messages with the Microsoft Teams team for this association.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Represents a channel in a Microsoft Teams team that the DevOps Agent service can send notifications to.
     public struct MSTeamsChannel: Swift.Sendable {
         /// The unique identifier of the Microsoft Teams channel, for example 19:abc123def456@thread.tacv2.
@@ -1518,6 +1574,8 @@ extension DevOpsAgentClientTypes {
 
     /// Configuration for connecting a Microsoft Teams team to the DevOps Agent service. Use this configuration to specify which team to connect and how to route agent notifications to channels within that team.
     public struct MSTeamsConfiguration: Swift.Sendable {
+        /// The bidirectional communication configuration for the Microsoft Teams integration. Provide this configuration with enabled set to true to allow users to interact with the agent directly from Microsoft Teams.
+        public var bidirectional: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration?
         /// The identifier of the Microsoft Teams team to connect to the DevOps Agent service.
         /// This member is required.
         public var teamId: Swift.String?
@@ -1529,10 +1587,12 @@ extension DevOpsAgentClientTypes {
         public var transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?
 
         public init(
+            bidirectional: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
             transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget? = nil
         ) {
+            self.bidirectional = bidirectional
             self.teamId = teamId
             self.teamName = teamName
             self.transmissionTarget = transmissionTarget
@@ -3194,8 +3254,39 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    public enum ChatArchiveStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChatArchiveStatus] {
+            return [
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// A single chat execution summary
     public struct ChatExecution: Swift.Sendable {
+        /// Indicates whether the chat execution is archived or active.
+        public var archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus?
         /// Timestamp when the chat was created
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -3208,11 +3299,13 @@ extension DevOpsAgentClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus? = nil,
             createdAt: Foundation.Date? = nil,
             executionId: Swift.String? = nil,
             summary: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.archiveStatus = archiveStatus
             self.createdAt = createdAt
             self.executionId = executionId
             self.summary = summary
@@ -3446,6 +3539,7 @@ extension DevOpsAgentClientTypes {
 
     /// Types of tasks that can be created in the backlog
     public enum TaskType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeChangeRiskAnalysis
         /// Task for evaluating options or solutions (not in use)
         case evaluation
         /// Task for investigating issues or requirements
@@ -3458,6 +3552,7 @@ extension DevOpsAgentClientTypes {
 
         public static var allCases: [TaskType] {
             return [
+                .codeChangeRiskAnalysis,
                 .evaluation,
                 .investigation,
                 .releaseReadinessReview,
@@ -3472,6 +3567,7 @@ extension DevOpsAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeChangeRiskAnalysis: return "CODE_CHANGE_RISK_ANALYSIS"
             case .evaluation: return "EVALUATION"
             case .investigation: return "INVESTIGATION"
             case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
@@ -4842,6 +4938,54 @@ public struct GetBacklogTaskOutput: Swift.Sendable {
     }
 }
 
+public struct GetChatInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the chat execution.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the chat execution to retrieve.
+    /// This member is required.
+    public var executionId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        executionId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.executionId = executionId
+    }
+}
+
+public struct GetChatOutput: Swift.Sendable {
+    /// Indicates whether the chat execution is archived or active.
+    /// This member is required.
+    public var archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus?
+    /// The date and time at which the chat execution was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the chat execution.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// The summary of the chat execution.
+    public var summary: Swift.String?
+    /// The date and time at which the chat execution was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus? = nil,
+        createdAt: Foundation.Date? = nil,
+        executionId: Swift.String? = nil,
+        summary: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.archiveStatus = archiveStatus
+        self.createdAt = createdAt
+        self.executionId = executionId
+        self.summary = summary
+        self.updatedAt = updatedAt
+    }
+}
+
 /// Request structure for retrieving a specific recommendation
 public struct GetRecommendationInput: Swift.Sendable {
     /// The unique identifier for the agent space containing the recommendation
@@ -5420,6 +5564,8 @@ public struct ListChatsInput: Swift.Sendable {
     /// The unique identifier for the agent space to list chats from.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// The archive status to filter by. Use this parameter to list only archived chat executions or only active ones.
+    public var archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus?
     /// Maximum number of results to return
     public var maxResults: Swift.Int?
     /// Token for pagination
@@ -5430,11 +5576,13 @@ public struct ListChatsInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.archiveStatus = archiveStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userId = userId
@@ -8257,6 +8405,61 @@ public struct UpdateBacklogTaskOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateChatInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the chat execution to update.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The archive status to set for the chat execution. Use this parameter to archive the chat execution, hiding it from the default chat list, or to unarchive it, restoring it to the default chat list.
+    public var archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the chat execution to update.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// The new summary to set for the chat execution.
+    public var summary: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus? = nil,
+        clientToken: Swift.String? = nil,
+        executionId: Swift.String? = nil,
+        summary: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.archiveStatus = archiveStatus
+        self.clientToken = clientToken
+        self.executionId = executionId
+        self.summary = summary
+    }
+}
+
+public struct UpdateChatOutput: Swift.Sendable {
+    /// The archive status of the chat execution after the update.
+    /// This member is required.
+    public var archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus?
+    /// The unique identifier of the updated chat execution.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// The summary of the chat execution after the update.
+    public var summary: Swift.String?
+    /// The date and time at which the chat execution was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        archiveStatus: DevOpsAgentClientTypes.ChatArchiveStatus? = nil,
+        executionId: Swift.String? = nil,
+        summary: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.archiveStatus = archiveStatus
+        self.executionId = executionId
+        self.summary = summary
+        self.updatedAt = updatedAt
+    }
+}
+
 extension DevOpsAgentClientTypes {
 
     /// Schedule configuration for updating goal evaluations
@@ -8749,6 +8952,19 @@ extension GetBacklogTaskInput {
     }
 }
 
+extension GetChatInput {
+
+    static func urlPathProvider(_ value: GetChatInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/agents/agent-space/\(agentSpaceId.urlPercentEncoding())/chat/get/\(executionId.urlPercentEncoding())"
+    }
+}
+
 extension GetOperatorAppInput {
 
     static func urlPathProvider(_ value: GetOperatorAppInput) -> Swift.String? {
@@ -9018,6 +9234,10 @@ extension ListChatsInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let archiveStatus = value.archiveStatus {
+            let archiveStatusQueryItem = Smithy.URIQueryItem(name: "archiveStatus".urlPercentEncoding(), value: Swift.String(archiveStatus.rawValue).urlPercentEncoding())
+            items.append(archiveStatusQueryItem)
         }
         if let userId = value.userId {
             let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
@@ -9295,6 +9515,19 @@ extension UpdateBacklogTaskInput {
             return nil
         }
         return "/backlog/agent-space/\(agentSpaceId.urlPercentEncoding())/tasks/\(taskId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateChatInput {
+
+    static func urlPathProvider(_ value: UpdateChatInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/agents/agent-space/\(agentSpaceId.urlPercentEncoding())/chat/\(executionId.urlPercentEncoding())"
     }
 }
 
@@ -9620,6 +9853,16 @@ extension UpdateBacklogTaskInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["taskStatus"].write(value.taskStatus)
+    }
+}
+
+extension UpdateChatInput {
+
+    static func write(value: UpdateChatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["archiveStatus"].write(value.archiveStatus)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["summary"].write(value.summary)
     }
 }
 
@@ -9964,6 +10207,22 @@ extension GetBacklogTaskOutput {
         let reader = responseReader
         var value = GetBacklogTaskOutput()
         value.task = try reader["task"].readIfPresent(with: DevOpsAgentClientTypes.Task.read(from:))
+        return value
+    }
+}
+
+extension GetChatOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChatOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChatOutput()
+        value.archiveStatus = try reader["archiveStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.summary = try reader["summary"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10366,6 +10625,21 @@ extension UpdateBacklogTaskOutput {
         let reader = responseReader
         var value = UpdateBacklogTaskOutput()
         value.task = try reader["task"].readIfPresent(with: DevOpsAgentClientTypes.Task.read(from:))
+        return value
+    }
+}
+
+extension UpdateChatOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChatOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateChatOutput()
+        value.archiveStatus = try reader["archiveStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.summary = try reader["summary"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10928,6 +11202,25 @@ enum GetBacklogTaskOutputError {
     }
 }
 
+enum GetChatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetOperatorAppOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11133,6 +11426,7 @@ enum ListChatsOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -11350,6 +11644,7 @@ enum SendMessageOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -11515,6 +11810,26 @@ enum UpdateBacklogTaskOutputError {
     }
 }
 
+enum UpdateChatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateGoalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11632,6 +11947,7 @@ extension ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12169,6 +12485,7 @@ extension DevOpsAgentClientTypes.ChatExecution {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.summary = try reader["summary"].readIfPresent()
+        value.archiveStatus = try reader["archiveStatus"].readIfPresent()
         return value
     }
 }
@@ -12779,6 +13096,23 @@ extension DevOpsAgentClientTypes.MonthlyRecurrence {
     }
 }
 
+extension DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.MSTeamsChannel {
 
     static func write(value: DevOpsAgentClientTypes.MSTeamsChannel?, to writer: SmithyJSON.Writer) throws {
@@ -12800,6 +13134,7 @@ extension DevOpsAgentClientTypes.MSTeamsConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MSTeamsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bidirectional"].write(value.bidirectional, with: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration.write(value:to:))
         try writer["teamId"].write(value.teamId)
         try writer["teamName"].write(value.teamName)
         try writer["transmissionTarget"].write(value.transmissionTarget, with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.write(value:to:))
@@ -12811,6 +13146,7 @@ extension DevOpsAgentClientTypes.MSTeamsConfiguration {
         value.teamId = try reader["teamId"].readIfPresent() ?? ""
         value.teamName = try reader["teamName"].readIfPresent() ?? ""
         value.transmissionTarget = try reader["transmissionTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.read(from:))
+        value.bidirectional = try reader["bidirectional"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration.read(from:))
         return value
     }
 }

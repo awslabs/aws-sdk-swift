@@ -676,12 +676,14 @@ extension CleanRoomsClientTypes {
 
     public enum AnalysisFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pyspark10
+        case pyspark20
         case sql
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisFormat] {
             return [
                 .pyspark10,
+                .pyspark20,
                 .sql
             ]
         }
@@ -694,6 +696,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .pyspark10: return "PYSPARK_1_0"
+            case .pyspark20: return "PYSPARK_2_0"
             case .sql: return "SQL"
             case let .sdkUnknown(s): return s
             }
@@ -10358,6 +10361,36 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// File format of the returned data.
+    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultFormat] {
+            return [
+                .csv,
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains input information for protected jobs with an S3 output type.
     public struct ProtectedJobS3OutputConfigurationInput: Swift.Sendable {
         /// The S3 bucket for job output.
@@ -10365,13 +10398,17 @@ extension CleanRoomsClientTypes {
         public var bucket: Swift.String?
         /// The S3 prefix to unload the protected job results.
         public var keyPrefix: Swift.String?
+        /// The file format of the protected job results. If you don't specify a format, results are written as CSV.
+        public var resultFormat: CleanRoomsClientTypes.ResultFormat?
 
         public init(
             bucket: Swift.String? = nil,
-            keyPrefix: Swift.String? = nil
+            keyPrefix: Swift.String? = nil,
+            resultFormat: CleanRoomsClientTypes.ResultFormat? = nil
         ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
+            self.resultFormat = resultFormat
         }
     }
 }
@@ -10403,36 +10440,6 @@ extension CleanRoomsClientTypes {
         ) {
             self.outputConfiguration = outputConfiguration
             self.roleArn = roleArn
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// File format of the returned data.
-    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case csv
-        case parquet
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResultFormat] {
-            return [
-                .csv,
-                .parquet
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .csv: return "CSV"
-            case .parquet: return "PARQUET"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -11057,21 +11064,59 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// The protected job error.
+    /// Contains information about whether running a failed protected query or protected job again might succeed.
+    public struct RetryInfo: Swift.Sendable {
+        /// Specifies whether running the same request again might succeed. true means that the failure was transient. false means that running the same request again is not expected to succeed.
+        public var retryable: Swift.Bool?
+
+        public init(
+            retryable: Swift.Bool? = nil
+        ) {
+            self.retryable = retryable
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Details of the error that caused the protected job to fail.
     public struct ProtectedJobError: Swift.Sendable {
-        /// The error code for the protected job.
+        /// A code that identifies the category of the failure. Valid values are:
+        ///
+        /// * MALFORMED_SCRIPT – The job script or its execution environment is not valid (code, imports, entry point, virtual environment, or dependencies).
+        ///
+        /// * RESOURCE_NOT_FOUND – A referenced resource doesn't exist.
+        ///
+        /// * INVALID_RESOURCE – A referenced resource exists, but you can't use it because its configuration, state, or data is not valid.
+        ///
+        /// * RESOURCE_ACCESS_DENIED – A required permission is missing for a data source or resource.
+        ///
+        /// * INSUFFICIENT_COMPUTE – The job exceeded the available compute (memory, disk, or time).
+        ///
+        /// * TRANSIENT_ERROR – A temporary condition caused the failure, such as throttling or a network interruption.
+        ///
+        /// * INTERNAL_ERROR – Clean Rooms encountered an unexpected error. If the error persists, contact AWS Support.
+        ///
+        /// * UNKNOWN_ERROR – The failure couldn't be classified.
+        ///
+        ///
+        /// For more information about error codes, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html](https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html) in the Clean Rooms User Guide.
         /// This member is required.
         public var code: Swift.String?
-        /// The message for the protected job error.
+        /// A description of why the protected job failed.
         /// This member is required.
         public var message: Swift.String?
+        /// Contains information about whether running the same protected job again might succeed.
+        public var retry: CleanRoomsClientTypes.RetryInfo?
 
         public init(
             code: Swift.String? = nil,
-            message: Swift.String? = nil
+            message: Swift.String? = nil,
+            retry: CleanRoomsClientTypes.RetryInfo? = nil
         ) {
             self.code = code
             self.message = message
+            self.retry = retry
         }
     }
 }
@@ -11456,21 +11501,44 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// Details of errors thrown by the protected query.
+    /// Details of the error that caused the protected query to fail.
     public struct ProtectedQueryError: Swift.Sendable {
-        /// An error code for the error.
+        /// A code that identifies the category of the failure. Valid values are:
+        ///
+        /// * MALFORMED_QUERY – The query is not valid (syntax, semantics, columns, or an unsupported operation).
+        ///
+        /// * RESOURCE_NOT_FOUND – A referenced resource doesn't exist.
+        ///
+        /// * INVALID_RESOURCE – A referenced resource exists, but you can't use it because its configuration, state, or data is not valid.
+        ///
+        /// * RESOURCE_ACCESS_DENIED – A required permission is missing for a data source or resource.
+        ///
+        /// * INSUFFICIENT_COMPUTE – The query exceeded the available compute (memory, disk, or time).
+        ///
+        /// * TRANSIENT_ERROR – A temporary condition caused the failure, such as throttling or a network interruption.
+        ///
+        /// * INTERNAL_ERROR – Clean Rooms encountered an unexpected error. If the error persists, contact AWS Support.
+        ///
+        /// * UNKNOWN_ERROR – The failure couldn't be classified.
+        ///
+        ///
+        /// For more information about error codes, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html](https://docs.aws.amazon.com/clean-rooms/latest/userguide/error-codes.html) in the Clean Rooms User Guide.
         /// This member is required.
         public var code: Swift.String?
-        /// A description of why the query failed.
+        /// A description of why the protected query failed.
         /// This member is required.
         public var message: Swift.String?
+        /// Contains information about whether running the same protected query again might succeed.
+        public var retry: CleanRoomsClientTypes.RetryInfo?
 
         public init(
             code: Swift.String? = nil,
-            message: Swift.String? = nil
+            message: Swift.String? = nil,
+            retry: CleanRoomsClientTypes.RetryInfo? = nil
         ) {
             self.code = code
             self.message = message
+            self.retry = retry
         }
     }
 }
@@ -21536,6 +21604,7 @@ extension CleanRoomsClientTypes.ProtectedJobError {
         var value = CleanRoomsClientTypes.ProtectedJobError()
         value.message = try reader["message"].readIfPresent() ?? ""
         value.code = try reader["code"].readIfPresent() ?? ""
+        value.retry = try reader["retry"].readIfPresent(with: CleanRoomsClientTypes.RetryInfo.read(from:))
         return value
     }
 }
@@ -21675,11 +21744,13 @@ extension CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
         guard let value else { return }
         try writer["bucket"].write(value.bucket)
         try writer["keyPrefix"].write(value.keyPrefix)
+        try writer["resultFormat"].write(value.resultFormat)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput()
+        value.resultFormat = try reader["resultFormat"].readIfPresent()
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value
@@ -21836,6 +21907,7 @@ extension CleanRoomsClientTypes.ProtectedQueryError {
         var value = CleanRoomsClientTypes.ProtectedQueryError()
         value.message = try reader["message"].readIfPresent() ?? ""
         value.code = try reader["code"].readIfPresent() ?? ""
+        value.retry = try reader["retry"].readIfPresent(with: CleanRoomsClientTypes.RetryInfo.read(from:))
         return value
     }
 }
@@ -22068,6 +22140,16 @@ extension CleanRoomsClientTypes.ReceiverConfiguration {
         var value = CleanRoomsClientTypes.ReceiverConfiguration()
         value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
         value.configurationDetails = try reader["configurationDetails"].readIfPresent(with: CleanRoomsClientTypes.ConfigurationDetails.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.RetryInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.RetryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.RetryInfo()
+        value.retryable = try reader["retryable"].readIfPresent()
         return value
     }
 }

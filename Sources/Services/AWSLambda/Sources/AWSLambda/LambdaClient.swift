@@ -321,7 +321,7 @@ extension LambdaClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Lambda"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -552,7 +552,7 @@ extension LambdaClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Lambda"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -614,7 +614,7 @@ extension LambdaClient {
     public static func builder() -> ClientRuntime.ClientBuilder<LambdaClient> {
         return ClientRuntime.ClientBuilder<LambdaClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Lambda"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -1544,6 +1544,75 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Deletes a completed Lambda [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) and its data. The execution must be in a terminal state (SUCCEEDED, FAILED, STOPPED, or TIMED_OUT). Otherwise, this operation returns a ResourceConflictException. The execution has DELETING status until the deletion finishes. For more information, see [Deleting durable executions](https://docs.aws.amazon.com/lambda/latest/dg/durable-delete.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteDurableExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func deleteDurableExecution(input: DeleteDurableExecutionInput) async throws -> DeleteDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDurableExecutionInput, DeleteDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>(DeleteDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDurableExecutionOutput>(DeleteDurableExecutionOutput.httpOutput(from:), DeleteDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDurableExecutionInput, DeleteDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDurableExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Deletes an [event source mapping](https://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html). You can get the identifier of a mapping from the output of [ListEventSourceMappings]. When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds.
@@ -1756,7 +1825,7 @@ extension LambdaClient {
 
     /// Performs the `DeleteFunctionConcurrency` operation on the `Lambda` service.
     ///
-    /// Removes a concurrent execution limit from a function.
+    /// Removes a concurrent execution limit from a Lambda Event Function.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteFunctionConcurrencyInput`)
     ///
@@ -2733,7 +2802,7 @@ extension LambdaClient {
 
     /// Performs the `GetFunction` operation on the `Lambda` service.
     ///
-    /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
+    /// Returns information about a Lambda Event Function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
@@ -3803,6 +3872,8 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `RuntimeAliasDeletedException` : The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+    /// - `RuntimeVersionDeletedException` : The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
     /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
     /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
@@ -4009,6 +4080,8 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `RuntimeAliasDeletedException` : The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+    /// - `RuntimeVersionDeletedException` : The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
     /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
     /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
@@ -4424,7 +4497,7 @@ extension LambdaClient {
 
     /// Performs the `ListFunctionEventInvokeConfigs` operation on the `Lambda` service.
     ///
-    /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
+    /// Retrieves a list of configurations for asynchronous invocation for a Lambda Event Function. To retrieve more configurations, use the Marker parameter. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFunctionEventInvokeConfigsInput`)
     ///
@@ -5041,7 +5114,7 @@ extension LambdaClient {
 
     /// Performs the `ListVersionsByFunction` operation on the `Lambda` service.
     ///
-    /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html), with the version-specific configuration of each. Lambda returns up to 50 versions per call.
+    /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) of a Lambda Event Function, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListVersionsByFunctionInput`)
     ///
@@ -5096,6 +5169,83 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVersionsByFunction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PauseDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Pauses a running [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html). While an execution is paused, Lambda doesn't invoke your function, but pending operations such as waits and callbacks continue to complete. If an invocation is in progress, the execution status changes to PAUSING until the invocation reaches its next checkpoint, and then changes to PAUSED. This operation returns a successful response while the execution status is still RUNNING, and the status changes when Lambda processes the request. For more information about pausing executions, see [Pausing and resuming durable executions](https://docs.aws.amazon.com/lambda/latest/dg/durable-pause-resume.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PauseDurableExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PauseDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func pauseDurableExecution(input: PauseDurableExecutionInput) async throws -> PauseDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "pauseDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PauseDurableExecutionInput, PauseDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(PauseDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PauseDurableExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseDurableExecutionOutput>(PauseDurableExecutionOutput.httpOutput(from:), PauseDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PauseDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PauseDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PauseDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PauseDurableExecutionInput, PauseDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PauseDurableExecution")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5182,7 +5332,7 @@ extension LambdaClient {
 
     /// Performs the `PublishVersion` operation on the `Lambda` service.
     ///
-    /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
+    /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a Lambda Event Function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
     ///
     /// - Parameter input: [no documentation found] (Type: `PublishVersionInput`)
     ///
@@ -5334,7 +5484,7 @@ extension LambdaClient {
 
     /// Performs the `PutFunctionConcurrency` operation on the `Lambda` service.
     ///
-    /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
+    /// Sets the maximum number of simultaneous executions for a Lambda Event Function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `PutFunctionConcurrencyInput`)
     ///
@@ -5479,7 +5629,7 @@ extension LambdaClient {
 
     /// Performs the `PutFunctionRecursionConfig` operation on the `Lambda` service.
     ///
-    /// Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
+    /// Sets the [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration for a Lambda Event Function. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutFunctionRecursionConfigInput`)
     ///
@@ -5864,6 +6014,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -5984,6 +6135,83 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemovePermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ResumeDurableExecution` operation on the `Lambda` service.
+    ///
+    /// Resumes a paused [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html). If the pause interrupted an invocation, or an operation completed while the execution was paused, Lambda invokes your function. Otherwise, the execution continues to wait for its pending operations. If the execution status is PAUSING, this operation cancels the pause, and the in-progress invocation continues. This operation returns a successful response while the execution status is still PAUSED or PAUSING, and the status changes to RUNNING when Lambda processes the request. For more information about resuming executions, see [Pausing and resuming durable executions](https://docs.aws.amazon.com/lambda/latest/dg/durable-pause-resume.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ResumeDurableExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ResumeDurableExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func resumeDurableExecution(input: ResumeDurableExecutionInput) async throws -> ResumeDurableExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "resumeDurableExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ResumeDurableExecutionInput, ResumeDurableExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(ResumeDurableExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResumeDurableExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeDurableExecutionOutput>(ResumeDurableExecutionOutput.httpOutput(from:), ResumeDurableExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ResumeDurableExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumeDurableExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeDurableExecutionInput, ResumeDurableExecutionOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResumeDurableExecution")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6219,7 +6447,7 @@ extension LambdaClient {
 
     /// Performs the `StopDurableExecution` operation on the `Lambda` service.
     ///
-    /// Stops a running [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html). The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
+    /// Stops a running or paused [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html). The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopDurableExecutionInput`)
     ///
@@ -7009,7 +7237,7 @@ extension LambdaClient {
 
     /// Performs the `UpdateFunctionUrlConfig` operation on the `Lambda` service.
     ///
-    /// Updates the configuration for a Lambda function URL.
+    /// Updates the configuration for a function URL of a Lambda Event Function.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFunctionUrlConfigInput`)
     ///

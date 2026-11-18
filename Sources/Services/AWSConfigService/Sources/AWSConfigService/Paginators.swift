@@ -335,6 +335,7 @@ extension DescribeConformancePacksInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeConformancePacksInput {
         return DescribeConformancePacksInput(
             conformancePackNames: self.conformancePackNames,
+            filters: self.filters,
             limit: self.limit,
             nextToken: token
         )}
@@ -366,6 +367,7 @@ extension DescribeConformancePackStatusInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeConformancePackStatusInput {
         return DescribeConformancePackStatusInput(
             conformancePackNames: self.conformancePackNames,
+            filters: self.filters,
             limit: self.limit,
             nextToken: token
         )}

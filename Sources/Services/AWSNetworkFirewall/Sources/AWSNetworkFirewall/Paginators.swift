@@ -107,6 +107,36 @@ extension PaginatorSequence where OperationStackInput == ListContainerAssociatio
     }
 }
 extension NetworkFirewallClient {
+    /// Paginate over `[ListContextStoresOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContextStoresInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContextStoresOutput`
+    public func listContextStoresPaginated(input: ListContextStoresInput) -> ClientRuntime.PaginatorSequence<ListContextStoresInput, ListContextStoresOutput> {
+        return ClientRuntime.PaginatorSequence<ListContextStoresInput, ListContextStoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContextStores(input:))
+    }
+}
+
+extension ListContextStoresInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContextStoresInput {
+        return ListContextStoresInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContextStoresInput, OperationStackOutput == ListContextStoresOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContextStoresPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ContextStore]`
+    /// - Returns: `[NetworkFirewallClientTypes.ContextStore]`
+    public func contextStores() async throws -> [NetworkFirewallClientTypes.ContextStore] {
+        return try await self.asyncCompactMap { item in item.contextStores }
+    }
+}
+extension NetworkFirewallClient {
     /// Paginate over `[ListFirewallPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -134,6 +164,36 @@ extension PaginatorSequence where OperationStackInput == ListFirewallPoliciesInp
     /// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
     public func firewallPolicies() async throws -> [NetworkFirewallClientTypes.FirewallPolicyMetadata] {
         return try await self.asyncCompactMap { item in item.firewallPolicies }
+    }
+}
+extension NetworkFirewallClient {
+    /// Paginate over `[ListFirewallPoliciesV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallPoliciesV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallPoliciesV2Output`
+    public func listFirewallPoliciesV2Paginated(input: ListFirewallPoliciesV2Input) -> ClientRuntime.PaginatorSequence<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output> {
+        return ClientRuntime.PaginatorSequence<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewallPoliciesV2(input:))
+    }
+}
+
+extension ListFirewallPoliciesV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFirewallPoliciesV2Input {
+        return ListFirewallPoliciesV2Input(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFirewallPoliciesV2Input, OperationStackOutput == ListFirewallPoliciesV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallPoliciesV2Paginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.FirewallPolicyV2Metadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyV2Metadata]`
+    public func firewallPoliciesV2() async throws -> [NetworkFirewallClientTypes.FirewallPolicyV2Metadata] {
+        return try await self.asyncCompactMap { item in item.firewallPoliciesV2 }
     }
 }
 extension NetworkFirewallClient {
@@ -240,93 +300,35 @@ extension PaginatorSequence where OperationStackInput == ListFlowOperationsInput
     }
 }
 extension NetworkFirewallClient {
-    /// Paginate over `[ListProxiesOutput]` results.
+    /// Paginate over `[ListResourcesInContextStoreOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
-    ///     - input: A `[ListProxiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProxiesOutput`
-    public func listProxiesPaginated(input: ListProxiesInput) -> ClientRuntime.PaginatorSequence<ListProxiesInput, ListProxiesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProxiesInput, ListProxiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxies(input:))
+    ///     - input: A `[ListResourcesInContextStoreInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesInContextStoreOutput`
+    public func listResourcesInContextStorePaginated(input: ListResourcesInContextStoreInput) -> ClientRuntime.PaginatorSequence<ListResourcesInContextStoreInput, ListResourcesInContextStoreOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInContextStoreInput, ListResourcesInContextStoreOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourcesInContextStore(input:))
     }
 }
 
-extension ListProxiesInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListProxiesInput {
-        return ListProxiesInput(
+extension ListResourcesInContextStoreInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourcesInContextStoreInput {
+        return ListResourcesInContextStoreInput(
+            contextStoreId: self.contextStoreId,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == ListProxiesInput, OperationStackOutput == ListProxiesOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listProxiesPaginated`
-    /// to access the nested member `[NetworkFirewallClientTypes.ProxyMetadata]`
-    /// - Returns: `[NetworkFirewallClientTypes.ProxyMetadata]`
-    public func proxies() async throws -> [NetworkFirewallClientTypes.ProxyMetadata] {
-        return try await self.asyncCompactMap { item in item.proxies }
-    }
-}
-extension NetworkFirewallClient {
-    /// Paginate over `[ListProxyConfigurationsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListProxyConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProxyConfigurationsOutput`
-    public func listProxyConfigurationsPaginated(input: ListProxyConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListProxyConfigurationsInput, ListProxyConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxyConfigurations(input:))
-    }
-}
-
-extension ListProxyConfigurationsInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListProxyConfigurationsInput {
-        return ListProxyConfigurationsInput(
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListProxyConfigurationsInput, OperationStackOutput == ListProxyConfigurationsOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listProxyConfigurationsPaginated`
-    /// to access the nested member `[NetworkFirewallClientTypes.ProxyConfigurationMetadata]`
-    /// - Returns: `[NetworkFirewallClientTypes.ProxyConfigurationMetadata]`
-    public func proxyConfigurations() async throws -> [NetworkFirewallClientTypes.ProxyConfigurationMetadata] {
-        return try await self.asyncCompactMap { item in item.proxyConfigurations }
-    }
-}
-extension NetworkFirewallClient {
-    /// Paginate over `[ListProxyRuleGroupsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListProxyRuleGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProxyRuleGroupsOutput`
-    public func listProxyRuleGroupsPaginated(input: ListProxyRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxyRuleGroups(input:))
-    }
-}
-
-extension ListProxyRuleGroupsInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListProxyRuleGroupsInput {
-        return ListProxyRuleGroupsInput(
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListProxyRuleGroupsInput, OperationStackOutput == ListProxyRuleGroupsOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listProxyRuleGroupsPaginated`
-    /// to access the nested member `[NetworkFirewallClientTypes.ProxyRuleGroupMetadata]`
-    /// - Returns: `[NetworkFirewallClientTypes.ProxyRuleGroupMetadata]`
-    public func proxyRuleGroups() async throws -> [NetworkFirewallClientTypes.ProxyRuleGroupMetadata] {
-        return try await self.asyncCompactMap { item in item.proxyRuleGroups }
+extension PaginatorSequence where OperationStackInput == ListResourcesInContextStoreInput, OperationStackOutput == ListResourcesInContextStoreOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourcesInContextStorePaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ResourceContext]`
+    /// - Returns: `[NetworkFirewallClientTypes.ResourceContext]`
+    public func resourceContexts() async throws -> [NetworkFirewallClientTypes.ResourceContext] {
+        return try await self.asyncCompactMap { item in item.resourceContexts }
     }
 }
 extension NetworkFirewallClient {

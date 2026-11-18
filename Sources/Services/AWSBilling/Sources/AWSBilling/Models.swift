@@ -474,7 +474,17 @@ public struct AssociateSourceViewsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the billing view to associate source views with.
     /// This member is required.
     public var arn: Swift.String?
-    /// A list of ARNs of the source billing views to associate.
+    /// A list of ARNs of the source billing views to associate. Source views can be of the following types:
+    ///
+    /// * PRIMARY - The billing view that contains all cost management data associated with an account.
+    ///
+    /// * CUSTOM - A billing view that a customer creates from one or more source views.
+    ///
+    /// * BILLING_GROUP - The billing view for an Billing Conductor billing group.
+    ///
+    /// * BILLING_TRANSFER - The billing view for the billing data that a bill transfer account is financially responsible for.
+    ///
+    /// * BILLING_TRANSFER_SHOWBACK - The billing view for billing data configured for showback or chargeback purposes.
     /// This member is required.
     public var sourceViews: [Swift.String]?
 
@@ -797,7 +807,17 @@ public struct CreateBillingViewInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of key value map specifying tags associated to the billing view being created.
     public var resourceTags: [BillingClientTypes.ResourceTag]?
-    /// A list of billing views used as the data source for the custom billing view.
+    /// A list of billing views used as the data source for the custom billing view. Source views can be of the following types:
+    ///
+    /// * PRIMARY - The billing view that contains all cost management data associated with an account.
+    ///
+    /// * CUSTOM - A billing view that a customer creates from one or more source views.
+    ///
+    /// * BILLING_GROUP - The billing view for an Billing Conductor billing group.
+    ///
+    /// * BILLING_TRANSFER - The billing view for the billing data that a bill transfer account is financially responsible for.
+    ///
+    /// * BILLING_TRANSFER_SHOWBACK - The billing view for billing data configured for showback or chargeback purposes.
     /// This member is required.
     public var sourceViews: [Swift.String]?
 
@@ -972,6 +992,7 @@ public struct DisassociateSourceViewsOutput: Swift.Sendable {
 extension BillingClientTypes {
 
     public enum BillingFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case benefitLevelSharing
         case billingAlerts
         case creditLevelSharing
         case creditPreferenceOptions
@@ -983,6 +1004,7 @@ extension BillingClientTypes {
 
         public static var allCases: [BillingFeature] {
             return [
+                .benefitLevelSharing,
                 .billingAlerts,
                 .creditLevelSharing,
                 .creditPreferenceOptions,
@@ -1000,6 +1022,7 @@ extension BillingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .benefitLevelSharing: return "BENEFIT_LEVEL_SHARING"
             case .billingAlerts: return "BILLING_ALERTS"
             case .creditLevelSharing: return "CREDIT_LEVEL_SHARING"
             case .creditPreferenceOptions: return "CREDIT_PREFERENCE_OPTIONS"
@@ -1059,10 +1082,10 @@ extension BillingClientTypes {
 }
 
 public struct GetBillingPreferencesInput: Swift.Sendable {
-    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS, RI_SHARING, RI_SHARING_HISTORY, CREDIT_SHARING, CREDIT_SHARING_HISTORY, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS.
+    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS, RI_SHARING, RI_SHARING_HISTORY, CREDIT_SHARING, CREDIT_SHARING_HISTORY, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS, BENEFIT_LEVEL_SHARING.
     /// This member is required.
     public var features: [BillingClientTypes.BillingFeature]?
-    /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY, which accepts 1 to 10 values to match preference keys.
+    /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY, which accepts 1 to 10 values to match preference keys. For BENEFIT_LEVEL_SHARING, this filter is required. Specify exactly one value that identifies the Reserved Instance (RI) or Savings Plan (SP), in the form benefit/{ri|sp}/{benefitId}.
     public var filters: [BillingClientTypes.BillingFeatureFilter]?
     /// The maximum number of records to return per page. Range: 1 to 50. Default: 50.
     public var maxResults: Swift.Int?
@@ -1343,7 +1366,17 @@ extension BillingClientTypes {
     public struct BillingViewElement: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public var arn: Swift.String?
-        /// The type of billing group.
+        /// The type of billing view. The following values are valid:
+        ///
+        /// * PRIMARY - The billing view that contains all cost management data associated with an account.
+        ///
+        /// * CUSTOM - A billing view that a customer creates from one or more source views.
+        ///
+        /// * BILLING_GROUP - The billing view for an Billing Conductor billing group.
+        ///
+        /// * BILLING_TRANSFER - The billing view for the billing data that a bill transfer account is financially responsible for.
+        ///
+        /// * BILLING_TRANSFER_SHOWBACK - The billing view for billing data configured for showback or chargeback purposes.
         public var billingViewType: BillingClientTypes.BillingViewType?
         /// The time when the billing view was created.
         public var createdAt: Foundation.Date?
@@ -1556,14 +1589,14 @@ public struct GetCreditAllocationHistoryInput: Swift.Sendable {
     public var accountId: Swift.String?
     /// Filters the result to a single credit. When omitted, returns allocation entries for all credits.
     public var creditId: Swift.Int?
-    /// Inclusive end date as Unix epoch seconds.
+    /// The exclusive end date of the range, in Unix epoch seconds. To get one billing month, set startDate to the first day of that month. Then set endDate to the first day of the next month. Use 00:00 UTC for both.
     /// This member is required.
     public var endDate: Foundation.Date?
     /// The maximum number of records to return per page. Range: 1 to 1000. Default: 100.
     public var maxResults: Swift.Int?
     /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
     public var nextToken: Swift.String?
-    /// Inclusive start date as Unix epoch seconds. Must be on or before endDate. The range from startDate to endDate cannot exceed 24 billing months.
+    /// The inclusive start date of the range, in Unix epoch seconds. This value must be earlier than endDate. You get credit allocations for bills whose billing period starts on or after startDate and before endDate. If startDate is in the middle of a billing period, that period isn't included. The range can't exceed 24 calendar months.
     /// This member is required.
     public var startDate: Foundation.Date?
 
@@ -2282,7 +2315,17 @@ extension BillingClientTypes {
     public struct BillingViewListElement: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public var arn: Swift.String?
-        /// The type of billing view.
+        /// The type of billing view. The following values are valid:
+        ///
+        /// * PRIMARY - The billing view that contains all cost management data associated with an account.
+        ///
+        /// * CUSTOM - A billing view that a customer creates from one or more source views.
+        ///
+        /// * BILLING_GROUP - The billing view for an Billing Conductor billing group.
+        ///
+        /// * BILLING_TRANSFER - The billing view for the billing data that a bill transfer account is financially responsible for.
+        ///
+        /// * BILLING_TRANSFER_SHOWBACK - The billing view for billing data configured for showback or chargeback purposes.
         public var billingViewType: BillingClientTypes.BillingViewType?
         /// The description of the billing view.
         public var description: Swift.String?
@@ -3508,6 +3551,93 @@ public struct RedeemCreditsOutput: Swift.Sendable {
     public init() { }
 }
 
+extension BillingClientTypes {
+
+    /// One new credit to create from a split.
+    public struct SplitPortion: Swift.Sendable {
+        /// The amount of the new credit, in the currency of the credit that you split. The amount must be at least 100.00 in that currency. For example, if the credit is in USD, the amount must be at least USD $100.00.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The description of the new credit. If you omit it, the new credit gets the original credit's description followed by its position in the request, for example MAP credit - 1/3. If you split that credit again, the name extends, for example MAP credit - 1/3 - 2/2. A generated name is at most 93 characters. If it would be longer, the name keeps only the beginning of the original description.
+        public var description: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.description = description
+        }
+    }
+}
+
+public struct SplitCreditInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a successful request with the same client token and parameters, the retry completes without performing any further actions. If you reuse a client token with different parameters, the request fails with a ValidationException.
+    public var clientToken: Swift.String?
+    /// The ID of the credit to split.
+    /// This member is required.
+    public var creditId: Swift.String?
+    /// Specifies whether to validate the request and return the result without changing any credit.
+    public var dryRun: Swift.Bool?
+    /// The new credits to create, one for each portion, in the order listed.
+    /// This member is required.
+    public var portions: [BillingClientTypes.SplitPortion]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        creditId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        portions: [BillingClientTypes.SplitPortion]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.creditId = creditId
+        self.dryRun = dryRun
+        self.portions = portions
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A new credit that a split created.
+    public struct ChildCredit: Swift.Sendable {
+        /// The amount of the new credit.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The ID of the new credit. A dry run omits this field.
+        public var creditId: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            creditId: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.creditId = creditId
+        }
+    }
+}
+
+public struct SplitCreditOutput: Swift.Sendable {
+    /// The new credits, in the order of the requested portions.
+    /// This member is required.
+    public var childCredits: [BillingClientTypes.ChildCredit]?
+    /// Specifies whether the request was a dry run. If true, the operation didn't change any credit.
+    /// This member is required.
+    public var dryRun: Swift.Bool?
+    /// The ID of the credit that was split.
+    /// This member is required.
+    public var parentCreditId: Swift.String?
+
+    public init(
+        childCredits: [BillingClientTypes.ChildCredit]? = nil,
+        dryRun: Swift.Bool? = nil,
+        parentCreditId: Swift.String? = nil
+    ) {
+        self.childCredits = childCredits
+        self.dryRun = dryRun
+        self.parentCreditId = parentCreditId
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -3528,6 +3658,62 @@ public struct TagResourceInput: Swift.Sendable {
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct TransferCreditInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a successful request with the same client token and parameters, the retry completes without performing any further actions. If you reuse a client token with different parameters, the request fails with a ValidationException.
+    public var clientToken: Swift.String?
+    /// The ID of the credit to transfer.
+    /// This member is required.
+    public var creditId: Swift.String?
+    /// The Amazon Web Services account ID that becomes the owner of the credit. The account must be in your consolidated billing family and must not be the current owner.
+    /// This member is required.
+    public var destinationAccountId: Swift.String?
+    /// Specifies whether to validate the request and return the result without changing the credit.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        creditId: Swift.String? = nil,
+        destinationAccountId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.clientToken = clientToken
+        self.creditId = creditId
+        self.destinationAccountId = destinationAccountId
+        self.dryRun = dryRun
+    }
+}
+
+public struct TransferCreditOutput: Swift.Sendable {
+    /// The available balance of the credit, which is its remaining balance minus any amount reserved for a bill that isn't finalized.
+    /// This member is required.
+    public var amount: Swift.String?
+    /// The Amazon Web Services account ID that owns the credit after the transfer.
+    /// This member is required.
+    public var destinationAccountId: Swift.String?
+    /// Specifies whether the request was a dry run. If true, the operation didn't change the credit.
+    /// This member is required.
+    public var dryRun: Swift.Bool?
+    /// Always the same as sourceCreditId, because a transfer moves the credit and creates no new one. A dry run omits this field.
+    public var newCreditId: Swift.String?
+    /// The ID of the transferred credit. The credit keeps this ID.
+    /// This member is required.
+    public var sourceCreditId: Swift.String?
+
+    public init(
+        amount: Swift.String? = nil,
+        destinationAccountId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        newCreditId: Swift.String? = nil,
+        sourceCreditId: Swift.String? = nil
+    ) {
+        self.amount = amount
+        self.destinationAccountId = destinationAccountId
+        self.dryRun = dryRun
+        self.newCreditId = newCreditId
+        self.sourceCreditId = sourceCreditId
+    }
 }
 
 public struct UntagResourceInput: Swift.Sendable {
@@ -3574,10 +3760,28 @@ extension BillingClientTypes {
 }
 
 public struct UpdateBillingPreferencesInput: Swift.Sendable {
-    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS, all keys must reference the same creditId.
+    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS, all keys must reference the same creditId. For BENEFIT_LEVEL_SHARING, all keys must reference the same Reserved Instance or Savings Plan. To share it with the accounts in one Cost Category rule, send these three keys with the value ENABLED:
+    ///
+    /// * benefit/{ri|sp}/{benefitId}/sharing/costCategoryArn/{costCategoryArn}
+    ///
+    /// * benefit/{ri|sp}/{benefitId}/sharing/ruleName/{ruleName}
+    ///
+    /// * benefit/{ri|sp}/{benefitId}/sharing/mode/{prioritized|restricted}
+    ///
+    ///
+    /// With prioritized, any benefit that the rule's accounts don't use goes to the rest of your consolidated billing family, following your family sharing settings. With restricted, only the owner and the rule's accounts receive it. The Cost Category must belong to your account. To stop sharing, send the same three keys with the value DISABLED. For RI_SHARING and CREDIT_SHARING, you can share benefits by account group. Each rule in a Cost Category is one group. Send exactly one of these group keys with the value ENABLED:
+    ///
+    /// * open-sharing - Share across the whole consolidated billing family, with no groups.
+    ///
+    /// * costcategory-prioritized/{costCategoryArn} - Share within each group first, then with the rest of the family.
+    ///
+    /// * costcategory-restricted/{costCategoryArn} - An account in a group shares only with accounts in the same group.
+    ///
+    ///
+    /// For RI_SHARING, the costcategory- keys use a Cost Category that supports the billing:rispgroupsharing resource type. To use a Cost Category that supports the billing:benefitgroupsharing resource type, use the benefitgroup-prioritized/ or benefitgroup-restricted/ prefix instead. For CREDIT_SHARING, the Cost Category must support the billing:benefitgroupsharing resource type. The Cost Category must belong to your account. GetBillingPreferences returns the group key that is in effect.
     /// This member is required.
     public var billingPreferencesPerKey: [BillingClientTypes.BillingPreferenceForKey]?
-    /// The feature to update. Valid values: BILLING_ALERTS, RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS. The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY) are read-only and cannot be updated.
+    /// The feature to update. Valid values: BILLING_ALERTS, RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS, BENEFIT_LEVEL_SHARING. The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY) are read-only and cannot be updated.
     /// This member is required.
     public var feature: BillingClientTypes.BillingFeature?
 

@@ -316,7 +316,7 @@ extension ConnectClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Connect"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -547,7 +547,7 @@ extension ConnectClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Connect"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -609,7 +609,7 @@ extension ConnectClient {
     public static func builder() -> ClientRuntime.ClientBuilder<ConnectClient> {
         return ClientRuntime.ClientBuilder<ConnectClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Connect"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -6271,6 +6271,79 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeactivateEvaluationForm")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAllEntitySessions` operation on the `Connect` service.
+    ///
+    /// Deletes all active sessions for the specified entity in the specified Connect Customer instance. The operation supports only the USER entity type, so you can use it to sign out all of a user's active sessions. Use it when you need to end a user's access right away, for example when they leave your organization or you suspect that their credentials are compromised.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAllEntitySessionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAllEntitySessionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteAllEntitySessions(input: DeleteAllEntitySessionsInput) async throws -> DeleteAllEntitySessionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAllEntitySessions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>(DeleteAllEntitySessionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAllEntitySessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAllEntitySessionsOutput>(DeleteAllEntitySessionsOutput.httpOutput(from:), DeleteAllEntitySessionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAllEntitySessionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAllEntitySessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAllEntitySessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAllEntitySessionsInput, DeleteAllEntitySessionsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAllEntitySessions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -19952,7 +20025,7 @@ extension ConnectClient {
 
     /// Performs the `PauseContact` operation on the `Connect` service.
     ///
-    /// Allows pausing an ongoing task contact.
+    /// Pauses an ongoing task or email contact.
     ///
     /// - Parameter input: [no documentation found] (Type: `PauseContactInput`)
     ///
@@ -20249,7 +20322,7 @@ extension ConnectClient {
 
     /// Performs the `ResumeContact` operation on the `Connect` service.
     ///
-    /// Allows resuming a task contact in a paused state.
+    /// Resumes a task or email contact in a paused state.
     ///
     /// - Parameter input: [no documentation found] (Type: `ResumeContactInput`)
     ///

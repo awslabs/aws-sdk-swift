@@ -54,6 +54,59 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension S3VectorsClientTypes {
+
+    /// The backfill status of a text search analyzer.
+    public enum AnalyzerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The analyzer is built and serving queries.
+        case active
+        /// The analyzer is being backfilled and isn't yet serving queries.
+        case building
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyzerStatus] {
+            return [
+                .active,
+                .building
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .building: return "BUILDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// The raw BM25 relevance score for a single searchable metadata key.
+    public struct Bm25Score: Swift.Sendable {
+        /// The searchable metadata key that the score applies to.
+        /// This member is required.
+        public var metadataKey: Swift.String?
+        /// The BM25 relevance score.
+        /// This member is required.
+        public var score: Swift.Float?
+
+        public init(
+            metadataKey: Swift.String? = nil,
+            score: Swift.Float? = nil
+        ) {
+            self.metadataKey = metadataKey
+            self.score = score
+        }
+    }
+}
+
 /// The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -255,16 +308,97 @@ extension S3VectorsClientTypes {
 
 extension S3VectorsClientTypes {
 
-    /// The metadata configuration for a vector index.
-    public struct MetadataConfiguration: Swift.Sendable {
-        /// Non-filterable metadata keys allow you to enrich vectors with additional context during storage and retrieval. Unlike default metadata keys, these keys can’t be used as query filters. Non-filterable metadata keys can be retrieved but can’t be searched, queried, or filtered. You can access non-filterable metadata keys of your vectors after finding the vectors. For more information about non-filterable metadata keys, see [Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-vectors.html) and [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide.
+    /// The analysis language for a text search analyzer. Valid values are en (English), fr (French), es (Spanish), pt (Portuguese), it (Italian), de (German), nl (Dutch), zh (Chinese), ja (Japanese), and ko (Korean).
+    public enum LanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case de
+        case en
+        case es
+        case fr
+        case it
+        case ja
+        case ko
+        case nl
+        case pt
+        case zh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageCode] {
+            return [
+                .de,
+                .en,
+                .es,
+                .fr,
+                .it,
+                .ja,
+                .ko,
+                .nl,
+                .pt,
+                .zh
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .de: return "de"
+            case .en: return "en"
+            case .es: return "es"
+            case .fr: return "fr"
+            case .it: return "it"
+            case .ja: return "ja"
+            case .ko: return "ko"
+            case .nl: return "nl"
+            case .pt: return "pt"
+            case .zh: return "zh"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// A full-text search configuration for a single metadata key.
+    public struct TextSearchConfiguration: Swift.Sendable {
+        /// The language that the text search analyzer uses. Valid values are en (English), fr (French), es (Spanish), pt (Portuguese), it (Italian), de (German), nl (Dutch), zh (Chinese), ja (Japanese), and ko (Korean). If you don't specify a language, Amazon S3 Vectors uses the default standard analyzer.
+        public var language: S3VectorsClientTypes.LanguageCode?
+        /// The metadata key to make full-text searchable.
         /// This member is required.
-        public var nonFilterableMetadataKeys: [Swift.String]?
+        public var metadataKey: Swift.String?
+        /// The backfill status of the text search configuration. Valid values are ACTIVE, which indicates that the analyzer is built and serving queries, and BUILDING, which indicates that the analyzer is being backfilled and isn't yet serving queries. This field is returned by GetIndex.
+        public var status: S3VectorsClientTypes.AnalyzerStatus?
 
         public init(
-            nonFilterableMetadataKeys: [Swift.String]? = nil
+            language: S3VectorsClientTypes.LanguageCode? = nil,
+            metadataKey: Swift.String? = nil,
+            status: S3VectorsClientTypes.AnalyzerStatus? = nil
+        ) {
+            self.language = language
+            self.metadataKey = metadataKey
+            self.status = status
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// The metadata configuration for a vector index.
+    public struct MetadataConfiguration: Swift.Sendable {
+        /// Non-filterable metadata keys allow you to enrich vectors with additional context during storage and retrieval. You can't use these keys in metadata filters. You can still make a non-filterable key full-text searchable by configuring it separately in textSearchConfigurations. You can retrieve non-filterable metadata keys after finding the vectors. For more information about non-filterable metadata keys, see [Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-vectors.html) and [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide.
+        public var nonFilterableMetadataKeys: [Swift.String]?
+        /// Full-text search configurations for searchable metadata keys.
+        public var textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfiguration]?
+
+        public init(
+            nonFilterableMetadataKeys: [Swift.String]? = [],
+            textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfiguration]? = []
         ) {
             self.nonFilterableMetadataKeys = nonFilterableMetadataKeys
+            self.textSearchConfigurations = textSearchConfigurations
         }
     }
 }
@@ -950,6 +1084,91 @@ public struct UpdateIndexModeOutput: Swift.Sendable {
     public init() { }
 }
 
+extension S3VectorsClientTypes {
+
+    /// Text search configurations to add to a vector index.
+    public struct MetadataConfigurationAdd: Swift.Sendable {
+        /// Text search configurations to add. Amazon S3 Vectors begins building the corresponding full-text indexes after the update is accepted.
+        public var textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfiguration]?
+
+        public init(
+            textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfiguration]? = nil
+        ) {
+            self.textSearchConfigurations = textSearchConfigurations
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// A searchable metadata key that identifies a text search configuration.
+    public struct TextSearchConfigurationKey: Swift.Sendable {
+        /// The searchable metadata key whose text search configuration to delete.
+        /// This member is required.
+        public var metadataKey: Swift.String?
+
+        public init(
+            metadataKey: Swift.String? = nil
+        ) {
+            self.metadataKey = metadataKey
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// Text search configurations to delete from a vector index.
+    public struct MetadataConfigurationDelete: Swift.Sendable {
+        /// Searchable metadata keys whose text search configurations to delete.
+        public var textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfigurationKey]?
+
+        public init(
+            textSearchConfigurations: [S3VectorsClientTypes.TextSearchConfigurationKey]? = nil
+        ) {
+            self.textSearchConfigurations = textSearchConfigurations
+        }
+    }
+}
+
+public struct UpdateMetadataConfigurationInput: Swift.Sendable {
+    /// Text search configurations to add to the vector index.
+    public var add: S3VectorsClientTypes.MetadataConfigurationAdd?
+    /// Text search configurations to delete from the vector index.
+    public var delete: S3VectorsClientTypes.MetadataConfigurationDelete?
+    /// The Amazon Resource Name (ARN) of the vector index to update.
+    public var indexArn: Swift.String?
+    /// The name of the vector index to update.
+    public var indexName: Swift.String?
+    /// The name of the vector bucket that contains the vector index.
+    public var vectorBucketName: Swift.String?
+
+    public init(
+        add: S3VectorsClientTypes.MetadataConfigurationAdd? = nil,
+        delete: S3VectorsClientTypes.MetadataConfigurationDelete? = nil,
+        indexArn: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        vectorBucketName: Swift.String? = nil
+    ) {
+        self.add = add
+        self.delete = delete
+        self.indexArn = indexArn
+        self.indexName = indexName
+        self.vectorBucketName = vectorBucketName
+    }
+}
+
+public struct UpdateMetadataConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated vector index.
+    /// This member is required.
+    public var indexArn: Swift.String?
+
+    public init(
+        indexArn: Swift.String? = nil
+    ) {
+        self.indexArn = indexArn
+    }
+}
+
 public struct ListVectorsInput: Swift.Sendable {
     /// The Amazon resource Name (ARN) of the vector index.
     public var indexArn: Swift.String?
@@ -1091,6 +1310,33 @@ public struct PutVectorsOutput: Swift.Sendable {
     public init() { }
 }
 
+extension S3VectorsClientTypes {
+
+    /// A full-text search query for a single metadata key.
+    public struct QueryText: Swift.Sendable {
+        /// The searchable metadata key to query.
+        /// This member is required.
+        public var metadataKey: Swift.String?
+        /// The full-text query string.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            metadataKey: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.metadataKey = metadataKey
+            self.text = text
+        }
+    }
+}
+
+extension S3VectorsClientTypes.QueryText: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 public struct QueryVectorsInput: Swift.Sendable {
     /// Metadata filter to apply during the query. For more information about metadata keys, see [Metadata filtering](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-metadata-filtering.html) in the Amazon S3 User Guide.
     public var filter: Smithy.Document?
@@ -1106,13 +1352,16 @@ public struct QueryVectorsInput: Swift.Sendable {
     ///
     /// * ENHANCED - Applies metadata filters before the vector search.
     public var queryMode: S3VectorsClientTypes.IndexMode?
-    /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
-    /// This member is required.
+    /// Full-text queries for searchable metadata keys. Omit queryVector to run a full-text-only search, or provide both fields to run a hybrid search. Each entry must target a distinct searchable metadata key.
+    public var queryTexts: [S3VectorsClientTypes.QueryText]?
+    /// The query vector for vector similarity search. The query vector must have the same dimension as the vector index. For example, if the vector index has 384 dimensions, the query vector must also have 384 dimensions. You can omit this parameter when you supply queryTexts to perform a full-text-only search. A request must include queryVector, queryTexts, or both.
     public var queryVector: S3VectorsClientTypes.VectorData?
     /// Indicates whether to include the computed distance in the response. The default value is false.
     public var returnDistance: Swift.Bool?
     /// Indicates whether to include metadata in the response. The default value is false.
     public var returnMetadata: Swift.Bool?
+    /// Indicates whether to include relevance scores in the response. Full-text-only results can include BM25 scores. Hybrid results can also include a Reciprocal Rank Fusion (RRF) score and vector distance. This setting doesn't add scores to vector-only requests. The default value is false.
+    public var returnScores: Swift.Bool?
     /// The number of results to return for each query.
     /// This member is required.
     public var topk: Swift.Int?
@@ -1125,9 +1374,11 @@ public struct QueryVectorsInput: Swift.Sendable {
         indexName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         queryMode: S3VectorsClientTypes.IndexMode? = nil,
+        queryTexts: [S3VectorsClientTypes.QueryText]? = nil,
         queryVector: S3VectorsClientTypes.VectorData? = nil,
         returnDistance: Swift.Bool? = nil,
         returnMetadata: Swift.Bool? = nil,
+        returnScores: Swift.Bool? = nil,
         topk: Swift.Int? = nil,
         vectorBucketName: Swift.String? = nil
     ) {
@@ -1136,34 +1387,68 @@ public struct QueryVectorsInput: Swift.Sendable {
         self.indexName = indexName
         self.nextToken = nextToken
         self.queryMode = queryMode
+        self.queryTexts = queryTexts
         self.queryVector = queryVector
         self.returnDistance = returnDistance
         self.returnMetadata = returnMetadata
+        self.returnScores = returnScores
         self.topk = topk
         self.vectorBucketName = vectorBucketName
     }
 }
 
+extension QueryVectorsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "QueryVectorsInput(filter: \(Swift.String(describing: filter)), indexArn: \(Swift.String(describing: indexArn)), indexName: \(Swift.String(describing: indexName)), nextToken: \(Swift.String(describing: nextToken)), queryMode: \(Swift.String(describing: queryMode)), queryVector: \(Swift.String(describing: queryVector)), returnDistance: \(Swift.String(describing: returnDistance)), returnMetadata: \(Swift.String(describing: returnMetadata)), returnScores: \(Swift.String(describing: returnScores)), topk: \(Swift.String(describing: topk)), vectorBucketName: \(Swift.String(describing: vectorBucketName)), queryTexts: \"CONTENT_REDACTED\")"}
+}
+
 extension S3VectorsClientTypes {
 
-    /// The attributes of a vector in the approximate nearest neighbor search.
+    /// Relevance scores for a full-text-only or hybrid search result.
+    public struct QueryScores: Swift.Sendable {
+        /// The BM25 scores for the searchable metadata keys that the result matched.
+        public var bm25Scores: [S3VectorsClientTypes.Bm25Score]?
+        /// The Reciprocal Rank Fusion (RRF) score that combines the vector and full-text rankings. This field is returned only for hybrid requests.
+        public var fused: Swift.Float?
+        /// The distance from the query vector. This field is returned when a hybrid result matches the vector search.
+        public var vectorDistance: Swift.Float?
+
+        public init(
+            bm25Scores: [S3VectorsClientTypes.Bm25Score]? = nil,
+            fused: Swift.Float? = nil,
+            vectorDistance: Swift.Float? = nil
+        ) {
+            self.bm25Scores = bm25Scores
+            self.fused = fused
+            self.vectorDistance = vectorDistance
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
+    /// Contains the key and optional distance, relevance scores, and metadata for a vector returned by the QueryVectors operation.
     public struct QueryOutputVector: Swift.Sendable {
         /// The measure of similarity between the vector in the response and the query vector.
         public var distance: Swift.Float?
-        /// The key of the vector in the approximate nearest neighbor search.
+        /// The key of the matching vector.
         /// This member is required.
         public var key: Swift.String?
         /// The metadata associated with the vector, if requested.
         public var metadata: Smithy.Document?
+        /// The relevance scores for a full-text-only or hybrid result, when requested through returnScores.
+        public var scores: S3VectorsClientTypes.QueryScores?
 
         public init(
             distance: Swift.Float? = nil,
             key: Swift.String? = nil,
-            metadata: Smithy.Document? = nil
+            metadata: Smithy.Document? = nil,
+            scores: S3VectorsClientTypes.QueryScores? = nil
         ) {
             self.distance = distance
             self.key = key
             self.metadata = metadata
+            self.scores = scores
         }
     }
 }
@@ -1174,7 +1459,7 @@ public struct QueryVectorsOutput: Swift.Sendable {
     public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
     /// Pagination token to be used in the subsequent page request. The field is empty if no further pagination is required.
     public var nextToken: Swift.String?
-    /// The vectors in the approximate nearest neighbor search.
+    /// The matching vector results in ranked order. Results are ranked by vector distance for a vector-only search, by BM25 relevance for a full-text-only search, and by RRF score for a hybrid search.
     /// This member is required.
     public var vectors: [S3VectorsClientTypes.QueryOutputVector]?
 
@@ -1661,6 +1946,13 @@ extension UpdateIndexModeInput {
     }
 }
 
+extension UpdateMetadataConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateMetadataConfigurationInput) -> Swift.String? {
+        return "/UpdateMetadataConfiguration"
+    }
+}
+
 extension CreateIndexInput {
 
     static func write(value: CreateIndexInput?, to writer: SmithyJSON.Writer) throws {
@@ -1845,9 +2137,11 @@ extension QueryVectorsInput {
         try writer["indexName"].write(value.indexName)
         try writer["nextToken"].write(value.nextToken)
         try writer["queryMode"].write(value.queryMode)
+        try writer["queryTexts"].writeList(value.queryTexts, memberWritingClosure: S3VectorsClientTypes.QueryText.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["queryVector"].write(value.queryVector, with: S3VectorsClientTypes.VectorData.write(value:to:))
         try writer["returnDistance"].write(value.returnDistance)
         try writer["returnMetadata"].write(value.returnMetadata)
+        try writer["returnScores"].write(value.returnScores)
         try writer["topK"].write(value.topk)
         try writer["vectorBucketName"].write(value.vectorBucketName)
     }
@@ -1867,6 +2161,18 @@ extension UpdateIndexModeInput {
         guard let value else { return }
         try writer["indexArn"].write(value.indexArn)
         try writer["indexMode"].write(value.indexMode)
+        try writer["indexName"].write(value.indexName)
+        try writer["vectorBucketName"].write(value.vectorBucketName)
+    }
+}
+
+extension UpdateMetadataConfigurationInput {
+
+    static func write(value: UpdateMetadataConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["add"].write(value.add, with: S3VectorsClientTypes.MetadataConfigurationAdd.write(value:to:))
+        try writer["delete"].write(value.delete, with: S3VectorsClientTypes.MetadataConfigurationDelete.write(value:to:))
+        try writer["indexArn"].write(value.indexArn)
         try writer["indexName"].write(value.indexName)
         try writer["vectorBucketName"].write(value.vectorBucketName)
     }
@@ -2076,6 +2382,18 @@ extension UpdateIndexModeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexModeOutput {
         return UpdateIndexModeOutput()
+    }
+}
+
+extension UpdateMetadataConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMetadataConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateMetadataConfigurationOutput()
+        value.indexArn = try reader["indexArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -2451,6 +2769,23 @@ enum UpdateIndexModeOutputError {
     }
 }
 
+enum UpdateMetadataConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
@@ -2621,6 +2956,17 @@ extension ValidationException {
     }
 }
 
+extension S3VectorsClientTypes.Bm25Score {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.Bm25Score {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.Bm25Score()
+        value.metadataKey = try reader["metadataKey"].readIfPresent() ?? ""
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
 extension S3VectorsClientTypes.EncryptionConfiguration {
 
     static func write(value: S3VectorsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2699,13 +3045,31 @@ extension S3VectorsClientTypes.MetadataConfiguration {
     static func write(value: S3VectorsClientTypes.MetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["nonFilterableMetadataKeys"].writeList(value.nonFilterableMetadataKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["textSearchConfigurations"].writeList(value.textSearchConfigurations, memberWritingClosure: S3VectorsClientTypes.TextSearchConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.MetadataConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3VectorsClientTypes.MetadataConfiguration()
         value.nonFilterableMetadataKeys = try reader["nonFilterableMetadataKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.textSearchConfigurations = try reader["textSearchConfigurations"].readListIfPresent(memberReadingClosure: S3VectorsClientTypes.TextSearchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension S3VectorsClientTypes.MetadataConfigurationAdd {
+
+    static func write(value: S3VectorsClientTypes.MetadataConfigurationAdd?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["textSearchConfigurations"].writeList(value.textSearchConfigurations, memberWritingClosure: S3VectorsClientTypes.TextSearchConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension S3VectorsClientTypes.MetadataConfigurationDelete {
+
+    static func write(value: S3VectorsClientTypes.MetadataConfigurationDelete?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["textSearchConfigurations"].writeList(value.textSearchConfigurations, memberWritingClosure: S3VectorsClientTypes.TextSearchConfigurationKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2725,9 +3089,58 @@ extension S3VectorsClientTypes.QueryOutputVector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3VectorsClientTypes.QueryOutputVector()
         value.distance = try reader["distance"].readIfPresent()
+        value.scores = try reader["scores"].readIfPresent(with: S3VectorsClientTypes.QueryScores.read(from:))
         value.key = try reader["key"].readIfPresent() ?? ""
         value.metadata = try reader["metadata"].readIfPresent()
         return value
+    }
+}
+
+extension S3VectorsClientTypes.QueryScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.QueryScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.QueryScores()
+        value.fused = try reader["fused"].readIfPresent()
+        value.bm25Scores = try reader["bm25Scores"].readListIfPresent(memberReadingClosure: S3VectorsClientTypes.Bm25Score.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vectorDistance = try reader["vectorDistance"].readIfPresent()
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.QueryText {
+
+    static func write(value: S3VectorsClientTypes.QueryText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataKey"].write(value.metadataKey)
+        try writer["text"].write(value.text)
+    }
+}
+
+extension S3VectorsClientTypes.TextSearchConfiguration {
+
+    static func write(value: S3VectorsClientTypes.TextSearchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["language"].write(value.language)
+        try writer["metadataKey"].write(value.metadataKey)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.TextSearchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.TextSearchConfiguration()
+        value.metadataKey = try reader["metadataKey"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.TextSearchConfigurationKey {
+
+    static func write(value: S3VectorsClientTypes.TextSearchConfigurationKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataKey"].write(value.metadataKey)
     }
 }
 

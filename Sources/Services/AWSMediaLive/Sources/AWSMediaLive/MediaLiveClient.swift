@@ -317,7 +317,7 @@ extension MediaLiveClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "MediaLive"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -548,7 +548,7 @@ extension MediaLiveClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "MediaLive"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -610,7 +610,7 @@ extension MediaLiveClient {
     public static func builder() -> ClientRuntime.ClientBuilder<MediaLiveClient> {
         return ClientRuntime.ClientBuilder<MediaLiveClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "MediaLive"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -3407,7 +3407,7 @@ extension MediaLiveClient {
 
     /// Performs the `DeleteReservation` operation on the `MediaLive` service.
     ///
-    /// Delete an expired reservation.
+    /// Delete an expired reservation, or cancel an active reservation during the calendar month (UTC) in which you purchased it. You can't cancel an active reservation that you purchased in an earlier month, including one that renewed automatically. You also can't cancel an active reservation during the last hour of the month, from 23:00 UTC on the last day of the month.
     ///
     /// - Parameter input: Placeholder documentation for DeleteReservationRequest (Type: `DeleteReservationInput`)
     ///

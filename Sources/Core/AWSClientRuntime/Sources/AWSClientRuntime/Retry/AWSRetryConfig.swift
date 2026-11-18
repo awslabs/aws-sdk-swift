@@ -13,7 +13,7 @@ public enum AWSRetryConfig {
 
     /// Determines the retry mode to be used from the given config.
     ///
-    /// Default is `legacy`; flips to `standard` when `AWS_NEW_RETRIES_2026=true`.
+    /// Default is `standard`.
     /// - Throws: `ClientError.invalidValue` if `AWS_RETRY_MODE` or the `retry_mode` config field is set but unparseable.
     static func retryMode(
         configValue: AWSRetryMode?,
@@ -40,22 +40,22 @@ public enum AWSRetryConfig {
             }
             return mode
         }
-        return AWSRetryFeatures.isNewRetries2026Enabled ? .standard : .legacy
+        return .standard
     }
 
-    /// Determines the max attempts (for retry purposes) to be used from the given config.  If none can be determined, `3` will be used as a default.
+    /// Determines the max attempts configured in code, the environment, or the config file.
     ///
-    /// Max attempts must be a positive, nonzero integer.
+    /// Max attempts must be a positive, nonzero integer.  No default is applied.
     /// - Parameters:
     ///   - configValue: The max attempts passed at client construction, or `nil` if none was passed.
     ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
     ///   - fileBasedConfig: The file-based config from which to load configuration, if needed.
-    /// - Returns: The max attempts that was resolved.
-    static func maxAttempts(
+    /// - Returns: The configured max attempts, or `nil` if none is configured.
+    static func configuredMaxAttempts(
         configValue: Int?,
         profileName: String?,
         fileBasedConfig: FileBasedConfiguration
-    ) -> Int {
+    ) -> Int? {
         return FieldResolver(
             configValue: configValue,
             envVarName: "AWS_MAX_ATTEMPTS",
@@ -63,6 +63,6 @@ public enum AWSRetryConfig {
             fileBasedConfig: fileBasedConfig,
             profileName: profileName,
             converter: { Int($0) }
-        ).value ?? 3
+        ).value
     }
 }

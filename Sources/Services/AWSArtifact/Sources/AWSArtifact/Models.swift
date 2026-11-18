@@ -502,13 +502,11 @@ extension ArtifactClientTypes {
 
     public enum InquirySupportMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiOnly
-        case fullSupport
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InquirySupportMode] {
             return [
-                .aiOnly,
-                .fullSupport
+                .aiOnly
             ]
         }
 
@@ -520,7 +518,6 @@ extension ArtifactClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aiOnly: return "AI_ONLY"
-            case .fullSupport: return "FULL_SUPPORT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -804,7 +801,7 @@ extension ArtifactClientTypes {
         /// Status message providing additional context.
         /// This member is required.
         public var statusMessage: ArtifactClientTypes.InquiryStatusMessage?
-        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses. FULL_SUPPORT includes human expert review.
+        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses.
         public var supportMode: ArtifactClientTypes.InquirySupportMode?
         /// Timestamp indicating when the resource was last modified.
         public var updatedAt: Foundation.Date?

@@ -43,6 +43,36 @@ extension PaginatorSequence where OperationStackInput == ListCentralizationRules
     }
 }
 extension ObservabilityAdminClient {
+    /// Paginate over `[ListConnectorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutput`
+    public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectors(input:))
+    }
+}
+
+extension ListConnectorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectorsInput {
+        return ListConnectorsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectorsInput, OperationStackOutput == ListConnectorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectorsPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.ConnectorSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.ConnectorSummary]`
+    public func connectorSummaries() async throws -> [ObservabilityAdminClientTypes.ConnectorSummary] {
+        return try await self.asyncCompactMap { item in item.connectorSummaries }
+    }
+}
+extension ObservabilityAdminClient {
     /// Paginate over `[ListDatasetIntegrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -233,5 +263,37 @@ extension PaginatorSequence where OperationStackInput == ListTelemetryRulesForOr
     /// - Returns: `[ObservabilityAdminClientTypes.TelemetryRuleSummary]`
     public func telemetryRuleSummaries() async throws -> [ObservabilityAdminClientTypes.TelemetryRuleSummary] {
         return try await self.asyncCompactMap { item in item.telemetryRuleSummaries }
+    }
+}
+extension ObservabilityAdminClient {
+    /// Paginate over `[ListThirdPartyTelemetryEnrichmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThirdPartyTelemetryEnrichmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThirdPartyTelemetryEnrichmentsOutput`
+    public func listThirdPartyTelemetryEnrichmentsPaginated(input: ListThirdPartyTelemetryEnrichmentsInput) -> ClientRuntime.PaginatorSequence<ListThirdPartyTelemetryEnrichmentsInput, ListThirdPartyTelemetryEnrichmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThirdPartyTelemetryEnrichmentsInput, ListThirdPartyTelemetryEnrichmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThirdPartyTelemetryEnrichments(input:))
+    }
+}
+
+extension ListThirdPartyTelemetryEnrichmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThirdPartyTelemetryEnrichmentsInput {
+        return ListThirdPartyTelemetryEnrichmentsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            telemetrySource: self.telemetrySource
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThirdPartyTelemetryEnrichmentsInput, OperationStackOutput == ListThirdPartyTelemetryEnrichmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThirdPartyTelemetryEnrichmentsPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary]`
+    public func telemetryEnrichments() async throws -> [ObservabilityAdminClientTypes.ThirdPartyTelemetryEnrichmentSummary] {
+        return try await self.asyncCompactMap { item in item.telemetryEnrichments }
     }
 }

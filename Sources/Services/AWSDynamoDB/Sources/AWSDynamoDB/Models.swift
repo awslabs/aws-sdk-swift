@@ -1813,6 +1813,486 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    /// Contains the bulk put bytes used during a bulk operation.
+    public struct BulkOperationBytes: Swift.Sendable {
+        /// The number of bulk put bytes.
+        public var bulkPutBytes: Swift.Int?
+
+        public init(
+            bulkPutBytes: Swift.Int? = nil
+        ) {
+            self.bulkPutBytes = bulkPutBytes
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum BulkOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case completed
+        case completedWithErrors
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BulkOperationStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains the bulk put vector bytes used by a vector index during a bulk operation.
+    public struct BulkOperationVectorBytes: Swift.Sendable {
+        /// The number of bulk put vector bytes used on the vector index.
+        public var bulkPutVectorBytes: Swift.Int?
+
+        public init(
+            bulkPutVectorBytes: Swift.Int? = nil
+        ) {
+            self.bulkPutVectorBytes = bulkPutVectorBytes
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains the bytes used during a bulk operation, including a breakdown for the table and its indexes.
+    public struct BulkOperationUsage: Swift.Sendable {
+        /// The total number of bulk put bytes used by the operation. This value excludes bulk put vector bytes.
+        public var bulkPutBytes: Swift.Int?
+        /// The bulk put bytes used on each global secondary index affected by the operation, keyed by index name.
+        public var globalSecondaryIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationBytes]?
+        /// The bulk put bytes used on each local secondary index affected by the operation, keyed by index name.
+        public var localSecondaryIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationBytes]?
+        /// The number of bulk put bytes for the table, excluding its indexes.
+        public var table: DynamoDBClientTypes.BulkOperationBytes?
+        /// The name or ARN of the table associated with the reported usage.
+        public var tableName: Swift.String?
+        /// The bulk put vector bytes used on each vector index affected by the operation, keyed by index name.
+        public var vectorIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationVectorBytes]?
+
+        public init(
+            bulkPutBytes: Swift.Int? = nil,
+            globalSecondaryIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationBytes]? = nil,
+            localSecondaryIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationBytes]? = nil,
+            table: DynamoDBClientTypes.BulkOperationBytes? = nil,
+            tableName: Swift.String? = nil,
+            vectorIndexes: [Swift.String: DynamoDBClientTypes.BulkOperationVectorBytes]? = nil
+        ) {
+            self.bulkPutBytes = bulkPutBytes
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.localSecondaryIndexes = localSecondaryIndexes
+            self.table = table
+            self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum InputCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case `none`
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputCompressionType] {
+            return [
+                .gzip,
+                .none,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum BulkOperationInputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dynamodbJson
+        case ion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BulkOperationInputFormat] {
+            return [
+                .dynamodbJson,
+                .ion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamodbJson: return "DYNAMODB_JSON"
+            case .ion: return "ION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains the Amazon S3 location and format settings for bulk operation input. The S3Bucket and InputFormat fields are required.
+    public struct InputS3Configuration: Swift.Sendable {
+        /// The compression type of the input objects. Valid values are GZIP, ZSTD, and NONE. If you don't specify a value, DynamoDB uses NONE.
+        public var inputCompressionType: DynamoDBClientTypes.InputCompressionType?
+        /// The format of the input objects. DYNAMODB_JSON uses JSON Lines, with one JSON record per line. ION uses a sequence of Ion structs.
+        /// This member is required.
+        public var inputFormat: DynamoDBClientTypes.BulkOperationInputFormat?
+        /// The name of the Amazon S3 bucket that contains the input objects.
+        /// This member is required.
+        public var s3Bucket: Swift.String?
+        /// The Amazon Web Services account ID of the input bucket owner. If you omit this value, DynamoDB uses the Amazon Web Services account ID of the requester. S3BucketOwner is required when the bucket is owned by another Amazon Web Services account.
+        public var s3BucketOwner: Swift.String?
+        /// An optional key prefix that limits the input to matching objects in the Amazon S3 bucket.
+        public var s3KeyPrefix: Swift.String?
+
+        public init(
+            inputCompressionType: DynamoDBClientTypes.InputCompressionType? = nil,
+            inputFormat: DynamoDBClientTypes.BulkOperationInputFormat? = nil,
+            s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3KeyPrefix: Swift.String? = nil
+        ) {
+            self.inputCompressionType = inputCompressionType
+            self.inputFormat = inputFormat
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum OutputTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case conditionCheckFailure
+        case error
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputTypeEnum] {
+            return [
+                .conditionCheckFailure,
+                .error
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conditionCheckFailure: return "CONDITION_CHECK_FAILURE"
+            case .error: return "ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum S3SseAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes256
+        case kms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3SseAlgorithm] {
+            return [
+                .aes256,
+                .kms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes256: return "AES256"
+            case .kms: return "KMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains the Amazon S3 location, encryption settings, and output types for a bulk operation. The S3Bucket and OutputType fields are required.
+    public struct OutputS3Configuration: Swift.Sendable {
+        /// The following values describe the types of output that DynamoDB writes for individual input items. Include one or both values. ERROR Reports input records or input objects that DynamoDB couldn't process. This includes malformed input and item validation failures, such as a missing or incorrectly typed primary key attribute or an item that exceeds a DynamoDB limit. CONDITION_CHECK_FAILURE Reports the attempted item and, when present, the existing item for a write whose condition expression evaluates to false.
+        /// This member is required.
+        public var outputType: [DynamoDBClientTypes.OutputTypeEnum]?
+        /// The name of the Amazon S3 bucket where DynamoDB writes output records.
+        public var s3Bucket: Swift.String?
+        /// The Amazon Web Services account ID of the output bucket owner. If you omit this value, DynamoDB uses the Amazon Web Services account ID of the requester. S3BucketOwner is required when the bucket is owned by another Amazon Web Services account.
+        public var s3BucketOwner: Swift.String?
+        /// An optional key prefix under which DynamoDB writes the output records.
+        public var s3KeyPrefix: Swift.String?
+        /// The server-side encryption algorithm for the output objects. Valid values are AES256 and KMS. If you don't specify a value, Amazon S3 applies the destination bucket's default encryption settings.
+        public var s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
+        /// The identifier of the KMS key that encrypts the output objects. Specify this value when S3SseAlgorithm is KMS. Don't specify it when the algorithm is AES256.
+        public var s3SseKmsKeyId: Swift.String?
+
+        public init(
+            outputType: [DynamoDBClientTypes.OutputTypeEnum]? = nil,
+            s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3KeyPrefix: Swift.String? = nil,
+            s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
+            s3SseKmsKeyId: Swift.String? = nil
+        ) {
+            self.outputType = outputType
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3KeyPrefix = s3KeyPrefix
+            self.s3SseAlgorithm = s3SseAlgorithm
+            self.s3SseKmsKeyId = s3SseKmsKeyId
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum BulkOperationPerformanceTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accelerated
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BulkOperationPerformanceTier] {
+            return [
+                .accelerated,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accelerated: return "ACCELERATED"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains identifying information for a table associated with a bulk operation.
+    public struct BulkOperationTableDetail: Swift.Sendable {
+        /// The unique identifier of the table associated with the bulk operation.
+        public var tableId: Swift.String?
+        /// The name or ARN of the table associated with the bulk operation.
+        public var tableName: Swift.String?
+
+        public init(
+            tableId: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.tableId = tableId
+            self.tableName = tableName
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains detailed information about a bulk operation.
+    public struct BulkOperationDescription: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the bulk operation.
+        public var bulkOperationArn: Swift.String?
+        /// The current status of the bulk operation can be one of the following values: IN_PROGRESS DynamoDB is processing the input. COMPLETED The bulk operation finished without parsing or validation errors. Condition-check failures do not cause the operation to complete with errors. COMPLETED_WITH_ERRORS The bulk operation finished, but DynamoDB couldn't process at least one input item because of a parsing or validation error. When you enable ERROR output, DynamoDB writes the details to the configured Amazon S3 output location. CANCELLING DynamoDB accepted a cancellation request and is stopping the operation. CANCELLED DynamoDB stopped the operation after a cancellation request. FAILED The bulk operation failed. DynamoDB might write some items before the operation reaches this status. See [FailureCode](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BulkOperationDescription.html#DDB-Type-BulkOperationDescription-FailureCode) and [FailureMessage](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BulkOperationDescription.html#DDB-Type-BulkOperationDescription-FailureMessage) for details.
+        public var bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus?
+        /// Usage information for the table and its indexes.
+        public var bulkOperationUsage: [DynamoDBClientTypes.BulkOperationUsage]?
+        /// The idempotency token associated with the start request.
+        public var clientToken: Swift.String?
+        /// The time when the operation reached a terminal status. DynamoDB omits this value while the operation remains in progress.
+        public var endTime: Foundation.Date?
+        /// The number of processed input items that failed because of parsing or validation errors. This count is included in ProcessedItemCount. Condition-check failures do not increase this count.
+        public var failedItemCount: Swift.Int
+        /// A code that identifies why the bulk operation failed or was cancelled. DynamoDB returns this value only when BulkOperationStatus is FAILED or CANCELLED.
+        public var failureCode: Swift.String?
+        /// A message that describes why the bulk operation failed or was cancelled. DynamoDB returns this value only when BulkOperationStatus is FAILED or CANCELLED.
+        public var failureMessage: Swift.String?
+        /// The Amazon S3 input configuration associated with the bulk operation.
+        public var inputS3Configuration: DynamoDBClientTypes.InputS3Configuration?
+        /// The maximum write request unit rate configured for the bulk operation.
+        public var maxWriteRequestUnits: Swift.Int?
+        /// The Amazon S3 output configuration associated with the bulk operation.
+        public var outputS3Configuration: DynamoDBClientTypes.OutputS3Configuration?
+        /// The performance tier selected for the bulk operation. Valid values are STANDARD and ACCELERATED. If the start request omitted this value, DynamoDB uses STANDARD.
+        public var performanceTier: DynamoDBClientTypes.BulkOperationPerformanceTier?
+        /// The number of bytes that DynamoDB has read from the Amazon S3 input objects.
+        public var processedInputBytes: Swift.Int?
+        /// The number of input items that DynamoDB has processed. This count includes successful writes, parsing or validation failures, and condition-check failures.
+        public var processedItemCount: Swift.Int
+        /// The time when DynamoDB accepted the start request.
+        public var startTime: Foundation.Date?
+        /// A list containing identifying information for the table targeted by the bulk operation.
+        public var tableDetails: [DynamoDBClientTypes.BulkOperationTableDetail]?
+        /// The total size, in bytes, of the Amazon S3 input objects. DynamoDB omits this value until the initial input-size calculation completes.
+        public var totalInputBytes: Swift.Int?
+
+        public init(
+            bulkOperationArn: Swift.String? = nil,
+            bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus? = nil,
+            bulkOperationUsage: [DynamoDBClientTypes.BulkOperationUsage]? = nil,
+            clientToken: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            failedItemCount: Swift.Int = 0,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            inputS3Configuration: DynamoDBClientTypes.InputS3Configuration? = nil,
+            maxWriteRequestUnits: Swift.Int? = nil,
+            outputS3Configuration: DynamoDBClientTypes.OutputS3Configuration? = nil,
+            performanceTier: DynamoDBClientTypes.BulkOperationPerformanceTier? = nil,
+            processedInputBytes: Swift.Int? = nil,
+            processedItemCount: Swift.Int = 0,
+            startTime: Foundation.Date? = nil,
+            tableDetails: [DynamoDBClientTypes.BulkOperationTableDetail]? = nil,
+            totalInputBytes: Swift.Int? = nil
+        ) {
+            self.bulkOperationArn = bulkOperationArn
+            self.bulkOperationStatus = bulkOperationStatus
+            self.bulkOperationUsage = bulkOperationUsage
+            self.clientToken = clientToken
+            self.endTime = endTime
+            self.failedItemCount = failedItemCount
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.inputS3Configuration = inputS3Configuration
+            self.maxWriteRequestUnits = maxWriteRequestUnits
+            self.outputS3Configuration = outputS3Configuration
+            self.performanceTier = performanceTier
+            self.processedInputBytes = processedInputBytes
+            self.processedItemCount = processedItemCount
+            self.startTime = startTime
+            self.tableDetails = tableDetails
+            self.totalInputBytes = totalInputBytes
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains summary information about a bulk operation.
+    public struct BulkOperationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the bulk operation.
+        /// This member is required.
+        public var bulkOperationArn: Swift.String?
+        /// The current status of the bulk operation.
+        /// This member is required.
+        public var bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus?
+        /// The time when the operation reached a terminal status. DynamoDB omits this value while the operation remains in progress.
+        public var endTime: Foundation.Date?
+        /// The time when DynamoDB accepted the start request.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            bulkOperationArn: Swift.String? = nil,
+            bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.bulkOperationArn = bulkOperationArn
+            self.bulkOperationStatus = bulkOperationStatus
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct CancelBulkOperationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bulk operation to cancel.
+    /// This member is required.
+    public var bulkOperationArn: Swift.String?
+
+    public init(
+        bulkOperationArn: Swift.String? = nil
+    ) {
+        self.bulkOperationArn = bulkOperationArn
+    }
+}
+
+public struct CancelBulkOperationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bulk operation for which DynamoDB accepted the cancellation request.
+    /// This member is required.
+    public var bulkOperationArn: Swift.String?
+    /// The status returned after DynamoDB accepts the cancellation request. This value is CANCELLING. Use DescribeBulkOperation to determine when the operation reaches CANCELLED.
+    /// This member is required.
+    public var bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus?
+
+    public init(
+        bulkOperationArn: Swift.String? = nil,
+        bulkOperationStatus: DynamoDBClientTypes.BulkOperationStatus? = nil
+    ) {
+        self.bulkOperationArn = bulkOperationArn
+        self.bulkOperationStatus = bulkOperationStatus
+    }
+}
+
+extension DynamoDBClientTypes {
+
     public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case beginsWith
         case between
@@ -4237,6 +4717,30 @@ public struct DescribeBackupOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeBulkOperationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bulk operation to describe.
+    /// This member is required.
+    public var bulkOperationArn: Swift.String?
+
+    public init(
+        bulkOperationArn: Swift.String? = nil
+    ) {
+        self.bulkOperationArn = bulkOperationArn
+    }
+}
+
+public struct DescribeBulkOperationOutput: Swift.Sendable {
+    /// Contains detailed information about the bulk operation.
+    /// This member is required.
+    public var bulkOperationDescription: DynamoDBClientTypes.BulkOperationDescription?
+
+    public init(
+        bulkOperationDescription: DynamoDBClientTypes.BulkOperationDescription? = nil
+    ) {
+        self.bulkOperationDescription = bulkOperationDescription
+    }
+}
+
 public struct DescribeContinuousBackupsInput: Swift.Sendable {
     /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
@@ -4553,35 +5057,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-extension DynamoDBClientTypes {
-
-    public enum S3SseAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aes256
-        case kms
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [S3SseAlgorithm] {
-            return [
-                .aes256,
-                .kms
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aes256: return "AES256"
-            case .kms: return "KMS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// The specified global table does not exist.
 public struct GlobalTableNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4822,38 +5297,6 @@ extension DynamoDBClientTypes {
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DynamoDBClientTypes {
-
-    public enum InputCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case gzip
-        case `none`
-        case zstd
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InputCompressionType] {
-            return [
-                .gzip,
-                .none,
-                .zstd
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .gzip: return "GZIP"
-            case .none: return "NONE"
-            case .zstd: return "ZSTD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5843,6 +6286,36 @@ public struct ListBackupsOutput: Swift.Sendable {
     }
 }
 
+public struct ListBulkOperationsInput: Swift.Sendable {
+    /// The maximum number of bulk operation summaries to return in one page. If you don't specify a value, DynamoDB uses 10.
+    public var maxResults: Swift.Int?
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListBulkOperations. When provided in this manner, the API fetches the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBulkOperationsOutput: Swift.Sendable {
+    /// A list of bulk operation summaries for the current Amazon Web Services account and Amazon Web Services Region.
+    public var bulkOperationsSummaryList: [DynamoDBClientTypes.BulkOperationSummary]?
+    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListBulkOperations again, with NextToken set to this value.
+    public var nextToken: Swift.String?
+
+    public init(
+        bulkOperationsSummaryList: [DynamoDBClientTypes.BulkOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.bulkOperationsSummaryList = bulkOperationsSummaryList
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListContributorInsightsInput: Swift.Sendable {
     /// Maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -6371,6 +6844,52 @@ public struct RestoreTableToPointInTimeOutput: Swift.Sendable {
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     ) {
         self.tableDescription = tableDescription
+    }
+}
+
+public struct StartBulkPutItemsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that ensures the bulk operation starts no more than one time. During the 8 hours after the initial request, repeated requests that use the same token and parameters return the same bulk operation. If a request reuses the token with different parameters, DynamoDB returns an IdempotentParameterMismatchException. If you omit the token, an Amazon Web Services SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// The Amazon S3 location, data format, and compression settings for the input objects.
+    /// This member is required.
+    public var inputS3Configuration: DynamoDBClientTypes.InputS3Configuration?
+    /// The maximum rate, in write request units per second, at which the bulk operation attempts to write. The value must be at least 1,024. With this setting, you limit only the bulk operation; the table's provisioned or on-demand capacity settings don't change. The actual write rate can be lower.
+    public var maxWriteRequestUnits: Swift.Int?
+    /// The Amazon S3 location, encryption settings, and output types for the bulk operation.
+    /// This member is required.
+    public var outputS3Configuration: DynamoDBClientTypes.OutputS3Configuration?
+    /// The performance tier for the bulk operation. Valid values are STANDARD and ACCELERATED. If you don't specify a value, the operation uses STANDARD.
+    public var performanceTier: DynamoDBClientTypes.BulkOperationPerformanceTier?
+    /// The name or ARN of the existing DynamoDB table that receives the items.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        inputS3Configuration: DynamoDBClientTypes.InputS3Configuration? = nil,
+        maxWriteRequestUnits: Swift.Int? = nil,
+        outputS3Configuration: DynamoDBClientTypes.OutputS3Configuration? = nil,
+        performanceTier: DynamoDBClientTypes.BulkOperationPerformanceTier? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.inputS3Configuration = inputS3Configuration
+        self.maxWriteRequestUnits = maxWriteRequestUnits
+        self.outputS3Configuration = outputS3Configuration
+        self.performanceTier = performanceTier
+        self.tableName = tableName
+    }
+}
+
+public struct StartBulkPutItemsOutput: Swift.Sendable {
+    /// Contains detailed information about a bulk operation.
+    /// This member is required.
+    public var bulkOperationDescription: DynamoDBClientTypes.BulkOperationDescription?
+
+    public init(
+        bulkOperationDescription: DynamoDBClientTypes.BulkOperationDescription? = nil
+    ) {
+        self.bulkOperationDescription = bulkOperationDescription
     }
 }
 
@@ -8613,7 +9132,7 @@ public struct SearchVectorsInput: Swift.Sendable {
     ///
     /// * NONE - No ConsumedCapacity details are included in the response.
     public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. Only the equality operator (=) is supported for HASH attributes. Comparison and range operators are supported for INLINE_FILTER attributes. Only top-level attributes from the search schema can be referenced.
+    /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. The HASH and INLINE_FILTER attributes support only the equality operator (=). You can reference only top-level attributes from the search schema.
     public var searchConditionExpression: Swift.String?
     /// The search vector to compare against the indexed vectors. Each element is a 32-bit IEEE-754 floating point number, provided in DynamoDB list format. The number of dimensions must match the number of dimensions configured for the vector index.
     /// This member is required.

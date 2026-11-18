@@ -1036,6 +1036,21 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
+    /// The Amazon EMR Serverless Flex settings for the job run.
+    public struct FlexExecution: Swift.Sendable {
+        /// Enables Amazon EMR Serverless Flex capacity for the job run and defaults to false. If set to true, the job run uses Flex capacity.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
     /// The configurations for the Hive job driver.
     public struct Hive: Swift.Sendable {
         /// The query file for the Hive job run.
@@ -1271,6 +1286,8 @@ extension EMRServerlessClientTypes {
         /// The Amazon Resource Name (ARN) of the execution role of the job run..
         /// This member is required.
         public var executionRole: Swift.String?
+        /// The Amazon EMR Serverless Flex settings for the job run attempt.
+        public var flexExecution: EMRServerlessClientTypes.FlexExecution?
         /// The ID of the job run attempt.
         /// This member is required.
         public var id: Swift.String?
@@ -1303,6 +1320,7 @@ extension EMRServerlessClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             executionRole: Swift.String? = nil,
+            flexExecution: EMRServerlessClientTypes.FlexExecution? = nil,
             id: Swift.String? = nil,
             jobCreatedAt: Foundation.Date? = nil,
             mode: EMRServerlessClientTypes.JobRunMode? = nil,
@@ -1319,6 +1337,7 @@ extension EMRServerlessClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
+            self.flexExecution = flexExecution
             self.id = id
             self.jobCreatedAt = jobCreatedAt
             self.mode = mode
@@ -1409,6 +1428,8 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
+        /// The Amazon EMR Serverless Flex settings for the job run.
+        public var flexExecution: EMRServerlessClientTypes.FlexExecution?
         /// The ID of the job run.
         /// This member is required.
         public var id: Swift.String?
@@ -1440,6 +1461,7 @@ extension EMRServerlessClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             executionRole: Swift.String? = nil,
+            flexExecution: EMRServerlessClientTypes.FlexExecution? = nil,
             id: Swift.String? = nil,
             mode: EMRServerlessClientTypes.JobRunMode? = nil,
             name: Swift.String? = nil,
@@ -1457,6 +1479,7 @@ extension EMRServerlessClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
+            self.flexExecution = flexExecution
             self.id = id
             self.mode = mode
             self.name = name
@@ -2252,6 +2275,8 @@ extension EMRServerlessClientTypes {
         public var executionRole: Swift.String?
         /// Returns the job run timeout value from the StartJobRun call. If you didn't specify a timeout, this value defaults to 720 minutes. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11.
         public var executionTimeoutMinutes: Swift.Int?
+        /// The Amazon EMR Serverless Flex settings for the job run.
+        public var flexExecution: EMRServerlessClientTypes.FlexExecution?
         /// The applied image configuration.
         public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
         /// The job driver for the job run.
@@ -2307,6 +2332,7 @@ extension EMRServerlessClientTypes {
             executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
             executionRole: Swift.String? = nil,
             executionTimeoutMinutes: Swift.Int? = nil,
+            flexExecution: EMRServerlessClientTypes.FlexExecution? = nil,
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
             jobRunId: Swift.String? = nil,
@@ -2338,6 +2364,7 @@ extension EMRServerlessClientTypes {
             self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
+            self.flexExecution = flexExecution
             self.imageConfiguration = imageConfiguration
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
@@ -2492,6 +2519,8 @@ public struct StartJobRunInput: Swift.Sendable {
     public var executionRoleArn: Swift.String?
     /// The maximum duration, in minutes, for the job run. If the job run exceeds this duration, Amazon EMR Serverless cancels it automatically. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11. Setting a value of 0 to disable the timeout is no longer supported for BATCH mode job runs.
     public var executionTimeoutMinutes: Swift.Int?
+    /// The Amazon EMR Serverless Flex settings for the job run. If you don't specify these settings, the job run doesn't use Flex capacity.
+    public var flexExecution: EMRServerlessClientTypes.FlexExecution?
     /// The job driver for the job run.
     public var jobDriver: EMRServerlessClientTypes.JobDriver?
     /// The mode of the job run when it starts.
@@ -2510,6 +2539,7 @@ public struct StartJobRunInput: Swift.Sendable {
         executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
         executionRoleArn: Swift.String? = nil,
         executionTimeoutMinutes: Swift.Int? = nil,
+        flexExecution: EMRServerlessClientTypes.FlexExecution? = nil,
         jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
         mode: EMRServerlessClientTypes.JobRunMode? = nil,
         name: Swift.String? = nil,
@@ -2522,6 +2552,7 @@ public struct StartJobRunInput: Swift.Sendable {
         self.executionIamPolicy = executionIamPolicy
         self.executionRoleArn = executionRoleArn
         self.executionTimeoutMinutes = executionTimeoutMinutes
+        self.flexExecution = flexExecution
         self.jobDriver = jobDriver
         self.mode = mode
         self.name = name
@@ -3057,6 +3088,7 @@ extension StartJobRunInput {
         try writer["executionIamPolicy"].write(value.executionIamPolicy, with: EMRServerlessClientTypes.JobRunExecutionIamPolicy.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["executionTimeoutMinutes"].write(value.executionTimeoutMinutes)
+        try writer["flexExecution"].write(value.flexExecution, with: EMRServerlessClientTypes.FlexExecution.write(value:to:))
         try writer["jobDriver"].write(value.jobDriver, with: EMRServerlessClientTypes.JobDriver.write(value:to:))
         try writer["mode"].write(value.mode)
         try writer["name"].write(value.name)
@@ -3948,6 +3980,21 @@ extension EMRServerlessClientTypes.DiskEncryptionConfiguration {
     }
 }
 
+extension EMRServerlessClientTypes.FlexExecution {
+
+    static func write(value: EMRServerlessClientTypes.FlexExecution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.FlexExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.FlexExecution()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
 extension EMRServerlessClientTypes.Hive {
 
     static func write(value: EMRServerlessClientTypes.Hive?, to writer: SmithyJSON.Writer) throws {
@@ -4123,6 +4170,7 @@ extension EMRServerlessClientTypes.JobRun {
         value.queuedDurationMilliseconds = try reader["queuedDurationMilliseconds"].readIfPresent()
         value.imageConfiguration = try reader["imageConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ImageConfiguration.read(from:))
         value.workerTypeSpecifications = try reader["workerTypeSpecifications"].readMapIfPresent(valueReadingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.flexExecution = try reader["flexExecution"].readIfPresent(with: EMRServerlessClientTypes.FlexExecution.read(from:))
         return value
     }
 }
@@ -4147,6 +4195,7 @@ extension EMRServerlessClientTypes.JobRunAttemptSummary {
         value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent()
         value.attempt = try reader["attempt"].readIfPresent()
+        value.flexExecution = try reader["flexExecution"].readIfPresent(with: EMRServerlessClientTypes.FlexExecution.read(from:))
         return value
     }
 }
@@ -4189,6 +4238,7 @@ extension EMRServerlessClientTypes.JobRunSummary {
         value.attempt = try reader["attempt"].readIfPresent()
         value.attemptCreatedAt = try reader["attemptCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.attemptUpdatedAt = try reader["attemptUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flexExecution = try reader["flexExecution"].readIfPresent(with: EMRServerlessClientTypes.FlexExecution.read(from:))
         return value
     }
 }

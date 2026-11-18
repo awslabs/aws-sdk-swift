@@ -315,7 +315,7 @@ extension VPCLatticeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "VPC Lattice"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -546,7 +546,7 @@ extension VPCLatticeClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "VPC Lattice"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -608,7 +608,7 @@ extension VPCLatticeClient {
     public static func builder() -> ClientRuntime.ClientBuilder<VPCLatticeClient> {
         return ClientRuntime.ClientBuilder<VPCLatticeClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "VPC Lattice"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -2209,7 +2209,7 @@ extension VPCLatticeClient {
 
     /// Performs the `DeleteServiceNetwork` operation on the `VPCLattice` service.
     ///
-    /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
+    /// Deletes a service network. You can only delete the service network if there are no services, VPCs, resource configurations, or service network endpoints associated with it. Only the owner of a service network endpoint can remove it from the service network, by deleting the endpoint. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkInput`)
     ///

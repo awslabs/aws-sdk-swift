@@ -312,6 +312,212 @@
                 "target": "com.amazonaws.bedrockagentcorecontrol#ListAgentRuntimeEndpoints"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStore": {
+            "type": "resource",
+            "identifiers": {
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId"
+                }
+            },
+            "read": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStore"
+            },
+            "update": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStore"
+            },
+            "list": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStores"
+            },
+            "traits": {
+                "aws.api#arn": {
+                    "template": "agent-insight-store/{agentInsightStoreId}"
+                },
+                "smithy.api#documentation": "Account- and Region-scoped Store automatically provisioned by the service.\n\nCreate and delete are backend-owned. The Store starts disabled, and\ncustomers enable or disable it with UpdateAgentInsightStore."
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreArn": {
+            "type": "string",
+            "traits": {
+                "aws.api#arnReference": {
+                    "type": "AWS::BedrockAgentCore::AgentInsightStore"
+                },
+                "smithy.api#pattern": "^arn:aws(-[a-z]+)*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:agent-insight-store\\/[a-z0-9-]{1,64}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEnablementStatus": {
+            "type": "enum",
+            "members": {
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionConfiguration": {
+            "type": "structure",
+            "members": {
+                "mode": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the encryption mode used to protect new Agent Insights.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "kmsKeyArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#KmsKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the Amazon Resource Name (ARN) of the customer managed AWS KMS key that you use to encrypt new Agent Insights. This field is required when <code>mode</code> is <code>CUSTOMER_MANAGED_KMS</code> and cannot be specified when <code>mode</code> is <code>AWS_OWNED_KMS_KEY</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the encryption mode and key configuration used to encrypt new Agent Insights in an Agent Insight Store.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionMode": {
+            "type": "enum",
+            "members": {
+                "AWS_OWNED_KMS_KEY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AWS_OWNED_KMS_KEY"
+                    }
+                },
+                "CUSTOMER_MANAGED_KMS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CUSTOMER_MANAGED_KMS"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies the encryption mode used to protect new Agent Insights. Valid values:</p> <dl> <dt>AWS_OWNED_KMS_KEY</dt> <dd> <p>Uses an AWS owned key.</p> </dd> <dt>CUSTOMER_MANAGED_KMS</dt> <dd> <p>Uses a customer managed AWS Key Management Service (AWS KMS) key.</p> </dd> </dl>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreFailureReason": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 2048
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Service-defined identifier for an Agent Insight Store.",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[a-z0-9-]+$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreStatus": {
+            "type": "enum",
+            "members": {
+                "ACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ACTIVE"
+                    }
+                },
+                "UPDATING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "The Store is applying a requested change asynchronously. After an\nencryption update, its existing Insights are being re-encrypted under its\nkey, and they stay readable.",
+                        "smithy.api#enumValue": "UPDATING"
+                    }
+                },
+                "INACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "The Store is retained but accepts no eligible output, and Insight\ncleanup is complete.",
+                        "smithy.api#enumValue": "INACTIVE"
+                    }
+                },
+                "ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "The Store requires customer intervention, and `failureReason` says what\nfailed. After a failed encryption update, another encryption update\nretries it and a disable is also accepted; after a failed disable, a\ndisable retries it.",
+                        "smithy.api#enumValue": "ERROR"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreSummary": {
+            "type": "structure",
+            "members": {
+                "agentInsightStoreArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current lifecycle status of the Agent Insight Store. Valid values:</p> <dl> <dt>ACTIVE</dt> <dd> <p>The store is available.</p> </dd> <dt>UPDATING</dt> <dd> <p>The service is applying a requested change.</p> </dd> <dt>INACTIVE</dt> <dd> <p>The store does not accept new Agent Insights.</p> </dd> <dt>ERROR</dt> <dd> <p>The store requires intervention.</p> </dd> </dl>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "enablementStatus": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEnablementStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the Agent Insight Store accepts new Agent Insights. The default value is enabled.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "encryptionConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the encryption mode and key configuration that encrypts new Agent Insights and protects the data at rest.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "createdAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time when the Agent Insight Store was created.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "updatedAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time when the Agent Insight Store was last updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains summary information about an Agent Insight Store.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreSummaryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreSummary"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#AgentManagedRuntimeType": {
             "type": "enum",
             "members": {
@@ -771,6 +977,40 @@
                 }
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#AllowedPort": {
+            "type": "union",
+            "members": {
+                "port": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Port",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A single port that is reachable through the runtime's session URL.</p>"
+                    }
+                },
+                "portRange": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PortRange",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An inclusive range of ports that are reachable through the runtime's session URL.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A port or port range that is reachable through the runtime's session URL. Specify exactly one of <code>port</code> or <code>portRange</code>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AllowedPorts": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#AllowedPort"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Additional ports on the AgentCore Runtime that are reachable through the runtime's session URL. The list can contain up to five non-overlapping entries.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                },
+                "smithy.api#uniqueItems": {}
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#AllowedQueryParameters": {
             "type": "list",
             "member": {
@@ -930,6 +1170,9 @@
             "resources": [
                 {
                     "target": "com.amazonaws.bedrockagentcorecontrol#AgentEndpointResource"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStore"
                 },
                 {
                     "target": "com.amazonaws.bedrockagentcorecontrol#AgentResource"
@@ -2898,6 +3141,20 @@
                 "smithy.api#documentation": "<p>Contains summary information about a browser. A browser enables Amazon Bedrock AgentCore Agent to interact with web content.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#BuildLifecycleHooks": {
+            "type": "structure",
+            "members": {
+                "warmup": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleHook",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The hook that warms up your agent before any sessions are created. Use this hook to load the resources that your sessions need, such as models, libraries, or caches. Your hook must complete within 120 seconds.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The lifecycle hooks that run when you create or update the AgentCore Runtime, before any sessions are created.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#CapacityProviderArn": {
             "type": "string",
             "traits": {
@@ -3303,7 +3560,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A reference to a private certificate authority (CA) certificate that the gateway uses to verify TLS connections to the target endpoint. Use this when the target presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content.</p>"
+                "smithy.api#documentation": "<p>A reference to a private certificate authority (CA) certificate that AgentCore uses to verify TLS connections to an endpoint, such as a gateway target or an identity provider, that presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#CertificateConfigurationList": {
@@ -5218,12 +5475,21 @@
                     }
                 },
                 "protocolConfiguration": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.</p>"
+                    }
                 },
                 "lifecycleConfiguration": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The life cycle configuration for the AgentCore Runtime.</p>"
+                    }
+                },
+                "hooksConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#RuntimeHooksConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle hooks configuration for the AgentCore Runtime. Use lifecycle hooks to run actions in the agent's container at fixed points in the runtime's lifecycle, such as warming up the agent before sessions are created.</p>"
                     }
                 },
                 "environmentVariables": {
@@ -5254,6 +5520,18 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#PlatformVersion",
                     "traits": {
                         "smithy.api#documentation": "<p>The version of the runtime platform to use for the AgentCore Runtime.</p>"
+                    }
+                },
+                "allowedPorts": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AllowedPorts",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The additional ports on the AgentCore Runtime that are reachable through the runtime's session URL. Specify one to five non-overlapping entries, each containing either a single port or an inclusive port range. Ports must be between <code>8000</code> and <code>12000</code>, excluding the reserved port <code>8443</code>.</p>"
+                    }
+                },
+                "resourceConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource configurations for the AgentCore Runtime, such as the minimum amount of memory to allocate to the runtime. You can specify at most one resource configuration.</p>"
                     }
                 }
             },
@@ -6361,15 +6639,13 @@
                 "source": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#DataSourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p> Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p> Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file. </p>"
                     }
                 },
                 "schemaType": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#DatasetSchemaType",
                     "traits": {
-                        "smithy.api#documentation": "<p> Versioned schema type governing the structure of examples. Immutable after creation. </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p> Versioned schema type governing the structure of examples. Immutable after creation. </p>"
                     }
                 },
                 "kmsKeyArn": {
@@ -6936,6 +7212,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A map of key-value pairs to associate with the gateway as metadata tags.</p>"
                     }
+                },
+                "domainOverride": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainOverride",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header. Specify this when clients reach the gateway through your own proxy or custom domain.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7084,6 +7366,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#WafConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services WAF configuration for the gateway.</p>"
+                    }
+                },
+                "domainOverride": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainOverride",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.</p>"
                     }
                 }
             },
@@ -7835,10 +8123,10 @@
                 "eventExpiryDuration": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p>The duration after which memory events expire. Specified as an ISO 8601 duration.</p>",
+                        "smithy.api#documentation": "<p>The number of days after which memory events expire, between 7 and 3650 days.</p>",
                         "smithy.api#range": {
                             "min": 3,
-                            "max": 365
+                            "max": 3650
                         },
                         "smithy.api#required": {}
                     }
@@ -9939,6 +10227,12 @@
                         "smithy.api#documentation": "<p>The private endpoint overrides for the custom JWT authorizer configuration.</p>"
                     }
                 },
+                "certificateConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#CertificateConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with <code>privateEndpoint</code>.</p>"
+                    }
+                },
                 "allowedWorkloadConfiguration": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#AllowedWorkloadConfiguration",
                     "traits": {
@@ -10072,6 +10366,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The private endpoint overrides for the custom OAuth2 provider configuration.</p>"
                     }
+                },
+                "certificateConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#CertificateConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with <code>privateEndpoint</code>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10116,6 +10416,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointOverrides",
                     "traits": {
                         "smithy.api#documentation": "<p>The private endpoint overrides for the custom OAuth2 provider configuration.</p>"
+                    }
+                },
+                "certificateConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#CertificateConfigurationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with <code>privateEndpoint</code>.</p>"
                     }
                 },
                 "privateKeyJwtConfig": {
@@ -10275,6 +10581,21 @@
                 "smithy.api#documentation": "<p> A list of dataset examples. Each element is a free-form JSON document whose structure is defined by the dataset's schema type. </p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#DatasetGenerationId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DatasetGenerationIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#DatasetGenerationId"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A list of dataset generation IDs. </p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#DatasetId": {
             "type": "string",
             "traits": {
@@ -10419,8 +10740,7 @@
                 "schemaType": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#DatasetSchemaType",
                     "traits": {
-                        "smithy.api#documentation": "<p> The schema type of the dataset. </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p> The schema type of the dataset. </p>"
                     }
                 },
                 "exampleCount": {
@@ -10428,6 +10748,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The number of examples in the dataset. </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "exampleCountByField": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByField",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have each field, for the DRAFT. Absent when the counts are unknown. </p>"
                     }
                 },
                 "createdAt": {
@@ -10477,6 +10803,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The number of examples in this version. </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "exampleCountByField": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByField",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have each field, for this version. Absent when the counts are unknown. </p>"
                     }
                 },
                 "createdAt": {
@@ -13382,17 +13714,39 @@
         "com.amazonaws.bedrockagentcorecontrol#DiscoveryUrl": {
             "type": "string",
             "traits": {
-                "smithy.api#pattern": "^.+/\\.well-known/openid-configuration$"
+                "smithy.api#pattern": "^[^\\s?#]+/\\.well-known/(openid-configuration|oauth-authorization-server)(/[^\\s?#]+)?$"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#DiscoveryUrlType": {
             "type": "string",
             "traits": {
-                "smithy.api#pattern": "^.+/\\.well-known/(openid-configuration|oauth-authorization-server)$"
+                "smithy.api#pattern": "^[^\\s?#]+/\\.well-known/(openid-configuration|oauth-authorization-server)(/[^\\s?#]+)?$"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#DomainName": {
             "type": "string"
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DomainOverride": {
+            "type": "structure",
+            "members": {
+                "defaultDomain": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PublicDomainName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The default public domain name for the gateway. The gateway advertises this domain when a request doesn't select a specific domain.</p>",
+                        "smithy.api#jsonName": "default",
+                        "smithy.api#required": {}
+                    }
+                },
+                "alternateDomains": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PublicDomainNameList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional public domain names for the gateway, up to 10. Don't repeat the default domain or list a domain more than once. A request can select one of these domains, or the default domain, with the <code>x-amzn-bedrock-agentcore-gateway-domain</code> header. The gateway rejects a request that selects a domain that isn't configured.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The public domain names for a gateway that clients reach through your own proxy or custom domain. When you configure a domain override, the gateway advertises these domains instead of the inbound Host header in the URLs that it returns for OAuth discovery, such as the protected resource metadata and the <code>WWW-Authenticate</code> challenge.</p>"
+            }
         },
         "com.amazonaws.bedrockagentcorecontrol#DownloadUrl": {
             "type": "string",
@@ -14628,6 +14982,149 @@
                     "traits": {
                         "smithy.api#enumValue": "CustomDerived"
                     }
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleCountByField": {
+            "type": "structure",
+            "members": {
+                "turns": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have <code>turns</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "input": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have <code>input</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "actorProfile": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have <code>actor_profile</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> The number of examples that have each field. An example can have more than one of these fields, so the counts can add up to more than <code>exampleCount</code>. </p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleCountByFieldCondition": {
+            "type": "structure",
+            "members": {
+                "anyOf": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleFieldList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The fields to count. An example counts if it has at least one of these fields. Required. </p>"
+                    }
+                },
+                "min": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The minimum count, inclusive. </p>",
+                        "smithy.api#range": {
+                            "min": 0
+                        }
+                    }
+                },
+                "max": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The maximum count, inclusive. </p>",
+                        "smithy.api#range": {
+                            "min": 0
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A condition on the number of examples that have the given fields. The count includes each example that has at least one of the fields in <code>anyOf</code>. </p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleCountByFieldConditionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByFieldCondition"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A list of example count conditions. A resource matches if it meets at least one condition. </p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 3
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleField": {
+            "type": "enum",
+            "members": {
+                "TURNS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The example has <code>turns</code>. </p>",
+                        "smithy.api#enumValue": "TURNS"
+                    }
+                },
+                "INPUT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The example has <code>input</code>. </p>",
+                        "smithy.api#enumValue": "INPUT"
+                    }
+                },
+                "ACTOR_PROFILE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The example has <code>actor_profile</code>. </p>",
+                        "smithy.api#enumValue": "ACTOR_PROFILE"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A field that a dataset example can have. </p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleFieldCondition": {
+            "type": "structure",
+            "members": {
+                "anyOf": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleFieldList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Matches examples that have at least one of these fields. Required. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A condition on the fields of an example. </p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleFieldConditionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ExampleFieldCondition"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A list of example field conditions. An example matches if it meets at least one condition. </p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 3
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ExampleFieldList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ExampleField"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A list of example fields. </p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 3
                 }
             }
         },
@@ -15976,6 +16473,120 @@
                 }
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStore": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStoreRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStoreResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Returns the account's service-defined default Agent Insight Store. The\nlogical default exists for every enrolled account; its backing state may be\ninitialized on first access.",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/agent-insight-stores/{agentInsightStoreId}"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStoreRequest": {
+            "type": "structure",
+            "members": {
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the unique identifier of the Agent Insight Store to retrieve.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {},
+                        "smithy.api#resourceIdentifier": "agentInsightStoreId"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#GetAgentInsightStoreResponse": {
+            "type": "structure",
+            "members": {
+                "agentInsightStoreArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current lifecycle status of the Agent Insight Store. Valid values:</p> <dl> <dt>ACTIVE</dt> <dd> <p>The store is available.</p> </dd> <dt>UPDATING</dt> <dd> <p>The service is applying a requested change.</p> </dd> <dt>INACTIVE</dt> <dd> <p>The store does not accept new Agent Insights.</p> </dd> <dt>ERROR</dt> <dd> <p>The store requires intervention.</p> </dd> </dl>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "enablementStatus": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEnablementStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the Agent Insight Store accepts new Agent Insights. The default value is enabled.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "encryptionConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the encryption mode and key configuration that encrypts new Agent Insights and protects the data at rest.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "createdAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time when the Agent Insight Store was created.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "updatedAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time when the Agent Insight Store was last updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "failureReason": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreFailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Describes the failure that prevented the Agent Insight Store from reaching its requested lifecycle status.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#GetAgentRuntime": {
             "type": "operation",
             "input": {
@@ -16246,6 +16857,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "hooksConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#RuntimeHooksConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle hooks configuration for the AgentCore Runtime.</p>"
+                    }
+                },
                 "failureReason": {
                     "target": "smithy.api#String",
                     "traits": {
@@ -16271,7 +16888,10 @@
                     }
                 },
                 "protocolConfiguration": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.</p>"
+                    }
                 },
                 "environmentVariables": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#EnvironmentVariablesMap",
@@ -16313,6 +16933,18 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#PlatformVersion",
                     "traits": {
                         "smithy.api#documentation": "<p>The version of the runtime platform used by the AgentCore Runtime.</p>"
+                    }
+                },
+                "allowedPorts": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AllowedPorts",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The additional ports on the AgentCore Runtime that are reachable through the runtime's session URL.</p>"
+                    }
+                },
+                "resourceConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource configurations for the AgentCore Runtime.</p>"
                     }
                 }
             },
@@ -17509,8 +18141,7 @@
                 "schemaType": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#DatasetSchemaType",
                     "traits": {
-                        "smithy.api#documentation": "<p> The schema type declared at create time. Immutable after creation. </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p> The schema type declared at create time. Immutable after creation. </p>"
                     }
                 },
                 "kmsKeyArn": {
@@ -17524,6 +18155,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p> The number of examples in the DRAFT. </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "exampleCountByField": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByField",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The number of examples that have each field, for the resolved version. Absent when the counts are unknown. </p>"
                     }
                 },
                 "downloadUrl": {
@@ -18027,6 +18664,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#WafConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services WAF configuration for the gateway.</p>"
+                    }
+                },
+                "domainOverride": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainOverride",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.</p>"
                     }
                 }
             },
@@ -21313,6 +21956,7 @@
                 "lifecycleConfiguration": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleConfiguration",
                     "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle configuration for the harness's runtime environment. For a harness, <code>idleRuntimeSessionTimeout</code> and <code>maxLifetime</code> each accept a value between 60 and 28800 seconds (8 hours), and <code>idleRuntimeSessionTimeout</code> must be less than or equal to <code>maxLifetime</code>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -21337,7 +21981,10 @@
             "type": "structure",
             "members": {
                 "lifecycleConfiguration": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleConfiguration"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle configuration for the harness's runtime environment. For a harness, <code>idleRuntimeSessionTimeout</code> and <code>maxLifetime</code> each accept a value between 60 and 28800 seconds (8 hours), and <code>idleRuntimeSessionTimeout</code> must be less than or equal to <code>maxLifetime</code>. Values above 28800 seconds are rejected with a <code>ValidationException</code>.</p>"
+                    }
                 },
                 "networkConfiguration": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#NetworkConfiguration"
@@ -22351,10 +22998,36 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Custom headers to include when connecting to the remote MCP server.</p>"
                     }
+                },
+                "outboundAuth": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessRemoteMcpOutboundAuth",
+                    "traits": {
+                        "smithy.api#documentation": "<p>How the harness authenticates to this MCP server. Defaults to no authentication.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Configuration for connecting to a remote MCP server.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessRemoteMcpOutboundAuth": {
+            "type": "union",
+            "members": {
+                "awsIam": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#IamCredentialProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Sign requests to the remote MCP server with Signature Version 4 (SigV4) using the harness execution role. If you don't specify a Region, the harness Region is used.</p>"
+                    }
+                },
+                "none": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>No authentication.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Authentication method for calling a remote MCP server.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HarnessRemoteMcpUrl": {
@@ -23117,6 +23790,27 @@
             "traits": {
                 "smithy.api#documentation": "Map of key/value pairs for HTTP headers.",
                 "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HttpPostLifecycleHookAction": {
+            "type": "structure",
+            "members": {
+                "path": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleHookPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The path in the agent's container that AgentCore Runtime sends the <code>POST</code> request to.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "port": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ServerPort",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The port in the agent's container that AgentCore Runtime sends the <code>POST</code> request to. If you don't specify a port, the default is the runtime's server port: the port in the protocol configuration if one is set, otherwise the protocol's default port.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A lifecycle hook action that sends an HTTP <code>POST</code> request to the agent's container. The path and port can't conflict with a path that your agent already serves for AgentCore Runtime, such as the protocol's invocation path or the health check path.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HttpQueryParameterName": {
@@ -24168,6 +24862,46 @@
                 "smithy.api#documentation": "<p>LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#LifecycleHook": {
+            "type": "structure",
+            "members": {
+                "action": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleHookAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action that AgentCore Runtime runs for the hook. Specify exactly one action.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A lifecycle hook, which defines the action that AgentCore Runtime runs at a point in the runtime's lifecycle.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LifecycleHookAction": {
+            "type": "union",
+            "members": {
+                "httpPost": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HttpPostLifecycleHookAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Sends an HTTP <code>POST</code> request to your agent's container on the specified port and path to run the hook. The hook succeeds if your container returns a <code>2xx</code> response. The hook fails if your container returns any other response or doesn't respond before the hook times out.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The action that a lifecycle hook runs. Specify exactly one member. Currently, <code>httpPost</code> is the only supported action.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LifecycleHookPath": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>The path for an HTTP <code>POST</code> lifecycle hook action. The path must begin with <code>/</code>, can contain up to 32 characters, and can contain only letters, numbers, and the characters <code>.</code>, <code>_</code>, <code>~</code>, <code>/</code>, and <code>-</code>.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 32
+                },
+                "smithy.api#pattern": "^/[A-Za-z0-9._~/-]*$"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#LimitEntries": {
             "type": "list",
             "member": {
@@ -24271,6 +25005,93 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The configuration details returned for a LinkedIn OAuth2 provider, including the client ID and OAuth2 discovery information.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStores": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStoresRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStoresResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Lists the account's service-defined default Agent Insight Store. The\nsingleton backing state may be initialized on first access.",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/agent-insight-stores"
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "pageSize": "maxResults",
+                    "items": "agentInsightStores"
+                },
+                "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStoresRequest": {
+            "type": "structure",
+            "members": {
+                "nextToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the total number of results is greater than the <code>maxResults</code> value provided in the request, enter the token returned in the <code>nextToken</code> field in the response in this field to return the next batch of results.</p>",
+                        "smithy.api#httpQuery": "nextToken",
+                        "smithy.api#length": {
+                            "max": 2048
+                        }
+                    }
+                },
+                "maxResults": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the <code>nextToken</code> field when making another request to return the next batch of results.</p>",
+                        "smithy.api#httpQuery": "maxResults",
+                        "smithy.api#range": {
+                            "min": 1,
+                            "max": 100
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ListAgentInsightStoresResponse": {
+            "type": "structure",
+            "members": {
+                "agentInsightStores": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreSummaryList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Agent Insight Store summaries.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "nextToken": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the total number of results is greater than the <code>maxResults</code> value provided in the request, use this token when making another request in the <code>nextToken</code> field to return the next batch of results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ListAgentRuntimeEndpoints": {
@@ -25354,10 +26175,11 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p> Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. </p>",
+                "smithy.api#documentation": "<p> Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. A request with a pagination token can omit <code>datasetVersion</code>. If it sets a version that differs from the token's version, the request fails with a <code>ValidationException</code>. </p>",
                 "smithy.api#http": {
-                    "method": "GET",
-                    "uri": "/datasets/{datasetId}/examples"
+                    "method": "POST",
+                    "uri": "/datasets/{datasetId}/examples/list",
+                    "code": 200
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
@@ -25366,6 +26188,30 @@
                     "items": "examples"
                 },
                 "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ListDatasetExamplesFilter": {
+            "type": "structure",
+            "members": {
+                "generationIds": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DatasetGenerationIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Returns only examples created by this dataset generation. Specify one ID. </p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                },
+                "exampleFields": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleFieldConditionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Returns only examples that meet at least one of these conditions. Examples last written before example field filtering was available never match. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A filter for <code>ListDatasetExamples</code>. </p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ListDatasetExamplesRequest": {
@@ -25382,15 +26228,19 @@
                 "datasetVersion": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#DatasetVersion",
                     "traits": {
-                        "smithy.api#documentation": "<p> Version to paginate: \"DRAFT\" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token. </p>",
-                        "smithy.api#httpQuery": "datasetVersion"
+                        "smithy.api#documentation": "<p> Version to paginate: \"DRAFT\" or a version number. Defaults to DRAFT if absent on the first request. With a pagination token, the version comes from the token: you can omit this member, and a value that differs from the token's version is rejected with a <code>ValidationException</code>. </p>"
+                    }
+                },
+                "filter": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ListDatasetExamplesFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A filter to apply to the examples. </p>"
                     }
                 },
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
                         "smithy.api#documentation": "<p> Maximum number of examples to return per page. </p>",
-                        "smithy.api#httpQuery": "maxResults",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 1000
@@ -25401,7 +26251,6 @@
                     "target": "smithy.api#String",
                     "traits": {
                         "smithy.api#documentation": "<p> The token for the next page of results. </p>",
-                        "smithy.api#httpQuery": "nextToken",
                         "smithy.api#length": {
                             "max": 2048
                         }
@@ -25482,8 +26331,9 @@
             "traits": {
                 "smithy.api#documentation": "<p> Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy. </p>",
                 "smithy.api#http": {
-                    "method": "GET",
-                    "uri": "/datasets/{datasetId}/versions"
+                    "method": "POST",
+                    "uri": "/datasets/{datasetId}/versions/list",
+                    "code": 200
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
@@ -25492,6 +26342,20 @@
                     "items": "versions"
                 },
                 "smithy.api#readonly": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ListDatasetVersionsFilter": {
+            "type": "structure",
+            "members": {
+                "exampleCountByField": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByFieldConditionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Returns only versions whose example counts meet at least one of these conditions. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A filter for <code>ListDatasetVersions</code>. </p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ListDatasetVersionsRequest": {
@@ -25505,18 +26369,25 @@
                         "smithy.api#required": {}
                     }
                 },
+                "filter": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ListDatasetVersionsFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A filter to apply to the dataset versions. </p>"
+                    }
+                },
                 "nextToken": {
                     "target": "smithy.api#String",
                     "traits": {
                         "smithy.api#documentation": "<p> The token for the next page of results. </p>",
-                        "smithy.api#httpQuery": "nextToken"
+                        "smithy.api#length": {
+                            "max": 2048
+                        }
                     }
                 },
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
                         "smithy.api#documentation": "<p> The maximum number of versions to return per page. </p>",
-                        "smithy.api#httpQuery": "maxResults",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 100
@@ -25574,8 +26445,9 @@
             "traits": {
                 "smithy.api#documentation": "<p> Lists all datasets in the caller's account, paginated. </p>",
                 "smithy.api#http": {
-                    "method": "GET",
-                    "uri": "/datasets"
+                    "method": "POST",
+                    "uri": "/datasets/list",
+                    "code": 200
                 },
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
@@ -25586,14 +26458,33 @@
                 "smithy.api#readonly": {}
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#ListDatasetsFilter": {
+            "type": "structure",
+            "members": {
+                "exampleCountByField": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ExampleCountByFieldConditionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> Returns only datasets whose DRAFT example counts meet at least one of these conditions. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p> A filter for <code>ListDatasets</code>. </p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#ListDatasetsRequest": {
             "type": "structure",
             "members": {
+                "filter": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ListDatasetsFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p> A filter to apply to the datasets. </p>"
+                    }
+                },
                 "nextToken": {
                     "target": "smithy.api#String",
                     "traits": {
                         "smithy.api#documentation": "<p> The token for the next page of results. </p>",
-                        "smithy.api#httpQuery": "nextToken",
                         "smithy.api#length": {
                             "max": 2048
                         }
@@ -25603,7 +26494,6 @@
                     "target": "smithy.api#Integer",
                     "traits": {
                         "smithy.api#documentation": "<p> The maximum number of datasets to return per page. </p>",
-                        "smithy.api#httpQuery": "maxResults",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 100
@@ -28531,7 +29421,7 @@
                         "smithy.api#documentation": "<p>The number of days after which memory events will expire.</p>",
                         "smithy.api#range": {
                             "min": 1,
-                            "max": 365
+                            "max": 3650
                         },
                         "smithy.api#required": {}
                     }
@@ -32281,6 +33171,38 @@
                 "smithy.api#default": "FAIL_ON_ANY_FINDINGS"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#Port": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#documentation": "<p>A port between <code>8000</code> and <code>12000</code>. Port <code>8443</code> is reserved and cannot be used.</p>",
+                "smithy.api#range": {
+                    "min": 8000,
+                    "max": 12000
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#PortRange": {
+            "type": "structure",
+            "members": {
+                "from": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Port",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The first port in the inclusive range.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "to": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Port",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The last port in the inclusive range.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An inclusive range of ports. The value of <code>from</code> must be less than or equal to the value of <code>to</code>.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#PortalUrlType": {
             "type": "string",
             "traits": {
@@ -32443,6 +33365,18 @@
                         "smithy.api#documentation": "<p>The server protocol for the agent runtime. This field specifies which protocol the agent runtime uses to communicate with clients.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "port": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ServerPort",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The port on which the agent server listens. The port must be between <code>8000</code> and <code>12000</code>, excluding the reserved port <code>8443</code>. When this field is omitted, the default is <code>8080</code> for <code>HTTP</code> and <code>AGUI</code>, <code>8000</code> for <code>MCP</code>, and <code>9000</code> for <code>A2A</code>.</p>"
+                    }
+                },
+                "path": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ServerPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The path on which the agent server accepts requests. The path must begin with <code>/</code>. When this field is omitted, the default is <code>/invocations</code> for <code>HTTP</code> and <code>AGUI</code>, <code>/mcp</code> for <code>MCP</code>, and <code>/</code> for <code>A2A</code>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -32502,6 +33436,28 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The configuration that controls how a provider prefix is applied to model IDs during translation.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#PublicDomainName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 253
+                },
+                "smithy.api#pattern": "^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)(?:\\.(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?))+$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#PublicDomainNameList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#PublicDomainName"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#PutResourcePolicy": {
@@ -33447,6 +34403,21 @@
                 "smithy.api#pattern": "^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#ResourceConfiguration": {
+            "type": "structure",
+            "members": {
+                "minimumMemoryInMiB": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum amount of memory, in mebibytes, to allocate to the AgentCore Runtime.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The resource configuration for an AgentCore Runtime.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurationIdentifier": {
             "type": "string",
             "traits": {
@@ -33455,6 +34426,18 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#ResourceConfiguration"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A list of resource configurations for an AgentCore Runtime. The list can contain at most one resource configuration.</p>",
+                "smithy.api#length": {
+                    "max": 1
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ResourceGatewayArn": {
@@ -33899,6 +34882,20 @@
                     "max": 1024
                 },
                 "smithy.api#pattern": "^(([0-9]{12})\\.dkr\\.ecr\\.([a-z0-9-]+)\\.amazonaws\\.com(\\.cn)?|public\\.ecr\\.aws)/((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*)(?::([^:@]{1,300}))?(?:@(.+))?$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#RuntimeHooksConfiguration": {
+            "type": "structure",
+            "members": {
+                "build": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#BuildLifecycleHooks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The hooks that run when you create or update the AgentCore Runtime, before any sessions are created.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The lifecycle hooks that AgentCore Runtime runs at fixed points in the runtime's lifecycle.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#RuntimeMetadataConfiguration": {
@@ -34767,6 +35764,27 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The server definition for an MCP descriptor. Contains the schema version and inline content for the MCP server configuration.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ServerPath": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "<p>The path on which the agent server accepts requests. The path must begin with <code>/</code> and can contain up to 2,048 characters.</p>",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^/[A-Za-z0-9\\-._~/%]*$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#ServerPort": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#documentation": "<p>A port between <code>8000</code> and <code>12000</code>. Port <code>8443</code> is reserved and cannot be used.</p>",
+                "smithy.api#range": {
+                    "min": 8000,
+                    "max": 12000
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ServerProtocol": {
@@ -37241,6 +38259,132 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStore": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStoreRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStoreResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the enablement status or encryption configuration of an Agent Insight Store.</p>",
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/agent-insight-stores/{agentInsightStoreId}",
+                    "code": 202
+                },
+                "smithy.api#idempotent": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStoreRequest": {
+            "type": "structure",
+            "members": {
+                "clientToken": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a>.</p>",
+                        "smithy.api#idempotencyToken": {}
+                    }
+                },
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the unique identifier of the Agent Insight Store to update.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {},
+                        "smithy.api#resourceIdentifier": "agentInsightStoreId"
+                    }
+                },
+                "enablementStatus": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEnablementStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the Agent Insight Store accepts new Agent Insights. If you don't specify this parameter, the store's current enablement setting remains unchanged.</p>"
+                    }
+                },
+                "encryptionConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEncryptionConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the encryption mode and key configuration to use for new Agent Insights. If you don't specify this parameter, the store's current encryption configuration remains unchanged.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#UpdateAgentInsightStoreResponse": {
+            "type": "structure",
+            "members": {
+                "agentInsightStoreArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the updated Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "agentInsightStoreId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the updated Agent Insight Store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The lifecycle status of the Agent Insight Store after the update request. Valid values:</p> <dl> <dt>ACTIVE</dt> <dd> <p>The store is available.</p> </dd> <dt>UPDATING</dt> <dd> <p>The service is applying a requested change.</p> </dd> <dt>INACTIVE</dt> <dd> <p>The store does not accept new Agent Insights.</p> </dd> <dt>ERROR</dt> <dd> <p>The store requires intervention.</p> </dd> </dl>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "enablementStatus": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreEnablementStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the Agent Insight Store accepts new Agent Insights after the update request.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "updatedAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time when the Agent Insight Store was last updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "failureReason": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentInsightStoreFailureReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Describes the failure that prevented the Agent Insight Store from reaching its requested lifecycle status.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#UpdateAgentRuntime": {
             "type": "operation",
             "input": {
@@ -37471,12 +38615,21 @@
                     }
                 },
                 "protocolConfiguration": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ProtocolConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.</p>"
+                    }
                 },
                 "lifecycleConfiguration": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#LifecycleConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The updated life cycle configuration for the AgentCore Runtime.</p>"
+                    }
+                },
+                "hooksConfiguration": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#RuntimeHooksConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated lifecycle hooks configuration for the AgentCore Runtime.</p>"
                     }
                 },
                 "metadataConfiguration": {
@@ -37507,6 +38660,18 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#PlatformVersion",
                     "traits": {
                         "smithy.api#documentation": "<p>The updated version of the runtime platform to use for the AgentCore Runtime.</p>"
+                    }
+                },
+                "allowedPorts": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AllowedPorts",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated additional ports on the AgentCore Runtime that are reachable through the runtime's session URL. Specify one to five non-overlapping entries, each containing either a single port or an inclusive port range. Ports must be between <code>8000</code> and <code>12000</code>, excluding the reserved port <code>8443</code>.</p>"
+                    }
+                },
+                "resourceConfigurations": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ResourceConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated resource configurations for the AgentCore Runtime. You can specify at most one resource configuration.</p>"
                     }
                 },
                 "clientToken": {
@@ -38764,6 +39929,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The updated Amazon Web Services WAF configuration for the gateway.</p>"
                     }
+                },
+                "domainOverride": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainOverride",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The updated public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header. Specify this when clients reach the gateway through your own proxy or custom domain.</p>"
+                    }
                 }
             },
             "traits": {
@@ -38909,6 +40080,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#WafConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services WAF configuration for the gateway.</p>"
+                    }
+                },
+                "domainOverride": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DomainOverride",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.</p>"
                     }
                 }
             },
@@ -39643,10 +40820,10 @@
                 "eventExpiryDuration": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of days after which memory events will expire, between 7 and 365 days.</p>",
+                        "smithy.api#documentation": "<p>The number of days after which memory events expire, between 7 and 3650 days.</p>",
                         "smithy.api#range": {
                             "min": 3,
-                            "max": 365
+                            "max": 3650
                         }
                     }
                 },

@@ -184,6 +184,7 @@ extension CognitoIdentityProviderClient {
 extension ListUserPoolClientsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListUserPoolClientsInput {
         return ListUserPoolClientsInput(
+            clientType: self.clientType,
             maxResults: self.maxResults,
             nextToken: token,
             userPoolId: self.userPoolId
