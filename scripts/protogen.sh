@@ -32,6 +32,7 @@ rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codege
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/RPCV2CBORTestNonQueryCompatSDK/swift-codegen/RPCV2CBORTestNonQueryCompatSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/RPCV2CBORTestQueryCompatSDK/swift-codegen/RPCV2CBORTestQueryCompatSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSJson10TestQueryCompatSDK/swift-codegen/AWSJson10TestQueryCompatSDK/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/RPCV2CBORCorpusTestSDK/swift-codegen/RPCV2CBORCorpusTestSDK/Package.swift
 
 # Now do the same for local protocol tests
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RestJsonExtras/swift-codegen/RestJsonExtras/Package.swift
