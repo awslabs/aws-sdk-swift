@@ -10,7 +10,7 @@ import class Foundation.DispatchQueue
 import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.Pipe
-#if os(macOS) || os(Linux)
+#if os(macOS) || os(Linux) || os(FreeBSD)
 // Foundation.Process is not available in non-mac apple platforms for security reasons.
 import class Foundation.Process
 #endif
