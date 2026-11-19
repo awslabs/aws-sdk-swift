@@ -1394,7 +1394,7 @@ extension ConnectCasesClient {
 
     /// Performs the `CreateRelatedItem` operation on the `ConnectCases` service.
     ///
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). Use cases Following are examples of related items that you may want to associate with a case:
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). There's a quota for the number of SLAs that can be attached to a case. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). Use cases Following are examples of related items that you may want to associate with a case:
     ///
     /// * Related contacts, such as calls, chats, emails tasks
     ///
@@ -4029,6 +4029,8 @@ extension ConnectCasesClient {
     /// * Comment - Update the text content of an existing comment
     ///
     /// * Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas).
+    ///
+    /// * Sla - Update the target duration (targetSlaMinutes) of an SLA. The new deadline is counted from when the SLA was created. The SLA status is recalculated against the new deadline: an open SLA becomes Active or Overdue, and a completed SLA becomes Met or NotMet.
     ///
     ///
     /// Important things to know

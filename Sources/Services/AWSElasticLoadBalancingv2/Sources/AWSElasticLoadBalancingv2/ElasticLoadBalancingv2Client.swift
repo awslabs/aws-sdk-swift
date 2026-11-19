@@ -1177,7 +1177,7 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `CreateTrustStore` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Creates a trust store. For more information, see [Mutual TLS for Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/mutual-authentication.html).
+    /// Creates a trust store. For more information, see [Mutual TLS for Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/mutual-authentication.html) or [Mutual TLS for Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/mutual-authentication.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateTrustStoreInput`)
     ///

@@ -33,13 +33,13 @@ import struct Smithy.URIQueryItem
 
 extension AgentRegistryControlClientTypes {
 
-    /// The configuration for an IAM role credential provider that signs requests to a registry record's source with Amazon Web Services Signature Version 4 (SigV4).
+    /// The configuration for an IAM role credential provider that signs requests to a registry record's source with Amazon Web Services Signature Version 4 (SigV4). For an Amazon S3 skill source (an s3:// URL), Amazon Web Services Agent Registry assumes the role to read the object. The role must be in your Amazon Web Services account.
     public struct RegistryRecordIamCredentialProvider: Swift.Sendable {
-        /// The Amazon Web Services Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.
+        /// The Amazon Web Services Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry. For an Amazon S3 skill source, omit it or set it to the Region of the registry.
         public var region: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role to assume for request signing.
         public var roleArn: Swift.String?
-        /// The service name to use for request signing, such as execute-api.
+        /// The service name to use for request signing, such as execute-api. For an Amazon S3 skill source, omit it or set it to s3.
         public var service: Swift.String?
 
         public init(
@@ -56,12 +56,15 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The OAuth 2.0 grant type that a credential provider uses to obtain access tokens. CLIENT_CREDENTIALS obtains tokens for the client application itself and is the grant for sources such as MCP server and A2A agent card sources. AUTHORIZATION_CODE obtains tokens with a user's approval and is required for GitHub skill sources. A GitHub user approves access once. Later requests from the same IAM principal for the same registry, host, credential provider, scopes, and custom parameters reuse that approval.
     public enum RegistryRecordOAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorizationCode
         case clientCredentials
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RegistryRecordOAuthGrantType] {
             return [
+                .authorizationCode,
                 .clientCredentials
             ]
         }
@@ -73,6 +76,7 @@ extension AgentRegistryControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .authorizationCode: return "AUTHORIZATION_CODE"
             case .clientCredentials: return "CLIENT_CREDENTIALS"
             case let .sdkUnknown(s): return s
             }
@@ -86,11 +90,13 @@ extension AgentRegistryControlClientTypes {
     public struct RegistryRecordOAuthCredentialProvider: Swift.Sendable {
         /// Additional parameters to include in the OAuth 2.0 token request.
         public var customParameters: [Swift.String: Swift.String]?
-        /// The OAuth 2.0 grant type used to obtain access tokens.
+        /// The OAuth 2.0 grant type used to obtain access tokens. A GitHub skill source requires AUTHORIZATION_CODE. Other sources, such as MCP server and A2A agent card sources, use CLIENT_CREDENTIALS. A GitHub source takes exactly one OAuth credential provider, in the registry's Amazon Web Services account and Region. Only an IAM role or IAM user in the account that owns the registry can set, synchronize, or reauthorize it, and the caller needs bedrock-agentcore:GetWorkloadAccessTokenForUserId and bedrock-agentcore:GetResourceOauth2Token on the registry's workload identity, registry- followed by the registry ID.
         public var grantType: AgentRegistryControlClientTypes.RegistryRecordOAuthGrantType?
         /// The Amazon Resource Name (ARN) of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.
         /// This member is required.
         public var providerArn: Swift.String?
+        /// The URL that the user's browser returns to after the user approves access on GitHub, for the AUTHORIZATION_CODE grant. There, your application completes the authorization by calling the Amazon Bedrock AgentCore Identity CompleteResourceTokenAuth operation with the userId from authorizationData. If you omit it, the user returns to the Amazon Web Services Agent Registry console, which completes the authorization when the user is signed in as the IAM principal that made the request. A request that joins an authorization already in progress uses the return URL of the request that started it.
+        public var returnUrl: Swift.String?
         /// The OAuth 2.0 scopes to request when obtaining access tokens.
         public var scopes: [Swift.String]?
 
@@ -98,14 +104,21 @@ extension AgentRegistryControlClientTypes {
             customParameters: [Swift.String: Swift.String]? = nil,
             grantType: AgentRegistryControlClientTypes.RegistryRecordOAuthGrantType? = nil,
             providerArn: Swift.String? = nil,
+            returnUrl: Swift.String? = nil,
             scopes: [Swift.String]? = nil
         ) {
             self.customParameters = customParameters
             self.grantType = grantType
             self.providerArn = providerArn
+            self.returnUrl = returnUrl
             self.scopes = scopes
         }
     }
+}
+
+extension AgentRegistryControlClientTypes.RegistryRecordOAuthCredentialProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordOAuthCredentialProvider(grantType: \(Swift.String(describing: grantType)), providerArn: \(Swift.String(describing: providerArn)), returnUrl: \(Swift.String(describing: returnUrl)), scopes: \(Swift.String(describing: scopes)), customParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -176,7 +189,7 @@ extension AgentRegistryControlClientTypes {
     public struct DescriptorSourceFromUrl: Swift.Sendable {
         /// The credential providers used to authenticate when fetching descriptor content from the source URL.
         public var credentialProviderConfigurations: [AgentRegistryControlClientTypes.RegistryRecordCredentialProviderConfiguration]?
-        /// The URL from which the descriptor content is retrieved.
+        /// The URL from which the descriptor content is retrieved. For an agent skill source, specify an s3:// URL of an object in a bucket in the same Amazon Web Services Region as the registry. For a GitHub skill source, specify a GitHub folder URL in the form https://host/owner/repo/tree/branch-or-tag/path. Other descriptor sources use https:// URLs.
         /// This member is required.
         public var url: Swift.String?
 
@@ -779,6 +792,7 @@ extension AgentRegistryControlClientTypes {
         case idempotentParameterMismatchException
         case resourceConflict
         case rootEventInOtherSession
+        case unsupportedInRegion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
@@ -787,7 +801,8 @@ extension AgentRegistryControlClientTypes {
                 .fieldValidationFailed,
                 .idempotentParameterMismatchException,
                 .resourceConflict,
-                .rootEventInOtherSession
+                .rootEventInOtherSession,
+                .unsupportedInRegion
             ]
         }
 
@@ -803,6 +818,7 @@ extension AgentRegistryControlClientTypes {
             case .idempotentParameterMismatchException: return "IdempotentParameterMismatchException"
             case .resourceConflict: return "ResourceConflict"
             case .rootEventInOtherSession: return "EventInOtherSession"
+            case .unsupportedInRegion: return "UnsupportedInRegion"
             case let .sdkUnknown(s): return s
             }
         }
@@ -913,13 +929,65 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension AgentRegistryControlClientTypes {
 
+    /// A skill package to upload with a registry record: a ZIP archive of a skill that follows the Agent Skills specification. The registry validates the package asynchronously, stores it, and sets skillMd.data from the package's SKILL.md.
+    public struct RegistryRecordArtifactUpload: Swift.Sendable {
+        /// The ZIP archive of the skill package, up to 5 MiB (5,242,880 bytes). In a JSON request, the content is base64-encoded. The Amazon Web Services SDKs encode it for you.
+        /// This member is required.
+        public var content: Foundation.Data?
+        /// The optional SHA-256 checksum of the ZIP archive, as 64 lowercase hexadecimal characters, computed over the archive's bytes rather than its base64 text. If it doesn't match the content, the request fails with a ValidationException.
+        public var sha256: Swift.String?
+
+        public init(
+            content: Foundation.Data? = nil,
+            sha256: Swift.String? = nil
+        ) {
+            self.content = content
+            self.sha256 = sha256
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.RegistryRecordArtifactUpload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordArtifactUpload(sha256: \(Swift.String(describing: sha256)), content: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The repository provider of a skill source. GITHUB covers GitHub.com, GitHub Enterprise Cloud with data residency (*.ghe.com), and GitHub Enterprise Server hosts that are reachable from the internet.
+    public enum AgentSkillsRepositoryProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case github
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentSkillsRepositoryProvider] {
+            return [
+                .github
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .github: return "GITHUB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// Markdown-format descriptor containing an agent skills document.
     public struct AgentSkillsMdDescriptor: Swift.Sendable {
         /// The agent skills markdown content, serialized as descriptor payload data.
         public var data: Swift.String?
         /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
-        /// The optional source configuration used to synchronize the agent skills markdown content.
+        /// The optional source of the skill's SKILL.md only. The registry synchronizes the SKILL.md from this source into data. Specify an s3:// URL of a SKILL.md object, or a GitHub folder URL together with repositoryProvider set to GITHUB. The registry rejects a new https:// URL without repositoryProvider, and you can't set both this source and skillPackage.source.
         public var source: AgentRegistryControlClientTypes.DescriptorSource?
 
         public init(
@@ -941,15 +1009,67 @@ extension AgentRegistryControlClientTypes.AgentSkillsMdDescriptor: Swift.CustomD
 
 extension AgentRegistryControlClientTypes {
 
-    /// Additional data associated with an agent skills definition descriptor.
-    public struct AgentSkillsAdditionalData: Swift.Sendable {
-        /// The markdown skill content associated with an agent skills definition.
-        public var skillMd: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor?
+    /// Descriptor that names the source that the registry synchronizes a full skill package from. It holds only the source. The record's artifact member returns the package that the registry reads from this source.
+    public struct AgentSkillsPackageDescriptor: Swift.Sendable {
+        /// The source of the skill package. Specify an s3:// URL of a ZIP object, or a GitHub folder URL together with repositoryProvider set to GITHUB. For a GitHub folder, the registry builds the package from every file in the folder.
+        public var source: AgentRegistryControlClientTypes.DescriptorSource?
 
         public init(
-            skillMd: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor? = nil
+            source: AgentRegistryControlClientTypes.DescriptorSource? = nil
         ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The settings of a source that the registry reads from Amazon S3.
+    public struct S3SourceConfiguration: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that owns the source bucket. The registry checks that the bucket belongs to this account each time it reads the source. If you omit it for a source that uses an IAM role, the registry expects the bucket to be in the role's account. If you omit it for a source that has no credential provider, which the registry reads as a public object, the request fails with a ValidationException.
+        public var bucketOwnerAccountId: Swift.String?
+
+        public init(
+            bucketOwnerAccountId: Swift.String? = nil
+        ) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The provider-specific settings of a skill source. Specify the member that matches the source's provider, such as s3 for an Amazon S3 source.
+    public enum AgentSkillsSourceConfiguration: Swift.Sendable {
+        /// The settings of an Amazon S3 source.
+        case s3(AgentRegistryControlClientTypes.S3SourceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Additional data associated with an agent skills definition descriptor: the skill's SKILL.md and the source that the registry synchronizes the skill from. A record synchronizes from one source at most, either skillMd.source for SKILL.md only or skillPackage.source for the full skill package. When the record has a skill package or a synchronized source, the registry sets skillMd.data from the SKILL.md in that package or source.
+    public struct AgentSkillsAdditionalData: Swift.Sendable {
+        /// The repository provider of the record's skill source. Set it to GITHUB when skillMd.source or skillPackage.source is a GitHub folder URL. The registry treats an https:// source as a GitHub source only when this member is set. Don't set it for an Amazon S3 source.
+        public var repositoryProvider: AgentRegistryControlClientTypes.AgentSkillsRepositoryProvider?
+        /// The markdown skill content associated with an agent skills definition.
+        public var skillMd: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor?
+        /// The source that the registry synchronizes the full skill package from. The registry validates and stores the package, sets skillMd.data from its SKILL.md, and returns the package in the artifact member of GetRegistryRecord. You can't set both this source and skillMd.source.
+        public var skillPackage: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor?
+        /// The provider-specific settings of the record's skill source. For an Amazon S3 source, s3.bucketOwnerAccountId specifies the account that owns the source bucket.
+        public var sourceConfiguration: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration?
+
+        public init(
+            repositoryProvider: AgentRegistryControlClientTypes.AgentSkillsRepositoryProvider? = nil,
+            skillMd: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor? = nil,
+            skillPackage: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor? = nil,
+            sourceConfiguration: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration? = nil
+        ) {
+            self.repositoryProvider = repositoryProvider
             self.skillMd = skillMd
+            self.skillPackage = skillPackage
+            self.sourceConfiguration = sourceConfiguration
         }
     }
 }
@@ -1274,6 +1394,8 @@ extension AgentRegistryControlClientTypes {
 }
 
 public struct CreateRegistryRecordInput: Swift.Sendable {
+    /// The skill package to store with the record, for a record of type SKILL with an agentSkillsDefinition descriptor. The registry validates the package after the operation returns and sets skillMd.data from the package's SKILL.md. A request that uploads a package can't also set a skill source or send new skillMd.data.
+    public var artifact: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload?
     /// Client token for idempotency
     public var clientToken: Swift.String?
     /// The custom metadata for the record. Values are strings or JSON booleans.
@@ -1302,6 +1424,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        artifact: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload? = nil,
         clientToken: Swift.String? = nil,
         customMetadata: Smithy.Document? = nil,
         description: Swift.String? = nil,
@@ -1314,6 +1437,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.artifact = artifact
         self.clientToken = clientToken
         self.customMetadata = customMetadata
         self.description = description
@@ -1330,21 +1454,66 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
 
 extension CreateRegistryRecordInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "CreateRegistryRecordInput(artifact: \(Swift.String(describing: artifact)), clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
 
-    /// Registry record status
+    /// An OAuth 2.0 authorization that waits for a user's approval. The user opens authorizationUrl and approves access on GitHub. Amazon Bedrock AgentCore Identity then redirects the browser to the source's returnUrl. There, your application completes the authorization by calling the AgentCore Identity CompleteResourceTokenAuth operation with userId. If the source has no returnUrl, the user returns to the Amazon Web Services Agent Registry console, which completes the authorization. After the authorization completes, the registry synchronizes the record without another request. If the user doesn't approve access before expiresAt, the record moves to CREATE_FAILED or UPDATE_FAILED. To start again, call UpdateRegistryRecord with triggerSynchronization.
+    public struct OAuth2AuthorizationData: Swift.Sendable {
+        /// The identifier of this authorization attempt.
+        public var authorizationAttemptId: Swift.String?
+        /// The URL that the user opens to approve access. The link is valid for up to 10 minutes. Treat it as sensitive and give it only to the user who approves access.
+        /// This member is required.
+        public var authorizationUrl: Swift.String?
+        /// The timestamp when the authorization link expires, 10 minutes after the authorization started. A request that joins an authorization in progress gets less time, and the link might stop working shortly before this time.
+        public var expiresAt: Foundation.Date?
+        /// The AgentCore Identity user ID that the authorization is for. Store it with your signed-in user and pass it as userIdentifier.userId when your application calls CompleteResourceTokenAuth.
+        public var userId: Swift.String?
+
+        public init(
+            authorizationAttemptId: Swift.String? = nil,
+            authorizationUrl: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.authorizationAttemptId = authorizationAttemptId
+            self.authorizationUrl = authorizationUrl
+            self.expiresAt = expiresAt
+            self.userId = userId
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.OAuth2AuthorizationData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuth2AuthorizationData(authorizationAttemptId: \(Swift.String(describing: authorizationAttemptId)), expiresAt: \(Swift.String(describing: expiresAt)), authorizationUrl: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The authorization that a user must complete before a registry record can synchronize from its source. Only CreateRegistryRecord and UpdateRegistryRecord return it. GetRegistryRecord and ListRegistryRecords never do.
+    public enum AuthorizationData: Swift.Sendable {
+        /// The OAuth 2.0 authorization that a GitHub user must approve.
+        case oauth2(AgentRegistryControlClientTypes.OAuth2AuthorizationData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The lifecycle status of a registry record. A record is DRAFT before it is submitted, PENDING_APPROVAL while it awaits curator review, and APPROVED after it is approved and discoverable. Rejecting a newer revision keeps the last approved revision discoverable. A DEPRECATED record isn't discoverable. CREATING, UPDATING, CREATE_FAILED, and UPDATE_FAILED reflect an asynchronous change that is in progress or has failed. CREATE_PENDING_AUTH and UPDATE_PENDING_AUTH mean that the record waits for a GitHub user to authorize access before it synchronizes from its GitHub source.
     public enum RegistryRecordStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
         case createFailed
+        case createPendingAuth
         case creating
         case deprecated
         case draft
         case pendingApproval
         case rejected
         case updateFailed
+        case updatePendingAuth
         case updating
         case sdkUnknown(Swift.String)
 
@@ -1352,12 +1521,14 @@ extension AgentRegistryControlClientTypes {
             return [
                 .approved,
                 .createFailed,
+                .createPendingAuth,
                 .creating,
                 .deprecated,
                 .draft,
                 .pendingApproval,
                 .rejected,
                 .updateFailed,
+                .updatePendingAuth,
                 .updating
             ]
         }
@@ -1371,12 +1542,14 @@ extension AgentRegistryControlClientTypes {
             switch self {
             case .approved: return "APPROVED"
             case .createFailed: return "CREATE_FAILED"
+            case .createPendingAuth: return "CREATE_PENDING_AUTH"
             case .creating: return "CREATING"
             case .deprecated: return "DEPRECATED"
             case .draft: return "DRAFT"
             case .pendingApproval: return "PENDING_APPROVAL"
             case .rejected: return "REJECTED"
             case .updateFailed: return "UPDATE_FAILED"
+            case .updatePendingAuth: return "UPDATE_PENDING_AUTH"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -1386,17 +1559,21 @@ extension AgentRegistryControlClientTypes {
 
 /// Response structure for creating a registry record
 public struct CreateRegistryRecordOutput: Swift.Sendable {
+    /// The authorization that a GitHub user must complete before the record's synchronization starts. Present only in this response, and only while the status is CREATE_PENDING_AUTH. If the status is CREATE_PENDING_AUTH but this member is absent, call UpdateRegistryRecord with triggerSynchronization to get a new authorization link.
+    public var authorizationData: AgentRegistryControlClientTypes.AuthorizationData?
     /// The ARN of the created registry record
     /// This member is required.
     public var recordArn: Swift.String?
-    /// The status of the registry record, set to CREATING while the asynchronous workflow is in progress
+    /// The status of the registry record. CREATING means that the asynchronous workflow is in progress. CREATE_PENDING_AUTH means that the record waits for a GitHub user to authorize access before it synchronizes from its GitHub source. For the authorization link, see authorizationData.
     /// This member is required.
     public var status: AgentRegistryControlClientTypes.RegistryRecordStatus?
 
     public init(
+        authorizationData: AgentRegistryControlClientTypes.AuthorizationData? = nil,
         recordArn: Swift.String? = nil,
         status: AgentRegistryControlClientTypes.RegistryRecordStatus? = nil
     ) {
+        self.authorizationData = authorizationData
         self.recordArn = recordArn
         self.status = status
     }
@@ -1444,6 +1621,30 @@ public struct GetRegistryRecordInput: Swift.Sendable {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The skill package of a registry record, as a short-lived download URL and the package's SHA-256 checksum. Responses never include the package bytes.
+    public struct RegistryRecordArtifactDownload: Swift.Sendable {
+        /// A presigned Amazon S3 URL that downloads the package. The URL is valid for up to 5 minutes, and the response doesn't include its expiry time. To get a new URL, call the operation again. Anyone who has the URL can download the package until it expires, so don't log, store, or share it.
+        public var downloadUrl: Swift.String?
+        /// The SHA-256 checksum of the package, as 64 lowercase hexadecimal characters. The download response carries no signature that you can check, so compare the checksum of the file that you download with this value before you use the package.
+        public var sha256: Swift.String?
+
+        public init(
+            downloadUrl: Swift.String? = nil,
+            sha256: Swift.String? = nil
+        ) {
+            self.downloadUrl = downloadUrl
+            self.sha256 = sha256
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.RegistryRecordArtifactDownload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordArtifactDownload(sha256: \(Swift.String(describing: sha256)), downloadUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// Indicates whether a registry record's custom metadata conforms to the registry's current schema. COMPLIANT means all required fields are present and all values match their declared types. NON_COMPLIANT means the metadata does not satisfy the current schema, for example because the schema was updated after the record was last modified.
     public enum CustomMetadataSchemaComplianceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliant
@@ -1472,8 +1673,87 @@ extension AgentRegistryControlClientTypes {
     }
 }
 
+extension AgentRegistryControlClientTypes {
+
+    /// A GitHub source that a skill record's content was synchronized from, and the commit that the registry read.
+    public struct GitHubSynchronizedSource: Swift.Sendable {
+        /// The commit that the source's branch or tag pointed to when the registry read it.
+        /// This member is required.
+        public var commitId: Swift.String?
+        /// The timestamp when the registry read the source.
+        /// This member is required.
+        public var synchronizedAt: Foundation.Date?
+        /// The source URL that the registry read.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            commitId: Swift.String? = nil,
+            synchronizedAt: Foundation.Date? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.commitId = commitId
+            self.synchronizedAt = synchronizedAt
+            self.url = url
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.GitHubSynchronizedSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GitHubSynchronizedSource(commitId: \(Swift.String(describing: commitId)), synchronizedAt: \(Swift.String(describing: synchronizedAt)), url: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// An Amazon S3 source that a skill record's content was synchronized from, and the object version that the registry read. At most one of versionId and eTag is set.
+    public struct S3SynchronizedSource: Swift.Sendable {
+        /// The entity tag (ETag) of the object that the registry read, without quotes, when the object has no version ID. Not recorded for a SKILL.md source on a registry that is encrypted with a customer managed key.
+        public var eTag: Swift.String?
+        /// The timestamp when the registry read the source.
+        /// This member is required.
+        public var synchronizedAt: Foundation.Date?
+        /// The source URL that the registry read.
+        /// This member is required.
+        public var url: Swift.String?
+        /// The version ID of the object that the registry read. Absent when the bucket isn't versioned.
+        public var versionId: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            synchronizedAt: Foundation.Date? = nil,
+            url: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.eTag = eTag
+            self.synchronizedAt = synchronizedAt
+            self.url = url
+            self.versionId = versionId
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.S3SynchronizedSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3SynchronizedSource(eTag: \(Swift.String(describing: eTag)), synchronizedAt: \(Swift.String(describing: synchronizedAt)), versionId: \(Swift.String(describing: versionId)), url: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The source that a skill record's content was last synchronized from. Exactly one member is set, for the source's provider.
+    public enum RegistryRecordSynchronizedSource: Swift.Sendable {
+        /// The Amazon S3 source that the registry read.
+        case s3(AgentRegistryControlClientTypes.S3SynchronizedSource)
+        /// The GitHub source that the registry read.
+        case github(AgentRegistryControlClientTypes.GitHubSynchronizedSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// Response structure for retrieving a registry record
 public struct GetRegistryRecordOutput: Swift.Sendable {
+    /// The skill package of the record's latest revision, including a revision in DRAFT or PENDING_APPROVAL status, as a download URL and a SHA-256 checksum. While an update of the record is in progress or after it fails, this is the last package that passed validation, unless the update switches between an uploaded package and a synchronized one: then it is absent until the update succeeds. Absent while the record is being created or after its creation fails, and when the record has no package, for example when its content is inline or it synchronizes only SKILL.md.
+    public var artifact: AgentRegistryControlClientTypes.RegistryRecordArtifactDownload?
     /// The timestamp when the registry record was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -1487,7 +1767,7 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     public var customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus?
     /// A description of the registry record.
     public var description: Swift.String?
-    /// The typed descriptors that define the content of the registry record.
+    /// The typed descriptors that define the content of the registry record. For a skill record with a skill package or a synchronized source, skillMd.data contains the SKILL.md that the registry took from the package or the source.
     public var descriptors: AgentRegistryControlClientTypes.Descriptors?
     /// The human-readable display name of the registry record.
     public var displayName: Swift.String?
@@ -1515,11 +1795,14 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     public var status: AgentRegistryControlClientTypes.RegistryRecordStatus?
     /// The reason for the current status. Typically populated when the status indicates a failure state.
     public var statusReason: Swift.String?
+    /// The source that the registry last synchronized the record's skill content from, including when the registry read the source and which version it read. Absent until the first successful synchronization, and after an update replaces the synchronized content, for example with an uploaded package. A failed synchronization leaves this member unchanged. After you change the source, this member shows the previous source until the registry successfully synchronizes from the new source.
+    public var synchronizedSource: AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource?
     /// The timestamp when the registry record was last updated.
     /// This member is required.
     public var updatedAt: Foundation.Date?
 
     public init(
+        artifact: AgentRegistryControlClientTypes.RegistryRecordArtifactDownload? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         createdByAutoDetection: Swift.Bool? = nil,
@@ -1537,8 +1820,10 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         status: AgentRegistryControlClientTypes.RegistryRecordStatus? = nil,
         statusReason: Swift.String? = nil,
+        synchronizedSource: AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.artifact = artifact
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.createdByAutoDetection = createdByAutoDetection
@@ -1556,13 +1841,14 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
         self.registryArn = registryArn
         self.status = status
         self.statusReason = statusReason
+        self.synchronizedSource = synchronizedSource
         self.updatedAt = updatedAt
     }
 }
 
 extension GetRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "GetRegistryRecordOutput(artifact: \(Swift.String(describing: artifact)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), synchronizedSource: \(Swift.String(describing: synchronizedSource)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -1821,6 +2107,21 @@ public struct SubmitRegistryRecordForApprovalOutput: Swift.Sendable {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The skill package patch wrapper. Omit to leave the package unchanged; supply an empty object to remove an uploaded package; supply optionalValue to upload a new package.
+    public struct UpdatedRegistryRecordArtifact: Swift.Sendable {
+        /// The skill package to upload. It replaces the record's current package or its synchronized content.
+        public var optionalValue: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// The custom metadata patch wrapper. Omit to leave the existing metadata unchanged; supply with a null value to clear all metadata; supply with key-value pairs to replace the existing metadata.
     public struct UpdatedCustomMetadataMap: Swift.Sendable {
         /// The value to set for this field. Omit the wrapper to leave the field unchanged.
@@ -1949,6 +2250,21 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The repository provider patch wrapper. Omit to leave the repository provider unchanged; supply an empty object to remove it; supply optionalValue to set it. When you remove it, also remove or replace the GitHub source in the same request.
+    public struct UpdatedAgentSkillsRepositoryProvider: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.AgentSkillsRepositoryProvider?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.AgentSkillsRepositoryProvider? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// The set of agent skills markdown descriptor fields that can be individually updated.
     public struct UpdatedAgentSkillsMdDescriptorFields: Swift.Sendable {
         /// The patch for the descriptor's data field.
@@ -1987,15 +2303,57 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// The set of agent skills additional-data fields that can be individually updated.
-    public struct UpdatedAgentSkillsAdditionalDataFields: Swift.Sendable {
-        /// The patch for the agent skills markdown descriptor field.
-        public var skillMd: AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptor?
+    /// The skill package source patch wrapper. Omit to leave the source unchanged; supply an empty object to remove it and stop synchronizing the package; supply optionalValue to replace it.
+    public struct UpdatedAgentSkillsPackageDescriptor: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor?
 
         public init(
-            skillMd: AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptor? = nil
+            optionalValue: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor? = nil
         ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The source configuration patch wrapper. Omit to leave the configuration unchanged; supply an empty object to remove it; supply optionalValue to replace it. When you move an Amazon S3 source to another bucket, the record keeps its configuration. In the same request, specify the new bucket's owner, or specify an empty object so that the registry expects the bucket in the role's account.
+    public struct UpdatedAgentSkillsSourceConfiguration: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The set of agent skills additional-data fields that can be individually updated.
+    public struct UpdatedAgentSkillsAdditionalDataFields: Swift.Sendable {
+        /// The patch for the repository provider field.
+        public var repositoryProvider: AgentRegistryControlClientTypes.UpdatedAgentSkillsRepositoryProvider?
+        /// The patch for the agent skills markdown descriptor field.
+        public var skillMd: AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptor?
+        /// The patch for the skill package source field.
+        public var skillPackage: AgentRegistryControlClientTypes.UpdatedAgentSkillsPackageDescriptor?
+        /// The patch for the source configuration field.
+        public var sourceConfiguration: AgentRegistryControlClientTypes.UpdatedAgentSkillsSourceConfiguration?
+
+        public init(
+            repositoryProvider: AgentRegistryControlClientTypes.UpdatedAgentSkillsRepositoryProvider? = nil,
+            skillMd: AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptor? = nil,
+            skillPackage: AgentRegistryControlClientTypes.UpdatedAgentSkillsPackageDescriptor? = nil,
+            sourceConfiguration: AgentRegistryControlClientTypes.UpdatedAgentSkillsSourceConfiguration? = nil
+        ) {
+            self.repositoryProvider = repositoryProvider
             self.skillMd = skillMd
+            self.skillPackage = skillPackage
+            self.sourceConfiguration = sourceConfiguration
         }
     }
 }
@@ -2315,6 +2673,8 @@ extension AgentRegistryControlClientTypes {
 }
 
 public struct UpdateRegistryRecordInput: Swift.Sendable {
+    /// The change to the record's uploaded skill package. Omit it to keep the current package, specify an empty object to remove an uploaded package, or specify optionalValue to upload a new package. An empty object doesn't remove a package that the record synchronizes from a source. To stop that synchronization, remove skillPackage. A request that changes skillMd.data replaces the record's package with that text, even if you omit this member.
+    public var artifact: AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact?
     /// The updated custom metadata for the registry record. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Omit to leave the existing metadata unchanged. Supply the wrapper with a full replacement set to update, or with a null value to clear all metadata.
     public var customMetadata: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap?
     /// The updated description of the registry record. Omit to leave the description unchanged; provide an empty wrapper to unset it.
@@ -2323,6 +2683,8 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
     public var descriptors: AgentRegistryControlClientTypes.UpdatedDescriptors?
     /// The updated display name of the registry record. Omit to leave the display name unchanged; provide an empty wrapper to unset it.
     public var displayName: AgentRegistryControlClientTypes.UpdatedDisplayName?
+    /// Specifies whether to ask a GitHub user to authorize access again, even when the current authorization still works, for example to use a different GitHub account. You can use it only together with triggerSynchronization, for a GitHub source whose credential provider uses the AUTHORIZATION_CODE grant. The new authorization also replaces the one that the same IAM principal's other records in the registry use for the same host, credential provider, scopes, and custom parameters.
+    public var forceAuthentication: Swift.Bool?
     /// The updated name of the registry record. Omit to leave the name unchanged.
     public var name: Swift.String?
     /// The provenance lineage re-assertion for the registry record. This field is reserved for the Amazon Web Services Agent Registry auto-detection service principal. Requests that include this field from other callers are rejected. The source identity of an existing lineage is immutable; a re-assertion may only refresh the source details.
@@ -2337,14 +2699,16 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
     /// The identifier of the registry containing the record (ARN or ID)
     /// This member is required.
     public var registryId: Swift.String?
-    /// Whether to trigger synchronization of the record's descriptor content from its source
+    /// Specifies whether to synchronize the record's descriptor content from its source. For a skill record, the registry reads the stored skillMd.source or skillPackage.source again, because it doesn't watch the source for changes. For a GitHub source, the operation also returns a new authorization link when one is needed. An update that sets a different skill source starts a synchronization even if you omit this member.
     public var triggerSynchronization: Swift.Bool?
 
     public init(
+        artifact: AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact? = nil,
         customMetadata: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap? = nil,
         description: AgentRegistryControlClientTypes.UpdatedDescription? = nil,
         descriptors: AgentRegistryControlClientTypes.UpdatedDescriptors? = nil,
         displayName: AgentRegistryControlClientTypes.UpdatedDisplayName? = nil,
+        forceAuthentication: Swift.Bool? = nil,
         name: Swift.String? = nil,
         provenance: [AgentRegistryControlClientTypes.Provenance]? = nil,
         recordId: Swift.String? = nil,
@@ -2353,10 +2717,12 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         triggerSynchronization: Swift.Bool? = nil
     ) {
+        self.artifact = artifact
         self.customMetadata = customMetadata
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
+        self.forceAuthentication = forceAuthentication
         self.name = name
         self.provenance = provenance
         self.recordId = recordId
@@ -2369,6 +2735,8 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
 
 /// Response structure for updating a registry record
 public struct UpdateRegistryRecordOutput: Swift.Sendable {
+    /// The authorization that a GitHub user must complete before the record's synchronization starts. Present only in this response, and only while the status is UPDATE_PENDING_AUTH. If the status is UPDATE_PENDING_AUTH but this member is absent, call UpdateRegistryRecord again with triggerSynchronization to get a new authorization link.
+    public var authorizationData: AgentRegistryControlClientTypes.AuthorizationData?
     /// The timestamp when the registry record was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2405,7 +2773,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
     /// This member is required.
     public var registryArn: Swift.String?
-    /// The lifecycle status of the registry record.
+    /// The lifecycle status of the registry record. UPDATE_PENDING_AUTH means that the update waits for a GitHub user to authorize access before the record synchronizes from its GitHub source. For the authorization link, see authorizationData.
     /// This member is required.
     public var status: AgentRegistryControlClientTypes.RegistryRecordStatus?
     /// The reason for the current status. Typically populated when the status indicates a failure state.
@@ -2415,6 +2783,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        authorizationData: AgentRegistryControlClientTypes.AuthorizationData? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         createdByAutoDetection: Swift.Bool? = nil,
@@ -2434,6 +2803,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
         statusReason: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.authorizationData = authorizationData
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.createdByAutoDetection = createdByAutoDetection
@@ -2457,7 +2827,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
 
 extension UpdateRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "UpdateRegistryRecordOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateRegistryRecordStatusInput: Swift.Sendable {
@@ -3575,6 +3945,7 @@ extension CreateRegistryRecordInput {
 
     static func write(value: CreateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["artifact"].write(value.artifact, with: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["customMetadata"].write(value.customMetadata)
         try writer["description"].write(value.description)
@@ -3633,10 +4004,12 @@ extension UpdateRegistryRecordInput {
 
     static func write(value: UpdateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["artifact"].write(value.artifact, with: AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact.write(value:to:))
         try writer["customMetadata"].write(value.customMetadata, with: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap.write(value:to:))
         try writer["description"].write(value.description, with: AgentRegistryControlClientTypes.UpdatedDescription.write(value:to:))
         try writer["descriptors"].write(value.descriptors, with: AgentRegistryControlClientTypes.UpdatedDescriptors.write(value:to:))
         try writer["displayName"].write(value.displayName, with: AgentRegistryControlClientTypes.UpdatedDisplayName.write(value:to:))
+        try writer["forceAuthentication"].write(value.forceAuthentication)
         try writer["name"].write(value.name)
         try writer["provenance"].writeList(value.provenance, memberWritingClosure: AgentRegistryControlClientTypes.Provenance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordType"].write(value.recordType)
@@ -3673,6 +4046,7 @@ extension CreateRegistryRecordOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRegistryRecordOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: AgentRegistryControlClientTypes.AuthorizationData.read(from:))
         value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -3729,6 +4103,7 @@ extension GetRegistryRecordOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetRegistryRecordOutput()
+        value.artifact = try reader["artifact"].readIfPresent(with: AgentRegistryControlClientTypes.RegistryRecordArtifactDownload.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
@@ -3746,6 +4121,7 @@ extension GetRegistryRecordOutput {
         value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
+        value.synchronizedSource = try reader["synchronizedSource"].readIfPresent(with: AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -3850,6 +4226,7 @@ extension UpdateRegistryRecordOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateRegistryRecordOutput()
+        value.authorizationData = try reader["authorizationData"].readIfPresent(with: AgentRegistryControlClientTypes.AuthorizationData.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
@@ -4342,13 +4719,19 @@ extension AgentRegistryControlClientTypes.AgentSkillsAdditionalData {
 
     static func write(value: AgentRegistryControlClientTypes.AgentSkillsAdditionalData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["repositoryProvider"].write(value.repositoryProvider)
         try writer["skillMd"].write(value.skillMd, with: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor.write(value:to:))
+        try writer["skillPackage"].write(value.skillPackage, with: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor.write(value:to:))
+        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentSkillsAdditionalData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AgentRegistryControlClientTypes.AgentSkillsAdditionalData()
         value.skillMd = try reader["skillMd"].readIfPresent(with: AgentRegistryControlClientTypes.AgentSkillsMdDescriptor.read(from:))
+        value.skillPackage = try reader["skillPackage"].readIfPresent(with: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor.read(from:))
+        value.repositoryProvider = try reader["repositoryProvider"].readIfPresent()
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration.read(from:))
         return value
     }
 }
@@ -4391,6 +4774,45 @@ extension AgentRegistryControlClientTypes.AgentSkillsMdDescriptor {
     }
 }
 
+extension AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.DescriptorSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: AgentRegistryControlClientTypes.S3SourceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: AgentRegistryControlClientTypes.S3SourceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension AgentRegistryControlClientTypes.AgUiDescriptor {
 
     static func write(value: AgentRegistryControlClientTypes.AgUiDescriptor?, to writer: SmithyJSON.Writer) throws {
@@ -4418,6 +4840,20 @@ extension AgentRegistryControlClientTypes.ApprovalConfiguration {
         var value = AgentRegistryControlClientTypes.ApprovalConfiguration()
         value.autoApprovalRules = try reader["autoApprovalRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AgentRegistryControlClientTypes.AutoApprovalRule>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "oauth2":
+                return .oauth2(try reader["oauth2"].read(with: AgentRegistryControlClientTypes.OAuth2AuthorizationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -4686,6 +5122,18 @@ extension AgentRegistryControlClientTypes.EncryptionConfiguration {
     }
 }
 
+extension AgentRegistryControlClientTypes.GitHubSynchronizedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.GitHubSynchronizedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.GitHubSynchronizedSource()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.synchronizedAt = try reader["synchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.commitId = try reader["commitId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.HttpDescriptor {
 
     static func write(value: AgentRegistryControlClientTypes.HttpDescriptor?, to writer: SmithyJSON.Writer) throws {
@@ -4775,6 +5223,19 @@ extension AgentRegistryControlClientTypes.McpToolsDescriptor {
         var value = AgentRegistryControlClientTypes.McpToolsDescriptor()
         value.data = try reader["data"].readIfPresent()
         value.dataSchemaVersion = try reader["dataSchemaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.OAuth2AuthorizationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.OAuth2AuthorizationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.OAuth2AuthorizationData()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent()
+        value.authorizationAttemptId = try reader["authorizationAttemptId"].readIfPresent()
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -4883,6 +5344,26 @@ extension AgentRegistryControlClientTypes.RegistryFilter {
     }
 }
 
+extension AgentRegistryControlClientTypes.RegistryRecordArtifactDownload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.RegistryRecordArtifactDownload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.RegistryRecordArtifactDownload()
+        value.sha256 = try reader["sha256"].readIfPresent()
+        value.downloadUrl = try reader["downloadUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.RegistryRecordArtifactUpload {
+
+    static func write(value: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["sha256"].write(value.sha256)
+    }
+}
+
 extension AgentRegistryControlClientTypes.RegistryRecordCredentialProviderConfiguration {
 
     static func write(value: AgentRegistryControlClientTypes.RegistryRecordCredentialProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4963,6 +5444,7 @@ extension AgentRegistryControlClientTypes.RegistryRecordOAuthCredentialProvider 
         try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["grantType"].write(value.grantType)
         try writer["providerArn"].write(value.providerArn)
+        try writer["returnUrl"].write(value.returnUrl)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -4973,6 +5455,7 @@ extension AgentRegistryControlClientTypes.RegistryRecordOAuthCredentialProvider 
         value.grantType = try reader["grantType"].readIfPresent()
         value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customParameters = try reader["customParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.returnUrl = try reader["returnUrl"].readIfPresent()
         return value
     }
 }
@@ -5001,6 +5484,22 @@ extension AgentRegistryControlClientTypes.RegistryRecordSummary {
     }
 }
 
+extension AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: AgentRegistryControlClientTypes.S3SynchronizedSource.read(from:)))
+            case "gitHub":
+                return .github(try reader["gitHub"].read(with: AgentRegistryControlClientTypes.GitHubSynchronizedSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension AgentRegistryControlClientTypes.RegistrySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.RegistrySummary {
@@ -5016,6 +5515,34 @@ extension AgentRegistryControlClientTypes.RegistrySummary {
         value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.S3SourceConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.S3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketOwnerAccountId"].write(value.bucketOwnerAccountId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.S3SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.S3SourceConfiguration()
+        value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.S3SynchronizedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.S3SynchronizedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.S3SynchronizedSource()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.synchronizedAt = try reader["synchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionId = try reader["versionId"].readIfPresent()
+        value.eTag = try reader["eTag"].readIfPresent()
         return value
     }
 }
@@ -5102,7 +5629,10 @@ extension AgentRegistryControlClientTypes.UpdatedAgentSkillsAdditionalDataFields
 
     static func write(value: AgentRegistryControlClientTypes.UpdatedAgentSkillsAdditionalDataFields?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["repositoryProvider"].write(value.repositoryProvider, with: AgentRegistryControlClientTypes.UpdatedAgentSkillsRepositoryProvider.write(value:to:))
         try writer["skillMd"].write(value.skillMd, with: AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptor.write(value:to:))
+        try writer["skillPackage"].write(value.skillPackage, with: AgentRegistryControlClientTypes.UpdatedAgentSkillsPackageDescriptor.write(value:to:))
+        try writer["sourceConfiguration"].write(value.sourceConfiguration, with: AgentRegistryControlClientTypes.UpdatedAgentSkillsSourceConfiguration.write(value:to:))
     }
 }
 
@@ -5139,6 +5669,30 @@ extension AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptorFields {
         try writer["data"].write(value.data, with: AgentRegistryControlClientTypes.UpdatedDescriptorData.write(value:to:))
         try writer["dataSchemaVersion"].write(value.dataSchemaVersion, with: AgentRegistryControlClientTypes.UpdatedDataSchemaVersion.write(value:to:))
         try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.UpdatedDescriptorSource.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedAgentSkillsPackageDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAgentSkillsPackageDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.AgentSkillsPackageDescriptor.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedAgentSkillsRepositoryProvider {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAgentSkillsRepositoryProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedAgentSkillsSourceConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAgentSkillsSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.AgentSkillsSourceConfiguration.write(value:to:))
     }
 }
 
@@ -5348,6 +5902,14 @@ extension AgentRegistryControlClientTypes.UpdatedMcpToolsDescriptorFields {
         guard let value else { return }
         try writer["data"].write(value.data, with: AgentRegistryControlClientTypes.UpdatedDescriptorData.write(value:to:))
         try writer["dataSchemaVersion"].write(value.dataSchemaVersion, with: AgentRegistryControlClientTypes.UpdatedDataSchemaVersion.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload.write(value:to:))
     }
 }
 

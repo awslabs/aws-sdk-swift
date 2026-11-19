@@ -3426,14 +3426,18 @@ public struct CreateStackSetInput: Swift.Sendable {
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must create the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To create the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). StackSets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a StackSet with service-managed permissions, if you reference a macro in your template the StackSet operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must create the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To create the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). With service-managed permissions, CloudFormation can process macros, nested stacks, and transforms in your StackSet template only when you provide a custom execution role template. (Macros include the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) The default service-managed execution role can't provision them: if you reference a macro in your template, the StackSet operation fails even when you specify this capability. To use macros, nested stacks, or transforms with service-managed permissions, specify a custom execution role template in ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, and specify both CAPABILITY_NAMED_IAM and CAPABILITY_AUTO_EXPAND.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another StackSet with the same name. You might retry CreateStackSet requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
     public var clientRequestToken: Swift.String?
     /// A description of the StackSet. You can use the description to identify the StackSet's purpose or other important information.
     public var description: Swift.String?
-    /// The name of the IAM execution role to use to create the StackSet. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. Valid only if the permissions model is SELF_MANAGED.
+    /// The name of the IAM execution role that CloudFormation uses for StackSet operations in your target accounts. [Self-managed permissions] If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. [Service-managed permissions] Set this name when you use custom execution roles. The role that your custom execution role template provisions in your target accounts must have this same name, and the name must begin with stacksets-exec-custom-.
     public var executionRoleName: Swift.String?
+    /// The body of the template that creates a custom execution role in target accounts. This parameter applies only when the permissions model is SERVICE_MANAGED. Conditional: Specify either ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, but not both. If you don't specify either, CloudFormation uses the default service-managed execution role in target accounts.
+    public var executionRoleTemplateBody: Swift.String?
+    /// The URL of an Amazon S3 object that contains the template that creates a custom execution role in target accounts. This parameter applies only when the permissions model is SERVICE_MANAGED. Conditional: Specify either ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, but not both. If you don't specify either, CloudFormation uses the default service-managed execution role in target accounts.
+    public var executionRoleTemplateUrl: Swift.String?
     /// Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
     /// The input parameters for the StackSet template.
@@ -3449,6 +3453,8 @@ public struct CreateStackSetInput: Swift.Sendable {
     /// The name to associate with the StackSet. The name must be unique in the Region where you create your StackSet. A stack name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
     /// This member is required.
     public var stackSetName: Swift.String?
+    /// The name of the Amazon S3 bucket that stores the execution role stack template body. CloudFormation uses this bucket only when you specify a custom execution role template.
+    public var stackSetOutputBucket: Swift.String?
     /// The key-value pairs to associate with this StackSet and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. A maximum number of 50 tags can be specified. If you specify tags as part of a CreateStackSet action, CloudFormation checks to see if you have the required IAM permission to tag resources. If you don't, the entire CreateStackSet action fails with an access denied error, and the StackSet is not created.
     public var tags: [CloudFormationClientTypes.Tag]?
     /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
@@ -3464,11 +3470,14 @@ public struct CreateStackSetInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
         executionRoleName: Swift.String? = nil,
+        executionRoleTemplateBody: Swift.String? = nil,
+        executionRoleTemplateUrl: Swift.String? = nil,
         managedExecution: CloudFormationClientTypes.ManagedExecution? = nil,
         parameters: [CloudFormationClientTypes.Parameter]? = nil,
         permissionModel: CloudFormationClientTypes.PermissionModels? = nil,
         stackId: Swift.String? = nil,
         stackSetName: Swift.String? = nil,
+        stackSetOutputBucket: Swift.String? = nil,
         tags: [CloudFormationClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil
@@ -3480,11 +3489,14 @@ public struct CreateStackSetInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.executionRoleName = executionRoleName
+        self.executionRoleTemplateBody = executionRoleTemplateBody
+        self.executionRoleTemplateUrl = executionRoleTemplateUrl
         self.managedExecution = managedExecution
         self.parameters = parameters
         self.permissionModel = permissionModel
         self.stackId = stackId
         self.stackSetName = stackSetName
+        self.stackSetOutputBucket = stackSetOutputBucket
         self.tags = tags
         self.templateBody = templateBody
         self.templateURL = templateURL
@@ -6812,6 +6824,8 @@ extension CloudFormationClientTypes {
         public var stackSetId: Swift.String?
         /// The name that's associated with the StackSet.
         public var stackSetName: Swift.String?
+        /// The Amazon S3 bucket path where CloudFormation stores the execution role stack template body. CloudFormation uses this bucket only when you specify a custom execution role template.
+        public var stackSetOutputBucketPath: Swift.String?
         /// The status of the StackSet.
         public var status: CloudFormationClientTypes.StackSetStatus?
         /// A list of tags that specify information about the StackSet. A maximum number of 50 tags can be specified.
@@ -6834,6 +6848,7 @@ extension CloudFormationClientTypes {
             stackSetDriftDetectionDetails: CloudFormationClientTypes.StackSetDriftDetectionDetails? = nil,
             stackSetId: Swift.String? = nil,
             stackSetName: Swift.String? = nil,
+            stackSetOutputBucketPath: Swift.String? = nil,
             status: CloudFormationClientTypes.StackSetStatus? = nil,
             tags: [CloudFormationClientTypes.Tag]? = nil,
             templateBody: Swift.String? = nil
@@ -6852,6 +6867,7 @@ extension CloudFormationClientTypes {
             self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
             self.stackSetName = stackSetName
+            self.stackSetOutputBucketPath = stackSetOutputBucketPath
             self.status = status
             self.tags = tags
             self.templateBody = templateBody
@@ -11700,14 +11716,18 @@ public struct UpdateStackSetInput: Swift.Sendable {
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must update the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To update the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). StackSets with service-managed permissions do not currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a StackSet with service-managed permissions, if you reference a macro in your template the StackSet operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must update the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To update the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). With service-managed permissions, CloudFormation can process macros, nested stacks, and transforms in your StackSet template only when you provide a custom execution role template. (Macros include the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) The default service-managed execution role can't provision them: if you reference a macro in your template, the StackSet operation fails even when you specify this capability. To use macros, nested stacks, or transforms with service-managed permissions, specify a custom execution role template in ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, and specify both CAPABILITY_NAMED_IAM and CAPABILITY_AUTO_EXPAND.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// [Service-managed permissions] The Organizations accounts in which to update associated stack instances. To update all the stack instances associated with this StackSet, do not specify DeploymentTargets or Regions. If the StackSet update includes changes to the template (that is, if TemplateBody or TemplateURL is specified), or the Parameters, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the StackSet update doesn't include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
     /// A brief description of updates that you are making.
     public var description: Swift.String?
-    /// [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the StackSet, so long as you have permissions to perform operations on the StackSet.
+    /// The name of the IAM execution role that CloudFormation uses for StackSet operations in your target accounts. [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the StackSet, so long as you have permissions to perform operations on the StackSet. [Service-managed permissions] Set this name when you use custom execution roles. The role that your custom execution role template provisions in your target accounts must have this same name, and the name must begin with stacksets-exec-custom-. You don't need to specify this parameter if an execution role name is already configured for the StackSet and you aren't changing it.
     public var executionRoleName: Swift.String?
+    /// The body of the template that creates or updates a custom execution role in target accounts. This parameter applies only when the permissions model is SERVICE_MANAGED. Conditional: Specify either ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, but not both. If you don't specify either, CloudFormation uses the default service-managed execution role in target accounts.
+    public var executionRoleTemplateBody: Swift.String?
+    /// The URL of an Amazon S3 object that contains the template that creates or updates a custom execution role in target accounts. This parameter applies only when the permissions model is SERVICE_MANAGED. Conditional: Specify either ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl, but not both. If you don't specify either, CloudFormation uses the default service-managed execution role in target accounts.
+    public var executionRoleTemplateUrl: Swift.String?
     /// Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
     /// The unique ID for this StackSet operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You might retry StackSet operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, CloudFormation generates one automatically. Repeating this StackSet operation with a new operation ID retries all stack instances whose status is OUTDATED.
@@ -11727,6 +11747,8 @@ public struct UpdateStackSetInput: Swift.Sendable {
     /// The name or unique ID of the StackSet that you want to update.
     /// This member is required.
     public var stackSetName: Swift.String?
+    /// The name of the Amazon S3 bucket that stores the execution role stack template body. CloudFormation uses this bucket only when you specify a custom execution role template.
+    public var stackSetOutputBucket: Swift.String?
     /// The key-value pairs to associate with this StackSet and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. You can specify a maximum number of 50 tags. If you specify tags for this parameter, those tags replace any list of tags that are currently associated with this StackSet. This means:
     ///
     /// * If you don't specify this parameter, CloudFormation doesn't modify the stack's tags.
@@ -11742,6 +11764,8 @@ public struct UpdateStackSetInput: Swift.Sendable {
     public var templateBody: Swift.String?
     /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var templateURL: Swift.String?
+    /// Specifies whether CloudFormation uses the default service-managed execution role instead of a custom execution role in target accounts. If you set this to true, CloudFormation ignores any custom execution role template specified in ExecutionRoleTemplateBody or ExecutionRoleTemplateUrl.
+    public var useAdminExecutionRole: Swift.Bool?
     /// Use the existing template that's associated with the StackSet that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
@@ -11754,6 +11778,8 @@ public struct UpdateStackSetInput: Swift.Sendable {
         deploymentTargets: CloudFormationClientTypes.DeploymentTargets? = nil,
         description: Swift.String? = nil,
         executionRoleName: Swift.String? = nil,
+        executionRoleTemplateBody: Swift.String? = nil,
+        executionRoleTemplateUrl: Swift.String? = nil,
         managedExecution: CloudFormationClientTypes.ManagedExecution? = nil,
         operationId: Swift.String? = nil,
         operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
@@ -11761,9 +11787,11 @@ public struct UpdateStackSetInput: Swift.Sendable {
         permissionModel: CloudFormationClientTypes.PermissionModels? = nil,
         regions: [Swift.String]? = nil,
         stackSetName: Swift.String? = nil,
+        stackSetOutputBucket: Swift.String? = nil,
         tags: [CloudFormationClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateURL: Swift.String? = nil,
+        useAdminExecutionRole: Swift.Bool? = nil,
         usePreviousTemplate: Swift.Bool? = nil
     ) {
         self.accounts = accounts
@@ -11774,6 +11802,8 @@ public struct UpdateStackSetInput: Swift.Sendable {
         self.deploymentTargets = deploymentTargets
         self.description = description
         self.executionRoleName = executionRoleName
+        self.executionRoleTemplateBody = executionRoleTemplateBody
+        self.executionRoleTemplateUrl = executionRoleTemplateUrl
         self.managedExecution = managedExecution
         self.operationId = operationId
         self.operationPreferences = operationPreferences
@@ -11781,9 +11811,11 @@ public struct UpdateStackSetInput: Swift.Sendable {
         self.permissionModel = permissionModel
         self.regions = regions
         self.stackSetName = stackSetName
+        self.stackSetOutputBucket = stackSetOutputBucket
         self.tags = tags
         self.templateBody = templateBody
         self.templateURL = templateURL
+        self.useAdminExecutionRole = useAdminExecutionRole
         self.usePreviousTemplate = usePreviousTemplate
     }
 }
@@ -12720,11 +12752,14 @@ extension CreateStackSetInput {
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["Description"].write(value.description)
         try writer["ExecutionRoleName"].write(value.executionRoleName)
+        try writer["ExecutionRoleTemplateBody"].write(value.executionRoleTemplateBody)
+        try writer["ExecutionRoleTemplateUrl"].write(value.executionRoleTemplateUrl)
         try writer["ManagedExecution"].write(value.managedExecution, with: CloudFormationClientTypes.ManagedExecution.write(value:to:))
         try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFormationClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PermissionModel"].write(value.permissionModel)
         try writer["StackId"].write(value.stackId)
         try writer["StackSetName"].write(value.stackSetName)
+        try writer["StackSetOutputBucket"].write(value.stackSetOutputBucket)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudFormationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateBody"].write(value.templateBody)
         try writer["TemplateURL"].write(value.templateURL)
@@ -13736,6 +13771,8 @@ extension UpdateStackSetInput {
         try writer["DeploymentTargets"].write(value.deploymentTargets, with: CloudFormationClientTypes.DeploymentTargets.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["ExecutionRoleName"].write(value.executionRoleName)
+        try writer["ExecutionRoleTemplateBody"].write(value.executionRoleTemplateBody)
+        try writer["ExecutionRoleTemplateUrl"].write(value.executionRoleTemplateUrl)
         try writer["ManagedExecution"].write(value.managedExecution, with: CloudFormationClientTypes.ManagedExecution.write(value:to:))
         try writer["OperationId"].write(value.operationId)
         try writer["OperationPreferences"].write(value.operationPreferences, with: CloudFormationClientTypes.StackSetOperationPreferences.write(value:to:))
@@ -13743,9 +13780,11 @@ extension UpdateStackSetInput {
         try writer["PermissionModel"].write(value.permissionModel)
         try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StackSetName"].write(value.stackSetName)
+        try writer["StackSetOutputBucket"].write(value.stackSetOutputBucket)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudFormationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateBody"].write(value.templateBody)
         try writer["TemplateURL"].write(value.templateURL)
+        try writer["UseAdminExecutionRole"].write(value.useAdminExecutionRole)
         try writer["UsePreviousTemplate"].write(value.usePreviousTemplate)
         try writer["Action"].write("UpdateStackSet")
         try writer["Version"].write("2010-05-15")
@@ -17715,6 +17754,7 @@ extension CloudFormationClientTypes.StackSet {
         value.organizationalUnitIds = try reader["OrganizationalUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.managedExecution = try reader["ManagedExecution"].readIfPresent(with: CloudFormationClientTypes.ManagedExecution.read(from:))
         value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stackSetOutputBucketPath = try reader["StackSetOutputBucketPath"].readIfPresent()
         return value
     }
 }

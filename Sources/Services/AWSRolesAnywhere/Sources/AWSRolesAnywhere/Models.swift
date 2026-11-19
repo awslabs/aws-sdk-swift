@@ -195,6 +195,135 @@ extension RolesAnywhereClientTypes.Tag: Swift.CustomDebugStringConvertible {
         "Tag(key: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
+extension RolesAnywhereClientTypes {
+
+    public enum TipStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TipStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RolesAnywhereClientTypes {
+
+    public enum TipSubjectSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case x509sanUri
+        case x509subjectCn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TipSubjectSource] {
+            return [
+                .x509sanUri,
+                .x509subjectCn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .x509sanUri: return "x509SAN/URI"
+            case .x509subjectCn: return "x509Subject/CN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RolesAnywhereClientTypes {
+
+    public enum TipSubjectType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case user
+        case workload
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TipSubjectType] {
+            return [
+                .user,
+                .workload
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .user: return "user"
+            case .workload: return "workload"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RolesAnywhereClientTypes {
+
+    /// The trusted identity propagation (TIP) settings of a profile. When you enable TIP, sessions from the profile include the identity from the certificate in aws:OriginIdentity condition keys, which callers can't set.
+    public struct TipConfiguration: Swift.Sendable {
+        /// Specifies whether you use trusted identity propagation (TIP) for the profile. This field supports the following values:
+        ///
+        /// * ENABLED – Sessions from the profile include the aws:OriginIdentity condition keys.
+        ///
+        /// * DISABLED – Sessions from the profile don't include these keys.
+        /// This member is required.
+        public var status: RolesAnywhereClientTypes.TipStatus?
+        /// The certificate field whose value becomes the subject, aws:OriginIdentity/Subject. This field supports the following values:
+        ///
+        /// * x509Subject/CN (default) – The common name (CN) in the certificate's Subject.
+        ///
+        /// * x509SAN/URI – The first URI in the certificate's Subject Alternative Name (SAN) extension.
+        ///
+        ///
+        /// The profile's attribute mappings must include a rule for this field, and the default attribute mappings include one for each value. If the certificate has no value for the field, CreateSession denies the request.
+        public var subjectSource: RolesAnywhereClientTypes.TipSubjectSource?
+        /// Specifies whether the certificates for the profile identify workloads or people. This field supports the following values:
+        ///
+        /// * workload – The certificates identify workloads.
+        ///
+        /// * user – The certificates identify people.
+        ///
+        ///
+        /// Sessions include the value in aws:OriginIdentity/SubjectType. If you omit this field, sessions don't include that key.
+        public var subjectType: RolesAnywhereClientTypes.TipSubjectType?
+
+        public init(
+            status: RolesAnywhereClientTypes.TipStatus? = nil,
+            subjectSource: RolesAnywhereClientTypes.TipSubjectSource? = nil,
+            subjectType: RolesAnywhereClientTypes.TipSubjectType? = nil
+        ) {
+            self.status = status
+            self.subjectSource = subjectSource
+            self.subjectType = subjectType
+        }
+    }
+}
+
 public struct CreateProfileInput: Swift.Sendable {
     /// Used to determine if a custom role session name will be accepted in a temporary credential request.
     public var acceptRoleSessionName: Swift.Bool?
@@ -218,6 +347,8 @@ public struct CreateProfileInput: Swift.Sendable {
     public var sessionPolicy: Swift.String?
     /// The tags to attach to the profile.
     public var tags: [RolesAnywhereClientTypes.Tag]?
+    /// The trusted identity propagation (TIP) settings for the profile. When you enable TIP, sessions from the profile include the identity from the certificate in aws:OriginIdentity condition keys. If you omit this parameter, the profile doesn't use TIP.
+    public var tipConfiguration: RolesAnywhereClientTypes.TipConfiguration?
 
     public init(
         acceptRoleSessionName: Swift.Bool? = nil,
@@ -229,7 +360,8 @@ public struct CreateProfileInput: Swift.Sendable {
         requireInstanceProperties: Swift.Bool? = nil,
         roleArns: [Swift.String]? = nil,
         sessionPolicy: Swift.String? = nil,
-        tags: [RolesAnywhereClientTypes.Tag]? = nil
+        tags: [RolesAnywhereClientTypes.Tag]? = nil,
+        tipConfiguration: RolesAnywhereClientTypes.TipConfiguration? = nil
     ) {
         self.acceptRoleSessionName = acceptRoleSessionName
         self.aliasName = aliasName
@@ -241,6 +373,7 @@ public struct CreateProfileInput: Swift.Sendable {
         self.roleArns = roleArns
         self.sessionPolicy = sessionPolicy
         self.tags = tags
+        self.tipConfiguration = tipConfiguration
     }
 }
 
@@ -280,6 +413,8 @@ extension RolesAnywhereClientTypes {
         public var roleArns: [Swift.String]?
         /// A session policy that applies to the trust boundary of the vended session credentials.
         public var sessionPolicy: Swift.String?
+        /// The trusted identity propagation (TIP) settings of the profile.
+        public var tipConfiguration: RolesAnywhereClientTypes.TipConfiguration?
         /// The ISO-8601 timestamp when the profile was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -300,6 +435,7 @@ extension RolesAnywhereClientTypes {
             requireInstanceProperties: Swift.Bool? = nil,
             roleArns: [Swift.String]? = nil,
             sessionPolicy: Swift.String? = nil,
+            tipConfiguration: RolesAnywhereClientTypes.TipConfiguration? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.acceptRoleSessionName = acceptRoleSessionName
@@ -318,6 +454,7 @@ extension RolesAnywhereClientTypes {
             self.requireInstanceProperties = requireInstanceProperties
             self.roleArns = roleArns
             self.sessionPolicy = sessionPolicy
+            self.tipConfiguration = tipConfiguration
             self.updatedAt = updatedAt
         }
     }
@@ -1643,6 +1780,8 @@ public struct UpdateProfileInput: Swift.Sendable {
     public var roleArns: [Swift.String]?
     /// A session policy that applies to the trust boundary of the vended session credentials.
     public var sessionPolicy: Swift.String?
+    /// The trusted identity propagation (TIP) settings for the profile. The settings that you specify replace the current settings, and a field that you omit returns to its default. If you omit this parameter, the TIP settings don't change.
+    public var tipConfiguration: RolesAnywhereClientTypes.TipConfiguration?
 
     public init(
         acceptRoleSessionName: Swift.Bool? = nil,
@@ -1652,7 +1791,8 @@ public struct UpdateProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         profileId: Swift.String? = nil,
         roleArns: [Swift.String]? = nil,
-        sessionPolicy: Swift.String? = nil
+        sessionPolicy: Swift.String? = nil,
+        tipConfiguration: RolesAnywhereClientTypes.TipConfiguration? = nil
     ) {
         self.acceptRoleSessionName = acceptRoleSessionName
         self.aliasName = aliasName
@@ -1662,6 +1802,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         self.profileId = profileId
         self.roleArns = roleArns
         self.sessionPolicy = sessionPolicy
+        self.tipConfiguration = tipConfiguration
     }
 }
 
@@ -2240,6 +2381,7 @@ extension CreateProfileInput {
         try writer["roleArns"].writeList(value.roleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionPolicy"].write(value.sessionPolicy)
         try writer["tags"].writeList(value.tags, memberWritingClosure: RolesAnywhereClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tipConfiguration"].write(value.tipConfiguration, with: RolesAnywhereClientTypes.TipConfiguration.write(value:to:))
     }
 }
 
@@ -2336,6 +2478,7 @@ extension UpdateProfileInput {
         try writer["name"].write(value.name)
         try writer["roleArns"].writeList(value.roleArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionPolicy"].write(value.sessionPolicy)
+        try writer["tipConfiguration"].write(value.tipConfiguration, with: RolesAnywhereClientTypes.TipConfiguration.write(value:to:))
     }
 }
 
@@ -3389,6 +3532,7 @@ extension RolesAnywhereClientTypes.ProfileDetail {
         value.attributeMappings = try reader["attributeMappings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.AttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aliasName = try reader["aliasName"].readIfPresent()
         value.aliasArn = try reader["aliasArn"].readIfPresent()
+        value.tipConfiguration = try reader["tipConfiguration"].readIfPresent(with: RolesAnywhereClientTypes.TipConfiguration.read(from:))
         value.previousAliasName = try reader["previousAliasName"].readIfPresent()
         return value
     }
@@ -3486,6 +3630,25 @@ extension RolesAnywhereClientTypes.Tag {
         var value = RolesAnywhereClientTypes.Tag()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RolesAnywhereClientTypes.TipConfiguration {
+
+    static func write(value: RolesAnywhereClientTypes.TipConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+        try writer["subjectSource"].write(value.subjectSource)
+        try writer["subjectType"].write(value.subjectType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.TipConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.TipConfiguration()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subjectType = try reader["subjectType"].readIfPresent()
+        value.subjectSource = try reader["subjectSource"].readIfPresent()
         return value
     }
 }

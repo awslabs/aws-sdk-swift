@@ -63,6 +63,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.EventStreamBodyMiddleware
 import struct ClientRuntime.HeaderMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -622,6 +623,81 @@ extension PollyClient {
 }
 
 extension PollyClient {
+    /// Performs the `CreateVoice` operation on the `Polly` service.
+    ///
+    /// Creates a custom voice from recordings of a speaker and returns it in pending status. Use GetVoice to check the status. When the status is active, you can use the voice ID in SynthesizeSpeech, StartSpeechSynthesisTask, and StartSpeechSynthesisStream. The custom-voice-max-count service quota limits the number of custom voices in your account in each Region. If you reach the quota, the request fails with ServiceQuotaExceededException. This operation requires permissions to perform the polly:CreateVoice action. You also need s3:GetObject permission on each recording that you specify by S3Url. If you specify a customer managed key, you also need kms:DescribeKey, kms:GenerateDataKey, and kms:Decrypt permissions on the key. If you specify Tags, you also need the polly:TagResource permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateVoiceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action. For a custom voice that uses a customer managed key, Amazon Polly also returns this exception if you don't have the required Amazon Web Services KMS permissions on the key.
+    /// - `InvalidTagParameterException` : The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
+    /// - `ServiceFailureException` : An unknown condition has caused a service failure.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `TooManyTagsException` : The list of tags on the resource is over the limit. The maximum number of tags that can be applied to a resource is 50. Remove unused tags or reduce the number of tags in the request, and then try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createVoice(input: CreateVoiceInput) async throws -> CreateVoiceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createVoice")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "polly")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateVoiceInput, CreateVoiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateVoiceInput, CreateVoiceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVoiceInput, CreateVoiceOutput>(CreateVoiceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVoiceInput, CreateVoiceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVoiceInput, CreateVoiceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateVoiceInput, CreateVoiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVoiceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceInput, CreateVoiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceOutput>(CreateVoiceOutput.httpOutput(from:), CreateVoiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceInput, CreateVoiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVoiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVoiceInput, CreateVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVoiceInput, CreateVoiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Polly"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVoiceInput, CreateVoiceOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVoice")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteLexicon` operation on the `Polly` service.
     ///
     /// Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html).
@@ -688,9 +764,78 @@ extension PollyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteVoice` operation on the `Polly` service.
+    ///
+    /// Deletes a custom voice. DescribeVoices and GetVoice stop returning the voice immediately. You can't restore a deleted voice. You can delete a voice in active or failed status. If the voice is in pending status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. You can delete the voice even if you disabled its Amazon Web Services KMS key or scheduled it for deletion. This operation requires permissions to perform the polly:DeleteVoice action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with the current state of the resource. For a custom voice, the voice isn't in the status that the operation requires. Check the status with GetVoice, and then try again.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
+    /// - `ServiceFailureException` : An unknown condition has caused a service failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func deleteVoice(input: DeleteVoiceInput) async throws -> DeleteVoiceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteVoice")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "polly")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVoiceInput, DeleteVoiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVoiceInput, DeleteVoiceOutput>(DeleteVoiceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceInput, DeleteVoiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceOutput>(DeleteVoiceOutput.httpOutput(from:), DeleteVoiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceInput, DeleteVoiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVoiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVoiceInput, DeleteVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVoiceInput, DeleteVoiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Polly"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVoiceInput, DeleteVoiceOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVoice")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeVoices` operation on the `Polly` service.
     ///
-    /// Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name. When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by DescribeVoices. For example, you want your news reader application to read news in a specific language, but giving a user the option to choose the voice. Using the DescribeVoices operation you can provide the user with a list of available voices to select from. You can optionally specify a language code to filter the available voices. For example, if you specify en-US, the operation returns a list of all available US English voices. This operation requires permissions to perform the polly:DescribeVoices action.
+    /// Returns the list of voices: the voices that Amazon Polly provides and the custom voices in your account. Each voice speaks a specified language and is identified by an ID. A voice that Amazon Polly provides is either male or female, and its ID is the ASCII version of the voice name. When synthesizing speech (SynthesizeSpeech), you provide the voice ID for the voice you want from the list of voices returned by DescribeVoices. For example, your news reader application reads news in a specific language, and you want to give users the option to choose the voice. With the DescribeVoices operation, you can provide a list of available voices for users to choose from. You can optionally specify a language code to filter the available voices. For example, if you specify en-US, the operation returns a list of all available US English voices. The list includes custom voices in every status. For each voice, Origin indicates whether Amazon Polly provides the voice or you created it. You can use a custom voice for synthesis only when its status is active. A voice in failed status stays in the list until you delete it. For a custom voice, DescribeVoices returns Origin, Id, Name, Status, LanguageCode, LanguageName, SupportedEngines, and CreationTime. To get Arn, StatusReason, VoiceCreationData, and CustomerManagedEncryption, use GetVoice. The LanguageCode and Engine filters apply to custom voices in the same way as to voices that Amazon Polly provides. This operation requires permissions to perform the polly:DescribeVoices action.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeVoicesInput`)
     ///
@@ -888,6 +1033,74 @@ extension PollyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetVoice` operation on the `Polly` service.
+    ///
+    /// Returns the status and properties of a custom voice. Use this operation after CreateVoice to check whether the status of the voice is active or failed. Unlike DescribeVoices, GetVoice also returns Arn, VoiceCreationData, CustomerManagedEncryption, and StatusReason. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. This operation requires permissions to perform the polly:GetVoice action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetVoiceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
+    /// - `ServiceFailureException` : An unknown condition has caused a service failure.
+    /// - `ThrottlingException` : The request was denied because of request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getVoice(input: GetVoiceInput) async throws -> GetVoiceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVoice")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "polly")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetVoiceInput, GetVoiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVoiceInput, GetVoiceOutput>(GetVoiceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceInput, GetVoiceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceOutput>(GetVoiceOutput.httpOutput(from:), GetVoiceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceInput, GetVoiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVoiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVoiceInput, GetVoiceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVoiceInput, GetVoiceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Polly"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVoiceInput, GetVoiceOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVoice")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListLexicons` operation on the `Polly` service.
     ///
     /// Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html).
@@ -1034,7 +1247,7 @@ extension PollyClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidTagParameterException` : The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
-    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN is spelled correctly, and then try again.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
@@ -1175,6 +1388,9 @@ extension PollyClient {
     ///
     /// * [SynthesizeSpeech](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
     ///
+    ///
+    /// To use a custom voice, specify its ID in VoiceId. The voice must be in active status. If the voice is in pending or failed status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. If the custom voice uses a customer managed key, you need kms:Decrypt permission on the key. If you disabled the key or scheduled it for deletion, the request fails with ValidationException. If you don't have permission to use the key, the request fails with AccessDeniedException. If Amazon Web Services KMS throttles Amazon Polly's request to use the key, the request fails with ThrottlingException.
+    ///
     /// - Parameter input: [no documentation found] (Type: `StartSpeechSynthesisStreamInput`)
     ///
     /// - Returns: [no documentation found] (Type: `StartSpeechSynthesisStreamOutput`)
@@ -1182,6 +1398,8 @@ extension PollyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with the current state of the resource. For a custom voice, the voice isn't in the status that the operation requires. Check the status with GetVoice, and then try again.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling.
@@ -1246,7 +1464,7 @@ extension PollyClient {
 
     /// Performs the `StartSpeechSynthesisTask` operation on the `Polly` service.
     ///
-    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask. This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current status. The SpeechSynthesisTask object is available for 72 hours after starting the asynchronous synthesis task.
+    /// Starts an asynchronous synthesis task by creating a new SpeechSynthesisTask. This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn). After Amazon Polly creates the synthesis task, the operation returns a SpeechSynthesisTask object that includes an identifier for the task and its current status. The SpeechSynthesisTask object is available for 72 hours after you start the asynchronous synthesis task. To use a custom voice, specify its ID in VoiceId. The voice must be in active status. If the voice is in pending or failed status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. If the custom voice uses a customer managed key, you need kms:Decrypt permission on the key. If you disable the key or schedule it for deletion before the task runs, the task fails and TaskStatusReason describes the cause.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartSpeechSynthesisTaskInput`)
     ///
@@ -1255,6 +1473,7 @@ extension PollyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with the current state of the resource. For a custom voice, the voice isn't in the status that the operation requires. Check the status with GetVoice, and then try again.
     /// - `EngineNotSupportedException` : This engine is not compatible with the voice that you have designated. Choose a new voice that is compatible with the engine or change the engine and restart the operation.
     /// - `InvalidS3BucketException` : The provided Amazon S3 bucket name is invalid. Please check your input with S3 bucket naming requirements and try again.
     /// - `InvalidS3KeyException` : The provided Amazon S3 key prefix is invalid. Please provide a valid S3 object key name.
@@ -1264,6 +1483,7 @@ extension PollyClient {
     /// - `LanguageNotSupportedException` : The language specified is not currently supported by Amazon Polly in this capacity.
     /// - `LexiconNotFoundException` : Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
     /// - `MarksNotSupportedForFormatException` : Speech marks are not supported for the OutputFormat selected. Speech marks are only available for content in json format.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `SsmlMarksNotSupportedForTextTypeException` : SSML speech marks are not supported for plain text-type input.
     /// - `TextLengthExceededException` : The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
@@ -1325,7 +1545,7 @@ extension PollyClient {
 
     /// Performs the `SynthesizeSpeech` operation on the `Polly` service.
     ///
-    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html).
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html). To use a custom voice, specify its ID in VoiceId. The voice must be in active status. If the voice is in pending or failed status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. If the custom voice uses a customer managed key, you need kms:Decrypt permission on the key. If you disabled the key or scheduled it for deletion, the request fails with ValidationException. If you don't have permission to use the key, the request fails with AccessDeniedException. If Amazon Web Services KMS throttles Amazon Polly's request to use the key, the request fails with ThrottlingException.
     ///
     /// - Parameter input: [no documentation found] (Type: `SynthesizeSpeechInput`)
     ///
@@ -1334,12 +1554,14 @@ extension PollyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with the current state of the resource. For a custom voice, the voice isn't in the status that the operation requires. Check the status with GetVoice, and then try again.
     /// - `EngineNotSupportedException` : This engine is not compatible with the voice that you have designated. Choose a new voice that is compatible with the engine or change the engine and restart the operation.
     /// - `InvalidSampleRateException` : The specified sample rate is not valid.
     /// - `InvalidSsmlException` : The SSML you provided is invalid. Verify the SSML syntax, spelling of tags and values, and then try again.
     /// - `LanguageNotSupportedException` : The language specified is not currently supported by Amazon Polly in this capacity.
     /// - `LexiconNotFoundException` : Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
     /// - `MarksNotSupportedForFormatException` : Speech marks are not supported for the OutputFormat selected. Speech marks are only available for content in json format.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `SsmlMarksNotSupportedForTextTypeException` : SSML speech marks are not supported for plain text-type input.
     /// - `TextLengthExceededException` : The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
@@ -1411,7 +1633,7 @@ extension PollyClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidTagParameterException` : The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
-    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN is spelled correctly, and then try again.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `TooManyTagsException` : The list of tags on the resource is over the limit. The maximum number of tags that can be applied to a resource is 50. Remove unused tags or reduce the number of tags in the request, and then try again.
@@ -1484,7 +1706,7 @@ extension PollyClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidTagParameterException` : The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
-    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN is spelled correctly, and then try again.
+    /// - `ResourceNotFoundException` : Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `ThrottlingException` : The request was denied because of request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
@@ -1550,7 +1772,7 @@ extension PollyClient {
     /// The presigned URL will be valid for the given expiration, in seconds.
     ///
     /// Below is the documentation for SynthesizeSpeech operation:
-    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html).
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html). To use a custom voice, specify its ID in VoiceId. The voice must be in active status. If the voice is in pending or failed status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. If the custom voice uses a customer managed key, you need kms:Decrypt permission on the key. If you disabled the key or scheduled it for deletion, the request fails with ValidationException. If you don't have permission to use the key, the request fails with AccessDeniedException. If Amazon Web Services KMS throttles Amazon Polly's request to use the key, the request fails with ThrottlingException.
     ///
     /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
@@ -1570,7 +1792,7 @@ extension PollyClient {
     /// The presigned request will be valid for the given expiration, in seconds.
     ///
     /// Below is the documentation for SynthesizeSpeech operation:
-    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html).
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html). To use a custom voice, specify its ID in VoiceId. The voice must be in active status. If the voice is in pending or failed status, the request fails with ConflictException. If no custom voice with the specified ID exists in your account and Region, the request fails with ResourceNotFoundException. If the custom voice uses a customer managed key, you need kms:Decrypt permission on the key. If you disabled the key or scheduled it for deletion, the request fails with ValidationException. If you don't have permission to use the key, the request fails with AccessDeniedException. If Amazon Web Services KMS throttles Amazon Polly's request to use the key, the request fails with ThrottlingException.
     ///
     /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.

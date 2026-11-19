@@ -623,9 +623,11 @@ extension CodeConnectionsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
+    /// - `UnsupportedProviderTypeException` : The specified provider type is not supported for connections.
     public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -785,6 +787,7 @@ extension CodeConnectionsClient {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createRepositoryLink(input: CreateRepositoryLinkInput) async throws -> CreateRepositoryLinkOutput {
         var config = config
@@ -868,6 +871,7 @@ extension CodeConnectionsClient {
     /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createSyncConfiguration(input: CreateSyncConfigurationInput) async throws -> CreateSyncConfigurationOutput {
         var config = config

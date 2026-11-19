@@ -440,7 +440,7 @@ extension ConnectCasesClientTypes {
 
     /// Represents the input configuration of an SLA being created.
     public struct SlaInputConfiguration: Swift.Sendable {
-        /// Unique identifier of a field.
+        /// Unique identifier of the case field that the SLA tracks. The field must be a single-select field, such as the system status field or a custom single-select field.
         public var fieldId: Swift.String?
         /// Name of an SLA.
         /// This member is required.
@@ -1817,12 +1817,40 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Represents the content of a related item to be updated. This is a union type that can contain either comment content or custom content.
+    /// Represents the SLA configuration to update.
+    public struct SlaUpdateConfiguration: Swift.Sendable {
+        /// New target duration in minutes within which an SLA should be completed. The new deadline is counted from when the SLA was created.
+        /// This member is required.
+        public var targetSlaMinutes: Swift.Int?
+
+        public init(
+            targetSlaMinutes: Swift.Int? = nil
+        ) {
+            self.targetSlaMinutes = targetSlaMinutes
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the updated content of an SLA related item.
+    public enum SlaUpdateContent: Swift.Sendable {
+        /// Represents the SLA configuration to update.
+        case slaupdateconfiguration(ConnectCasesClientTypes.SlaUpdateConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of a related item to be updated. This is a union type that can contain comment content, custom content, or SLA content.
     public enum RelatedItemUpdateContent: Swift.Sendable {
         /// Represents the updated content of a Comment related item.
         case comment(ConnectCasesClientTypes.CommentUpdateContent)
         /// Represents the updated content of a Custom related item.
         case custom(ConnectCasesClientTypes.CustomUpdateContent)
+        /// Represents the content of an SLA to be updated.
+        case sla(ConnectCasesClientTypes.SlaUpdateContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8217,6 +8245,8 @@ extension ConnectCasesClientTypes.RelatedItemUpdateContent {
                 try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentUpdateContent.write(value:to:))
             case let .custom(custom):
                 try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomUpdateContent.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaUpdateContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -8386,6 +8416,27 @@ extension ConnectCasesClientTypes.SlaInputContent {
         switch value {
             case let .slainputconfiguration(slainputconfiguration):
                 try writer["slaInputConfiguration"].write(slainputconfiguration, with: ConnectCasesClientTypes.SlaInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaUpdateConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.SlaUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSlaMinutes"].write(value.targetSlaMinutes)
+    }
+}
+
+extension ConnectCasesClientTypes.SlaUpdateContent {
+
+    static func write(value: ConnectCasesClientTypes.SlaUpdateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .slaupdateconfiguration(slaupdateconfiguration):
+                try writer["slaUpdateConfiguration"].write(slaupdateconfiguration, with: ConnectCasesClientTypes.SlaUpdateConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }

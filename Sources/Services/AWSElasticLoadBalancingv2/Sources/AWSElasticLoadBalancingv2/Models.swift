@@ -1506,6 +1506,138 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum ClientCertificateIdentityFilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accept
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientCertificateIdentityFilterAction] {
+            return [
+                .accept
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accept: return "accept"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum ClientCertificateIdentityFilterField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sanDns
+        case sanUri
+        case subjectCn
+        case subjectOu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientCertificateIdentityFilterField] {
+            return [
+                .sanDns,
+                .sanUri,
+                .subjectCn,
+                .subjectOu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sanDns: return "san-dns"
+            case .sanUri: return "san-uri"
+            case .subjectCn: return "subject-cn"
+            case .subjectOu: return "subject-ou"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum ClientCertificateIdentityFilterMatchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exact
+        case `prefix`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientCertificateIdentityFilterMatchType] {
+            return [
+                .exact,
+                .prefix
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exact: return "exact"
+            case .prefix: return "prefix"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// Describes a client certificate identity filter.
+    public struct ClientCertificateIdentityFilter: Swift.Sendable {
+        /// The action to take when the client certificate matches the filter. The only supported action is accept.
+        /// This member is required.
+        public var action: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterAction?
+        /// The client certificate field to match. The possible values are:
+        ///
+        /// * subject-cn – The common name in the certificate subject.
+        ///
+        /// * subject-ou – The organizational unit in the certificate subject.
+        ///
+        /// * san-dns – A DNS name in the subject alternative name (SAN).
+        ///
+        /// * san-uri – A URI in the subject alternative name (SAN).
+        ///
+        ///
+        /// If the client certificate doesn't contain the field, the filter doesn't match. If the field has multiple values, the filter matches if it matches any one of the values.
+        /// This member is required.
+        public var field: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterField?
+        /// The match type. The possible values are exact and prefix. For the subject-cn, subject-ou, and san-dns fields, matching is case-insensitive. For the san-uri field, the scheme and host are matched case-insensitively, and the rest of the URI is matched case-sensitively.
+        /// This member is required.
+        public var matchType: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterMatchType?
+        /// The value to match. The value must be 1–256 printable ASCII characters. If the field is san-uri, the value must begin with a letter. Before the first colon, the value can contain only letters, digits, plus signs (+), hyphens (-), or periods (.). If the match type is exact, the value must contain a colon. For example, spiffe://example.com/workload is a valid value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            action: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterAction? = nil,
+            field: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterField? = nil,
+            matchType: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilterMatchType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.action = action
+            self.field = field
+            self.matchType = matchType
+            self.value = value
+        }
+    }
+}
+
 /// A listener with the specified port already exists.
 public struct DuplicateListenerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1840,9 +1972,11 @@ extension ElasticLoadBalancingv2ClientTypes {
     public struct MutualAuthenticationAttributes: Swift.Sendable {
         /// Indicates whether trust store CA certificate names are advertised.
         public var advertiseTrustStoreCaNames: ElasticLoadBalancingv2ClientTypes.AdvertiseTrustStoreCaNamesEnum?
+        /// [Network Load Balancers] The client certificate identity filters. The load balancer admits a connection only if the client certificate matches at least one filter. If you don't specify any filters, the load balancer admits every client certificate that passes trust store validation and revocation checks. You can specify filters only when the mode is verify. You can specify up to 100 filters per listener.
+        public var clientCertificateIdentityFilters: [ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter]?
         /// Indicates whether expired client certificates are ignored.
         public var ignoreClientCertificateExpiry: Swift.Bool?
-        /// The client certificate handling method. Options are off, passthrough or verify. The default value is off.
+        /// The client certificate handling method. The default value is off. [Application Load Balancers] The possible values are off, passthrough, and verify. [Network Load Balancers] The possible values are off and verify.
         public var mode: Swift.String?
         /// The Amazon Resource Name (ARN) of the trust store.
         public var trustStoreArn: Swift.String?
@@ -1851,12 +1985,14 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public init(
             advertiseTrustStoreCaNames: ElasticLoadBalancingv2ClientTypes.AdvertiseTrustStoreCaNamesEnum? = nil,
+            clientCertificateIdentityFilters: [ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter]? = nil,
             ignoreClientCertificateExpiry: Swift.Bool? = nil,
             mode: Swift.String? = nil,
             trustStoreArn: Swift.String? = nil,
             trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum? = nil
         ) {
             self.advertiseTrustStoreCaNames = advertiseTrustStoreCaNames
+            self.clientCertificateIdentityFilters = clientCertificateIdentityFilters
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
             self.trustStoreArn = trustStoreArn
@@ -1939,7 +2075,7 @@ public struct CreateListenerInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
-    /// [HTTPS listeners] The mutual authentication configuration information.
+    /// [HTTPS and TLS listeners] The mutual authentication configuration information.
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
@@ -5260,7 +5396,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
     public var listenerArn: Swift.String?
-    /// [HTTPS listeners] The mutual authentication configuration information.
+    /// [HTTPS and TLS listeners] The mutual authentication configuration information.
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
     /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
@@ -9110,6 +9246,27 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Field"].write(value.field)
+        try writer["MatchType"].write(value.matchType)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter()
+        value.field = try reader["Field"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.matchType = try reader["MatchType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation {
@@ -9427,6 +9584,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
     static func write(value: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
+        try writer["ClientCertificateIdentityFilters"].writeList(value.clientCertificateIdentityFilters, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IgnoreClientCertificateExpiry"].write(value.ignoreClientCertificateExpiry)
         try writer["Mode"].write(value.mode)
         try writer["TrustStoreArn"].write(value.trustStoreArn)
@@ -9441,6 +9599,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
         value.ignoreClientCertificateExpiry = try reader["IgnoreClientCertificateExpiry"].readIfPresent()
         value.trustStoreAssociationStatus = try reader["TrustStoreAssociationStatus"].readIfPresent()
         value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
+        value.clientCertificateIdentityFilters = try reader["ClientCertificateIdentityFilters"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.ClientCertificateIdentityFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

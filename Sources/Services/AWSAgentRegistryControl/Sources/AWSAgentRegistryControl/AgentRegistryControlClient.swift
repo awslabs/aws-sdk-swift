@@ -692,7 +692,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `CreateRegistryRecord` operation on the `AgentRegistryControl` service.
     ///
-    /// Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed.
+    /// Creates a registry record within a registry. A registry record describes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. For an agent skill, you can upload a skill package in artifact, or synchronize the skill from an Amazon S3 or GitHub source. Creation is asynchronous: the operation returns the record with the CREATING status while the registry processes it. If a GitHub user must first authorize access to the source, the operation returns the record with the CREATE_PENDING_AUTH status instead.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRegistryRecordInput`)
     ///
@@ -976,7 +976,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `GetRegistryRecord` operation on the `AgentRegistryControl` service.
     ///
-    /// Retrieves the details of a registry record
+    /// Retrieves the details of a registry record. The response describes the record's latest revision, including a revision that isn't approved yet. For a skill record, the operation also returns the skill package in artifact and the source that the registry last synchronized the skill from in synchronizedSource.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRegistryRecordInput`)
     ///
@@ -1546,7 +1546,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `UpdateRegistryRecord` operation on the `AgentRegistryControl` service.
     ///
-    /// Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
+    /// Updates a registry record. The update is asynchronous: the operation returns the record with the UPDATING status while the registry processes it. If a GitHub user must first authorize access to the record's skill source, the operation returns the record with the UPDATE_PENDING_AUTH status instead. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateRegistryRecordInput`)
     ///

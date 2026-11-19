@@ -624,11 +624,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchCreateBillScenarioCommitmentModification(input: BatchCreateBillScenarioCommitmentModificationInput) async throws -> BatchCreateBillScenarioCommitmentModificationOutput {
@@ -705,11 +705,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -787,11 +787,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -860,7 +860,7 @@ extension BCMPricingCalculatorClient {
 
     /// Performs the `BatchDeleteBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
-    /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate [ BillScenarioCommitmentModificationAction](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BillScenarioCommitmentModificationAction.html) of [ BatchCreateBillScenarioCommitmentModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchCreateBillScenarioUsageModification.html) operation. The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioCommitmentModification in your policies.
+    /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and can't model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate [ BillScenarioCommitmentModificationAction](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BillScenarioCommitmentModificationAction.html) of [ BatchCreateBillScenarioCommitmentModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchCreateBillScenarioUsageModification.html) operation. The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioCommitmentModification in your policies.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchDeleteBillScenarioCommitmentModificationInput`)
     ///
@@ -869,11 +869,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchDeleteBillScenarioCommitmentModification(input: BatchDeleteBillScenarioCommitmentModificationInput) async throws -> BatchDeleteBillScenarioCommitmentModificationOutput {
@@ -940,7 +940,7 @@ extension BCMPricingCalculatorClient {
 
     /// Performs the `BatchDeleteBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
-    /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateBillScenarioUsageModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateBillScenarioUsageModification.html). The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification in your policies.
+    /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and can't model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateBillScenarioUsageModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateBillScenarioUsageModification.html). The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification in your policies.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchDeleteBillScenarioUsageModificationInput`)
     ///
@@ -949,11 +949,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1021,7 +1021,7 @@ extension BCMPricingCalculatorClient {
 
     /// Performs the `BatchDeleteWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
-    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateWorkloadEstimateUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateWorkloadEstimateUsage.html). The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies.
+    /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and can't model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateWorkloadEstimateUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateWorkloadEstimateUsage.html). The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchDeleteWorkloadEstimateUsageInput`)
     ///
@@ -1030,10 +1030,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1110,11 +1110,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateBillScenarioCommitmentModification(input: BatchUpdateBillScenarioCommitmentModificationInput) async throws -> BatchUpdateBillScenarioCommitmentModificationOutput {
@@ -1190,11 +1190,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1271,10 +1271,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1351,11 +1351,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createBillEstimate(input: CreateBillEstimateInput) async throws -> CreateBillEstimateOutput {
@@ -1432,8 +1432,8 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
@@ -1513,8 +1513,8 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
@@ -1594,8 +1594,8 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1673,8 +1673,8 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1752,7 +1752,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1830,10 +1830,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getBillEstimate(input: GetBillEstimateInput) async throws -> GetBillEstimateOutput {
@@ -1909,10 +1909,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getBillScenario(input: GetBillScenarioInput) async throws -> GetBillScenarioOutput {
@@ -1988,7 +1988,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -2055,6 +2055,84 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetUsageLinesEstimatedCost` operation on the `BCMPricingCalculator` service.
+    ///
+    /// Retrieves the estimated cost of a list of usage lines. Each usage line identifies a billing line by its service code, usage type, and operation, and includes the usage amount to price. The estimate is based on Amazon Web Services pricing data and the rate type you choose. It doesn't include taxes, and your actual charges depend on your usage. The response includes the estimated cost of each usage line that was priced. It also includes each usage line that couldn't be priced, and the reason it couldn't be priced.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetUsageLinesEstimatedCostInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetUsageLinesEstimatedCostOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `DataUnavailableException` : The requested data is currently unavailable.
+    /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getUsageLinesEstimatedCost(input: GetUsageLinesEstimatedCostInput) async throws -> GetUsageLinesEstimatedCostOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BCMPricingCalculatorClient.getUsageLinesEstimatedCostOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getUsageLinesEstimatedCost")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bcm-pricing-calculator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageLinesEstimatedCostOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Pricing Calculator", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUsageLinesEstimatedCostOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>(overrides: ["X-Amz-Target": "AWSBCMPricingCalculator.GetUsageLinesEstimatedCost"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUsageLinesEstimatedCostOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "BCM Pricing Calculator"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUsageLinesEstimatedCostInput, GetUsageLinesEstimatedCostOutput>(serviceID: serviceName, version: BCMPricingCalculatorClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BCMPricingCalculator")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetUsageLinesEstimatedCost")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific workload estimate.
@@ -2066,10 +2144,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkloadEstimate(input: GetWorkloadEstimateInput) async throws -> GetWorkloadEstimateOutput {
@@ -2145,10 +2223,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateCommitments(input: ListBillEstimateCommitmentsInput) async throws -> ListBillEstimateCommitmentsOutput {
@@ -2224,10 +2302,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateInputCommitmentModifications(input: ListBillEstimateInputCommitmentModificationsInput) async throws -> ListBillEstimateInputCommitmentModificationsOutput {
@@ -2303,10 +2381,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateInputUsageModifications(input: ListBillEstimateInputUsageModificationsInput) async throws -> ListBillEstimateInputUsageModificationsOutput {
@@ -2382,10 +2460,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillEstimateLineItems(input: ListBillEstimateLineItemsInput) async throws -> ListBillEstimateLineItemsOutput {
@@ -2461,7 +2539,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -2539,10 +2617,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillScenarioCommitmentModifications(input: ListBillScenarioCommitmentModificationsInput) async throws -> ListBillScenarioCommitmentModificationsOutput {
@@ -2618,10 +2696,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBillScenarioUsageModifications(input: ListBillScenarioUsageModificationsInput) async throws -> ListBillScenarioUsageModificationsOutput {
@@ -2697,7 +2775,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -2775,9 +2853,9 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -2853,10 +2931,10 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkloadEstimateUsage(input: ListWorkloadEstimateUsageInput) async throws -> ListWorkloadEstimateUsageOutput {
@@ -2932,7 +3010,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -3010,9 +3088,9 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -3089,9 +3167,9 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -3167,11 +3245,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateBillEstimate(input: UpdateBillEstimateInput) async throws -> UpdateBillEstimateOutput {
@@ -3247,11 +3325,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateBillScenario(input: UpdateBillScenarioInput) async throws -> UpdateBillScenarioOutput {
@@ -3327,7 +3405,7 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ServiceQuotaExceededException` : The request would cause you to exceed your service quota.
@@ -3406,11 +3484,11 @@ extension BCMPricingCalculatorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `AccessDeniedException` : The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
+    /// - `ConflictException` : The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input provided fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkloadEstimate(input: UpdateWorkloadEstimateInput) async throws -> UpdateWorkloadEstimateOutput {

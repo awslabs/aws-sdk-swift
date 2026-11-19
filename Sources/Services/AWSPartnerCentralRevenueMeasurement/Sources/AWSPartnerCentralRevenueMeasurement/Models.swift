@@ -55,6 +55,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 public struct AccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message describing the access denial reason.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the access denial.
@@ -224,6 +225,8 @@ extension PartnerCentralRevenueMeasurementClientTypes {
         public var arn: Swift.String?
         /// The catalog that the revenue attribution belongs to.
         public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
+        /// Program-defined key-value attributes for the revenue attribution.
+        public var context: [Swift.String: Swift.String]?
         /// The date when the revenue attribution was created.
         public var createdDate: Foundation.Date?
         /// The date from which this revenue attribution is effective, derived from the earliest allocation start date (YYYY-MM-DD).
@@ -251,6 +254,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
         public init(
             arn: Swift.String? = nil,
             catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
+            context: [Swift.String: Swift.String]? = nil,
             createdDate: Foundation.Date? = nil,
             effectiveFrom: Swift.String? = nil,
             effectiveUntil: Swift.String? = nil,
@@ -265,6 +269,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
         ) {
             self.arn = arn
             self.catalog = catalog
+            self.context = context
             self.createdDate = createdDate
             self.effectiveFrom = effectiveFrom
             self.effectiveUntil = effectiveUntil
@@ -319,6 +324,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message describing the conflict that occurred.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the conflict.
@@ -348,6 +354,7 @@ public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.Servi
 public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message describing the internal server error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -398,6 +405,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message describing which resource was not found.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason the resource was not found.
@@ -456,6 +464,7 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message describing which service quota would be exceeded.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason the service quota was exceeded.
@@ -485,6 +494,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, ClientR
 public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A human-readable message indicating that the request rate limit has been exceeded.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The quota code associated with the throttling error.
@@ -624,6 +634,7 @@ public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.Ser
     public struct Properties: Swift.Sendable {
         /// A list of fields that failed validation.
         public internal(set) var fieldList: [PartnerCentralRevenueMeasurementClientTypes.ValidationExceptionField]? = nil
+        /// A human-readable message describing the validation failure.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the validation failure.
@@ -648,6 +659,76 @@ public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.Ser
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    public enum RevenueShareProductAccountType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deployment
+        case organization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RevenueShareProductAccountType] {
+            return [
+                .deployment,
+                .organization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deployment: return "DEPLOYMENT"
+            case .organization: return "ORGANIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A typed account list supplied for a product in a CreateMarketplaceRevenueShare or UpdateMarketplaceRevenueShare request.
+    public struct RevenueShareProductAccountEntry: Swift.Sendable {
+        /// The AWS account identifiers for this type. Each ID must be a 12-digit AWS account ID. Account ownership is verified after the request is accepted.
+        /// This member is required.
+        public var accountIds: [Swift.String]?
+        /// The type of account list.
+        /// This member is required.
+        public var accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType? = nil
+        ) {
+            self.accountIds = accountIds
+            self.accountType = accountType
+        }
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A product and its typed account lists as supplied in a CreateMarketplaceRevenueShare or UpdateMarketplaceRevenueShare request.
+    public struct MarketplaceRevenueShareProductEntry: Swift.Sendable {
+        /// The typed account lists for this product. Omit to have the service determine the accounts. At most one entry per type; each entry must carry at least one account. An empty list is the same as omitting the field.
+        public var accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountEntry]?
+        /// The AWS Marketplace product ID or product ARN. The share stores and returns the product ID.
+        /// This member is required.
+        public var productId: Swift.String?
+
+        public init(
+            accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountEntry]? = nil,
+            productId: Swift.String? = nil
+        ) {
+            self.accounts = accounts
+            self.productId = productId
+        }
     }
 }
 
@@ -678,22 +759,71 @@ public struct CreateMarketplaceRevenueShareInput: Swift.Sendable {
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// A unique token to ensure idempotency of the create request.
     public var clientToken: Swift.String?
-    /// The AWS Marketplace product identifier for this revenue share.
+    /// The products in the marketplace revenue share, each with its typed account lists. 1 to 25 products.
     /// This member is required.
-    public var productId: Swift.String?
+    public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductEntry]?
     /// Tags to associate with the marketplace revenue share upon creation.
     public var tags: [PartnerCentralRevenueMeasurementClientTypes.Tag]?
 
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         clientToken: Swift.String? = nil,
-        productId: Swift.String? = nil,
+        products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductEntry]? = nil,
         tags: [PartnerCentralRevenueMeasurementClientTypes.Tag]? = nil
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
-        self.productId = productId
+        self.products = products
         self.tags = tags
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A per-type count of accounts associated with a product.
+    public struct RevenueShareProductAccountSummary: Swift.Sendable {
+        /// The type of account list.
+        /// This member is required.
+        public var accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType?
+        /// The number of accounts of this type.
+        /// This member is required.
+        public var count: Swift.Int?
+
+        public init(
+            accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType? = nil,
+            count: Swift.Int? = nil
+        ) {
+            self.accountType = accountType
+            self.count = count
+        }
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A product in a marketplace revenue share, as returned in Create, Update and List responses, with per-type account counts but no account IDs.
+    public struct MarketplaceRevenueShareProductSummary: Swift.Sendable {
+        /// Per-type counts of the accounts associated with this product.
+        public var accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountSummary]?
+        /// The AWS Marketplace product code, resolved by the service.
+        public var productCode: Swift.String?
+        /// The AWS Marketplace product identifier.
+        /// This member is required.
+        public var productId: Swift.String?
+        /// The display name of the AWS Marketplace product, resolved by the service.
+        public var productName: Swift.String?
+
+        public init(
+            accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountSummary]? = nil,
+            productCode: Swift.String? = nil,
+            productId: Swift.String? = nil,
+            productName: Swift.String? = nil
+        ) {
+            self.accounts = accounts
+            self.productCode = productCode
+            self.productId = productId
+            self.productName = productName
+        }
     }
 }
 
@@ -702,38 +832,39 @@ public struct CreateMarketplaceRevenueShareOutput: Swift.Sendable {
     /// This member is required.
     public var arn: Swift.String?
     /// The catalog that the marketplace revenue share belongs to.
+    /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// The date when the marketplace revenue share was created.
-    public var createdDate: Foundation.Date?
-    /// The date when the marketplace revenue share was last modified.
-    public var lastModifiedDate: Foundation.Date?
-    /// The AWS Marketplace product code.
-    public var productCode: Swift.String?
-    /// The AWS Marketplace product identifier of the newly created revenue share.
     /// This member is required.
-    public var productId: Swift.String?
-    /// The display name of the AWS Marketplace product.
-    public var productName: Swift.String?
-    /// The revision number of the newly created marketplace revenue share.
-    public var revision: Swift.Int?
+    public var createdDate: Foundation.Date?
+    /// The unique identifier of the newly created marketplace revenue share, short ID form (mrs-...).
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date when the marketplace revenue share was last modified.
+    /// This member is required.
+    public var lastModifiedDate: Foundation.Date?
+    /// The products in the newly created marketplace revenue share, each with per-type account counts.
+    /// This member is required.
+    public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]?
+    /// The revision of the newly created marketplace revenue share.
+    /// This member is required.
+    public var revision: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         createdDate: Foundation.Date? = nil,
+        id: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
-        productCode: Swift.String? = nil,
-        productId: Swift.String? = nil,
-        productName: Swift.String? = nil,
-        revision: Swift.Int? = nil
+        products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]? = nil,
+        revision: Swift.String? = nil
     ) {
         self.arn = arn
         self.catalog = catalog
         self.createdDate = createdDate
+        self.id = id
         self.lastModifiedDate = lastModifiedDate
-        self.productCode = productCode
-        self.productId = productId
-        self.productName = productName
+        self.products = products
         self.revision = revision
     }
 }
@@ -747,11 +878,15 @@ public struct CreateMarketplaceRevenueShareAllocationInput: Swift.Sendable {
     /// The effective start date for the allocation. Must be the first day of a month.
     /// This member is required.
     public var effectiveFrom: Swift.String?
-    /// The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD). Omit for open-ended allocations.
-    public var effectiveUntil: Swift.String?
-    /// The AWS Marketplace product identifier for the parent revenue share.
+    /// The effective end date for the allocation. Must be the last day of a month (YYYY-MM-DD).
     /// This member is required.
-    public var productId: Swift.String?
+    public var effectiveUntil: Swift.String?
+    /// The parent marketplace revenue share, by ID (mrs-...) or ARN.
+    /// This member is required.
+    public var marketplaceRevenueShareIdentifier: Swift.String?
+    /// The revision of the parent marketplace revenue share that the caller last read, for optimistic concurrency control. A stale value returns ConflictException with Reason REVISION_MISMATCH.
+    /// This member is required.
+    public var marketplaceRevenueShareRevision: Swift.String?
     /// The revenue share percentage for this allocation.
     /// This member is required.
     public var revenueSharePercent: Swift.String?
@@ -761,41 +896,45 @@ public struct CreateMarketplaceRevenueShareAllocationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         effectiveFrom: Swift.String? = nil,
         effectiveUntil: Swift.String? = nil,
-        productId: Swift.String? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
+        marketplaceRevenueShareRevision: Swift.String? = nil,
         revenueSharePercent: Swift.String? = nil
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.effectiveFrom = effectiveFrom
         self.effectiveUntil = effectiveUntil
-        self.productId = productId
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
+        self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
         self.revenueSharePercent = revenueSharePercent
     }
 }
 
 public struct CreateMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the allocation.
-    /// This member is required.
-    public var arn: Swift.String?
     /// The date when the allocation was created.
+    /// This member is required.
     public var createdDate: Foundation.Date?
     /// The effective start date of the allocation.
     /// This member is required.
     public var effectiveFrom: Swift.String?
-    /// The effective end date of the allocation, or null if open-ended.
+    /// The effective end date of the allocation.
+    /// This member is required.
     public var effectiveUntil: Swift.String?
     /// The date when the allocation was last modified.
+    /// This member is required.
     public var lastModifiedDate: Foundation.Date?
-    /// The latest revision of the parent marketplace revenue share.
-    public var latestMarketplaceRevenueShareRevision: Swift.String?
     /// The unique identifier of the newly created allocation.
     /// This member is required.
     public var marketplaceRevenueShareAllocationId: Swift.String?
-    /// The AWS Marketplace product identifier.
+    /// The parent marketplace revenue share, short ID form (mrs-...).
     /// This member is required.
-    public var productId: Swift.String?
-    /// The display name of the AWS Marketplace product.
-    public var productName: Swift.String?
+    public var marketplaceRevenueShareIdentifier: Swift.String?
+    /// The latest revision of the parent marketplace revenue share.
+    /// This member is required.
+    public var marketplaceRevenueShareLatestRevision: Swift.String?
+    /// The revision of the parent marketplace revenue share at which the allocation was created.
+    /// This member is required.
+    public var marketplaceRevenueShareRevision: Swift.String?
     /// The revenue share percentage.
     /// This member is required.
     public var revenueSharePercent: Swift.String?
@@ -804,27 +943,25 @@ public struct CreateMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
     public var status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
 
     public init(
-        arn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         effectiveFrom: Swift.String? = nil,
         effectiveUntil: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
-        latestMarketplaceRevenueShareRevision: Swift.String? = nil,
         marketplaceRevenueShareAllocationId: Swift.String? = nil,
-        productId: Swift.String? = nil,
-        productName: Swift.String? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
+        marketplaceRevenueShareLatestRevision: Swift.String? = nil,
+        marketplaceRevenueShareRevision: Swift.String? = nil,
         revenueSharePercent: Swift.String? = nil,
         status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
     ) {
-        self.arn = arn
         self.createdDate = createdDate
         self.effectiveFrom = effectiveFrom
         self.effectiveUntil = effectiveUntil
         self.lastModifiedDate = lastModifiedDate
-        self.latestMarketplaceRevenueShareRevision = latestMarketplaceRevenueShareRevision
         self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
-        self.productId = productId
-        self.productName = productName
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
+        self.marketplaceRevenueShareLatestRevision = marketplaceRevenueShareLatestRevision
+        self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
         self.revenueSharePercent = revenueSharePercent
         self.status = status
     }
@@ -834,20 +971,74 @@ public struct GetMarketplaceRevenueShareInput: Swift.Sendable {
     /// The catalog that the marketplace revenue share belongs to.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
-    /// The AWS Marketplace product identifier of the revenue share to retrieve.
+    /// The marketplace revenue share to retrieve, by ID (mrs-...) or ARN.
     /// This member is required.
-    public var productId: Swift.String?
+    public var identifier: Swift.String?
     /// The revision of the marketplace revenue share to retrieve. Omit to return the latest revision.
-    public var revision: Swift.Int?
+    public var revision: Swift.String?
 
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
-        productId: Swift.String? = nil,
-        revision: Swift.Int? = nil
+        identifier: Swift.String? = nil,
+        revision: Swift.String? = nil
     ) {
         self.catalog = catalog
-        self.productId = productId
+        self.identifier = identifier
         self.revision = revision
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A typed account list returned by GetMarketplaceRevenueShare, with its count and full list of IDs.
+    public struct RevenueShareProductAccountDetail: Swift.Sendable {
+        /// The full list of AWS account identifiers of this type.
+        /// This member is required.
+        public var accountIds: [Swift.String]?
+        /// The type of account list.
+        /// This member is required.
+        public var accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType?
+        /// The number of accounts of this type.
+        /// This member is required.
+        public var count: Swift.Int?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            accountType: PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountType? = nil,
+            count: Swift.Int? = nil
+        ) {
+            self.accountIds = accountIds
+            self.accountType = accountType
+            self.count = count
+        }
+    }
+}
+
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// A product in a marketplace revenue share, as returned by GetMarketplaceRevenueShare, with the full typed account lists.
+    public struct MarketplaceRevenueShareProductDetail: Swift.Sendable {
+        /// The typed account lists for this product, each with its count and full list of IDs.
+        public var accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountDetail]?
+        /// The AWS Marketplace product code, resolved by the service.
+        public var productCode: Swift.String?
+        /// The AWS Marketplace product identifier.
+        /// This member is required.
+        public var productId: Swift.String?
+        /// The display name of the AWS Marketplace product, resolved by the service.
+        public var productName: Swift.String?
+
+        public init(
+            accounts: [PartnerCentralRevenueMeasurementClientTypes.RevenueShareProductAccountDetail]? = nil,
+            productCode: Swift.String? = nil,
+            productId: Swift.String? = nil,
+            productName: Swift.String? = nil
+        ) {
+            self.accounts = accounts
+            self.productCode = productCode
+            self.productId = productId
+            self.productName = productName
+        }
     }
 }
 
@@ -859,46 +1050,57 @@ public struct GetMarketplaceRevenueShareOutput: Swift.Sendable {
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// The date when the marketplace revenue share was created.
-    public var createdDate: Foundation.Date?
-    /// The date when the marketplace revenue share was last modified.
-    public var lastModifiedDate: Foundation.Date?
-    /// The latest revision number of the marketplace revenue share.
-    public var latestRevision: Swift.Int?
-    /// The AWS Marketplace product code.
-    public var productCode: Swift.String?
-    /// The AWS Marketplace product identifier of the revenue share.
     /// This member is required.
-    public var productId: Swift.String?
-    /// The display name of the AWS Marketplace product.
-    public var productName: Swift.String?
-    /// The revision number of the retrieved marketplace revenue share.
-    public var revision: Swift.Int?
+    public var createdDate: Foundation.Date?
+    /// The date from which this share is effective, derived from the earliest ACTIVE allocation start date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.
+    public var effectiveFrom: Swift.String?
+    /// The date until which this share is effective, derived from the latest ACTIVE allocation end date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.
+    public var effectiveUntil: Swift.String?
+    /// The unique identifier of the marketplace revenue share, short ID form (mrs-...).
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date when the marketplace revenue share was last modified.
+    /// This member is required.
+    public var lastModifiedDate: Foundation.Date?
+    /// The latest revision of the marketplace revenue share.
+    /// This member is required.
+    public var latestRevision: Swift.String?
+    /// The products in the marketplace revenue share, each with its typed account lists and full account IDs. Empty when the share is closed.
+    /// This member is required.
+    public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductDetail]?
+    /// The revision of the retrieved marketplace revenue share.
+    /// This member is required.
+    public var revision: Swift.String?
     /// The number of active allocations under this marketplace revenue share.
+    /// This member is required.
     public var totalActiveMarketplaceRevenueShareAllocationCount: Swift.Int?
     /// The total number of allocations under this marketplace revenue share.
+    /// This member is required.
     public var totalMarketplaceRevenueShareAllocationCount: Swift.Int?
 
     public init(
         arn: Swift.String? = nil,
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         createdDate: Foundation.Date? = nil,
+        effectiveFrom: Swift.String? = nil,
+        effectiveUntil: Swift.String? = nil,
+        id: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
-        latestRevision: Swift.Int? = nil,
-        productCode: Swift.String? = nil,
-        productId: Swift.String? = nil,
-        productName: Swift.String? = nil,
-        revision: Swift.Int? = nil,
+        latestRevision: Swift.String? = nil,
+        products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductDetail]? = nil,
+        revision: Swift.String? = nil,
         totalActiveMarketplaceRevenueShareAllocationCount: Swift.Int? = nil,
         totalMarketplaceRevenueShareAllocationCount: Swift.Int? = nil
     ) {
         self.arn = arn
         self.catalog = catalog
         self.createdDate = createdDate
+        self.effectiveFrom = effectiveFrom
+        self.effectiveUntil = effectiveUntil
+        self.id = id
         self.lastModifiedDate = lastModifiedDate
         self.latestRevision = latestRevision
-        self.productCode = productCode
-        self.productId = productId
-        self.productName = productName
+        self.products = products
         self.revision = revision
         self.totalActiveMarketplaceRevenueShareAllocationCount = totalActiveMarketplaceRevenueShareAllocationCount
         self.totalMarketplaceRevenueShareAllocationCount = totalMarketplaceRevenueShareAllocationCount
@@ -912,48 +1114,50 @@ public struct GetMarketplaceRevenueShareAllocationInput: Swift.Sendable {
     /// The unique identifier of the allocation to retrieve.
     /// This member is required.
     public var marketplaceRevenueShareAllocationId: Swift.String?
+    /// The parent marketplace revenue share, by ID (mrs-...) or ARN.
+    /// This member is required.
+    public var marketplaceRevenueShareIdentifier: Swift.String?
     /// The revision of the parent marketplace revenue share at which to retrieve the allocation. Omit to return the latest.
     public var marketplaceRevenueShareRevision: Swift.String?
-    /// The AWS Marketplace product identifier of the parent revenue share.
-    /// This member is required.
-    public var productId: Swift.String?
 
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         marketplaceRevenueShareAllocationId: Swift.String? = nil,
-        marketplaceRevenueShareRevision: Swift.String? = nil,
-        productId: Swift.String? = nil
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
+        marketplaceRevenueShareRevision: Swift.String? = nil
     ) {
         self.catalog = catalog
         self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
         self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
-        self.productId = productId
     }
 }
 
 public struct GetMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the allocation.
-    /// This member is required.
-    public var arn: Swift.String?
     /// The date when the allocation was created.
+    /// This member is required.
     public var createdDate: Foundation.Date?
     /// The effective start date of the allocation.
     /// This member is required.
     public var effectiveFrom: Swift.String?
-    /// The effective end date of the allocation, or null if open-ended.
+    /// The effective end date of the allocation.
+    /// This member is required.
     public var effectiveUntil: Swift.String?
     /// The date when the allocation was last modified.
+    /// This member is required.
     public var lastModifiedDate: Foundation.Date?
-    /// The latest revision of the parent marketplace revenue share.
-    public var latestMarketplaceRevenueShareRevision: Swift.String?
     /// The unique identifier of the allocation.
     /// This member is required.
     public var marketplaceRevenueShareAllocationId: Swift.String?
-    /// The AWS Marketplace product identifier.
+    /// The parent marketplace revenue share, short ID form (mrs-...).
     /// This member is required.
-    public var productId: Swift.String?
-    /// The display name of the AWS Marketplace product.
-    public var productName: Swift.String?
+    public var marketplaceRevenueShareIdentifier: Swift.String?
+    /// The latest revision of the parent marketplace revenue share.
+    /// This member is required.
+    public var marketplaceRevenueShareLatestRevision: Swift.String?
+    /// The revision of the parent marketplace revenue share at which the allocation was read.
+    /// This member is required.
+    public var marketplaceRevenueShareRevision: Swift.String?
     /// The revenue share percentage.
     /// This member is required.
     public var revenueSharePercent: Swift.String?
@@ -962,27 +1166,25 @@ public struct GetMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
     public var status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
 
     public init(
-        arn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         effectiveFrom: Swift.String? = nil,
         effectiveUntil: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
-        latestMarketplaceRevenueShareRevision: Swift.String? = nil,
         marketplaceRevenueShareAllocationId: Swift.String? = nil,
-        productId: Swift.String? = nil,
-        productName: Swift.String? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
+        marketplaceRevenueShareLatestRevision: Swift.String? = nil,
+        marketplaceRevenueShareRevision: Swift.String? = nil,
         revenueSharePercent: Swift.String? = nil,
         status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
     ) {
-        self.arn = arn
         self.createdDate = createdDate
         self.effectiveFrom = effectiveFrom
         self.effectiveUntil = effectiveUntil
         self.lastModifiedDate = lastModifiedDate
-        self.latestMarketplaceRevenueShareRevision = latestMarketplaceRevenueShareRevision
         self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
-        self.productId = productId
-        self.productName = productName
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
+        self.marketplaceRevenueShareLatestRevision = marketplaceRevenueShareLatestRevision
+        self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
         self.revenueSharePercent = revenueSharePercent
         self.status = status
     }
@@ -1046,49 +1248,57 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 public struct ListMarketplaceRevenueShareAllocationsInput: Swift.Sendable {
     /// Inclusive lower bound for EffectiveFrom date filter.
     public var afterEffectiveFrom: Swift.String?
+    /// Inclusive lower bound for EffectiveUntil date filter.
+    public var afterEffectiveUntil: Swift.String?
     /// Exclusive upper bound for EffectiveFrom date filter (half-open range).
     public var beforeEffectiveFrom: Swift.String?
+    /// Exclusive upper bound for EffectiveUntil date filter (half-open range).
+    public var beforeEffectiveUntil: Swift.String?
     /// The catalog containing the allocations.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
+    /// The parent marketplace revenue share, by ID (mrs-...) or ARN.
+    /// This member is required.
+    public var marketplaceRevenueShareIdentifier: Swift.String?
     /// Optional share revision for historical list. Returns allocations as they existed at this revision.
     public var marketplaceRevenueShareRevision: Swift.String?
     /// Maximum number of results per page.
     public var maxResults: Swift.Int?
     /// Pagination token from a previous response.
     public var nextToken: Swift.String?
-    /// The AWS Marketplace product identifier for the parent revenue share.
-    /// This member is required.
-    public var productId: Swift.String?
     /// The field to sort marketplace revenue share allocations by.
     public var sortBy: PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareAllocationSortField?
-    /// The direction to sort results. Defaults to DESCENDING.
+    /// The direction to sort results. Defaults to ASCENDING.
     public var sortOrder: PartnerCentralRevenueMeasurementClientTypes.SortOrder?
     /// Filter by allocation status.
-    public var status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
+    public var statusFilter: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
 
     public init(
         afterEffectiveFrom: Swift.String? = nil,
+        afterEffectiveUntil: Swift.String? = nil,
         beforeEffectiveFrom: Swift.String? = nil,
+        beforeEffectiveUntil: Swift.String? = nil,
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
         marketplaceRevenueShareRevision: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        productId: Swift.String? = nil,
         sortBy: PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareAllocationSortField? = nil,
         sortOrder: PartnerCentralRevenueMeasurementClientTypes.SortOrder? = nil,
-        status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
+        statusFilter: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
     ) {
         self.afterEffectiveFrom = afterEffectiveFrom
+        self.afterEffectiveUntil = afterEffectiveUntil
         self.beforeEffectiveFrom = beforeEffectiveFrom
+        self.beforeEffectiveUntil = beforeEffectiveUntil
         self.catalog = catalog
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
         self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
         self.maxResults = maxResults
         self.nextToken = nextToken
-        self.productId = productId
         self.sortBy = sortBy
         self.sortOrder = sortOrder
-        self.status = status
+        self.statusFilter = statusFilter
     }
 }
 
@@ -1096,26 +1306,24 @@ extension PartnerCentralRevenueMeasurementClientTypes {
 
     /// Summary information about a marketplace revenue share allocation.
     public struct MarketplaceRevenueShareAllocationSummary: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the parent marketplace revenue share.
-        /// This member is required.
-        public var arn: Swift.String?
         /// The date when the allocation was created.
+        /// This member is required.
         public var createdDate: Foundation.Date?
         /// The effective start date of the allocation.
         /// This member is required.
         public var effectiveFrom: Swift.String?
-        /// The effective end date of the allocation, or null if open-ended.
+        /// The effective end date of the allocation.
+        /// This member is required.
         public var effectiveUntil: Swift.String?
         /// The date when the allocation was last modified.
+        /// This member is required.
         public var lastModifiedDate: Foundation.Date?
         /// The unique identifier of the allocation.
         /// This member is required.
         public var marketplaceRevenueShareAllocationId: Swift.String?
-        /// The AWS Marketplace product identifier.
+        /// The parent marketplace revenue share, short ID form (mrs-...).
         /// This member is required.
-        public var productId: Swift.String?
-        /// The display name of the AWS Marketplace product.
-        public var productName: Swift.String?
+        public var marketplaceRevenueShareIdentifier: Swift.String?
         /// The revenue share percentage.
         /// This member is required.
         public var revenueSharePercent: Swift.String?
@@ -1124,25 +1332,21 @@ extension PartnerCentralRevenueMeasurementClientTypes {
         public var status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
 
         public init(
-            arn: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
             effectiveFrom: Swift.String? = nil,
             effectiveUntil: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             marketplaceRevenueShareAllocationId: Swift.String? = nil,
-            productId: Swift.String? = nil,
-            productName: Swift.String? = nil,
+            marketplaceRevenueShareIdentifier: Swift.String? = nil,
             revenueSharePercent: Swift.String? = nil,
             status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
         ) {
-            self.arn = arn
             self.createdDate = createdDate
             self.effectiveFrom = effectiveFrom
             self.effectiveUntil = effectiveUntil
             self.lastModifiedDate = lastModifiedDate
             self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
-            self.productId = productId
-            self.productName = productName
+            self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
             self.revenueSharePercent = revenueSharePercent
             self.status = status
         }
@@ -1195,17 +1399,19 @@ public struct ListMarketplaceRevenueSharesInput: Swift.Sendable {
     /// The catalog to list marketplace revenue shares from.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
-    /// Filter results to only include marketplace revenue shares created after this timestamp.
+    /// Filter results to marketplace revenue shares created at or after this timestamp (inclusive).
     public var createdAfter: Foundation.Date?
-    /// Filter results to only include marketplace revenue shares created before this timestamp.
+    /// Filter results to marketplace revenue shares created before this timestamp (exclusive).
     public var createdBefore: Foundation.Date?
+    /// Filter results to only include these marketplace revenue shares, by ID or ARN. 1 to 100 identifiers. When several filters are sent, a share must match all of them.
+    public var identifiers: [Swift.String]?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// Token for pagination. Use the value returned in the previous response to retrieve the next page.
     public var nextToken: Swift.String?
-    /// Filter results to only include shares with these product codes.
+    /// Filter results to the marketplace revenue shares that contain a product with any of these product codes. 1 to 10 product codes.
     public var productCodes: [Swift.String]?
-    /// Filter results to only include shares with these product identifiers.
+    /// Filter results to the marketplace revenue shares that contain any of these products. 1 to 10 product IDs or product ARNs. Shares the caller does not own are never returned.
     public var productIds: [Swift.String]?
     /// The field to sort marketplace revenue shares by.
     public var sortBy: PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareSortBy?
@@ -1216,6 +1422,7 @@ public struct ListMarketplaceRevenueSharesInput: Swift.Sendable {
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         createdAfter: Foundation.Date? = nil,
         createdBefore: Foundation.Date? = nil,
+        identifiers: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productCodes: [Swift.String]? = nil,
@@ -1226,6 +1433,7 @@ public struct ListMarketplaceRevenueSharesInput: Swift.Sendable {
         self.catalog = catalog
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
+        self.identifiers = identifiers
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.productCodes = productCodes
@@ -1243,45 +1451,56 @@ extension PartnerCentralRevenueMeasurementClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The catalog that the marketplace revenue share belongs to.
+        /// This member is required.
         public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
         /// The date when the marketplace revenue share was created.
-        public var createdDate: Foundation.Date?
-        /// The date when the marketplace revenue share was last modified.
-        public var lastModifiedDate: Foundation.Date?
-        /// The latest revision number of the marketplace revenue share.
-        public var latestRevision: Swift.Int?
-        /// The AWS Marketplace product code.
-        public var productCode: Swift.String?
-        /// The AWS Marketplace product identifier.
         /// This member is required.
-        public var productId: Swift.String?
-        /// The display name of the AWS Marketplace product.
-        public var productName: Swift.String?
+        public var createdDate: Foundation.Date?
+        /// The date from which this share is effective, derived from the earliest ACTIVE allocation start date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.
+        public var effectiveFrom: Swift.String?
+        /// The date until which this share is effective, derived from the latest ACTIVE allocation end date (YYYY-MM-DD). Absent when no ACTIVE allocation remains.
+        public var effectiveUntil: Swift.String?
+        /// The unique identifier of the marketplace revenue share, short ID form (mrs-...).
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date when the marketplace revenue share was last modified.
+        /// This member is required.
+        public var lastModifiedDate: Foundation.Date?
+        /// The latest revision of the marketplace revenue share.
+        /// This member is required.
+        public var latestRevision: Swift.String?
+        /// The products in the marketplace revenue share, each with per-type account counts. Empty when the share is closed.
+        /// This member is required.
+        public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]?
         /// The number of active allocations under this share.
+        /// This member is required.
         public var totalActiveMarketplaceRevenueShareAllocationCount: Swift.Int?
         /// The total number of allocations under this share.
+        /// This member is required.
         public var totalMarketplaceRevenueShareAllocationCount: Swift.Int?
 
         public init(
             arn: Swift.String? = nil,
             catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
             createdDate: Foundation.Date? = nil,
+            effectiveFrom: Swift.String? = nil,
+            effectiveUntil: Swift.String? = nil,
+            id: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
-            latestRevision: Swift.Int? = nil,
-            productCode: Swift.String? = nil,
-            productId: Swift.String? = nil,
-            productName: Swift.String? = nil,
+            latestRevision: Swift.String? = nil,
+            products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]? = nil,
             totalActiveMarketplaceRevenueShareAllocationCount: Swift.Int? = nil,
             totalMarketplaceRevenueShareAllocationCount: Swift.Int? = nil
         ) {
             self.arn = arn
             self.catalog = catalog
             self.createdDate = createdDate
+            self.effectiveFrom = effectiveFrom
+            self.effectiveUntil = effectiveUntil
+            self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.latestRevision = latestRevision
-            self.productCode = productCode
-            self.productId = productId
-            self.productName = productName
+            self.products = products
             self.totalActiveMarketplaceRevenueShareAllocationCount = totalActiveMarketplaceRevenueShareAllocationCount
             self.totalMarketplaceRevenueShareAllocationCount = totalMarketplaceRevenueShareAllocationCount
         }
@@ -1304,25 +1523,84 @@ public struct ListMarketplaceRevenueSharesOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateMarketplaceRevenueShareInput: Swift.Sendable {
+    /// The catalog that the marketplace revenue share belongs to.
+    /// This member is required.
+    public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
+    /// A unique token to ensure idempotency of the update request.
+    public var clientToken: Swift.String?
+    /// The marketplace revenue share to update, by ID (mrs-...) or ARN.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The complete desired set of products in the marketplace revenue share, each with its typed account lists. 0 to 25 products; an empty list closes the marketplace revenue share.
+    /// This member is required.
+    public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductEntry]?
+    /// The current revision of the marketplace revenue share, for optimistic concurrency control. A stale value returns ConflictException with Reason REVISION_MISMATCH.
+    /// This member is required.
+    public var revision: Swift.String?
+
+    public init(
+        catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductEntry]? = nil,
+        revision: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifier = identifier
+        self.products = products
+        self.revision = revision
+    }
+}
+
+public struct UpdateMarketplaceRevenueShareOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated marketplace revenue share.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the updated marketplace revenue share, short ID form (mrs-...).
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date when the marketplace revenue share was last modified.
+    /// This member is required.
+    public var lastModifiedDate: Foundation.Date?
+    /// The latest revision of the marketplace revenue share after the update.
+    /// This member is required.
+    public var latestRevision: Swift.String?
+    /// The products in the marketplace revenue share after the update, each with per-type account counts. Empty when the marketplace revenue share is closed.
+    /// This member is required.
+    public var products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastModifiedDate: Foundation.Date? = nil,
+        latestRevision: Swift.String? = nil,
+        products: [PartnerCentralRevenueMeasurementClientTypes.MarketplaceRevenueShareProductSummary]? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.lastModifiedDate = lastModifiedDate
+        self.latestRevision = latestRevision
+        self.products = products
+    }
+}
+
 public struct UpdateMarketplaceRevenueShareAllocationInput: Swift.Sendable {
     /// The catalog containing the allocation.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// A unique token to ensure idempotency of the update request.
     public var clientToken: Swift.String?
-    /// The new effective start date. Must be the first day of a month. Only modifiable on future-dated allocations.
-    public var effectiveFrom: Swift.String?
-    /// The new effective end date. Must be the last day of a month and on or after today.
-    public var effectiveUntil: Swift.String?
     /// The identifier of the allocation to update.
     /// This member is required.
     public var marketplaceRevenueShareAllocationId: Swift.String?
+    /// The parent marketplace revenue share, by ID (mrs-...) or ARN.
+    /// This member is required.
+    public var marketplaceRevenueShareIdentifier: Swift.String?
     /// The current revision of the parent share. Must match for optimistic concurrency control.
     /// This member is required.
     public var marketplaceRevenueShareRevision: Swift.String?
-    /// The AWS Marketplace product identifier for the parent revenue share.
-    /// This member is required.
-    public var productId: Swift.String?
     /// The new revenue share percentage. Only modifiable on future-dated allocations.
     public var revenueSharePercent: Swift.String?
     /// The new status. Set to INACTIVE for soft-delete. Only modifiable on future-dated allocations.
@@ -1331,49 +1609,47 @@ public struct UpdateMarketplaceRevenueShareAllocationInput: Swift.Sendable {
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         clientToken: Swift.String? = nil,
-        effectiveFrom: Swift.String? = nil,
-        effectiveUntil: Swift.String? = nil,
         marketplaceRevenueShareAllocationId: Swift.String? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
         marketplaceRevenueShareRevision: Swift.String? = nil,
-        productId: Swift.String? = nil,
         revenueSharePercent: Swift.String? = nil,
         status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
-        self.effectiveFrom = effectiveFrom
-        self.effectiveUntil = effectiveUntil
         self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
         self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
-        self.productId = productId
         self.revenueSharePercent = revenueSharePercent
         self.status = status
     }
 }
 
 public struct UpdateMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the parent marketplace revenue share.
-    /// This member is required.
-    public var arn: Swift.String?
     /// The date when the allocation was created.
+    /// This member is required.
     public var createdDate: Foundation.Date?
     /// The effective start date of the allocation.
     /// This member is required.
     public var effectiveFrom: Swift.String?
-    /// The effective end date of the allocation, or null if open-ended.
+    /// The effective end date of the allocation.
+    /// This member is required.
     public var effectiveUntil: Swift.String?
     /// The date when the allocation was last modified.
+    /// This member is required.
     public var lastModifiedDate: Foundation.Date?
-    /// The latest revision of the parent marketplace revenue share after the update.
-    public var latestMarketplaceRevenueShareRevision: Swift.String?
     /// The unique identifier of the updated allocation.
     /// This member is required.
     public var marketplaceRevenueShareAllocationId: Swift.String?
-    /// The AWS Marketplace product identifier.
+    /// The parent marketplace revenue share, short ID form (mrs-...).
     /// This member is required.
-    public var productId: Swift.String?
-    /// The display name of the AWS Marketplace product.
-    public var productName: Swift.String?
+    public var marketplaceRevenueShareIdentifier: Swift.String?
+    /// The latest revision of the parent marketplace revenue share after the update.
+    /// This member is required.
+    public var marketplaceRevenueShareLatestRevision: Swift.String?
+    /// The revision of the parent marketplace revenue share at which the update was committed.
+    /// This member is required.
+    public var marketplaceRevenueShareRevision: Swift.String?
     /// The revenue share percentage.
     /// This member is required.
     public var revenueSharePercent: Swift.String?
@@ -1382,27 +1658,25 @@ public struct UpdateMarketplaceRevenueShareAllocationOutput: Swift.Sendable {
     public var status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus?
 
     public init(
-        arn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         effectiveFrom: Swift.String? = nil,
         effectiveUntil: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
-        latestMarketplaceRevenueShareRevision: Swift.String? = nil,
         marketplaceRevenueShareAllocationId: Swift.String? = nil,
-        productId: Swift.String? = nil,
-        productName: Swift.String? = nil,
+        marketplaceRevenueShareIdentifier: Swift.String? = nil,
+        marketplaceRevenueShareLatestRevision: Swift.String? = nil,
+        marketplaceRevenueShareRevision: Swift.String? = nil,
         revenueSharePercent: Swift.String? = nil,
         status: PartnerCentralRevenueMeasurementClientTypes.AllocationStatus? = nil
     ) {
-        self.arn = arn
         self.createdDate = createdDate
         self.effectiveFrom = effectiveFrom
         self.effectiveUntil = effectiveUntil
         self.lastModifiedDate = lastModifiedDate
-        self.latestMarketplaceRevenueShareRevision = latestMarketplaceRevenueShareRevision
         self.marketplaceRevenueShareAllocationId = marketplaceRevenueShareAllocationId
-        self.productId = productId
-        self.productName = productName
+        self.marketplaceRevenueShareIdentifier = marketplaceRevenueShareIdentifier
+        self.marketplaceRevenueShareLatestRevision = marketplaceRevenueShareLatestRevision
+        self.marketplaceRevenueShareRevision = marketplaceRevenueShareRevision
         self.revenueSharePercent = revenueSharePercent
         self.status = status
     }
@@ -1414,6 +1688,8 @@ public struct CreateRevenueAttributionInput: Swift.Sendable {
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// A unique token to ensure idempotency of the create request.
     public var clientToken: Swift.String?
+    /// Program-defined key-value attributes for the revenue attribution.
+    public var context: [Swift.String: Swift.String]?
     /// A description of the revenue attribution.
     public var description: Swift.String?
     /// The name of the revenue attribution. Must be unique within the catalog and the partner's account.
@@ -1430,6 +1706,7 @@ public struct CreateRevenueAttributionInput: Swift.Sendable {
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         clientToken: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         productIdentifier: Swift.String? = nil,
@@ -1438,6 +1715,7 @@ public struct CreateRevenueAttributionInput: Swift.Sendable {
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
+        self.context = context
         self.description = description
         self.name = name
         self.productIdentifier = productIdentifier
@@ -1450,6 +1728,8 @@ public struct CreateRevenueAttributionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the newly created revenue attribution.
     /// This member is required.
     public var arn: Swift.String?
+    /// Program-defined key-value attributes for the revenue attribution.
+    public var context: [Swift.String: Swift.String]?
     /// The description of the revenue attribution.
     public var description: Swift.String?
     /// The unique identifier of the newly created revenue attribution.
@@ -1467,6 +1747,7 @@ public struct CreateRevenueAttributionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         marketplaceProduct: PartnerCentralRevenueMeasurementClientTypes.MarketplaceProductSummary? = nil,
@@ -1475,6 +1756,7 @@ public struct CreateRevenueAttributionOutput: Swift.Sendable {
         tenancyModel: PartnerCentralRevenueMeasurementClientTypes.TenancyModel? = nil
     ) {
         self.arn = arn
+        self.context = context
         self.description = description
         self.id = id
         self.marketplaceProduct = marketplaceProduct
@@ -1512,6 +1794,8 @@ public struct GetRevenueAttributionOutput: Swift.Sendable {
     /// The catalog that the revenue attribution belongs to.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
+    /// Program-defined key-value attributes for the revenue attribution.
+    public var context: [Swift.String: Swift.String]?
     /// The date when the revenue attribution was created.
     public var createdDate: Foundation.Date?
     /// A description of the revenue attribution.
@@ -1544,6 +1828,7 @@ public struct GetRevenueAttributionOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
+        context: [Swift.String: Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         effectiveFrom: Swift.String? = nil,
@@ -1560,6 +1845,7 @@ public struct GetRevenueAttributionOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.catalog = catalog
+        self.context = context
         self.createdDate = createdDate
         self.description = description
         self.effectiveFrom = effectiveFrom
@@ -2108,10 +2394,32 @@ public struct ListRevenueAttributionAllocationsOutput: Swift.Sendable {
     }
 }
 
+extension PartnerCentralRevenueMeasurementClientTypes {
+
+    /// Filters revenue attributions by a context key and, optionally, a set of values.
+    public struct ContextFilter: Swift.Sendable {
+        /// The context key to filter on.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Matches when the stored value equals any of these values. When omitted, matches when the key is present.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
 public struct ListRevenueAttributionsInput: Swift.Sendable {
     /// The catalog to list revenue attributions from.
     /// This member is required.
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
+    /// Filter results by context. Filters are combined with AND; values within a filter are combined with OR.
+    public var contextFilters: [PartnerCentralRevenueMeasurementClientTypes.ContextFilter]?
     /// Filter results to only include revenue attributions created after this timestamp.
     public var createdAfter: Foundation.Date?
     /// Filter results to only include revenue attributions created before this timestamp.
@@ -2129,6 +2437,7 @@ public struct ListRevenueAttributionsInput: Swift.Sendable {
 
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
+        contextFilters: [PartnerCentralRevenueMeasurementClientTypes.ContextFilter]? = nil,
         createdAfter: Foundation.Date? = nil,
         createdBefore: Foundation.Date? = nil,
         identifiers: [Swift.String]? = nil,
@@ -2138,6 +2447,7 @@ public struct ListRevenueAttributionsInput: Swift.Sendable {
         sortOrder: PartnerCentralRevenueMeasurementClientTypes.SortOrder? = nil
     ) {
         self.catalog = catalog
+        self.contextFilters = contextFilters
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.identifiers = identifiers
@@ -2295,6 +2605,8 @@ public struct UpdateRevenueAttributionInput: Swift.Sendable {
     public var catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName?
     /// A unique token to ensure idempotency of the update request.
     public var clientToken: Swift.String?
+    /// Full-replacement context map. Omit to leave the stored context unchanged; pass an empty map to clear it.
+    public var context: [Swift.String: Swift.String]?
     /// The updated description of the revenue attribution.
     public var description: Swift.String?
     /// The unique identifier of the revenue attribution to update. Accepts a direct ID or ARN.
@@ -2307,12 +2619,14 @@ public struct UpdateRevenueAttributionInput: Swift.Sendable {
     public init(
         catalog: PartnerCentralRevenueMeasurementClientTypes.CatalogName? = nil,
         clientToken: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
         revision: Swift.String? = nil
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
+        self.context = context
         self.description = description
         self.identifier = identifier
         self.revision = revision
@@ -2323,6 +2637,8 @@ public struct UpdateRevenueAttributionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the updated revenue attribution.
     /// This member is required.
     public var arn: Swift.String?
+    /// The context stored on the revenue attribution after the update.
+    public var context: [Swift.String: Swift.String]?
     /// The updated description of the revenue attribution.
     public var description: Swift.String?
     /// The unique identifier of the updated revenue attribution.
@@ -2336,12 +2652,14 @@ public struct UpdateRevenueAttributionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
         latestRevision: Swift.String? = nil
     ) {
         self.arn = arn
+        self.context = context
         self.description = description
         self.id = id
         self.lastModifiedDate = lastModifiedDate

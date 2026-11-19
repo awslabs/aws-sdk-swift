@@ -434,6 +434,79 @@ extension RTBFabricClientTypes {
 
 extension RTBFabricClientTypes {
 
+    /// Why a resource, or a change to it, failed.
+    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A security group no longer exists.
+        case ec2SecurityGroupNotFound
+        /// A subnet has no free IP addresses.
+        case ec2SubnetIpExhaustion
+        /// A subnet no longer exists.
+        case ec2SubnetNotFound
+        /// RTB Fabric was denied when it assumed an IAM role in your account.
+        case iamAssumeRoleAccessDenied
+        /// An internal error in RTB Fabric.
+        case internalError
+        /// The VPC no longer exists.
+        case vpcNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorCode] {
+            return [
+                .ec2SecurityGroupNotFound,
+                .ec2SubnetIpExhaustion,
+                .ec2SubnetNotFound,
+                .iamAssumeRoleAccessDenied,
+                .internalError,
+                .vpcNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2SecurityGroupNotFound: return "EC2_SECURITY_GROUP_NOT_FOUND"
+            case .ec2SubnetIpExhaustion: return "EC2_SUBNET_IP_EXHAUSTION"
+            case .ec2SubnetNotFound: return "EC2_SUBNET_NOT_FOUND"
+            case .iamAssumeRoleAccessDenied: return "IAM_ASSUME_ROLE_ACCESS_DENIED"
+            case .internalError: return "INTERNAL_ERROR"
+            case .vpcNotFound: return "VPC_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Describes one cause of a failure of a resource or an update, with an error code, a description, and the IDs of the resources involved.
+    public struct ErrorDetail: Swift.Sendable {
+        /// The error code for what failed.
+        /// This member is required.
+        public var code: RTBFabricClientTypes.ErrorCode?
+        /// A description of the failure.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The IDs of the resources involved, such as a subnet or security group.
+        public var resourceIds: [Swift.String]?
+
+        public init(
+            code: RTBFabricClientTypes.ErrorCode? = nil,
+            message: Swift.String? = nil,
+            resourceIds: [Swift.String]? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
     /// Describes the parameters of a no bid module.
     public struct NoBidModuleParameters: Swift.Sendable {
         /// The pass through percentage.
@@ -662,7 +735,9 @@ extension RTBFabricClientTypes {
     public enum LinkStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accepted
         case active
+        case createFailed
         case deleted
+        case deleteFailed
         case failed
         case isolated
         case pendingCreation
@@ -679,7 +754,9 @@ extension RTBFabricClientTypes {
             return [
                 .accepted,
                 .active,
+                .createFailed,
                 .deleted,
+                .deleteFailed,
                 .failed,
                 .isolated,
                 .pendingCreation,
@@ -702,7 +779,9 @@ extension RTBFabricClientTypes {
             switch self {
             case .accepted: return "ACCEPTED"
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
             case .failed: return "FAILED"
             case .isolated: return "ISOLATED"
             case .pendingCreation: return "PENDING_CREATION"
@@ -729,6 +808,8 @@ public struct AcceptLinkOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The direction of the link.
     public var direction: RTBFabricClientTypes.LinkDirection?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The unique identifier of the gateway.
@@ -756,6 +837,7 @@ public struct AcceptLinkOutput: Swift.Sendable {
         connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
@@ -769,6 +851,7 @@ public struct AcceptLinkOutput: Swift.Sendable {
         self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
@@ -988,6 +1071,185 @@ extension RTBFabricClientTypes {
 
 extension RTBFabricClientTypes {
 
+    /// Specifies whether your access to the module is current.
+    public enum SubscriptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The access is current, and you can attach the module's versions.
+        case active
+        /// The subscription or share ended. The module is still listed, but its versions can't be attached.
+        case expired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionStatus] {
+            return [
+                .active,
+                .expired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .expired: return "EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Indicates the type of access that you have to a module, such as a subscription, a private share, or a built-in.
+    public enum SubscriptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The module is an AWS built-in, available to everyone.
+        case awsBuiltIn
+        /// The access is through an AWS Marketplace subscription.
+        case marketplace
+        /// The module is your own, or a vendor shares it with you privately.
+        case `private`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionType] {
+            return [
+                .awsBuiltIn,
+                .marketplace,
+                .private
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsBuiltIn: return "AWS_BUILT_IN"
+            case .marketplace: return "MARKETPLACE"
+            case .private: return "PRIVATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A module that you can attach, as ListAvailableModules returns it. ListAvailableModules and GetAvailableModule never return how a module is implemented.
+    public struct AvailableModuleSummary: Swift.Sendable {
+        /// The Marketplace product the module is sold under. Present only when subscriptionType is MARKETPLACE.
+        public var marketplaceProductId: Swift.String?
+        /// The module's ARN.
+        /// This member is required.
+        public var moduleArn: Swift.String?
+        /// The module's ID.
+        /// This member is required.
+        public var moduleId: Swift.String?
+        /// A label, not unique: modules can share a name.
+        /// This member is required.
+        public var moduleName: Swift.String?
+        /// Specifies whether your access to the module is current.
+        /// This member is required.
+        public var subscriptionStatus: RTBFabricClientTypes.SubscriptionStatus?
+        /// The type of access that you have to the module.
+        /// This member is required.
+        public var subscriptionType: RTBFabricClientTypes.SubscriptionType?
+
+        public init(
+            marketplaceProductId: Swift.String? = nil,
+            moduleArn: Swift.String? = nil,
+            moduleId: Swift.String? = nil,
+            moduleName: Swift.String? = nil,
+            subscriptionStatus: RTBFabricClientTypes.SubscriptionStatus? = nil,
+            subscriptionType: RTBFabricClientTypes.SubscriptionType? = nil
+        ) {
+            self.marketplaceProductId = marketplaceProductId
+            self.moduleArn = moduleArn
+            self.moduleId = moduleId
+            self.moduleName = moduleName
+            self.subscriptionStatus = subscriptionStatus
+            self.subscriptionType = subscriptionType
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A version is CREATING while it is validated, then ACTIVE or CREATE_FAILED. An ACTIVE version becomes DEPRECATED at the time its vendor schedules.
+    public enum ModuleVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Attachable.
+        case active
+        /// Terminal. Re-publish as a new version.
+        case createFailed
+        /// Being validated.
+        case creating
+        /// Terminal. Can't be attached.
+        case deprecated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModuleVersionStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deprecated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deprecated: return "DEPRECATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A version of a module that you can attach, as ListAvailableModuleVersions returns it. ListAvailableModuleVersions and GetAvailableModuleVersion never return how a version is implemented.
+    public struct AvailableModuleVersionSummary: Swift.Sendable {
+        /// The time when the version was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The version's ARN.
+        /// This member is required.
+        public var moduleVersionArn: Swift.String?
+        /// ACTIVE or DEPRECATED.
+        /// This member is required.
+        public var status: RTBFabricClientTypes.ModuleVersionStatus?
+        /// The version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            moduleVersionArn: Swift.String? = nil,
+            status: RTBFabricClientTypes.ModuleVersionStatus? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.moduleVersionArn = moduleVersionArn
+            self.status = status
+            self.version = version
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
     /// Describes a summary of a certificate association.
     public struct CertificateAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the ACM certificate.
@@ -1038,6 +1300,46 @@ extension RTBFabricClientTypes {
             switch self {
             case .anyAvailabilityZone: return "ANY_AVAILABILITY_ZONE"
             case .availabilityZoneAffinity: return "AVAILABILITY_ZONE_AFFINITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A capability that you can turn on when you attach a version, such as FILTER or OBSERVE. Each capability needs a minimum permission.
+    public enum ConfigurableAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Requires ENRICH_REQUEST_EXT.
+        case enrichRequestExt
+        /// Requires ENRICH_REQUEST_HEADERS.
+        case enrichRequestHeaders
+        /// Requires FILTER.
+        case filter
+        /// Requires READ_REQUEST_BODY or READ_REQUEST_HEADERS.
+        case observe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurableAction] {
+            return [
+                .enrichRequestExt,
+                .enrichRequestHeaders,
+                .filter,
+                .observe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enrichRequestExt: return "ENRICH_REQUEST_EXT"
+            case .enrichRequestHeaders: return "ENRICH_REQUEST_HEADERS"
+            case .filter: return "FILTER"
+            case .observe: return "OBSERVE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1151,6 +1453,8 @@ public struct CreateLinkOutput: Swift.Sendable {
     public var customerProvidedId: Swift.String?
     /// The direction of the link.
     public var direction: RTBFabricClientTypes.LinkDirection?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The unique identifier of the gateway.
@@ -1179,6 +1483,7 @@ public struct CreateLinkOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         customerProvidedId: Swift.String? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
@@ -1193,6 +1498,7 @@ public struct CreateLinkOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.customerProvidedId = customerProvidedId
         self.direction = direction
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
@@ -1301,8 +1607,10 @@ extension RTBFabricClientTypes {
     /// Status of a routing rule
     public enum RuleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case createFailed
         case creationInProgress
         case deleted
+        case deleteFailed
         case deletionInProgress
         case failed
         case updateInProgress
@@ -1311,8 +1619,10 @@ extension RTBFabricClientTypes {
         public static var allCases: [RuleStatus] {
             return [
                 .active,
+                .createFailed,
                 .creationInProgress,
                 .deleted,
+                .deleteFailed,
                 .deletionInProgress,
                 .failed,
                 .updateInProgress
@@ -1327,8 +1637,10 @@ extension RTBFabricClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .creationInProgress: return "CREATION_IN_PROGRESS"
             case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
             case .deletionInProgress: return "DELETION_IN_PROGRESS"
             case .failed: return "FAILED"
             case .updateInProgress: return "UPDATE_IN_PROGRESS"
@@ -1456,7 +1768,9 @@ extension RTBFabricClientTypes {
 
     public enum RequesterGatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case createFailed
         case deleted
+        case deleteFailed
         case error
         case isolated
         case pendingCreation
@@ -1469,7 +1783,9 @@ extension RTBFabricClientTypes {
         public static var allCases: [RequesterGatewayStatus] {
             return [
                 .active,
+                .createFailed,
                 .deleted,
+                .deleteFailed,
                 .error,
                 .isolated,
                 .pendingCreation,
@@ -1488,7 +1804,9 @@ extension RTBFabricClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
             case .error: return "ERROR"
             case .isolated: return "ISOLATED"
             case .pendingCreation: return "PENDING_CREATION"
@@ -1729,7 +2047,9 @@ extension RTBFabricClientTypes {
 
     public enum ResponderGatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case createFailed
         case deleted
+        case deleteFailed
         case error
         case isolated
         case pendingCreation
@@ -1742,7 +2062,9 @@ extension RTBFabricClientTypes {
         public static var allCases: [ResponderGatewayStatus] {
             return [
                 .active,
+                .createFailed,
                 .deleted,
+                .deleteFailed,
                 .error,
                 .isolated,
                 .pendingCreation,
@@ -1761,7 +2083,9 @@ extension RTBFabricClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
             case .error: return "ERROR"
             case .isolated: return "ISOLATED"
             case .pendingCreation: return "PENDING_CREATION"
@@ -2042,6 +2366,156 @@ public struct DisassociateCertificateOutput: Swift.Sendable {
     }
 }
 
+extension RTBFabricClientTypes {
+
+    /// What the flow does when the module fails or times out.
+    public enum FailureMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Short-circuit with a no-bid.
+        case closed
+        /// Continue the flow. The default.
+        case `open`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailureMode] {
+            return [
+                .closed,
+                .open
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .open: return "OPEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A version attached to a flow, with its settings.
+    public struct FlowModule: Swift.Sendable {
+        /// The percentage of the flow's requests that the module runs on. The flow skips the module on the rest of the requests. The default is 100.
+        public var activationPercentage: Swift.Float?
+        /// RTB Fabric validates the value against the version's configurationSchema and rejects a value that fails with ValidationException. Omit it when the schema is empty or fully defaulted.
+        public var configurationValues: Swift.String?
+        /// Specifies what happens when the module fails – when its call fails or times out, or when an express module's dataset is stale. The default is OPEN.
+        public var failureMode: RTBFabricClientTypes.FailureMode?
+        /// The version to attach. It must be ACTIVE and available to you (see ListAvailableModuleVersions). You can keep a version that's already in the link's flows after it's deprecated, but you can't give it a higher share of traffic.
+        /// This member is required.
+        public var moduleVersionArn: Swift.String?
+        /// The module's name, unique within the flow.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The capabilities to turn on, chosen from the version's configurableActions. If the version exposes one, it's the default. If the version exposes more than one, this field is required. If it exposes none, omit this field.
+        public var selectedActions: [RTBFabricClientTypes.ConfigurableAction]?
+
+        public init(
+            activationPercentage: Swift.Float? = nil,
+            configurationValues: Swift.String? = nil,
+            failureMode: RTBFabricClientTypes.FailureMode? = nil,
+            moduleVersionArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            selectedActions: [RTBFabricClientTypes.ConfigurableAction]? = nil
+        ) {
+            self.activationPercentage = activationPercentage
+            self.configurationValues = configurationValues
+            self.failureMode = failureMode
+            self.moduleVersionArn = moduleVersionArn
+            self.name = name
+            self.selectedActions = selectedActions
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// One phase of a phased pipeline. Its modules run concurrently on the previous phase's output.
+    public struct FlowPhase: Swift.Sendable {
+        /// At most one MUTATE_REQUEST_BODY module.
+        /// This member is required.
+        public var modules: [RTBFabricClientTypes.FlowModule]?
+
+        public init(
+            modules: [RTBFabricClientTypes.FlowModule]? = nil
+        ) {
+            self.modules = modules
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Phases that run in order; each starts after the previous one completes.
+    public struct PhasedPipeline: Swift.Sendable {
+        /// At most 8 modules in total across the phases; more fails with ValidationException.
+        /// This member is required.
+        public var phases: [RTBFabricClientTypes.FlowPhase]?
+
+        public init(
+            phases: [RTBFabricClientTypes.FlowPhase]? = nil
+        ) {
+            self.phases = phases
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Modules that run one after another, each on the previous module's output.
+    public struct SequentialPipeline: Swift.Sendable {
+        /// In execution order.
+        /// This member is required.
+        public var modules: [RTBFabricClientTypes.FlowModule]?
+
+        public init(
+            modules: [RTBFabricClientTypes.FlowModule]? = nil
+        ) {
+            self.modules = modules
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// How a flow's modules run. In sequential, each module sees the previous module's output; in phased, a phase's modules see the prior phase's output, not each other's. Set exactly one. New members can be added, so handle an unknown one.
+    public enum FlowPipeline: Swift.Sendable {
+        /// Modules run in list order. Use it when each module needs the previous module's output.
+        case sequential(RTBFabricClientTypes.SequentialPipeline)
+        /// Phases run in order; a phase's modules run concurrently on the same input. Use it when a phase's modules don't depend on each other.
+        case phased(RTBFabricClientTypes.PhasedPipeline)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// One flow on a link: a set of modules that runs on the link's bid requests.
+    public struct Flow: Swift.Sendable {
+        /// The flow's name, unique within the link.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The pipeline that the flow's modules run in. In a sequential pipeline, each module sees the previous module's output. In a phased pipeline, a phase's modules see the prior phase's output, not each other's.
+        /// This member is required.
+        public var pipeline: RTBFabricClientTypes.FlowPipeline?
+
+        public init(
+            name: Swift.String? = nil,
+            pipeline: RTBFabricClientTypes.FlowPipeline? = nil
+        ) {
+            self.name = name
+            self.pipeline = pipeline
+        }
+    }
+}
+
 public struct GetLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
@@ -2069,8 +2543,12 @@ public struct GetLinkOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The direction of the link.
     public var direction: RTBFabricClientTypes.LinkDirection?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
+    /// The link's active flows, in the form PutLinkFlows takes. Empty when the link has no modules, and absent when its modules were set with UpdateLinkModuleFlow.
+    public var flows: [RTBFabricClientTypes.Flow]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -2079,6 +2557,8 @@ public struct GetLinkOutput: Swift.Sendable {
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// The link's concurrency token. Pass it to PutLinkFlows unchanged; it changes whenever the link does.
+    public var lockToken: Swift.String?
     /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The unique identifier of the peer gateway.
@@ -2102,10 +2582,13 @@ public struct GetLinkOutput: Swift.Sendable {
         connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
+        flows: [RTBFabricClientTypes.Flow]? = nil,
         gatewayId: Swift.String? = nil,
         httpResponderAllowed: Swift.Bool? = nil,
         linkId: Swift.String? = nil,
+        lockToken: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         peerGatewayId: Swift.String? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
@@ -2118,10 +2601,13 @@ public struct GetLinkOutput: Swift.Sendable {
         self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
+        self.flows = flows
         self.gatewayId = gatewayId
         self.httpResponderAllowed = httpResponderAllowed
         self.linkId = linkId
+        self.lockToken = lockToken
         self.logSettings = logSettings
         self.peerGatewayId = peerGatewayId
         self.pendingFlowModules = pendingFlowModules
@@ -2161,6 +2647,8 @@ public struct GetLinkRoutingRuleOutput: Swift.Sendable {
     /// The timestamp of when the routing rule was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -2185,6 +2673,7 @@ public struct GetLinkRoutingRuleOutput: Swift.Sendable {
     public init(
         conditions: RTBFabricClientTypes.RuleCondition? = nil,
         createdAt: Foundation.Date? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -2195,6 +2684,7 @@ public struct GetLinkRoutingRuleOutput: Swift.Sendable {
     ) {
         self.conditions = conditions
         self.createdAt = createdAt
+        self.errorDetails = errorDetails
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.priority = priority
@@ -2240,6 +2730,8 @@ extension RTBFabricClientTypes {
         /// The timestamp of when the routing rule was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+        public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
         /// The priority of the routing rule.
         /// This member is required.
         public var priority: Swift.Int?
@@ -2256,6 +2748,7 @@ extension RTBFabricClientTypes {
         public init(
             conditions: RTBFabricClientTypes.RuleCondition? = nil,
             createdAt: Foundation.Date? = nil,
+            errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             status: RTBFabricClientTypes.RuleStatus? = nil,
@@ -2263,6 +2756,7 @@ extension RTBFabricClientTypes {
         ) {
             self.conditions = conditions
             self.createdAt = createdAt
+            self.errorDetails = errorDetails
             self.priority = priority
             self.ruleId = ruleId
             self.status = status
@@ -2287,6 +2781,8 @@ public struct ListLinkRoutingRulesOutput: Swift.Sendable {
 }
 
 public struct UpdateLinkRoutingRuleInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier for the request. The SDK generates one when you don't.
+    public var clientToken: Swift.String?
     /// The updated conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
     /// This member is required.
     public var conditions: RTBFabricClientTypes.RuleCondition?
@@ -2304,12 +2800,14 @@ public struct UpdateLinkRoutingRuleInput: Swift.Sendable {
     public var ruleId: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         conditions: RTBFabricClientTypes.RuleCondition? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         priority: Swift.Int? = nil,
         ruleId: Swift.String? = nil
     ) {
+        self.clientToken = clientToken
         self.conditions = conditions
         self.gatewayId = gatewayId
         self.linkId = linkId
@@ -2325,6 +2823,9 @@ public struct UpdateLinkRoutingRuleOutput: Swift.Sendable {
     /// The status of the routing rule.
     /// This member is required.
     public var status: RTBFabricClientTypes.RuleStatus?
+    /// The ID of the update this call started.
+    /// This member is required.
+    public var updateId: Swift.String?
     /// The timestamp of when the routing rule was last updated.
     /// This member is required.
     public var updatedAt: Foundation.Date?
@@ -2332,10 +2833,12 @@ public struct UpdateLinkRoutingRuleOutput: Swift.Sendable {
     public init(
         ruleId: Swift.String? = nil,
         status: RTBFabricClientTypes.RuleStatus? = nil,
+        updateId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.ruleId = ruleId
         self.status = status
+        self.updateId = updateId
         self.updatedAt = updatedAt
     }
 }
@@ -2373,6 +2876,8 @@ extension RTBFabricClientTypes {
         public var createdAt: Foundation.Date?
         /// The direction of the link.
         public var direction: RTBFabricClientTypes.LinkDirection?
+        /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+        public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
         /// Describes the configuration of flow modules.
         public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
         /// The unique identifier of the gateway.
@@ -2404,6 +2909,7 @@ extension RTBFabricClientTypes {
             connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
             createdAt: Foundation.Date? = nil,
             direction: RTBFabricClientTypes.LinkDirection? = nil,
+            errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
             flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
             gatewayId: Swift.String? = nil,
             linkId: Swift.String? = nil,
@@ -2419,6 +2925,7 @@ extension RTBFabricClientTypes {
             self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
+            self.errorDetails = errorDetails
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
@@ -2445,6 +2952,64 @@ public struct ListLinksOutput: Swift.Sendable {
     ) {
         self.links = links
         self.nextToken = nextToken
+    }
+}
+
+public struct PutLinkFlowsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry with the same token and parameters, you get the original response without an error. If you retry with the same token but different parameters, the call fails with ValidationException. If you don't provide a token, the SDK generates one, and RTB Fabric remembers it for 8 hours. A retry returns the original updateId before lockToken is checked.
+    public var clientToken: Swift.String?
+    /// The link's flows, replacing the current ones. An empty list removes every flow.
+    /// This member is required.
+    public var flows: [RTBFabricClientTypes.Flow]?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The concurrency token that you read from GetLink. If the link changed since that read, by any operation, the call fails with ConflictException.
+    /// This member is required.
+    public var lockToken: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        flows: [RTBFabricClientTypes.Flow]? = nil,
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        lockToken: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.flows = flows
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.lockToken = lockToken
+    }
+}
+
+public struct PutLinkFlowsOutput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The link's status. A successful call returns PENDING_UPDATE, and the link serves its prior flows until the change completes.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.LinkStatus?
+    /// The ID of the update this call started.
+    /// This member is required.
+    public var updateId: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        status: RTBFabricClientTypes.LinkStatus? = nil,
+        updateId: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.status = status
+        self.updateId = updateId
     }
 }
 
@@ -2475,6 +3040,8 @@ public struct RejectLinkOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The direction of the link.
     public var direction: RTBFabricClientTypes.LinkDirection?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
     /// The unique identifier of the gateway.
@@ -2502,6 +3069,7 @@ public struct RejectLinkOutput: Swift.Sendable {
         connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         direction: RTBFabricClientTypes.LinkDirection? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
@@ -2515,6 +3083,7 @@ public struct RejectLinkOutput: Swift.Sendable {
         self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.direction = direction
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
         self.gatewayId = gatewayId
         self.linkId = linkId
@@ -2527,6 +3096,8 @@ public struct RejectLinkOutput: Swift.Sendable {
 }
 
 public struct UpdateLinkInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier for the request. The SDK generates one when you don't.
+    public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -2539,11 +3110,13 @@ public struct UpdateLinkInput: Swift.Sendable {
     public var timeoutInMillis: Swift.Int?
 
     public init(
+        clientToken: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         timeoutInMillis: Swift.Int? = nil
     ) {
+        self.clientToken = clientToken
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.logSettings = logSettings
@@ -2558,13 +3131,18 @@ public struct UpdateLinkOutput: Swift.Sendable {
     /// The status of the request.
     /// This member is required.
     public var status: RTBFabricClientTypes.LinkStatus?
+    /// The ID of the update this call started.
+    /// This member is required.
+    public var updateId: Swift.String?
 
     public init(
         linkId: Swift.String? = nil,
-        status: RTBFabricClientTypes.LinkStatus? = nil
+        status: RTBFabricClientTypes.LinkStatus? = nil,
+        updateId: Swift.String? = nil
     ) {
         self.linkId = linkId
         self.status = status
+        self.updateId = updateId
     }
 }
 
@@ -2605,15 +3183,592 @@ public struct UpdateLinkModuleFlowOutput: Swift.Sendable {
     /// The status of the request.
     /// This member is required.
     public var status: RTBFabricClientTypes.LinkStatus?
+    /// The ID of the update this call started.
+    /// This member is required.
+    public var updateId: Swift.String?
 
     public init(
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
-        status: RTBFabricClientTypes.LinkStatus? = nil
+        status: RTBFabricClientTypes.LinkStatus? = nil,
+        updateId: Swift.String? = nil
     ) {
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.status = status
+        self.updateId = updateId
+    }
+}
+
+public struct GetUpdateInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the update.
+    /// This member is required.
+    public var updateId: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        updateId: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.updateId = updateId
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A requested link configuration.
+    public struct LinkConfigParameters: Swift.Sendable {
+        /// Describes the settings for a link log.
+        public var logSettings: RTBFabricClientTypes.LinkLogSettings?
+        /// The timeout value in milliseconds.
+        public var timeoutInMillis: Swift.Int?
+
+        public init(
+            logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
+            timeoutInMillis: Swift.Int? = nil
+        ) {
+            self.logSettings = logSettings
+            self.timeoutInMillis = timeoutInMillis
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A requested link flow.
+    public enum LinkFlowParameters: Swift.Sendable {
+        /// The requested modules.
+        case modules([RTBFabricClientTypes.ModuleConfiguration])
+        /// A link's flows: at most one.
+        case flows([RTBFabricClientTypes.Flow])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A requested responder gateway configuration.
+    public struct ResponderGatewayConfigParameters: Swift.Sendable {
+        /// The gateway's client routing policy.
+        public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
+        /// The gateway's description.
+        public var description: Swift.String?
+        /// The gateway's domain name.
+        public var domainName: Swift.String?
+        /// Listener configuration for the protocols (HTTP, HTTPS, or both) accepted by the gateway.
+        public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
+        /// Describes the configuration of a managed endpoint.
+        public var managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration?
+        /// The networking port.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The networking protocol.
+        /// This member is required.
+        public var `protocol`: RTBFabricClientTypes.ModelProtocol?
+        /// Describes the configuration of a trust store.
+        public var trustStoreConfiguration: RTBFabricClientTypes.TrustStoreConfiguration?
+
+        public init(
+            clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
+            description: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
+            managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
+            trustStoreConfiguration: RTBFabricClientTypes.TrustStoreConfiguration? = nil
+        ) {
+            self.clientRoutingPolicy = clientRoutingPolicy
+            self.description = description
+            self.domainName = domainName
+            self.listenerConfig = listenerConfig
+            self.managedEndpointConfiguration = managedEndpointConfiguration
+            self.port = port
+            self.`protocol` = `protocol`
+            self.trustStoreConfiguration = trustStoreConfiguration
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A requested routing rule.
+    public struct RoutingRuleParameters: Swift.Sendable {
+        /// The conditions for a routing rule. All specified fields must match for the rule to apply (AND logic). At least one condition field must be set.
+        /// This member is required.
+        public var conditions: RTBFabricClientTypes.RuleCondition?
+        /// WAF-style evaluation priority. Lower number = evaluated first (priority 1 before 10). Gaps are allowed (1, 10, 20 is valid). Must be between 1 and 1000 inclusive. Uniqueness per link among non-deleted rules is enforced at the API layer (HTTP 409 on conflict).
+        /// This member is required.
+        public var priority: Swift.Int?
+
+        public init(
+            conditions: RTBFabricClientTypes.RuleCondition? = nil,
+            priority: Swift.Int? = nil
+        ) {
+            self.conditions = conditions
+            self.priority = priority
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// What an update requested.
+    public enum UpdateParameters: Swift.Sendable {
+        /// The requested responder gateway configuration.
+        case respondergatewayconfig(RTBFabricClientTypes.ResponderGatewayConfigParameters)
+        /// The requested link configuration.
+        case linkconfig(RTBFabricClientTypes.LinkConfigParameters)
+        /// The requested link flow.
+        case linkflow(RTBFabricClientTypes.LinkFlowParameters)
+        /// The requested routing rule.
+        case routingrule(RTBFabricClientTypes.RoutingRuleParameters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// The link an update targeted.
+    public struct LinkTarget: Swift.Sendable {
+        /// The unique identifier of the link.
+        /// This member is required.
+        public var linkId: Swift.String?
+
+        public init(
+            linkId: Swift.String? = nil
+        ) {
+            self.linkId = linkId
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// The routing rule an update targeted.
+    public struct RoutingRuleTarget: Swift.Sendable {
+        /// The unique identifier of the rule's link.
+        /// This member is required.
+        public var linkId: Swift.String?
+        /// Identifier for a routing rule
+        /// This member is required.
+        public var ruleId: Swift.String?
+
+        public init(
+            linkId: Swift.String? = nil,
+            ruleId: Swift.String? = nil
+        ) {
+            self.linkId = linkId
+            self.ruleId = ruleId
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// What an update targeted.
+    public enum UpdateTarget: Swift.Sendable {
+        /// The gateway itself.
+        case gateway(RTBFabricClientTypes.Unit)
+        /// A link on the gateway.
+        case link(RTBFabricClientTypes.LinkTarget)
+        /// A routing rule on one of the gateway's links.
+        case routingrule(RTBFabricClientTypes.RoutingRuleTarget)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gatewayConfigUpdate
+        case linkConfigUpdate
+        case linkFlowUpdate
+        case routingRuleUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateType] {
+            return [
+                .gatewayConfigUpdate,
+                .linkConfigUpdate,
+                .linkFlowUpdate,
+                .routingRuleUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gatewayConfigUpdate: return "GATEWAY_CONFIG_UPDATE"
+            case .linkConfigUpdate: return "LINK_CONFIG_UPDATE"
+            case .linkFlowUpdate: return "LINK_FLOW_UPDATE"
+            case .routingRuleUpdate: return "ROUTING_RULE_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// An accepted configuration change and its status.
+    public struct Update: Swift.Sendable {
+        /// The timestamp of when the update was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The causes of the failure. Present only when the update has failed.
+        public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
+        /// The changes that the update requested.
+        public var parameters: RTBFabricClientTypes.UpdateParameters?
+        /// The status of the update.
+        /// This member is required.
+        public var status: RTBFabricClientTypes.UpdateStatus?
+        /// The resource that the update targeted.
+        /// This member is required.
+        public var target: RTBFabricClientTypes.UpdateTarget?
+        /// The type of change.
+        /// This member is required.
+        public var type: RTBFabricClientTypes.UpdateType?
+        /// The unique identifier of the update.
+        /// This member is required.
+        public var updateId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
+            parameters: RTBFabricClientTypes.UpdateParameters? = nil,
+            status: RTBFabricClientTypes.UpdateStatus? = nil,
+            target: RTBFabricClientTypes.UpdateTarget? = nil,
+            type: RTBFabricClientTypes.UpdateType? = nil,
+            updateId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.errorDetails = errorDetails
+            self.parameters = parameters
+            self.status = status
+            self.target = target
+            self.type = type
+            self.updateId = updateId
+        }
+    }
+}
+
+public struct GetUpdateOutput: Swift.Sendable {
+    /// The update.
+    /// This member is required.
+    public var update: RTBFabricClientTypes.Update?
+
+    public init(
+        update: RTBFabricClientTypes.Update? = nil
+    ) {
+        self.update = update
+    }
+}
+
+public struct ListUpdatesInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The ID of a link on this gateway, to list only that link's updates. Omit both linkId and ruleId to list the gateway's own updates.
+    public var linkId: Swift.String?
+    /// The maximum number of results to return for each call.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+    public var nextToken: Swift.String?
+    /// The ID of a routing rule, to list only that rule's updates. Requires linkId, because you address a rule through its link. A ruleId without linkId fails with ValidationException.
+    public var ruleId: Swift.String?
+    /// Lists only updates in this status.
+    public var status: RTBFabricClientTypes.UpdateStatus?
+    /// Lists only updates of this type.
+    public var type: RTBFabricClientTypes.UpdateType?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        ruleId: Swift.String? = nil,
+        status: RTBFabricClientTypes.UpdateStatus? = nil,
+        type: RTBFabricClientTypes.UpdateType? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.ruleId = ruleId
+        self.status = status
+        self.type = type
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A summary of an update.
+    public struct UpdateSummary: Swift.Sendable {
+        /// The timestamp of when the update was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The status of the update.
+        /// This member is required.
+        public var status: RTBFabricClientTypes.UpdateStatus?
+        /// The type of change.
+        /// This member is required.
+        public var type: RTBFabricClientTypes.UpdateType?
+        /// The unique identifier of the update.
+        /// This member is required.
+        public var updateId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            status: RTBFabricClientTypes.UpdateStatus? = nil,
+            type: RTBFabricClientTypes.UpdateType? = nil,
+            updateId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.status = status
+            self.type = type
+            self.updateId = updateId
+        }
+    }
+}
+
+public struct ListUpdatesOutput: Swift.Sendable {
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// The updates on this page.
+    /// This member is required.
+    public var updates: [RTBFabricClientTypes.UpdateSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        updates: [RTBFabricClientTypes.UpdateSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.updates = updates
+    }
+}
+
+public struct GetAvailableModuleInput: Swift.Sendable {
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+
+    public init(
+        moduleId: Swift.String? = nil
+    ) {
+        self.moduleId = moduleId
+    }
+}
+
+public struct GetAvailableModuleOutput: Swift.Sendable {
+    /// The time when the module was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The module's description.
+    public var description: Swift.String?
+    /// The Marketplace product the module is sold under. Present only when subscriptionType is MARKETPLACE.
+    public var marketplaceProductId: Swift.String?
+    /// The module's ARN.
+    /// This member is required.
+    public var moduleArn: Swift.String?
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+    /// A label, not unique: modules can share a name.
+    /// This member is required.
+    public var moduleName: Swift.String?
+    /// Specifies whether your access to the module is current.
+    /// This member is required.
+    public var subscriptionStatus: RTBFabricClientTypes.SubscriptionStatus?
+    /// The type of access that you have to the module.
+    /// This member is required.
+    public var subscriptionType: RTBFabricClientTypes.SubscriptionType?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        marketplaceProductId: Swift.String? = nil,
+        moduleArn: Swift.String? = nil,
+        moduleId: Swift.String? = nil,
+        moduleName: Swift.String? = nil,
+        subscriptionStatus: RTBFabricClientTypes.SubscriptionStatus? = nil,
+        subscriptionType: RTBFabricClientTypes.SubscriptionType? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.marketplaceProductId = marketplaceProductId
+        self.moduleArn = moduleArn
+        self.moduleId = moduleId
+        self.moduleName = moduleName
+        self.subscriptionStatus = subscriptionStatus
+        self.subscriptionType = subscriptionType
+    }
+}
+
+public struct GetAvailableModuleVersionInput: Swift.Sendable {
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+    /// The version.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        moduleId: Swift.String? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.moduleId = moduleId
+        self.version = version
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// A data-access grant that a version holds.
+    public enum ModulePermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Write data into the bid request's ext object.
+        case enrichRequestExt
+        /// Add headers to the bid request.
+        case enrichRequestHeaders
+        /// Drop the bid request and return a no-bid.
+        case filter
+        /// Change the bid request body.
+        case mutateRequestBody
+        /// Read the bid request body.
+        case readRequestBody
+        /// Read the bid request headers.
+        case readRequestHeaders
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModulePermission] {
+            return [
+                .enrichRequestExt,
+                .enrichRequestHeaders,
+                .filter,
+                .mutateRequestBody,
+                .readRequestBody,
+                .readRequestHeaders
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enrichRequestExt: return "ENRICH_REQUEST_EXT"
+            case .enrichRequestHeaders: return "ENRICH_REQUEST_HEADERS"
+            case .filter: return "FILTER"
+            case .mutateRequestBody: return "MUTATE_REQUEST_BODY"
+            case .readRequestBody: return "READ_REQUEST_BODY"
+            case .readRequestHeaders: return "READ_REQUEST_HEADERS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetAvailableModuleVersionOutput: Swift.Sendable {
+    /// The capabilities that you can turn on when you attach the version.
+    /// This member is required.
+    public var configurableActions: [RTBFabricClientTypes.ConfigurableAction]?
+    /// The JSON Schema for the parameters that you can set in configurationValues when you attach the version.
+    public var configurationSchema: Swift.String?
+    /// The time when the version was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+    /// The version's ARN.
+    /// This member is required.
+    public var moduleVersionArn: Swift.String?
+    /// The data-access grants the version holds.
+    /// This member is required.
+    public var permissions: [RTBFabricClientTypes.ModulePermission]?
+    /// The vendor's release notes.
+    public var releaseNotes: Swift.String?
+    /// ACTIVE or DEPRECATED.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.ModuleVersionStatus?
+    /// The time when the version last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        configurableActions: [RTBFabricClientTypes.ConfigurableAction]? = nil,
+        configurationSchema: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        moduleId: Swift.String? = nil,
+        moduleVersionArn: Swift.String? = nil,
+        permissions: [RTBFabricClientTypes.ModulePermission]? = nil,
+        releaseNotes: Swift.String? = nil,
+        status: RTBFabricClientTypes.ModuleVersionStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.configurableActions = configurableActions
+        self.configurationSchema = configurationSchema
+        self.createdAt = createdAt
+        self.moduleId = moduleId
+        self.moduleVersionArn = moduleVersionArn
+        self.permissions = permissions
+        self.releaseNotes = releaseNotes
+        self.status = status
+        self.updatedAt = updatedAt
+        self.version = version
     }
 }
 
@@ -2640,6 +3795,8 @@ public struct GetCertificateAssociationOutput: Swift.Sendable {
     public var acmCertificateArn: Swift.String?
     /// The timestamp of when the certificate was associated.
     public var associatedAt: Foundation.Date?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -2652,12 +3809,14 @@ public struct GetCertificateAssociationOutput: Swift.Sendable {
     public init(
         acmCertificateArn: Swift.String? = nil,
         associatedAt: Foundation.Date? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         gatewayId: Swift.String? = nil,
         status: RTBFabricClientTypes.CertificateAssociationStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.acmCertificateArn = acmCertificateArn
         self.associatedAt = associatedAt
+        self.errorDetails = errorDetails
         self.gatewayId = gatewayId
         self.status = status
         self.updatedAt = updatedAt
@@ -2691,14 +3850,20 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
+    /// The link's active flows, in the form PutLinkFlows takes. Empty when the link has no modules, and absent when its modules were set with UpdateLinkModuleFlow.
+    public var flows: [RTBFabricClientTypes.Flow]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// The link's concurrency token. Pass it to PutLinkFlows unchanged; it changes whenever the link does.
+    public var lockToken: Swift.String?
     /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The configuration of pending flow modules.
@@ -2716,9 +3881,12 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
         connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
+        flows: [RTBFabricClientTypes.Flow]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        lockToken: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         status: RTBFabricClientTypes.LinkStatus? = nil,
@@ -2729,9 +3897,12 @@ public struct GetInboundExternalLinkOutput: Swift.Sendable {
         self.connectivityType = connectivityType
         self.createdAt = createdAt
         self.domainName = domainName
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
+        self.flows = flows
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.lockToken = lockToken
         self.logSettings = logSettings
         self.pendingFlowModules = pendingFlowModules
         self.status = status
@@ -2764,14 +3935,20 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
     public var connectivityType: RTBFabricClientTypes.ConnectivityType?
     /// The timestamp of when the outbound external link was created.
     public var createdAt: Foundation.Date?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The configuration of flow modules.
     public var flowModules: [RTBFabricClientTypes.ModuleConfiguration]?
+    /// The link's active flows, in the form PutLinkFlows takes. Empty when the link has no modules, and absent when its modules were set with UpdateLinkModuleFlow.
+    public var flows: [RTBFabricClientTypes.Flow]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
     /// The unique identifier of the link.
     /// This member is required.
     public var linkId: Swift.String?
+    /// The link's concurrency token. Pass it to PutLinkFlows unchanged; it changes whenever the link does.
+    public var lockToken: Swift.String?
     /// Settings for the application logs.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The configuration of pending flow modules.
@@ -2791,9 +3968,12 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
         attributes: RTBFabricClientTypes.LinkAttributes? = nil,
         connectivityType: RTBFabricClientTypes.ConnectivityType? = nil,
         createdAt: Foundation.Date? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         flowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
+        flows: [RTBFabricClientTypes.Flow]? = nil,
         gatewayId: Swift.String? = nil,
         linkId: Swift.String? = nil,
+        lockToken: Swift.String? = nil,
         logSettings: RTBFabricClientTypes.LinkLogSettings? = nil,
         pendingFlowModules: [RTBFabricClientTypes.ModuleConfiguration]? = nil,
         publicEndpoint: Swift.String? = nil,
@@ -2804,9 +3984,12 @@ public struct GetOutboundExternalLinkOutput: Swift.Sendable {
         self.attributes = attributes
         self.connectivityType = connectivityType
         self.createdAt = createdAt
+        self.errorDetails = errorDetails
         self.flowModules = flowModules
+        self.flows = flows
         self.gatewayId = gatewayId
         self.linkId = linkId
+        self.lockToken = lockToken
         self.logSettings = logSettings
         self.pendingFlowModules = pendingFlowModules
         self.publicEndpoint = publicEndpoint
@@ -2838,6 +4021,8 @@ public struct GetRequesterGatewayOutput: Swift.Sendable {
     /// The domain name of the requester gateway.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -2865,6 +4050,7 @@ public struct GetRequesterGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         gatewayId: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: RTBFabricClientTypes.RequesterGatewayStatus? = nil,
@@ -2878,6 +4064,7 @@ public struct GetRequesterGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.domainName = domainName
+        self.errorDetails = errorDetails
         self.gatewayId = gatewayId
         self.securityGroupIds = securityGroupIds
         self.status = status
@@ -2912,6 +4099,8 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The domain name of the responder gateway.
     public var domainName: Swift.String?
+    /// The causes of the failure, such as a deleted subnet. Present only when the resource has failed.
+    public var errorDetails: [RTBFabricClientTypes.ErrorDetail]?
     /// The external inbound endpoint for the responder gateway.
     public var externalInboundEndpoint: Swift.String?
     /// The unique identifier of the gateway.
@@ -2958,6 +4147,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        errorDetails: [RTBFabricClientTypes.ErrorDetail]? = nil,
         externalInboundEndpoint: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         gatewayType: RTBFabricClientTypes.GatewayType? = nil,
@@ -2980,6 +4170,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.domainName = domainName
+        self.errorDetails = errorDetails
         self.externalInboundEndpoint = externalInboundEndpoint
         self.gatewayId = gatewayId
         self.gatewayType = gatewayType
@@ -2996,6 +4187,86 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         self.trustStoreConfiguration = trustStoreConfiguration
         self.updatedAt = updatedAt
         self.vpcId = vpcId
+    }
+}
+
+public struct ListAvailableModulesInput: Swift.Sendable {
+    /// The maximum number of results for each page, from 1 to 10. The default is 10.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours; using an expired token fails with ValidationException.
+    public var nextToken: Swift.String?
+    /// Lists only modules that you have access to this way.
+    public var subscriptionType: RTBFabricClientTypes.SubscriptionType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        subscriptionType: RTBFabricClientTypes.SubscriptionType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.subscriptionType = subscriptionType
+    }
+}
+
+public struct ListAvailableModulesOutput: Swift.Sendable {
+    /// The modules on this page, newest first.
+    /// This member is required.
+    public var modules: [RTBFabricClientTypes.AvailableModuleSummary]?
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours; using an expired token fails with ValidationException.
+    public var nextToken: Swift.String?
+
+    public init(
+        modules: [RTBFabricClientTypes.AvailableModuleSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.modules = modules
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAvailableModuleVersionsInput: Swift.Sendable {
+    /// The maximum number of results for each page, from 1 to 10. The default is 10.
+    public var maxResults: Swift.Int?
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours; using an expired token fails with ValidationException.
+    public var nextToken: Swift.String?
+    /// Lists only versions in this status. Only ACTIVE and DEPRECATED versions are listed, so another value returns an empty list.
+    public var status: RTBFabricClientTypes.ModuleVersionStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        moduleId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        status: RTBFabricClientTypes.ModuleVersionStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.moduleId = moduleId
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+public struct ListAvailableModuleVersionsOutput: Swift.Sendable {
+    /// The module's ID.
+    /// This member is required.
+    public var moduleId: Swift.String?
+    /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours; using an expired token fails with ValidationException.
+    public var nextToken: Swift.String?
+    /// The versions on this page, highest version first.
+    /// This member is required.
+    public var versions: [RTBFabricClientTypes.AvailableModuleVersionSummary]?
+
+    public init(
+        moduleId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        versions: [RTBFabricClientTypes.AvailableModuleVersionSummary]? = nil
+    ) {
+        self.moduleId = moduleId
+        self.nextToken = nextToken
+        self.versions = versions
     }
 }
 
@@ -3223,15 +4494,20 @@ public struct UpdateResponderGatewayOutput: Swift.Sendable {
     /// The status of the request.
     /// This member is required.
     public var status: RTBFabricClientTypes.ResponderGatewayStatus?
+    /// The ID of the update this call started.
+    /// This member is required.
+    public var updateId: Swift.String?
 
     public init(
         clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         gatewayId: Swift.String? = nil,
-        status: RTBFabricClientTypes.ResponderGatewayStatus? = nil
+        status: RTBFabricClientTypes.ResponderGatewayStatus? = nil,
+        updateId: Swift.String? = nil
     ) {
         self.clientRoutingPolicy = clientRoutingPolicy
         self.gatewayId = gatewayId
         self.status = status
+        self.updateId = updateId
     }
 }
 
@@ -3458,6 +4734,29 @@ extension DisassociateCertificateInput {
     }
 }
 
+extension GetAvailableModuleInput {
+
+    static func urlPathProvider(_ value: GetAvailableModuleInput) -> Swift.String? {
+        guard let moduleId = value.moduleId else {
+            return nil
+        }
+        return "/available-modules/\(moduleId.urlPercentEncoding())"
+    }
+}
+
+extension GetAvailableModuleVersionInput {
+
+    static func urlPathProvider(_ value: GetAvailableModuleVersionInput) -> Swift.String? {
+        guard let moduleId = value.moduleId else {
+            return nil
+        }
+        guard let version = value.version else {
+            return nil
+        }
+        return "/available-modules/\(moduleId.urlPercentEncoding())/versions/\(version.urlPercentEncoding())"
+    }
+}
+
 extension GetCertificateAssociationInput {
 
     static func urlPathProvider(_ value: GetCertificateAssociationInput) -> Swift.String? {
@@ -3554,6 +4853,76 @@ extension GetResponderGatewayInput {
             return nil
         }
         return "/responder-gateway/\(gatewayId.urlPercentEncoding())"
+    }
+}
+
+extension GetUpdateInput {
+
+    static func urlPathProvider(_ value: GetUpdateInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let updateId = value.updateId else {
+            return nil
+        }
+        return "/gateway/\(gatewayId.urlPercentEncoding())/updates/\(updateId.urlPercentEncoding())"
+    }
+}
+
+extension ListAvailableModulesInput {
+
+    static func urlPathProvider(_ value: ListAvailableModulesInput) -> Swift.String? {
+        return "/available-modules"
+    }
+}
+
+extension ListAvailableModulesInput {
+
+    static func queryItemProvider(_ value: ListAvailableModulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let subscriptionType = value.subscriptionType {
+            let subscriptionTypeQueryItem = Smithy.URIQueryItem(name: "subscriptionType".urlPercentEncoding(), value: Swift.String(subscriptionType.rawValue).urlPercentEncoding())
+            items.append(subscriptionTypeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAvailableModuleVersionsInput {
+
+    static func urlPathProvider(_ value: ListAvailableModuleVersionsInput) -> Swift.String? {
+        guard let moduleId = value.moduleId else {
+            return nil
+        }
+        return "/available-modules/\(moduleId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListAvailableModuleVersionsInput {
+
+    static func queryItemProvider(_ value: ListAvailableModuleVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
@@ -3691,6 +5060,61 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListUpdatesInput {
+
+    static func urlPathProvider(_ value: ListUpdatesInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        return "/gateway/\(gatewayId.urlPercentEncoding())/updates"
+    }
+}
+
+extension ListUpdatesInput {
+
+    static func queryItemProvider(_ value: ListUpdatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let linkId = value.linkId {
+            let linkIdQueryItem = Smithy.URIQueryItem(name: "linkId".urlPercentEncoding(), value: Swift.String(linkId).urlPercentEncoding())
+            items.append(linkIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let ruleId = value.ruleId {
+            let ruleIdQueryItem = Smithy.URIQueryItem(name: "ruleId".urlPercentEncoding(), value: Swift.String(ruleId).urlPercentEncoding())
+            items.append(ruleIdQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension PutLinkFlowsInput {
+
+    static func urlPathProvider(_ value: PutLinkFlowsInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        return "/gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/flows"
     }
 }
 
@@ -3905,6 +5329,16 @@ extension CreateResponderGatewayInput {
     }
 }
 
+extension PutLinkFlowsInput {
+
+    static func write(value: PutLinkFlowsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["flows"].writeList(value.flows, memberWritingClosure: RTBFabricClientTypes.Flow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lockToken"].write(value.lockToken)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -3917,6 +5351,7 @@ extension UpdateLinkInput {
 
     static func write(value: UpdateLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["logSettings"].write(value.logSettings, with: RTBFabricClientTypes.LinkLogSettings.write(value:to:))
         try writer["timeoutInMillis"].write(value.timeoutInMillis)
     }
@@ -3935,6 +5370,7 @@ extension UpdateLinkRoutingRuleInput {
 
     static func write(value: UpdateLinkRoutingRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["conditions"].write(value.conditions, with: RTBFabricClientTypes.RuleCondition.write(value:to:))
         try writer["priority"].write(value.priority)
     }
@@ -3976,6 +5412,7 @@ extension AcceptLinkOutput {
         value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
@@ -4029,6 +5466,7 @@ extension CreateLinkOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customerProvidedId = try reader["customerProvidedId"].readIfPresent()
         value.direction = try reader["direction"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
@@ -4191,6 +5629,46 @@ extension DisassociateCertificateOutput {
     }
 }
 
+extension GetAvailableModuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAvailableModuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAvailableModuleOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.marketplaceProductId = try reader["marketplaceProductId"].readIfPresent()
+        value.moduleArn = try reader["moduleArn"].readIfPresent() ?? ""
+        value.moduleId = try reader["moduleId"].readIfPresent() ?? ""
+        value.moduleName = try reader["moduleName"].readIfPresent() ?? ""
+        value.subscriptionStatus = try reader["subscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.subscriptionType = try reader["subscriptionType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetAvailableModuleVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAvailableModuleVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAvailableModuleVersionOutput()
+        value.configurableActions = try reader["configurableActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RTBFabricClientTypes.ConfigurableAction>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.configurationSchema = try reader["configurationSchema"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.moduleId = try reader["moduleId"].readIfPresent() ?? ""
+        value.moduleVersionArn = try reader["moduleVersionArn"].readIfPresent() ?? ""
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RTBFabricClientTypes.ModulePermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.releaseNotes = try reader["releaseNotes"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetCertificateAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCertificateAssociationOutput {
@@ -4200,6 +5678,7 @@ extension GetCertificateAssociationOutput {
         var value = GetCertificateAssociationOutput()
         value.acmCertificateArn = try reader["acmCertificateArn"].readIfPresent() ?? ""
         value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4218,9 +5697,12 @@ extension GetInboundExternalLinkOutput {
         value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flows = try reader["flows"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.lockToken = try reader["lockToken"].readIfPresent()
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -4241,10 +5723,13 @@ extension GetLinkOutput {
         value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flows = try reader["flows"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.httpResponderAllowed = try reader["httpResponderAllowed"].readIfPresent()
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.lockToken = try reader["lockToken"].readIfPresent()
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.peerGatewayId = try reader["peerGatewayId"].readIfPresent() ?? ""
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4265,6 +5750,7 @@ extension GetLinkRoutingRuleOutput {
         var value = GetLinkRoutingRuleOutput()
         value.conditions = try reader["conditions"].readIfPresent(with: RTBFabricClientTypes.RuleCondition.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.priority = try reader["priority"].readIfPresent() ?? 0
@@ -4286,9 +5772,12 @@ extension GetOutboundExternalLinkOutput {
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
         value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flows = try reader["flows"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.lockToken = try reader["lockToken"].readIfPresent()
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.publicEndpoint = try reader["publicEndpoint"].readIfPresent() ?? ""
@@ -4310,6 +5799,7 @@ extension GetRequesterGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -4334,6 +5824,7 @@ extension GetResponderGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.externalInboundEndpoint = try reader["externalInboundEndpoint"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayType = try reader["gatewayType"].readIfPresent()
@@ -4350,6 +5841,45 @@ extension GetResponderGatewayOutput {
         value.trustStoreConfiguration = try reader["trustStoreConfiguration"].readIfPresent(with: RTBFabricClientTypes.TrustStoreConfiguration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetUpdateOutput()
+        value.update = try reader["update"].readIfPresent(with: RTBFabricClientTypes.Update.read(from:))
+        return value
+    }
+}
+
+extension ListAvailableModulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAvailableModulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAvailableModulesOutput()
+        value.modules = try reader["modules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.AvailableModuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAvailableModuleVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAvailableModuleVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAvailableModuleVersionsOutput()
+        value.moduleId = try reader["moduleId"].readIfPresent() ?? ""
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.AvailableModuleVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4431,6 +5961,34 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListUpdatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUpdatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUpdatesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.updates = try reader["updates"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.UpdateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PutLinkFlowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutLinkFlowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutLinkFlowsOutput()
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RejectLinkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectLinkOutput {
@@ -4442,6 +6000,7 @@ extension RejectLinkOutput {
         value.connectivityType = try reader["connectivityType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.direction = try reader["direction"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.flowModules = try reader["flowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
@@ -4477,6 +6036,7 @@ extension UpdateLinkOutput {
         var value = UpdateLinkOutput()
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4491,6 +6051,7 @@ extension UpdateLinkModuleFlowOutput {
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4504,6 +6065,7 @@ extension UpdateLinkRoutingRuleOutput {
         var value = UpdateLinkRoutingRuleOutput()
         value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -4532,6 +6094,7 @@ extension UpdateResponderGatewayOutput {
         value.clientRoutingPolicy = try reader["clientRoutingPolicy"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4827,6 +6390,42 @@ enum DisassociateCertificateOutputError {
     }
 }
 
+enum GetAvailableModuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAvailableModuleVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCertificateAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4954,6 +6553,59 @@ enum GetResponderGatewayOutputError {
     }
 }
 
+enum GetUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAvailableModulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAvailableModuleVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCertificateAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5049,6 +6701,44 @@ enum ListTagsForResourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListUpdatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutLinkFlowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5345,6 +7035,34 @@ extension RTBFabricClientTypes.AutoScalingGroupsConfiguration {
     }
 }
 
+extension RTBFabricClientTypes.AvailableModuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.AvailableModuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.AvailableModuleSummary()
+        value.moduleId = try reader["moduleId"].readIfPresent() ?? ""
+        value.moduleArn = try reader["moduleArn"].readIfPresent() ?? ""
+        value.moduleName = try reader["moduleName"].readIfPresent() ?? ""
+        value.subscriptionType = try reader["subscriptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.subscriptionStatus = try reader["subscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.marketplaceProductId = try reader["marketplaceProductId"].readIfPresent()
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.AvailableModuleVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.AvailableModuleVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.AvailableModuleVersionSummary()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.moduleVersionArn = try reader["moduleVersionArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.CertificateAssociationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.CertificateAssociationSummary {
@@ -5383,6 +7101,18 @@ extension RTBFabricClientTypes.EksEndpointsConfiguration {
     }
 }
 
+extension RTBFabricClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.ErrorDetail()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.Filter {
 
     static func write(value: RTBFabricClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
@@ -5412,6 +7142,91 @@ extension RTBFabricClientTypes.FilterCriterion {
         value.path = try reader["path"].readIfPresent() ?? ""
         value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension RTBFabricClientTypes.Flow {
+
+    static func write(value: RTBFabricClientTypes.Flow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["pipeline"].write(value.pipeline, with: RTBFabricClientTypes.FlowPipeline.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.Flow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.Flow()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.pipeline = try reader["pipeline"].readIfPresent(with: RTBFabricClientTypes.FlowPipeline.read(from:))
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.FlowModule {
+
+    static func write(value: RTBFabricClientTypes.FlowModule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activationPercentage"].write(value.activationPercentage)
+        try writer["configurationValues"].write(value.configurationValues)
+        try writer["failureMode"].write(value.failureMode)
+        try writer["moduleVersionArn"].write(value.moduleVersionArn)
+        try writer["name"].write(value.name)
+        try writer["selectedActions"].writeList(value.selectedActions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RTBFabricClientTypes.ConfigurableAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.FlowModule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.FlowModule()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.moduleVersionArn = try reader["moduleVersionArn"].readIfPresent() ?? ""
+        value.selectedActions = try reader["selectedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RTBFabricClientTypes.ConfigurableAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureMode = try reader["failureMode"].readIfPresent()
+        value.activationPercentage = try reader["activationPercentage"].readIfPresent()
+        value.configurationValues = try reader["configurationValues"].readIfPresent()
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.FlowPhase {
+
+    static func write(value: RTBFabricClientTypes.FlowPhase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modules"].writeList(value.modules, memberWritingClosure: RTBFabricClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.FlowPhase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.FlowPhase()
+        value.modules = try reader["modules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.FlowModule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.FlowPipeline {
+
+    static func write(value: RTBFabricClientTypes.FlowPipeline?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .phased(phased):
+                try writer["phased"].write(phased, with: RTBFabricClientTypes.PhasedPipeline.write(value:to:))
+            case let .sequential(sequential):
+                try writer["sequential"].write(sequential, with: RTBFabricClientTypes.SequentialPipeline.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.FlowPipeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sequential":
+                return .sequential(try reader["sequential"].read(with: RTBFabricClientTypes.SequentialPipeline.read(from:)))
+            case "phased":
+                return .phased(try reader["phased"].read(with: RTBFabricClientTypes.PhasedPipeline.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5510,6 +7325,33 @@ extension RTBFabricClientTypes.LinkAttributes {
     }
 }
 
+extension RTBFabricClientTypes.LinkConfigParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.LinkConfigParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.LinkConfigParameters()
+        value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
+        value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent()
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.LinkFlowParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.LinkFlowParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "modules":
+                return .modules(try reader["modules"].readList(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "flows":
+                return .flows(try reader["flows"].readList(memberReadingClosure: RTBFabricClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension RTBFabricClientTypes.LinkLogSettings {
 
     static func write(value: RTBFabricClientTypes.LinkLogSettings?, to writer: SmithyJSON.Writer) throws {
@@ -5536,6 +7378,17 @@ extension RTBFabricClientTypes.LinkRoutingRuleSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.LinkTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.LinkTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.LinkTarget()
+        value.linkId = try reader["linkId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5571,6 +7424,7 @@ extension RTBFabricClientTypes.ListLinksResponseStructure {
         value.attributes = try reader["attributes"].readIfPresent(with: RTBFabricClientTypes.LinkAttributes.read(from:))
         value.logSettings = try reader["logSettings"].readIfPresent(with: RTBFabricClientTypes.LinkLogSettings.read(from:))
         value.connectivityType = try reader["connectivityType"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.linkId = try reader["linkId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.publicEndpoint = try reader["publicEndpoint"].readIfPresent()
@@ -5714,6 +7568,21 @@ extension RTBFabricClientTypes.OpenRtbAttributeModuleParameters {
     }
 }
 
+extension RTBFabricClientTypes.PhasedPipeline {
+
+    static func write(value: RTBFabricClientTypes.PhasedPipeline?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["phases"].writeList(value.phases, memberWritingClosure: RTBFabricClientTypes.FlowPhase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.PhasedPipeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.PhasedPipeline()
+        value.phases = try reader["phases"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.FlowPhase.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.QueryStringKeyValuePair {
 
     static func write(value: RTBFabricClientTypes.QueryStringKeyValuePair?, to writer: SmithyJSON.Writer) throws {
@@ -5767,6 +7636,45 @@ extension RTBFabricClientTypes.ResponderErrorMaskingForHttpCode {
     }
 }
 
+extension RTBFabricClientTypes.ResponderGatewayConfigParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.ResponderGatewayConfigParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.ResponderGatewayConfigParameters()
+        value.description = try reader["description"].readIfPresent()
+        value.clientRoutingPolicy = try reader["clientRoutingPolicy"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
+        value.trustStoreConfiguration = try reader["trustStoreConfiguration"].readIfPresent(with: RTBFabricClientTypes.TrustStoreConfiguration.read(from:))
+        value.managedEndpointConfiguration = try reader["managedEndpointConfiguration"].readIfPresent(with: RTBFabricClientTypes.ManagedEndpointConfiguration.read(from:))
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.RoutingRuleParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.RoutingRuleParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.RoutingRuleParameters()
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.conditions = try reader["conditions"].readIfPresent(with: RTBFabricClientTypes.RuleCondition.read(from:))
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.RoutingRuleTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.RoutingRuleTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.RoutingRuleTarget()
+        value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.RuleCondition {
 
     static func write(value: RTBFabricClientTypes.RuleCondition?, to writer: SmithyJSON.Writer) throws {
@@ -5792,6 +7700,21 @@ extension RTBFabricClientTypes.RuleCondition {
     }
 }
 
+extension RTBFabricClientTypes.SequentialPipeline {
+
+    static func write(value: RTBFabricClientTypes.SequentialPipeline?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modules"].writeList(value.modules, memberWritingClosure: RTBFabricClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.SequentialPipeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.SequentialPipeline()
+        value.modules = try reader["modules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.FlowModule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.TrustStoreConfiguration {
 
     static func write(value: RTBFabricClientTypes.TrustStoreConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -5804,6 +7727,81 @@ extension RTBFabricClientTypes.TrustStoreConfiguration {
         var value = RTBFabricClientTypes.TrustStoreConfiguration()
         value.certificateAuthorityCertificates = try reader["certificateAuthorityCertificates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension RTBFabricClientTypes.Update {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.Update {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.Update()
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.target = try reader["target"].readIfPresent(with: RTBFabricClientTypes.UpdateTarget.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.parameters = try reader["parameters"].readIfPresent(with: RTBFabricClientTypes.UpdateParameters.read(from:))
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.UpdateParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.UpdateParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "responderGatewayConfig":
+                return .respondergatewayconfig(try reader["responderGatewayConfig"].read(with: RTBFabricClientTypes.ResponderGatewayConfigParameters.read(from:)))
+            case "linkConfig":
+                return .linkconfig(try reader["linkConfig"].read(with: RTBFabricClientTypes.LinkConfigParameters.read(from:)))
+            case "linkFlow":
+                return .linkflow(try reader["linkFlow"].read(with: RTBFabricClientTypes.LinkFlowParameters.read(from:)))
+            case "routingRule":
+                return .routingrule(try reader["routingRule"].read(with: RTBFabricClientTypes.RoutingRuleParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RTBFabricClientTypes.UpdateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.UpdateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.UpdateSummary()
+        value.updateId = try reader["updateId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.UpdateTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.UpdateTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "gateway":
+                return .gateway(try reader["gateway"].read(with: RTBFabricClientTypes.Unit.read(from:)))
+            case "link":
+                return .link(try reader["link"].read(with: RTBFabricClientTypes.LinkTarget.read(from:)))
+            case "routingRule":
+                return .routingrule(try reader["routingRule"].read(with: RTBFabricClientTypes.RoutingRuleTarget.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RTBFabricClientTypes.Unit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return RTBFabricClientTypes.Unit()
     }
 }
 

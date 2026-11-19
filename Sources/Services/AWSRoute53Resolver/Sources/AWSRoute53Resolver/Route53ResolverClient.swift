@@ -704,6 +704,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -865,6 +866,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -1256,10 +1258,10 @@ extension Route53ResolverClient {
     ///
     /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
     ///
-    /// * FirewallRuleType — match one of the rule-type variants returned by [ListFirewallRuleTypes]: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
+    /// * FirewallRuleType — match one of the rule-type variants: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, PartnerThreatProtection, or AutoAllowlist. [ListFirewallRuleTypes] returns the first four. The PartnerThreatProtection variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
     ///
     ///
-    /// For rules that require asynchronous provisioning (today, the PartnerThreatProtection rule type), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with [DeleteFirewallRule].
+    /// For rules that require asynchronous provisioning (the PartnerThreatProtection and AutoAllowlist rule types), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned: for PartnerThreatProtection, when the marketplace entitlement is verified, and for AutoAllowlist, when DNS Firewall has read the look-back window of every VPC that uses the rule group, which can take hours for a rule group that many VPCs use. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with [DeleteFirewallRule].
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateFirewallRuleInput`)
     ///
@@ -2073,6 +2075,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -2230,6 +2233,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -2388,6 +2392,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -2550,6 +2555,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -3251,6 +3257,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -3564,6 +3571,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -3641,6 +3649,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -3786,7 +3795,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ImportFirewallDomains` operation on the `Route53Resolver` service.
     ///
-    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements:
+    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. You can't import into an AutoAllowlist rule's managed domain list. To seed such a list, specify ImportFromFirewallDomainListId when you create the rule. Each domain specification in your domain list must satisfy the following requirements:
     ///
     /// * It can optionally start with * (asterisk).
     ///
@@ -4102,6 +4111,84 @@ extension Route53ResolverClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListFirewallRuleDomains` operation on the `Route53Resolver` service.
+    ///
+    /// Retrieves the domains of an AutoAllowlist firewall rule. Only the owner of the rule group can call this operation. Results are paginated. Use MaxResults and NextToken to retrieve additional domains. Identify the rule by FirewallThreatProtectionId to get the domains that DNS Firewall observed in the VPCs that use the rule group, through a rule group association or through a Route 53 Profile that includes the rule group, including VPCs in other accounts. Each domain is returned with its DomainStatus and request counts. Use QueryOptions to filter and sort the results. Identify the rule's managed domain list by FirewallDomainListId to get the domains that the rule currently allows. For any other domain list, use [ListFirewallDomains].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleDomainsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListFirewallRuleDomainsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    public func listFirewallRuleDomains(input: ListFirewallRuleDomainsInput) async throws -> ListFirewallRuleDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallRuleDomainsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFirewallRuleDomains")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53resolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallRuleDomainsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallRuleDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallRuleDomains"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleDomainsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFirewallRuleDomains")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListFirewallRuleGroupAssociations` operation on the `Route53Resolver` service.
     ///
     /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults.
@@ -4258,7 +4345,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ListFirewallRuleTypes` operation on the `Route53Resolver` service.
     ///
-    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of [CreateFirewallRule] and [UpdateFirewallRule]. Each returned [FirewallRuleTypeDefinition] identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a [SubscriptionInfo] identifying the Amazon Web Services Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by Amazon Web Services and requires no separate subscription.
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of [CreateFirewallRule] and [UpdateFirewallRule]. Each returned [FirewallRuleTypeDefinition] identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a [SubscriptionInfo] identifying the Amazon Web Services Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by Amazon Web Services and requires no separate subscription. This operation doesn't return the AutoAllowlist variant. Configure an AutoAllowlist rule with [AutoAllowlistConfig].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleTypesInput`)
     ///
@@ -4335,7 +4422,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ListFirewallRules` operation on the `Route53Resolver` service.
     ///
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults. For rules that require asynchronous provisioning, the response includes Status (see [FirewallRuleStatus]) and, on failure, StatusMessage with the reason.
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults. For rules that require asynchronous provisioning, the response includes Status (see [FirewallRule]) and, on failure, StatusMessage with the reason.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFirewallRulesInput`)
     ///
@@ -4659,6 +4746,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
@@ -4737,6 +4825,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
@@ -4973,6 +5062,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
@@ -5051,6 +5141,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
@@ -5129,6 +5220,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidNextTokenException` : The value that you specified for NextToken in a List request isn't valid.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
@@ -5443,6 +5535,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -5523,6 +5616,7 @@ extension Route53ResolverClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -5670,7 +5764,7 @@ extension Route53ResolverClient {
 
     /// Performs the `UpdateFirewallDomains` operation on the `Route53Resolver` service.
     ///
-    /// Updates the firewall domain list from an array of domain specifications.
+    /// Updates the firewall domain list from an array of domain specifications. For an AutoAllowlist rule's managed domain list, use ADD to approve observed domains, REMOVE to stop allowing domains, unless a wildcard entry that's still on the list matches them, and DENY to dismiss observed domains. REPLACE and [ImportFirewallDomains] aren't supported for these lists. DNS Firewall throttles UpdateFirewallDomains requests based on both the request rate and the total number of domains across your requests. Best Practice for Updating Domain Lists If you only need to modify a subset of domains, use the ADD or REMOVE operations instead of REPLACE. With REPLACE, you send the complete list you want to end up with, and throttling counts every domain in that request, including domains that aren't changing, which can use up your available throttling capacity.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFirewallDomainsInput`)
     ///

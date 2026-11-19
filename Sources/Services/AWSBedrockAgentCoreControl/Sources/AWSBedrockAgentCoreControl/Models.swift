@@ -4811,6 +4811,54 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum NestedVirtualization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NestedVirtualization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The CPU configuration for capacity provider instances, including nested virtualization.
+    public struct CpuOptions: Swift.Sendable {
+        /// Specifies whether your agents can use hardware virtualization on their instances. The following values are possible:
+        ///
+        /// * ENABLED – Your agents can use hardware virtualization on their instances. To use this value, choose the LINUX_X86_64 operating system and instance types that support nested virtualization.
+        ///
+        /// * DISABLED – Your agents can't use hardware virtualization on their instances. This is the default.
+        public var nestedVirtualization: BedrockAgentCoreControlClientTypes.NestedVirtualization?
+
+        public init(
+            nestedVirtualization: BedrockAgentCoreControlClientTypes.NestedVirtualization? = nil
+        ) {
+            self.nestedVirtualization = nestedVirtualization
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The type of Amazon EBS volume.
     public enum EbsVolumeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gp2
@@ -5021,6 +5069,8 @@ extension BedrockAgentCoreControlClientTypes {
     public struct LaunchParameters: Swift.Sendable {
         /// The Capacity Reservation targeting option for the instances.
         public var capacityReservationSpecification: BedrockAgentCoreControlClientTypes.CapacityReservationSpecification?
+        /// The central processing unit (CPU) options for the instances that the capacity provider launches.
+        public var cpuOptions: BedrockAgentCoreControlClientTypes.CpuOptions?
         /// The block device mappings for instance store (ephemeral) volumes. You can specify up to five mappings.
         public var ephemeralVolumes: [BedrockAgentCoreControlClientTypes.EphemeralBlockDeviceMapping]?
         /// The Amazon Resource Name (ARN) of the IAM instance profile to associate with launched instances. If provided, this overrides the default instance profile.
@@ -5042,6 +5092,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public init(
             capacityReservationSpecification: BedrockAgentCoreControlClientTypes.CapacityReservationSpecification? = nil,
+            cpuOptions: BedrockAgentCoreControlClientTypes.CpuOptions? = nil,
             ephemeralVolumes: [BedrockAgentCoreControlClientTypes.EphemeralBlockDeviceMapping]? = nil,
             instanceProfileArn: Swift.String? = nil,
             instanceRequirements: BedrockAgentCoreControlClientTypes.InstanceRequirements? = nil,
@@ -5052,6 +5103,7 @@ extension BedrockAgentCoreControlClientTypes {
             sshKeyName: Swift.String? = nil
         ) {
             self.capacityReservationSpecification = capacityReservationSpecification
+            self.cpuOptions = cpuOptions
             self.ephemeralVolumes = ephemeralVolumes
             self.instanceProfileArn = instanceProfileArn
             self.instanceRequirements = instanceRequirements
@@ -20290,6 +20342,22 @@ public struct SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClie
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The configuration for an AWS Billing payment connector. Payments made through an AWS Billing payment connector are charged to the AWS account that owns the payment manager, and appear on that account's AWS bill as AWS Marketplace charges.
+    public struct AwsBillingConnectorConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Marketplace service-linked role in the account that owns the payment manager. The service sets this value when it creates the connector.
+        /// This member is required.
+        public var iamRoleArn: Swift.String?
+
+        public init(
+            iamRoleArn: Swift.String? = nil
+        ) {
+            self.iamRoleArn = iamRoleArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for a payment credential provider that stores authentication credentials for a payment provider.
     public struct PaymentCredentialProviderConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider.
@@ -20306,12 +20374,14 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// The credential provider configuration for a payment connector. Specifies the payment provider type and its associated credential provider.
+    /// The configuration for a payment connector. Specifies the payment provider type and either its associated credential provider or, for an AWS Billing payment connector, its billing configuration.
     public enum CredentialsProviderConfiguration: Swift.Sendable {
         /// The credential provider configuration for a Coinbase CDP payment connector.
         case coinbasecdp(BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration)
         /// The credential provider configuration for a Stripe Privy payment connector.
         case stripeprivy(BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration)
+        /// The configuration for an AWS Billing payment connector. The service sets this configuration when it creates the connector and returns it in responses. Don't specify it when you create an AWS Billing payment connector.
+        case awsbilling(BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -20348,12 +20418,14 @@ extension BedrockAgentCoreControlClientTypes {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum PaymentConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsBilling
         case coinbaseCdp
         case stripePrivy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PaymentConnectorType] {
             return [
+                .awsBilling,
                 .coinbaseCdp,
                 .stripePrivy
             ]
@@ -20366,6 +20438,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsBilling: return "AwsBilling"
             case .coinbaseCdp: return "CoinbaseCDP"
             case .stripePrivy: return "StripePrivy"
             case let .sdkUnknown(s): return s
@@ -20377,8 +20450,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreatePaymentConnectorInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider.
-    /// This member is required.
+    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider. For an AwsBilling payment connector, omit this parameter or specify an empty list. The service uses the AWS Marketplace service-linked role in your account, which must exist before you create the connector, and you must have permission to call iam:GetRole on it.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
     /// A description of the payment connector.
     public var description: Swift.String?
@@ -35860,6 +35932,21 @@ extension BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iamRoleArn"].write(value.iamRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration()
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.BatchPutLimitEntry {
 
     static func write(value: BedrockAgentCoreControlClientTypes.BatchPutLimitEntry?, to writer: SmithyJSON.Writer) throws {
@@ -36740,6 +36827,21 @@ extension BedrockAgentCoreControlClientTypes.ContentConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CpuOptions {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CpuOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nestedVirtualization"].write(value.nestedVirtualization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CpuOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CpuOptions()
+        value.nestedVirtualization = try reader["nestedVirtualization"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CredentialProvider {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CredentialProvider?, to writer: SmithyJSON.Writer) throws {
@@ -36807,6 +36909,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .awsbilling(awsbilling):
+                try writer["awsBilling"].write(awsbilling, with: BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration.write(value:to:))
             case let .coinbasecdp(coinbasecdp):
                 try writer["coinbaseCDP"].write(coinbasecdp, with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.write(value:to:))
             case let .stripeprivy(stripeprivy):
@@ -36824,6 +36928,8 @@ extension BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration {
                 return .coinbasecdp(try reader["coinbaseCDP"].read(with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.read(from:)))
             case "stripePrivy":
                 return .stripeprivy(try reader["stripePrivy"].read(with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.read(from:)))
+            case "awsBilling":
+                return .awsbilling(try reader["awsBilling"].read(with: BedrockAgentCoreControlClientTypes.AwsBillingConnectorConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -39634,6 +39740,7 @@ extension BedrockAgentCoreControlClientTypes.LaunchParameters {
     static func write(value: BedrockAgentCoreControlClientTypes.LaunchParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacityReservationSpecification"].write(value.capacityReservationSpecification, with: BedrockAgentCoreControlClientTypes.CapacityReservationSpecification.write(value:to:))
+        try writer["cpuOptions"].write(value.cpuOptions, with: BedrockAgentCoreControlClientTypes.CpuOptions.write(value:to:))
         try writer["ephemeralVolumes"].writeList(value.ephemeralVolumes, memberWritingClosure: BedrockAgentCoreControlClientTypes.EphemeralBlockDeviceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["instanceProfileArn"].write(value.instanceProfileArn)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: BedrockAgentCoreControlClientTypes.InstanceRequirements.write(value:to:))
@@ -39656,6 +39763,7 @@ extension BedrockAgentCoreControlClientTypes.LaunchParameters {
         value.sshKeyName = try reader["sshKeyName"].readIfPresent()
         value.instanceProfileArn = try reader["instanceProfileArn"].readIfPresent()
         value.propagatedTags = try reader["propagatedTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.cpuOptions = try reader["cpuOptions"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CpuOptions.read(from:))
         return value
     }
 }

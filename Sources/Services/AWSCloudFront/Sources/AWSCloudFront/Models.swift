@@ -5764,6 +5764,21 @@ public struct CreateConnectionFunctionOutput: Swift.Sendable {
     }
 }
 
+extension CloudFrontClientTypes {
+
+    /// The distribution whose certificate CloudFront uses for viewer requests that arrive on the connection group's Anycast static IPs without Server Name Indication (SNI). You can specify one distribution per Anycast static IP list.
+    public struct ViewerFallback: Swift.Sendable {
+        /// The ID of the distribution whose certificate CloudFront uses to establish TLS connections for viewer requests that don't include SNI.
+        public var distributionId: Swift.String?
+
+        public init(
+            distributionId: Swift.String? = nil
+        ) {
+            self.distributionId = distributionId
+        }
+    }
+}
+
 public struct CreateConnectionGroupInput: Swift.Sendable {
     /// The ID of the Anycast static IP list.
     public var anycastIpListId: Swift.String?
@@ -5776,19 +5791,23 @@ public struct CreateConnectionGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// A complex type that contains zero or more Tag elements.
     public var tags: CloudFrontClientTypes.Tags?
+    /// The distribution whose certificate CloudFront uses for viewer requests that arrive on the connection group's Anycast static IPs without Server Name Indication (SNI).
+    public var viewerFallback: CloudFrontClientTypes.ViewerFallback?
 
     public init(
         anycastIpListId: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
         ipv6Enabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
-        tags: CloudFrontClientTypes.Tags? = nil
+        tags: CloudFrontClientTypes.Tags? = nil,
+        viewerFallback: CloudFrontClientTypes.ViewerFallback? = nil
     ) {
         self.anycastIpListId = anycastIpListId
         self.enabled = enabled
         self.ipv6Enabled = ipv6Enabled
         self.name = name
         self.tags = tags
+        self.viewerFallback = viewerFallback
     }
 }
 
@@ -5820,6 +5839,8 @@ extension CloudFrontClientTypes {
         public var status: Swift.String?
         /// A complex type that contains zero or more Tag elements.
         public var tags: CloudFrontClientTypes.Tags?
+        /// The distribution whose certificate CloudFront uses for viewer requests that arrive on the connection group's Anycast static IPs without Server Name Indication (SNI).
+        public var viewerFallback: CloudFrontClientTypes.ViewerFallback?
 
         public init(
             anycastIpListId: Swift.String? = nil,
@@ -5833,7 +5854,8 @@ extension CloudFrontClientTypes {
             name: Swift.String? = nil,
             routingEndpoint: Swift.String? = nil,
             status: Swift.String? = nil,
-            tags: CloudFrontClientTypes.Tags? = nil
+            tags: CloudFrontClientTypes.Tags? = nil,
+            viewerFallback: CloudFrontClientTypes.ViewerFallback? = nil
         ) {
             self.anycastIpListId = anycastIpListId
             self.arn = arn
@@ -5847,6 +5869,7 @@ extension CloudFrontClientTypes {
             self.routingEndpoint = routingEndpoint
             self.status = status
             self.tags = tags
+            self.viewerFallback = viewerFallback
         }
     }
 }
@@ -6400,16 +6423,53 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum ServeOn: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case any
+        case anycastiplistonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServeOn] {
+            return [
+                .any,
+                .anycastiplistonly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .any: return "any"
+            case .anycastiplistonly: return "anycast-ip-list-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// The domain for the specified distribution tenant.
     public struct DomainItem: Swift.Sendable {
         /// The domain name.
         /// This member is required.
         public var domain: Swift.String?
+        /// Specifies which requests for this domain CloudFront routes to the distribution tenant. Valid values are:
+        ///
+        /// * any – CloudFront routes requests for this domain to the distribution tenant regardless of the IP address that they arrive on. This is the default if you don't specify a value.
+        ///
+        /// * anycast-ip-list-only – CloudFront routes requests for this domain to the distribution tenant only when they arrive on the Anycast static IPs of the distribution tenant's connection group. CloudFront treats requests that arrive on other IP addresses as requests for an unknown domain.
+        public var serveOn: CloudFrontClientTypes.ServeOn?
 
         public init(
-            domain: Swift.String? = nil
+            domain: Swift.String? = nil,
+            serveOn: CloudFrontClientTypes.ServeOn? = nil
         ) {
             self.domain = domain
+            self.serveOn = serveOn
         }
     }
 }
@@ -6473,6 +6533,35 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum OnDomainTakeover: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case reject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnDomainTakeover] {
+            return [
+                .allow,
+                .reject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "allow"
+            case .reject: return "reject"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
     public struct Parameter: Swift.Sendable {
         /// The parameter name.
@@ -6510,6 +6599,12 @@ public struct CreateDistributionTenantInput: Swift.Sendable {
     /// The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether CloudFront moves a domain in this request to this distribution tenant when the domain is already associated with another standard distribution or distribution tenant. Valid values are:
+    ///
+    /// * allow – CloudFront moves the domain to this distribution tenant when the domain's DNS points to this distribution tenant.
+    ///
+    /// * reject – CloudFront doesn't move the domain, and the request fails if the domain is associated with another resource. This is the default if you don't specify a value.
+    public var onDomainTakeover: CloudFrontClientTypes.OnDomainTakeover?
     /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
     public var parameters: [CloudFrontClientTypes.Parameter]?
     /// A complex type that contains zero or more Tag elements.
@@ -6523,6 +6618,7 @@ public struct CreateDistributionTenantInput: Swift.Sendable {
         enabled: Swift.Bool? = nil,
         managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest? = nil,
         name: Swift.String? = nil,
+        onDomainTakeover: CloudFrontClientTypes.OnDomainTakeover? = nil,
         parameters: [CloudFrontClientTypes.Parameter]? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
     ) {
@@ -6533,6 +6629,7 @@ public struct CreateDistributionTenantInput: Swift.Sendable {
         self.enabled = enabled
         self.managedCertificateRequest = managedCertificateRequest
         self.name = name
+        self.onDomainTakeover = onDomainTakeover
         self.parameters = parameters
         self.tags = tags
     }
@@ -6574,14 +6671,22 @@ extension CloudFrontClientTypes {
         /// The specified domain.
         /// This member is required.
         public var domain: Swift.String?
+        /// Specifies which requests for this domain CloudFront routes to the distribution tenant. Valid values are:
+        ///
+        /// * any – CloudFront routes requests for this domain to the distribution tenant regardless of the IP address that they arrive on. This is the default if you don't specify a value.
+        ///
+        /// * anycast-ip-list-only – CloudFront routes requests for this domain to the distribution tenant only when they arrive on the Anycast static IPs of the distribution tenant's connection group. CloudFront treats requests that arrive on other IP addresses as requests for an unknown domain.
+        public var serveOn: CloudFrontClientTypes.ServeOn?
         /// Whether the domain is active or inactive.
         public var status: CloudFrontClientTypes.DomainStatus?
 
         public init(
             domain: Swift.String? = nil,
+            serveOn: CloudFrontClientTypes.ServeOn? = nil,
             status: CloudFrontClientTypes.DomainStatus? = nil
         ) {
             self.domain = domain
+            self.serveOn = serveOn
             self.status = status
         }
     }
@@ -12931,6 +13036,8 @@ extension CloudFrontClientTypes {
         public var routingEndpoint: Swift.String?
         /// The status of the connection group.
         public var status: Swift.String?
+        /// The distribution whose certificate CloudFront uses for viewer requests that arrive on the connection group's Anycast static IPs without Server Name Indication (SNI).
+        public var viewerFallback: CloudFrontClientTypes.ViewerFallback?
 
         public init(
             anycastIpListId: Swift.String? = nil,
@@ -12943,7 +13050,8 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             routingEndpoint: Swift.String? = nil,
-            status: Swift.String? = nil
+            status: Swift.String? = nil,
+            viewerFallback: CloudFrontClientTypes.ViewerFallback? = nil
         ) {
             self.anycastIpListId = anycastIpListId
             self.arn = arn
@@ -12956,6 +13064,7 @@ extension CloudFrontClientTypes {
             self.name = name
             self.routingEndpoint = routingEndpoint
             self.status = status
+            self.viewerFallback = viewerFallback
         }
     }
 }
@@ -15843,19 +15952,23 @@ public struct UpdateConnectionGroupInput: Swift.Sendable {
     public var ifMatch: Swift.String?
     /// Enable IPv6 for the connection group. For more information, see [Enable IPv6](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesEnableIPv6) in the Amazon CloudFront Developer Guide.
     public var ipv6Enabled: Swift.Bool?
+    /// The distribution whose certificate CloudFront uses for viewer requests that arrive on the connection group's Anycast static IPs without Server Name Indication (SNI).
+    public var viewerFallback: CloudFrontClientTypes.ViewerFallback?
 
     public init(
         anycastIpListId: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
-        ipv6Enabled: Swift.Bool? = nil
+        ipv6Enabled: Swift.Bool? = nil,
+        viewerFallback: CloudFrontClientTypes.ViewerFallback? = nil
     ) {
         self.anycastIpListId = anycastIpListId
         self.enabled = enabled
         self.id = id
         self.ifMatch = ifMatch
         self.ipv6Enabled = ipv6Enabled
+        self.viewerFallback = viewerFallback
     }
 }
 
@@ -15967,6 +16080,12 @@ public struct UpdateDistributionTenantInput: Swift.Sendable {
     public var ifMatch: Swift.String?
     /// An object that contains the CloudFront managed ACM certificate request.
     public var managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest?
+    /// Specifies whether CloudFront moves a domain in this request to this distribution tenant when the domain is already associated with another standard distribution or distribution tenant. Valid values are:
+    ///
+    /// * allow – CloudFront moves the domain to this distribution tenant when the domain's DNS points to this distribution tenant.
+    ///
+    /// * reject – CloudFront doesn't move the domain, and the request fails if the domain is associated with another resource. This is the default if you don't specify a value.
+    public var onDomainTakeover: CloudFrontClientTypes.OnDomainTakeover?
     /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
     public var parameters: [CloudFrontClientTypes.Parameter]?
 
@@ -15979,6 +16098,7 @@ public struct UpdateDistributionTenantInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest? = nil,
+        onDomainTakeover: CloudFrontClientTypes.OnDomainTakeover? = nil,
         parameters: [CloudFrontClientTypes.Parameter]? = nil
     ) {
         self.connectionGroupId = connectionGroupId
@@ -15989,6 +16109,7 @@ public struct UpdateDistributionTenantInput: Swift.Sendable {
         self.id = id
         self.ifMatch = ifMatch
         self.managedCertificateRequest = managedCertificateRequest
+        self.onDomainTakeover = onDomainTakeover
         self.parameters = parameters
     }
 }
@@ -19493,6 +19614,7 @@ extension CreateConnectionGroupInput {
         try writer["Ipv6Enabled"].write(value.ipv6Enabled)
         try writer["Name"].write(value.name)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+        try writer["ViewerFallback"].write(value.viewerFallback, with: CloudFrontClientTypes.ViewerFallback.write(value:to:))
     }
 }
 
@@ -19523,6 +19645,7 @@ extension CreateDistributionTenantInput {
         try writer["Enabled"].write(value.enabled)
         try writer["ManagedCertificateRequest"].write(value.managedCertificateRequest, with: CloudFrontClientTypes.ManagedCertificateRequest.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["OnDomainTakeover"].write(value.onDomainTakeover)
         try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFrontClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
@@ -19875,6 +19998,7 @@ extension UpdateConnectionGroupInput {
         try writer["AnycastIpListId"].write(value.anycastIpListId)
         try writer["Enabled"].write(value.enabled)
         try writer["Ipv6Enabled"].write(value.ipv6Enabled)
+        try writer["ViewerFallback"].write(value.viewerFallback, with: CloudFrontClientTypes.ViewerFallback.write(value:to:))
     }
 }
 
@@ -19904,6 +20028,7 @@ extension UpdateDistributionTenantInput {
         try writer["Domains"].writeList(value.domains, memberWritingClosure: CloudFrontClientTypes.DomainItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Enabled"].write(value.enabled)
         try writer["ManagedCertificateRequest"].write(value.managedCertificateRequest, with: CloudFrontClientTypes.ManagedCertificateRequest.write(value:to:))
+        try writer["OnDomainTakeover"].write(value.onDomainTakeover)
         try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFrontClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -25004,6 +25129,7 @@ enum UpdateDistributionOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
             case "ContinuousDeploymentPolicyInUse": return try ContinuousDeploymentPolicyInUse.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalOriginAccessConfiguration": return try IllegalOriginAccessConfiguration.makeError(baseError: baseError)
@@ -25180,9 +25306,11 @@ enum UpdateDomainAssociationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidAssociation": return try InvalidAssociation.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
             case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -27980,6 +28108,7 @@ extension CloudFrontClientTypes.ConnectionGroup {
         value.status = try reader["Status"].readIfPresent()
         value.enabled = try reader["Enabled"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.viewerFallback = try reader["ViewerFallback"].readIfPresent(with: CloudFrontClientTypes.ViewerFallback.read(from:))
         return value
     }
 }
@@ -28008,6 +28137,7 @@ extension CloudFrontClientTypes.ConnectionGroupSummary {
         value.enabled = try reader["Enabled"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.viewerFallback = try reader["ViewerFallback"].readIfPresent(with: CloudFrontClientTypes.ViewerFallback.read(from:))
         return value
     }
 }
@@ -28614,6 +28744,7 @@ extension CloudFrontClientTypes.DomainItem {
     static func write(value: CloudFrontClientTypes.DomainItem?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Domain"].write(value.domain)
+        try writer["ServeOn"].write(value.serveOn)
     }
 }
 
@@ -28624,6 +28755,7 @@ extension CloudFrontClientTypes.DomainResult {
         var value = CloudFrontClientTypes.DomainResult()
         value.domain = try reader["Domain"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent()
+        value.serveOn = try reader["ServeOn"].readIfPresent()
         return value
     }
 }
@@ -30829,6 +30961,21 @@ extension CloudFrontClientTypes.ViewerCertificate {
         value.minimumProtocolVersion = try reader["MinimumProtocolVersion"].readIfPresent()
         value.certificate = try reader["Certificate"].readIfPresent()
         value.certificateSource = try reader["CertificateSource"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ViewerFallback {
+
+    static func write(value: CloudFrontClientTypes.ViewerFallback?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DistributionId"].write(value.distributionId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerFallback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ViewerFallback()
+        value.distributionId = try reader["DistributionId"].readIfPresent()
         return value
     }
 }

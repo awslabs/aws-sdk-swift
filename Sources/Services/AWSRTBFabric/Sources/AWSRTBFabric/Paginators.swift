@@ -11,6 +11,69 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension RTBFabricClient {
+    /// Paginate over `[ListAvailableModulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAvailableModulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableModulesOutput`
+    public func listAvailableModulesPaginated(input: ListAvailableModulesInput) -> ClientRuntime.PaginatorSequence<ListAvailableModulesInput, ListAvailableModulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAvailableModulesInput, ListAvailableModulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailableModules(input:))
+    }
+}
+
+extension ListAvailableModulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAvailableModulesInput {
+        return ListAvailableModulesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            subscriptionType: self.subscriptionType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAvailableModulesInput, OperationStackOutput == ListAvailableModulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAvailableModulesPaginated`
+    /// to access the nested member `[RTBFabricClientTypes.AvailableModuleSummary]`
+    /// - Returns: `[RTBFabricClientTypes.AvailableModuleSummary]`
+    public func modules() async throws -> [RTBFabricClientTypes.AvailableModuleSummary] {
+        return try await self.asyncCompactMap { item in item.modules }
+    }
+}
+extension RTBFabricClient {
+    /// Paginate over `[ListAvailableModuleVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAvailableModuleVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableModuleVersionsOutput`
+    public func listAvailableModuleVersionsPaginated(input: ListAvailableModuleVersionsInput) -> ClientRuntime.PaginatorSequence<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailableModuleVersions(input:))
+    }
+}
+
+extension ListAvailableModuleVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAvailableModuleVersionsInput {
+        return ListAvailableModuleVersionsInput(
+            maxResults: self.maxResults,
+            moduleId: self.moduleId,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAvailableModuleVersionsInput, OperationStackOutput == ListAvailableModuleVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAvailableModuleVersionsPaginated`
+    /// to access the nested member `[RTBFabricClientTypes.AvailableModuleVersionSummary]`
+    /// - Returns: `[RTBFabricClientTypes.AvailableModuleVersionSummary]`
+    public func versions() async throws -> [RTBFabricClientTypes.AvailableModuleVersionSummary] {
+        return try await self.asyncCompactMap { item in item.versions }
+    }
+}
+extension RTBFabricClient {
     /// Paginate over `[ListRequesterGatewaysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

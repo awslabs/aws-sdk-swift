@@ -2527,7 +2527,7 @@ extension ACMClient {
 
     /// Performs the `ListCertificates` operation on the `ACM` service.
     ///
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters]. By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter.
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters]. By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter. By default, this action does not return certificates with a RootHierarchyType of N2_AMAZON_MANAGED or N2_SFG2_AMAZON_MANAGED. To list only Amazon N2 certificates, specify one or both of these values in the RootHierarchyTypes filter.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///

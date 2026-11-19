@@ -5485,6 +5485,7 @@ extension MediaLiveClientTypes {
     public enum InputCodec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case avc
         case hevc
+        case jpegxs
         case mpeg2
         case sdkUnknown(Swift.String)
 
@@ -5492,6 +5493,7 @@ extension MediaLiveClientTypes {
             return [
                 .avc,
                 .hevc,
+                .jpegxs,
                 .mpeg2
             ]
         }
@@ -5505,6 +5507,7 @@ extension MediaLiveClientTypes {
             switch self {
             case .avc: return "AVC"
             case .hevc: return "HEVC"
+            case .jpegxs: return "JPEGXS"
             case .mpeg2: return "MPEG2"
             case let .sdkUnknown(s): return s
             }
@@ -5593,6 +5596,83 @@ extension MediaLiveClientTypes {
             codec: MediaLiveClientTypes.InputCodec? = nil,
             maximumBitrate: MediaLiveClientTypes.InputMaximumBitrate? = nil,
             resolution: MediaLiveClientTypes.InputResolution? = nil
+        ) {
+            self.codec = codec
+            self.maximumBitrate = maximumBitrate
+            self.resolution = resolution
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Maximum JPEG XS input bitrate in megabits per second
+    public enum JpegXsInputMaximumBitrate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case max500Mbps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JpegXsInputMaximumBitrate] {
+            return [
+                .max500Mbps
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .max500Mbps: return "MAX_500_MBPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Maximum JPEG XS input resolution; HD is 720 to 1080 lines of vertical resolution
+    public enum JpegXsInputResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JpegXsInputResolution] {
+            return [
+                .hd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hd: return "HD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Specification of the JPEG XS input for this channel. Use instead of inputSpecification when the input codec is JPEG XS.
+    public struct JpegXsInputSpecification: Swift.Sendable {
+        /// Input codec. Must be JPEGXS.
+        public var codec: MediaLiveClientTypes.InputCodec?
+        /// Maximum JPEG XS input bitrate
+        public var maximumBitrate: MediaLiveClientTypes.JpegXsInputMaximumBitrate?
+        /// Maximum JPEG XS input resolution
+        public var resolution: MediaLiveClientTypes.JpegXsInputResolution?
+
+        public init(
+            codec: MediaLiveClientTypes.InputCodec? = nil,
+            maximumBitrate: MediaLiveClientTypes.JpegXsInputMaximumBitrate? = nil,
+            resolution: MediaLiveClientTypes.JpegXsInputResolution? = nil
         ) {
             self.codec = codec
             self.maximumBitrate = maximumBitrate
@@ -5911,6 +5991,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Specification of JPEG XS inputs for this channel
+        public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
         /// Linked Channel Settings for this channel.
         public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
@@ -5945,6 +6027,7 @@ extension MediaLiveClientTypes {
             inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
             linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -5968,6 +6051,7 @@ extension MediaLiveClientTypes {
             self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.jpegXsInputSpecification = jpegXsInputSpecification
             self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
@@ -9452,6 +9536,7 @@ extension MediaLiveClientTypes {
         case av1
         case avc
         case hevc
+        case jpegxs
         case link
         case mpeg2
         case sdkUnknown(Swift.String)
@@ -9462,6 +9547,7 @@ extension MediaLiveClientTypes {
                 .av1,
                 .avc,
                 .hevc,
+                .jpegxs,
                 .link,
                 .mpeg2
             ]
@@ -9478,6 +9564,7 @@ extension MediaLiveClientTypes {
             case .av1: return "AV1"
             case .avc: return "AVC"
             case .hevc: return "HEVC"
+            case .jpegxs: return "JPEGXS"
             case .link: return "LINK"
             case .mpeg2: return "MPEG2"
             case let .sdkUnknown(s): return s
@@ -9492,6 +9579,7 @@ extension MediaLiveClientTypes {
     public enum ReservationMaximumBitrate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case max10Mbps
         case max20Mbps
+        case max500Mbps
         case max50Mbps
         case sdkUnknown(Swift.String)
 
@@ -9499,6 +9587,7 @@ extension MediaLiveClientTypes {
             return [
                 .max10Mbps,
                 .max20Mbps,
+                .max500Mbps,
                 .max50Mbps
             ]
         }
@@ -9512,6 +9601,7 @@ extension MediaLiveClientTypes {
             switch self {
             case .max10Mbps: return "MAX_10_MBPS"
             case .max20Mbps: return "MAX_20_MBPS"
+            case .max500Mbps: return "MAX_500_MBPS"
             case .max50Mbps: return "MAX_50_MBPS"
             case let .sdkUnknown(s): return s
             }
@@ -21759,6 +21849,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Specification of JPEG XS inputs for this channel
+        public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
         /// Linked Channel Settings for this channel.
         public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
@@ -21794,6 +21886,7 @@ extension MediaLiveClientTypes {
             inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
             linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -21818,6 +21911,7 @@ extension MediaLiveClientTypes {
             self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.jpegXsInputSpecification = jpegXsInputSpecification
             self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
@@ -22073,6 +22167,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// The linked channel settings for the channel.
     public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
@@ -22105,6 +22201,7 @@ public struct CreateChannelInput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.InferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceCreateSettings? = nil,
@@ -22126,6 +22223,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -23833,6 +23931,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// Linked Channel Settings for this channel.
     public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
@@ -23868,6 +23968,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -23892,6 +23993,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -24559,6 +24661,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// Linked Channel Settings for this channel.
     public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
@@ -24594,6 +24698,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -24618,6 +24723,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -27015,6 +27121,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// Linked Channel Settings for this channel.
     public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
@@ -27052,6 +27160,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -27077,6 +27186,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -27132,6 +27242,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// Linked Channel Settings for this channel.
     public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
@@ -27167,6 +27279,7 @@ public struct StartChannelOutput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -27191,6 +27304,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -27651,6 +27765,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// Linked Channel Settings for this channel.
     public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
@@ -27686,6 +27802,7 @@ public struct StopChannelOutput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
@@ -27710,6 +27827,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -27898,6 +28016,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Specification of JPEG XS inputs for this channel
+    public var jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification?
     /// The linked channel settings for the channel.
     public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
@@ -27923,6 +28043,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         inferenceSettings: MediaLiveClientTypes.InferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        jpegXsInputSpecification: MediaLiveClientTypes.JpegXsInputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceUpdateSettings? = nil,
@@ -27941,6 +28062,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.jpegXsInputSpecification = jpegXsInputSpecification
         self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
@@ -30834,6 +30956,7 @@ extension CreateChannelInput {
         try writer["inferenceSettings"].write(value.inferenceSettings, with: MediaLiveClientTypes.InferenceSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["jpegXsInputSpecification"].write(value.jpegXsInputSpecification, with: MediaLiveClientTypes.JpegXsInputSpecification.write(value:to:))
         try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceCreateSettings.write(value:to:))
@@ -31143,6 +31266,7 @@ extension UpdateChannelInput {
         try writer["inferenceSettings"].write(value.inferenceSettings, with: MediaLiveClientTypes.InferenceSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["jpegXsInputSpecification"].write(value.jpegXsInputSpecification, with: MediaLiveClientTypes.JpegXsInputSpecification.write(value:to:))
         try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceUpdateSettings.write(value:to:))
@@ -31717,6 +31841,7 @@ extension DeleteChannelOutput {
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
@@ -31982,6 +32107,7 @@ extension DescribeChannelOutput {
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
@@ -32775,6 +32901,7 @@ extension RestartChannelPipelinesOutput {
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
@@ -32810,6 +32937,7 @@ extension StartChannelOutput {
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
@@ -32966,6 +33094,7 @@ extension StopChannelOutput {
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
@@ -37034,6 +37163,7 @@ extension MediaLiveClientTypes.Channel {
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         return value
     }
 }
@@ -37110,6 +37240,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
+        value.jpegXsInputSpecification = try reader["jpegXsInputSpecification"].readIfPresent(with: MediaLiveClientTypes.JpegXsInputSpecification.read(from:))
         return value
     }
 }
@@ -39497,6 +39628,25 @@ extension MediaLiveClientTypes.IpPoolUpdateRequest {
     static func write(value: MediaLiveClientTypes.IpPoolUpdateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidr"].write(value.cidr)
+    }
+}
+
+extension MediaLiveClientTypes.JpegXsInputSpecification {
+
+    static func write(value: MediaLiveClientTypes.JpegXsInputSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codec"].write(value.codec)
+        try writer["maximumBitrate"].write(value.maximumBitrate)
+        try writer["resolution"].write(value.resolution)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.JpegXsInputSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.JpegXsInputSpecification()
+        value.codec = try reader["codec"].readIfPresent()
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent()
+        value.resolution = try reader["resolution"].readIfPresent()
+        return value
     }
 }
 

@@ -134,6 +134,67 @@ extension PaginatorSequence where OperationStackInput == ListHealthChecksInput, 
     }
 }
 extension Route53Client {
+    /// Paginate over `[ListHealthChecksBySourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListHealthChecksBySourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHealthChecksBySourceOutput`
+    public func listHealthChecksBySourcePaginated(input: ListHealthChecksBySourceInput) -> ClientRuntime.PaginatorSequence<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listHealthChecksBySource(input:))
+    }
+}
+
+extension ListHealthChecksBySourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListHealthChecksBySourceInput {
+        return ListHealthChecksBySourceInput(
+            healthCheckSourceId: self.healthCheckSourceId,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListHealthChecksBySourceInput, OperationStackOutput == ListHealthChecksBySourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listHealthChecksBySourcePaginated`
+    /// to access the nested member `[Route53ClientTypes.HealthCheck]`
+    /// - Returns: `[Route53ClientTypes.HealthCheck]`
+    public func healthChecks() async throws -> [Route53ClientTypes.HealthCheck] {
+        return try await self.asyncCompactMap { item in item.healthChecks }
+    }
+}
+extension Route53Client {
+    /// Paginate over `[ListHealthCheckSourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListHealthCheckSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHealthCheckSourcesOutput`
+    public func listHealthCheckSourcesPaginated(input: ListHealthCheckSourcesInput) -> ClientRuntime.PaginatorSequence<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHealthCheckSources(input:))
+    }
+}
+
+extension ListHealthCheckSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListHealthCheckSourcesInput {
+        return ListHealthCheckSourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListHealthCheckSourcesInput, OperationStackOutput == ListHealthCheckSourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listHealthCheckSourcesPaginated`
+    /// to access the nested member `[Route53ClientTypes.HealthCheckSource]`
+    /// - Returns: `[Route53ClientTypes.HealthCheckSource]`
+    public func healthCheckSources() async throws -> [Route53ClientTypes.HealthCheckSource] {
+        return try await self.asyncCompactMap { item in item.healthCheckSources }
+    }
+}
+extension Route53Client {
     /// Paginate over `[ListHostedZonesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

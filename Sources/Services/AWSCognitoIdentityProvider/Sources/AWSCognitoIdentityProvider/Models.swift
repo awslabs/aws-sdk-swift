@@ -4372,7 +4372,7 @@ extension CognitoIdentityProviderClientTypes {
         public var restoreId: Swift.String?
         /// The recovery preview. For each type of entity, the preview shows the number of entities that the recovery creates, updates, and deletes. The preview doesn't include user data. Amazon Cognito returns the preview when it's available.
         public var restorePreview: [CognitoIdentityProviderClientTypes.RestorePreviewType]?
-        /// The status of the recovery. Can be one of the following values. PREVIEW_GENERATING Amazon Cognito is waiting for available capacity in the Amazon Web Services Region or is generating the recovery preview. Write operations in the user pool are paused. PREVIEW_GENERATED The recovery preview is ready for review. Write operations in the user pool are paused. Within 24 hours after you initiate the recovery, apply it with a StartPointInTimeRecovery request or discard it with a CancelPointInTimeRecovery request. PREVIEW_CANCELLED You canceled the recovery. Amazon Cognito resumed write operations and didn't change your user pool data. PREVIEW_GENERATION_FAILED Amazon Cognito couldn't generate the recovery preview. Amazon Cognito resumed write operations and didn't change your user pool data. You can initiate a new recovery. PREVIEW_EXPIRED You didn't start or cancel the recovery within 24 hours after you initiated it. Amazon Cognito resumed write operations and didn't change your user pool data. RESTORING Amazon Cognito is restoring user data in the user pool to its state at the recovery point. Write operations in the user pool are paused. RESTORE_COMPLETED Amazon Cognito restored your user pool to its state at the recovery point and resumed write operations. TEMPORARY_INTERNAL_ERROR_SEE_SUPPORT_CASE The recovery encountered an internal error. Write operations in the user pool remain paused. Amazon Web Services Support contacts you through a support case to resolve the issue. AWS_ABORTED Amazon Cognito stopped the recovery because of an internal failure. Write operations in the user pool remain paused, and you can't cancel or retry the recovery. Amazon Web Services Support contacts you through a support case to resolve the issue.
+        /// The status of the recovery. Can be one of the following values. PREVIEW_GENERATING Amazon Cognito is generating the recovery preview, which might not be available immediately. Write operations in the user pool are paused. PREVIEW_GENERATED The recovery preview is ready for review. Write operations in the user pool are paused. Within 24 hours after you initiate the recovery, apply it with a StartPointInTimeRecovery request or discard it with a CancelPointInTimeRecovery request. PREVIEW_CANCELLED You canceled the recovery. Amazon Cognito resumed write operations and didn't change your user pool data. PREVIEW_GENERATION_FAILED Amazon Cognito couldn't generate the recovery preview. Amazon Cognito resumed write operations and didn't change your user pool data. You can initiate a new recovery. PREVIEW_EXPIRED You didn't start or cancel the recovery within 24 hours after you initiated it. Amazon Cognito resumed write operations and didn't change your user pool data. RESTORING Amazon Cognito is restoring user data in the user pool to its state at the recovery point. Write operations in the user pool are paused. RESTORE_COMPLETED Amazon Cognito restored your user pool to its state at the recovery point and resumed write operations. TEMPORARY_INTERNAL_ERROR_SEE_SUPPORT_CASE The recovery encountered an internal error. Write operations in the user pool remain paused. Amazon Web Services Support contacts you through a support case to resolve the issue. AWS_ABORTED Amazon Cognito stopped the recovery because of an internal failure. Write operations in the user pool remain paused, and you can't cancel or retry the recovery. Amazon Web Services Support contacts you through a support case to resolve the issue.
         public var restoreStatus: CognitoIdentityProviderClientTypes.RestoreStatusType?
         /// The point in time that the recovery restores the user pool to.
         public var restoreTimestamp: Foundation.Date?
@@ -4811,6 +4811,95 @@ public struct ConfirmSignUpOutput: Swift.Sendable {
         session: Swift.String? = nil
     ) {
         self.session = session
+    }
+}
+
+public struct CreateCIMDPolicyInput: Swift.Sendable {
+    /// The length of time, in seconds, that Amazon Cognito caches a client metadata document that it retrieved from a URL that matches the policy. The value must be between 86,400 seconds (one day) and 31,556,952 seconds (one year).
+    public var cacheDuration: Swift.Int?
+    /// The ID of the app client that you want to associate with the CIMD policy.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// A friendly name for the CIMD policy.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// One to five HTTPS URL patterns. Amazon Cognito accepts a client ID metadata document URL only when it matches one of these patterns. Patterns can contain the * wildcard character.
+    /// This member is required.
+    public var urlPatterns: [Swift.String]?
+    /// The ID of the user pool where you want to create the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        cacheDuration: Swift.Int? = nil,
+        clientId: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        urlPatterns: [Swift.String]? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.cacheDuration = cacheDuration
+        self.clientId = clientId
+        self.policyName = policyName
+        self.urlPatterns = urlPatterns
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The configuration of a Client ID Metadata Document (CIMD) policy.
+    public struct CIMDPolicyType: Swift.Sendable {
+        /// The length of time, in seconds, that Amazon Cognito caches a client metadata document that it retrieved from a URL that matches the policy.
+        public var cacheDuration: Swift.Int?
+        /// The ID of the CIMD policy.
+        /// This member is required.
+        public var cimdPolicyId: Swift.String?
+        /// The ID of the app client that the CIMD policy is associated with. Amazon Cognito omits this value when the app client no longer exists.
+        public var clientId: Swift.String?
+        /// The date and time when the CIMD policy was created.
+        public var creationDate: Foundation.Date?
+        /// The date and time when the CIMD policy was last modified.
+        public var lastModifiedDate: Foundation.Date?
+        /// The friendly name of the CIMD policy.
+        /// This member is required.
+        public var policyName: Swift.String?
+        /// The HTTPS URL patterns that a client ID metadata document URL must match.
+        public var urlPatterns: [Swift.String]?
+        /// The ID of the user pool that contains the CIMD policy.
+        /// This member is required.
+        public var userPoolId: Swift.String?
+
+        public init(
+            cacheDuration: Swift.Int? = nil,
+            cimdPolicyId: Swift.String? = nil,
+            clientId: Swift.String? = nil,
+            creationDate: Foundation.Date? = nil,
+            lastModifiedDate: Foundation.Date? = nil,
+            policyName: Swift.String? = nil,
+            urlPatterns: [Swift.String]? = nil,
+            userPoolId: Swift.String? = nil
+        ) {
+            self.cacheDuration = cacheDuration
+            self.cimdPolicyId = cimdPolicyId
+            self.clientId = clientId
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.policyName = policyName
+            self.urlPatterns = urlPatterns
+            self.userPoolId = userPoolId
+        }
+    }
+}
+
+public struct CreateCIMDPolicyOutput: Swift.Sendable {
+    /// The CIMD policy that you created.
+    /// This member is required.
+    public var cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType?
+
+    public init(
+        cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType? = nil
+    ) {
+        self.cimdPolicy = cimdPolicy
     }
 }
 
@@ -7246,6 +7335,8 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     public var logoutURLs: [Swift.String]?
     /// When ENABLED, suppresses messages that might indicate a valid user exists when someone attempts sign-in. This parameters sets your preference for the errors and responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Defaults to LEGACY.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
+    /// Specifies whether Amazon Cognito stores and manages this app client's secret in [Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) instead of returning the plaintext value. Applies only when GenerateSecret is true. When you set this parameter to true, the response returns ClientSecretArn instead of ClientSecret. Amazon Cognito starts the first rotation of the secret right away, and then rotates the secret every 7 days by default. You can change the rotation schedule in Secrets Manager. Defaults to false. If you don't set this parameter, Amazon Cognito doesn't manage the secret in Secrets Manager and returns the plaintext ClientSecret value. The Amazon Cognito console turns on this option by default when it creates an app client with a generated client secret.
+    public var publishSecretsInAWSSecretsManager: Swift.Bool?
     /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
     /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
@@ -7280,6 +7371,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         idTokenValidity: Swift.Int? = nil,
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
+        publishSecretsInAWSSecretsManager: Swift.Bool? = nil,
         readAttributes: [Swift.String]? = nil,
         refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType? = nil,
         refreshTokenValidity: Swift.Int? = 0,
@@ -7305,6 +7397,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         self.idTokenValidity = idTokenValidity
         self.logoutURLs = logoutURLs
         self.preventUserExistenceErrors = preventUserExistenceErrors
+        self.publishSecretsInAWSSecretsManager = publishSecretsInAWSSecretsManager
         self.readAttributes = readAttributes
         self.refreshTokenRotation = refreshTokenRotation
         self.refreshTokenValidity = refreshTokenValidity
@@ -7388,6 +7481,8 @@ extension CognitoIdentityProviderClientTypes {
         public var clientName: Swift.String?
         /// The app client secret.
         public var clientSecret: Swift.String?
+        /// The Amazon Resource Name (ARN) of the [Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) secret that stores this app client's secret, when Amazon Cognito manages the secret in Secrets Manager. Retrieve the secret from Secrets Manager by this ARN. The SecretString value is a JSON object with userPoolId, userPoolClientId, and clientSecretValue fields. Use clientSecretValue as the app client secret. Amazon Cognito returns this ARN instead of ClientSecret for app clients whose secret it manages in Secrets Manager.
+        public var clientSecretArn: Swift.String?
         /// How the app client was created. REGULAR The app client wasn't created through dynamic client registration. For example, you created it with CreateUserPoolClient. DCR An application registered the app client through dynamic client registration. These app clients don't support client secret operations such as AddUserPoolClientSecret, and they can't hold the aws.cognito/dcr/register scope.
         public var clientType: CognitoIdentityProviderClientTypes.ClientTypeType?
         /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
@@ -7462,6 +7557,7 @@ extension CognitoIdentityProviderClientTypes {
             clientId: Swift.String? = nil,
             clientName: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
+            clientSecretArn: Swift.String? = nil,
             clientType: CognitoIdentityProviderClientTypes.ClientTypeType? = nil,
             creationDate: Foundation.Date? = nil,
             defaultRedirectURI: Swift.String? = nil,
@@ -7490,6 +7586,7 @@ extension CognitoIdentityProviderClientTypes {
             self.clientId = clientId
             self.clientName = clientName
             self.clientSecret = clientSecret
+            self.clientSecretArn = clientSecretArn
             self.clientType = clientType
             self.creationDate = creationDate
             self.defaultRedirectURI = defaultRedirectURI
@@ -7788,6 +7885,28 @@ public struct CreateUserPoolReplicaOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCIMDPolicyInput: Swift.Sendable {
+    /// The ID of the CIMD policy that you want to delete.
+    /// This member is required.
+    public var cimdPolicyId: Swift.String?
+    /// The ID of the user pool that contains the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        cimdPolicyId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.cimdPolicyId = cimdPolicyId
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct DeleteCIMDPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteGroupInput: Swift.Sendable {
     /// The name of the group that you want to delete.
     /// This member is required.
@@ -8063,6 +8182,35 @@ public struct DeleteWebAuthnCredentialInput: Swift.Sendable {
 public struct DeleteWebAuthnCredentialOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DescribeCIMDPolicyInput: Swift.Sendable {
+    /// The ID of the CIMD policy that you want to describe.
+    /// This member is required.
+    public var cimdPolicyId: Swift.String?
+    /// The ID of the user pool that contains the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        cimdPolicyId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.cimdPolicyId = cimdPolicyId
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct DescribeCIMDPolicyOutput: Swift.Sendable {
+    /// The configuration of the requested CIMD policy.
+    /// This member is required.
+    public var cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType?
+
+    public init(
+        cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType? = nil
+    ) {
+        self.cimdPolicy = cimdPolicy
+    }
 }
 
 public struct DescribeIdentityProviderInput: Swift.Sendable {
@@ -10211,6 +10359,144 @@ public struct InitiatePointInTimeRecoveryOutput: Swift.Sendable {
     }
 }
 
+public struct ListCIMDPoliciesInput: Swift.Sendable {
+    /// The maximum number of CIMD policies that you want Amazon Cognito to return in the response.
+    public var maxResults: Swift.Int?
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool whose CIMD policies you want to list.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// A summary of a Client ID Metadata Document (CIMD) policy, returned by .
+    public struct CIMDPolicySummaryType: Swift.Sendable {
+        /// The length of time, in seconds, that Amazon Cognito caches a client metadata document that it retrieved from a URL that matches the policy.
+        public var cacheDuration: Swift.Int?
+        /// The ID of the CIMD policy.
+        /// This member is required.
+        public var cimdPolicyId: Swift.String?
+        /// The ID of the app client that the CIMD policy is associated with. Amazon Cognito omits this value when the app client no longer exists.
+        public var clientId: Swift.String?
+        /// The date and time when the CIMD policy was created.
+        public var creationDate: Foundation.Date?
+        /// The date and time when the CIMD policy was last modified.
+        public var lastModifiedDate: Foundation.Date?
+        /// The friendly name of the CIMD policy.
+        /// This member is required.
+        public var policyName: Swift.String?
+
+        public init(
+            cacheDuration: Swift.Int? = nil,
+            cimdPolicyId: Swift.String? = nil,
+            clientId: Swift.String? = nil,
+            creationDate: Foundation.Date? = nil,
+            lastModifiedDate: Foundation.Date? = nil,
+            policyName: Swift.String? = nil
+        ) {
+            self.cacheDuration = cacheDuration
+            self.cimdPolicyId = cimdPolicyId
+            self.clientId = clientId
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.policyName = policyName
+        }
+    }
+}
+
+public struct ListCIMDPoliciesOutput: Swift.Sendable {
+    /// A summary of each CIMD policy in the user pool.
+    /// This member is required.
+    public var cimdPolicies: [CognitoIdentityProviderClientTypes.CIMDPolicySummaryType]?
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        cimdPolicies: [CognitoIdentityProviderClientTypes.CIMDPolicySummaryType]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cimdPolicies = cimdPolicies
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClientMetadataURLsInput: Swift.Sendable {
+    /// The ID of the CIMD policy whose client metadata document URLs you want to list.
+    /// This member is required.
+    public var cimdPolicyId: Swift.String?
+    /// The maximum number of URLs that you want Amazon Cognito to return in the response.
+    public var maxResults: Swift.Int?
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool that contains the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        cimdPolicyId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.cimdPolicyId = cimdPolicyId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// A client metadata document URL that Amazon Cognito has received for a Client ID Metadata Document (CIMD) policy, with its cache state.
+    public struct ClientMetadataURLType: Swift.Sendable {
+        /// The date and time when Amazon Cognito cached the client metadata document from this URL.
+        public var cachedDate: Foundation.Date?
+        /// The date and time when the cached client metadata document expires.
+        public var expirationDate: Foundation.Date?
+        /// The client metadata document URL.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            cachedDate: Foundation.Date? = nil,
+            expirationDate: Foundation.Date? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.cachedDate = cachedDate
+            self.expirationDate = expirationDate
+            self.url = url
+        }
+    }
+}
+
+public struct ListClientMetadataURLsOutput: Swift.Sendable {
+    /// The client metadata document URLs for the CIMD policy, with the cache state of each URL.
+    /// This member is required.
+    public var clientMetadataURLs: [CognitoIdentityProviderClientTypes.ClientMetadataURLType]?
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        clientMetadataURLs: [CognitoIdentityProviderClientTypes.ClientMetadataURLType]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clientMetadataURLs = clientMetadataURLs
+        self.nextToken = nextToken
+    }
+}
+
 /// Represents the request to list the devices.
 public struct ListDevicesInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin.
@@ -11897,6 +12183,137 @@ public struct UpdateAuthEventFeedbackOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateCIMDPolicyInput: Swift.Sendable {
+    /// The length of time, in seconds, that Amazon Cognito caches a client metadata document that it retrieved from a URL that matches the policy. The value must be between 86,400 seconds (one day) and 31,556,952 seconds (one year).
+    public var cacheDuration: Swift.Int?
+    /// The ID of the CIMD policy that you want to update.
+    /// This member is required.
+    public var cimdPolicyId: Swift.String?
+    /// The ID of the app client that you want to associate with the CIMD policy.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// A friendly name for the CIMD policy.
+    public var policyName: Swift.String?
+    /// One to five HTTPS URL patterns. Amazon Cognito accepts a client ID metadata document URL only when it matches one of these patterns. Patterns can contain the * wildcard character.
+    /// This member is required.
+    public var urlPatterns: [Swift.String]?
+    /// The ID of the user pool that contains the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        cacheDuration: Swift.Int? = nil,
+        cimdPolicyId: Swift.String? = nil,
+        clientId: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        urlPatterns: [Swift.String]? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.cacheDuration = cacheDuration
+        self.cimdPolicyId = cimdPolicyId
+        self.clientId = clientId
+        self.policyName = policyName
+        self.urlPatterns = urlPatterns
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct UpdateCIMDPolicyOutput: Swift.Sendable {
+    /// The updated CIMD policy.
+    /// This member is required.
+    public var cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType?
+
+    public init(
+        cimdPolicy: CognitoIdentityProviderClientTypes.CIMDPolicyType? = nil
+    ) {
+        self.cimdPolicy = cimdPolicy
+    }
+}
+
+/// This exception is thrown when Amazon Cognito doesn't have a cached client metadata document for the URL in the request.
+public struct CachedCIMDURLDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CachedCIMDURLDoesNotExistException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum CIMDCacheActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalidate
+        case refresh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CIMDCacheActionType] {
+            return [
+                .invalidate,
+                .refresh
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidate: return "INVALIDATE"
+            case .refresh: return "REFRESH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateClientMetadataURLStateInput: Swift.Sendable {
+    /// The action to take on the cached client metadata document. REFRESH retrieves the document from the URL again. INVALIDATE removes the cached document.
+    /// This member is required.
+    public var action: CognitoIdentityProviderClientTypes.CIMDCacheActionType?
+    /// The ID of the CIMD policy that the URL belongs to.
+    /// This member is required.
+    public var cimdPolicyId: Swift.String?
+    /// The client metadata document URL whose cache state you want to change.
+    /// This member is required.
+    public var url: Swift.String?
+    /// The ID of the user pool that contains the CIMD policy.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        action: CognitoIdentityProviderClientTypes.CIMDCacheActionType? = nil,
+        cimdPolicyId: Swift.String? = nil,
+        url: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.action = action
+        self.cimdPolicyId = cimdPolicyId
+        self.url = url
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct UpdateClientMetadataURLStateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Represents the request to update the device status.
 public struct UpdateDeviceStatusInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin.
@@ -12419,6 +12836,8 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
     public var logoutURLs: [Swift.String]?
     /// When ENABLED, suppresses messages that might indicate a valid user exists when someone attempts sign-in. This parameters sets your preference for the errors and responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Defaults to LEGACY.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
+    /// Specifies whether Amazon Cognito stores and manages this app client's secret in [Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) instead of returning the plaintext value. When you set this parameter to true, the response returns ClientSecretArn instead of ClientSecret. By default, Amazon Cognito rotates the secret every 7 days. You can change the rotation schedule in Secrets Manager. Set to true to migrate an existing generated secret into Secrets Manager, or false to move it back to Amazon Cognito and delete the Secrets Manager secret. If you omit this parameter, Amazon Cognito doesn't change how it manages the existing secret. Applies only to app clients that already have a generated secret. When you set it to true, Amazon Cognito starts managing the app client's secret in Secrets Manager and rotates it right away. If the app client has two secrets, that first rotation deletes the older one. When you set this parameter to false, Amazon Cognito immediately and permanently deletes the Secrets Manager secret. There's no recovery window. Applications that read the secret from Secrets Manager can no longer get it.
+    public var publishSecretsInAWSSecretsManager: Swift.Bool?
     /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
     /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
@@ -12452,6 +12871,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
         idTokenValidity: Swift.Int? = nil,
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
+        publishSecretsInAWSSecretsManager: Swift.Bool? = nil,
         readAttributes: [Swift.String]? = nil,
         refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType? = nil,
         refreshTokenValidity: Swift.Int? = 0,
@@ -12476,6 +12896,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
         self.idTokenValidity = idTokenValidity
         self.logoutURLs = logoutURLs
         self.preventUserExistenceErrors = preventUserExistenceErrors
+        self.publishSecretsInAWSSecretsManager = publishSecretsInAWSSecretsManager
         self.readAttributes = readAttributes
         self.refreshTokenRotation = refreshTokenRotation
         self.refreshTokenValidity = refreshTokenValidity

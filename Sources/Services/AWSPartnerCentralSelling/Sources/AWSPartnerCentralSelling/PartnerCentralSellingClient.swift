@@ -617,7 +617,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AcceptEngagementInvitationInput`)
+    /// - Parameter input: Contains the request parameters for the AcceptEngagementInvitation operation. (Type: `AcceptEngagementInvitationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AcceptEngagementInvitationOutput`)
     ///
@@ -696,7 +696,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssignOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the AssignOpportunity operation. (Type: `AssignOpportunityInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssignOpportunityOutput`)
     ///
@@ -789,7 +789,7 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services Marketplace private offer: Use the [Using the Amazon Web Services Marketplace Catalog API](https://docs.aws.amazon.com/marketplace/latest/APIReference/catalog-apis.html) to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see [ListEntities](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the AssociateOpportunity operation. (Type: `AssociateOpportunityInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateOpportunityOutput`)
     ///
@@ -863,13 +863,93 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCustomerAccount` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use CreateCustomerAccount to map a customer account from your records to an AWS customer. Provide details about the customer, such as the company name and website. AWS then matches the account to a customer and adds enrichment information about it. Matching runs asynchronously. The response returns the new customer account with a status of PENDING. Use GetCustomerAccount to check the result and read the enrichment information.
+    ///
+    /// - Parameter input: Information about create customer account request. (Type: `CreateCustomerAccountInput`)
+    ///
+    /// - Returns: Information about create customer account response. (Type: `CreateCustomerAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func createCustomerAccount(input: CreateCustomerAccountInput) async throws -> CreateCustomerAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.createCustomerAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCustomerAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomerAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCustomerAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateCustomerAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCustomerAccountInput, CreateCustomerAccountOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCustomerAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEngagement` operation on the `PartnerCentralSelling` service.
     ///
     /// The CreateEngagement action allows you to create an Engagement, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInput`)
+    /// - Parameter input: Contains the request parameters for the CreateEngagement operation. (Type: `CreateEngagementInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateEngagementOutput`)
+    /// - Returns: Contains the response that the CreateEngagement action returns. (Type: `CreateEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +1028,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateEngagementContextInput`)
+    /// - Parameter input: Contains the request parameters for the CreateEngagementContext operation. (Type: `CreateEngagementContextInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateEngagementContextOutput`)
+    /// - Returns: Contains the response that the CreateEngagementContext action returns. (Type: `CreateEngagementContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,9 +1109,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action creates an invitation from a sender to a single receiver to join an engagement.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInvitationInput`)
+    /// - Parameter input: Contains the request parameters for the CreateEngagementInvitation operation. (Type: `CreateEngagementInvitationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateEngagementInvitationOutput`)
+    /// - Returns: Contains the response that the CreateEngagementInvitation action returns. (Type: `CreateEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,9 +1199,9 @@ extension PartnerCentralSellingClient {
     ///
     /// After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the CreateOpportunity operation. (Type: `CreateOpportunityInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateOpportunityOutput`)
+    /// - Returns: Contains the response that the CreateOpportunity action returns. (Type: `CreateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1199,9 +1279,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotInput`)
+    /// - Parameter input: Contains the request parameters for the CreateResourceSnapshot operation. (Type: `CreateResourceSnapshotInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotOutput`)
+    /// - Returns: Contains the response that the CreateResourceSnapshot action returns. (Type: `CreateResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,9 +1360,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotJobInput`)
+    /// - Parameter input: Contains the request parameters for the CreateResourceSnapshotJob operation. (Type: `CreateResourceSnapshotJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotJobOutput`)
+    /// - Returns: Contains the response that the CreateResourceSnapshotJob action returns. (Type: `CreateResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1357,11 +1437,88 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteCustomerAccount` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use DeleteCustomerAccount to delete a customer account. This operation is idempotent. Deleting a customer account that was already deleted succeeds.
+    ///
+    /// - Parameter input: Information about delete customer account request. (Type: `DeleteCustomerAccountInput`)
+    ///
+    /// - Returns: Information about delete customer account response. (Type: `DeleteCustomerAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func deleteCustomerAccount(input: DeleteCustomerAccountInput) async throws -> DeleteCustomerAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.deleteCustomerAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCustomerAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomerAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCustomerAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.DeleteCustomerAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCustomerAccountInput, DeleteCustomerAccountOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCustomerAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSnapshotJobInput`)
+    /// - Parameter input: Contains the request parameters for the DeleteResourceSnapshotJob operation. (Type: `DeleteResourceSnapshotJobInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteResourceSnapshotJobOutput`)
     ///
@@ -1440,7 +1597,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DisassociateOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the DisassociateOpportunity operation. (Type: `DisassociateOpportunityInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DisassociateOpportunityOutput`)
     ///
@@ -1518,9 +1675,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetAwsOpportunitySummaryInput`)
+    /// - Parameter input: Contains the request parameters for the GetAwsOpportunitySummary operation. (Type: `GetAwsOpportunitySummaryInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetAwsOpportunitySummaryOutput`)
+    /// - Returns: Contains the response that the GetAwsOpportunitySummary action returns. (Type: `GetAwsOpportunitySummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,13 +1749,325 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCustomerAccount` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use GetCustomerAccount to retrieve the details of a customer account, including the customer information that you provided, the enrichment status, and the enrichment information that AWS provides when the status is ENRICHED.
+    ///
+    /// - Parameter input: Information about get customer account request. (Type: `GetCustomerAccountInput`)
+    ///
+    /// - Returns: Information about get customer account response. (Type: `GetCustomerAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func getCustomerAccount(input: GetCustomerAccountInput) async throws -> GetCustomerAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.getCustomerAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomerAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomerAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomerAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetCustomerAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomerAccountInput, GetCustomerAccountOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomerAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomerAccountBulkJob` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use GetCustomerAccountBulkJob to retrieve the status and record counts of a bulk job.
+    ///
+    /// - Parameter input: Information about get customer account bulk job request. (Type: `GetCustomerAccountBulkJobInput`)
+    ///
+    /// - Returns: Information about get customer account bulk job response. (Type: `GetCustomerAccountBulkJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func getCustomerAccountBulkJob(input: GetCustomerAccountBulkJobInput) async throws -> GetCustomerAccountBulkJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.getCustomerAccountBulkJobOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomerAccountBulkJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomerAccountBulkJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomerAccountBulkJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetCustomerAccountBulkJob"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomerAccountBulkJobInput, GetCustomerAccountBulkJobOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomerAccountBulkJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomerAccountBulkJobReportUrl` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use GetCustomerAccountBulkJobReportUrl to get a temporary URL for downloading the report of a bulk job, such as the list of records that failed. A report is available only after the job is COMPLETED or FAILED. For a job that is still running, the request fails with a ConflictException. The report is generated on request. If ReportStatus is not AVAILABLE, call the operation again later.
+    ///
+    /// - Parameter input: Information about get customer account bulk job report url request. (Type: `GetCustomerAccountBulkJobReportUrlInput`)
+    ///
+    /// - Returns: Information about get customer account bulk job report url response. (Type: `GetCustomerAccountBulkJobReportUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func getCustomerAccountBulkJobReportUrl(input: GetCustomerAccountBulkJobReportUrlInput) async throws -> GetCustomerAccountBulkJobReportUrlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.getCustomerAccountBulkJobReportUrlOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomerAccountBulkJobReportUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomerAccountBulkJobReportUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomerAccountBulkJobReportUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetCustomerAccountBulkJobReportUrl"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomerAccountBulkJobReportUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomerAccountBulkJobReportUrlInput, GetCustomerAccountBulkJobReportUrlOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomerAccountBulkJobReportUrl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomerAccountStatistics` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use GetCustomerAccountStatistics to count your customer accounts and group them by fields such as industry, geography, or enrichment status. You can use the same filters as SearchCustomerAccounts.
+    ///
+    /// - Parameter input: Information about get customer account statistics request. (Type: `GetCustomerAccountStatisticsInput`)
+    ///
+    /// - Returns: Information about get customer account statistics response. (Type: `GetCustomerAccountStatisticsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func getCustomerAccountStatistics(input: GetCustomerAccountStatisticsInput) async throws -> GetCustomerAccountStatisticsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.getCustomerAccountStatisticsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomerAccountStatistics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomerAccountStatisticsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomerAccountStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetCustomerAccountStatistics"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomerAccountStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomerAccountStatisticsInput, GetCustomerAccountStatisticsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomerAccountStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetEngagement` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to retrieve the engagement record for a given EngagementIdentifier.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetEngagementInput`)
+    /// - Parameter input: Contains the request parameters for the GetEngagement operation. (Type: `GetEngagementInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetEngagementOutput`)
+    /// - Returns: Contains the response that the GetEngagement action returns. (Type: `GetEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,9 +2143,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s Payload.Project.Title with opportunity Project.Title.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetEngagementInvitationInput`)
+    /// - Parameter input: Contains the request parameters for the GetEngagementInvitation operation. (Type: `GetEngagementInvitationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetEngagementInvitationOutput`)
+    /// - Returns: Contains the response that the GetEngagementInvitation action returns. (Type: `GetEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,9 +2221,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the GetOpportunity operation. (Type: `GetOpportunityInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetOpportunityOutput`)
+    /// - Returns: Contains the response that the GetOpportunity action returns. (Type: `GetOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,6 +2283,85 @@ extension PartnerCentralSellingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOpportunity")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetOpportunityBulkJobReportUrl` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Gets the status of the failed-records report for a finished opportunity bulk job and, when the report is ready, a temporary URL to download it. A report is available only after the job is COMPLETED or FAILED. The URL expires after 15 minutes, and the report expires after about 7 days.
+    ///
+    /// - Parameter input: Specifies the catalog, job identifier, and report format for getting the report URL of an opportunity bulk job. (Type: `GetOpportunityBulkJobReportUrlInput`)
+    ///
+    /// - Returns: The status of the report and, when it is ready, the URL to download it. (Type: `GetOpportunityBulkJobReportUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func getOpportunityBulkJobReportUrl(input: GetOpportunityBulkJobReportUrlInput) async throws -> GetOpportunityBulkJobReportUrlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.getOpportunityBulkJobReportUrlOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getOpportunityBulkJobReportUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetOpportunityBulkJobReportUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOpportunityBulkJobReportUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetOpportunityBulkJobReportUrl"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOpportunityBulkJobReportUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOpportunityBulkJobReportUrlInput, GetOpportunityBulkJobReportUrlOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOpportunityBulkJobReportUrl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1908,9 +2456,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieve a specific snapshot record.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotInput`)
+    /// - Parameter input: Contains the request parameters for the GetResourceSnapshot operation. (Type: `GetResourceSnapshotInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotOutput`)
+    /// - Returns: Contains the response that the GetResourceSnapshot action returns. (Type: `GetResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,9 +2534,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieves information about a specific resource snapshot job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotJobInput`)
+    /// - Parameter input: Contains the request parameters for the GetResourceSnapshotJob operation. (Type: `GetResourceSnapshotJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotJobOutput`)
+    /// - Returns: Contains the response that the GetResourceSnapshotJob action returns. (Type: `GetResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2064,9 +2612,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetSellingSystemSettingsInput`)
+    /// - Parameter input: Contains the request parameters for the GetSellingSystemSettings operation. (Type: `GetSellingSystemSettingsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetSellingSystemSettingsOutput`)
+    /// - Returns: Contains the response that the GetSellingSystemSettings action returns. (Type: `GetSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,13 +2686,168 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCustomerAccountBulkJobResults` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use ListCustomerAccountBulkJobResults to list the outcome of each record in a bulk job. You can filter the results to records that succeeded or failed. A job that failed before it processed any records returns an empty list. Results are paginated. Use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: Information about list customer account bulk job results request. (Type: `ListCustomerAccountBulkJobResultsInput`)
+    ///
+    /// - Returns: Information about list customer account bulk job results response. (Type: `ListCustomerAccountBulkJobResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listCustomerAccountBulkJobResults(input: ListCustomerAccountBulkJobResultsInput) async throws -> ListCustomerAccountBulkJobResultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.listCustomerAccountBulkJobResultsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCustomerAccountBulkJobResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomerAccountBulkJobResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomerAccountBulkJobResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListCustomerAccountBulkJobResults"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomerAccountBulkJobResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomerAccountBulkJobResultsInput, ListCustomerAccountBulkJobResultsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomerAccountBulkJobResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCustomerAccountBulkJobs` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use ListCustomerAccountBulkJobs to list the bulk jobs in the specified catalog. You can filter the results by job identifier or status. Results are paginated. Use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: Information about list customer account bulk jobs request. (Type: `ListCustomerAccountBulkJobsInput`)
+    ///
+    /// - Returns: Information about list customer account bulk jobs response. (Type: `ListCustomerAccountBulkJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listCustomerAccountBulkJobs(input: ListCustomerAccountBulkJobsInput) async throws -> ListCustomerAccountBulkJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.listCustomerAccountBulkJobsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCustomerAccountBulkJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomerAccountBulkJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomerAccountBulkJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListCustomerAccountBulkJobs"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomerAccountBulkJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomerAccountBulkJobsInput, ListCustomerAccountBulkJobsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomerAccountBulkJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEngagementByAcceptingInvitationTasks` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagementByAcceptingInvitationTasks operation. (Type: `ListEngagementByAcceptingInvitationTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksOutput`)
+    /// - Returns: Contains the response that the ListEngagementByAcceptingInvitationTasks action returns. (Type: `ListEngagementByAcceptingInvitationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,9 +2923,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementFromOpportunityTasksInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagementFromOpportunityTasks operation. (Type: `ListEngagementFromOpportunityTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementFromOpportunityTasksOutput`)
+    /// - Returns: Contains the response that the ListEngagementFromOpportunityTasks action returns. (Type: `ListEngagementFromOpportunityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,13 +2997,90 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEngagementGroups` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Lists the active, fully curated AWS Partner Central engagement groups that are available to you in the specified catalog. An engagement group is a curated set of engagements that share common characteristics, such as customer geography, industry, or solution category. To retrieve the engagements in a group, pass the group Id to SearchEngagements as GroupId, and use NextToken to retrieve additional pages of groups.
+    ///
+    /// - Parameter input: The request for the ListEngagementGroups operation. (Type: `ListEngagementGroupsInput`)
+    ///
+    /// - Returns: The response from the ListEngagementGroups operation. (Type: `ListEngagementGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listEngagementGroups(input: ListEngagementGroupsInput) async throws -> ListEngagementGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.listEngagementGroupsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEngagementGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementGroups"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEngagementGroupsInput, ListEngagementGroupsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEngagementGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEngagementInvitations` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementInvitationsInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagementInvitations operation. (Type: `ListEngagementInvitationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementInvitationsOutput`)
+    /// - Returns: Contains the response that the ListEngagementInvitations action returns. (Type: `ListEngagementInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2376,9 +3156,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementMembersInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagementMembers operation. (Type: `ListEngagementMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementMembersOutput`)
+    /// - Returns: Contains the response that the ListEngagementMembers action returns. (Type: `ListEngagementMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2454,9 +3234,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementResourceAssociationsInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagementResourceAssociations operation. (Type: `ListEngagementResourceAssociationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementResourceAssociationsOutput`)
+    /// - Returns: Contains the response that the ListEngagementResourceAssociations action returns. (Type: `ListEngagementResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,9 +3312,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListEngagementsInput`)
+    /// - Parameter input: Contains the request parameters for the ListEngagements operation. (Type: `ListEngagementsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListEngagementsOutput`)
+    /// - Returns: Contains the response that the ListEngagements action returns. (Type: `ListEngagementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2616,9 +3396,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListOpportunitiesInput`)
+    /// - Parameter input: Contains the request parameters for the ListOpportunities operation. (Type: `ListOpportunitiesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListOpportunitiesOutput`)
+    /// - Returns: Contains the response that the ListOpportunities action returns. (Type: `ListOpportunitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2690,13 +3470,169 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListOpportunityBulkJobResults` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Lists the outcome of each record in an opportunity bulk job. You can filter the results by record status. Results are paginated. Use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: Specifies the catalog, job identifier, filter, and pagination settings for listing the results of an opportunity bulk job. (Type: `ListOpportunityBulkJobResultsInput`)
+    ///
+    /// - Returns: The results of an opportunity bulk job. (Type: `ListOpportunityBulkJobResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listOpportunityBulkJobResults(input: ListOpportunityBulkJobResultsInput) async throws -> ListOpportunityBulkJobResultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.listOpportunityBulkJobResultsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOpportunityBulkJobResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOpportunityBulkJobResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunityBulkJobResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListOpportunityBulkJobResults"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunityBulkJobResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpportunityBulkJobResultsInput, ListOpportunityBulkJobResultsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOpportunityBulkJobResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListOpportunityBulkJobs` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Lists the opportunity bulk jobs in the specified catalog, newest first. You can filter the results by job identifier or status. Results are paginated. Use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: Specifies the catalog, filters, and pagination settings for listing opportunity bulk jobs. (Type: `ListOpportunityBulkJobsInput`)
+    ///
+    /// - Returns: The opportunity bulk jobs that match the request. (Type: `ListOpportunityBulkJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listOpportunityBulkJobs(input: ListOpportunityBulkJobsInput) async throws -> ListOpportunityBulkJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.listOpportunityBulkJobsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOpportunityBulkJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOpportunityBulkJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunityBulkJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListOpportunityBulkJobs"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunityBulkJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpportunityBulkJobsInput, ListOpportunityBulkJobsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOpportunityBulkJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListOpportunityFromEngagementTasks` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListOpportunityFromEngagementTasksInput`)
+    /// - Parameter input: Contains the request parameters for the ListOpportunityFromEngagementTasks operation. (Type: `ListOpportunityFromEngagementTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListOpportunityFromEngagementTasksOutput`)
+    /// - Returns: Contains the response that the ListOpportunityFromEngagementTasks action returns. (Type: `ListOpportunityFromEngagementTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2849,9 +3785,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotJobsInput`)
+    /// - Parameter input: Contains the request parameters for the ListResourceSnapshotJobs operation. (Type: `ListResourceSnapshotJobsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotJobsOutput`)
+    /// - Returns: Contains the response that the ListResourceSnapshotJobs action returns. (Type: `ListResourceSnapshotJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,9 +3873,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Filtering snapshots by resource owner.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotsInput`)
+    /// - Parameter input: Contains the request parameters for the ListResourceSnapshots operation. (Type: `ListResourceSnapshotsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotsOutput`)
+    /// - Returns: Contains the response that the ListResourceSnapshots action returns. (Type: `ListResourceSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3015,9 +3951,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSolutionsInput`)
+    /// - Parameter input: Contains the request parameters for the ListSolutions operation. (Type: `ListSolutionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSolutionsOutput`)
+    /// - Returns: Contains the response that the ListSolutions action returns. (Type: `ListSolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3093,9 +4029,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
+    /// - Parameter input: Contains the request parameters for the ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
+    /// - Returns: Contains the response that the ListTagsForResource action returns. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3171,9 +4107,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `PutSellingSystemSettingsInput`)
+    /// - Parameter input: Contains the request parameters for the PutSellingSystemSettings operation. (Type: `PutSellingSystemSettingsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `PutSellingSystemSettingsOutput`)
+    /// - Returns: Contains the response that the PutSellingSystemSettings action returns. (Type: `PutSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3249,7 +4185,7 @@ extension PartnerCentralSellingClient {
     ///
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
     ///
-    /// - Parameter input: [no documentation found] (Type: `RejectEngagementInvitationInput`)
+    /// - Parameter input: Contains the request parameters for the RejectEngagementInvitation operation. (Type: `RejectEngagementInvitationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `RejectEngagementInvitationOutput`)
     ///
@@ -3324,13 +4260,325 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchCustomerAccounts` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use SearchCustomerAccounts to find customer accounts in the specified catalog. You can filter the results by fields such as enrichment status, industry, geography, and creation date, and sort them by company name, date, or score. Results are paginated. Use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: Information about search customer accounts request. (Type: `SearchCustomerAccountsInput`)
+    ///
+    /// - Returns: Information about search customer accounts response. (Type: `SearchCustomerAccountsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func searchCustomerAccounts(input: SearchCustomerAccountsInput) async throws -> SearchCustomerAccountsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.searchCustomerAccountsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchCustomerAccounts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchCustomerAccountsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchCustomerAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.SearchCustomerAccounts"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchCustomerAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchCustomerAccountsInput, SearchCustomerAccountsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchCustomerAccounts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchEngagements` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Searches the engagements in AWS Partner Central that match your criteria, such as customer industry or geography. You can combine a free-text Keyword, a structured Filter tree, an engagement group (GroupId), and Sort options, and each search criterion that you specify narrows the results. Results are paginated, so use NextToken to retrieve additional results.
+    ///
+    /// - Parameter input: The request for the SearchEngagements operation. (Type: `SearchEngagementsInput`)
+    ///
+    /// - Returns: The response from the SearchEngagements operation. (Type: `SearchEngagementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func searchEngagements(input: SearchEngagementsInput) async throws -> SearchEngagementsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.searchEngagementsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchEngagements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchEngagementsInput, SearchEngagementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchEngagementsInput, SearchEngagementsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchEngagementsInput, SearchEngagementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchEngagementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchEngagementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchEngagementsInput, SearchEngagementsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.SearchEngagements"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchEngagementsInput, SearchEngagementsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchEngagementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchEngagementsInput, SearchEngagementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchEngagementsInput, SearchEngagementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchEngagementsInput, SearchEngagementsOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchEngagements")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchOpportunities` operation on the `PartnerCentralSelling` service.
+    ///
+    /// The SearchOpportunities operation in the AWS Partner Central Selling API searches and filters the opportunities available to you in AWS Partner Central. You can optionally provide a free-text Keyword, a structured Filter tree, and Sort options. The operation returns a curated summary view of each matching opportunity. If you supply both Keyword and Filter, the operation combines them with a logical AND, so each one narrows the result set. Results are paginated. Use the NextToken parameter to retrieve additional pages of results.
+    ///
+    /// - Parameter input: Contains the request parameters for the SearchOpportunities operation. (Type: `SearchOpportunitiesInput`)
+    ///
+    /// - Returns: Contains the response that the SearchOpportunities action returns. (Type: `SearchOpportunitiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func searchOpportunities(input: SearchOpportunitiesInput) async throws -> SearchOpportunitiesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.searchOpportunitiesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchOpportunities")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchOpportunitiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchOpportunitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.SearchOpportunities"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchOpportunitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchOpportunitiesInput, SearchOpportunitiesOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchOpportunities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartCustomerAccountBulkJob` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use StartCustomerAccountBulkJob to create many customer accounts from a single file. The job starts processing as soon as it is created. Use GetCustomerAccountBulkJob to track progress, ListCustomerAccountBulkJobResults to review the outcome of each record, and GetCustomerAccountBulkJobReportUrl to download a report when the job finishes.
+    ///
+    /// - Parameter input: Information about start customer account bulk job request. (Type: `StartCustomerAccountBulkJobInput`)
+    ///
+    /// - Returns: Information about start customer account bulk job response. (Type: `StartCustomerAccountBulkJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func startCustomerAccountBulkJob(input: StartCustomerAccountBulkJobInput) async throws -> StartCustomerAccountBulkJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.startCustomerAccountBulkJobOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startCustomerAccountBulkJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartCustomerAccountBulkJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCustomerAccountBulkJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartCustomerAccountBulkJob"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCustomerAccountBulkJobInput, StartCustomerAccountBulkJobOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCustomerAccountBulkJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartEngagementByAcceptingInvitationTask` operation on the `PartnerCentralSelling` service.
     ///
     /// This action starts the engagement by accepting an EngagementInvitation. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportunity has been successfully created in the partner's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskInput`)
+    /// - Parameter input: Contains the request parameters for the StartEngagementByAcceptingInvitationTask operation. (Type: `StartEngagementByAcceptingInvitationTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskOutput`)
+    /// - Returns: Contains the response that the StartEngagementByAcceptingInvitationTask action returns. (Type: `StartEngagementByAcceptingInvitationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3409,9 +4657,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Similar to StartEngagementByAcceptingInvitationTask, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity, CreateEngagement (if it doesn't exist), CreateResourceSnapshot, CreateResourceSnapshotJob, CreateEngagementInvitation (if not already invited/accepted), and SubmitOpportunity.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartEngagementFromOpportunityTaskInput`)
+    /// - Parameter input: Contains the request parameters for the StartEngagementFromOpportunityTask operation. (Type: `StartEngagementFromOpportunityTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StartEngagementFromOpportunityTaskOutput`)
+    /// - Returns: Contains the response that the StartEngagementFromOpportunityTask action returns. (Type: `StartEngagementFromOpportunityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3486,13 +4734,93 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartOpportunityBulkJob` operation on the `PartnerCentralSelling` service.
+    ///
+    /// The StartOpportunityBulkJob operation creates or updates many opportunities in AWS Partner Central (Partner Central) from a single CSV file. The column headers in the file determine whether the job creates or updates opportunities. Returns a JobId for the job. Use ListOpportunityBulkJobs to track the job, ListOpportunityBulkJobResults to review each record, and GetOpportunityBulkJobReportUrl to download a report of the failed records.
+    ///
+    /// - Parameter input: Specifies the input file location, file format, and client token for starting an opportunity bulk job. (Type: `StartOpportunityBulkJobInput`)
+    ///
+    /// - Returns: The response to a request to start an opportunity bulk job. (Type: `StartOpportunityBulkJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func startOpportunityBulkJob(input: StartOpportunityBulkJobInput) async throws -> StartOpportunityBulkJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.startOpportunityBulkJobOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startOpportunityBulkJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartOpportunityBulkJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartOpportunityBulkJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartOpportunityBulkJob"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartOpportunityBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartOpportunityBulkJobInput, StartOpportunityBulkJobOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartOpportunityBulkJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartOpportunityFromEngagementTask` operation on the `PartnerCentralSelling` service.
     ///
     /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartOpportunityFromEngagementTaskInput`)
+    /// - Parameter input: Contains the request parameters for the StartOpportunityFromEngagementTask operation. (Type: `StartOpportunityFromEngagementTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StartOpportunityFromEngagementTaskOutput`)
+    /// - Returns: Contains the response that the StartOpportunityFromEngagementTask action returns. (Type: `StartOpportunityFromEngagementTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3651,7 +4979,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Starts a resource snapshot job that has been previously created.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartResourceSnapshotJobInput`)
+    /// - Parameter input: Contains the request parameters for the StartResourceSnapshotJob operation. (Type: `StartResourceSnapshotJobInput`)
     ///
     /// - Returns: [no documentation found] (Type: `StartResourceSnapshotJobOutput`)
     ///
@@ -3729,7 +5057,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Stops a resource snapshot job. The job must be started prior to being stopped.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StopResourceSnapshotJobInput`)
+    /// - Parameter input: Contains the request parameters for the StopResourceSnapshotJob operation. (Type: `StopResourceSnapshotJobInput`)
     ///
     /// - Returns: [no documentation found] (Type: `StopResourceSnapshotJobOutput`)
     ///
@@ -3807,7 +5135,7 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SubmitOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the SubmitOpportunity operation. (Type: `SubmitOpportunityInput`)
     ///
     /// - Returns: [no documentation found] (Type: `SubmitOpportunityOutput`)
     ///
@@ -3885,9 +5213,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
+    /// - Parameter input: Contains the request parameters for the TagResource operation. (Type: `TagResourceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
+    /// - Returns: Contains the response of the TagResource operation. The response has no members. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3964,9 +5292,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
+    /// - Parameter input: Contains the request parameters for the UntagResource operation. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    /// - Returns: Contains the response of the UntagResource operation. The response has no members. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4039,13 +5367,92 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCustomerAccount` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Use UpdateCustomerAccount to replace the customer information on an existing customer account. AWS matches the account again with the updated information. To prevent concurrent changes from overwriting each other, specify the LastModifiedDate value that you last read for the account. If the account changed since then, the request fails with a ConflictException.
+    ///
+    /// - Parameter input: Information about update customer account request. (Type: `UpdateCustomerAccountInput`)
+    ///
+    /// - Returns: Information about update customer account response. (Type: `UpdateCustomerAccountOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func updateCustomerAccount(input: UpdateCustomerAccountInput) async throws -> UpdateCustomerAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralSellingClient.updateCustomerAccountOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCustomerAccount")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomerAccountOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCustomerAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.UpdateCustomerAccount"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Selling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCustomerAccountInput, UpdateCustomerAccountOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCustomerAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateEngagementContext` operation on the `PartnerCentralSelling` service.
     ///
     /// Updates the context information for an existing engagement with new or modified data.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateEngagementContextInput`)
+    /// - Parameter input: Contains the request parameters for the UpdateEngagementContext operation. (Type: `UpdateEngagementContextInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateEngagementContextOutput`)
+    /// - Returns: Contains the response that the UpdateEngagementContext action returns. (Type: `UpdateEngagementContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4123,9 +5530,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateOpportunityInput`)
+    /// - Parameter input: Contains the request parameters for the UpdateOpportunity operation. (Type: `UpdateOpportunityInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateOpportunityOutput`)
+    /// - Returns: Contains the response that the UpdateOpportunity action returns. (Type: `UpdateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -9,6 +9,7 @@
 
 import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
+import struct Smithy.Document
 
 extension AgentRegistryClient {
     /// Paginate over `[ListDiscoverableRegistryRecordsOutput]` results.
@@ -39,6 +40,40 @@ extension PaginatorSequence where OperationStackInput == ListDiscoverableRegistr
     /// to access the nested member `[AgentRegistryClientTypes.DiscoverableRegistryRecordSummary]`
     /// - Returns: `[AgentRegistryClientTypes.DiscoverableRegistryRecordSummary]`
     public func registryRecords() async throws -> [AgentRegistryClientTypes.DiscoverableRegistryRecordSummary] {
+        return try await self.asyncCompactMap { item in item.registryRecords }
+    }
+}
+extension AgentRegistryClient {
+    /// Paginate over `[SearchDiscoverableRegistryRecordsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchDiscoverableRegistryRecordsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDiscoverableRegistryRecordsOutput`
+    public func searchDiscoverableRegistryRecordsPaginated(input: SearchDiscoverableRegistryRecordsInput) -> ClientRuntime.PaginatorSequence<SearchDiscoverableRegistryRecordsInput, SearchDiscoverableRegistryRecordsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDiscoverableRegistryRecordsInput, SearchDiscoverableRegistryRecordsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDiscoverableRegistryRecords(input:))
+    }
+}
+
+extension SearchDiscoverableRegistryRecordsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchDiscoverableRegistryRecordsInput {
+        return SearchDiscoverableRegistryRecordsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            registryIds: self.registryIds,
+            searchQuery: self.searchQuery,
+            searchType: self.searchType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchDiscoverableRegistryRecordsInput, OperationStackOutput == SearchDiscoverableRegistryRecordsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchDiscoverableRegistryRecordsPaginated`
+    /// to access the nested member `[AgentRegistryClientTypes.RegistryRecordSummary]`
+    /// - Returns: `[AgentRegistryClientTypes.RegistryRecordSummary]`
+    public func registryRecords() async throws -> [AgentRegistryClientTypes.RegistryRecordSummary] {
         return try await self.asyncCompactMap { item in item.registryRecords }
     }
 }

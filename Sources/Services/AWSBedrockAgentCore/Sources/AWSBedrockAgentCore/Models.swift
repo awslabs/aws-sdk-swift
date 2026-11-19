@@ -13771,6 +13771,142 @@ public struct ListPaymentSessionsOutput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The elliptic curve of a JSON Web Key.
+    public enum JwkEllipticCurve: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case p256
+        case p384
+        case p521
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwkEllipticCurve] {
+            return [
+                .p256,
+                .p384,
+                .p521
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .p256: return "P-256"
+            case .p384: return "P-384"
+            case .p521: return "P-521"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The JSON Web Key type.
+    public enum JwkKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwkKeyType] {
+            return [
+                .ec
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec: return "EC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// An elliptic curve public key in JSON Web Key (JWK) format, as described in RFC 7518 section 6.2, used to bind a payment token to the agent.
+    public struct DpopJwk: Swift.Sendable {
+        /// The elliptic curve of the key.
+        /// This member is required.
+        public var crv: BedrockAgentCoreClientTypes.JwkEllipticCurve?
+        /// The key type. The only valid value is EC.
+        /// This member is required.
+        public var kty: BedrockAgentCoreClientTypes.JwkKeyType?
+        /// The x-coordinate of the elliptic curve point, base64url-encoded.
+        /// This member is required.
+        public var x: Swift.String?
+        /// The y-coordinate of the elliptic curve point, base64url-encoded.
+        /// This member is required.
+        public var y: Swift.String?
+
+        public init(
+            crv: BedrockAgentCoreClientTypes.JwkEllipticCurve? = nil,
+            kty: BedrockAgentCoreClientTypes.JwkKeyType? = nil,
+            x: Swift.String? = nil,
+            y: Swift.String? = nil
+        ) {
+            self.crv = crv
+            self.kty = kty
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Optional settings for an AWS Billing payment.
+    public struct AwsBillingPaymentOptions: Swift.Sendable {
+        /// The agent's public key for Demonstrating Proof of Possession (DPoP), as described in RFC 9449. If you specify a key, the payment token is bound to it, and the seller can verify that the token is presented by the holder of the matching private key. If you don't specify a key, the payment token isn't bound to a key.
+        public var dpopJwk: BedrockAgentCoreClientTypes.DpopJwk?
+
+        public init(
+            dpopJwk: BedrockAgentCoreClientTypes.DpopJwk? = nil
+        ) {
+            self.dpopJwk = dpopJwk
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The input for an AWS Billing x402 payment. The payment pays an AWS Marketplace seller's x402 (HTTP 402) payment requirement and is billed to the AWS account that owns the payment manager, through the payment manager's AWS Billing payment connector.
+    public struct AwsBillingX402PaymentInput: Swift.Sendable {
+        /// Optional settings for the AWS Billing payment.
+        public var options: BedrockAgentCoreClientTypes.AwsBillingPaymentOptions?
+        /// The seller's x402 payment requirement for AWS Billing, passed unchanged as a JSON object. The service reads the seller-signed quote token from extra.quoteToken and returns a ValidationException if it is missing or invalid. Any change to the quote token invalidates its signature.
+        /// This member is required.
+        public var payload: Smithy.Document?
+        /// The x402 protocol version of the seller's HTTP 402 response, from its x402Version field. For example, 2.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            options: BedrockAgentCoreClientTypes.AwsBillingPaymentOptions? = nil,
+            payload: Smithy.Document? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.options = options
+            self.payload = payload
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AwsBillingX402PaymentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsBillingX402PaymentInput(options: \(Swift.String(describing: options)), version: \(Swift.String(describing: version)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The input for a crypto X402 payment.
     public struct CryptoX402PaymentInput: Swift.Sendable {
         /// The X402 payment payload.
@@ -13832,6 +13968,8 @@ extension BedrockAgentCoreClientTypes {
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentInput)
         /// Contains the payment challenge from a 402 Payment Required response. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per request.
         case mpp(BedrockAgentCoreClientTypes.MppPaymentInput)
+        /// Input for an AWS Billing x402 payment, which pays an AWS Marketplace seller's quote and charges it to the AWS account that owns the payment manager.
+        case awsbillingx402(BedrockAgentCoreClientTypes.AwsBillingX402PaymentInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -13840,12 +13978,14 @@ extension BedrockAgentCoreClientTypes {
 
     /// Payment type enum.
     public enum PaymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsBillingX402
         case cryptoX402
         case mpp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PaymentType] {
             return [
+                .awsBillingX402,
                 .cryptoX402,
                 .mpp
             ]
@@ -13858,6 +13998,7 @@ extension BedrockAgentCoreClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsBillingX402: return "AWS_BILLING_X402"
             case .cryptoX402: return "CRYPTO_X402"
             case .mpp: return "MPP"
             case let .sdkUnknown(s): return s
@@ -13875,7 +14016,7 @@ public struct ProcessPaymentInput: Swift.Sendable {
     /// The payment input details specific to the payment type.
     /// This member is required.
     public var paymentInput: BedrockAgentCoreClientTypes.PaymentInput?
-    /// The ID of the payment instrument to use.
+    /// The ID of the payment instrument to use. For the CRYPTO_X402 and MPP payment types, specify the ID of a payment instrument that you created. For the AWS_BILLING_X402 payment type, specify the service-managed instrument ID aws.agentcorepayments.awsbilling.v1. You don't create this instrument; it's available for any payment manager that has an AWS Billing payment connector.
     /// This member is required.
     public var paymentInstrumentId: Swift.String?
     /// The ARN of the payment manager.
@@ -13909,6 +14050,32 @@ public struct ProcessPaymentInput: Swift.Sendable {
         self.paymentType = paymentType
         self.userId = userId
     }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The output of an AWS Billing x402 payment.
+    public struct AwsBillingX402PaymentOutput: Swift.Sendable {
+        /// The payment token, a signed JSON Web Token (JWT). Include it when you retry your request to the seller. Treat the payment token as a credential: don't log or share it.
+        /// This member is required.
+        public var paymentToken: Swift.String?
+        /// The x402 protocol version. This is the same value as the version in the request.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            paymentToken: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.paymentToken = paymentToken
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsBillingX402PaymentOutput(version: \(Swift.String(describing: version)), paymentToken: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -13976,6 +14143,8 @@ extension BedrockAgentCoreClientTypes {
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentOutput)
         /// Contains the payment credential, ready to retry the request.
         case mpp(BedrockAgentCoreClientTypes.MppPaymentOutput)
+        /// Output from an AWS Billing x402 payment.
+        case awsbillingx402(BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -14012,7 +14181,7 @@ public struct ProcessPaymentOutput: Swift.Sendable {
     /// The timestamp when the payment was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The ID of the payment instrument used.
+    /// The ID of the payment instrument used. For the AWS_BILLING_X402 payment type, this is the service-managed instrument ID aws.agentcorepayments.awsbilling.v1.
     /// This member is required.
     public var paymentInstrumentId: Swift.String?
     /// The ARN of the payment manager.
@@ -19512,6 +19681,35 @@ extension BedrockAgentCoreClientTypes.AvailableLimits {
     }
 }
 
+extension BedrockAgentCoreClientTypes.AwsBillingPaymentOptions {
+
+    static func write(value: BedrockAgentCoreClientTypes.AwsBillingPaymentOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dpopJwk"].write(value.dpopJwk, with: BedrockAgentCoreClientTypes.DpopJwk.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AwsBillingX402PaymentInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.AwsBillingX402PaymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].write(value.options, with: BedrockAgentCoreClientTypes.AwsBillingPaymentOptions.write(value:to:))
+        try writer["payload"].write(value.payload)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.paymentToken = try reader["paymentToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.BasicAuth {
 
     static func write(value: BedrockAgentCoreClientTypes.BasicAuth?, to writer: SmithyJSON.Writer) throws {
@@ -20307,6 +20505,17 @@ extension BedrockAgentCoreClientTypes.DomainFilter {
         guard let value else { return }
         try writer["exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.DpopJwk {
+
+    static func write(value: BedrockAgentCoreClientTypes.DpopJwk?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["crv"].write(value.crv)
+        try writer["kty"].write(value.kty)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
     }
 }
 
@@ -22412,6 +22621,8 @@ extension BedrockAgentCoreClientTypes.PaymentInput {
     static func write(value: BedrockAgentCoreClientTypes.PaymentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .awsbillingx402(awsbillingx402):
+                try writer["awsBillingX402"].write(awsbillingx402, with: BedrockAgentCoreClientTypes.AwsBillingX402PaymentInput.write(value:to:))
             case let .cryptox402(cryptox402):
                 try writer["cryptoX402"].write(cryptox402, with: BedrockAgentCoreClientTypes.CryptoX402PaymentInput.write(value:to:))
             case let .mpp(mpp):
@@ -22491,6 +22702,8 @@ extension BedrockAgentCoreClientTypes.PaymentOutput {
                 return .cryptox402(try reader["cryptoX402"].read(with: BedrockAgentCoreClientTypes.CryptoX402PaymentOutput.read(from:)))
             case "mpp":
                 return .mpp(try reader["mpp"].read(with: BedrockAgentCoreClientTypes.MppPaymentOutput.read(from:)))
+            case "awsBillingX402":
+                return .awsbillingx402(try reader["awsBillingX402"].read(with: BedrockAgentCoreClientTypes.AwsBillingX402PaymentOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

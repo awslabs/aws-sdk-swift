@@ -64,6 +64,29 @@ import struct SmithyHTTPAPI.Headers
 import typealias SmithyEventStreamsAPI.MarshalClosure
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
+/// You don't have sufficient permissions to perform this action. For a custom voice that uses a customer managed key, Amazon Polly also returns this exception if you don't have the required Amazon Web Services KMS permissions on the key.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDenied" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension PollyClientTypes {
 
     /// Contains a chunk of synthesized audio data.
@@ -81,6 +104,41 @@ extension PollyClientTypes {
 
 extension PollyClientTypes {
 
+    public enum AudioFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flac
+        case mp3
+        case oggVorbis
+        case wav
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioFormat] {
+            return [
+                .flac,
+                .mp3,
+                .oggVorbis,
+                .wav
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flac: return "flac"
+            case .mp3: return "mp3"
+            case .oggVorbis: return "ogg_vorbis"
+            case .wav: return "wav"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
     /// Indicates the end of the input stream. After sending this event, the input stream will be closed and all audio will be returned.
     public struct CloseStreamEvent: Swift.Sendable {
 
@@ -88,15 +146,78 @@ extension PollyClientTypes {
     }
 }
 
-/// Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
-public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension PollyClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lexicon
+        case voice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .lexicon,
+                .voice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lexicon: return "lexicon"
+            case .voice: return "voice"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request conflicts with the current state of the resource. For a custom voice, the voice isn't in the status that the operation requires. Check the status with GetVoice, and then try again.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource that the request conflicts with.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that the request conflicts with.
+        /// This member is required.
+        public internal(set) var resourceType: PollyClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: PollyClientTypes.ResourceType? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LexiconNotFoundException" }
+    public static var typeName: Swift.String { "InvalidTagParameterException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -134,32 +255,153 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public struct DeleteLexiconInput: Swift.Sendable {
-    /// The name of the lexicon to delete. Must be an existing lexicon in the region.
-    /// This member is required.
-    public var name: Swift.String?
+extension PollyClientTypes {
 
-    public init(
-        name: Swift.String? = nil
-    ) {
-        self.name = name
+    public enum QuotaCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customVoiceMaxCount
+        case inputStreamInboundEventTimeout
+        case inputStreamTimeout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaCode] {
+            return [
+                .customVoiceMaxCount,
+                .inputStreamInboundEventTimeout,
+                .inputStreamTimeout
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customVoiceMaxCount: return "custom-voice-max-count"
+            case .inputStreamInboundEventTimeout: return "input-stream-inbound-event-timeout"
+            case .inputStreamTimeout: return "input-stream-timeout"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
-public struct DeleteLexiconOutput: Swift.Sendable {
+extension PollyClientTypes {
 
-    public init() { }
+    public enum ServiceCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case polly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceCode] {
+            return [
+                .polly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .polly: return "polly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
-/// The NextToken is invalid. Verify that it's spelled correctly, and then try again.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code identifying the specific quota.
+        /// This member is required.
+        public internal(set) var quotaCode: PollyClientTypes.QuotaCode? = nil
+        /// The service code identifying the originating service.
+        /// This member is required.
+        public internal(set) var serviceCode: PollyClientTypes.ServiceCode? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: PollyClientTypes.QuotaCode? = nil,
+        serviceCode: PollyClientTypes.ServiceCode? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Provides information about a specific throttling reason.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// The reason code explaining why the request was throttled.
+        public var reason: Swift.String?
+        /// The resource that caused the throttling.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
+/// The request was denied because of request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// A list of reasons explaining why the request was throttled.
+        public internal(set) var throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Throttling" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
+    ) {
+        self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
+    }
+}
+
+/// The list of tags on the resource is over the limit. The maximum number of tags that can be applied to a resource is 50. Remove unused tags or reduce the number of tags in the request, and then try again.
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var typeName: Swift.String { "TooManyTagsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -176,19 +418,44 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
 extension PollyClientTypes {
 
-    public enum Engine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case generative
-        case longForm
-        case neural
-        case standard
+    /// Information about a field that failed validation.
+    public struct ValidationExceptionField: Swift.Sendable {
+        /// A message describing why the field failed validation.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name of the field that failed validation.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.message = message
+            self.name = name
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fieldValidationFailed
+        case invalidInboundEvent
+        case kmsKeyNotFound
+        case kmsKeyUnusable
+        case other
+        case unsupportedOperation
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [Engine] {
+        public static var allCases: [ValidationExceptionReason] {
             return [
-                .generative,
-                .longForm,
-                .neural,
-                .standard
+                .fieldValidationFailed,
+                .invalidInboundEvent,
+                .kmsKeyNotFound,
+                .kmsKeyUnusable,
+                .other,
+                .unsupportedOperation
             ]
         }
 
@@ -199,13 +466,219 @@ extension PollyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .generative: return "generative"
-            case .longForm: return "long-form"
-            case .neural: return "neural"
-            case .standard: return "standard"
+            case .fieldValidationFailed: return "fieldValidationFailed"
+            case .invalidInboundEvent: return "invalidInboundEvent"
+            case .kmsKeyNotFound: return "kmsKeyNotFound"
+            case .kmsKeyUnusable: return "kmsKeyUnusable"
+            case .other: return "other"
+            case .unsupportedOperation: return "unsupportedOperation"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+/// The input fails to satisfy the constraints specified by the service.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The fields that caused the validation error.
+        public internal(set) var fields: [PollyClientTypes.ValidationExceptionField]? = nil
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The reason the request failed validation. If Amazon Polly can't use the Amazon Web Services KMS key that you specified in CreateVoice, fields names CustomerManagedEncryption.KmsKeyArn and the reason is one of the following: kmsKeyNotFound No key with the specified ARN exists. kmsKeyUnusable The key is disabled, scheduled for deletion, or missing its key material, or it isn't a symmetric encryption key.
+        /// This member is required.
+        public internal(set) var reason: PollyClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        fields: [PollyClientTypes.ValidationExceptionField]? = nil,
+        message: Swift.String? = nil,
+        reason: PollyClientTypes.ValidationExceptionReason? = nil
+    ) {
+        self.properties.fields = fields
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+extension PollyClientTypes {
+
+    /// The customer managed key that encrypts your custom voice. If you don't specify a key, Amazon Polly encrypts the voice with an Amazon Web Services owned key.
+    public struct CustomerManagedEncryption: Swift.Sendable {
+        /// The key-value pairs that Amazon Polly includes as the encryption context when it encrypts or decrypts the voice with the key. You can use these pairs in key policy conditions. Don't use keys that start with aws:, which are reserved.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the key. The key must be a symmetric encryption key in the same Amazon Web Services Region as the voice. To create the voice, you need kms:DescribeKey, kms:GenerateDataKey, and kms:Decrypt permissions on the key. To synthesize speech with the voice, you need kms:Decrypt permission on the key.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum CustomVoiceLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deDe
+        case enUs
+        case esUs
+        case frFr
+        case hiIn
+        case itIt
+        case ptBr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomVoiceLanguageCode] {
+            return [
+                .deDe,
+                .enUs,
+                .esUs,
+                .frFr,
+                .hiIn,
+                .itIt,
+                .ptBr
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deDe: return "de-DE"
+            case .enUs: return "en-US"
+            case .esUs: return "es-US"
+            case .frFr: return "fr-FR"
+            case .hiIn: return "hi-IN"
+            case .itIt: return "it-IT"
+            case .ptBr: return "pt-BR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// The audio source of a recording. In a CreateVoice request, specify exactly one of S3Url and Bytes. In a response, a recording that Amazon Polly read from Amazon S3 includes its S3Url. A recording that you passed as Bytes includes neither field, because Amazon Polly doesn't return the audio.
+    public struct RecordingData: Swift.Sendable {
+        /// The audio data, passed directly in the request. The data must be in the format that Format specifies and can be up to 5 MB. Amazon Polly doesn't store the audio after it creates the voice, and doesn't return this field in responses.
+        public var bytes: Foundation.Data?
+        /// The Amazon S3 URL of the audio object, in the form s3://bucket/key. You need s3:GetObject permission on the object.
+        public var s3Url: Swift.String?
+
+        public init(
+            bytes: Foundation.Data? = nil,
+            s3Url: Swift.String? = nil
+        ) {
+            self.bytes = bytes
+            self.s3Url = s3Url
+        }
+    }
+}
+
+extension PollyClientTypes.RecordingData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RecordingData(s3Url: \(Swift.String(describing: s3Url)), bytes: \"CONTENT_REDACTED\")"}
+}
+
+extension PollyClientTypes {
+
+    /// A recording of the speaker whose voice you want to create. The recording specifies its audio format and its audio source.
+    public struct Recording: Swift.Sendable {
+        /// The audio source of the recording. Specify either an Amazon S3 object or the audio data.
+        /// This member is required.
+        public var data: PollyClientTypes.RecordingData?
+        /// The audio format of the recording: wav, flac, ogg_vorbis, or mp3. The format must match the audio data.
+        /// This member is required.
+        public var format: PollyClientTypes.AudioFormat?
+
+        public init(
+            data: PollyClientTypes.RecordingData? = nil,
+            format: PollyClientTypes.AudioFormat? = nil
+        ) {
+            self.data = data
+            self.format = format
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// The audio that you provide to create a custom voice.
+    public struct VoiceCreationData: Swift.Sendable {
+        /// The recordings of the speaker. Each recording specifies its audio format and its audio source.
+        /// This member is required.
+        public var recordings: [PollyClientTypes.Recording]?
+
+        public init(
+            recordings: [PollyClientTypes.Recording]? = nil
+        ) {
+            self.recordings = recordings
+        }
+    }
+}
+
+public struct CreateVoiceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDKs generate one for you. If you retry a request that succeeded with the same client token and the same parameters, Amazon Polly returns the voice that the first request created and doesn't create a second voice.
+    public var clientToken: Swift.String?
+    /// The customer managed key that you want Amazon Polly to encrypt the voice with. If you omit this parameter, Amazon Polly encrypts the voice with an Amazon Web Services owned key.
+    public var customerManagedEncryption: PollyClientTypes.CustomerManagedEncryption?
+    /// The language of the recordings, for example, en-US. Amazon Polly doesn't detect the language from the recordings.
+    /// This member is required.
+    public var languageCode: PollyClientTypes.CustomVoiceLanguageCode?
+    /// The name of the voice. Use the name to identify the voice in your application. The name can contain letters, digits, hyphens, and underscores, and can be up to 64 characters long. The name doesn't have to be unique. The name isn't the voice ID, which Amazon Polly assigns.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags that you apply to the voice to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [Swift.String: Swift.String]?
+    /// Confirms the following two statements:
+    ///
+    /// * "I confirm that I have obtained all necessary consents required under any applicable laws and regulations, including biometric privacy laws, from the owner of this voice to clone these voice samples."
+    ///
+    /// * "I confirm that I will not use the generated content for any illegal, fraudulent, or harmful purpose and reaffirm my obligation to abide by the AWS Service Terms, Biometric Notice and Consent Terms, AWS Responsible AI Policy, and AWS Acceptable Use Policy."
+    ///
+    ///
+    /// You can read the [AWS Service Terms](https://aws.amazon.com/service-terms/), the [Biometric Notice and Consent Terms](https://aws.amazon.com/legal/biometric-notice-and-consent-terms/), the [AWS Responsible AI Policy](https://aws.amazon.com/ai/responsible-ai/policy/), and the [AWS Acceptable Use Policy](https://aws.amazon.com/aup/) on the Amazon Web Services website. You must set this parameter to true to create a voice. Otherwise, the request fails with ValidationException.
+    /// This member is required.
+    public var termsAccepted: Swift.Bool?
+    /// The recordings that Amazon Polly uses to create the voice.
+    /// This member is required.
+    public var voiceCreationData: PollyClientTypes.VoiceCreationData?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        customerManagedEncryption: PollyClientTypes.CustomerManagedEncryption? = nil,
+        languageCode: PollyClientTypes.CustomVoiceLanguageCode? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        termsAccepted: Swift.Bool? = false,
+        voiceCreationData: PollyClientTypes.VoiceCreationData? = nil
+    ) {
+        self.clientToken = clientToken
+        self.customerManagedEncryption = customerManagedEncryption
+        self.languageCode = languageCode
+        self.name = name
+        self.tags = tags
+        self.termsAccepted = termsAccepted
+        self.voiceCreationData = voiceCreationData
     }
 }
 
@@ -355,29 +828,6 @@ extension PollyClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-public struct DescribeVoicesInput: Swift.Sendable {
-    /// Specifies the engine (standard, neural, long-form or generative) used by Amazon Polly when processing input text for speech synthesis.
-    public var engine: PollyClientTypes.Engine?
-    /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
-    public var includeAdditionalLanguageCodes: Swift.Bool?
-    /// The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned.
-    public var languageCode: PollyClientTypes.LanguageCode?
-    /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
-    public var nextToken: Swift.String?
-
-    public init(
-        engine: PollyClientTypes.Engine? = nil,
-        includeAdditionalLanguageCodes: Swift.Bool? = false,
-        languageCode: PollyClientTypes.LanguageCode? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.engine = engine
-        self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
-        self.languageCode = languageCode
-        self.nextToken = nextToken
     }
 }
 
@@ -783,40 +1233,312 @@ extension PollyClientTypes {
 
 extension PollyClientTypes {
 
-    /// Description of the voice.
+    public enum VoiceOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceOrigin] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "aws"
+            case .customer: return "customer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum VoiceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceStatus] {
+            return [
+                .active,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    public enum Engine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generative
+        case longForm
+        case neural
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Engine] {
+            return [
+                .generative,
+                .longForm,
+                .neural,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .generative: return "generative"
+            case .longForm: return "long-form"
+            case .neural: return "neural"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PollyClientTypes {
+
+    /// Describes a voice. Amazon Polly provides voices, and you can create custom voices with CreateVoice. Origin indicates whether Amazon Polly provides the voice or you created it. DescribeVoices returns a subset of the fields for each voice. GetVoice returns all fields of a custom voice.
     public struct Voice: Swift.Sendable {
         /// Additional codes for languages available for the specified voice in addition to its default language. For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public var additionalLanguageCodes: [PollyClientTypes.LanguageCode]?
-        /// Gender of the voice.
+        /// The Amazon Resource Name (ARN) of a custom voice, in the form arn:partition:polly:region:account-id:voice/voice-id. CreateVoice and GetVoice return this field. Voices that Amazon Polly provides don't have an ARN.
+        public var arn: Swift.String?
+        /// The date and time when you created the custom voice. Voices that Amazon Polly provides don't include this field.
+        public var creationTime: Foundation.Date?
+        /// The customer managed key that encrypts your custom voice. CreateVoice and GetVoice return this field if you specified a key in CreateVoice.
+        public var customerManagedEncryption: PollyClientTypes.CustomerManagedEncryption?
+        /// The gender of the voice. Custom voices don't include this field.
         public var gender: PollyClientTypes.Gender?
-        /// Amazon Polly assigned voice ID. This is the ID that you specify when calling the SynthesizeSpeech operation.
+        /// The voice ID that Amazon Polly assigns. You specify this ID when you call the SynthesizeSpeech operation. For a custom voice, Amazon Polly assigns an ID that consists of vc- followed by hexadecimal characters, for example, vc-9a8fa85dd3.
         public var id: PollyClientTypes.VoiceId?
         /// Language code of the voice.
         public var languageCode: PollyClientTypes.LanguageCode?
         /// Human readable name of the language in English.
         public var languageName: Swift.String?
-        /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
+        /// The name of the voice, for example, Salli or Kendra. The name is human-readable, and you might display it in your application. For a custom voice, this is the Name that you specified in CreateVoice.
         public var name: Swift.String?
+        /// Indicates who provides the voice. The origin is one of the following: aws A voice that Amazon Polly provides. customer A custom voice that you created with CreateVoice.
+        public var origin: PollyClientTypes.VoiceOrigin?
+        /// The status of a custom voice. Voices that Amazon Polly provides don't include this field. The status is one of the following: pending Amazon Polly is creating the voice. active The voice is ready for speech synthesis. failed Amazon Polly couldn't create the voice. StatusReason describes why.
+        public var status: PollyClientTypes.VoiceStatus?
+        /// Additional information about the status of a custom voice. When the status is failed, this field describes why Amazon Polly couldn't create the voice.
+        public var statusReason: Swift.String?
         /// Specifies which engines (standard, neural, long-form or generative) are supported by a given voice.
         public var supportedEngines: [PollyClientTypes.Engine]?
+        /// The data from which you created the custom voice. CreateVoice and GetVoice return this field. The response doesn't include the audio: a recording that Amazon Polly read from Amazon S3 includes its S3Url, and a recording that you passed as Bytes has no fields in Data.
+        public var voiceCreationData: PollyClientTypes.VoiceCreationData?
 
         public init(
             additionalLanguageCodes: [PollyClientTypes.LanguageCode]? = nil,
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            customerManagedEncryption: PollyClientTypes.CustomerManagedEncryption? = nil,
             gender: PollyClientTypes.Gender? = nil,
             id: PollyClientTypes.VoiceId? = nil,
             languageCode: PollyClientTypes.LanguageCode? = nil,
             languageName: Swift.String? = nil,
             name: Swift.String? = nil,
-            supportedEngines: [PollyClientTypes.Engine]? = nil
+            origin: PollyClientTypes.VoiceOrigin? = nil,
+            status: PollyClientTypes.VoiceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            supportedEngines: [PollyClientTypes.Engine]? = nil,
+            voiceCreationData: PollyClientTypes.VoiceCreationData? = nil
         ) {
             self.additionalLanguageCodes = additionalLanguageCodes
+            self.arn = arn
+            self.creationTime = creationTime
+            self.customerManagedEncryption = customerManagedEncryption
             self.gender = gender
             self.id = id
             self.languageCode = languageCode
             self.languageName = languageName
             self.name = name
+            self.origin = origin
+            self.status = status
+            self.statusReason = statusReason
             self.supportedEngines = supportedEngines
+            self.voiceCreationData = voiceCreationData
         }
+    }
+}
+
+public struct CreateVoiceOutput: Swift.Sendable {
+    /// The new voice, in pending status.
+    public var voice: PollyClientTypes.Voice?
+
+    public init(
+        voice: PollyClientTypes.Voice? = nil
+    ) {
+        self.voice = voice
+    }
+}
+
+/// Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
+public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LexiconNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteLexiconInput: Swift.Sendable {
+    /// The name of the lexicon to delete. Must be an existing lexicon in the region.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct DeleteLexiconOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN or ID is spelled correctly, and then try again.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that wasn't found.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that wasn't found.
+        /// This member is required.
+        public internal(set) var resourceType: PollyClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: PollyClientTypes.ResourceType? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct DeleteVoiceInput: Swift.Sendable {
+    /// The ID of the custom voice to delete, for example, vc-9a8fa85dd3. You can't specify the ARN of the voice.
+    /// This member is required.
+    public var voiceId: Swift.String?
+
+    public init(
+        voiceId: Swift.String? = nil
+    ) {
+        self.voiceId = voiceId
+    }
+}
+
+public struct DeleteVoiceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The NextToken is invalid. Verify that it's spelled correctly, and then try again.
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DescribeVoicesInput: Swift.Sendable {
+    /// Specifies the engine (standard, neural, long-form or generative) used by Amazon Polly when processing input text for speech synthesis.
+    public var engine: PollyClientTypes.Engine?
+    /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
+    public var includeAdditionalLanguageCodes: Swift.Bool?
+    /// The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned.
+    public var languageCode: PollyClientTypes.LanguageCode?
+    /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
+    public var nextToken: Swift.String?
+
+    public init(
+        engine: PollyClientTypes.Engine? = nil,
+        includeAdditionalLanguageCodes: Swift.Bool? = false,
+        languageCode: PollyClientTypes.LanguageCode? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.engine = engine
+        self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
+        self.languageCode = languageCode
+        self.nextToken = nextToken
     }
 }
 
@@ -1242,6 +1964,29 @@ public struct GetSpeechSynthesisTaskOutput: Swift.Sendable {
     }
 }
 
+public struct GetVoiceInput: Swift.Sendable {
+    /// The ID of the custom voice that CreateVoice returned, for example, vc-9a8fa85dd3. You can't specify the ARN of the voice.
+    /// This member is required.
+    public var voiceId: Swift.String?
+
+    public init(
+        voiceId: Swift.String? = nil
+    ) {
+        self.voiceId = voiceId
+    }
+}
+
+public struct GetVoiceOutput: Swift.Sendable {
+    /// The custom voice.
+    public var voice: PollyClientTypes.Voice?
+
+    public init(
+        voice: PollyClientTypes.Voice? = nil
+    ) {
+        self.voice = voice
+    }
+}
+
 /// Amazon Polly can't find the specified lexicon. Verify that the lexicon's name is spelled correctly, and then try again.
 public struct InvalidLexiconException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1366,29 +2111,6 @@ public struct InvalidSsmlException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidSsmlException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
-public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidTagParameterException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1528,203 +2250,8 @@ public struct ListSpeechSynthesisTasksOutput: Swift.Sendable {
     }
 }
 
-extension PollyClientTypes {
-
-    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case lexicon
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceType] {
-            return [
-                .lexicon
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .lexicon: return "lexicon"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN is spelled correctly, and then try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that wasn't found.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that wasn't found.
-        /// This member is required.
-        public internal(set) var resourceType: PollyClientTypes.ResourceType? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: PollyClientTypes.ResourceType? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
-extension PollyClientTypes {
-
-    /// Provides information about a specific throttling reason.
-    public struct ThrottlingReason: Swift.Sendable {
-        /// The reason code explaining why the request was throttled.
-        public var reason: Swift.String?
-        /// The resource that caused the throttling.
-        public var resource: Swift.String?
-
-        public init(
-            reason: Swift.String? = nil,
-            resource: Swift.String? = nil
-        ) {
-            self.reason = reason
-            self.resource = resource
-        }
-    }
-}
-
-/// The request was denied because of request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// A list of reasons explaining why the request was throttled.
-        public internal(set) var throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "Throttling" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        throttlingReasons: [PollyClientTypes.ThrottlingReason]? = nil
-    ) {
-        self.properties.message = message
-        self.properties.throttlingReasons = throttlingReasons
-    }
-}
-
-extension PollyClientTypes {
-
-    /// Information about a field that failed validation.
-    public struct ValidationExceptionField: Swift.Sendable {
-        /// A message describing why the field failed validation.
-        /// This member is required.
-        public var message: Swift.String?
-        /// The name of the field that failed validation.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            message: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.message = message
-            self.name = name
-        }
-    }
-}
-
-extension PollyClientTypes {
-
-    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case fieldValidationFailed
-        case invalidInboundEvent
-        case other
-        case unsupportedOperation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionReason] {
-            return [
-                .fieldValidationFailed,
-                .invalidInboundEvent,
-                .other,
-                .unsupportedOperation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .fieldValidationFailed: return "fieldValidationFailed"
-            case .invalidInboundEvent: return "invalidInboundEvent"
-            case .other: return "other"
-            case .unsupportedOperation: return "unsupportedOperation"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The input fails to satisfy the constraints specified by the service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The fields that caused the validation error.
-        public internal(set) var fields: [PollyClientTypes.ValidationExceptionField]? = nil
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The reason the request failed validation.
-        /// This member is required.
-        public internal(set) var reason: PollyClientTypes.ValidationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        fields: [PollyClientTypes.ValidationExceptionField]? = nil,
-        message: Swift.String? = nil,
-        reason: PollyClientTypes.ValidationExceptionReason? = nil
-    ) {
-        self.properties.fields = fields
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    /// The Amazon Resource Name (ARN) of the resource to list the tags for. You can tag Amazon Polly lexicons and custom voices.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1801,29 +2328,6 @@ public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AW
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "MaxLexiconsNumberExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The list of tags on the resource is over the limit. The maximum number of tags that can be applied to a resource is 50. Remove unused tags or reduce the number of tags in the request, and then try again.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TooManyTagsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1917,95 +2421,6 @@ public struct PutLexiconOutput: Swift.Sendable {
 
 extension PollyClientTypes {
 
-    public enum QuotaCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case inputStreamInboundEventTimeout
-        case inputStreamTimeout
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [QuotaCode] {
-            return [
-                .inputStreamInboundEventTimeout,
-                .inputStreamTimeout
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .inputStreamInboundEventTimeout: return "input-stream-inbound-event-timeout"
-            case .inputStreamTimeout: return "input-stream-timeout"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PollyClientTypes {
-
-    public enum ServiceCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case polly
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceCode] {
-            return [
-                .polly
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .polly: return "polly"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The quota code identifying the specific quota.
-        /// This member is required.
-        public internal(set) var quotaCode: PollyClientTypes.QuotaCode? = nil
-        /// The service code identifying the originating service.
-        /// This member is required.
-        public internal(set) var serviceCode: PollyClientTypes.ServiceCode? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: PollyClientTypes.QuotaCode? = nil,
-        serviceCode: PollyClientTypes.ServiceCode? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.serviceCode = serviceCode
-    }
-}
-
-extension PollyClientTypes {
-
     /// Contains text content to be synthesized into speech.
     public struct TextEvent: Swift.Sendable {
         /// Configuration for controlling when synthesized audio flushes to the output stream.
@@ -2055,7 +2470,7 @@ public struct StartSpeechSynthesisStreamInput: Swift.Sendable {
     public var outputFormat: PollyClientTypes.OutputFormat?
     /// The audio frequency, specified in Hz.
     public var sampleRate: Swift.String?
-    /// The voice to use in synthesis. To get a list of available voice IDs, use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation.
+    /// The voice ID to use for the synthesis. To get a list of available voice IDs, use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation. To use a custom voice, specify the voice ID that CreateVoice returned, for example, vc-9a8fa85dd3. You can't specify the ARN of a voice.
     /// This member is required.
     public var voiceId: PollyClientTypes.VoiceId?
 
@@ -2188,7 +2603,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Sendable {
     public var text: Swift.String?
     /// Specifies whether the input text is plain text or SSML. The default value is plain text.
     public var textType: PollyClientTypes.TextType?
-    /// Voice ID to use for the synthesis.
+    /// The voice ID to use for the synthesis. To use a custom voice, specify the voice ID that CreateVoice returned, for example, vc-9a8fa85dd3. You can't specify the ARN of a voice.
     /// This member is required.
     public var voiceId: PollyClientTypes.VoiceId?
 
@@ -2251,7 +2666,7 @@ public struct SynthesizeSpeechInput: Swift.Sendable {
     public var text: Swift.String?
     /// Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see [Using SSML](https://docs.aws.amazon.com/polly/latest/dg/ssml.html).
     public var textType: PollyClientTypes.TextType?
-    /// Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation.
+    /// The voice ID to use for the synthesis. You can get a list of available voice IDs by calling the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation. To use a custom voice, specify the voice ID that CreateVoice returned, for example, vc-9a8fa85dd3. You can't specify the ARN of a voice.
     /// This member is required.
     public var voiceId: PollyClientTypes.VoiceId?
 
@@ -2312,7 +2727,7 @@ public struct SynthesizeSpeechOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. You can tag Amazon Polly lexicons and custom voices.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The tags to add to the resource, as key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -2334,7 +2749,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. You can tag Amazon Polly lexicons and custom voices.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags to be removed.
@@ -2355,6 +2770,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension CreateVoiceInput {
+
+    static func urlPathProvider(_ value: CreateVoiceInput) -> Swift.String? {
+        return "/v1/voices"
+    }
+}
+
 extension DeleteLexiconInput {
 
     static func urlPathProvider(_ value: DeleteLexiconInput) -> Swift.String? {
@@ -2362,6 +2784,16 @@ extension DeleteLexiconInput {
             return nil
         }
         return "/v1/lexicons/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteVoiceInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceInput) -> Swift.String? {
+        guard let voiceId = value.voiceId else {
+            return nil
+        }
+        return "/v1/voices/\(voiceId.urlPercentEncoding())"
     }
 }
 
@@ -2413,6 +2845,16 @@ extension GetSpeechSynthesisTaskInput {
             return nil
         }
         return "/v1/synthesisTasks/\(taskId.urlPercentEncoding())"
+    }
+}
+
+extension GetVoiceInput {
+
+    static func urlPathProvider(_ value: GetVoiceInput) -> Swift.String? {
+        guard let voiceId = value.voiceId else {
+            return nil
+        }
+        return "/v1/voices/\(voiceId.urlPercentEncoding())"
     }
 }
 
@@ -2559,6 +3001,20 @@ extension UntagResourceInput {
     }
 }
 
+extension CreateVoiceInput {
+
+    static func write(value: CreateVoiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["CustomerManagedEncryption"].write(value.customerManagedEncryption, with: PollyClientTypes.CustomerManagedEncryption.write(value:to:))
+        try writer["LanguageCode"].write(value.languageCode)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TermsAccepted"].write(value.termsAccepted)
+        try writer["VoiceCreationData"].write(value.voiceCreationData, with: PollyClientTypes.VoiceCreationData.write(value:to:))
+    }
+}
+
 extension PutLexiconInput {
 
     static func write(value: PutLexiconInput?, to writer: SmithyJSON.Writer) throws {
@@ -2621,10 +3077,29 @@ extension UntagResourceInput {
     }
 }
 
+extension CreateVoiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVoiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVoiceOutput()
+        value.voice = try reader["Voice"].readIfPresent(with: PollyClientTypes.Voice.read(from:))
+        return value
+    }
+}
+
 extension DeleteLexiconOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLexiconOutput {
         return DeleteLexiconOutput()
+    }
+}
+
+extension DeleteVoiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVoiceOutput {
+        return DeleteVoiceOutput()
     }
 }
 
@@ -2662,6 +3137,18 @@ extension GetSpeechSynthesisTaskOutput {
         let reader = responseReader
         var value = GetSpeechSynthesisTaskOutput()
         value.synthesisTask = try reader["SynthesisTask"].readIfPresent(with: PollyClientTypes.SynthesisTask.read(from:))
+        return value
+    }
+}
+
+extension GetVoiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVoiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVoiceOutput()
+        value.voice = try reader["Voice"].readIfPresent(with: PollyClientTypes.Voice.read(from:))
         return value
     }
 }
@@ -2772,6 +3259,26 @@ extension UntagResourceOutput {
     }
 }
 
+enum CreateVoiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidTagParameterException": return try InvalidTagParameterException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLexiconOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2782,6 +3289,24 @@ enum DeleteLexiconOutputError {
         switch baseError.code {
             case "LexiconNotFoundException": return try LexiconNotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteVoiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2828,6 +3353,23 @@ enum GetSpeechSynthesisTaskOutputError {
             case "InvalidTaskIdException": return try InvalidTaskIdException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "SynthesisTaskNotFoundException": return try SynthesisTaskNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetVoiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2912,6 +3454,8 @@ enum StartSpeechSynthesisStreamOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
@@ -2929,6 +3473,7 @@ enum StartSpeechSynthesisTaskOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EngineNotSupportedException": return try EngineNotSupportedException.makeError(baseError: baseError)
             case "InvalidS3BucketException": return try InvalidS3BucketException.makeError(baseError: baseError)
             case "InvalidS3KeyException": return try InvalidS3KeyException.makeError(baseError: baseError)
@@ -2938,6 +3483,7 @@ enum StartSpeechSynthesisTaskOutputError {
             case "LanguageNotSupportedException": return try LanguageNotSupportedException.makeError(baseError: baseError)
             case "LexiconNotFoundException": return try LexiconNotFoundException.makeError(baseError: baseError)
             case "MarksNotSupportedForFormatException": return try MarksNotSupportedForFormatException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "SsmlMarksNotSupportedForTextTypeException": return try SsmlMarksNotSupportedForTextTypeException.makeError(baseError: baseError)
             case "TextLengthExceededException": return try TextLengthExceededException.makeError(baseError: baseError)
@@ -2954,12 +3500,14 @@ enum SynthesizeSpeechOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EngineNotSupportedException": return try EngineNotSupportedException.makeError(baseError: baseError)
             case "InvalidSampleRateException": return try InvalidSampleRateException.makeError(baseError: baseError)
             case "InvalidSsmlException": return try InvalidSsmlException.makeError(baseError: baseError)
             case "LanguageNotSupportedException": return try LanguageNotSupportedException.makeError(baseError: baseError)
             case "LexiconNotFoundException": return try LexiconNotFoundException.makeError(baseError: baseError)
             case "MarksNotSupportedForFormatException": return try MarksNotSupportedForFormatException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
             case "SsmlMarksNotSupportedForTextTypeException": return try SsmlMarksNotSupportedForTextTypeException.makeError(baseError: baseError)
             case "TextLengthExceededException": return try TextLengthExceededException.makeError(baseError: baseError)
@@ -3005,11 +3553,24 @@ enum UntagResourceOutputError {
     }
 }
 
-extension LexiconNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = LexiconNotFoundException()
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTagParameterException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTagParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTagParameterException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3024,6 +3585,106 @@ extension ServiceFailureException {
         let reader = baseError.errorBodyReader
         var value = ServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: PollyClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: PollyClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LexiconNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = LexiconNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3063,63 +3724,6 @@ extension SynthesisTaskNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SynthesisTaskNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTagParameterException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTagParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTagParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: PollyClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: PollyClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3179,19 +3783,6 @@ extension MaxLexiconsNumberExceededException {
     }
 }
 
-extension TooManyTagsException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension UnsupportedPlsAlphabetException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnsupportedPlsAlphabetException {
@@ -3211,21 +3802,6 @@ extension UnsupportedPlsLanguageException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedPlsLanguageException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? .sdkUnknown("")
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3457,6 +4033,23 @@ extension PollyClientTypes.CloseStreamEvent {
     }
 }
 
+extension PollyClientTypes.CustomerManagedEncryption {
+
+    static func write(value: PollyClientTypes.CustomerManagedEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.CustomerManagedEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.CustomerManagedEncryption()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
+        value.encryptionContext = try reader["EncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension PollyClientTypes.FlushStreamConfiguration {
 
     static func write(value: PollyClientTypes.FlushStreamConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3498,6 +4091,40 @@ extension PollyClientTypes.LexiconDescription {
         var value = PollyClientTypes.LexiconDescription()
         value.name = try reader["Name"].readIfPresent()
         value.attributes = try reader["Attributes"].readIfPresent(with: PollyClientTypes.LexiconAttributes.read(from:))
+        return value
+    }
+}
+
+extension PollyClientTypes.Recording {
+
+    static func write(value: PollyClientTypes.Recording?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: PollyClientTypes.RecordingData.write(value:to:))
+        try writer["Format"].write(value.format)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Recording {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.Recording()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.data = try reader["Data"].readIfPresent(with: PollyClientTypes.RecordingData.read(from:))
+        return value
+    }
+}
+
+extension PollyClientTypes.RecordingData {
+
+    static func write(value: PollyClientTypes.RecordingData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bytes"].write(value.bytes)
+        try writer["S3Url"].write(value.s3Url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.RecordingData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.RecordingData()
+        value.s3Url = try reader["S3Url"].readIfPresent()
+        value.bytes = try reader["Bytes"].readIfPresent()
         return value
     }
 }
@@ -3618,13 +4245,35 @@ extension PollyClientTypes.Voice {
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PollyClientTypes.Voice()
+        value.arn = try reader["Arn"].readIfPresent()
         value.gender = try reader["Gender"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.languageCode = try reader["LanguageCode"].readIfPresent()
         value.languageName = try reader["LanguageName"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        value.origin = try reader["Origin"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         value.additionalLanguageCodes = try reader["AdditionalLanguageCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedEngines = try reader["SupportedEngines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.Engine>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.voiceCreationData = try reader["VoiceCreationData"].readIfPresent(with: PollyClientTypes.VoiceCreationData.read(from:))
+        value.customerManagedEncryption = try reader["CustomerManagedEncryption"].readIfPresent(with: PollyClientTypes.CustomerManagedEncryption.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PollyClientTypes.VoiceCreationData {
+
+    static func write(value: PollyClientTypes.VoiceCreationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Recordings"].writeList(value.recordings, memberWritingClosure: PollyClientTypes.Recording.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.VoiceCreationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.VoiceCreationData()
+        value.recordings = try reader["Recordings"].readListIfPresent(memberReadingClosure: PollyClientTypes.Recording.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

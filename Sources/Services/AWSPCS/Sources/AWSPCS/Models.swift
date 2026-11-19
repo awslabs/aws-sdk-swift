@@ -1585,6 +1585,87 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The source location and integrity information for the script.
+    public struct JobSubmitScriptSource: Swift.Sendable {
+        /// The SHA-256 checksum of the script content, as a 64-character hexadecimal string. This value is optional. When specified, PCS uses this value to verify the integrity of the downloaded script.
+        public var checksum: Swift.String?
+        /// The Amazon S3 version ID of the script. Use this value to pin the script to a specific version in a versioned Amazon S3 bucket.
+        public var s3VersionId: Swift.String?
+        /// The location of the script. Specify an Amazon S3 URI in the format s3://bucket-name/key.
+        /// This member is required.
+        public var scriptLocation: Swift.String?
+
+        public init(
+            checksum: Swift.String? = nil,
+            s3VersionId: Swift.String? = nil,
+            scriptLocation: Swift.String? = nil
+        ) {
+            self.checksum = checksum
+            self.s3VersionId = s3VersionId
+            self.scriptLocation = scriptLocation
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The runtime language used to execute the custom script. Valid values:
+    ///
+    /// * STARLARK – The script uses Starlark syntax.
+    public enum JobSubmitPluginType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case starlark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobSubmitPluginType] {
+            return [
+                .starlark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .starlark: return "STARLARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// A job submit plugin configuration, including its name, runtime language, and script source.
+    public struct JobSubmitPlugin: Swift.Sendable {
+        /// A unique name for the plugin. The name can be up to 64 characters long. Valid characters are letters, numbers, spaces, underscores (_), and hyphens (-). The first character must be a letter or a number.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The source location and integrity information for the script.
+        /// This member is required.
+        public var scriptSource: PCSClientTypes.JobSubmitScriptSource?
+        /// The runtime language used to execute the custom script. Valid values:
+        ///
+        /// * STARLARK – The script uses Starlark syntax.
+        /// This member is required.
+        public var type: PCSClientTypes.JobSubmitPluginType?
+
+        public init(
+            name: Swift.String? = nil,
+            scriptSource: PCSClientTypes.JobSubmitScriptSource? = nil,
+            type: PCSClientTypes.JobSubmitPluginType? = nil
+        ) {
+            self.name = name
+            self.scriptSource = scriptSource
+            self.type = type
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional settings that directly map to SlurmDBD settings. PCS supports a subset of SlurmDBD settings. For more information, see [Configuring custom SlurmDBD settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurmdbd-custom-settings.html) in the PCS User Guide.
     public struct SlurmdbdCustomSetting: Swift.Sendable {
         /// PCS supports custom SlurmDBD settings for clusters. For more information, see [Configuring custom SlurmDBD settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurmdbd-custom-settings.html) in the PCS User Guide.
@@ -1657,6 +1738,8 @@ extension PCSClientTypes {
         public var accounting: PCSClientTypes.AccountingRequest?
         /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
         public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
+        /// The job submit plugins to run on the cluster controller. Use job submit plugins to execute custom scripts during job submission and job modification to validate or modify the job's configuration. Custom scripts can accept or reject jobs based on their configuration or modify the configuration before job execution.
+        public var jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
@@ -1669,6 +1752,7 @@ extension PCSClientTypes {
         public init(
             accounting: PCSClientTypes.AccountingRequest? = nil,
             cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
+            jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
             slurmRest: PCSClientTypes.SlurmRestRequest? = nil,
@@ -1676,6 +1760,7 @@ extension PCSClientTypes {
         ) {
             self.accounting = accounting
             self.cgroupCustomSettings = cgroupCustomSettings
+            self.jobSubmitPlugins = jobSubmitPlugins
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
             self.slurmRest = slurmRest
@@ -1952,6 +2037,8 @@ extension PCSClientTypes {
         public var authKey: PCSClientTypes.SlurmAuthKey?
         /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
         public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
+        /// The job submit plugins to run on the cluster controller. Use job submit plugins to execute custom scripts during job submission and job modification to validate or modify the job's configuration. Custom scripts can accept or reject jobs based on their configuration or modify the configuration before job execution.
+        public var jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]?
         /// The JWT authentication configuration for Slurm REST API access.
         public var jwtAuth: PCSClientTypes.JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
@@ -1967,6 +2054,7 @@ extension PCSClientTypes {
             accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
             cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
+            jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]? = nil,
             jwtAuth: PCSClientTypes.JwtAuth? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
@@ -1976,6 +2064,7 @@ extension PCSClientTypes {
             self.accounting = accounting
             self.authKey = authKey
             self.cgroupCustomSettings = cgroupCustomSettings
+            self.jobSubmitPlugins = jobSubmitPlugins
             self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
@@ -2748,6 +2837,8 @@ extension PCSClientTypes {
         public var accounting: PCSClientTypes.UpdateAccountingRequest?
         /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
         public var cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]?
+        /// The job submit plugins to run on the cluster controller. Use job submit plugins to execute custom scripts during job submission and job modification to validate or modify the job's configuration. Custom scripts can accept or reject jobs based on their configuration or modify the configuration before job execution.
+        public var jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
@@ -2760,6 +2851,7 @@ extension PCSClientTypes {
         public init(
             accounting: PCSClientTypes.UpdateAccountingRequest? = nil,
             cgroupCustomSettings: [PCSClientTypes.CgroupCustomSetting]? = nil,
+            jobSubmitPlugins: [PCSClientTypes.JobSubmitPlugin]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
             slurmRest: PCSClientTypes.UpdateSlurmRestRequest? = nil,
@@ -2767,6 +2859,7 @@ extension PCSClientTypes {
         ) {
             self.accounting = accounting
             self.cgroupCustomSettings = cgroupCustomSettings
+            self.jobSubmitPlugins = jobSubmitPlugins
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
             self.slurmRest = slurmRest

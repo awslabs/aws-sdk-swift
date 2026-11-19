@@ -723,7 +723,7 @@ extension EventBridgeV2Client {
 
     /// Performs the `CreateEventSource` operation on the `EventBridgeV2` service.
     ///
-    /// Creates an EventSource, which forwards events from an origin (an AWS service or another account) onto an event bus. The bus must be ACTIVE. Retries carrying the same ClientToken are idempotent.
+    /// Creates an EventSource, which forwards events from an origin (an AWS service, a partner, or a third-party webhook provider) to an event bus. The event bus must be in the ACTIVE state. This operation is idempotent: retries that use the same ClientToken return the same result.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEventSourceInput`)
     ///
@@ -814,7 +814,7 @@ extension EventBridgeV2Client {
 
     /// Performs the `CreateSubscriber` operation on the `EventBridgeV2` service.
     ///
-    /// Creates a subscriber on an event bus, which delivers matching events to the configured target. The bus must be ACTIVE. Retries carrying the same ClientToken are idempotent.
+    /// Creates a subscriber on an event bus, which delivers matching events to the configured target. The bus must be ACTIVE. Retries carrying the same ClientToken are idempotent. A subscriber that targets an Amazon MSK cluster provisions its connectivity asynchronously after this call returns and begins delivering when its ConnectivityState reaches ACTIVE (see the MskSubscriberActive waiter).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateSubscriberInput`)
     ///
@@ -2017,7 +2017,7 @@ extension EventBridgeV2Client {
 
     /// Performs the `PutEvents` operation on the `EventBridgeV2` service.
     ///
-    /// Publishes events to an event bus.
+    /// Publishes events to an event bus. The total size of all event entries in a request must not exceed 1 MB (1,048,576 bytes). The limit applies to the request as a whole, not to individual entries. If you exceed the limit, the request fails with InvalidInputException and the service publishes none of the entries in the request.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutEventsInput`)
     ///
@@ -2103,7 +2103,7 @@ extension EventBridgeV2Client {
 
     /// Performs the `PutRawEvents` operation on the `EventBridgeV2` service.
     ///
-    /// Publishes pre-shaped events to an event bus.
+    /// Publishes pre-shaped events to an event bus. The total size of all event entries in a request must not exceed 1 MB (1,048,576 bytes), including the Data payload and the keys and values of Metadata for each entry. The limit applies to the request as a whole, not to individual entries. If you exceed the limit, the request fails with InvalidInputException, and the service doesn't publish any of the entries in the request.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutRawEventsInput`)
     ///
@@ -2204,7 +2204,7 @@ extension EventBridgeV2Client {
     /// - `ConflictException` : A client-supplied precondition (e.g. ExpectedRevisionId on a resource-policy write) did not match the current state of the resource. Retrying the same request will fail again; re-read the resource and re-evaluate before retrying. A conditional request is not retry-safe on its own. If an earlier attempt committed but its response never reached the caller, retrying fails with this error, which is indistinguishable from another writer having won. Compare the resource's current contents with what the request intended: a successful attempt stores a revision ID the caller never saw, so the revision alone cannot tell the two apart, but matching contents mean the change took effect.
     /// - `InternalException` : The request failed because of an internal service error. Retry the request.
     /// - `InvalidInputException` : A request parameter is missing or not valid.
-    /// - `PolicyLengthExceededException` : The policy document is larger than the account's resource policy size quota, or larger than the service maximum.
+    /// - `PolicyLengthExceededException` : The policy document exceeds the maximum allowed size.
     /// - `PublicPolicyException` : The policy was rejected because it would grant public access to the event bus. A statement grants public access when its principal is a wildcard and no condition limits the callers to specific AWS accounts or principals. To fix it, replace the wildcard principal with specific principals, or add a condition that limits the callers to specific AWS accounts. Conditions on event content (events:source, events:detail-type, events:Metadata/*) do not identify the caller and do not make a wildcard principal non-public. Returned only for the "default" policy; the "AWS_RAM" policy is composed by AWS Resource Access Manager and never grants public access.
     /// - `ResourceNotFoundException` : The resource does not exist.
     /// - `ThrottlingException` : The request was throttled because it exceeds a request rate limit. Retry the request with backoff.
@@ -2352,6 +2352,105 @@ extension EventBridgeV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridgeV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RotateWebhookCredentials` operation on the `EventBridgeV2` service.
+    ///
+    /// Sets a new credential on a webhook EventSource. If you supply Credential, EventBridge uses that value. Otherwise, EventBridge generates one. For HTTP Basic authentication, only the password changes. The username does not change. EventBridge never returns the credential. To read a generated value, call secretsmanager:GetSecretValue on the secret that SecretArn identifies. You can rotate the credential of an EventSource in the ACTIVE, UPDATING, or UPDATE_FAILED state. For a revoked EventSource or an EventSource in any other state, EventBridge returns InvalidStateException. EventBridge also returns InvalidStateException if the secret of the EventSource is scheduled for deletion or has been deleted. If you rotate the credential of one EventSource too many times in 24 hours, EventBridge returns LimitExceededException. Retry later. The limit becomes available again automatically. If AWS Secrets Manager throttles the call, EventBridge returns ThrottlingException. Retry later. To use this operation, you must have the following permissions in your IAM policy:
+    ///
+    /// * secretsmanager:PutSecretValue on the secret of the EventSource
+    ///
+    /// * secretsmanager:GetSecretValue on the secret of the EventSource, for HTTP Basic authentication only
+    ///
+    /// * kms:GenerateDataKey and kms:Decrypt on the AWS KMS key that encrypts the secret
+    ///
+    ///
+    /// The resource policy of the secret must not deny the secretsmanager actions. EventBridge accepts the new credential when this call returns. In rare cases, the new credential takes up to 2 minutes to reach every EventBridge endpoint. EventBridge also accepts the previous credential for 15 minutes after the rotation. The window ends at the CreatedDate of the AWSCURRENT secret version plus 15 minutes. Only the credential that the most recent rotation replaced stays valid. If you rotate again within 15 minutes, the older credential stops working immediately. A retry with the same ClientToken within 8 hours returns the same result and does not rotate again. A retry of a rotation that supplied a value can arrive after a later rotation completed. In that case, the retried value becomes the current credential, and the credential it replaces does not stay valid.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RotateWebhookCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RotateWebhookCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller does not have the permissions required to perform the operation. This error is also returned when the operation cannot use the AWS KMS key for the event bus.
+    /// - `ConcurrentModificationException` : Another change to the resource is already in progress. Retry the request.
+    /// - `IdempotentParameterMismatchException` : The request reuses the client token of an earlier request with different parameters. Use a new client token, or resend the earlier request unchanged.
+    /// - `InternalException` : The request failed because of an internal service error. Retry the request.
+    /// - `InvalidInputException` : A request parameter is missing or not valid.
+    /// - `InvalidStateException` : The resource is not in a state that allows the operation. For example, an event bus that is still being created cannot accept events.
+    /// - `LimitExceededException` : The request would exceed a service quota for the account.
+    /// - `ResourceNotFoundException` : The resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because it exceeds a request rate limit. Retry the request with backoff.
+    public func rotateWebhookCredentials(input: RotateWebhookCredentialsInput) async throws -> RotateWebhookCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeV2Client.rotateWebhookCredentialsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rotateWebhookCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "events")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RotateWebhookCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EventBridgeV2", config.ignoreConfiguredEndpointURLs)
+        guard let region = config.region else {
+            throw Smithy.ClientError.unknownError("Missing required parameter: Region")
+        }
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotateWebhookCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateWebhookCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EventBridgeV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateWebhookCredentialsInput, RotateWebhookCredentialsOutput>(serviceID: serviceName, version: EventBridgeV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridgeV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RotateWebhookCredentials")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2642,6 +2741,7 @@ extension EventBridgeV2Client {
     /// - `InternalException` : The request failed because of an internal service error. Retry the request.
     /// - `InvalidInputException` : A request parameter is missing or not valid.
     /// - `InvalidStateException` : The resource is not in a state that allows the operation. For example, an event bus that is still being created cannot accept events.
+    /// - `LimitExceededException` : The request would exceed a service quota for the account.
     /// - `ResourceNotFoundException` : The resource does not exist.
     /// - `ThrottlingException` : The request was throttled because it exceeds a request rate limit. Retry the request with backoff.
     public func updateEventSource(input: UpdateEventSourceInput) async throws -> UpdateEventSourceOutput {
@@ -2715,7 +2815,7 @@ extension EventBridgeV2Client {
 
     /// Performs the `UpdateSubscriber` operation on the `EventBridgeV2` service.
     ///
-    /// Updates a subscriber. Fields omitted from the request are left unchanged.
+    /// Updates a subscriber. Fields omitted from the request are left unchanged. Changing an Amazon MSK subscriber's connectivity can re-provision it; when it does, the subscriber resumes delivering once its ConnectivityState returns to ACTIVE (see the MskSubscriberActive waiter).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSubscriberInput`)
     ///

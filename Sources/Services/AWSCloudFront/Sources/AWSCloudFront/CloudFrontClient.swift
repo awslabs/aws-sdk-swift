@@ -11307,6 +11307,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `CNAMEAlreadyExists` : The CNAME specified is already defined for CloudFront.
     /// - `ContinuousDeploymentPolicyInUse` : You cannot delete a continuous deployment policy that is associated with a primary distribution.
+    /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntityNotFound` : The entity was not found.
     /// - `IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior` : The specified configuration for field-level encryption can't be associated with the specified cache behavior.
     /// - `IllegalOriginAccessConfiguration` : An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
@@ -11650,9 +11651,11 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
+    /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntityNotFound` : The entity was not found.
     /// - `IllegalUpdate` : The update contains modifications that are not allowed.
     /// - `InvalidArgument` : An argument is invalid.
+    /// - `InvalidAssociation` : The specified CloudFront resource can't be associated.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutput {

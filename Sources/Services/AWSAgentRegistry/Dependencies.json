@@ -8,6 +8,7 @@
     "ClientRuntime",
     "Smithy",
     "SmithyHTTPAPI",
+    "SmithyHTTPAuth",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
     "SmithyJSON",

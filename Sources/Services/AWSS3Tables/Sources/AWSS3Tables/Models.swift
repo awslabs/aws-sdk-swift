@@ -1396,6 +1396,23 @@ extension S3TablesClientTypes {
     }
 }
 
+public struct DisassociateTableReplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the replica table to disassociate from replication.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        tableArn: Swift.String? = nil
+    ) {
+        self.tableArn = tableArn
+    }
+}
+
+public struct DisassociateTableReplicationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension S3TablesClientTypes {
 
     /// The category of a compatibility report finding, by what you change to fix it. Valid values:
@@ -4678,6 +4695,27 @@ extension DeleteTableReplicationInput {
     }
 }
 
+extension DisassociateTableReplicationInput {
+
+    static func urlPathProvider(_ value: DisassociateTableReplicationInput) -> Swift.String? {
+        return "/table-replication/disassociate"
+    }
+}
+
+extension DisassociateTableReplicationInput {
+
+    static func queryItemProvider(_ value: DisassociateTableReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableArn = value.tableArn else {
+            let message = "Creating a URL Query Item failed. tableArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+        items.append(tableArnQueryItem)
+        return items
+    }
+}
+
 extension GetNamespaceInput {
 
     static func urlPathProvider(_ value: GetNamespaceInput) -> Swift.String? {
@@ -5723,6 +5761,13 @@ extension DeleteTableReplicationOutput {
     }
 }
 
+extension DisassociateTableReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateTableReplicationOutput {
+        return DisassociateTableReplicationOutput()
+    }
+}
+
 extension GetNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNamespaceOutput {
@@ -6492,6 +6537,26 @@ enum DeleteTablePolicyOutputError {
 }
 
 enum DeleteTableReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateTableReplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

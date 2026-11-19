@@ -694,6 +694,35 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    public enum AwsSourceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organization
+        case standalone
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsSourceMode] {
+            return [
+                .organization,
+                .standalone
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .organization: return "organization"
+            case .standalone: return "standalone"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// The key of a preference that can be configured on an agent space. The `elevatedActionsEnabled` key controls whether elevated directed actions are permitted in the agent space. Elevated directed actions are mutating operations that also require per-action operator approval, and default to `false` when not set.
     public enum AgentSpacePreferenceKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case elevatedActionsEnabled
@@ -726,6 +755,8 @@ extension DevOpsAgentClientTypes {
         /// The unique identifier of the AgentSpace
         /// This member is required.
         public var agentSpaceId: Swift.String?
+        /// The Amazon Web Services source mode for the AgentSpace, indicating whether its Amazon Web Services source configuration targets an individual Amazon Web Services account or an Amazon Web Services Organization.
+        public var awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode?
         /// The timestamp when the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -746,6 +777,7 @@ extension DevOpsAgentClientTypes {
 
         public init(
             agentSpaceId: Swift.String? = nil,
+            awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
@@ -755,6 +787,7 @@ extension DevOpsAgentClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.agentSpaceId = agentSpaceId
+            self.awsSourceMode = awsSourceMode
             self.createdAt = createdAt
             self.description = description
             self.kmsKeyArn = kmsKeyArn
@@ -768,7 +801,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes.AgentSpace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentSpace(agentSpaceId: \(Swift.String(describing: agentSpaceId)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "AgentSpace(agentSpaceId: \(Swift.String(describing: agentSpaceId)), awsSourceMode: \(Swift.String(describing: awsSourceMode)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DevOpsAgentClientTypes {
@@ -1179,19 +1212,23 @@ extension DevOpsAgentClientTypes {
         /// Role ARN to be assumed by AIDevOps to operate on behalf of customer.
         /// This member is required.
         public var assumableRoleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Organizations service-managed role that AIDevOps uses to deploy and manage resources across the accounts in your Amazon Web Services Organization.
+        public var serviceManagementRoleArn: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
             accountType: DevOpsAgentClientTypes.MonitorAccountType? = nil,
             agentElevatedRoleArn: Swift.String? = nil,
             agentElevatedRoleArnStatus: DevOpsAgentClientTypes.ValidationStatus? = nil,
-            assumableRoleArn: Swift.String? = nil
+            assumableRoleArn: Swift.String? = nil,
+            serviceManagementRoleArn: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.accountType = accountType
             self.agentElevatedRoleArn = agentElevatedRoleArn
             self.agentElevatedRoleArnStatus = agentElevatedRoleArnStatus
             self.assumableRoleArn = assumableRoleArn
+            self.serviceManagementRoleArn = serviceManagementRoleArn
         }
     }
 }
@@ -1872,10 +1909,159 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    public enum OrgSourceAccountReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case accountNotInScope
+        case accountSuspended
+        case deploymentFailed
+        case managementAccountNotSupported
+        case secondaryAccountLimitExceeded
+        case stackInstanceInoperable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrgSourceAccountReasonCode] {
+            return [
+                .accessDenied,
+                .accountNotInScope,
+                .accountSuspended,
+                .deploymentFailed,
+                .managementAccountNotSupported,
+                .secondaryAccountLimitExceeded,
+                .stackInstanceInoperable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "accessDenied"
+            case .accountNotInScope: return "accountNotInScope"
+            case .accountSuspended: return "accountSuspended"
+            case .deploymentFailed: return "deploymentFailed"
+            case .managementAccountNotSupported: return "managementAccountNotSupported"
+            case .secondaryAccountLimitExceeded: return "secondaryAccountLimitExceeded"
+            case .stackInstanceInoperable: return "stackInstanceInoperable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Describes an issue encountered while deploying or evaluating an Amazon Web Services Organization source configuration.
+    public struct OrgSourceIssue: Swift.Sendable {
+        /// The number of accounts affected by this issue.
+        /// This member is required.
+        public var accountCount: Swift.Int?
+        /// The Amazon Web Services account IDs affected by this issue.
+        /// This member is required.
+        public var accountIds: [Swift.String]?
+        /// A description of the issue.
+        public var message: Swift.String?
+        /// A code that identifies the reason for the issue.
+        /// This member is required.
+        public var reasonCode: DevOpsAgentClientTypes.OrgSourceAccountReasonCode?
+
+        public init(
+            accountCount: Swift.Int? = nil,
+            accountIds: [Swift.String]? = nil,
+            message: Swift.String? = nil,
+            reasonCode: DevOpsAgentClientTypes.OrgSourceAccountReasonCode? = nil
+        ) {
+            self.accountCount = accountCount
+            self.accountIds = accountIds
+            self.message = message
+            self.reasonCode = reasonCode
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.OrgSourceIssue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OrgSourceIssue(accountCount: \(Swift.String(describing: accountCount)), accountIds: \(Swift.String(describing: accountIds)), reasonCode: \(Swift.String(describing: reasonCode)), message: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Describes the current rollout state of an Amazon Web Services Organization source configuration, including the number of accounts that have been deployed to and any issues encountered during deployment.
+    public struct OrgSourceDeploymentState: Swift.Sendable {
+        /// The number of accounts in the targeted Amazon Web Services Organization or organizational unit that have successfully been deployed to.
+        public var deployedAccountCount: Swift.Int?
+        /// The issues encountered while deploying the source configuration across the accounts in the Amazon Web Services Organization.
+        public var issues: [DevOpsAgentClientTypes.OrgSourceIssue]?
+        /// The timestamp of the most recent evaluation of the organization-wide deployment state.
+        public var lastEvaluatedAt: Foundation.Date?
+
+        public init(
+            deployedAccountCount: Swift.Int? = nil,
+            issues: [DevOpsAgentClientTypes.OrgSourceIssue]? = nil,
+            lastEvaluatedAt: Foundation.Date? = nil
+        ) {
+            self.deployedAccountCount = deployedAccountCount
+            self.issues = issues
+            self.lastEvaluatedAt = lastEvaluatedAt
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Identifies an Organizations organizational unit and its member accounts that are targeted for source monitoring.
+    public struct SourceAwsOrgUnit: Swift.Sendable {
+        /// The Amazon Web Services account IDs that belong to this organizational unit and are targeted for source monitoring.
+        public var accountIds: [Swift.String]?
+        /// The identifier of the Organizations organizational unit.
+        /// This member is required.
+        public var organizationalUnitId: Swift.String?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            organizationalUnitId: Swift.String? = nil
+        ) {
+            self.accountIds = accountIds
+            self.organizationalUnitId = organizationalUnitId
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for Amazon Web Services Organization-wide source account integration. Use this configuration to monitor Amazon Web Services resources across multiple accounts within an organization or within targeted organizational units.
+    public struct SourceAwsOrgConfiguration: Swift.Sendable {
+        /// The account type for this configuration. For Amazon Web Services Organization-level configurations, this value is source.
+        /// This member is required.
+        public var accountType: DevOpsAgentClientTypes.SourceAccountType?
+        /// The current deployment state of the Amazon Web Services Organization-wide source configuration.
+        public var deploymentState: DevOpsAgentClientTypes.OrgSourceDeploymentState?
+        /// The organizational units within the Amazon Web Services Organization that are targeted for source monitoring.
+        /// This member is required.
+        public var organizationalUnit: DevOpsAgentClientTypes.SourceAwsOrgUnit?
+
+        public init(
+            accountType: DevOpsAgentClientTypes.SourceAccountType? = nil,
+            deploymentState: DevOpsAgentClientTypes.OrgSourceDeploymentState? = nil,
+            organizationalUnit: DevOpsAgentClientTypes.SourceAwsOrgUnit? = nil
+        ) {
+            self.accountType = accountType
+            self.deploymentState = deploymentState
+            self.organizationalUnit = organizationalUnit
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Union of all supported service configuration types. Each service has its own specific configuration structure.
     public enum ServiceConfiguration: Swift.Sendable {
         /// AWS source account configuration for monitoring resources.
         case sourceaws(DevOpsAgentClientTypes.SourceAwsConfiguration)
+        /// The Amazon Web Services Organization source configuration used to monitor resources across an entire Amazon Web Services Organization or specified organizational units.
+        case sourceawsorg(DevOpsAgentClientTypes.SourceAwsOrgConfiguration)
         /// AWS monitor account configuration.
         case aws(DevOpsAgentClientTypes.AWSConfiguration)
         /// GitHub repository integration configuration.
@@ -2307,6 +2493,8 @@ public struct ValidateAwsAssociationsOutput: Swift.Sendable {
 
 /// Input for creating a new AgentSpace.
 public struct CreateAgentSpaceInput: Swift.Sendable {
+    /// Specifies whether the AgentSpace's Amazon Web Services source configuration targets an individual Amazon Web Services account or an Amazon Web Services Organization.
+    public var awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode?
     /// Client-provided token to ensure request idempotency. When the same token is provided in subsequent calls, the same response is returned within a 8-hour window.
     public var clientToken: Swift.String?
     /// The description of the AgentSpace.
@@ -2324,6 +2512,7 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
@@ -2332,6 +2521,7 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
         preferences: [Swift.String: Swift.Bool]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.awsSourceMode = awsSourceMode
         self.clientToken = clientToken
         self.description = description
         self.kmsKeyArn = kmsKeyArn
@@ -2344,7 +2534,7 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
 
 extension CreateAgentSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentSpaceInput(clientToken: \(Swift.String(describing: clientToken)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateAgentSpaceInput(awsSourceMode: \(Swift.String(describing: awsSourceMode)), clientToken: \(Swift.String(describing: clientToken)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Output containing the newly created AgentSpace.
@@ -2784,6 +2974,8 @@ public struct UpdateAgentSpaceInput: Swift.Sendable {
     /// The unique identifier of the AgentSpace
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Specifies whether the AgentSpace's Amazon Web Services source configuration targets an individual Amazon Web Services account or an Amazon Web Services Organization. Use this parameter to switch an existing AgentSpace between source modes.
+    public var awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode?
     /// The updated description of the AgentSpace.
     public var description: Swift.String?
     /// The updated locale for the AgentSpace, which determines the language used in agent responses.
@@ -2795,12 +2987,14 @@ public struct UpdateAgentSpaceInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        awsSourceMode: DevOpsAgentClientTypes.AwsSourceMode? = nil,
         description: Swift.String? = nil,
         locale: Swift.String? = nil,
         name: Swift.String? = nil,
         preferences: [Swift.String: Swift.Bool]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.awsSourceMode = awsSourceMode
         self.description = description
         self.locale = locale
         self.name = name
@@ -2810,7 +3004,7 @@ public struct UpdateAgentSpaceInput: Swift.Sendable {
 
 extension UpdateAgentSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentSpaceInput(agentSpaceId: \(Swift.String(describing: agentSpaceId)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), description: \"CONTENT_REDACTED\")"}
+        "UpdateAgentSpaceInput(agentSpaceId: \(Swift.String(describing: agentSpaceId)), awsSourceMode: \(Swift.String(describing: awsSourceMode)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Output containing the updated AgentSpace.
@@ -9620,6 +9814,7 @@ extension CreateAgentSpaceInput {
 
     static func write(value: CreateAgentSpaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["awsSourceMode"].write(value.awsSourceMode)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
@@ -9805,6 +10000,7 @@ extension UpdateAgentSpaceInput {
 
     static func write(value: UpdateAgentSpaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["awsSourceMode"].write(value.awsSourceMode)
         try writer["description"].write(value.description)
         try writer["locale"].write(value.locale)
         try writer["name"].write(value.name)
@@ -12205,6 +12401,7 @@ extension DevOpsAgentClientTypes.AgentSpace {
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
         value.preferences = try reader["preferences"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.awsSourceMode = try reader["awsSourceMode"].readIfPresent()
         return value
     }
 }
@@ -12417,6 +12614,7 @@ extension DevOpsAgentClientTypes.AWSConfiguration {
         try writer["agentElevatedRoleArn"].write(value.agentElevatedRoleArn)
         try writer["agentElevatedRoleArnStatus"].write(value.agentElevatedRoleArnStatus)
         try writer["assumableRoleArn"].write(value.assumableRoleArn)
+        try writer["serviceManagementRoleArn"].write(value.serviceManagementRoleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AWSConfiguration {
@@ -12427,6 +12625,7 @@ extension DevOpsAgentClientTypes.AWSConfiguration {
         value.accountType = try reader["accountType"].readIfPresent() ?? .sdkUnknown("")
         value.agentElevatedRoleArn = try reader["agentElevatedRoleArn"].readIfPresent()
         value.agentElevatedRoleArnStatus = try reader["agentElevatedRoleArnStatus"].readIfPresent()
+        value.serviceManagementRoleArn = try reader["serviceManagementRoleArn"].readIfPresent()
         return value
     }
 }
@@ -13242,6 +13441,46 @@ extension DevOpsAgentClientTypes.OAuthAdditionalStepDetails {
     }
 }
 
+extension DevOpsAgentClientTypes.OrgSourceDeploymentState {
+
+    static func write(value: DevOpsAgentClientTypes.OrgSourceDeploymentState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deployedAccountCount"].write(value.deployedAccountCount)
+        try writer["issues"].writeList(value.issues, memberWritingClosure: DevOpsAgentClientTypes.OrgSourceIssue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastEvaluatedAt"].writeTimestamp(value.lastEvaluatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.OrgSourceDeploymentState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.OrgSourceDeploymentState()
+        value.deployedAccountCount = try reader["deployedAccountCount"].readIfPresent()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.OrgSourceIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastEvaluatedAt = try reader["lastEvaluatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.OrgSourceIssue {
+
+    static func write(value: DevOpsAgentClientTypes.OrgSourceIssue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountCount"].write(value.accountCount)
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["message"].write(value.message)
+        try writer["reasonCode"].write(value.reasonCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.OrgSourceIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.OrgSourceIssue()
+        value.reasonCode = try reader["reasonCode"].readIfPresent() ?? .sdkUnknown("")
+        value.accountCount = try reader["accountCount"].readIfPresent() ?? 0
+        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.PagerDutyAuthorizationConfig {
 
     static func write(value: DevOpsAgentClientTypes.PagerDutyAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
@@ -14041,6 +14280,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["slack"].write(slack, with: DevOpsAgentClientTypes.SlackConfiguration.write(value:to:))
             case let .sourceaws(sourceaws):
                 try writer["sourceAws"].write(sourceaws, with: DevOpsAgentClientTypes.SourceAwsConfiguration.write(value:to:))
+            case let .sourceawsorg(sourceawsorg):
+                try writer["sourceAwsOrg"].write(sourceawsorg, with: DevOpsAgentClientTypes.SourceAwsOrgConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -14052,6 +14293,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
         switch name {
             case "sourceAws":
                 return .sourceaws(try reader["sourceAws"].read(with: DevOpsAgentClientTypes.SourceAwsConfiguration.read(from:)))
+            case "sourceAwsOrg":
+                return .sourceawsorg(try reader["sourceAwsOrg"].read(with: DevOpsAgentClientTypes.SourceAwsOrgConfiguration.read(from:)))
             case "aws":
                 return .aws(try reader["aws"].read(with: DevOpsAgentClientTypes.AWSConfiguration.read(from:)))
             case "github":
@@ -14296,6 +14539,42 @@ extension DevOpsAgentClientTypes.SourceAwsConfiguration {
         value.externalId = try reader["externalId"].readIfPresent()
         value.agentElevatedRoleArn = try reader["agentElevatedRoleArn"].readIfPresent()
         value.agentElevatedRoleArnStatus = try reader["agentElevatedRoleArnStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.SourceAwsOrgConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.SourceAwsOrgConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountType"].write(value.accountType)
+        try writer["deploymentState"].write(value.deploymentState, with: DevOpsAgentClientTypes.OrgSourceDeploymentState.write(value:to:))
+        try writer["organizationalUnit"].write(value.organizationalUnit, with: DevOpsAgentClientTypes.SourceAwsOrgUnit.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.SourceAwsOrgConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.SourceAwsOrgConfiguration()
+        value.accountType = try reader["accountType"].readIfPresent() ?? .sdkUnknown("")
+        value.organizationalUnit = try reader["organizationalUnit"].readIfPresent(with: DevOpsAgentClientTypes.SourceAwsOrgUnit.read(from:))
+        value.deploymentState = try reader["deploymentState"].readIfPresent(with: DevOpsAgentClientTypes.OrgSourceDeploymentState.read(from:))
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.SourceAwsOrgUnit {
+
+    static func write(value: DevOpsAgentClientTypes.SourceAwsOrgUnit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["organizationalUnitId"].write(value.organizationalUnitId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.SourceAwsOrgUnit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.SourceAwsOrgUnit()
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent() ?? ""
+        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

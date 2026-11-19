@@ -717,7 +717,7 @@ extension PartnerCentralRevenueMeasurementClient {
 
     /// Performs the `CreateMarketplaceRevenueShareAllocation` operation on the `PartnerCentralRevenueMeasurement` service.
     ///
-    /// Creates a new marketplace revenue share allocation for the specified product.
+    /// Creates a new allocation under the specified marketplace revenue share.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMarketplaceRevenueShareAllocationInput`)
     ///
@@ -730,6 +730,7 @@ extension PartnerCentralRevenueMeasurementClient {
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Retry your request.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func createMarketplaceRevenueShareAllocation(input: CreateMarketplaceRevenueShareAllocationInput) async throws -> CreateMarketplaceRevenueShareAllocationOutput {
@@ -1390,6 +1391,7 @@ extension PartnerCentralRevenueMeasurementClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request was denied due to insufficient permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Retry your request.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func listMarketplaceRevenueShares(input: ListMarketplaceRevenueSharesInput) async throws -> ListMarketplaceRevenueSharesOutput {
@@ -1954,9 +1956,94 @@ extension PartnerCentralRevenueMeasurementClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateMarketplaceRevenueShare` operation on the `PartnerCentralRevenueMeasurement` service.
+    ///
+    /// Replaces the products of a marketplace revenue share. The request carries the complete desired set of products and their typed account lists; a product not listed is removed and its account lists cleared, and an empty Products list closes the marketplace revenue share. Closing is one-way.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateMarketplaceRevenueShareInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateMarketplaceRevenueShareOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied due to insufficient permissions.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota limit.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Retry your request.
+    /// - `ValidationException` : The request failed validation due to invalid input parameters.
+    public func updateMarketplaceRevenueShare(input: UpdateMarketplaceRevenueShareInput) async throws -> UpdateMarketplaceRevenueShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralRevenueMeasurementClient.updateMarketplaceRevenueShareOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMarketplaceRevenueShare")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMarketplaceRevenueShareOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Revenue Measurement", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMarketplaceRevenueShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMarketplaceRevenueShareOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "PartnerCentral Revenue Measurement"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMarketplaceRevenueShareInput, UpdateMarketplaceRevenueShareOutput>(serviceID: serviceName, version: PartnerCentralRevenueMeasurementClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralRevenueMeasurement")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateMarketplaceRevenueShare")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateMarketplaceRevenueShareAllocation` operation on the `PartnerCentralRevenueMeasurement` service.
     ///
-    /// Updates an existing marketplace revenue share allocation. Supports modifying effective dates, revenue share percentage, and status with time-based mutability rules.
+    /// Updates an existing marketplace revenue share allocation. Supports modifying the revenue share percentage and status only, with time-based mutability rules.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateMarketplaceRevenueShareAllocationInput`)
     ///

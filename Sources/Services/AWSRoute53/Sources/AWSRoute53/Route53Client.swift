@@ -55,6 +55,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -937,7 +938,7 @@ extension Route53Client {
 
     /// Performs the `ChangeTagsForResource` operation on the `Route53` service.
     ///
-    /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
+    /// Adds, edits, or deletes tags for a health check, a health check source, or a hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
     /// - Parameter input: A complex type that contains information about the tags that you want to add, edit, or delete. (Type: `ChangeTagsForResourceInput`)
     ///
@@ -948,6 +949,7 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
@@ -1082,7 +1084,9 @@ extension Route53Client {
     ///
     /// Creates a new health check. For information about adding health checks to resource record sets, see [HealthCheckId](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResourceRecordSet.html#Route53-Type-ResourceRecordSet-HealthCheckId) in [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). ELB Load Balancers If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load balancer, you configure settings for an ELB health check, which performs a similar function to a Route 53 health check. Private Hosted Zones You can associate health checks with failover resource record sets in a private hosted zone. Note the following:
     ///
-    /// * Route 53 health checkers are outside the VPC. To check the health of an endpoint within a VPC by IP address, you must assign a public IP address to the instance in the VPC.
+    /// * For a public health check, Route 53 health checkers are outside the VPC. To check the health of an endpoint within a VPC by IP address, you must assign a public IP address to the instance in the VPC.
+    ///
+    /// * To check the health of an endpoint within a VPC by using a private IP address, use a private endpoint health check (EndpointType of PRIVATE). For more information, see CreateHealthCheckSource.
     ///
     /// * You can configure a health checker to check the health of an external resource that the instance relies on, such as a database server.
     ///
@@ -1101,7 +1105,7 @@ extension Route53Client {
     ///
     /// * The same value for CallerReference as a health check that you created and later deleted, regardless of the other settings in the request.
     /// - `InvalidInput` : The input is not valid.
-    /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1146,6 +1150,78 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateHealthCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateHealthCheckSource` operation on the `Route53` service.
+    ///
+    /// Creates a health check source, which defines the virtual private cloud (VPC), subnets, and security groups from which Route 53 sends private endpoint health check requests. To use this operation, you must have the route53:CreateHealthCheckSource permission. You must also have permission to create a service-linked role. Specify a VPC, one subnet in each Availability Zone that Route 53 uses for private endpoint health checks in the Amazon Web Services Region, and one or more security groups for each subnet. The security groups must allow outbound traffic to the endpoints that you want to check. Route 53 creates a health check source asynchronously, and the initial HealthCheckSourceStatus is CREATE_PENDING. Call GetHealthCheckSource until the status is CREATE_COMPLETED before you create health checks that use the source. You can't change the configuration of a health check source after you create it. If AWS Identity and Access Management (IAM) is still deleting the Route 53 service-linked role for your account, the request fails with InvalidInput. Retry after the deletion completes.
+    ///
+    /// - Parameter input: Contains the virtual private cloud (VPC), subnets, and security groups that are required to create a health check source, and a caller reference that identifies the request. (Type: `CreateHealthCheckSourceInput`)
+    ///
+    /// - Returns: Returns the ID, status, and location URL of the new health check source. (Type: `CreateHealthCheckSourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HealthCheckSourceAlreadyExists` : The health check source that you're attempting to create already exists. Route 53 returns this error when you submit a request that has the same value for CallerReference as an existing health check source and one or more values that differ from the existing health check source. To create another health check source, specify a new value for CallerReference. To find the existing health check source, call ListHealthCheckSources.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `TooManyHealthCheckSources` : You can't create this health check source because the current account has reached its maximum number of health check sources. The maximum includes every health check source that hasn't reached DELETE_COMPLETED status, including a health check source with a status of CREATE_FAILED. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    public func createHealthCheckSource(input: CreateHealthCheckSourceInput) async throws -> CreateHealthCheckSourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createHealthCheckSource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(keyPath: \.callerReference))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(CreateHealthCheckSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateHealthCheckSourceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateHealthCheckSourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHealthCheckSourceOutput>(CreateHealthCheckSourceOutput.httpOutput(from:), CreateHealthCheckSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateHealthCheckSourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHealthCheckSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateHealthCheckSourceInput, CreateHealthCheckSourceOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateHealthCheckSource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2118,6 +2194,73 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteHealthCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteHealthCheckSource` operation on the `Route53` service.
+    ///
+    /// Deletes a health check source. Before you delete a health check source, delete or update any health checks that reference it. Otherwise, the request fails with InvalidInput. The request also fails with InvalidInput if the status of the health check source is CREATE_PENDING or CREATE_IN_PROGRESS. Wait until the status is CREATE_COMPLETED or CREATE_FAILED, and then try again. Route 53 deletes a health check source asynchronously, and the initial HealthCheckSourceStatus is DELETE_PENDING. Call GetHealthCheckSource to track progress. After the deletion completes, GetHealthCheckSource returns NoSuchHealthCheckSource and the health check source no longer appears in the results of ListHealthCheckSources. If you delete a health check source that is already deleted, the request fails with NoSuchHealthCheckSource. To use this operation, you must have the route53:DeleteHealthCheckSource permission. You must also have permission to create a service-linked role.
+    ///
+    /// - Parameter input: Contains the ID of the health check source that you want to delete. (Type: `DeleteHealthCheckSourceInput`)
+    ///
+    /// - Returns: Contains the ID and status of the health check source that DeleteHealthCheckSource deletes. (Type: `DeleteHealthCheckSourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    public func deleteHealthCheckSource(input: DeleteHealthCheckSourceInput) async throws -> DeleteHealthCheckSourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteHealthCheckSource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>(DeleteHealthCheckSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHealthCheckSourceOutput>(DeleteHealthCheckSourceOutput.httpOutput(from:), DeleteHealthCheckSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHealthCheckSourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHealthCheckSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteHealthCheckSourceInput, DeleteHealthCheckSourceOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteHealthCheckSource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3460,6 +3603,72 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetHealthCheckSource` operation on the `Route53` service.
+    ///
+    /// Gets information about a specified health check source, including its status and the virtual private cloud (VPC), subnets, and security groups that it uses.
+    ///
+    /// - Parameter input: Contains the ID of the health check source that you want to get information about. (Type: `GetHealthCheckSourceInput`)
+    ///
+    /// - Returns: Contains the health check source that GetHealthCheckSource returns. (Type: `GetHealthCheckSourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
+    public func getHealthCheckSource(input: GetHealthCheckSourceInput) async throws -> GetHealthCheckSourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getHealthCheckSource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckSourceInput, GetHealthCheckSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(GetHealthCheckSourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckSourceOutput>(GetHealthCheckSourceOutput.httpOutput(from:), GetHealthCheckSourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckSourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetHealthCheckSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHealthCheckSource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetHealthCheckStatus` operation on the `Route53` service.
     ///
     /// Gets status of a specified health check. This API is intended for use during development to diagnose behavior. It doesn’t support production use-cases with high query rates that require immediate and actionable responses.
@@ -4386,6 +4595,72 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListHealthCheckSources` operation on the `Route53` service.
+    ///
+    /// Retrieves a list of the health check sources that are associated with the current Amazon Web Services account. Results are paginated. To get more results, specify the NextToken value from the previous response for NextToken.
+    ///
+    /// - Parameter input: Contains the parameters for retrieving a list of the health check sources that are associated with the current Amazon Web Services account. (Type: `ListHealthCheckSourcesInput`)
+    ///
+    /// - Returns: Contains the health check sources and pagination information that ListHealthCheckSources returns. (Type: `ListHealthCheckSourcesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    public func listHealthCheckSources(input: ListHealthCheckSourcesInput) async throws -> ListHealthCheckSourcesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listHealthCheckSources")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(ListHealthCheckSourcesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(ListHealthCheckSourcesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthCheckSourcesOutput>(ListHealthCheckSourcesOutput.httpOutput(from:), ListHealthCheckSourcesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListHealthCheckSourcesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHealthCheckSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHealthCheckSourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHealthCheckSourcesInput, ListHealthCheckSourcesOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHealthCheckSources")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListHealthChecks` operation on the `Route53` service.
     ///
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
@@ -4441,6 +4716,73 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHealthChecks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListHealthChecksBySource` operation on the `Route53` service.
+    ///
+    /// Retrieves a list of the health checks that use a specified health check source. Results are paginated. If IsTruncated is true, specify the NextMarker value for marker to get more results.
+    ///
+    /// - Parameter input: Contains the parameters for retrieving a list of the health checks that use a specified health check source. (Type: `ListHealthChecksBySourceInput`)
+    ///
+    /// - Returns: Contains the health checks and pagination information that ListHealthChecksBySource returns. (Type: `ListHealthChecksBySourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
+    public func listHealthChecksBySource(input: ListHealthChecksBySourceInput) async throws -> ListHealthChecksBySourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listHealthChecksBySource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(ListHealthChecksBySourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(ListHealthChecksBySourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthChecksBySourceOutput>(ListHealthChecksBySourceOutput.httpOutput(from:), ListHealthChecksBySourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListHealthChecksBySourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHealthChecksBySourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHealthChecksBySourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHealthChecksBySourceInput, ListHealthChecksBySourceOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHealthChecksBySource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4963,6 +5305,7 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
@@ -5032,6 +5375,7 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHealthCheckSource` : No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.

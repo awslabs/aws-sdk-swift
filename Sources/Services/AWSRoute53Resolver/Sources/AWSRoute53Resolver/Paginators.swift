@@ -102,6 +102,40 @@ extension PaginatorSequence where OperationStackInput == ListFirewallDomainsInpu
     }
 }
 extension Route53ResolverClient {
+    /// Paginate over `[ListFirewallRuleDomainsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallRuleDomainsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleDomainsOutput`
+    public func listFirewallRuleDomainsPaginated(input: ListFirewallRuleDomainsInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallRuleDomainsInput, ListFirewallRuleDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewallRuleDomains(input:))
+    }
+}
+
+extension ListFirewallRuleDomainsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFirewallRuleDomainsInput {
+        return ListFirewallRuleDomainsInput(
+            firewallDomainListId: self.firewallDomainListId,
+            firewallRuleGroupId: self.firewallRuleGroupId,
+            firewallThreatProtectionId: self.firewallThreatProtectionId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryOptions: self.queryOptions
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFirewallRuleDomainsInput, OperationStackOutput == ListFirewallRuleDomainsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleDomainsPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleDomain]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallRuleDomain]`
+    public func domains() async throws -> [Route53ResolverClientTypes.FirewallRuleDomain] {
+        return try await self.asyncCompactMap { item in item.domains }
+    }
+}
+extension Route53ResolverClient {
     /// Paginate over `[ListFirewallRuleGroupAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
