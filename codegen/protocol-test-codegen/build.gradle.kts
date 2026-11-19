@@ -30,6 +30,8 @@ dependencies {
 data class ProtocolTest(
     val serviceName: String,
     val serviceShapeId: String,
+    // Set false when the service's tests reference shapes that removeUnusedShapes would strip.
+    val removeUnusedShapes: Boolean = true,
 )
 
 val enabledProtocols = listOf(
@@ -45,6 +47,13 @@ val enabledProtocols = listOf(
     ProtocolTest("AWSJson10TestQueryCompatSDK", "aws.protocoltests.json10#QueryCompatibleJsonRpc10"),
     ProtocolTest("RPCV2CBORTestQueryCompatSDK", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol"),
     ProtocolTest("RPCV2CBORTestNonQueryCompatSDK", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol"),
+    // The corpus shapes also carry rpcv2Json event stream tests, which name the smithy.protocols#rpcv2Json
+    // trait; removeUnusedShapes would strip that trait's definition and fail validation.
+    ProtocolTest(
+        "RPCV2CBORCorpusTestSDK",
+        "smithy.protocoltests.corpus#RpcV2CborCorpusTests",
+        removeUnusedShapes = false,
+    ),
 
     // service specific tests
     ProtocolTest("APIGatewayTestSDK", "com.amazonaws.apigateway#BackplaneControlService"),
@@ -97,10 +106,10 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                       "${test.serviceShapeId}"
                     ]
                   }
-                },
+                },${if (test.removeUnusedShapes) """
                 {
                   "name": "removeUnusedShapes"
-                },
+                },""" else ""}
                 {
                   "name": "flattenAndRemoveMixins"
                 }

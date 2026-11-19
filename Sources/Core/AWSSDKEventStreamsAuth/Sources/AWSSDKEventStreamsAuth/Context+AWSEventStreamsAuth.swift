@@ -11,6 +11,9 @@ import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
 import SmithyHTTPAPI
 
+/// The auth scheme under which event stream messages are signed by `AWSMessageSigner`.
+private let sigV4SchemeID = "aws.auth#sigv4"
+
 /// Setups context with encoder, decoder and signer for bidirectional streaming
 /// and sets the bidirectional streaming flag
 /// - Parameter context: The context to be configured for bidirectional streaming
@@ -21,7 +24,10 @@ public func setupBidirectionalStreaming(context: Context) {
         encoder: messageEncoder,
         signer: { try context.fetchMessageDataSigner },
         signingConfig: { try await context.makeEventStreamSigningConfig() },
-        requestSignature: { context.requestSignature }
+        requestSignature: { context.requestSignature },
+        // Event stream messages are signed only under the SigV4 auth scheme.  Under any other scheme,
+        // i.e. SigV4a, noAuth or bearer auth, messages are sent unsigned.
+        shouldSign: { context.selectedAuthScheme?.schemeID == sigV4SchemeID }
     )
     context.messageEncoder = messageEncoder
     context.messageSigner = messageSigner
