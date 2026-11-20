@@ -34,11 +34,14 @@ data class ProtocolTest(
 )
 
 val codegenTests = listOf(
-    ProtocolTest("RestJsonExtras", "aws.protocoltests.restjson#RestJsonExtras", true),
+    ProtocolTest("RestJsonExtras", "aws.protocoltests.restjson#RestJsonExtras"),
+    ProtocolTest("RestJsonExtrasSchemaBased", "aws.protocoltests.restjson#RestJsonExtras", forceSchemaBased = true),
     ProtocolTest("AwsQueryExtras", "aws.protocoltests.query#AwsQueryExtras"),
-    ProtocolTest("EventStream", "aws.protocoltests.eventstream#TestService", true),
+    ProtocolTest("EventStream", "aws.protocoltests.eventstream#TestService"),
+    ProtocolTest("EventStreamSchemaBased", "aws.protocoltests.eventstream#TestService", forceSchemaBased = true),
     ProtocolTest("RPCEventStream", "aws.protocoltests.eventstream#RPCTestService"),
-    ProtocolTest("StringArrayEndpointParam", "aws.endpointtests.stringarray#EndpointStringArray", true),
+    ProtocolTest("StringArrayEndpointParam", "aws.endpointtests.stringarray#EndpointStringArray"),
+    ProtocolTest("StringArrayEndpointParamSchemaBased", "aws.endpointtests.stringarray#EndpointStringArray", forceSchemaBased = true),
     ProtocolTest("EndpointBDD", "aws.endpointtests.bdd#ServiceWithEndpointBdd"),
 )
 

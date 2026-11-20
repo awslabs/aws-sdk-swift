@@ -39,8 +39,10 @@ val enabledProtocols = listOf(
     ProtocolTest("Ec2QueryTestSDK", "aws.protocoltests.ec2#AwsEc2"),
     ProtocolTest("AWSJson10TestSDK", "aws.protocoltests.json10#JsonRpc10"),
     ProtocolTest("AWSJson11TestSDK", "aws.protocoltests.json#JsonProtocol"),
-    ProtocolTest("AWSRestJsonTestSDK", "aws.protocoltests.restjson#RestJson", true),
-    ProtocolTest("AWSRestJsonValidationTestSDK", "aws.protocoltests.restjson.validation#RestJsonValidation", true),
+    ProtocolTest("AWSRestJsonTestSDK", "aws.protocoltests.restjson#RestJson"),
+    ProtocolTest("AWSRestJsonTestSDKSchemaBased", "aws.protocoltests.restjson#RestJson", forceSchemaBased = true),
+    ProtocolTest("AWSRestJsonValidationTestSDK", "aws.protocoltests.restjson.validation#RestJsonValidation"),
+    ProtocolTest("AWSRestJsonValidationTestSDKSchemaBased", "aws.protocoltests.restjson.validation#RestJsonValidation", forceSchemaBased = true),
     ProtocolTest("RestXmlTestSDK", "aws.protocoltests.restxml#RestXml"),
     ProtocolTest("RestXmlWithNamespaceTestSDK", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace"),
     ProtocolTest("AWSQueryTestSDK", "aws.protocoltests.query#AwsQuery"),
@@ -57,8 +59,10 @@ val enabledProtocols = listOf(
     ),
 
     // service specific tests
-    ProtocolTest("APIGatewayTestSDK", "com.amazonaws.apigateway#BackplaneControlService", true),
-    ProtocolTest("GlacierTestSDK", "com.amazonaws.glacier#Glacier", true),
+    ProtocolTest("APIGatewayTestSDK", "com.amazonaws.apigateway#BackplaneControlService"),
+    ProtocolTest("APIGatewayTestSDKSchemaBased", "com.amazonaws.apigateway#BackplaneControlService", forceSchemaBased = true),
+    ProtocolTest("GlacierTestSDK", "com.amazonaws.glacier#Glacier"),
+    ProtocolTest("GlacierTestSDKSchemaBased", "com.amazonaws.glacier#Glacier", forceSchemaBased = true),
     ProtocolTest("S3TestSDK", "com.amazonaws.s3#AmazonS3"),
     ProtocolTest("MachineLearningTestSDK", "com.amazonaws.machinelearning#AmazonML_20141212"),
 )
