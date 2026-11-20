@@ -19,6 +19,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -160,12 +161,14 @@ extension NetworkSecurityManagerClientTypes.AccountReference: Swift.CustomDebugS
 extension NetworkSecurityManagerClientTypes {
 
     public enum PolicyFirewallType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case igwFirewall
         case shieldAdvanced
         case waf
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PolicyFirewallType] {
             return [
+                .igwFirewall,
                 .shieldAdvanced,
                 .waf
             ]
@@ -178,6 +181,7 @@ extension NetworkSecurityManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .igwFirewall: return "IGW_FIREWALL"
             case .shieldAdvanced: return "SHIELD_ADVANCED"
             case .waf: return "WAF"
             case let .sdkUnknown(s): return s
@@ -615,6 +619,35 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+extension NetworkSecurityManagerClientTypes {
+
+    public enum CoverageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inEffect
+        case superseded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CoverageStatus] {
+            return [
+                .inEffect,
+                .superseded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inEffect: return "IN_EFFECT"
+            case .superseded: return "SUPERSEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The request processing failed because of an internal error in the service. This is a retryable error.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -943,6 +976,8 @@ extension NetworkSecurityManagerClientTypes {
         case cfd
         case clb
         case eip
+        case subnet
+        case vpc
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScopeResourceType] {
@@ -951,7 +986,9 @@ extension NetworkSecurityManagerClientTypes {
                 .apigw,
                 .cfd,
                 .clb,
-                .eip
+                .eip,
+                .subnet,
+                .vpc
             ]
         }
 
@@ -967,6 +1004,8 @@ extension NetworkSecurityManagerClientTypes {
             case .cfd: return "AWS::CloudFront::Distribution"
             case .clb: return "AWS::ElasticLoadBalancing::LoadBalancer"
             case .eip: return "AWS::EC2::EIP"
+            case .subnet: return "AWS::EC2::Subnet"
+            case .vpc: return "AWS::EC2::VPC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1263,6 +1302,127 @@ extension NetworkSecurityManagerClientTypes {
 
 extension NetworkSecurityManagerClientTypes {
 
+    public enum DefaultSubnetConnectivity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bidirectional
+        case flexible
+        case outboundOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultSubnetConnectivity] {
+            return [
+                .bidirectional,
+                .flexible,
+                .outboundOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bidirectional: return "bidirectional"
+            case .flexible: return "flexible"
+            case .outboundOnly: return "outbound-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    public enum SubnetConnectivity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bidirectional
+        case exclude
+        case flexible
+        case outboundOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubnetConnectivity] {
+            return [
+                .bidirectional,
+                .exclude,
+                .flexible,
+                .outboundOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bidirectional: return "bidirectional"
+            case .exclude: return "exclude"
+            case .flexible: return "flexible"
+            case .outboundOnly: return "outbound-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    /// An override that applies a connectivity treatment to the subnets that a scope selects, instead of the policy's defaultSubnetConnectivity.
+    public struct SubnetConnectivityOverride: Swift.Sendable {
+        /// The connectivity treatment to apply to the selected subnets. You select both the override value as well as the subnets they apply to. The Network Firewall automated internet firewall applies the override value to the specified subnets, and applies the default connectivity to the rest of the subnets. Valid values:
+        ///
+        /// * flexible – Sets the connectivity for each network interface in the subnet based on whether it is associated with a public IP address. A network interface with a public IP address gets bidirectional internet connectivity. A network interface without a public IP address gets outbound-only connectivity. All traffic is inspected against your firewall rules.
+        ///
+        /// * bidirectional – Provides bidirectional internet connectivity to every network interface that has a public IP association. Any network interface without a public IP cannot communicate with the internet unless a NAT device is explicitly inserted in the path. All inbound and outbound traffic is inspected against your firewall rules.
+        ///
+        /// * outbound-only – Provides egress-only connectivity for all network interfaces in the subnet. All outbound traffic and inbound responses are inspected against your firewall rules. Unsolicited inbound connections are dropped. For IPv4 traffic, the Network Firewall automated internet firewall performs NAT.
+        ///
+        /// * exclude – The Network Firewall automated internet firewall doesn't inspect traffic for the selected subnets. The subnets bypass the firewall entirely, and their traffic passes directly through the internet gateway. You can specify this value only in an override, not as the defaultSubnetConnectivity.
+        /// This member is required.
+        public var connectivityType: NetworkSecurityManagerClientTypes.SubnetConnectivity?
+        /// A list that contains the Amazon Resource Name (ARN) of the scope that selects the subnets to override. The list must contain exactly one scope ARN. The deployment determines which accounts are in scope, and the referenced scope selects subnets within those accounts.
+        /// This member is required.
+        public var scopes: [Swift.String]?
+
+        public init(
+            connectivityType: NetworkSecurityManagerClientTypes.SubnetConnectivity? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.connectivityType = connectivityType
+            self.scopes = scopes
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    /// Policy configuration settings for Network Firewall automated internet firewall policies.
+    public struct IgwFirewallConfig: Swift.Sendable {
+        /// The default internet connectivity treatment that AWS Network Security Manager applies to subnets in scope, unless a subnet connectivity override applies. Required for Network Firewall automated internet firewall policies. Valid values:
+        ///
+        /// * flexible – Sets the connectivity for each network interface in the subnet based on whether it is associated with a public IP address. A network interface with a public IP address gets bidirectional internet connectivity. A network interface without a public IP address gets outbound-only connectivity. All traffic is inspected against your firewall rules.
+        ///
+        /// * bidirectional – Provides bidirectional internet connectivity to every network interface that has a public IP association. Any network interface without a public IP cannot communicate with the internet unless a NAT device is explicitly inserted in the path. All inbound and outbound traffic is inspected against your firewall rules.
+        ///
+        /// * outbound-only – Provides egress-only connectivity for all network interfaces in the subnet. All outbound traffic and inbound responses are inspected against your firewall rules. Unsolicited inbound connections are dropped. For IPv4 traffic, the Network Firewall automated internet firewall performs NAT.
+        public var defaultSubnetConnectivity: NetworkSecurityManagerClientTypes.DefaultSubnetConnectivity?
+        /// An ordered list of overrides that apply a different connectivity treatment to the subnets that a scope selects. When a subnet matches more than one override, the first matching override in the list applies. You can specify at most one override for each connectivity type.
+        public var subnetConnectivityOverrides: [NetworkSecurityManagerClientTypes.SubnetConnectivityOverride]?
+
+        public init(
+            defaultSubnetConnectivity: NetworkSecurityManagerClientTypes.DefaultSubnetConnectivity? = nil,
+            subnetConnectivityOverrides: [NetworkSecurityManagerClientTypes.SubnetConnectivityOverride]? = nil
+        ) {
+            self.defaultSubnetConnectivity = defaultSubnetConnectivity
+            self.subnetConnectivityOverrides = subnetConnectivityOverrides
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
     public enum WAFConflictResolutionOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mergeWhereApplicable
         case sdkUnknown(Swift.String)
@@ -1344,20 +1504,24 @@ extension NetworkSecurityManagerClientTypes {
 
     /// Configuration settings that control a policy's behavior.
     public struct PolicyConfiguration: Swift.Sendable {
+        /// Policy settings for Network Firewall automated internet firewall policies. Specify these settings only for this policy type.
+        public var igwFirewallConfig: NetworkSecurityManagerClientTypes.IgwFirewallConfig?
         /// Specifies whether AWS Network Security Manager automatically remediates noncompliant resources. Default: false.
         /// This member is required.
         public var remediationEnabled: Swift.Bool
-        /// Specifies whether AWS Network Security Manager automatically removes the resources it created when they are no longer needed. Default: false.
+        /// Specifies whether AWS Network Security Manager automatically removes the resources it created when they are no longer needed. This member is required, and the only supported value is true.
         /// This member is required.
         public var resourcesCleanUp: Swift.Bool
         /// AWS WAF-specific policy settings. This is populated only for AWS WAF policies.
         public var wafConfig: NetworkSecurityManagerClientTypes.WafConfig?
 
         public init(
+            igwFirewallConfig: NetworkSecurityManagerClientTypes.IgwFirewallConfig? = nil,
             remediationEnabled: Swift.Bool = false,
             resourcesCleanUp: Swift.Bool = false,
             wafConfig: NetworkSecurityManagerClientTypes.WafConfig? = nil
         ) {
+            self.igwFirewallConfig = igwFirewallConfig
             self.remediationEnabled = remediationEnabled
             self.resourcesCleanUp = resourcesCleanUp
             self.wafConfig = wafConfig
@@ -1577,11 +1741,13 @@ public struct CreatePolicySnapshotOutput: Swift.Sendable {
 extension NetworkSecurityManagerClientTypes {
 
     public enum RuleFirewallType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case igwFirewall
         case waf
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuleFirewallType] {
             return [
+                .igwFirewall,
                 .waf
             ]
         }
@@ -1593,6 +1759,7 @@ extension NetworkSecurityManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .igwFirewall: return "IGW_FIREWALL"
             case .waf: return "WAF"
             case let .sdkUnknown(s): return s
             }
@@ -1836,6 +2003,32 @@ extension NetworkSecurityManagerClientTypes {
     }
 }
 
+extension NetworkSecurityManagerClientTypes {
+
+    public enum SpecializedScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case igwFirewallSubnetConnectivityOverride
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpecializedScopeType] {
+            return [
+                .igwFirewallSubnetConnectivityOverride
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .igwFirewallSubnetConnectivityOverride: return "IGW_FIREWALL_SUBNET_CONNECTIVITY_OVERRIDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateScopeSnapshotInput: Swift.Sendable {
     /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request.
     public var clientToken: Swift.String?
@@ -1875,11 +2068,13 @@ extension NetworkSecurityManagerClientTypes {
 extension NetworkSecurityManagerClientTypes {
 
     public enum TemplateFirewallType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case igwFirewall
         case waf
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TemplateFirewallType] {
             return [
+                .igwFirewall,
                 .waf
             ]
         }
@@ -1891,6 +2086,7 @@ extension NetworkSecurityManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .igwFirewall: return "IGW_FIREWALL"
             case .waf: return "WAF"
             case let .sdkUnknown(s): return s
             }
@@ -2491,12 +2687,37 @@ extension NetworkSecurityManagerClientTypes {
 
 extension NetworkSecurityManagerClientTypes {
 
-    /// Describes why a firewall is out of sync. Exactly one of missingFirewall or invalidFirewall is set.
+    /// Describes a single related resource whose configuration does not match the intended configuration.
+    public struct InvalidResourceIssue: Swift.Sendable {
+        /// The current attribute value on the resource.
+        public var actualValue: Swift.String?
+        /// The attribute value that the policy configuration requires, such as the connectivity type for a subnet.
+        public var expectedValue: Swift.String?
+        /// The identifier of the resource, such as a subnet ARN.
+        public var resourceId: Swift.String?
+
+        public init(
+            actualValue: Swift.String? = nil,
+            expectedValue: Swift.String? = nil,
+            resourceId: Swift.String? = nil
+        ) {
+            self.actualValue = actualValue
+            self.expectedValue = expectedValue
+            self.resourceId = resourceId
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    /// Describes why a firewall is out of sync. Exactly one of missingFirewall, invalidFirewall, or invalidResource contains a value.
     public enum FirewallSyncReason: Swift.Sendable {
         /// Indicates that an expected firewall is missing. The value describes the missing firewall.
         case missingfirewall(Swift.String)
         /// Details about a firewall whose configuration does not match the intended configuration.
         case invalidfirewall(NetworkSecurityManagerClientTypes.InvalidFirewallReasons)
+        /// A map of related resources whose configuration does not match the intended configuration, grouped by resource type. Each entry lists the resources of that type that are out of sync. For example, subnets whose connectivity type differs from the connectivity type that the policy specifies.
+        case invalidresource([Swift.String: [NetworkSecurityManagerClientTypes.InvalidResourceIssue]])
         case sdkUnknown(Swift.String)
     }
 }
@@ -2558,6 +2779,7 @@ extension NetworkSecurityManagerClientTypes {
         case eip
         case shieldregionalProtection
         case shieldProtection
+        case vpc
         case wafV2Webacl
         case sdkUnknown(Swift.String)
 
@@ -2570,6 +2792,7 @@ extension NetworkSecurityManagerClientTypes {
                 .eip,
                 .shieldregionalProtection,
                 .shieldProtection,
+                .vpc,
                 .wafV2Webacl
             ]
         }
@@ -2588,6 +2811,7 @@ extension NetworkSecurityManagerClientTypes {
             case .eip: return "AWS::EC2::EIP"
             case .shieldregionalProtection: return "AWS::ShieldRegional::Protection"
             case .shieldProtection: return "AWS::Shield::Protection"
+            case .vpc: return "AWS::EC2::VPC"
             case .wafV2Webacl: return "AWS::WAFv2::WebACL"
             case let .sdkUnknown(s): return s
             }
@@ -3222,6 +3446,131 @@ public struct ListAggregateResourceSynchronizationStatusesOutput: Swift.Sendable
     }
 }
 
+public struct ListEntityCoveragesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Network Security Manager entity to list covered resources for. The ARN must not include a :DRAFT qualifier.
+    /// This member is required.
+    public var entityArn: Swift.String?
+    /// The maximum number of results to return in a single call. Valid range: 1–100. The default value is 100. To retrieve the remaining results, use the returned nextToken value in a subsequent call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results. To retrieve the next page, call the operation again and provide this value. When there are no more results, this value is null.
+    public var nextToken: Swift.String?
+    /// Filters the results to the protected resources owned by the specified AWS account.
+    public var resourceOwnerAccountId: Swift.String?
+
+    public init(
+        entityArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceOwnerAccountId: Swift.String? = nil
+    ) {
+        self.entityArn = entityArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceOwnerAccountId = resourceOwnerAccountId
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    public enum ServiceResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deployment
+        case policy
+        case rule
+        case scope
+        case template
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceResourceType] {
+            return [
+                .deployment,
+                .policy,
+                .rule,
+                .scope,
+                .template
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deployment: return "Deployment"
+            case .policy: return "Policy"
+            case .rule: return "Rule"
+            case .scope: return "Scope"
+            case .template: return "Template"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes {
+
+    /// Describes how an AWS Network Security Manager entity covers a protected resource.
+    public struct ResourceCoverageSummary: Swift.Sendable {
+        /// Specifies whether the entity contributes to the effective configuration of the resource for its firewall type. For firewall types that combine policies, such as AWS WAF and AWS Shield Advanced, every policy that covers the resource is IN_EFFECT. For firewall types that apply a single policy, only the highest-priority policy is IN_EFFECT and the others are SUPERSEDED.
+        public var coverageStatus: NetworkSecurityManagerClientTypes.CoverageStatus?
+        /// The Amazon Resource Names (ARNs) of the deployments through which the entity covers the resource.
+        public var deploymentArns: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the entity that covers the resource.
+        public var entityArn: Swift.String?
+        /// The type of the entity that covers the resource, such as Policy.
+        public var entityType: NetworkSecurityManagerClientTypes.ServiceResourceType?
+        /// The firewall type of the policy that covers the resource. This is present when entityType is Policy.
+        public var firewallType: NetworkSecurityManagerClientTypes.PolicyFirewallType?
+        /// The Amazon Resource Name (ARN) of the protected resource.
+        public var resourceArn: Swift.String?
+        /// The AWS account ID that owns the protected resource. This can differ from the account that owns the entity.
+        public var resourceOwnerAccountId: Swift.String?
+        /// The type of the protected resource, in AWS CloudFormation format.
+        public var resourceType: NetworkSecurityManagerClientTypes.ScopeResourceType?
+        /// The time when AWS Network Security Manager last evaluated the coverage.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            coverageStatus: NetworkSecurityManagerClientTypes.CoverageStatus? = nil,
+            deploymentArns: [Swift.String]? = nil,
+            entityArn: Swift.String? = nil,
+            entityType: NetworkSecurityManagerClientTypes.ServiceResourceType? = nil,
+            firewallType: NetworkSecurityManagerClientTypes.PolicyFirewallType? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceOwnerAccountId: Swift.String? = nil,
+            resourceType: NetworkSecurityManagerClientTypes.ScopeResourceType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.coverageStatus = coverageStatus
+            self.deploymentArns = deploymentArns
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.firewallType = firewallType
+            self.resourceArn = resourceArn
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceType = resourceType
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListEntityCoveragesOutput: Swift.Sendable {
+    /// The token for the next page of results. To retrieve the next page, call the operation again and provide this value. When there are no more results, this value is null.
+    public var nextToken: Swift.String?
+    /// The list of resource coverages for the Network Security Manager entity.
+    /// This member is required.
+    public var resourceCoverages: [NetworkSecurityManagerClientTypes.ResourceCoverageSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceCoverages: [NetworkSecurityManagerClientTypes.ResourceCoverageSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceCoverages = resourceCoverages
+    }
+}
+
 public struct ListPoliciesInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Valid range: 1-100. To retrieve the remaining results, use the returned nextToken value in a subsequent call.
     public var maxResults: Swift.Int?
@@ -3342,6 +3691,46 @@ public struct ListPolicySnapshotsOutput: Swift.Sendable {
     }
 }
 
+public struct ListProtectedResourceCoveragesInput: Swift.Sendable {
+    /// Filters the results by the type of the entity that covers the resource. The only supported value is Policy.
+    public var entityType: NetworkSecurityManagerClientTypes.ServiceResourceType?
+    /// The maximum number of results to return in a single call. Valid range: 1–100. The default value is 100. To retrieve the remaining results, use the returned nextToken value in a subsequent call.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results. To retrieve the next page, call the operation again and provide this value. When there are no more results, this value is null.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the protected resource to list coverage for. You must own the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        entityType: NetworkSecurityManagerClientTypes.ServiceResourceType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.entityType = entityType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListProtectedResourceCoveragesOutput: Swift.Sendable {
+    /// The token for the next page of results. To retrieve the next page, call the operation again and provide this value. When there are no more results, this value is null.
+    public var nextToken: Swift.String?
+    /// The list of resource coverages for the protected resource.
+    /// This member is required.
+    public var resourceCoverages: [NetworkSecurityManagerClientTypes.ResourceCoverageSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceCoverages: [NetworkSecurityManagerClientTypes.ResourceCoverageSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceCoverages = resourceCoverages
+    }
+}
+
 public struct ListResourceAssociationsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Valid range: 1-100. To retrieve the remaining results, use the returned nextToken value in a subsequent call.
     public var maxResults: Swift.Int?
@@ -3359,44 +3748,6 @@ public struct ListResourceAssociationsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifier = resourceIdentifier
-    }
-}
-
-extension NetworkSecurityManagerClientTypes {
-
-    public enum ServiceResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case deployment
-        case policy
-        case rule
-        case scope
-        case template
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceResourceType] {
-            return [
-                .deployment,
-                .policy,
-                .rule,
-                .scope,
-                .template
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .deployment: return "Deployment"
-            case .policy: return "Policy"
-            case .rule: return "Rule"
-            case .scope: return "Scope"
-            case .template: return "Template"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -3591,6 +3942,8 @@ extension NetworkSecurityManagerClientTypes {
         public var scopeId: Swift.String?
         /// The name of the scope.
         public var scopeName: Swift.String?
+        /// The specialized type of the scope, if the scope is built for one specific purpose. A scope with no specializedScopeType is a standard scope that you can associate with a deployment. A specialized scope can be used only for the purpose that its type defines and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+        public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
         /// The current status of the resource: DRAFT (unpublished, editable), ACTIVE (published, in use), or DISABLED (deactivated; changes cannot be published until the resource is re-enabled).
         public var status: NetworkSecurityManagerClientTypes.EntityStatus?
         /// The time when the resource was last updated. For a snapshot, this is the time when the snapshot was created.
@@ -3603,6 +3956,7 @@ extension NetworkSecurityManagerClientTypes {
             scopeArn: Swift.String? = nil,
             scopeId: Swift.String? = nil,
             scopeName: Swift.String? = nil,
+            specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
             status: NetworkSecurityManagerClientTypes.EntityStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
@@ -3611,6 +3965,7 @@ extension NetworkSecurityManagerClientTypes {
             self.scopeArn = scopeArn
             self.scopeId = scopeId
             self.scopeName = scopeName
+            self.specializedScopeType = specializedScopeType
             self.status = status
             self.updatedAt = updatedAt
             self.version = version
@@ -3693,6 +4048,35 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+extension NetworkSecurityManagerClientTypes {
+
+    public enum TemplateOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TemplateOwner] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListTemplatesInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Valid range: 1-100. To retrieve the remaining results, use the returned nextToken value in a subsequent call.
     public var maxResults: Swift.Int?
@@ -3700,15 +4084,23 @@ public struct ListTemplatesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Filters the results by status, either ACTIVE or DRAFT.
     public var status: NetworkSecurityManagerClientTypes.EntityStatusFilter?
+    /// Specifies which templates to list. The default is CUSTOMER. Valid values:
+    ///
+    /// * CUSTOMER – Lists the templates in your account.
+    ///
+    /// * AWS – Lists the AWS managed templates.
+    public var templateOwner: NetworkSecurityManagerClientTypes.TemplateOwner?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        status: NetworkSecurityManagerClientTypes.EntityStatusFilter? = nil
+        status: NetworkSecurityManagerClientTypes.EntityStatusFilter? = nil,
+        templateOwner: NetworkSecurityManagerClientTypes.TemplateOwner? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+        self.templateOwner = templateOwner
     }
 }
 
@@ -3731,6 +4123,12 @@ extension NetworkSecurityManagerClientTypes {
         /// The name of the template.
         /// This member is required.
         public var templateName: Swift.String?
+        /// The owner of the template. Valid values:
+        ///
+        /// * CUSTOMER – The template is in your account.
+        ///
+        /// * AWS – The template is an AWS managed template.
+        public var templateOwner: NetworkSecurityManagerClientTypes.TemplateOwner?
         /// The time when the resource was last updated. For a snapshot, this is the time when the snapshot was created.
         public var updatedAt: Foundation.Date?
         /// The version of the resource.
@@ -3743,6 +4141,7 @@ extension NetworkSecurityManagerClientTypes {
             templateArn: Swift.String? = nil,
             templateId: Swift.String? = nil,
             templateName: Swift.String? = nil,
+            templateOwner: NetworkSecurityManagerClientTypes.TemplateOwner? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
         ) {
@@ -3752,6 +4151,7 @@ extension NetworkSecurityManagerClientTypes {
             self.templateArn = templateArn
             self.templateId = templateId
             self.templateName = templateName
+            self.templateOwner = templateOwner
             self.updatedAt = updatedAt
             self.version = version
         }
@@ -4290,6 +4690,8 @@ public struct CreateScopeInput: Swift.Sendable {
     /// The name of the scope.
     /// This member is required.
     public var scopeName: Swift.String?
+    /// The specialized type of the scope. Omit this value to create a standard scope that you can associate with a deployment. Set it to create a scope that is built for one specific purpose: a specialized scope can be used only for the purpose that its type defines, is validated against that use, and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+    public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
     /// The tags to add to the resource when it is created.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4299,6 +4701,7 @@ public struct CreateScopeInput: Swift.Sendable {
         scopeConfiguration: NetworkSecurityManagerClientTypes.ScopeConfiguration? = nil,
         scopeDescription: Swift.String? = nil,
         scopeName: Swift.String? = nil,
+        specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
@@ -4306,6 +4709,7 @@ public struct CreateScopeInput: Swift.Sendable {
         self.scopeConfiguration = scopeConfiguration
         self.scopeDescription = scopeDescription
         self.scopeName = scopeName
+        self.specializedScopeType = specializedScopeType
         self.tags = tags
     }
 }
@@ -4328,6 +4732,8 @@ public struct CreateScopeOutput: Swift.Sendable {
     /// The name of the scope.
     /// This member is required.
     public var scopeName: Swift.String?
+    /// The specialized type of the scope, if the scope is built for one specific purpose. A scope with no specializedScopeType is a standard scope that you can associate with a deployment. A specialized scope can be used only for the purpose that its type defines and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+    public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
     /// The current status of the resource: DRAFT (unpublished, editable) or ACTIVE (published, in use).
     /// This member is required.
     public var status: NetworkSecurityManagerClientTypes.EntityStatus?
@@ -4347,6 +4753,7 @@ public struct CreateScopeOutput: Swift.Sendable {
         scopeDescription: Swift.String? = nil,
         scopeId: Swift.String? = nil,
         scopeName: Swift.String? = nil,
+        specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
         status: NetworkSecurityManagerClientTypes.EntityStatus? = nil,
         updateToken: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -4359,6 +4766,7 @@ public struct CreateScopeOutput: Swift.Sendable {
         self.scopeDescription = scopeDescription
         self.scopeId = scopeId
         self.scopeName = scopeName
+        self.specializedScopeType = specializedScopeType
         self.status = status
         self.updateToken = updateToken
         self.updatedAt = updatedAt
@@ -4384,6 +4792,8 @@ public struct CreateScopeSnapshotOutput: Swift.Sendable {
     /// The name of the scope.
     /// This member is required.
     public var scopeName: Swift.String?
+    /// The specialized type of the scope, if the scope is built for one specific purpose. A scope with no specializedScopeType is a standard scope that you can associate with a deployment. A specialized scope can be used only for the purpose that its type defines and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+    public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
     /// The current status of the resource: DRAFT (unpublished, editable) or ACTIVE (published, in use).
     /// This member is required.
     public var status: NetworkSecurityManagerClientTypes.EntityStatus?
@@ -4403,6 +4813,7 @@ public struct CreateScopeSnapshotOutput: Swift.Sendable {
         scopeDescription: Swift.String? = nil,
         scopeId: Swift.String? = nil,
         scopeName: Swift.String? = nil,
+        specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
         status: NetworkSecurityManagerClientTypes.EntityStatus? = nil,
         updateToken: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -4415,6 +4826,7 @@ public struct CreateScopeSnapshotOutput: Swift.Sendable {
         self.scopeDescription = scopeDescription
         self.scopeId = scopeId
         self.scopeName = scopeName
+        self.specializedScopeType = specializedScopeType
         self.status = status
         self.updateToken = updateToken
         self.updatedAt = updatedAt
@@ -4440,6 +4852,8 @@ public struct GetScopeOutput: Swift.Sendable {
     /// The name of the scope.
     /// This member is required.
     public var scopeName: Swift.String?
+    /// The specialized type of the scope, if the scope is built for one specific purpose. A scope with no specializedScopeType is a standard scope that you can associate with a deployment. A specialized scope can be used only for the purpose that its type defines and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+    public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
     /// The current status of the resource: DRAFT (unpublished, editable), ACTIVE (published, in use), or DISABLED (deactivated; changes cannot be published until the resource is re-enabled).
     /// This member is required.
     public var status: NetworkSecurityManagerClientTypes.EntityStatus?
@@ -4459,6 +4873,7 @@ public struct GetScopeOutput: Swift.Sendable {
         scopeDescription: Swift.String? = nil,
         scopeId: Swift.String? = nil,
         scopeName: Swift.String? = nil,
+        specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
         status: NetworkSecurityManagerClientTypes.EntityStatus? = nil,
         updateToken: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -4471,6 +4886,7 @@ public struct GetScopeOutput: Swift.Sendable {
         self.scopeDescription = scopeDescription
         self.scopeId = scopeId
         self.scopeName = scopeName
+        self.specializedScopeType = specializedScopeType
         self.status = status
         self.updateToken = updateToken
         self.updatedAt = updatedAt
@@ -4530,6 +4946,8 @@ public struct UpdateScopeOutput: Swift.Sendable {
     /// The name of the scope.
     /// This member is required.
     public var scopeName: Swift.String?
+    /// The specialized type of the scope, if the scope is built for one specific purpose. A scope with no specializedScopeType is a standard scope that you can associate with a deployment. A specialized scope can be used only for the purpose that its type defines and can't be associated with a deployment. This value is set when the scope is created and can't be changed.
+    public var specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType?
     /// The current status of the resource: DRAFT (unpublished, editable) or ACTIVE (published, in use).
     /// This member is required.
     public var status: NetworkSecurityManagerClientTypes.EntityStatus?
@@ -4549,6 +4967,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
         scopeDescription: Swift.String? = nil,
         scopeId: Swift.String? = nil,
         scopeName: Swift.String? = nil,
+        specializedScopeType: NetworkSecurityManagerClientTypes.SpecializedScopeType? = nil,
         status: NetworkSecurityManagerClientTypes.EntityStatus? = nil,
         updateToken: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -4561,6 +4980,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
         self.scopeDescription = scopeDescription
         self.scopeId = scopeId
         self.scopeName = scopeName
+        self.specializedScopeType = specializedScopeType
         self.status = status
         self.updateToken = updateToken
         self.updatedAt = updatedAt
@@ -4883,6 +5303,39 @@ extension ListDeploymentSnapshotsInput {
     }
 }
 
+extension ListEntityCoveragesInput {
+
+    static func urlPathProvider(_ value: ListEntityCoveragesInput) -> Swift.String? {
+        return "/resource-coverage/entities"
+    }
+}
+
+extension ListEntityCoveragesInput {
+
+    static func queryItemProvider(_ value: ListEntityCoveragesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let entityArn = value.entityArn else {
+            let message = "Creating a URL Query Item failed. entityArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let entityArnQueryItem = Smithy.URIQueryItem(name: "entityArn".urlPercentEncoding(), value: Swift.String(entityArn).urlPercentEncoding())
+        items.append(entityArnQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let resourceOwnerAccountId = value.resourceOwnerAccountId {
+            let resourceOwnerAccountIdQueryItem = Smithy.URIQueryItem(name: "resourceOwnerAccountId".urlPercentEncoding(), value: Swift.String(resourceOwnerAccountId).urlPercentEncoding())
+            items.append(resourceOwnerAccountIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPoliciesInput {
 
     static func urlPathProvider(_ value: ListPoliciesInput) -> Swift.String? {
@@ -4932,6 +5385,39 @@ extension ListPolicySnapshotsInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        return items
+    }
+}
+
+extension ListProtectedResourceCoveragesInput {
+
+    static func urlPathProvider(_ value: ListProtectedResourceCoveragesInput) -> Swift.String? {
+        return "/resource-coverage/protected-resources"
+    }
+}
+
+extension ListProtectedResourceCoveragesInput {
+
+    static func queryItemProvider(_ value: ListProtectedResourceCoveragesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let entityType = value.entityType {
+            let entityTypeQueryItem = Smithy.URIQueryItem(name: "entityType".urlPercentEncoding(), value: Swift.String(entityType.rawValue).urlPercentEncoding())
+            items.append(entityTypeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
         return items
     }
 }
@@ -5132,6 +5618,10 @@ extension ListTemplatesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let templateOwner = value.templateOwner {
+            let templateOwnerQueryItem = Smithy.URIQueryItem(name: "templateOwner".urlPercentEncoding(), value: Swift.String(templateOwner.rawValue).urlPercentEncoding())
+            items.append(templateOwnerQueryItem)
         }
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
@@ -5342,6 +5832,7 @@ extension CreateScopeInput {
         try writer["scopeConfiguration"].write(value.scopeConfiguration, with: NetworkSecurityManagerClientTypes.ScopeConfiguration.write(value:to:))
         try writer["scopeDescription"].write(value.scopeDescription)
         try writer["scopeName"].write(value.scopeName)
+        try writer["specializedScopeType"].write(value.specializedScopeType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -5636,6 +6127,7 @@ extension CreateScopeOutput {
         value.scopeDescription = try reader["scopeDescription"].readIfPresent()
         value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
         value.scopeName = try reader["scopeName"].readIfPresent() ?? ""
+        value.specializedScopeType = try reader["specializedScopeType"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updateToken = try reader["updateToken"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -5658,6 +6150,7 @@ extension CreateScopeSnapshotOutput {
         value.scopeDescription = try reader["scopeDescription"].readIfPresent()
         value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
         value.scopeName = try reader["scopeName"].readIfPresent() ?? ""
+        value.specializedScopeType = try reader["specializedScopeType"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updateToken = try reader["updateToken"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -5868,6 +6361,7 @@ extension GetScopeOutput {
         value.scopeDescription = try reader["scopeDescription"].readIfPresent()
         value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
         value.scopeName = try reader["scopeName"].readIfPresent() ?? ""
+        value.specializedScopeType = try reader["specializedScopeType"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updateToken = try reader["updateToken"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -5951,6 +6445,19 @@ extension ListDeploymentSnapshotsOutput {
     }
 }
 
+extension ListEntityCoveragesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntityCoveragesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEntityCoveragesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.resourceCoverages = try reader["resourceCoverages"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.ResourceCoverageSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPoliciesOutput {
@@ -5973,6 +6480,19 @@ extension ListPolicySnapshotsOutput {
         var value = ListPolicySnapshotsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.snapshots = try reader["snapshots"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.PolicySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListProtectedResourceCoveragesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProtectedResourceCoveragesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProtectedResourceCoveragesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.resourceCoverages = try reader["resourceCoverages"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.ResourceCoverageSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6208,6 +6728,7 @@ extension UpdateScopeOutput {
         value.scopeDescription = try reader["scopeDescription"].readIfPresent()
         value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
         value.scopeName = try reader["scopeName"].readIfPresent() ?? ""
+        value.specializedScopeType = try reader["specializedScopeType"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updateToken = try reader["updateToken"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -6273,6 +6794,7 @@ enum CreateDeploymentSnapshotOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TagPolicyViolationException": return try TagPolicyViolationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6314,6 +6836,7 @@ enum CreatePolicySnapshotOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TagPolicyViolationException": return try TagPolicyViolationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6355,6 +6878,7 @@ enum CreateRuleSnapshotOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TagPolicyViolationException": return try TagPolicyViolationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6396,6 +6920,7 @@ enum CreateScopeSnapshotOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TagPolicyViolationException": return try TagPolicyViolationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6437,6 +6962,7 @@ enum CreateTemplateSnapshotOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TagPolicyViolationException": return try TagPolicyViolationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6745,6 +7271,23 @@ enum ListDeploymentSnapshotsOutputError {
     }
 }
 
+enum ListEntityCoveragesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6773,6 +7316,23 @@ enum ListPolicySnapshotsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProtectedResourceCoveragesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7544,9 +8104,28 @@ extension NetworkSecurityManagerClientTypes.FirewallSyncReason {
                 return .missingfirewall(try reader["missingFirewall"].read())
             case "invalidFirewall":
                 return .invalidfirewall(try reader["invalidFirewall"].read(with: NetworkSecurityManagerClientTypes.InvalidFirewallReasons.read(from:)))
+            case "invalidResource":
+                return .invalidresource(try reader["invalidResource"].readMap(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: NetworkSecurityManagerClientTypes.InvalidResourceIssue.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension NetworkSecurityManagerClientTypes.IgwFirewallConfig {
+
+    static func write(value: NetworkSecurityManagerClientTypes.IgwFirewallConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultSubnetConnectivity"].write(value.defaultSubnetConnectivity)
+        try writer["subnetConnectivityOverrides"].writeList(value.subnetConnectivityOverrides, memberWritingClosure: NetworkSecurityManagerClientTypes.SubnetConnectivityOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkSecurityManagerClientTypes.IgwFirewallConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkSecurityManagerClientTypes.IgwFirewallConfig()
+        value.defaultSubnetConnectivity = try reader["defaultSubnetConnectivity"].readIfPresent()
+        value.subnetConnectivityOverrides = try reader["subnetConnectivityOverrides"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.SubnetConnectivityOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7561,6 +8140,18 @@ extension NetworkSecurityManagerClientTypes.InvalidFirewallReasons {
         value.incorrectAppendableConfigurationOrder = try reader["incorrectAppendableConfigurationOrder"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.ConfigurationIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.missingMergeableConfigurationValues = try reader["missingMergeableConfigurationValues"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.ConfigurationIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unexpectedMergeableConfigurationValues = try reader["unexpectedMergeableConfigurationValues"].readListIfPresent(memberReadingClosure: NetworkSecurityManagerClientTypes.ConfigurationIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkSecurityManagerClientTypes.InvalidResourceIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkSecurityManagerClientTypes.InvalidResourceIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkSecurityManagerClientTypes.InvalidResourceIssue()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.expectedValue = try reader["expectedValue"].readIfPresent()
+        value.actualValue = try reader["actualValue"].readIfPresent()
         return value
     }
 }
@@ -7606,6 +8197,7 @@ extension NetworkSecurityManagerClientTypes.PolicyConfiguration {
 
     static func write(value: NetworkSecurityManagerClientTypes.PolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["igwFirewallConfig"].write(value.igwFirewallConfig, with: NetworkSecurityManagerClientTypes.IgwFirewallConfig.write(value:to:))
         try writer["remediationEnabled"].write(value.remediationEnabled)
         try writer["resourcesCleanUp"].write(value.resourcesCleanUp)
         try writer["wafConfig"].write(value.wafConfig, with: NetworkSecurityManagerClientTypes.WafConfig.write(value:to:))
@@ -7617,6 +8209,7 @@ extension NetworkSecurityManagerClientTypes.PolicyConfiguration {
         value.remediationEnabled = try reader["remediationEnabled"].readIfPresent() ?? false
         value.resourcesCleanUp = try reader["resourcesCleanUp"].readIfPresent() ?? false
         value.wafConfig = try reader["wafConfig"].readIfPresent(with: NetworkSecurityManagerClientTypes.WafConfig.read(from:))
+        value.igwFirewallConfig = try reader["igwFirewallConfig"].readIfPresent(with: NetworkSecurityManagerClientTypes.IgwFirewallConfig.read(from:))
         return value
     }
 }
@@ -7682,6 +8275,24 @@ extension NetworkSecurityManagerClientTypes.ResourceAssociation {
         var value = NetworkSecurityManagerClientTypes.ResourceAssociation()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NetworkSecurityManagerClientTypes.ResourceCoverageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkSecurityManagerClientTypes.ResourceCoverageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkSecurityManagerClientTypes.ResourceCoverageSummary()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.entityType = try reader["entityType"].readIfPresent()
+        value.entityArn = try reader["entityArn"].readIfPresent()
+        value.resourceOwnerAccountId = try reader["resourceOwnerAccountId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.firewallType = try reader["firewallType"].readIfPresent()
+        value.coverageStatus = try reader["coverageStatus"].readIfPresent()
+        value.deploymentArns = try reader["deploymentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7863,10 +8474,28 @@ extension NetworkSecurityManagerClientTypes.ScopeSummary {
         value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
         value.scopeArn = try reader["scopeArn"].readIfPresent() ?? ""
         value.scopeName = try reader["scopeName"].readIfPresent()
+        value.specializedScopeType = try reader["specializedScopeType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.hasPublishedVersion = try reader["hasPublishedVersion"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension NetworkSecurityManagerClientTypes.SubnetConnectivityOverride {
+
+    static func write(value: NetworkSecurityManagerClientTypes.SubnetConnectivityOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectivityType"].write(value.connectivityType)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkSecurityManagerClientTypes.SubnetConnectivityOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkSecurityManagerClientTypes.SubnetConnectivityOverride()
+        value.connectivityType = try reader["connectivityType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7894,6 +8523,7 @@ extension NetworkSecurityManagerClientTypes.TemplateSummary {
         value.templateId = try reader["templateId"].readIfPresent() ?? ""
         value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
         value.templateName = try reader["templateName"].readIfPresent() ?? ""
+        value.templateOwner = try reader["templateOwner"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.hasPublishedVersion = try reader["hasPublishedVersion"].readIfPresent()

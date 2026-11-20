@@ -941,7 +941,7 @@ extension FSxClient {
 
     /// Performs the `CreateAndAttachS3AccessPoint` operation on the `FSx` service.
     ///
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see [Accessing your data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/s3accesspoints-for-FSx.html). in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these actions:
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see [Accessing your data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/s3accesspoints-for-FSx.html) in the Amazon FSx for OpenZFS User Guide. For FSx for ONTAP file systems, see [Accessing data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/s3-access-points.html) in the Amazon FSx for NetApp ONTAP User Guide. The requester requires the following permissions to perform these actions:
     ///
     /// * fsx:CreateAndAttachS3AccessPoint
     ///
@@ -3102,11 +3102,11 @@ extension FSxClient {
 
     /// Performs the `DescribeSnapshots` operation on the `FSx` service.
     ///
-    /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. Use this operation in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first without a NextToken value. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken value. When using this operation, keep the following in mind:
+    /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more snapshots remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. Use this operation in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first without a NextToken value. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken value. When using this operation, keep the following in mind:
     ///
     /// * The operation might return fewer than the MaxResults value of snapshot descriptions while still including a NextToken value.
     ///
-    /// * The order of snapshots returned in the response of one DescribeSnapshots call and the order of backups returned across the responses of a multi-call iteration is unspecified.
+    /// * The order of snapshots returned in the response of one DescribeSnapshots call and the order of snapshots returned across the responses of a multi-call iteration is unspecified.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///

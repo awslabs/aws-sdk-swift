@@ -1297,6 +1297,37 @@ extension PaginatorSequence where OperationStackInput == ListFlowDefinitionsInpu
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListGlobalInferenceGatewaysOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGlobalInferenceGatewaysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGlobalInferenceGatewaysOutput`
+    public func listGlobalInferenceGatewaysPaginated(input: ListGlobalInferenceGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGlobalInferenceGatewaysInput, ListGlobalInferenceGatewaysOutput> {
+        return ClientRuntime.PaginatorSequence<ListGlobalInferenceGatewaysInput, ListGlobalInferenceGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGlobalInferenceGateways(input:))
+    }
+}
+
+extension ListGlobalInferenceGatewaysInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGlobalInferenceGatewaysInput {
+        return ListGlobalInferenceGatewaysInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListGlobalInferenceGatewaysInput, OperationStackOutput == ListGlobalInferenceGatewaysOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listGlobalInferenceGatewaysPaginated`
+    /// to access the nested member `[SageMakerClientTypes.GlobalInferenceGatewaySummary]`
+    /// - Returns: `[SageMakerClientTypes.GlobalInferenceGatewaySummary]`
+    public func globalInferenceGatewaySummaries() async throws -> [SageMakerClientTypes.GlobalInferenceGatewaySummary] {
+        return try await self.asyncCompactMap { item in item.globalInferenceGatewaySummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListHumanTaskUisOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1518,6 +1549,38 @@ extension PaginatorSequence where OperationStackInput == ListInferenceExperiment
     /// - Returns: `[SageMakerClientTypes.InferenceExperimentSummary]`
     public func inferenceExperiments() async throws -> [SageMakerClientTypes.InferenceExperimentSummary] {
         return try await self.asyncCompactMap { item in item.inferenceExperiments }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListInferenceGatewaysOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInferenceGatewaysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceGatewaysOutput`
+    public func listInferenceGatewaysPaginated(input: ListInferenceGatewaysInput) -> ClientRuntime.PaginatorSequence<ListInferenceGatewaysInput, ListInferenceGatewaysOutput> {
+        return ClientRuntime.PaginatorSequence<ListInferenceGatewaysInput, ListInferenceGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceGateways(input:))
+    }
+}
+
+extension ListInferenceGatewaysInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInferenceGatewaysInput {
+        return ListInferenceGatewaysInput(
+            filters: self.filters,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInferenceGatewaysInput, OperationStackOutput == ListInferenceGatewaysOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInferenceGatewaysPaginated`
+    /// to access the nested member `[SageMakerClientTypes.GlobalInferenceGatewayMemberSummary]`
+    /// - Returns: `[SageMakerClientTypes.GlobalInferenceGatewayMemberSummary]`
+    public func inferenceGatewaySummaries() async throws -> [SageMakerClientTypes.GlobalInferenceGatewayMemberSummary] {
+        return try await self.asyncCompactMap { item in item.inferenceGatewaySummaries }
     }
 }
 extension SageMakerClient {

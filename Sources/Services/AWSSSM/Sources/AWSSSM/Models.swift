@@ -1206,7 +1206,16 @@ extension SSMClientTypes {
     /// * Key=CloudConnector,Values={"CloudConnectorId":"cloud-connector-id","SsmManagedNodeFilter":"MANAGED","CloudProviderRegions":["eastus"]}
     ///
     ///
-    /// Supported JSON keys: CloudConnectorId (required), SsmManagedNodeFilter, CloudProviderRegions, and, for GCP, IncludesLabels, ExcludesLabels, OsPolicyComplianceFilter, and OsPolicyOrchestratorId.
+    /// Instead of CloudConnector, you can use AzureCloudConnector or GcpCloudConnector for a cloud connector to that provider. You must specify exactly one value. A cloud connector ID alone targets every running virtual machine (VM) in the cloud connector's scope. In the JSON value, CloudConnectorId is required, and the following optional keys narrow that scope:
+    ///
+    /// * For both providers: SsmManagedNodeFilter, which filters VMs by whether they are Systems Manager managed nodes.
+    ///
+    /// * For Microsoft Azure: CloudProviderRegions, AzureSubscriptions, AzureResourceGroups, AzureTag, AzureVmPowerStates, and AzureResourceType.
+    ///
+    /// * For GCP: Zones, GcpProjects, IncludesLabels, ExcludesLabels, GcpInstanceStates, OsPolicyComplianceFilter, OsPolicyOrchestratorName, OsPolicyOrchestratorId, and GcpAssetType.
+    ///
+    ///
+    /// For descriptions, valid values, and defaults of these keys, see [Cloud Connector target reference](https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-cloud-connector-target.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     ///
     /// For Run Command and Maintenance Windows:
@@ -2275,6 +2284,38 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    public enum CloudProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case gcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudProvider] {
+            return [
+                .aws,
+                .azure,
+                .gcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "Azure"
+            case .gcp: return "GCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     public enum DocumentFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case text
@@ -2410,6 +2451,17 @@ extension SSMClientTypes {
 public struct CreateDocumentInput: Swift.Sendable {
     /// A list of key-value pairs that describe attachments to a version of a document.
     public var attachments: [SSMClientTypes.AttachmentsSource]?
+    /// The cloud providers that the document can run against. Valid values include the following:
+    ///
+    /// * AWS - The document runs against Amazon Web Services resources.
+    ///
+    /// * Azure - The document runs against Microsoft Azure resources.
+    ///
+    /// * GCP - The document runs against Google Cloud resources.
+    ///
+    ///
+    /// If you don't specify a value, the default is AWS.
+    public var cloudProviders: [SSMClientTypes.CloudProvider]?
     /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide.
     ///
     /// * [Create an SSM document (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console)
@@ -2458,6 +2510,7 @@ public struct CreateDocumentInput: Swift.Sendable {
 
     public init(
         attachments: [SSMClientTypes.AttachmentsSource]? = nil,
+        cloudProviders: [SSMClientTypes.CloudProvider]? = nil,
         content: Swift.String? = nil,
         displayName: Swift.String? = nil,
         documentFormat: SSMClientTypes.DocumentFormat? = nil,
@@ -2469,6 +2522,7 @@ public struct CreateDocumentInput: Swift.Sendable {
         versionName: Swift.String? = nil
     ) {
         self.attachments = attachments
+        self.cloudProviders = cloudProviders
         self.content = content
         self.displayName = displayName
         self.documentFormat = documentFormat
@@ -2724,6 +2778,8 @@ extension SSMClientTypes {
         public var category: [Swift.String]?
         /// The value that identifies a document's category.
         public var categoryEnum: [Swift.String]?
+        /// This field specifies the cloud providers that the returned version of the document can run against.
+        public var cloudProviders: [SSMClientTypes.CloudProvider]?
         /// The date when the document was created.
         public var createdDate: Foundation.Date?
         /// The default version.
@@ -2781,6 +2837,7 @@ extension SSMClientTypes {
             author: Swift.String? = nil,
             category: [Swift.String]? = nil,
             categoryEnum: [Swift.String]? = nil,
+            cloudProviders: [SSMClientTypes.CloudProvider]? = nil,
             createdDate: Foundation.Date? = nil,
             defaultVersion: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -2812,6 +2869,7 @@ extension SSMClientTypes {
             self.author = author
             self.category = category
             self.categoryEnum = categoryEnum
+            self.cloudProviders = cloudProviders
             self.createdDate = createdDate
             self.defaultVersion = defaultVersion
             self.description = description
@@ -15477,7 +15535,16 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
-    /// One or more filters. Use a filter to return a more specific list of documents. For keys, you can specify one or more tags that have been applied to a document. You can also use Amazon Web Services-provided keys, some of which have specific allowed values. These keys and their associated values are as follows: DocumentType
+    /// One or more filters. Use a filter to return a more specific list of documents. For keys, you can specify one or more tags that have been applied to a document. You can also use Amazon Web Services-provided keys, some of which have specific allowed values. These keys and their associated values are as follows: CloudProviders Returns documents whose default version can run against any of the specified cloud providers. The CloudProviders key supports the following values:
+    ///
+    /// * AWS - Documents that run against Amazon Web Services resources.
+    ///
+    /// * Azure - Documents that run against Microsoft Azure resources.
+    ///
+    /// * GCP - Documents that run against Google Cloud resources.
+    ///
+    ///
+    /// If you created a document before Systems Manager supported cloud providers, the document runs against AWS. DocumentType
     ///
     /// * ApplicationConfiguration
     ///
@@ -15536,7 +15603,7 @@ extension SSMClientTypes {
 public struct ListDocumentsInput: Swift.Sendable {
     /// This data type is deprecated. Instead, use Filters.
     public var documentFilterList: [SSMClientTypes.DocumentFilter]?
-    /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName. This API operation only supports filtering documents by using a single tag key and one or more tag values. For example: Key=tag:tagName,Values=valueName1,valueName2
+    /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, TargetType, and CloudProviders. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName. This API operation only supports filtering documents by using a single tag key and one or more tag values. For example: Key=tag:tagName,Values=valueName1,valueName2
     public var filters: [SSMClientTypes.DocumentKeyValuesFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
@@ -15562,6 +15629,8 @@ extension SSMClientTypes {
     public struct DocumentIdentifier: Swift.Sendable {
         /// The user in your organization who created the document.
         public var author: Swift.String?
+        /// This field specifies the cloud providers that the default version of the document can run against.
+        public var cloudProviders: [SSMClientTypes.CloudProvider]?
         /// The date the SSM document was created.
         public var createdDate: Foundation.Date?
         /// An optional field where you can specify a friendly name for the SSM document. This value can differ for each version of the document. If you want to update this value, see [UpdateDocument].
@@ -15593,6 +15662,7 @@ extension SSMClientTypes {
 
         public init(
             author: Swift.String? = nil,
+            cloudProviders: [SSMClientTypes.CloudProvider]? = nil,
             createdDate: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             documentFormat: SSMClientTypes.DocumentFormat? = nil,
@@ -15609,6 +15679,7 @@ extension SSMClientTypes {
             versionName: Swift.String? = nil
         ) {
             self.author = author
+            self.cloudProviders = cloudProviders
             self.createdDate = createdDate
             self.displayName = displayName
             self.documentFormat = documentFormat
@@ -15666,6 +15737,8 @@ extension SSMClientTypes {
 
     /// Version information about the document.
     public struct DocumentVersionInfo: Swift.Sendable {
+        /// This field specifies the cloud providers that this version of the document can run against.
+        public var cloudProviders: [SSMClientTypes.CloudProvider]?
         /// The date the document was created.
         public var createdDate: Foundation.Date?
         /// The friendly name of the SSM document. This value can differ for each version of the document. If you want to update this value, see [UpdateDocument].
@@ -15688,6 +15761,7 @@ extension SSMClientTypes {
         public var versionName: Swift.String?
 
         public init(
+            cloudProviders: [SSMClientTypes.CloudProvider]? = nil,
             createdDate: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             documentFormat: SSMClientTypes.DocumentFormat? = nil,
@@ -15699,6 +15773,7 @@ extension SSMClientTypes {
             statusInformation: Swift.String? = nil,
             versionName: Swift.String? = nil
         ) {
+            self.cloudProviders = cloudProviders
             self.createdDate = createdDate
             self.displayName = displayName
             self.documentFormat = documentFormat
@@ -19498,6 +19573,17 @@ public struct DuplicateDocumentVersionName: ClientRuntime.ModeledError, AWSClien
 public struct UpdateDocumentInput: Swift.Sendable {
     /// A list of key-value pairs that describe attachments to a version of a document.
     public var attachments: [SSMClientTypes.AttachmentsSource]?
+    /// The cloud providers that the new document version can run against. Valid values include the following:
+    ///
+    /// * AWS - The document runs against Amazon Web Services resources.
+    ///
+    /// * Azure - The document runs against Microsoft Azure resources.
+    ///
+    /// * GCP - The document runs against Google Cloud resources.
+    ///
+    ///
+    /// If you don't specify a value, the new version uses the cloud providers of the latest version.
+    public var cloudProviders: [SSMClientTypes.CloudProvider]?
     /// A valid JSON or YAML string.
     /// This member is required.
     public var content: Swift.String?
@@ -19517,6 +19603,7 @@ public struct UpdateDocumentInput: Swift.Sendable {
 
     public init(
         attachments: [SSMClientTypes.AttachmentsSource]? = nil,
+        cloudProviders: [SSMClientTypes.CloudProvider]? = nil,
         content: Swift.String? = nil,
         displayName: Swift.String? = nil,
         documentFormat: SSMClientTypes.DocumentFormat? = nil,
@@ -19526,6 +19613,7 @@ public struct UpdateDocumentInput: Swift.Sendable {
         versionName: Swift.String? = nil
     ) {
         self.attachments = attachments
+        self.cloudProviders = cloudProviders
         self.content = content
         self.displayName = displayName
         self.documentFormat = documentFormat

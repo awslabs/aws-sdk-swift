@@ -708,6 +708,7 @@ extension NetworkSecurityManagerClient {
     /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists, then try your request again.
     /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `TagPolicyViolationException` : The request violates a tag policy that is in effect for the account or organization.
     /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
     /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
     public func createDeploymentSnapshot(input: CreateDeploymentSnapshotInput) async throws -> CreateDeploymentSnapshotOutput {
@@ -859,6 +860,7 @@ extension NetworkSecurityManagerClient {
     /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists, then try your request again.
     /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `TagPolicyViolationException` : The request violates a tag policy that is in effect for the account or organization.
     /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
     /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
     public func createPolicySnapshot(input: CreatePolicySnapshotInput) async throws -> CreatePolicySnapshotOutput {
@@ -1010,6 +1012,7 @@ extension NetworkSecurityManagerClient {
     /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists, then try your request again.
     /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `TagPolicyViolationException` : The request violates a tag policy that is in effect for the account or organization.
     /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
     /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
     public func createRuleSnapshot(input: CreateRuleSnapshotInput) async throws -> CreateRuleSnapshotOutput {
@@ -1161,6 +1164,7 @@ extension NetworkSecurityManagerClient {
     /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists, then try your request again.
     /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `TagPolicyViolationException` : The request violates a tag policy that is in effect for the account or organization.
     /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
     /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
     public func createScopeSnapshot(input: CreateScopeSnapshotInput) async throws -> CreateScopeSnapshotOutput {
@@ -1312,6 +1316,7 @@ extension NetworkSecurityManagerClient {
     /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists, then try your request again.
     /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `TagPolicyViolationException` : The request violates a tag policy that is in effect for the account or organization.
     /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
     /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
     public func createTemplateSnapshot(input: CreateTemplateSnapshotInput) async throws -> CreateTemplateSnapshotOutput {
@@ -2547,6 +2552,75 @@ extension NetworkSecurityManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEntityCoverages` operation on the `NetworkSecurityManager` service.
+    ///
+    /// Lists the protected resources that the specified Network Security Manager entity covers. You can filter the results to the resources owned by a single account and page through them. You must call this operation from the administrator account that owns the Network Security Manager entity.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEntityCoveragesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEntityCoveragesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
+    /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
+    public func listEntityCoverages(input: ListEntityCoveragesInput) async throws -> ListEntityCoveragesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEntityCoverages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-security-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntityCoveragesInput, ListEntityCoveragesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>(ListEntityCoveragesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>(ListEntityCoveragesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityCoveragesOutput>(ListEntityCoveragesOutput.httpOutput(from:), ListEntityCoveragesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityCoveragesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Security Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityCoveragesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityCoveragesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Security Manager"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntityCoveragesInput, ListEntityCoveragesOutput>(serviceID: serviceName, version: NetworkSecurityManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkSecurityManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntityCoverages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListPolicies` operation on the `NetworkSecurityManager` service.
     ///
     /// Lists the policies in the account. You can filter the results by status and page through them using maxResults and nextToken.
@@ -2674,6 +2748,75 @@ extension NetworkSecurityManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkSecurityManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPolicySnapshots")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListProtectedResourceCoverages` operation on the `NetworkSecurityManager` service.
+    ///
+    /// Lists the AWS Network Security Manager entities that cover the specified protected resource. You can filter the results by entity type and page through them. You must own the resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedResourceCoveragesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProtectedResourceCoveragesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServerException` : The request processing failed because of an internal error in the service. This is a retryable error.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Reduce your request rate and try again.
+    /// - `ValidationException` : The request failed validation. For details, see the reason and fieldList members of the response.
+    public func listProtectedResourceCoverages(input: ListProtectedResourceCoveragesInput) async throws -> ListProtectedResourceCoveragesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProtectedResourceCoverages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-security-manager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(ListProtectedResourceCoveragesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(ListProtectedResourceCoveragesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedResourceCoveragesOutput>(ListProtectedResourceCoveragesOutput.httpOutput(from:), ListProtectedResourceCoveragesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedResourceCoveragesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Security Manager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProtectedResourceCoveragesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectedResourceCoveragesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Security Manager"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(serviceID: serviceName, version: NetworkSecurityManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkSecurityManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProtectedResourceCoverages")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

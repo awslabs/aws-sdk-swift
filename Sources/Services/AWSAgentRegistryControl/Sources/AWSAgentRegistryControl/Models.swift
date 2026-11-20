@@ -31,6 +31,17 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+
+public struct DeletePublisherOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociatePublisherOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension AgentRegistryControlClientTypes {
 
     /// The configuration for an IAM role credential provider that signs requests to a registry record's source with Amazon Web Services Signature Version 4 (SigV4). For an Amazon S3 skill source (an s3:// URL), Amazon Web Services Agent Registry assumes the role to read the object. The role must be in your Amazon Web Services account.
@@ -694,6 +705,52 @@ extension AgentRegistryControlClientTypes {
     }
 }
 
+/// The request conflicts with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown on a database (or other dependency) error. Modeled as a server error so SDKs retry it (5xx) and it feeds server-error alarming. Marked @retryable because it represents a transient downstream failure that is safe to retry (matches the forwarder's own retry-on-DependencyException behavior).
+public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DependencyException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request failed due to an unexpected internal error; the caller may retry.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -717,15 +774,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The requested resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The request would exceed a service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -858,6 +915,281 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct AssociatePublisherInput: Swift.Sendable {
+    /// Optional categorization/hierarchy applied to the public identifier.
+    public var categories: [Swift.String]?
+    /// Optional client-provided idempotency token. Retries carrying the same token return the originally-created association instead of creating a duplicate.
+    public var clientToken: Swift.String?
+    /// The Publisher to associate the Record with.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+    /// The Record being associated.
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// Optional single DNS label placed in front of the publisher domain (e.g. "agents" -> agents.acme.com). Absent means the Record sits directly on the publisher domain.
+    public var subdomain: Swift.String?
+
+    public init(
+        categories: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        publisherArn: Swift.String? = nil,
+        recordArn: Swift.String? = nil,
+        subdomain: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.clientToken = clientToken
+        self.publisherArn = publisherArn
+        self.recordArn = recordArn
+        self.subdomain = subdomain
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The Record<->Publisher association's status.
+    public enum AssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case pendingApproval
+        case rejected
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationStatus] {
+            return [
+                .approved,
+                .pendingApproval,
+                .rejected,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .rejected: return "REJECTED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The new association between the registry record and the publisher, including the record's public identifier. A retry with the original clientToken returns the original association.
+public struct AssociatePublisherOutput: Swift.Sendable {
+    /// Server-generated public identifier. This is a URN, NOT an ARN: the public identifier is a public-facing, provider-neutral name (a Record may be hosted outside AWS), so it deliberately does not use the arn: scheme. Layout: urn:air:[<subdomain>.]<domain>:<namespace>:<identity>[;<kind>]
+    ///
+    /// * authority [<subdomain>.]<domain> — the publisher FQDN, with the optional subdomain folded in as a leading label (e.g. agents.acme.com; without a subdomain, just acme.com).
+    ///
+    /// * <namespace> — the association's category values concatenated with : (zero-or-more segments; absent when no categories were supplied).
+    ///
+    /// * <identity> — the Record name: letters, digits, ., _, / and -, as Vestry allows.
+    ///
+    /// * <kind> — the artifact kind from the Record's recordType (ai-catalog issue 59): MCP is mcp, AGENT and CUSTOM are agent, SKILL is skill, WEB_BOT is webbot. Absent for GATEWAY and when the association carried no recordType. The kind is part of the identifier, so urn:air:acme.com:x;mcp and urn:air:acme.com:x are two identifiers. Belfry mints ;; the pattern also admits #, +, $ and @, so identifiers minted with # before the delimiter settled on ; stay valid until they're re-minted. Examples: urn:air:acme.com:finance-agent (no subdomain/categories), urn:air:agents.acme.com:financial:money:finance-agent, urn:air:acme.com:weather;mcp.
+    /// This member is required.
+    public var publicIdentifier: Swift.String?
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisher: Swift.String?
+    /// Registry Record Amazon Resource Name
+    /// This member is required.
+    public var recordArn: Swift.String?
+    /// The Record<->Publisher association's status.
+    /// This member is required.
+    public var status: AgentRegistryControlClientTypes.AssociationStatus?
+    /// The reason for the association's current status, such as why it is suspended. Present only when a reason is available.
+    public var statusReason: Swift.String?
+
+    public init(
+        publicIdentifier: Swift.String? = nil,
+        publisher: Swift.String? = nil,
+        recordArn: Swift.String? = nil,
+        status: AgentRegistryControlClientTypes.AssociationStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.publicIdentifier = publicIdentifier
+        self.publisher = publisher
+        self.recordArn = recordArn
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct DisassociatePublisherInput: Swift.Sendable {
+    /// Registry Record Amazon Resource Name
+    /// This member is required.
+    public var recordArn: Swift.String?
+
+    public init(
+        recordArn: Swift.String? = nil
+    ) {
+        self.recordArn = recordArn
+    }
+}
+
+public struct ListPublisherAssociationsInput: Swift.Sendable {
+    /// Maximum number of items to be listed
+    public var maxResults: Swift.Int?
+    /// Opaque continuation token of previous paginated response
+    public var nextToken: Swift.String?
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    public var publisherArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        publisherArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.publisherArn = publisherArn
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// An association between a registry record and a publisher, including the record's public identifier.
+    public struct PublisherAssociation: Swift.Sendable {
+        /// Server-generated public identifier. This is a URN, NOT an ARN: the public identifier is a public-facing, provider-neutral name (a Record may be hosted outside AWS), so it deliberately does not use the arn: scheme. Layout: urn:air:[<subdomain>.]<domain>:<namespace>:<identity>[;<kind>]
+        ///
+        /// * authority [<subdomain>.]<domain> — the publisher FQDN, with the optional subdomain folded in as a leading label (e.g. agents.acme.com; without a subdomain, just acme.com).
+        ///
+        /// * <namespace> — the association's category values concatenated with : (zero-or-more segments; absent when no categories were supplied).
+        ///
+        /// * <identity> — the Record name: letters, digits, ., _, / and -, as Vestry allows.
+        ///
+        /// * <kind> — the artifact kind from the Record's recordType (ai-catalog issue 59): MCP is mcp, AGENT and CUSTOM are agent, SKILL is skill, WEB_BOT is webbot. Absent for GATEWAY and when the association carried no recordType. The kind is part of the identifier, so urn:air:acme.com:x;mcp and urn:air:acme.com:x are two identifiers. Belfry mints ;; the pattern also admits #, +, $ and @, so identifiers minted with # before the delimiter settled on ; stay valid until they're re-minted. Examples: urn:air:acme.com:finance-agent (no subdomain/categories), urn:air:agents.acme.com:financial:money:finance-agent, urn:air:acme.com:weather;mcp.
+        /// This member is required.
+        public var publicIdentifier: Swift.String?
+        /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+        /// This member is required.
+        public var publisher: Swift.String?
+        /// Registry Record Amazon Resource Name
+        /// This member is required.
+        public var recordArn: Swift.String?
+        /// The Record<->Publisher association's status.
+        /// This member is required.
+        public var status: AgentRegistryControlClientTypes.AssociationStatus?
+        /// The reason for the association's current status, such as why it is suspended. Present only when a reason is available.
+        public var statusReason: Swift.String?
+
+        public init(
+            publicIdentifier: Swift.String? = nil,
+            publisher: Swift.String? = nil,
+            recordArn: Swift.String? = nil,
+            status: AgentRegistryControlClientTypes.AssociationStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.publicIdentifier = publicIdentifier
+            self.publisher = publisher
+            self.recordArn = recordArn
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct ListPublisherAssociationsOutput: Swift.Sendable {
+    /// The publisher associations on this page of results.
+    /// This member is required.
+    public var items: [AgentRegistryControlClientTypes.PublisherAssociation]?
+    /// Opaque continuation token of previous paginated response
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AgentRegistryControlClientTypes.PublisherAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The curator's decision on a Record's Publisher association.
+    public enum AssociationApprovalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationApprovalStatus] {
+            return [
+                .approved,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdatePublisherAssociationApprovalStatusInput: Swift.Sendable {
+    /// The curator's decision on a Record's Publisher association.
+    /// This member is required.
+    public var approvalStatus: AgentRegistryControlClientTypes.AssociationApprovalStatus?
+    /// The curator's reason for the decision; may be empty.
+    /// This member is required.
+    public var approvalStatusReason: Swift.String?
+    /// Registry Record Amazon Resource Name
+    /// This member is required.
+    public var recordArn: Swift.String?
+
+    public init(
+        approvalStatus: AgentRegistryControlClientTypes.AssociationApprovalStatus? = nil,
+        approvalStatusReason: Swift.String? = nil,
+        recordArn: Swift.String? = nil
+    ) {
+        self.approvalStatus = approvalStatus
+        self.approvalStatusReason = approvalStatusReason
+        self.recordArn = recordArn
+    }
+}
+
+public struct UpdatePublisherAssociationApprovalStatusOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The requested resource was not found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to list tags for. Supported resources include registries and registry records.
     /// This member is required.
@@ -881,49 +1213,406 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
-/// The request conflicts with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension AgentRegistryControlClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+    /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+    public enum Identifier: Swift.Sendable {
+        /// FQDN per RFC-1035/1123, case-insensitive, at least two labels.
+        case domain(Swift.String)
+        case sdkUnknown(Swift.String)
     }
 }
 
-/// The request would exceed a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+public struct CreatePublisherInput: Swift.Sendable {
+    /// Optional client-provided idempotency token. Retries of the same Create request carrying the same token return the originally-created resource instead of creating a duplicate. Forwarded to BelfryGlobalCP. Optional and backward-compatible.
+    public var clientToken: Swift.String?
+    /// The tags to attach to the publisher. Each tag is a key-value pair. You can attach up to 50 tags.
+    public var tags: [Swift.String: Swift.String]?
+    /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+    /// This member is required.
+    public var value: AgentRegistryControlClientTypes.Identifier?
 
     public init(
-        message: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        value: AgentRegistryControlClientTypes.Identifier? = nil
     ) {
-        self.properties.message = message
+        self.clientToken = clientToken
+        self.tags = tags
+        self.value = value
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Server-generated DNS-01 challenge the caller must publish to prove ownership.
+    public struct DomainChallenge: Swift.Sendable {
+        /// The name of the DNS TXT record to create, such as _acme-challenge.example.com.
+        /// This member is required.
+        public var recordName: Swift.String?
+        /// The value to publish in the DNS TXT record. A new value is issued each time verification restarts, and earlier values no longer verify the domain.
+        /// This member is required.
+        public var recordValue: Swift.String?
+
+        public init(
+            recordName: Swift.String? = nil,
+            recordValue: Swift.String? = nil
+        ) {
+            self.recordName = recordName
+            self.recordValue = recordValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    public enum IdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentifierType] {
+            return [
+                .domain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domain: return "DOMAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionRequired
+        case active
+        /// A delete is in progress.
+        case deleting
+        case failed
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .actionRequired,
+                .active,
+                .deleting,
+                .failed,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionRequired: return "ACTION_REQUIRED"
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The new publisher, in ACTION_REQUIRED, with the domainChallenge to publish as a DNS TXT record. A retry with the original clientToken returns the existing publisher.
+public struct CreatePublisherOutput: Swift.Sendable {
+    /// The date and time that the publisher was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Server-generated DNS-01 challenge the caller must publish to prove ownership.
+    public var domainChallenge: AgentRegistryControlClientTypes.DomainChallenge?
+    /// The identifier type. DOMAIN is the only supported value.
+    public var identifierType: AgentRegistryControlClientTypes.IdentifierType?
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+    /// The domain verification status of the publisher:
+    ///
+    /// * ACTION_REQUIRED: The registry is waiting to find the DNS TXT record described by domainChallenge.
+    ///
+    /// * ACTIVE: The domain is verified. You can associate registry records with the publisher.
+    ///
+    /// * SUSPENDED: The domain was verified, but a later check found the TXT record missing or changed. The publisher returns to ACTIVE when the record is found again, and becomes FAILED if the record stays missing.
+    ///
+    /// * FAILED: Verification didn't succeed, for example because the TXT record wasn't found in time or another account verified the domain first. Call ValidatePublisher to try again.
+    ///
+    /// * DELETING: A delete is in progress.
+    /// This member is required.
+    public var status: AgentRegistryControlClientTypes.VerificationStatus?
+    /// The reason for the publisher's current status, such as why verification failed. Present only when a reason is available.
+    public var statusReason: Swift.String?
+    /// The tags attached to the publisher.
+    public var tags: [Swift.String: Swift.String]?
+    /// The date and time that the publisher was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+    /// This member is required.
+    public var value: AgentRegistryControlClientTypes.Identifier?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        domainChallenge: AgentRegistryControlClientTypes.DomainChallenge? = nil,
+        identifierType: AgentRegistryControlClientTypes.IdentifierType? = .domain,
+        publisherArn: Swift.String? = nil,
+        status: AgentRegistryControlClientTypes.VerificationStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil,
+        value: AgentRegistryControlClientTypes.Identifier? = nil
+    ) {
+        self.createdAt = createdAt
+        self.domainChallenge = domainChallenge
+        self.identifierType = identifierType
+        self.publisherArn = publisherArn
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.updatedAt = updatedAt
+        self.value = value
+    }
+}
+
+public struct DeletePublisherInput: Swift.Sendable {
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+
+    public init(
+        publisherArn: Swift.String? = nil
+    ) {
+        self.publisherArn = publisherArn
+    }
+}
+
+public struct GetPublisherInput: Swift.Sendable {
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+
+    public init(
+        publisherArn: Swift.String? = nil
+    ) {
+        self.publisherArn = publisherArn
+    }
+}
+
+/// A publisher, including its verification status and the DNS challenge for its domain.
+public struct GetPublisherOutput: Swift.Sendable {
+    /// The date and time that the publisher was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Server-generated DNS-01 challenge the caller must publish to prove ownership.
+    public var domainChallenge: AgentRegistryControlClientTypes.DomainChallenge?
+    /// The identifier type. DOMAIN is the only supported value.
+    public var identifierType: AgentRegistryControlClientTypes.IdentifierType?
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+    /// The domain verification status of the publisher:
+    ///
+    /// * ACTION_REQUIRED: The registry is waiting to find the DNS TXT record described by domainChallenge.
+    ///
+    /// * ACTIVE: The domain is verified. You can associate registry records with the publisher.
+    ///
+    /// * SUSPENDED: The domain was verified, but a later check found the TXT record missing or changed. The publisher returns to ACTIVE when the record is found again, and becomes FAILED if the record stays missing.
+    ///
+    /// * FAILED: Verification didn't succeed, for example because the TXT record wasn't found in time or another account verified the domain first. Call ValidatePublisher to try again.
+    ///
+    /// * DELETING: A delete is in progress.
+    /// This member is required.
+    public var status: AgentRegistryControlClientTypes.VerificationStatus?
+    /// The reason for the publisher's current status, such as why verification failed. Present only when a reason is available.
+    public var statusReason: Swift.String?
+    /// The tags attached to the publisher.
+    public var tags: [Swift.String: Swift.String]?
+    /// The date and time that the publisher was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+    /// This member is required.
+    public var value: AgentRegistryControlClientTypes.Identifier?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        domainChallenge: AgentRegistryControlClientTypes.DomainChallenge? = nil,
+        identifierType: AgentRegistryControlClientTypes.IdentifierType? = .domain,
+        publisherArn: Swift.String? = nil,
+        status: AgentRegistryControlClientTypes.VerificationStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil,
+        value: AgentRegistryControlClientTypes.Identifier? = nil
+    ) {
+        self.createdAt = createdAt
+        self.domainChallenge = domainChallenge
+        self.identifierType = identifierType
+        self.publisherArn = publisherArn
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.updatedAt = updatedAt
+        self.value = value
+    }
+}
+
+public struct ListPublishersInput: Swift.Sendable {
+    /// Maximum number of items to be listed
+    public var maxResults: Swift.Int?
+    /// Opaque continuation token of previous paginated response
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Lightweight projection for list results.
+    public struct PublisherSummary: Swift.Sendable {
+        /// The number of registry records associated with the publisher, in any association status. Omitted when the count isn't available.
+        public var associationCount: Swift.Int?
+        /// The date and time that the publisher was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier type. DOMAIN is the only supported value.
+        public var identifierType: AgentRegistryControlClientTypes.IdentifierType?
+        /// The number of the publisher's associations that are in PENDING_APPROVAL. Omitted when the count isn't available.
+        public var pendingAssociationApprovalCount: Swift.Int?
+        /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+        /// This member is required.
+        public var publisherArn: Swift.String?
+        /// The domain verification status of the publisher: ACTION_REQUIRED, ACTIVE, SUSPENDED, FAILED, or DELETING. Only an ACTIVE publisher accepts new registry record associations.
+        /// This member is required.
+        public var status: AgentRegistryControlClientTypes.VerificationStatus?
+        /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+        /// This member is required.
+        public var value: AgentRegistryControlClientTypes.Identifier?
+
+        public init(
+            associationCount: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            identifierType: AgentRegistryControlClientTypes.IdentifierType? = .domain,
+            pendingAssociationApprovalCount: Swift.Int? = nil,
+            publisherArn: Swift.String? = nil,
+            status: AgentRegistryControlClientTypes.VerificationStatus? = nil,
+            value: AgentRegistryControlClientTypes.Identifier? = nil
+        ) {
+            self.associationCount = associationCount
+            self.createdAt = createdAt
+            self.identifierType = identifierType
+            self.pendingAssociationApprovalCount = pendingAssociationApprovalCount
+            self.publisherArn = publisherArn
+            self.status = status
+            self.value = value
+        }
+    }
+}
+
+public struct ListPublishersOutput: Swift.Sendable {
+    /// Summaries of the publishers on this page of results.
+    /// This member is required.
+    public var items: [AgentRegistryControlClientTypes.PublisherSummary]?
+    /// Opaque continuation token of previous paginated response
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [AgentRegistryControlClientTypes.PublisherSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ValidatePublisherInput: Swift.Sendable {
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+
+    public init(
+        publisherArn: Swift.String? = nil
+    ) {
+        self.publisherArn = publisherArn
+    }
+}
+
+/// The publisher after verification restarts, in ACTION_REQUIRED with a new domainChallenge.
+public struct ValidatePublisherOutput: Swift.Sendable {
+    /// The date and time that the publisher was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Server-generated DNS-01 challenge the caller must publish to prove ownership.
+    public var domainChallenge: AgentRegistryControlClientTypes.DomainChallenge?
+    /// The identifier type. DOMAIN is the only supported value.
+    public var identifierType: AgentRegistryControlClientTypes.IdentifierType?
+    /// ARN for an Identifier resource. Global (region-less) resource, so the region field is empty; the resource segment carries the identifier value, which may contain dots. Named PublisherIdentifierArn (RegionalCP's local name) so RegionalCP consumes it without a rename — which keeps its c2j/SDK model (generated from the un-projected source, where the top-level c2j plugin runs to preserve @idempotencyToken) showing the correct shape name. GlobalCP renames this to identifierArn in its own coral-export projection.
+    /// This member is required.
+    public var publisherArn: Swift.String?
+    /// The domain verification status of the publisher:
+    ///
+    /// * ACTION_REQUIRED: The registry is waiting to find the DNS TXT record described by domainChallenge.
+    ///
+    /// * ACTIVE: The domain is verified. You can associate registry records with the publisher.
+    ///
+    /// * SUSPENDED: The domain was verified, but a later check found the TXT record missing or changed. The publisher returns to ACTIVE when the record is found again, and becomes FAILED if the record stays missing.
+    ///
+    /// * FAILED: Verification didn't succeed, for example because the TXT record wasn't found in time or another account verified the domain first. Call ValidatePublisher to try again.
+    ///
+    /// * DELETING: A delete is in progress.
+    /// This member is required.
+    public var status: AgentRegistryControlClientTypes.VerificationStatus?
+    /// The reason for the publisher's current status, such as why verification failed. Present only when a reason is available.
+    public var statusReason: Swift.String?
+    /// The tags attached to the publisher.
+    public var tags: [Swift.String: Swift.String]?
+    /// The date and time that the publisher was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The identifier value. Discriminated union — exactly one member is set. GA supports domain only; other identifier types are added as new members (backward-compatible) in a later task.
+    /// This member is required.
+    public var value: AgentRegistryControlClientTypes.Identifier?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        domainChallenge: AgentRegistryControlClientTypes.DomainChallenge? = nil,
+        identifierType: AgentRegistryControlClientTypes.IdentifierType? = .domain,
+        publisherArn: Swift.String? = nil,
+        status: AgentRegistryControlClientTypes.VerificationStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil,
+        value: AgentRegistryControlClientTypes.Identifier? = nil
+    ) {
+        self.createdAt = createdAt
+        self.domainChallenge = domainChallenge
+        self.identifierType = identifierType
+        self.publisherArn = publisherArn
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.updatedAt = updatedAt
+        self.value = value
     }
 }
 
@@ -1225,6 +1914,167 @@ extension AgentRegistryControlClientTypes.McpServerDescriptor: Swift.CustomDebug
 
 extension AgentRegistryControlClientTypes {
 
+    /// The category that describes a web bot's purpose. The categories follow AWS WAF Bot Control bot categories. Valid values:
+    ///
+    /// * advertising - Bots used for advertising, such as third-party ad services that access a website programmatically.
+    ///
+    /// * archiver - Bots that crawl the web and capture content to create archives.
+    ///
+    /// * content_fetcher - Bots that visit a website on behalf of a user to fetch content, such as RSS feeds, or to verify content.
+    ///
+    /// * email_client - Bots that check links in emails, such as those run by email providers to flag suspicious emails.
+    ///
+    /// * http_library - Requests generated by the HTTP libraries of programming languages, such as API clients.
+    ///
+    /// * link_checker - Bots that check for broken links.
+    ///
+    /// * miscellaneous - Bots that don't match another category.
+    ///
+    /// * monitoring - Bots that periodically access a website to monitor performance and uptime.
+    ///
+    /// * page_preview - Bots that generate page and link previews when content is shared on messaging, social media, or collaboration tools.
+    ///
+    /// * scraping_framework - Bots from web scraping frameworks that automate crawling and extracting website content.
+    ///
+    /// * search_engine - Bots that crawl websites to index content for search engine results.
+    ///
+    /// * security - Bots that scan web applications for vulnerabilities or perform security audits.
+    ///
+    /// * seo - Bots that crawl a website to help improve its search engine rankings.
+    ///
+    /// * social_media - Bots that social media platforms use to provide content summaries when users share content.
+    ///
+    /// * ai_training - AI bots that collect content to train AI models.
+    ///
+    /// * ai_search - AI bots that retrieve content to answer AI search queries.
+    ///
+    /// * ai_assistant - AI bots that access content on behalf of a user's AI assistant or agent.
+    ///
+    /// * ai_content_optimization - AI bots that analyze content to optimize it for AI-generated results.
+    public enum BotCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advertising
+        case aiAssistant
+        case aiContentOptimization
+        case aiSearch
+        case aiTraining
+        case archiver
+        case contentFetcher
+        case emailClient
+        case httpLibrary
+        case linkChecker
+        case miscellaneous
+        case monitoring
+        case pagePreview
+        case scrapingFramework
+        case searchEngine
+        case security
+        case seo
+        case socialMedia
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotCategory] {
+            return [
+                .advertising,
+                .aiAssistant,
+                .aiContentOptimization,
+                .aiSearch,
+                .aiTraining,
+                .archiver,
+                .contentFetcher,
+                .emailClient,
+                .httpLibrary,
+                .linkChecker,
+                .miscellaneous,
+                .monitoring,
+                .pagePreview,
+                .scrapingFramework,
+                .searchEngine,
+                .security,
+                .seo,
+                .socialMedia
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advertising: return "advertising"
+            case .aiAssistant: return "ai_assistant"
+            case .aiContentOptimization: return "ai_content_optimization"
+            case .aiSearch: return "ai_search"
+            case .aiTraining: return "ai_training"
+            case .archiver: return "archiver"
+            case .contentFetcher: return "content_fetcher"
+            case .emailClient: return "email_client"
+            case .httpLibrary: return "http_library"
+            case .linkChecker: return "link_checker"
+            case .miscellaneous: return "miscellaneous"
+            case .monitoring: return "monitoring"
+            case .pagePreview: return "page_preview"
+            case .scrapingFramework: return "scraping_framework"
+            case .searchEngine: return "search_engine"
+            case .security: return "security"
+            case .seo: return "seo"
+            case .socialMedia: return "social_media"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The additional data for a signature agent card descriptor, such as the bot category of the web bot.
+    public struct SignatureAgentCardAdditionalData: Swift.Sendable {
+        /// The bot category that describes the purpose of the web bot identified by the signature agent card descriptor.
+        public var category: AgentRegistryControlClientTypes.BotCategory?
+
+        public init(
+            category: AgentRegistryControlClientTypes.BotCategory? = nil
+        ) {
+            self.category = category
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Descriptor that defines the content of a signature agent card, which identifies a web bot and references the JSON Web Key Set used to verify its HTTP message signatures.
+    public struct SignatureAgentCardDescriptor: Swift.Sendable {
+        /// Additional data associated with the signature agent card descriptor, such as the bot category.
+        public var additionalData: AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData?
+        /// The signature agent card content, serialized as descriptor payload data.
+        public var data: Swift.String?
+        /// The schema version of the descriptor payload.
+        public var dataSchemaVersion: Swift.String?
+        /// The optional source configuration used to synchronize the signature agent card descriptor content.
+        public var source: AgentRegistryControlClientTypes.DescriptorSource?
+
+        public init(
+            additionalData: AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData? = nil,
+            data: Swift.String? = nil,
+            dataSchemaVersion: Swift.String? = nil,
+            source: AgentRegistryControlClientTypes.DescriptorSource? = nil
+        ) {
+            self.additionalData = additionalData
+            self.data = data
+            self.dataSchemaVersion = dataSchemaVersion
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.SignatureAgentCardDescriptor: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SignatureAgentCardDescriptor(additionalData: \(Swift.String(describing: additionalData)), dataSchemaVersion: \(Swift.String(describing: dataSchemaVersion)), source: \(Swift.String(describing: source)), data: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// The typed set of descriptors for a registry record. Exactly one descriptor field is populated based on the record type.
     public struct Descriptors: Swift.Sendable {
         /// The A2A agent card descriptor, populated when the record type is AGENT.
@@ -1239,6 +2089,8 @@ extension AgentRegistryControlClientTypes {
         public var http: AgentRegistryControlClientTypes.HttpDescriptor?
         /// The MCP server descriptor, populated when the record type is MCP.
         public var mcpServer: AgentRegistryControlClientTypes.McpServerDescriptor?
+        /// The signature agent card descriptor, populated when the record type is WEB_BOT.
+        public var signatureAgentCard: AgentRegistryControlClientTypes.SignatureAgentCardDescriptor?
 
         public init(
             a2aAgentCard: AgentRegistryControlClientTypes.A2aAgentCardDescriptor? = nil,
@@ -1246,7 +2098,8 @@ extension AgentRegistryControlClientTypes {
             agui: AgentRegistryControlClientTypes.AgUiDescriptor? = nil,
             custom: AgentRegistryControlClientTypes.CustomDescriptor? = nil,
             http: AgentRegistryControlClientTypes.HttpDescriptor? = nil,
-            mcpServer: AgentRegistryControlClientTypes.McpServerDescriptor? = nil
+            mcpServer: AgentRegistryControlClientTypes.McpServerDescriptor? = nil,
+            signatureAgentCard: AgentRegistryControlClientTypes.SignatureAgentCardDescriptor? = nil
         ) {
             self.a2aAgentCard = a2aAgentCard
             self.agentSkillsDefinition = agentSkillsDefinition
@@ -1254,6 +2107,7 @@ extension AgentRegistryControlClientTypes {
             self.custom = custom
             self.http = http
             self.mcpServer = mcpServer
+            self.signatureAgentCard = signatureAgentCard
         }
     }
 }
@@ -1363,6 +2217,7 @@ extension AgentRegistryControlClientTypes {
         case gateway
         case mcp
         case skill
+        case webBot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecordType] {
@@ -1371,7 +2226,8 @@ extension AgentRegistryControlClientTypes {
                 .custom,
                 .gateway,
                 .mcp,
-                .skill
+                .skill,
+                .webBot
             ]
         }
 
@@ -1387,6 +2243,7 @@ extension AgentRegistryControlClientTypes {
             case .gateway: return "GATEWAY"
             case .mcp: return "MCP"
             case .skill: return "SKILL"
+            case .webBot: return "WEB_BOT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2609,6 +3466,93 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// Leaf patch wrapper for a bot category. Omit to leave unchanged; supply an empty object to unset; supply optionalValue to set.
+    public struct UpdatedBotCategory: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.BotCategory?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.BotCategory? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The set of signature agent card additional-data fields that can be individually updated.
+    public struct UpdatedSignatureAgentCardAdditionalDataFields: Swift.Sendable {
+        /// The patch for the bot category field.
+        public var category: AgentRegistryControlClientTypes.UpdatedBotCategory?
+
+        public init(
+            category: AgentRegistryControlClientTypes.UpdatedBotCategory? = nil
+        ) {
+            self.category = category
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The signature agent card additional-data patch wrapper. Omit to leave the additional data unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.
+    public struct UpdatedSignatureAgentCardAdditionalData: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalDataFields?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalDataFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The set of signature agent card descriptor fields that can be individually updated.
+    public struct UpdatedSignatureAgentCardDescriptorFields: Swift.Sendable {
+        /// The patch for the descriptor's additional data field.
+        public var additionalData: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalData?
+        /// The patch for the descriptor's data field.
+        public var data: AgentRegistryControlClientTypes.UpdatedDescriptorData?
+        /// The patch for the descriptor's data schema version field.
+        public var dataSchemaVersion: AgentRegistryControlClientTypes.UpdatedDataSchemaVersion?
+        /// The patch for the descriptor's source field.
+        public var source: AgentRegistryControlClientTypes.UpdatedDescriptorSource?
+
+        public init(
+            additionalData: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalData? = nil,
+            data: AgentRegistryControlClientTypes.UpdatedDescriptorData? = nil,
+            dataSchemaVersion: AgentRegistryControlClientTypes.UpdatedDataSchemaVersion? = nil,
+            source: AgentRegistryControlClientTypes.UpdatedDescriptorSource? = nil
+        ) {
+            self.additionalData = additionalData
+            self.data = data
+            self.dataSchemaVersion = dataSchemaVersion
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The signature agent card descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.
+    public struct UpdatedSignatureAgentCardDescriptor: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptorFields?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptorFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// The patchable descriptor fields applied during an UpdateRegistryRecord call. Each field is independently patchable.
     public struct UpdatedDescriptorsFields: Swift.Sendable {
         /// The patch for the A2A agent card descriptor.
@@ -2623,6 +3567,8 @@ extension AgentRegistryControlClientTypes {
         public var http: AgentRegistryControlClientTypes.UpdatedHttpDescriptor?
         /// The patch for the MCP server descriptor.
         public var mcpServer: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor?
+        /// The patch for the signature agent card descriptor.
+        public var signatureAgentCard: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptor?
 
         public init(
             a2aAgentCard: AgentRegistryControlClientTypes.UpdatedA2aAgentCardDescriptor? = nil,
@@ -2630,7 +3576,8 @@ extension AgentRegistryControlClientTypes {
             agui: AgentRegistryControlClientTypes.UpdatedAgUiDescriptor? = nil,
             custom: AgentRegistryControlClientTypes.UpdatedCustomDescriptor? = nil,
             http: AgentRegistryControlClientTypes.UpdatedHttpDescriptor? = nil,
-            mcpServer: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor? = nil
+            mcpServer: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor? = nil,
+            signatureAgentCard: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptor? = nil
         ) {
             self.a2aAgentCard = a2aAgentCard
             self.agentSkillsDefinition = agentSkillsDefinition
@@ -2638,6 +3585,7 @@ extension AgentRegistryControlClientTypes {
             self.custom = custom
             self.http = http
             self.mcpServer = mcpServer
+            self.signatureAgentCard = signatureAgentCard
         }
     }
 }
@@ -3750,6 +4698,20 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension AssociatePublisherInput {
+
+    static func urlPathProvider(_ value: AssociatePublisherInput) -> Swift.String? {
+        return "/associations"
+    }
+}
+
+extension CreatePublisherInput {
+
+    static func urlPathProvider(_ value: CreatePublisherInput) -> Swift.String? {
+        return "/publishers"
+    }
+}
+
 extension CreateRegistryInput {
 
     static func urlPathProvider(_ value: CreateRegistryInput) -> Swift.String? {
@@ -3764,6 +4726,16 @@ extension CreateRegistryRecordInput {
             return nil
         }
         return "/registries/\(registryId.urlPercentEncoding())/records"
+    }
+}
+
+extension DeletePublisherInput {
+
+    static func urlPathProvider(_ value: DeletePublisherInput) -> Swift.String? {
+        guard let publisherArn = value.publisherArn else {
+            return nil
+        }
+        return "/publishers/\(publisherArn.urlPercentEncoding())"
     }
 }
 
@@ -3790,6 +4762,26 @@ extension DeleteRegistryRecordInput {
     }
 }
 
+extension DisassociatePublisherInput {
+
+    static func urlPathProvider(_ value: DisassociatePublisherInput) -> Swift.String? {
+        guard let recordArn = value.recordArn else {
+            return nil
+        }
+        return "/associations/\(recordArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetPublisherInput {
+
+    static func urlPathProvider(_ value: GetPublisherInput) -> Swift.String? {
+        guard let publisherArn = value.publisherArn else {
+            return nil
+        }
+        return "/publishers/\(publisherArn.urlPercentEncoding())"
+    }
+}
+
 extension GetRegistryInput {
 
     static func urlPathProvider(_ value: GetRegistryInput) -> Swift.String? {
@@ -3810,6 +4802,56 @@ extension GetRegistryRecordInput {
             return nil
         }
         return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())"
+    }
+}
+
+extension ListPublisherAssociationsInput {
+
+    static func urlPathProvider(_ value: ListPublisherAssociationsInput) -> Swift.String? {
+        return "/associations"
+    }
+}
+
+extension ListPublisherAssociationsInput {
+
+    static func queryItemProvider(_ value: ListPublisherAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let publisherArn = value.publisherArn {
+            let publisherArnQueryItem = Smithy.URIQueryItem(name: "publisherArn".urlPercentEncoding(), value: Swift.String(publisherArn).urlPercentEncoding())
+            items.append(publisherArnQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPublishersInput {
+
+    static func urlPathProvider(_ value: ListPublishersInput) -> Swift.String? {
+        return "/publishers"
+    }
+}
+
+extension ListPublishersInput {
+
+    static func queryItemProvider(_ value: ListPublishersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -3889,6 +4931,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdatePublisherAssociationApprovalStatusInput {
+
+    static func urlPathProvider(_ value: UpdatePublisherAssociationApprovalStatusInput) -> Swift.String? {
+        guard let recordArn = value.recordArn else {
+            return nil
+        }
+        return "/associations/\(recordArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension UpdateRegistryInput {
 
     static func urlPathProvider(_ value: UpdateRegistryInput) -> Swift.String? {
@@ -3922,6 +4974,38 @@ extension UpdateRegistryRecordStatusInput {
             return nil
         }
         return "/registries/\(registryId.urlPercentEncoding())/records/\(recordId.urlPercentEncoding())/status"
+    }
+}
+
+extension ValidatePublisherInput {
+
+    static func urlPathProvider(_ value: ValidatePublisherInput) -> Swift.String? {
+        guard let publisherArn = value.publisherArn else {
+            return nil
+        }
+        return "/publishers/\(publisherArn.urlPercentEncoding())/verification"
+    }
+}
+
+extension AssociatePublisherInput {
+
+    static func write(value: AssociatePublisherInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["publisherArn"].write(value.publisherArn)
+        try writer["recordArn"].write(value.recordArn)
+        try writer["subdomain"].write(value.subdomain)
+    }
+}
+
+extension CreatePublisherInput {
+
+    static func write(value: CreatePublisherInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["value"].write(value.value, with: AgentRegistryControlClientTypes.Identifier.write(value:to:))
     }
 }
 
@@ -3987,6 +5071,15 @@ extension TagResourceInput {
     }
 }
 
+extension UpdatePublisherAssociationApprovalStatusInput {
+
+    static func write(value: UpdatePublisherAssociationApprovalStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["approvalStatus"].write(value.approvalStatus)
+        try writer["approvalStatusReason"].write(value.approvalStatusReason)
+    }
+}
+
 extension UpdateRegistryInput {
 
     static func write(value: UpdateRegistryInput?, to writer: SmithyJSON.Writer) throws {
@@ -4027,6 +5120,42 @@ extension UpdateRegistryRecordStatusInput {
     }
 }
 
+extension AssociatePublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociatePublisherOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociatePublisherOutput()
+        value.publicIdentifier = try reader["publicIdentifier"].readIfPresent() ?? ""
+        value.publisher = try reader["publisher"].readIfPresent() ?? ""
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePublisherOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePublisherOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainChallenge = try reader["domainChallenge"].readIfPresent(with: AgentRegistryControlClientTypes.DomainChallenge.read(from:))
+        value.identifierType = try reader["identifierType"].readIfPresent() ?? AgentRegistryControlClientTypes.IdentifierType.domain
+        value.publisherArn = try reader["publisherArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.value = try reader["value"].readIfPresent(with: AgentRegistryControlClientTypes.Identifier.read(from:))
+        return value
+    }
+}
+
 extension CreateRegistryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRegistryOutput {
@@ -4053,6 +5182,13 @@ extension CreateRegistryRecordOutput {
     }
 }
 
+extension DeletePublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePublisherOutput {
+        return DeletePublisherOutput()
+    }
+}
+
 extension DeleteRegistryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRegistryOutput {
@@ -4069,6 +5205,33 @@ extension DeleteRegistryRecordOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRegistryRecordOutput {
         return DeleteRegistryRecordOutput()
+    }
+}
+
+extension DisassociatePublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociatePublisherOutput {
+        return DisassociatePublisherOutput()
+    }
+}
+
+extension GetPublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPublisherOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPublisherOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainChallenge = try reader["domainChallenge"].readIfPresent(with: AgentRegistryControlClientTypes.DomainChallenge.read(from:))
+        value.identifierType = try reader["identifierType"].readIfPresent() ?? AgentRegistryControlClientTypes.IdentifierType.domain
+        value.publisherArn = try reader["publisherArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.value = try reader["value"].readIfPresent(with: AgentRegistryControlClientTypes.Identifier.read(from:))
+        return value
     }
 }
 
@@ -4123,6 +5286,32 @@ extension GetRegistryRecordOutput {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.synchronizedSource = try reader["synchronizedSource"].readIfPresent(with: AgentRegistryControlClientTypes.RegistryRecordSynchronizedSource.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ListPublisherAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPublisherAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPublisherAssociationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.PublisherAssociation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListPublishersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPublishersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPublishersOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.PublisherSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -4192,6 +5381,13 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdatePublisherAssociationApprovalStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePublisherAssociationApprovalStatusOutput {
+        return UpdatePublisherAssociationApprovalStatusOutput()
     }
 }
 
@@ -4266,6 +5462,65 @@ extension UpdateRegistryRecordStatusOutput {
     }
 }
 
+extension ValidatePublisherOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ValidatePublisherOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ValidatePublisherOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainChallenge = try reader["domainChallenge"].readIfPresent(with: AgentRegistryControlClientTypes.DomainChallenge.read(from:))
+        value.identifierType = try reader["identifierType"].readIfPresent() ?? AgentRegistryControlClientTypes.IdentifierType.domain
+        value.publisherArn = try reader["publisherArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.value = try reader["value"].readIfPresent(with: AgentRegistryControlClientTypes.Identifier.read(from:))
+        return value
+    }
+}
+
+enum AssociatePublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRegistryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4298,6 +5553,25 @@ enum CreateRegistryRecordOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4343,6 +5617,41 @@ enum DeleteRegistryRecordOutputError {
     }
 }
 
+enum DisassociatePublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRegistryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4373,6 +5682,40 @@ enum GetRegistryRecordOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPublisherAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPublishersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4490,6 +5833,24 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdatePublisherAssociationApprovalStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateRegistryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4548,6 +5909,24 @@ enum UpdateRegistryRecordStatusOutputError {
     }
 }
 
+enum ValidatePublisherOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -4566,6 +5945,19 @@ extension ConflictException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DependencyException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyException {
+        let reader = baseError.errorBodyReader
+        var value = DependencyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5043,6 +6435,7 @@ extension AgentRegistryControlClientTypes.Descriptors {
         try writer["custom"].write(value.custom, with: AgentRegistryControlClientTypes.CustomDescriptor.write(value:to:))
         try writer["http"].write(value.http, with: AgentRegistryControlClientTypes.HttpDescriptor.write(value:to:))
         try writer["mcpServer"].write(value.mcpServer, with: AgentRegistryControlClientTypes.McpServerDescriptor.write(value:to:))
+        try writer["signatureAgentCard"].write(value.signatureAgentCard, with: AgentRegistryControlClientTypes.SignatureAgentCardDescriptor.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.Descriptors {
@@ -5054,6 +6447,7 @@ extension AgentRegistryControlClientTypes.Descriptors {
         value.custom = try reader["custom"].readIfPresent(with: AgentRegistryControlClientTypes.CustomDescriptor.read(from:))
         value.http = try reader["http"].readIfPresent(with: AgentRegistryControlClientTypes.HttpDescriptor.read(from:))
         value.agui = try reader["agui"].readIfPresent(with: AgentRegistryControlClientTypes.AgUiDescriptor.read(from:))
+        value.signatureAgentCard = try reader["signatureAgentCard"].readIfPresent(with: AgentRegistryControlClientTypes.SignatureAgentCardDescriptor.read(from:))
         return value
     }
 }
@@ -5107,6 +6501,17 @@ extension AgentRegistryControlClientTypes.DiscoveryConfiguration {
     }
 }
 
+extension AgentRegistryControlClientTypes.DomainChallenge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.DomainChallenge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.DomainChallenge()
+        value.recordName = try reader["recordName"].readIfPresent() ?? ""
+        value.recordValue = try reader["recordValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.EncryptionConfiguration {
 
     static func write(value: AgentRegistryControlClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -5146,6 +6551,30 @@ extension AgentRegistryControlClientTypes.HttpDescriptor {
         var value = AgentRegistryControlClientTypes.HttpDescriptor()
         value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
         return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.Identifier {
+
+    static func write(value: AgentRegistryControlClientTypes.Identifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .domain(domain):
+                try writer["domain"].write(domain)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.Identifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "domain":
+                return .domain(try reader["domain"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5314,6 +6743,36 @@ extension AgentRegistryControlClientTypes.ProvenanceSummary {
         value.relation = try reader["relation"].readIfPresent() ?? .sdkUnknown("")
         value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
         value.sourceType = try reader["sourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.PublisherAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.PublisherAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.PublisherAssociation()
+        value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
+        value.publicIdentifier = try reader["publicIdentifier"].readIfPresent() ?? ""
+        value.publisher = try reader["publisher"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.PublisherSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.PublisherSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.PublisherSummary()
+        value.value = try reader["value"].readIfPresent(with: AgentRegistryControlClientTypes.Identifier.read(from:))
+        value.identifierType = try reader["identifierType"].readIfPresent() ?? AgentRegistryControlClientTypes.IdentifierType.domain
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.publisherArn = try reader["publisherArn"].readIfPresent() ?? ""
+        value.associationCount = try reader["associationCount"].readIfPresent()
+        value.pendingAssociationApprovalCount = try reader["pendingAssociationApprovalCount"].readIfPresent()
         return value
     }
 }
@@ -5571,6 +7030,42 @@ extension AgentRegistryControlClientTypes.SelfManagedLatticeResource {
     }
 }
 
+extension AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData {
+
+    static func write(value: AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["category"].write(value.category)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.SignatureAgentCardDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.SignatureAgentCardDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalData"].write(value.additionalData, with: AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData.write(value:to:))
+        try writer["data"].write(value.data)
+        try writer["dataSchemaVersion"].write(value.dataSchemaVersion)
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.DescriptorSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.SignatureAgentCardDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.SignatureAgentCardDescriptor()
+        value.data = try reader["data"].readIfPresent()
+        value.dataSchemaVersion = try reader["dataSchemaVersion"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
+        value.additionalData = try reader["additionalData"].readIfPresent(with: AgentRegistryControlClientTypes.SignatureAgentCardAdditionalData.read(from:))
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.SourceDetails {
 
     static func write(value: AgentRegistryControlClientTypes.SourceDetails?, to writer: SmithyJSON.Writer) throws {
@@ -5736,6 +7231,14 @@ extension AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration {
     }
 }
 
+extension AgentRegistryControlClientTypes.UpdatedBotCategory {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedBotCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
 extension AgentRegistryControlClientTypes.UpdatedCustomDescriptor {
 
     static func write(value: AgentRegistryControlClientTypes.UpdatedCustomDescriptor?, to writer: SmithyJSON.Writer) throws {
@@ -5810,6 +7313,7 @@ extension AgentRegistryControlClientTypes.UpdatedDescriptorsFields {
         try writer["custom"].write(value.custom, with: AgentRegistryControlClientTypes.UpdatedCustomDescriptor.write(value:to:))
         try writer["http"].write(value.http, with: AgentRegistryControlClientTypes.UpdatedHttpDescriptor.write(value:to:))
         try writer["mcpServer"].write(value.mcpServer, with: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor.write(value:to:))
+        try writer["signatureAgentCard"].write(value.signatureAgentCard, with: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptor.write(value:to:))
     }
 }
 
@@ -5910,6 +7414,41 @@ extension AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact {
     static func write(value: AgentRegistryControlClientTypes.UpdatedRegistryRecordArtifact?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.RegistryRecordArtifactUpload.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalData {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalDataFields.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalDataFields {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalDataFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["category"].write(value.category, with: AgentRegistryControlClientTypes.UpdatedBotCategory.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptorFields.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptorFields {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardDescriptorFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalData"].write(value.additionalData, with: AgentRegistryControlClientTypes.UpdatedSignatureAgentCardAdditionalData.write(value:to:))
+        try writer["data"].write(value.data, with: AgentRegistryControlClientTypes.UpdatedDescriptorData.write(value:to:))
+        try writer["dataSchemaVersion"].write(value.dataSchemaVersion, with: AgentRegistryControlClientTypes.UpdatedDataSchemaVersion.write(value:to:))
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.UpdatedDescriptorSource.write(value:to:))
     }
 }
 

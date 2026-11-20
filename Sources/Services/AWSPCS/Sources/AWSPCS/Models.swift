@@ -425,6 +425,272 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The deep health check profile to run each time an instance starts. Each profile other than NONE runs NVIDIA Data Center GPU Manager (DCGM) diagnostics. More thorough profiles run more tests and add more time to instance launch. Valid values:
+    ///
+    /// * NONE – Turns off the deep health check. You can't specify repairAction with this profile.
+    ///
+    /// * QUICK – Runs basic GPU tests (DCGM diagnostics level 1). This profile adds the least time to instance launch.
+    ///
+    /// * MEDIUM – Runs extended GPU tests (DCGM diagnostics level 2).
+    ///
+    /// * LONG – Runs GPU stress and diagnostic tests (DCGM diagnostics level 3). This profile adds the most time to instance launch.
+    public enum DeepHealthCheckOnStartProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case long
+        case medium
+        case `none`
+        case quick
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeepHealthCheckOnStartProfile] {
+            return [
+                .long,
+                .medium,
+                .none,
+                .quick
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .long: return "LONG"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case .quick: return "QUICK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The action that PCS takes when an instance fails the deep health check. Valid values:
+    ///
+    /// * AUTO – PCS chooses the repair action based on the fault.
+    ///
+    /// * REPLACE – Replaces the instance before it accepts jobs.
+    ///
+    /// * ISOLATE – Stops new jobs on the instance and keeps the instance running until you investigate.
+    ///
+    /// * NONE – Records the fault in Slurm and leaves the instance available for jobs.
+    public enum DeepHealthCheckOnStartRepairAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case isolate
+        case `none`
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeepHealthCheckOnStartRepairAction] {
+            return [
+                .auto,
+                .isolate,
+                .none,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .isolate: return "ISOLATE"
+            case .none: return "NONE"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The deep health check that runs each time an instance starts, including after a reboot, before the compute node accepts jobs.
+    public struct DeepHealthCheckOnStart: Swift.Sendable {
+        /// The deep health check profile to run. Each profile other than NONE runs NVIDIA Data Center GPU Manager (DCGM) diagnostics. More thorough profiles run more tests and add more time to instance launch. A profile other than NONE requires instance types with NVIDIA GPUs. This value is required when you specify onStart. There is no default value. Valid values:
+        ///
+        /// * NONE – Turns off the deep health check. You can't specify repairAction with this profile.
+        ///
+        /// * QUICK – Runs basic GPU tests (DCGM diagnostics level 1). This profile adds the least time to instance launch.
+        ///
+        /// * MEDIUM – Runs extended GPU tests (DCGM diagnostics level 2).
+        ///
+        /// * LONG – Runs GPU stress and diagnostic tests (DCGM diagnostics level 3). This profile adds the most time to instance launch.
+        public var profile: PCSClientTypes.DeepHealthCheckOnStartProfile?
+        /// The action that PCS takes when an instance fails the deep health check. You can't specify this value when profile is NONE. If you don't specify this value and profile isn't NONE, PCS uses AUTO. GetComputeNodeGroup doesn't return a repairAction that you didn't specify. Valid values:
+        ///
+        /// * AUTO – PCS chooses the repair action based on the fault.
+        ///
+        /// * REPLACE – Replaces the instance before it accepts jobs.
+        ///
+        /// * ISOLATE – Stops new jobs on the instance and keeps the instance running until you investigate.
+        ///
+        /// * NONE – Records the fault in Slurm and leaves the instance available for jobs.
+        public var repairAction: PCSClientTypes.DeepHealthCheckOnStartRepairAction?
+
+        public init(
+            profile: PCSClientTypes.DeepHealthCheckOnStartProfile? = nil,
+            repairAction: PCSClientTypes.DeepHealthCheckOnStartRepairAction? = nil
+        ) {
+            self.profile = profile
+            self.repairAction = repairAction
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The deep health check settings of a compute node group. Deep health checks test the graphics processing units (GPUs) of an instance each time it starts, including after a reboot, before it accepts jobs. Deep health checks with a profile other than NONE require instance types with NVIDIA GPUs.
+    public struct DeepHealthChecks: Swift.Sendable {
+        /// The deep health check to run each time an instance starts, including after a reboot, before the compute node accepts jobs. If the check fails after a reboot, PCS takes the same repairAction as at launch. For example, with REPLACE, PCS replaces the instance instead of returning it to service. If the compute node group has scripts in the nodeBootstrapped stage of nodeLifecycleActions, the deep health check runs after those scripts. If a script fails and its onError setting terminates the compute node, the deep health check doesn't run. This value is required when you specify deepHealthChecks.
+        public var onStart: PCSClientTypes.DeepHealthCheckOnStart?
+
+        public init(
+            onStart: PCSClientTypes.DeepHealthCheckOnStart? = nil
+        ) {
+            self.onStart = onStart
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The health monitoring mode. Valid values:
+    ///
+    /// * NONE – Turns off health monitoring. You can't specify repairAction with this mode.
+    ///
+    /// * STANDARD – Continuously checks running instances for hardware and software faults.
+    public enum HealthMonitoringMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthMonitoringMode] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The action that PCS takes when health monitoring finds a fault on an instance. Valid values:
+    ///
+    /// * AUTO – PCS chooses the repair action based on the fault.
+    ///
+    /// * REPLACE – Replaces the instance after running jobs finish.
+    ///
+    /// * ISOLATE – Stops new jobs on the instance and keeps the instance running until you investigate.
+    ///
+    /// * NONE – Records the fault in Slurm and leaves the instance available for jobs.
+    public enum HealthMonitoringRepairAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case isolate
+        case `none`
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthMonitoringRepairAction] {
+            return [
+                .auto,
+                .isolate,
+                .none,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .isolate: return "ISOLATE"
+            case .none: return "NONE"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The health monitoring settings of a compute node group. Health monitoring continuously checks running instances for hardware and software faults.
+    public struct HealthMonitoring: Swift.Sendable {
+        /// The health monitoring mode. This value is required when you specify healthMonitoring. There is no default value. Valid values:
+        ///
+        /// * NONE – Turns off health monitoring. You can't specify repairAction with this mode.
+        ///
+        /// * STANDARD – Continuously checks running instances for hardware and software faults.
+        public var mode: PCSClientTypes.HealthMonitoringMode?
+        /// The action that PCS takes when health monitoring finds a fault on an instance. You can't specify this value when mode is NONE. If you don't specify this value and mode isn't NONE, PCS uses AUTO. GetComputeNodeGroup doesn't return a repairAction that you didn't specify. Valid values:
+        ///
+        /// * AUTO – PCS chooses the repair action based on the fault.
+        ///
+        /// * REPLACE – Replaces the instance after running jobs finish.
+        ///
+        /// * ISOLATE – Stops new jobs on the instance and keeps the instance running until you investigate.
+        ///
+        /// * NONE – Records the fault in Slurm and leaves the instance available for jobs.
+        public var repairAction: PCSClientTypes.HealthMonitoringRepairAction?
+
+        public init(
+            mode: PCSClientTypes.HealthMonitoringMode? = nil,
+            repairAction: PCSClientTypes.HealthMonitoringRepairAction? = nil
+        ) {
+            self.mode = mode
+            self.repairAction = repairAction
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The instance health check settings to configure on a compute node group when you create it. Specify healthMonitoring, deepHealthChecks, or both. You can't specify an empty object ({}).
+    public struct InstanceHealthChecksRequest: Swift.Sendable {
+        /// The deep health check settings. Deep health checks test the graphics processing units (GPUs) of an instance each time it starts, including after a reboot, before it accepts jobs. If you specify this object, it can't be empty.
+        public var deepHealthChecks: PCSClientTypes.DeepHealthChecks?
+        /// The health monitoring settings. Health monitoring continuously checks running instances for hardware and software faults. If you specify this object, it can't be empty.
+        public var healthMonitoring: PCSClientTypes.HealthMonitoring?
+
+        public init(
+            deepHealthChecks: PCSClientTypes.DeepHealthChecks? = nil,
+            healthMonitoring: PCSClientTypes.HealthMonitoring? = nil
+        ) {
+            self.deepHealthChecks = deepHealthChecks
+            self.healthMonitoring = healthMonitoring
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     public enum LaunchTemplateMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case custom
         case managed
@@ -835,6 +1101,8 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// A list of EC2 instance configurations that PCS can provision in the compute node group.
     /// This member is required.
     public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
+    /// The instance health check settings for the compute node group. Instance health checks detect faults on instances in the compute node group and respond with the repair action that you choose. You can configure health monitoring, deep health checks, or both. You can't specify an empty object ({}). Instance health checks require Slurm version 26.05 or later.
+    public var instanceHealthChecks: PCSClientTypes.InstanceHealthChecksRequest?
     /// Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is CUSTOM. If the value is CUSTOM, provide customLaunchTemplate. If the value is MANAGED, omit customLaunchTemplate and provide amiId and securityGroupIds.
     public var launchTemplateMode: PCSClientTypes.LaunchTemplateMode?
     /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
@@ -866,6 +1134,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
         customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate? = nil,
         iamInstanceProfileArn: Swift.String? = nil,
         instanceConfigs: [PCSClientTypes.InstanceConfig]? = nil,
+        instanceHealthChecks: PCSClientTypes.InstanceHealthChecksRequest? = nil,
         launchTemplateMode: PCSClientTypes.LaunchTemplateMode? = nil,
         nodeLifecycleActions: PCSClientTypes.NodeLifecycleActionsRequest? = nil,
         purchaseOption: PCSClientTypes.PurchaseOption? = nil,
@@ -884,6 +1153,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
         self.customLaunchTemplate = customLaunchTemplate
         self.iamInstanceProfileArn = iamInstanceProfileArn
         self.instanceConfigs = instanceConfigs
+        self.instanceHealthChecks = instanceHealthChecks
         self.launchTemplateMode = launchTemplateMode
         self.nodeLifecycleActions = nodeLifecycleActions
         self.purchaseOption = purchaseOption
@@ -912,6 +1182,25 @@ extension PCSClientTypes {
         ) {
             self.code = code
             self.message = message
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The instance health check settings of a compute node group. Instance health checks detect faults on instances in the compute node group and respond with the repair action that you choose.
+    public struct InstanceHealthChecks: Swift.Sendable {
+        /// The deep health check settings. Deep health checks test the graphics processing units (GPUs) of an instance each time it starts, including after a reboot, before it accepts jobs.
+        public var deepHealthChecks: PCSClientTypes.DeepHealthChecks?
+        /// The health monitoring settings. Health monitoring continuously checks running instances for hardware and software faults.
+        public var healthMonitoring: PCSClientTypes.HealthMonitoring?
+
+        public init(
+            deepHealthChecks: PCSClientTypes.DeepHealthChecks? = nil,
+            healthMonitoring: PCSClientTypes.HealthMonitoring? = nil
+        ) {
+            self.deepHealthChecks = deepHealthChecks
+            self.healthMonitoring = healthMonitoring
         }
     }
 }
@@ -1068,6 +1357,8 @@ extension PCSClientTypes {
         /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         /// This member is required.
         public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
+        /// The instance health check settings of the compute node group. Instance health checks detect faults on instances in the compute node group and respond with the repair action that you choose.
+        public var instanceHealthChecks: PCSClientTypes.InstanceHealthChecks?
         /// Indicates whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is CUSTOM. Valid values:
         ///
         /// * CUSTOM – The compute node group uses the launch template in customLaunchTemplate.
@@ -1112,6 +1403,7 @@ extension PCSClientTypes {
             iamInstanceProfileArn: Swift.String? = nil,
             id: Swift.String? = nil,
             instanceConfigs: [PCSClientTypes.InstanceConfig]? = nil,
+            instanceHealthChecks: PCSClientTypes.InstanceHealthChecks? = nil,
             launchTemplateMode: PCSClientTypes.LaunchTemplateMode? = .custom,
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -1134,6 +1426,7 @@ extension PCSClientTypes {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.id = id
             self.instanceConfigs = instanceConfigs
+            self.instanceHealthChecks = instanceHealthChecks
             self.launchTemplateMode = launchTemplateMode
             self.modifiedAt = modifiedAt
             self.name = name
@@ -1299,6 +1592,25 @@ public struct ListComputeNodeGroupsOutput: Swift.Sendable {
 
 extension PCSClientTypes {
 
+    /// The instance health check settings to configure on a compute node group when you update it. These settings replace all of the current instance health check settings of the compute node group. Specify healthMonitoring, deepHealthChecks, or both. You can't specify an empty object ({}).
+    public struct UpdateInstanceHealthChecksRequest: Swift.Sendable {
+        /// The deep health check settings. Deep health checks test the graphics processing units (GPUs) of an instance each time it starts, including after a reboot, before it accepts jobs. If you specify this object, it can't be empty. If you omit this object, deep health checks are turned off.
+        public var deepHealthChecks: PCSClientTypes.DeepHealthChecks?
+        /// The health monitoring settings. Health monitoring continuously checks running instances for hardware and software faults. If you specify this object, it can't be empty. If you omit this object, health monitoring is turned off.
+        public var healthMonitoring: PCSClientTypes.HealthMonitoring?
+
+        public init(
+            deepHealthChecks: PCSClientTypes.DeepHealthChecks? = nil,
+            healthMonitoring: PCSClientTypes.HealthMonitoring? = nil
+        ) {
+            self.deepHealthChecks = deepHealthChecks
+            self.healthMonitoring = healthMonitoring
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// The lifecycle actions to configure on a compute node group when you update it. Lifecycle actions define scripts that PCS runs on compute nodes at specific stages of their lifecycle.
     public struct UpdateNodeLifecycleActionsRequest: Swift.Sendable {
         /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:
@@ -1359,6 +1671,8 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
+    /// The instance health check settings for the compute node group. Instance health checks detect faults on instances in the compute node group and respond with the repair action that you choose. You can configure health monitoring, deep health checks, or both. You can't specify an empty object ({}). Instance health checks require Slurm version 26.05 or later. The settings that you specify replace all of the current instance health check settings of the compute node group. Include every setting that you want to keep. If you omit this member, the current settings don't change. If you omit healthMonitoring or deepHealthChecks, that check is turned off. You can also turn off a check: set healthMonitoring.mode or deepHealthChecks.onStart.profile to NONE and omit its repairAction. When you change these settings, PCS drains and replaces the instances in the compute node group.
+    public var instanceHealthChecks: PCSClientTypes.UpdateInstanceHealthChecksRequest?
     /// Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. Omit this value to keep the current mode. Valid values:
     ///
     /// * CUSTOM – Use a custom launch template. To switch from MANAGED, also provide customLaunchTemplate. If the compute node group already uses CUSTOM and you omit customLaunchTemplate, the existing launch template is unchanged.
@@ -1392,6 +1706,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
         computeNodeGroupIdentifier: Swift.String? = nil,
         customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate? = nil,
         iamInstanceProfileArn: Swift.String? = nil,
+        instanceHealthChecks: PCSClientTypes.UpdateInstanceHealthChecksRequest? = nil,
         launchTemplateMode: PCSClientTypes.LaunchTemplateMode? = nil,
         nodeLifecycleActions: PCSClientTypes.UpdateNodeLifecycleActionsRequest? = nil,
         purchaseOption: PCSClientTypes.PurchaseOption? = nil,
@@ -1408,6 +1723,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
         self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
         self.customLaunchTemplate = customLaunchTemplate
         self.iamInstanceProfileArn = iamInstanceProfileArn
+        self.instanceHealthChecks = instanceHealthChecks
         self.launchTemplateMode = launchTemplateMode
         self.nodeLifecycleActions = nodeLifecycleActions
         self.purchaseOption = purchaseOption
@@ -2747,6 +3063,8 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
     /// The list of endpoints available for interaction with the scheduler.
     /// This member is required.
     public var endpoints: [PCSClientTypes.Endpoint]?
+    /// The instance health check settings configured for the compute node group that the compute node registered into. The compute node uses these settings to configure health monitoring and deep health checks.
+    public var instanceHealthChecks: PCSClientTypes.InstanceHealthChecks?
     /// The scheduler node ID for this instance.
     /// This member is required.
     public var nodeID: Swift.String?
@@ -2763,6 +3081,7 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
         computeNodeGroupId: Swift.String? = nil,
         computeNodeGroupName: Swift.String? = nil,
         endpoints: [PCSClientTypes.Endpoint]? = nil,
+        instanceHealthChecks: PCSClientTypes.InstanceHealthChecks? = nil,
         nodeID: Swift.String? = nil,
         nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions? = nil,
         schedulerVersion: Swift.String? = nil,
@@ -2772,6 +3091,7 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
         self.computeNodeGroupId = computeNodeGroupId
         self.computeNodeGroupName = computeNodeGroupName
         self.endpoints = endpoints
+        self.instanceHealthChecks = instanceHealthChecks
         self.nodeID = nodeID
         self.nodeLifecycleActions = nodeLifecycleActions
         self.schedulerVersion = schedulerVersion

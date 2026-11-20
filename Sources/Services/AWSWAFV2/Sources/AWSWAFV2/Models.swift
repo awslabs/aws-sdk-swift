@@ -326,7 +326,9 @@ extension WAFV2ClientTypes {
     public struct Body: Swift.Sendable {
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
-        /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// * For AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        ///
+        /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
@@ -663,7 +665,9 @@ extension WAFV2ClientTypes {
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
-        /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// * For AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        ///
+        /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
@@ -797,7 +801,9 @@ extension WAFV2ClientTypes {
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
         /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
-        /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// * For AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        ///
+        /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
@@ -818,7 +824,9 @@ extension WAFV2ClientTypes {
         public var ja4Fingerprint: WAFV2ClientTypes.JA4Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
-        /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// * For AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        ///
+        /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
@@ -2443,6 +2451,86 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Turns off the use of Amazon Bedrock Guardrails in the AI security managed rule group. The rule group continues to run its own inspections. This is used in the BedrockGuardrails setting of AWSManagedRulesAISecurityRuleSet. JSON specification: "Disable": {}
+    public struct DisableBedrockGuardrails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the AI security managed rule group to use Amazon Bedrock Guardrails to inspect web requests and the responses to them. This is used in the BedrockGuardrails setting of AWSManagedRulesAISecurityRuleSet.
+    public struct BedrockGuardrailsRequestAndResponse: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role that WAF uses to call Amazon Bedrock Guardrails for the rule group. The role must be in the same Amazon Web Services account as the web ACL. To specify the role, you must have permission to call iam:PassRole on it, to pass it to the WAF service principal wafv2.amazonaws.com.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the AI security managed rule group to use Amazon Bedrock Guardrails to inspect web requests. This is used in the BedrockGuardrails setting of AWSManagedRulesAISecurityRuleSet.
+    public struct BedrockGuardrailsRequestOnly: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role that WAF uses to call Amazon Bedrock Guardrails for the rule group. The role must be in the same Amazon Web Services account as the web ACL. To specify the role, you must have permission to call iam:PassRole on it, to pass it to the WAF service principal wafv2.amazonaws.com.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Specifies whether the AI security managed rule group, AWSManagedRulesAISecurityRuleSet, uses Amazon Bedrock Guardrails to inspect web requests, or web requests and responses. Specify exactly one of the following settings: Disable, ProtectRequestOnly, or ProtectRequestAndResponse.
+    public struct BedrockGuardrails: Swift.Sendable {
+        /// Turns off the use of Amazon Bedrock Guardrails. The rule group continues to run its own inspections. JSON specification: "Disable": {}
+        public var disable: WAFV2ClientTypes.DisableBedrockGuardrails?
+        /// Uses Amazon Bedrock Guardrails to inspect web requests and the responses to them.
+        public var protectRequestAndResponse: WAFV2ClientTypes.BedrockGuardrailsRequestAndResponse?
+        /// Uses Amazon Bedrock Guardrails to inspect web requests.
+        public var protectRequestOnly: WAFV2ClientTypes.BedrockGuardrailsRequestOnly?
+
+        public init(
+            disable: WAFV2ClientTypes.DisableBedrockGuardrails? = nil,
+            protectRequestAndResponse: WAFV2ClientTypes.BedrockGuardrailsRequestAndResponse? = nil,
+            protectRequestOnly: WAFV2ClientTypes.BedrockGuardrailsRequestOnly? = nil
+        ) {
+            self.disable = disable
+            self.protectRequestAndResponse = protectRequestAndResponse
+            self.protectRequestOnly = protectRequestOnly
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the use of the AI security managed rule group, AWSManagedRulesAISecurityRuleSet. This configuration is used in ManagedRuleGroupConfig. The rule group always runs its own inspections. The configuration that you provide here determines whether the rule group also uses Amazon Bedrock Guardrails to inspect web requests, or web requests and responses. Use of this rule group is not supported in Firewall Manager.
+    public struct AWSManagedRulesAISecurityRuleSet: Swift.Sendable {
+        /// Specifies whether and how the rule group uses Amazon Bedrock Guardrails.
+        /// This member is required.
+        public var bedrockGuardrails: WAFV2ClientTypes.BedrockGuardrails?
+
+        public init(
+            bedrockGuardrails: WAFV2ClientTypes.BedrockGuardrails? = nil
+        ) {
+            self.bedrockGuardrails = bedrockGuardrails
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// A single regular expression. This is used in a [RegexPatternSet] and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet.
     public struct Regex: Swift.Sendable {
         /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
@@ -2735,6 +2823,8 @@ extension WAFV2ClientTypes {
     ///
     /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
     ///
+    /// * Use the AWSManagedRulesAISecurityRuleSet configuration object to configure the AI security managed rule group. The configuration specifies whether the rule group uses Amazon Bedrock Guardrails to inspect web requests, or web requests and responses, and the IAM role that WAF uses to call Amazon Bedrock Guardrails.
+    ///
     /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
     ///
     /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
@@ -2746,6 +2836,8 @@ extension WAFV2ClientTypes {
     public struct ManagedRuleGroupConfig: Swift.Sendable {
         /// Additional configuration for using the account creation fraud prevention (ACFP) managed rule group, AWSManagedRulesACFPRuleSet. Use this to provide account creation request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to account creation requests. For information about using the ACFP managed rule group, see [WAF Fraud Control account creation fraud prevention (ACFP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-acfp.html) and [WAF Fraud Control account creation fraud prevention (ACFP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-acfp.html) in the WAF Developer Guide.
         public var awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?
+        /// Additional configuration for using the AI security managed rule group, AWSManagedRulesAISecurityRuleSet. Use this to specify whether the rule group uses Amazon Bedrock Guardrails to inspect web requests, or web requests and responses. For information about the Amazon Web Services Managed Rules rule groups, see [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
+        public var awsManagedRulesAISecurityRuleSet: WAFV2ClientTypes.AWSManagedRulesAISecurityRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet. Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests. This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration. For information about using the ATP managed rule group, see [WAF Fraud Control account takeover prevention (ATP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html) and [WAF Fraud Control account takeover prevention (ATP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html) in the WAF Developer Guide.
         public var awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?
         /// Additional configuration for using the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet. Use this to configure anti-DDoS behavior for the rule group. For information about using the anti-DDoS managed rule group, see [WAF Anti-DDoS rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-anti-ddos.html) and [Distributed Denial of Service (DDoS) prevention](https://docs.aws.amazon.com/waf/latest/developerguide/waf-anti-ddos.html) in the WAF Developer Guide.
@@ -2767,6 +2859,7 @@ extension WAFV2ClientTypes {
 
         public init(
             awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet? = nil,
+            awsManagedRulesAISecurityRuleSet: WAFV2ClientTypes.AWSManagedRulesAISecurityRuleSet? = nil,
             awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet? = nil,
             awsManagedRulesAntiDDoSRuleSet: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet? = nil,
             awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet? = nil,
@@ -2776,6 +2869,7 @@ extension WAFV2ClientTypes {
             usernameField: WAFV2ClientTypes.UsernameField? = nil
         ) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
+            self.awsManagedRulesAISecurityRuleSet = awsManagedRulesAISecurityRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesAntiDDoSRuleSet = awsManagedRulesAntiDDoSRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
@@ -3527,6 +3621,173 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// An API endpoint pattern that an API security event involves.
+    public struct ApiPattern: Swift.Sendable {
+        /// The domains that the API pattern was observed on. For example, api.example.com.
+        public var domains: [Swift.String]?
+        /// The HTTP method of the API pattern. For example, GET or POST.
+        public var method: Swift.String?
+        /// The normalized URI path of the API pattern. Templated path segments are shown in braces. For example, /api/v1/accounts/{id}.
+        public var pathPattern: Swift.String?
+        /// The port of the API pattern. For example, 443.
+        public var port: Swift.Int
+
+        public init(
+            domains: [Swift.String]? = nil,
+            method: Swift.String? = nil,
+            pathPattern: Swift.String? = nil,
+            port: Swift.Int = 0
+        ) {
+            self.domains = domains
+            self.method = method
+            self.pathPattern = pathPattern
+            self.port = port
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// An API pattern to filter events by, used in [ListEvents] and [ListEventsByWebACL].
+    public struct ApiPatternFilter: Swift.Sendable {
+        /// The domains that you want the filter to match. You can specify up to 10 domains.
+        public var domains: [Swift.String]?
+        /// The HTTP method that you want the filter to match. For example, GET or POST.
+        public var method: Swift.String?
+        /// The normalized URI path that you want the filter to match. For example, /api/v1/accounts/{id}.
+        public var pathPattern: Swift.String?
+        /// The port that you want the filter to match. For example, 443.
+        public var port: Swift.Int
+
+        public init(
+            domains: [Swift.String]? = nil,
+            method: Swift.String? = nil,
+            pathPattern: Swift.String? = nil,
+            port: Swift.Int = 0
+        ) {
+            self.domains = domains
+            self.method = method
+            self.pathPattern = pathPattern
+            self.port = port
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum Confidence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Confidence] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A reference to an event actor that is associated with an API security event.
+    public struct EventActorReference: Swift.Sendable {
+        /// The unique identifier of the event actor. You provide this to [GetEventActor] to retrieve the details of the event actor.
+        public var eventActorId: Swift.String?
+        /// The observed identifier of the event actor. For example, a client IP address or an authentication fingerprint.
+        public var eventActorValue: Swift.String?
+
+        public init(
+            eventActorId: Swift.String? = nil,
+            eventActorValue: Swift.String? = nil
+        ) {
+            self.eventActorId = eventActorId
+            self.eventActorValue = eventActorValue
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A change to the label, confidence, or API patterns of an API security event.
+    public struct EventTimelineEntry: Swift.Sendable {
+        /// The API patterns that the event involved at the time of the change.
+        public var apiPatterns: [WAFV2ClientTypes.ApiPattern]?
+        /// The time of the change.
+        public var changeTime: Foundation.Date?
+        /// The confidence level of the event detection at the time of the change: LOW, MEDIUM, or HIGH.
+        public var confidence: WAFV2ClientTypes.Confidence?
+        /// The fully qualified name of the label that was assigned to the event at the time of the change.
+        public var label: Swift.String?
+
+        public init(
+            apiPatterns: [WAFV2ClientTypes.ApiPattern]? = nil,
+            changeTime: Foundation.Date? = nil,
+            confidence: WAFV2ClientTypes.Confidence? = nil,
+            label: Swift.String? = nil
+        ) {
+            self.apiPatterns = apiPatterns
+            self.changeTime = changeTime
+            self.confidence = confidence
+            self.label = label
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The API security details of an event.
+    public struct ApiSecurityEventDetail: Swift.Sendable {
+        /// The API patterns that the event involves. The list contains up to 20 API patterns.
+        public var apiPatterns: [WAFV2ClientTypes.ApiPattern]?
+        /// The API security threat category of the event. For example, API2:2023.
+        public var category: Swift.String?
+        /// The confidence level of the event detection: LOW, MEDIUM, or HIGH.
+        public var confidence: WAFV2ClientTypes.Confidence?
+        /// The event actors that are associated with the event. The list contains up to 20 event actors. To retrieve the details of an event actor, provide its EventActorId to [GetEventActor].
+        public var eventActors: [WAFV2ClientTypes.EventActorReference]?
+        /// The fully qualified name of the label that WAF assigned to the event. For example, awswaf:managed:aws:api-security:credential-stuffing-high.
+        public var label: Swift.String?
+        /// The changes to the event's label, confidence, and API patterns over time, ordered from oldest to newest. The list contains up to 32 entries. For [ListEvents] and [ListEventsByWebACL], this is returned only if you specify TIMELINE in the request Include setting.
+        public var timeline: [WAFV2ClientTypes.EventTimelineEntry]?
+
+        public init(
+            apiPatterns: [WAFV2ClientTypes.ApiPattern]? = nil,
+            category: Swift.String? = nil,
+            confidence: WAFV2ClientTypes.Confidence? = nil,
+            eventActors: [WAFV2ClientTypes.EventActorReference]? = nil,
+            label: Swift.String? = nil,
+            timeline: [WAFV2ClientTypes.EventTimelineEntry]? = nil
+        ) {
+            self.apiPatterns = apiPatterns
+            self.category = category
+            self.confidence = confidence
+            self.eventActors = eventActors
+            self.label = label
+            self.timeline = timeline
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// Application details defined during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
     public struct ApplicationAttribute: Swift.Sendable {
         /// Specifies the attribute name.
@@ -3564,6 +3825,7 @@ extension WAFV2ClientTypes {
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentcoreGateway
         case apiGateway
+        case applicationLoadBalancer
         case appRunnerService
         case cloudfront
         case cognitoUserPool
@@ -3574,6 +3836,7 @@ extension WAFV2ClientTypes {
             return [
                 .agentcoreGateway,
                 .apiGateway,
+                .applicationLoadBalancer,
                 .appRunnerService,
                 .cloudfront,
                 .cognitoUserPool,
@@ -3590,6 +3853,7 @@ extension WAFV2ClientTypes {
             switch self {
             case .agentcoreGateway: return "AGENTCORE_GATEWAY"
             case .apiGateway: return "API_GATEWAY"
+            case .applicationLoadBalancer: return "APPLICATION_LOAD_BALANCER"
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cloudfront: return "CLOUDFRONT"
             case .cognitoUserPool: return "COGNITO_USER_POOL"
@@ -3700,6 +3964,7 @@ extension WAFV2ClientTypes {
         case associableResource
         case associatedResourceType
         case atpRuleSetResponseInspection
+        case bedrockGuardrails
         case bodyParsingFallbackBehavior
         case byteMatchStatement
         case challengeConfig
@@ -3755,6 +4020,7 @@ extension WAFV2ClientTypes {
         case resourceArn
         case resourceType
         case responseContentType
+        case roleArn
         case rule
         case ruleAction
         case ruleGroup
@@ -3782,6 +4048,7 @@ extension WAFV2ClientTypes {
                 .associableResource,
                 .associatedResourceType,
                 .atpRuleSetResponseInspection,
+                .bedrockGuardrails,
                 .bodyParsingFallbackBehavior,
                 .byteMatchStatement,
                 .challengeConfig,
@@ -3837,6 +4104,7 @@ extension WAFV2ClientTypes {
                 .resourceArn,
                 .resourceType,
                 .responseContentType,
+                .roleArn,
                 .rule,
                 .ruleAction,
                 .ruleGroup,
@@ -3870,6 +4138,7 @@ extension WAFV2ClientTypes {
             case .associableResource: return "ASSOCIABLE_RESOURCE"
             case .associatedResourceType: return "ASSOCIATED_RESOURCE_TYPE"
             case .atpRuleSetResponseInspection: return "ATP_RULE_SET_RESPONSE_INSPECTION"
+            case .bedrockGuardrails: return "BEDROCK_GUARDRAILS"
             case .bodyParsingFallbackBehavior: return "BODY_PARSING_FALLBACK_BEHAVIOR"
             case .byteMatchStatement: return "BYTE_MATCH_STATEMENT"
             case .challengeConfig: return "CHALLENGE_CONFIG"
@@ -3925,6 +4194,7 @@ extension WAFV2ClientTypes {
             case .resourceArn: return "RESOURCE_ARN"
             case .resourceType: return "RESOURCE_TYPE"
             case .responseContentType: return "RESPONSE_CONTENT_TYPE"
+            case .roleArn: return "ROLE_ARN"
             case .rule: return "RULE"
             case .ruleAction: return "RULE_ACTION"
             case .ruleGroup: return "RULE_GROUP"
@@ -4119,6 +4389,7 @@ extension WAFV2ClientTypes {
         case kb32
         case kb48
         case kb64
+        case kb8
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SizeInspectionLimit] {
@@ -4126,7 +4397,8 @@ extension WAFV2ClientTypes {
                 .kb16,
                 .kb32,
                 .kb48,
-                .kb64
+                .kb64,
+                .kb8
             ]
         }
 
@@ -4141,6 +4413,7 @@ extension WAFV2ClientTypes {
             case .kb32: return "KB_32"
             case .kb48: return "KB_48"
             case .kb64: return "KB_64"
+            case .kb8: return "KB_8"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4149,9 +4422,9 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" } For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). This is used in the AssociationConfig of the web ACL.
+    /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes). This is used in the AssociationConfig of the web ACL.
     public struct RequestBodyAssociatedResourceTypeConfig: Swift.Sendable {
-        /// Specifies the maximum size of the web request body component that an associated CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. Default: 16 KB (16,384 bytes)
+        /// Specifies the maximum size of the web request body component that an associated Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. You can specify KB_8 only for Application Load Balancer, with the APPLICATION_LOAD_BALANCER resource type. Default: 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types
         /// This member is required.
         public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
 
@@ -4165,7 +4438,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public struct AssociationConfig: Swift.Sendable {
         /// Specifies the CloudFront distributions that insert the WAF challenge JavaScript SDK into the HTML responses that they return. When you enable this setting for a distribution, you do not add the SDK to your web pages yourself. You can configure this setting only for CloudFront distributions, using the CLOUDFRONT map key. WAF rejects any other resource type, and the setting is not available for regional resources. To configure it, use the CloudFront scope. Your web ACL must also contain at least one of the following qualifying managed rule groups. WAF Bot Control qualifies only at the TARGETED inspection level, not at COMMON:
         ///
@@ -4178,7 +4451,7 @@ extension WAFV2ClientTypes {
         ///
         /// If you remove the last qualifying managed rule group from the web ACL, or lower the WAF Bot Control inspection level from TARGETED to COMMON, you must remove this setting in the same update. Otherwise, WAF rejects the update. Example JSON:  { "CLOUDFRONT": {} } If you omit this setting, CloudFront does not insert the SDK. When you omit it from a web ACL that previously used it, cached HTML that already contains the SDK is still served until it expires, or until you invalidate the cache for that distribution. For more information, see [Automatic SDK integration for CloudFront distributions](https://docs.aws.amazon.com/waf/latest/developerguide/waf-challenge-javascript-sdk-injection.html) in the WAF Developer Guide.
         public var challengeJavascriptSdkInjection: [Swift.String: WAFV2ClientTypes.ChallengeJavascriptSdkInjectionConfig]?
-        /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" } For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public var requestBody: [Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
 
         public init(
@@ -6064,6 +6337,322 @@ public struct GetDecryptedAPIKeyOutput: Swift.Sendable {
     ) {
         self.creationTimestamp = creationTimestamp
         self.tokenDomains = tokenDomains
+    }
+}
+
+public struct GetEventInput: Swift.Sendable {
+    /// The unique identifier of the event. WAF returns the event ID in the responses to [ListEvents] and [ListEventsByWebACL].
+    /// This member is required.
+    public var eventId: Swift.String?
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The Amazon Resource Name (ARN) of the web ACL that the event is associated with.
+    /// This member is required.
+    public var webAclArn: Swift.String?
+
+    public init(
+        eventId: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        webAclArn: Swift.String? = nil
+    ) {
+        self.eventId = eventId
+        self.scope = scope
+        self.webAclArn = webAclArn
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum EventCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiSecurity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventCategory] {
+            return [
+                .apiSecurity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiSecurity: return "API_SECURITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum EventStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventCompleted
+        case eventEnded
+        case eventInProgress
+        case eventStarted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventStatus] {
+            return [
+                .eventCompleted,
+                .eventEnded,
+                .eventInProgress,
+                .eventStarted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventCompleted: return "EVENT_COMPLETED"
+            case .eventEnded: return "EVENT_ENDED"
+            case .eventInProgress: return "EVENT_IN_PROGRESS"
+            case .eventStarted: return "EVENT_STARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Information about an API security event, returned by [ListEvents], [ListEventsByWebACL], and [GetEvent].
+    public struct EventDetailSummary: Swift.Sendable {
+        /// The API security details of the event, such as the label, category, confidence, API patterns, and event actors.
+        public var apiSecurityEventDetail: WAFV2ClientTypes.ApiSecurityEventDetail?
+        /// The time when the event ended. This is not populated while the event is ongoing.
+        public var endTime: Foundation.Date?
+        /// The category of the event. The only supported value is API_SECURITY.
+        public var eventCategory: WAFV2ClientTypes.EventCategory?
+        /// The unique identifier of the event. You provide this to [GetEvent] to retrieve the details of the event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The current status of the event.
+        public var eventStatus: WAFV2ClientTypes.EventStatus?
+        /// The time when the event was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the protected resource that the event is associated with.
+        public var resourceArn: Swift.String?
+        /// The time when the event started.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the web ACL that the event is associated with.
+        public var webAclArn: Swift.String?
+
+        public init(
+            apiSecurityEventDetail: WAFV2ClientTypes.ApiSecurityEventDetail? = nil,
+            endTime: Foundation.Date? = nil,
+            eventCategory: WAFV2ClientTypes.EventCategory? = nil,
+            eventId: Swift.String? = nil,
+            eventStatus: WAFV2ClientTypes.EventStatus? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            resourceArn: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            webAclArn: Swift.String? = nil
+        ) {
+            self.apiSecurityEventDetail = apiSecurityEventDetail
+            self.endTime = endTime
+            self.eventCategory = eventCategory
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceArn = resourceArn
+            self.startTime = startTime
+            self.webAclArn = webAclArn
+        }
+    }
+}
+
+public struct GetEventOutput: Swift.Sendable {
+    /// The details of the event.
+    public var event: WAFV2ClientTypes.EventDetailSummary?
+
+    public init(
+        event: WAFV2ClientTypes.EventDetailSummary? = nil
+    ) {
+        self.event = event
+    }
+}
+
+public struct GetEventActorInput: Swift.Sendable {
+    /// The unique identifier of the event actor. WAF returns the event actor ID in the event details of [ListEvents], [ListEventsByWebACL], and [GetEvent], and in the response to [ListEventActors].
+    /// This member is required.
+    public var eventActorId: Swift.String?
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init(
+        eventActorId: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil
+    ) {
+        self.eventActorId = eventActorId
+        self.scope = scope
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A change to the network attributes of an event actor.
+    public struct EventActorChange: Swift.Sendable {
+        /// The autonomous system number (ASN) that is associated with the client IP address after the change.
+        public var asn: Swift.String?
+        /// The name of the organization that owns the ASN after the change.
+        public var asnOrganization: Swift.String?
+        /// The time of the change.
+        public var changeTime: Foundation.Date?
+        /// The client IP address of the event actor after the change.
+        public var clientIp: Swift.String?
+        /// The country of the client IP address after the change.
+        public var country: Swift.String?
+        /// The TLS fingerprint of the event actor after the change, such as a JA3 or JA4 fingerprint.
+        public var tlsFingerprint: Swift.String?
+
+        public init(
+            asn: Swift.String? = nil,
+            asnOrganization: Swift.String? = nil,
+            changeTime: Foundation.Date? = nil,
+            clientIp: Swift.String? = nil,
+            country: Swift.String? = nil,
+            tlsFingerprint: Swift.String? = nil
+        ) {
+            self.asn = asn
+            self.asnOrganization = asnOrganization
+            self.changeTime = changeTime
+            self.clientIp = clientIp
+            self.country = country
+            self.tlsFingerprint = tlsFingerprint
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// An API security event that an event actor is associated with.
+    public struct RelatedEvent: Swift.Sendable {
+        /// The API patterns that the event involves.
+        public var apiPatterns: [WAFV2ClientTypes.ApiPattern]?
+        /// The API security threat category of the event. For example, API2:2023.
+        public var category: Swift.String?
+        /// The confidence level of the event detection: LOW, MEDIUM, or HIGH.
+        public var confidence: WAFV2ClientTypes.Confidence?
+        /// The unique identifier of the event. You provide this to [GetEvent] to retrieve the details of the event.
+        public var eventId: Swift.String?
+        /// The fully qualified name of the label that WAF assigned to the event.
+        public var label: Swift.String?
+        /// The time when the event started.
+        public var startTime: Foundation.Date?
+
+        public init(
+            apiPatterns: [WAFV2ClientTypes.ApiPattern]? = nil,
+            category: Swift.String? = nil,
+            confidence: WAFV2ClientTypes.Confidence? = nil,
+            eventId: Swift.String? = nil,
+            label: Swift.String? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.apiPatterns = apiPatterns
+            self.category = category
+            self.confidence = confidence
+            self.eventId = eventId
+            self.label = label
+            self.startTime = startTime
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The latest observed attributes of an event actor.
+    public struct EventActorDetailSummary: Swift.Sendable {
+        /// The autonomous system number (ASN) that is associated with the client IP address of the event actor.
+        public var asn: Swift.String?
+        /// The name of the organization that owns the ASN. For example, AMAZON-02.
+        public var asnOrganization: Swift.String?
+        /// A hash of the authentication credentials that the client of the event actor provides in the request. These can include a JSON Web Token (JWT), a JSON Web Encryption (JWE) token, an Amazon Web Services Signature Version 4 (SigV4) signature, or basic authentication credentials. You can use the fingerprint to match the same client across events and in your WAF logs.
+        public var authFingerprint: Swift.String?
+        /// The client IP address of the event actor.
+        public var clientIp: Swift.String?
+        /// The country of the client IP address of the event actor.
+        public var country: Swift.String?
+        /// The time when WAF first observed the event actor.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the event actor.
+        /// This member is required.
+        public var eventActorId: Swift.String?
+        /// The TLS fingerprint of the event actor, such as a JA3 or JA4 fingerprint.
+        public var tlsFingerprint: Swift.String?
+
+        public init(
+            asn: Swift.String? = nil,
+            asnOrganization: Swift.String? = nil,
+            authFingerprint: Swift.String? = nil,
+            clientIp: Swift.String? = nil,
+            country: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            eventActorId: Swift.String? = nil,
+            tlsFingerprint: Swift.String? = nil
+        ) {
+            self.asn = asn
+            self.asnOrganization = asnOrganization
+            self.authFingerprint = authFingerprint
+            self.clientIp = clientIp
+            self.country = country
+            self.createdAt = createdAt
+            self.eventActorId = eventActorId
+            self.tlsFingerprint = tlsFingerprint
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The details of an event actor, returned by [GetEventActor].
+    public struct EventActorDetail: Swift.Sendable {
+        /// The history of changes to the network attributes of the event actor, ordered from oldest to newest. The list contains up to 20 entries.
+        public var changes: [WAFV2ClientTypes.EventActorChange]?
+        /// The API security events that the event actor is associated with. The list contains up to 20 events.
+        public var events: [WAFV2ClientTypes.RelatedEvent]?
+        /// The latest observed attributes of the event actor.
+        /// This member is required.
+        public var summary: WAFV2ClientTypes.EventActorDetailSummary?
+
+        public init(
+            changes: [WAFV2ClientTypes.EventActorChange]? = nil,
+            events: [WAFV2ClientTypes.RelatedEvent]? = nil,
+            summary: WAFV2ClientTypes.EventActorDetailSummary? = nil
+        ) {
+            self.changes = changes
+            self.events = events
+            self.summary = summary
+        }
+    }
+}
+
+public struct GetEventActorOutput: Swift.Sendable {
+    /// The details of the event actor.
+    public var eventActor: WAFV2ClientTypes.EventActorDetail?
+
+    public init(
+        eventActor: WAFV2ClientTypes.EventActorDetail? = nil
+    ) {
+        self.eventActor = eventActor
     }
 }
 
@@ -8056,6 +8645,394 @@ public struct ListAvailableManagedRuleGroupVersionsOutput: Swift.Sendable {
     }
 }
 
+extension WAFV2ClientTypes {
+
+    public enum EventActorSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventActorSortBy] {
+            return [
+                .eventCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventCount: return "EVENT_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListEventActorsInput: Swift.Sendable {
+    /// The maximum number of event actors that you want WAF to return for this request. Valid values are 1 to 100. If more event actors are available, WAF returns a NextMarker value in the response that you can use in a subsequent call to get the next batch of event actors.
+    public var limit: Swift.Int?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The field to sort event actors by. The only supported value is EVENT_COUNT.
+    public var sortBy: WAFV2ClientTypes.EventActorSortBy?
+    /// The time range for the event actors to return. The time window can't be longer than one year.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        sortBy: WAFV2ClientTypes.EventActorSortBy? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.sortBy = sortBy
+        self.timeWindow = timeWindow
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// High-level information about an event actor, returned by [ListEventActors].
+    public struct EventActorSummary: Swift.Sendable {
+        /// The autonomous system number (ASN) that is associated with the client IP address of the event actor.
+        public var asn: Swift.String?
+        /// The name of the organization that owns the ASN. For example, AMAZON-02.
+        public var asnOrganization: Swift.String?
+        /// A hash of the authentication credentials that the client of the event actor provides in the request. These can include a JSON Web Token (JWT), a JSON Web Encryption (JWE) token, an Amazon Web Services Signature Version 4 (SigV4) signature, or basic authentication credentials. You can use the fingerprint to match the same client across events and in your WAF logs.
+        public var authFingerprint: Swift.String?
+        /// The client IP address of the event actor.
+        public var clientIp: Swift.String?
+        /// The country of the client IP address of the event actor.
+        public var country: Swift.String?
+        /// The time when WAF first observed the event actor.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the event actor. You provide this to [GetEventActor] to retrieve the details of the event actor.
+        /// This member is required.
+        public var eventActorId: Swift.String?
+        /// The number of API security events that the event actor is associated with in the requested time window.
+        public var eventCount: Swift.Int
+        /// The TLS fingerprint of the event actor, such as a JA3 or JA4 fingerprint.
+        public var tlsFingerprint: Swift.String?
+
+        public init(
+            asn: Swift.String? = nil,
+            asnOrganization: Swift.String? = nil,
+            authFingerprint: Swift.String? = nil,
+            clientIp: Swift.String? = nil,
+            country: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            eventActorId: Swift.String? = nil,
+            eventCount: Swift.Int = 0,
+            tlsFingerprint: Swift.String? = nil
+        ) {
+            self.asn = asn
+            self.asnOrganization = asnOrganization
+            self.authFingerprint = authFingerprint
+            self.clientIp = clientIp
+            self.country = country
+            self.createdAt = createdAt
+            self.eventActorId = eventActorId
+            self.eventCount = eventCount
+            self.tlsFingerprint = tlsFingerprint
+        }
+    }
+}
+
+public struct ListEventActorsOutput: Swift.Sendable {
+    /// The list of event actor summaries.
+    /// This member is required.
+    public var eventActors: [WAFV2ClientTypes.EventActorSummary]?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+
+    public init(
+        eventActors: [WAFV2ClientTypes.EventActorSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.eventActors = eventActors
+        self.nextMarker = nextMarker
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum EventFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventCategory
+        case resourceArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventFilterKey] {
+            return [
+                .eventCategory,
+                .resourceArn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventCategory: return "EVENT_CATEGORY"
+            case .resourceArn: return "RESOURCE_ARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A filter to narrow the events that are returned by [ListEvents] and [ListEventsByWebACL].
+    public struct EventFilter: Swift.Sendable {
+        /// The name of the field to filter on. Valid values:
+        ///
+        /// * EVENT_CATEGORY - Filter by event category. The only supported filter value is API_SECURITY.
+        ///
+        /// * RESOURCE_ARN - Filter by protected resource. The filter values are the Amazon Resource Name (ARN)s of the protected resources.
+        /// This member is required.
+        public var name: WAFV2ClientTypes.EventFilterKey?
+        /// The values to filter on. You can specify up to 10 values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: WAFV2ClientTypes.EventFilterKey? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum EventIncludeField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case timeline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventIncludeField] {
+            return [
+                .timeline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .timeline: return "TIMELINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum EventSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case confidence
+        case endTime
+        case startTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSortBy] {
+            return [
+                .confidence,
+                .endTime,
+                .startTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confidence: return "CONFIDENCE"
+            case .endTime: return "END_TIME"
+            case .startTime: return "START_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListEventsInput: Swift.Sendable {
+    /// Filters that narrow the results to events that involve the specified API patterns. If you specify more than one API pattern filter, WAF returns the events that match any of the filters. You can specify up to 20 API pattern filters.
+    public var apiPatternFilters: [WAFV2ClientTypes.ApiPatternFilter]?
+    /// Filters that narrow the results by event category or by the Amazon Resource Name (ARN) of the protected resource. You can specify up to 8 filters.
+    public var filters: [WAFV2ClientTypes.EventFilter]?
+    /// Additional fields to return with each event summary. By default, the response includes only the default summary fields. Specify TIMELINE to return the timeline of each event in ApiSecurityEventDetail$Timeline.
+    public var include: [WAFV2ClientTypes.EventIncludeField]?
+    /// The maximum number of events that you want WAF to return for this request. Valid values are 1 to 20. If more events are available, WAF returns a NextMarker value in the response that you can use in a subsequent call to get the next batch of events.
+    public var limit: Swift.Int?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. The marker is valid only for a request with the same TimeWindow, Filters, SortBy, and SortOrder settings as the request that returned it.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The field that WAF sorts the events by. Valid values:
+    ///
+    /// * CONFIDENCE - Sort by the confidence level of the event detection.
+    ///
+    /// * END_TIME - Sort by the time that the event ended.
+    ///
+    /// * START_TIME - Sort by the time that the event started.
+    public var sortBy: WAFV2ClientTypes.EventSortBy?
+    /// The order in which WAF sorts the events. Valid values:
+    ///
+    /// * ASC - Sort in ascending order.
+    ///
+    /// * DESC - Sort in descending order. This is the default.
+    public var sortOrder: WAFV2ClientTypes.SortOrder?
+    /// The time range for the events to return. If you don't specify a time window, WAF returns events from the past year. The time window can't be longer than one year.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+
+    public init(
+        apiPatternFilters: [WAFV2ClientTypes.ApiPatternFilter]? = nil,
+        filters: [WAFV2ClientTypes.EventFilter]? = nil,
+        include: [WAFV2ClientTypes.EventIncludeField]? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        sortBy: WAFV2ClientTypes.EventSortBy? = nil,
+        sortOrder: WAFV2ClientTypes.SortOrder? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil
+    ) {
+        self.apiPatternFilters = apiPatternFilters
+        self.filters = filters
+        self.include = include
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.timeWindow = timeWindow
+    }
+}
+
+public struct ListEventsOutput: Swift.Sendable {
+    /// The list of event summaries.
+    /// This member is required.
+    public var events: [WAFV2ClientTypes.EventDetailSummary]?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+
+    public init(
+        events: [WAFV2ClientTypes.EventDetailSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct ListEventsByWebACLInput: Swift.Sendable {
+    /// Filters that narrow the results to events that involve the specified API patterns. If you specify more than one API pattern filter, WAF returns the events that match any of the filters. You can specify up to 20 API pattern filters.
+    public var apiPatternFilters: [WAFV2ClientTypes.ApiPatternFilter]?
+    /// Filters that narrow the results by event category or by the Amazon Resource Name (ARN) of the protected resource. You can specify up to 8 filters.
+    public var filters: [WAFV2ClientTypes.EventFilter]?
+    /// Additional fields to return with each event summary. By default, the response includes only the default summary fields. Specify TIMELINE to return the timeline of each event in ApiSecurityEventDetail$Timeline.
+    public var include: [WAFV2ClientTypes.EventIncludeField]?
+    /// The maximum number of events that you want WAF to return for this request. Valid values are 1 to 20. If more events are available, WAF returns a NextMarker value in the response that you can use in a subsequent call to get the next batch of events.
+    public var limit: Swift.Int?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request. The marker is valid only for a request with the same WebAclArn, TimeWindow, Filters, SortBy, and SortOrder settings as the request that returned it.
+    public var nextMarker: Swift.String?
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The field that WAF sorts the events by. Valid values:
+    ///
+    /// * CONFIDENCE - Sort by the confidence level of the event detection.
+    ///
+    /// * END_TIME - Sort by the time that the event ended.
+    ///
+    /// * START_TIME - Sort by the time that the event started.
+    public var sortBy: WAFV2ClientTypes.EventSortBy?
+    /// The order in which WAF sorts the events. Valid values:
+    ///
+    /// * ASC - Sort in ascending order.
+    ///
+    /// * DESC - Sort in descending order. This is the default.
+    public var sortOrder: WAFV2ClientTypes.SortOrder?
+    /// The time range for the events to return. If you don't specify a time window, WAF returns events from the past year. The time window can't be longer than one year.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+    /// The Amazon Resource Name (ARN) of the web ACL whose events you want to retrieve.
+    /// This member is required.
+    public var webAclArn: Swift.String?
+
+    public init(
+        apiPatternFilters: [WAFV2ClientTypes.ApiPatternFilter]? = nil,
+        filters: [WAFV2ClientTypes.EventFilter]? = nil,
+        include: [WAFV2ClientTypes.EventIncludeField]? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        sortBy: WAFV2ClientTypes.EventSortBy? = nil,
+        sortOrder: WAFV2ClientTypes.SortOrder? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil,
+        webAclArn: Swift.String? = nil
+    ) {
+        self.apiPatternFilters = apiPatternFilters
+        self.filters = filters
+        self.include = include
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.scope = scope
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.timeWindow = timeWindow
+        self.webAclArn = webAclArn
+    }
+}
+
+public struct ListEventsByWebACLOutput: Swift.Sendable {
+    /// The list of event summaries.
+    /// This member is required.
+    public var events: [WAFV2ClientTypes.EventDetailSummary]?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+
+    public init(
+        events: [WAFV2ClientTypes.EventDetailSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextMarker = nextMarker
+    }
+}
+
 public struct ListIPSetsInput: Swift.Sendable {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
@@ -9333,6 +10310,8 @@ extension WAFV2ClientTypes {
         ///
         /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
         ///
+        /// * Use the AWSManagedRulesAISecurityRuleSet configuration object to configure the AI security managed rule group. The configuration specifies whether the rule group uses Amazon Bedrock Guardrails to inspect web requests, or web requests and responses, and the IAM role that WAF uses to call Amazon Bedrock Guardrails.
+        ///
         /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
         ///
         /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
@@ -9778,7 +10757,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
     /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
     public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -9917,7 +10896,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     ///
     /// * If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
     public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -10027,7 +11006,7 @@ extension WAFV2ClientTypes {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public var associationConfig: WAFV2ClientTypes.AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         public var capacity: Swift.Int

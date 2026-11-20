@@ -9643,6 +9643,240 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum PurlQualifierKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arch
+        case collector
+        case devDependency
+        case distro
+        case epoch
+        case goToolchain
+        case hardened
+        case `private`
+        case rustToolchain
+        case scope
+        case skipChromiumDownload
+        case source
+        case stream
+        case transitiveDependency
+        case unresolved
+        case vendor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PurlQualifierKey] {
+            return [
+                .arch,
+                .collector,
+                .devDependency,
+                .distro,
+                .epoch,
+                .goToolchain,
+                .hardened,
+                .private,
+                .rustToolchain,
+                .scope,
+                .skipChromiumDownload,
+                .source,
+                .stream,
+                .transitiveDependency,
+                .unresolved,
+                .vendor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arch: return "arch"
+            case .collector: return "collector"
+            case .devDependency: return "dev_dependency"
+            case .distro: return "distro"
+            case .epoch: return "epoch"
+            case .goToolchain: return "go_toolchain"
+            case .hardened: return "hardened"
+            case .private: return "private"
+            case .rustToolchain: return "rust_toolchain"
+            case .scope: return "scope"
+            case .skipChromiumDownload: return "skip_chromium_download"
+            case .source: return "source"
+            case .stream: return "stream"
+            case .transitiveDependency: return "transitive_dependency"
+            case .unresolved: return "unresolved"
+            case .vendor: return "vendor"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An object that describes the details of a package URL (purl) qualifier filter.
+    public struct PurlQualifierFilter: Swift.Sendable {
+        /// The operator to use when comparing values in the filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.MapComparison?
+        /// The package URL (purl) qualifier key to filter on.
+        /// This member is required.
+        public var key: Inspector2ClientTypes.PurlQualifierKey?
+        /// The package URL (purl) qualifier value to filter on.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.MapComparison? = nil,
+            key: Inspector2ClientTypes.PurlQualifierKey? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparison = comparison
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum RuntimeReachabilityComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeReachabilityComparison] {
+            return [
+                .equals,
+                .notEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum RuntimeReachability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notReachable
+        case reachable
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeReachability] {
+            return [
+                .notReachable,
+                .reachable,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notReachable: return "NOT_REACHABLE"
+            case .reachable: return "REACHABLE"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An object that describes the details of a runtime reachability filter.
+    public struct RuntimeReachabilityFilter: Swift.Sendable {
+        /// The operator to use when comparing values in the filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.RuntimeReachabilityComparison?
+        /// The runtime reachability status to filter on.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.RuntimeReachability?
+
+        public init(
+            comparison: Inspector2ClientTypes.RuntimeReachabilityComparison? = nil,
+            value: Inspector2ClientTypes.RuntimeReachability? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum RuntimeReachabilityReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case packageInDockerfileWorkloadPath
+        case packageNotInDockerfileWorkloadPath
+        case processNotObservedInEc2Runtime
+        case processObservedInEc2Runtime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeReachabilityReason] {
+            return [
+                .packageInDockerfileWorkloadPath,
+                .packageNotInDockerfileWorkloadPath,
+                .processNotObservedInEc2Runtime,
+                .processObservedInEc2Runtime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .packageInDockerfileWorkloadPath: return "PACKAGE_IN_DOCKERFILE_WORKLOAD_PATH"
+            case .packageNotInDockerfileWorkloadPath: return "PACKAGE_NOT_IN_DOCKERFILE_WORKLOAD_PATH"
+            case .processNotObservedInEc2Runtime: return "PROCESS_NOT_OBSERVED_IN_EC2_RUNTIME"
+            case .processObservedInEc2Runtime: return "PROCESS_OBSERVED_IN_EC2_RUNTIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// An object that describes the details of a runtime reachability reason filter.
+    public struct RuntimeReachabilityReasonFilter: Swift.Sendable {
+        /// The operator to use when comparing values in the filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.RuntimeReachabilityComparison?
+        /// The runtime reachability reason to filter on.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.RuntimeReachabilityReason?
+
+        public init(
+            comparison: Inspector2ClientTypes.RuntimeReachabilityComparison? = nil,
+            value: Inspector2ClientTypes.RuntimeReachabilityReason? = nil
+        ) {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains information on the details of a package filter.
     public struct PackageFilter: Swift.Sendable {
         /// An object that contains details on the package architecture type to filter on.
@@ -9653,8 +9887,14 @@ extension Inspector2ClientTypes {
         public var filePath: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the name of the package to filter on.
         public var name: Inspector2ClientTypes.StringFilter?
+        /// An object that contains details on the package URL (purl) qualifier to filter on.
+        public var purlQualifier: Inspector2ClientTypes.PurlQualifierFilter?
         /// An object that contains details on the package release to filter on.
         public var release: Inspector2ClientTypes.StringFilter?
+        /// An object that contains details on the runtime reachability status of the package to filter on. For more information, see [Understanding runtime reachability](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-runtime-reachability.html) in the Amazon Inspector user guide.
+        public var runtimeReachability: Inspector2ClientTypes.RuntimeReachabilityFilter?
+        /// An object that contains details on the runtime reachability reason of the package to filter on. For more information, see [Understanding runtime reachability](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-runtime-reachability.html) in the Amazon Inspector user guide.
+        public var runtimeReachabilityReason: Inspector2ClientTypes.RuntimeReachabilityReasonFilter?
         /// An object that describes the details of a string filter.
         public var sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the source layer hash to filter on.
@@ -9667,7 +9907,10 @@ extension Inspector2ClientTypes {
             epoch: Inspector2ClientTypes.NumberFilter? = nil,
             filePath: Inspector2ClientTypes.StringFilter? = nil,
             name: Inspector2ClientTypes.StringFilter? = nil,
+            purlQualifier: Inspector2ClientTypes.PurlQualifierFilter? = nil,
             release: Inspector2ClientTypes.StringFilter? = nil,
+            runtimeReachability: Inspector2ClientTypes.RuntimeReachabilityFilter? = nil,
+            runtimeReachabilityReason: Inspector2ClientTypes.RuntimeReachabilityReasonFilter? = nil,
             sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter? = nil,
             sourceLayerHash: Inspector2ClientTypes.StringFilter? = nil,
             version: Inspector2ClientTypes.StringFilter? = nil
@@ -9676,7 +9919,10 @@ extension Inspector2ClientTypes {
             self.epoch = epoch
             self.filePath = filePath
             self.name = name
+            self.purlQualifier = purlQualifier
             self.release = release
+            self.runtimeReachability = runtimeReachability
+            self.runtimeReachabilityReason = runtimeReachabilityReason
             self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
@@ -11815,10 +12061,16 @@ extension Inspector2ClientTypes {
         public var name: Swift.String?
         /// The package manager of the vulnerable package.
         public var packageManager: Inspector2ClientTypes.PackageManager?
+        /// The package URL (purl) of the vulnerable package.
+        public var purl: Swift.String?
         /// The release of the vulnerable package.
         public var release: Swift.String?
         /// The code to run in your environment to update packages with a fix available.
         public var remediation: Swift.String?
+        /// The runtime reachability status of the vulnerable package. For more information, see [Understanding runtime reachability](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-runtime-reachability.html) in the Amazon Inspector user guide.
+        public var runtimeReachability: Inspector2ClientTypes.RuntimeReachability?
+        /// The reason for the runtime reachability status of the vulnerable package. For more information, see [Understanding runtime reachability](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-runtime-reachability.html) in the Amazon Inspector user guide.
+        public var runtimeReachabilityReason: Inspector2ClientTypes.RuntimeReachabilityReason?
         /// The Amazon Resource Number (ARN) of the Amazon Web Services Lambda function affected by a finding.
         public var sourceLambdaLayerArn: Swift.String?
         /// The source layer hash of the vulnerable package.
@@ -11834,8 +12086,11 @@ extension Inspector2ClientTypes {
             fixedInVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             packageManager: Inspector2ClientTypes.PackageManager? = nil,
+            purl: Swift.String? = nil,
             release: Swift.String? = nil,
             remediation: Swift.String? = nil,
+            runtimeReachability: Inspector2ClientTypes.RuntimeReachability? = nil,
+            runtimeReachabilityReason: Inspector2ClientTypes.RuntimeReachabilityReason? = nil,
             sourceLambdaLayerArn: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
@@ -11846,8 +12101,11 @@ extension Inspector2ClientTypes {
             self.fixedInVersion = fixedInVersion
             self.name = name
             self.packageManager = packageManager
+            self.purl = purl
             self.release = release
             self.remediation = remediation
+            self.runtimeReachability = runtimeReachability
+            self.runtimeReachabilityReason = runtimeReachabilityReason
             self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
@@ -22193,7 +22451,10 @@ extension Inspector2ClientTypes.PackageFilter {
         try writer["epoch"].write(value.epoch, with: Inspector2ClientTypes.NumberFilter.write(value:to:))
         try writer["filePath"].write(value.filePath, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["name"].write(value.name, with: Inspector2ClientTypes.StringFilter.write(value:to:))
+        try writer["purlQualifier"].write(value.purlQualifier, with: Inspector2ClientTypes.PurlQualifierFilter.write(value:to:))
         try writer["release"].write(value.release, with: Inspector2ClientTypes.StringFilter.write(value:to:))
+        try writer["runtimeReachability"].write(value.runtimeReachability, with: Inspector2ClientTypes.RuntimeReachabilityFilter.write(value:to:))
+        try writer["runtimeReachabilityReason"].write(value.runtimeReachabilityReason, with: Inspector2ClientTypes.RuntimeReachabilityReasonFilter.write(value:to:))
         try writer["sourceLambdaLayerArn"].write(value.sourceLambdaLayerArn, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["sourceLayerHash"].write(value.sourceLayerHash, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["version"].write(value.version, with: Inspector2ClientTypes.StringFilter.write(value:to:))
@@ -22210,6 +22471,9 @@ extension Inspector2ClientTypes.PackageFilter {
         value.sourceLayerHash = try reader["sourceLayerHash"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
         value.sourceLambdaLayerArn = try reader["sourceLambdaLayerArn"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
         value.filePath = try reader["filePath"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
+        value.runtimeReachability = try reader["runtimeReachability"].readIfPresent(with: Inspector2ClientTypes.RuntimeReachabilityFilter.read(from:))
+        value.runtimeReachabilityReason = try reader["runtimeReachabilityReason"].readIfPresent(with: Inspector2ClientTypes.RuntimeReachabilityReasonFilter.read(from:))
+        value.purlQualifier = try reader["purlQualifier"].readIfPresent(with: Inspector2ClientTypes.PurlQualifierFilter.read(from:))
         return value
     }
 }
@@ -22358,6 +22622,25 @@ extension Inspector2ClientTypes.ProviderFilter {
         guard let value else { return }
         try writer["comparison"].write(value.comparison)
         try writer["value"].write(value.value)
+    }
+}
+
+extension Inspector2ClientTypes.PurlQualifierFilter {
+
+    static func write(value: Inspector2ClientTypes.PurlQualifierFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PurlQualifierFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.PurlQualifierFilter()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent()
+        return value
     }
 }
 
@@ -22578,6 +22861,40 @@ extension Inspector2ClientTypes.ResourceStringFilter {
         var value = Inspector2ClientTypes.ResourceStringFilter()
         value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.RuntimeReachabilityFilter {
+
+    static func write(value: Inspector2ClientTypes.RuntimeReachabilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.RuntimeReachabilityFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.RuntimeReachabilityFilter()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.RuntimeReachabilityReasonFilter {
+
+    static func write(value: Inspector2ClientTypes.RuntimeReachabilityReasonFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.RuntimeReachabilityReasonFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.RuntimeReachabilityReasonFilter()
+        value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -23183,6 +23500,9 @@ extension Inspector2ClientTypes.VulnerablePackage {
         value.fixedInVersion = try reader["fixedInVersion"].readIfPresent()
         value.remediation = try reader["remediation"].readIfPresent()
         value.sourceLambdaLayerArn = try reader["sourceLambdaLayerArn"].readIfPresent()
+        value.runtimeReachability = try reader["runtimeReachability"].readIfPresent()
+        value.runtimeReachabilityReason = try reader["runtimeReachabilityReason"].readIfPresent()
+        value.purl = try reader["purl"].readIfPresent()
         return value
     }
 }

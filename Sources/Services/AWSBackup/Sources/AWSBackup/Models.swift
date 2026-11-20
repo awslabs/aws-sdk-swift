@@ -4499,14 +4499,18 @@ public struct DescribeRegionSettingsInput: Swift.Sendable {
 public struct DescribeRegionSettingsOutput: Swift.Sendable {
     /// Returns whether Backup fully manages the backups for a resource type. For the benefits of full Backup management, see [Full Backup management](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management). For a list of resource types and whether each supports full Backup management, see the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. If "DynamoDB":false, you can enable full Backup management for DynamoDB backup by enabling [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String: Swift.Bool]?
+    /// Specifies whether you have opted in to incremental backups for each resource type in the Region. When you opt in, each backup captures only the changes made since your previous backup. Incremental backup opt-in is currently available for Amazon DynamoDB. Consider opting in if your resources are large and change infrequently, because incremental backups can reduce your backup storage and backup time. To opt in, use the UpdateRegionSettings API. For a list of the Backup features that each resource type supports, see [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource).
+    public var resourceTypeOptInIncremental: [Swift.String: Swift.Bool]?
     /// The services along with the opt-in preferences in the Region.
     public var resourceTypeOptInPreference: [Swift.String: Swift.Bool]?
 
     public init(
         resourceTypeManagementPreference: [Swift.String: Swift.Bool]? = nil,
+        resourceTypeOptInIncremental: [Swift.String: Swift.Bool]? = nil,
         resourceTypeOptInPreference: [Swift.String: Swift.Bool]? = nil
     ) {
         self.resourceTypeManagementPreference = resourceTypeManagementPreference
+        self.resourceTypeOptInIncremental = resourceTypeOptInIncremental
         self.resourceTypeOptInPreference = resourceTypeOptInPreference
     }
 }
@@ -9422,14 +9426,18 @@ public struct UpdateRecoveryPointLifecycleOutput: Swift.Sendable {
 public struct UpdateRegionSettingsInput: Swift.Sendable {
     /// Enables or disables full Backup management of backups for a resource type. To enable full Backup management for DynamoDB along with [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html), follow the procedure to [ enable advanced DynamoDB backup programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String: Swift.Bool]?
+    /// Specifies whether you opt in to incremental backups for each resource type in the Region. Opt in when you want to reduce backup storage and backup time for large resources that change infrequently. Incremental backup opt-in is currently available for Amazon DynamoDB. To view your current incremental backup settings, use the DescribeRegionSettings API. For the resource types that each Backup feature supports, see the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table.
+    public var resourceTypeOptInIncremental: [Swift.String: Swift.Bool]?
     /// Updates the list of services along with the opt-in preferences for the Region. If resource assignments are only based on tags, then service opt-in settings are applied. If a resource type is explicitly assigned to a backup plan, such as Amazon S3, Amazon EC2, or Amazon RDS, it will be included in the backup even if the opt-in is not enabled for that particular service. If both a resource type and tags are specified in a resource assignment, the resource type specified in the backup plan takes priority over the tag condition. Service opt-in settings are disregarded in this situation.
     public var resourceTypeOptInPreference: [Swift.String: Swift.Bool]?
 
     public init(
         resourceTypeManagementPreference: [Swift.String: Swift.Bool]? = nil,
+        resourceTypeOptInIncremental: [Swift.String: Swift.Bool]? = nil,
         resourceTypeOptInPreference: [Swift.String: Swift.Bool]? = nil
     ) {
         self.resourceTypeManagementPreference = resourceTypeManagementPreference
+        self.resourceTypeOptInIncremental = resourceTypeOptInIncremental
         self.resourceTypeOptInPreference = resourceTypeOptInPreference
     }
 }
@@ -12102,6 +12110,7 @@ extension UpdateRegionSettingsInput {
     static func write(value: UpdateRegionSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceTypeManagementPreference"].writeMap(value.resourceTypeManagementPreference, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ResourceTypeOptInIncremental"].writeMap(value.resourceTypeOptInIncremental, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ResourceTypeOptInPreference"].writeMap(value.resourceTypeOptInPreference, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -12634,6 +12643,7 @@ extension DescribeRegionSettingsOutput {
         let reader = responseReader
         var value = DescribeRegionSettingsOutput()
         value.resourceTypeManagementPreference = try reader["ResourceTypeManagementPreference"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceTypeOptInIncremental = try reader["ResourceTypeOptInIncremental"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resourceTypeOptInPreference = try reader["ResourceTypeOptInPreference"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }

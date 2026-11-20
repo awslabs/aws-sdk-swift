@@ -170,7 +170,7 @@ extension FSxClientTypes {
     ///
     /// * RELEASE_NFS_V3_LOCKS - Tracks the release of Network File System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
     ///
-    /// * DOWNLOAD_DATA_FROM_BACKUP - An FSx for ONTAP backup is being restored to a new volume on a second-generation file system. Once the all the file metadata is loaded onto the volume, you can mount the volume with read-only access. during this process.
+    /// * DOWNLOAD_DATA_FROM_BACKUP - An FSx for ONTAP backup is being restored to a new volume on a second-generation or third-generation file system. Once the all the file metadata is loaded onto the volume, you can mount the volume with read-only access. during this process.
     ///
     /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
     ///
@@ -464,7 +464,7 @@ extension FSxClientTypes {
 
     /// The configuration for the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
     public struct LustreReadCacheConfiguration: Swift.Sendable {
-        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB). The SSD read cache size is distributed across provisioned file servers in your file system. Intelligent-Tiering file systems support a minimum of 32 GiB and maximum of 131072 GiB for SSD read cache size for every 4,000 MB/s of throughput capacity provisioned.
+        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB). The SSD read cache size is distributed across provisioned file servers in your file system. Intelligent-Tiering file systems support a minimum of 8 GiB and maximum of 32768 GiB for SSD read cache size for every 1000 MBps of throughput capacity provisioned.
         public var sizeGiB: Swift.Int?
         /// Specifies how the provisioned SSD read cache is sized, as follows:
         ///
@@ -796,11 +796,11 @@ extension FSxClientTypes {
         ///
         /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         ///
-        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        /// * For Intelligent-Tiering file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for the file system.
         ///
-        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode, FSx for Lustre provisions and scales Metadata IOPS for you. For SSD file systems, the number is based on storage capacity. For Intelligent-Tiering file systems, it is based on throughput capacity.
         ///
         /// * In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -968,16 +968,20 @@ extension FSxClientTypes {
     public enum OntapDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case multiAz1
         case multiAz2
+        case multiAz3
         case singleAz1
         case singleAz2
+        case singleAz3
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OntapDeploymentType] {
             return [
                 .multiAz1,
                 .multiAz2,
+                .multiAz3,
                 .singleAz1,
-                .singleAz2
+                .singleAz2,
+                .singleAz3
             ]
         }
 
@@ -990,8 +994,10 @@ extension FSxClientTypes {
             switch self {
             case .multiAz1: return "MULTI_AZ_1"
             case .multiAz2: return "MULTI_AZ_2"
+            case .multiAz3: return "MULTI_AZ_3"
             case .singleAz1: return "SINGLE_AZ_1"
             case .singleAz2: return "SINGLE_AZ_2"
+            case .singleAz3: return "SINGLE_AZ_3"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1092,7 +1098,7 @@ extension FSxClientTypes {
 
     /// Configuration for the FSx for NetApp ONTAP file system.
     public struct OntapFileSystemConfiguration: Swift.Sendable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups and deletes all existing automatic backups for the file system's volumes. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -1105,6 +1111,10 @@ extension FSxClientTypes {
         /// * SINGLE_AZ_1 - A file system configured for Single-AZ redundancy. This is a first-generation FSx for ONTAP file system.
         ///
         /// * SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy. This is a second-generation FSx for ONTAP file system.
+        ///
+        /// * MULTI_AZ_3 - A high availability file system configured for Multi-AZ redundancy to tolerate temporary AZ unavailability. This is a third-generation FSx for ONTAP file system.
+        ///
+        /// * SINGLE_AZ_3 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy. This is a third-generation FSx for ONTAP file system.
         ///
         ///
         /// For information about the use cases for Multi-AZ and Single-AZ deployments, refer to [Choosing Multi-AZ or Single-AZ file system deployment](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html).
@@ -1123,7 +1133,7 @@ extension FSxClientTypes {
         ///
         /// * The value of HAPairs is less than 1 or greater than 12.
         ///
-        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, or MULTI_AZ_2.
+        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, MULTI_AZ_2, or MULTI_AZ_3.
         public var haPairs: Swift.Int?
         /// The ID for a subnet. A subnet is a range of IP addresses in your virtual private cloud (VPC). For more information, see [VPC and subnets](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) in the Amazon VPC User Guide.
         public var preferredSubnetId: Swift.String?
@@ -1139,12 +1149,16 @@ extension FSxClientTypes {
         ///
         /// * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
         ///
+        /// * For SINGLE_AZ_3, valid values are 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
+        /// * For MULTI_AZ_3, valid values are 384, 768, 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
         ///
         /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
+        /// * The value of deployment type is SINGLE_AZ_2 or SINGLE_AZ_3 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -1649,7 +1663,7 @@ extension FSxClientTypes {
 
     /// The configuration of the self-managed Microsoft Active Directory (AD) directory to which the Windows File Server or ONTAP storage virtual machine (SVM) instance is joined.
     public struct SelfManagedActiveDirectoryAttributes: Swift.Sendable {
-        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of IP addresses of DNS servers or domain controllers in the self-managed AD directory. FSx for ONTAP SVMs support up to three IP addresses, FSx for Windows supports up to two.
         public var dnsIps: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the service account credentials used to join the file system to your self-managed Active Directory domain.
         public var domainJoinServiceAccountSecret: Swift.String?
@@ -4018,7 +4032,7 @@ public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
     public var openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?
     /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more information, see [Creating access points restricted to a virtual private cloud](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-vpc.html).
     public var s3AccessPoint: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration?
-    /// The type of S3 access point you want to create. Only OpenZFS is supported.
+    /// The type of S3 access point you want to create. Valid values are OPENZFS and ONTAP.
     /// This member is required.
     public var type: FSxClientTypes.S3AccessPointAttachmentType?
 
@@ -4157,6 +4171,8 @@ extension FSxClientTypes {
         ///
         /// * FAILED - The S3 access point attachment is in a failed state. Delete and detach the S3 access point attachment, and create a new one.
         ///
+        /// * MISCONFIGURED - The S3 access point attachment has a configuration issue that prevents it from serving requests. Amazon FSx periodically checks for this condition and automatically returns the access point to AVAILABLE when the issue is resolved.
+        ///
         /// * UPDATING - Amazon FSx is updating the S3 access point attachment
         public var lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle?
         /// Describes why a resource lifecycle state changed.
@@ -4283,7 +4299,7 @@ public struct CreateDataRepositoryAssociationInput: Swift.Sendable {
     /// The globally unique ID of the file system, assigned by Amazon FSx.
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory. If you specify only a forward slash (/) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
+    /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. You must specify this path when you create a data repository association. There is no default value; a request that omits it fails with a BadRequest error. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory. If you specify only a forward slash (/) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
     public var fileSystemPath: Swift.String?
     /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
     public var importedFileChunkSize: Swift.Int?
@@ -4628,7 +4644,14 @@ extension FSxClientTypes {
         public var enabled: Swift.Bool?
         /// Required if Enabled is set to true. Specifies the format of the CompletionReport. REPORT_CSV_20191124 is the only format currently supported. When Format is set to REPORT_CSV_20191124, the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv.
         public var format: FSxClientTypes.ReportFormat?
-        /// Required if Enabled is set to true. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file system’s ExportPath. An example Path value is "s3://amzn-s3-demo-bucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode.
+        /// Required if Enabled is set to true. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be within the Amazon S3 location that the file system is linked to. That location depends on how the file system is configured:
+        ///
+        /// * The DataRepositoryPath of one of the associations, if the file system has data repository associations
+        ///
+        /// * The ExportPath, if the file system was created with an ImportPath and an ExportPath
+        ///
+        ///
+        /// For example, if an association links to s3://amzn-s3-demo-bucket/myPrefix, then s3://amzn-s3-demo-bucket/myPrefix/reports is valid. The path s3://amzn-s3-demo-bucket/reports is not. The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode.
         public var path: Swift.String?
         /// Required if Enabled is set to true. Specifies the scope of the CompletionReport; FAILED_FILES_ONLY is the only scope currently supported. When Scope is set to FAILED_FILES_ONLY, the CompletionReport only contains information about files that the data repository task failed to process.
         public var scope: FSxClientTypes.ReportScope?
@@ -5520,14 +5543,14 @@ extension FSxClientTypes {
         ///
         /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         ///
-        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        /// * For Intelligent-Tiering file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         ///
         ///
-        /// Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
+        /// You can't provision fewer Metadata IOPS than AUTOMATIC mode provisions for your file system. Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system's storage capacity for SSD file systems, and on throughput capacity for Intelligent-Tiering file systems.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode, FSx for Lustre provisions and scales Metadata IOPS for you. For SSD file systems, the number is based on storage capacity. For Intelligent-Tiering file systems, it is based on throughput capacity.
         ///
         /// * In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -5589,7 +5612,7 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
-        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. (Default = false)
+        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. On file systems that use the Intelligent-Tiering storage class, you can enable EFA only when ThroughputCapacity is 4000 MBps or a multiple of 4000 MBps. (Default = false)
         public var efaEnabled: Swift.Bool?
         /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with a data repository association.
         public var exportPath: Swift.String?
@@ -5611,7 +5634,7 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when creating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
-        /// Specifies the throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). Valid values are 4000 MBps or multiples of 4000 MBps. You pay for the amount of throughput that you provision.
+        /// Specifies the throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). Valid values are 1000 MBps, 2000 MBps, and multiples of 4000 MBps, up to a maximum of 2000000 MBps. You pay for the amount of throughput that you provision.
         public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
@@ -5662,7 +5685,7 @@ extension FSxClientTypes {
 
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
     public struct CreateFileSystemOntapConfiguration: Swift.Sendable {
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups and deletes all existing automatic backups for the file system's volumes. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -5676,6 +5699,10 @@ extension FSxClientTypes {
         ///
         /// * SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy. This is a second-generation FSx for ONTAP file system.
         ///
+        /// * MULTI_AZ_3 - A high availability file system configured for Multi-AZ redundancy to tolerate temporary AZ unavailability. This is a third-generation FSx for ONTAP file system.
+        ///
+        /// * SINGLE_AZ_3 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy. This is a third-generation FSx for ONTAP file system.
+        ///
         ///
         /// For information about the use cases for Multi-AZ and Single-AZ deployments, refer to [Choosing a file system deployment type](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-AZ.html).
         /// This member is required.
@@ -5688,13 +5715,13 @@ extension FSxClientTypes {
         public var endpointIpv6AddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
-        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. First-generation file systems are powered by 1 HA pair. Second-generation multi-AZ file systems are powered by 1 HA pair. Second generation single-AZ file systems are powered by up to 12 HA pairs. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage). Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. First-generation file systems are powered by 1 HA pair. Second-generation and third-generation multi-AZ file systems are powered by 1 HA pair. Second-generation and third-generation single-AZ file systems are powered by up to 12 HA pairs. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage). Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of HAPairs is less than 1 or greater than 12.
         ///
-        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, or MULTI_AZ_2.
+        /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, MULTI_AZ_2, or MULTI_AZ_3.
         public var haPairs: Swift.Int?
-        /// Required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2. This specifies the subnet in which you want the preferred file server to be located.
+        /// Required when DeploymentType is set to MULTI_AZ_1, MULTI_AZ_2, or MULTI_AZ_3. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table. Amazon FSx manages these route tables for Multi-AZ file systems using tag-based authentication. These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx. When creating FSx for ONTAP Multi-AZ file systems using CloudFormation we recommend that you add the Key: AmazonFSx; Value: ManagedByAmazonFSx tag manually.
         public var routeTableIds: [Swift.String]?
@@ -5712,12 +5739,16 @@ extension FSxClientTypes {
         ///
         /// * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
         ///
+        /// * For SINGLE_AZ_3, valid values are 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
+        /// * For MULTI_AZ_3, valid values are 384, 768, 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
         ///
         /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
+        /// * The value of deployment type is SINGLE_AZ_2 or SINGLE_AZ_3 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -5941,7 +5972,7 @@ extension FSxClientTypes {
 
     /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
     public struct SelfManagedActiveDirectoryConfiguration: Swift.Sendable {
-        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of IP addresses of DNS servers or domain controllers in the self-managed AD directory. FSx for ONTAP SVMs support up to three IP addresses, FSx for Windows supports up to two.
         /// This member is required.
         public var dnsIps: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. When provided, Amazon FSx uses the credentials stored in this secret to join the file system to your self-managed Active Directory domain. The secret must contain two key-value pairs:
@@ -8844,20 +8875,18 @@ extension FSxClientTypes {
         ///
         /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         ///
-        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        /// * For Intelligent-Tiering file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
         ///
         ///
-        /// The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system. You can't provision fewer Metadata IOPS than AUTOMATIC mode provisions for your file system.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * To increase the Metadata IOPS or to switch an SSD file system from AUTOMATIC, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// * To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         ///
-        /// * To switch from USER_PROVISIONED mode on an SSD file system, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.
+        /// * To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.
         ///
-        /// * If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
-        ///
-        /// * AUTOMATIC mode is not supported on Intelligent-Tiering file systems. For Intelligent-Tiering file systems, use USER_PROVISIONED mode.
+        /// * FSx for Lustre rejects a switch to AUTOMATIC mode when your current Metadata IOPS value is greater than what AUTOMATIC mode provisions, because decreasing Metadata IOPS is not supported. To unblock the switch, increase storage capacity for SSD file systems, or throughput capacity for Intelligent-Tiering file systems, until AUTOMATIC mode provisions at least your current Metadata IOPS.
         public var mode: FSxClientTypes.MetadataConfigurationMode?
 
         public init(
@@ -8917,7 +8946,7 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
-        /// The throughput of an Amazon FSx for Lustre file system using an Intelligent-Tiering storage class, measured in megabytes per second (MBps). You can only increase your file system's throughput. Valid values are 4000 MBps or multiples of 4000 MBps.
+        /// The throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). You can only increase your file system's throughput capacity. Valid values are 1000 MBps, 2000 MBps, and multiples of 4000 MBps, up to a maximum of 2000000 MBps.
         public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
@@ -8956,7 +8985,7 @@ extension FSxClientTypes {
     public struct UpdateFileSystemOntapConfiguration: Swift.Sendable {
         /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for NetApp ONTAP file system.
         public var addRouteTableIds: [Swift.String]?
-        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups and deletes all existing automatic backups for the file system's volumes. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
@@ -8966,7 +8995,7 @@ extension FSxClientTypes {
         public var endpointIpv6AddressRange: Swift.String?
         /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
-        /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
+        /// Use to update the number of high-availability (HA) pairs for a second-generation or third-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
         public var haPairs: Swift.Int?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
         public var removeRouteTableIds: [Swift.String]?
@@ -8984,12 +9013,16 @@ extension FSxClientTypes {
         ///
         /// * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
         ///
+        /// * For SINGLE_AZ_3, valid values are 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
+        /// * For MULTI_AZ_3, valid values are 384, 768, 1536, 3072, 6144, 12288, or 18432 MBps.
+        ///
         ///
         /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
+        /// * The value of deployment type is SINGLE_AZ_2 or SINGLE_AZ_3 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -9087,7 +9120,7 @@ extension FSxClientTypes {
 
     /// Specifies changes you are making to the self-managed Microsoft Active Directory configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
     public struct SelfManagedActiveDirectoryConfigurationUpdates: Swift.Sendable {
-        /// A list of up to three DNS server or domain controller IP addresses in your self-managed Active Directory domain.
+        /// A list of IP addresses of DNS servers or domain controllers in the self-managed AD directory. FSx for ONTAP SVMs support up to three IP addresses, FSx for Windows supports up to two.
         public var dnsIps: [Swift.String]?
         /// Specifies the updated Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. Amazon FSx uses this account to join to your self-managed Active Directory domain.
         public var domainJoinServiceAccountSecret: Swift.String?
@@ -9182,7 +9215,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     /// The configuration updates for an FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
-    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
+    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation and third-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
     /// * For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.
     ///
@@ -9191,7 +9224,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. If that increase would reach or exceed the maximum SSD storage capacity for your file system's configuration, you can specify any greater value up to that maximum. When decreasing storage capacity on second-generation and third-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// Specifies the file system's storage type.
     public var storageType: FSxClientTypes.StorageType?
@@ -9519,7 +9552,7 @@ extension FSxClientTypes {
         ///
         /// * RELEASE_NFS_V3_LOCKS - Tracks the release of Network File System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
         ///
-        /// * DOWNLOAD_DATA_FROM_BACKUP - An FSx for ONTAP backup is being restored to a new volume on a second-generation file system. Once the all the file metadata is loaded onto the volume, you can mount the volume with read-only access. during this process.
+        /// * DOWNLOAD_DATA_FROM_BACKUP - An FSx for ONTAP backup is being restored to a new volume on a second-generation or third-generation file system. Once the all the file metadata is loaded onto the volume, you can mount the volume with read-only access. during this process.
         ///
         /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
         ///
@@ -9543,13 +9576,13 @@ extension FSxClientTypes {
         ///
         /// * PENDING - Amazon FSx is waiting to process the administrative action.
         ///
-        /// * COMPLETED - Amazon FSx has finished processing the administrative task. For a backup restore to a second-generation FSx for ONTAP file system, indicates that all data has been downloaded to the volume, and clients now have read-write access to volume.
+        /// * COMPLETED - Amazon FSx has finished processing the administrative task. For a backup restore to a second-generation or third-generation FSx for ONTAP file system, indicates that all data has been downloaded to the volume, and clients now have read-write access to volume.
         ///
         /// * UPDATED_OPTIMIZING - For a storage-capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage-optimization process.
         ///
-        /// * PENDING - For a backup restore to a second-generation FSx for ONTAP file system, indicates that the file metadata is being downloaded onto the volume. The volume's Lifecycle state is CREATING.
+        /// * PENDING - For a backup restore to a second-generation or third-generation FSx for ONTAP file system, indicates that the file metadata is being downloaded onto the volume. The volume's Lifecycle state is CREATING.
         ///
-        /// * IN_PROGRESS - For a backup restore to a second-generation FSx for ONTAP file system, indicates that all metadata has been downloaded to the new volume and client can access data with read-only access while Amazon FSx downloads the file data to the volume. Track the progress of this process with the ProgressPercent element.
+        /// * IN_PROGRESS - For a backup restore to a second-generation or third-generation FSx for ONTAP file system, indicates that all metadata has been downloaded to the new volume and client can access data with read-only access while Amazon FSx downloads the file data to the volume. Track the progress of this process with the ProgressPercent element.
         public var status: FSxClientTypes.Status?
         /// The target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public var targetFileSystemValues: FSxClientTypes.FileSystem?

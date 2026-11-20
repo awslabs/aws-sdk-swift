@@ -126,7 +126,7 @@ extension Route53ClientTypes {
         ///
         /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
         ///
-        /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER The maximum number of health check sources that you can create using the current account.
+        /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER: The maximum number of health check sources that you can create using the current account.
         ///
         /// * MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.
         ///
@@ -620,7 +620,7 @@ extension Route53ClientTypes {
         /// Amazon S3 bucket that is configured as a static website Specify the domain name of the Amazon S3 website endpoint that you created the bucket in, for example, s3-website.us-east-2.amazonaws.com. For more information about valid values, see the table [Amazon S3 Website Endpoints](https://docs.aws.amazon.com/general/latest/gr/s3.html#s3_website_region_endpoints) in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see [Getting Started with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html) in the Amazon Route 53 Developer Guide. Another Route 53 resource record set Specify the value of the Name element for a resource record set in the current hosted zone. If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't specify the domain name for a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record that you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.
         /// This member is required.
         public var dnsName: Swift.String?
-        /// Applies only to alias, failover alias, geolocation alias, latency alias, and weighted alias resource record sets: When EvaluateTargetHealth is true, an alias resource record set inherits the health of the referenced Amazon Web Services resource, such as an ELB load balancer or another resource record set in the hosted zone. Note the following: CloudFront distributions You can't set EvaluateTargetHealth to true when the alias target is a CloudFront distribution. Elastic Beanstalk environments that have regionalized subdomains If you specify an Elastic Beanstalk environment in DNSName and the environment contains an ELB load balancer, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. (An environment automatically contains an ELB load balancer if it includes more than one Amazon EC2 instance.) If you set EvaluateTargetHealth to true and either no Amazon EC2 instances are healthy or the load balancer itself is unhealthy, Route 53 routes queries to other available resources that are healthy, if any. If the environment contains a single Amazon EC2 instance, there are no special requirements. ELB load balancers Health checking behavior depends on the type of load balancer:
+        /// Applies only to alias, az-affinity alias, failover alias, geolocation alias, latency alias, and weighted alias resource record sets: When EvaluateTargetHealth is true, an alias resource record set inherits the health of the referenced Amazon Web Services resource, such as an ELB load balancer or another resource record set in the hosted zone. Note the following: CloudFront distributions You can't set EvaluateTargetHealth to true when the alias target is a CloudFront distribution. Elastic Beanstalk environments that have regionalized subdomains If you specify an Elastic Beanstalk environment in DNSName and the environment contains an ELB load balancer, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. (An environment automatically contains an ELB load balancer if it includes more than one Amazon EC2 instance.) If you set EvaluateTargetHealth to true and either no Amazon EC2 instances are healthy or the load balancer itself is unhealthy, Route 53 routes queries to other available resources that are healthy, if any. If the environment contains a single Amazon EC2 instance, there are no special requirements. ELB load balancers Health checking behavior depends on the type of load balancer:
         ///
         /// * Classic Load Balancers: If you specify an ELB Classic Load Balancer in DNSName, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. If you set EvaluateTargetHealth to true and either no EC2 instances are healthy or the load balancer itself is unhealthy, Route 53 routes queries to other resources.
         ///
@@ -1318,6 +1318,86 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes {
 
+    public enum AZAffinityLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case availabilityzone
+        case availabilityzonegroup
+        case global
+        case partition
+        case region
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AZAffinityLocationType] {
+            return [
+                .availabilityzone,
+                .availabilityzonegroup,
+                .global,
+                .partition,
+                .region
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .availabilityzone: return "AvailabilityZone"
+            case .availabilityzonegroup: return "AvailabilityZoneGroup"
+            case .global: return "Global"
+            case .partition: return "Partition"
+            case .region: return "Region"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// Specifies the location that an AZ-affinity resource record set answers DNS queries from. For the location types, from most to least specific, see LocationType. A query matches a location when Route 53 VPC Resolver reports that the query came from an Availability Zone (AZ) in that location. If Route 53 doesn't know which AZ a query came from, the query matches only the record for the Global location type. AZ-affinity routing chooses which record to return. It doesn't restrict which clients can get a record. You must specify both LocationType and LocationId. To have Route 53 fall back to a less specific location when a resource is unhealthy, associate a health check with each record, or set EvaluateTargetHealth to true for alias records. If every record that matches a query is unhealthy, Route 53 responds with the most specific one.
+    public struct AZAffinity: Swift.Sendable {
+        /// The ID of the location. You can specify only generally available Availability Zones and Zone Groups. Zone Group, Region, and partition IDs must belong to a partition that you can use. Specify the ID in lowercase, in the format that corresponds to LocationType:
+        ///
+        /// * For AvailabilityZone, the Availability Zone ID (not the Availability Zone name or a Local Zone ID), such as use1-az1.
+        ///
+        /// * For AvailabilityZoneGroup, the Zone Group that an Availability Zone belongs to (not a Local Zone group), such as us-east-1-zg-1.
+        ///
+        /// * For Region, the Region code, such as us-east-1.
+        ///
+        /// * For Partition, the partition name, such as aws.
+        ///
+        /// * For Global, the value global.
+        public var locationId: Swift.String?
+        /// The level of the location that LocationId identifies. Valid values, from most to least specific:
+        ///
+        /// * AvailabilityZone: A single Availability Zone.
+        ///
+        /// * AvailabilityZoneGroup: A Zone Group, which is a group of Availability Zones in an Amazon Web Services Region.
+        ///
+        /// * Region: An entire Amazon Web Services Region.
+        ///
+        /// * Partition: An entire Amazon Web Services partition.
+        ///
+        /// * Global: All locations.
+        ///
+        ///
+        /// We recommend that you create a record for the Global location type so that every query gets an answer. Route 53 responds with it when a query matches no more specific record, or when it's the only healthy record that matches. Without a Global record, Route 53 returns a "no answer" response to queries that don't match any other record.
+        public var locationType: Route53ClientTypes.AZAffinityLocationType?
+
+        public init(
+            locationId: Swift.String? = nil,
+            locationType: Route53ClientTypes.AZAffinityLocationType? = nil
+        ) {
+            self.locationId = locationId
+            self.locationType = locationType
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     /// The object that is specified in resource record set object when you are linking a resource record set to a CIDR location. A LocationName with an asterisk “*” can be used to create a default CIDR record. CollectionId is still required for default record.
     public struct CidrRoutingConfig: Swift.Sendable {
         /// The CIDR collection ID.
@@ -1698,6 +1778,8 @@ extension Route53ClientTypes {
         ///
         /// * For information about creating failover resource record sets in a private hosted zone, see [Configuring Failover in a Private Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html) in the Amazon Route 53 Developer Guide.
         public var aliasTarget: Route53ClientTypes.AliasTarget?
+        /// AZ-affinity resource record sets only: The location that this resource record set answers DNS queries from, such as an Availability Zone (AZ) or an Amazon Web Services Region. For each query, Route 53 starts with the most specific location that the query matches and falls back to a less specific location when there's no record for that location or the record is unhealthy (its health check fails or, for an alias record that has EvaluateTargetHealth set to true, its target is unhealthy). You must also specify SetIdentifier, and you can't specify another routing policy element, such as Weight, in the same resource record set. For more information, see [AZ-affinity routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-azaffinity.html) in the Amazon Route 53 Developer Guide.
+        public var azAffinity: Route53ClientTypes.AZAffinity?
         /// The object that is specified in resource record set object when you are linking a resource record set to a CIDR location. A LocationName with an asterisk “*” can be used to create a default CIDR record. CollectionId is still required for default record.
         public var cidrRoutingConfig: Route53ClientTypes.CidrRoutingConfig?
         /// Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:
@@ -1854,6 +1936,7 @@ extension Route53ClientTypes {
 
         public init(
             aliasTarget: Route53ClientTypes.AliasTarget? = nil,
+            azAffinity: Route53ClientTypes.AZAffinity? = nil,
             cidrRoutingConfig: Route53ClientTypes.CidrRoutingConfig? = nil,
             failover: Route53ClientTypes.ResourceRecordSetFailover? = nil,
             geoLocation: Route53ClientTypes.GeoLocation? = nil,
@@ -1870,6 +1953,7 @@ extension Route53ClientTypes {
             weight: Swift.Int? = nil
         ) {
             self.aliasTarget = aliasTarget
+            self.azAffinity = azAffinity
             self.cidrRoutingConfig = cidrRoutingConfig
             self.failover = failover
             self.geoLocation = geoLocation
@@ -2077,7 +2161,7 @@ extension Route53ClientTypes {
 
 /// A complex type that contains information about the tags that you want to add, edit, or delete.
 public struct ChangeTagsForResourceInput: Swift.Sendable {
-    /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check, a health check source, or a hosted zone.
+    /// A complex type that contains a list of the tags that you want to add to the specified health check, health check source, or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check, a health check source, or a hosted zone.
     public var addTags: [Route53ClientTypes.Tag]?
     /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
     public var removeTagKeys: [Swift.String]?
@@ -2223,7 +2307,7 @@ public struct HealthCheckAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+/// This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
 public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3142,18 +3226,142 @@ public struct TooManyHostedZones: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension Route53ClientTypes {
 
+    public enum ChangeGuardrailName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeDelegationCheck
+        case activeRecordCheck
+        case aliasTargetCheck
+        case nsDelegationAuthorityCheck
+        case nsFormatCheck
+        case nsOcclusionCheck
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeGuardrailName] {
+            return [
+                .activeDelegationCheck,
+                .activeRecordCheck,
+                .aliasTargetCheck,
+                .nsDelegationAuthorityCheck,
+                .nsFormatCheck,
+                .nsOcclusionCheck
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activeDelegationCheck: return "ACTIVE_DELEGATION_CHECK"
+            case .activeRecordCheck: return "ACTIVE_RECORD_CHECK"
+            case .aliasTargetCheck: return "ALIAS_TARGET_CHECK"
+            case .nsDelegationAuthorityCheck: return "NS_DELEGATION_AUTHORITY_CHECK"
+            case .nsFormatCheck: return "NS_FORMAT_CHECK"
+            case .nsOcclusionCheck: return "NS_OCCLUSION_CHECK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum ChangeGuardrailStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeGuardrailStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A Change Guardrail and its status. A Change Guardrail checks each change to the records in a hosted zone, and rejects the change if the check fails. When you submit a ChangeResourceRecordSets request, Route 53 checks each change against every guardrail that is turned on. If a check fails, Route 53 rejects the whole request and returns an error that identifies the guardrail. If every check passes, Route 53 applies the changes. For example, suppose that ALIAS_TARGET_CHECK is turned on, and an alias record points to www.example.com. If you try to delete www.example.com, Route 53 rejects the request. To delete the record, first delete or change the alias record.
+    public struct ChangeGuardrail: Swift.Sendable {
+        /// The name of the guardrail. Valid values are the following: NS_FORMAT_CHECK This guardrail rejects an NS record whose value looks like a Route 53 name server but isn't one. NS_DELEGATION_AUTHORITY_CHECK This guardrail rejects an NS record that delegates a subdomain to Route 53 name servers that don't host it. This guardrail applies only to public hosted zones. NS_OCCLUSION_CHECK This guardrail rejects a change that leaves records under a delegated subdomain, where resolvers never use them. ALIAS_TARGET_CHECK This guardrail rejects deleting a record that an alias record in the same hosted zone points to. ACTIVE_RECORD_CHECK This guardrail rejects deleting a record that still receives DNS queries, if no other record with the same name and type remains to answer them. ACTIVE_DELEGATION_CHECK This guardrail rejects deleting the NS record for a subdomain while resolvers are still referred to it. The tier of the hosted zone determines which guardrails it includes and which ones you can turn on.
+        /// This member is required.
+        public var name: Route53ClientTypes.ChangeGuardrailName?
+        /// The status of the guardrail. Valid values are the following: ENABLED ENABLED means that the guardrail is turned on. DISABLED DISABLED means that the guardrail is turned off.
+        /// This member is required.
+        public var status: Route53ClientTypes.ChangeGuardrailStatus?
+
+        public init(
+            name: Route53ClientTypes.ChangeGuardrailName? = nil,
+            status: Route53ClientTypes.ChangeGuardrailStatus? = nil
+        ) {
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum HostedZoneTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HostedZoneTier] {
+            return [
+                .advanced,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     /// A complex type that contains an optional comment about your hosted zone. If you don't want to specify a comment, omit both the HostedZoneConfig and Comment elements.
     public struct HostedZoneConfig: Swift.Sendable {
         /// Any comments that you want to include about the hosted zone.
         public var comment: Swift.String?
+        /// The tier of the hosted zone. The tier controls which features you get and which optional features you can turn on. Valid values are the following: STANDARD STANDARD is the default tier for new hosted zones. ADVANCED ADVANCED is a tier that includes Change History and offers more optional features. If you don't specify a tier when you create a hosted zone, Route 53 uses STANDARD. Route 53 always returns this value. For pricing information, see Amazon Route 53 pricing on the [AWS website](https://aws.amazon.com/route53/pricing/).
+        public var hostedZoneTier: Route53ClientTypes.HostedZoneTier?
         /// A value that indicates whether this is a private hosted zone.
         public var privateZone: Swift.Bool
 
         public init(
             comment: Swift.String? = nil,
+            hostedZoneTier: Route53ClientTypes.HostedZoneTier? = nil,
             privateZone: Swift.Bool = false
         ) {
             self.comment = comment
+            self.hostedZoneTier = hostedZoneTier
             self.privateZone = privateZone
         }
     }
@@ -3164,8 +3372,12 @@ public struct CreateHostedZoneInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var callerReference: Swift.String?
+    /// Specify the optional Change Guardrails to turn on for the hosted zone. Each entry specifies the name and status of a guardrail. For the guardrail names and statuses, see ChangeGuardrail. Route 53 turns on the guardrails that the tier of the hosted zone includes, so you don't need to specify them. If you turn on a guardrail that the tier doesn't offer, Route 53 returns an InvalidInput error.
+    public var changeGuardrails: [Route53ClientTypes.ChangeGuardrail]?
     /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see [CreateReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html). If you are using a reusable delegation set to create a public hosted zone for a subdomain, make sure that the parent hosted zone doesn't use one or more of the same name servers. If you have overlapping nameservers, the operation will cause a ConflictingDomainsExist error.
     public var delegationSetId: Swift.String?
+    /// Specifies whether to enable public DNS fallback for the hosted zone. When public DNS fallback is enabled and a query for a domain name in the private hosted zone matches no existing name (NXDOMAIN), Route 53 retries the query against public DNS instead of returning a negative response. Fallback does not occur when the name exists but has no record of the requested type. Set to true to enable public DNS fallback, or false to disable it. The default is false. Public DNS fallback is supported only for private hosted zones. If you specify true for a public hosted zone, the request fails with an InvalidInput error.
+    public var enablePublicDNSFallback: Swift.Bool?
     /// (Optional) A complex type that contains the following optional values:
     ///
     /// * For public and private hosted zones, an optional comment
@@ -3183,13 +3395,17 @@ public struct CreateHostedZoneInput: Swift.Sendable {
 
     public init(
         callerReference: Swift.String? = nil,
+        changeGuardrails: [Route53ClientTypes.ChangeGuardrail]? = nil,
         delegationSetId: Swift.String? = nil,
+        enablePublicDNSFallback: Swift.Bool? = nil,
         hostedZoneConfig: Route53ClientTypes.HostedZoneConfig? = nil,
         name: Swift.String? = nil,
         vpc: Route53ClientTypes.VPC? = nil
     ) {
         self.callerReference = callerReference
+        self.changeGuardrails = changeGuardrails
         self.delegationSetId = delegationSetId
+        self.enablePublicDNSFallback = enablePublicDNSFallback
         self.hostedZoneConfig = hostedZoneConfig
         self.name = name
         self.vpc = vpc
@@ -3222,6 +3438,61 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes {
 
+    public enum FeatureEnablement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureEnablement] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// The status of Change History for the hosted zone.
+    public struct ChangeHistoryFeature: Swift.Sendable {
+        /// The earliest date and time from which you can read the change history of the hosted zone. Route 53 returns this value only when Status is ENABLED.
+        public var retentionStartsAt: Foundation.Date?
+        /// Indicates whether Change History is turned on for the hosted zone. Valid values are the following:
+        ///
+        /// * ENABLED: Change History is turned on for the hosted zone.
+        ///
+        /// * DISABLED: Change History is turned off for the hosted zone.
+        ///
+        ///
+        /// Route 53 turns Change History on or off when the hosted zone moves to or from a tier that includes it.
+        public var status: Route53ClientTypes.FeatureEnablement?
+
+        public init(
+            retentionStartsAt: Foundation.Date? = nil,
+            status: Route53ClientTypes.FeatureEnablement? = nil
+        ) {
+            self.retentionStartsAt = retentionStartsAt
+            self.status = status
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     /// Contains information about why certain features failed to be enabled or configured for the hosted zone.
     public struct HostedZoneFailureReasons: Swift.Sendable {
         /// The reason why accelerated recovery failed to be enabled or disabled for the hosted zone, if applicable.
@@ -3237,19 +3508,74 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes {
 
+    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     /// Represents the features configuration for a hosted zone, including the status of various features and any associated failure reasons.
     public struct HostedZoneFeatures: Swift.Sendable {
         /// The current status of accelerated recovery for the hosted zone.
         public var acceleratedRecoveryStatus: Route53ClientTypes.AcceleratedRecoveryStatus?
+        /// The name and status of each Change Guardrail for the hosted zone. For the guardrail names and statuses, see ChangeGuardrail.
+        public var changeGuardrails: [Route53ClientTypes.ChangeGuardrail]?
+        /// The status of Change History for the hosted zone, and the earliest time from which you can read its change history.
+        public var changeHistory: Route53ClientTypes.ChangeHistoryFeature?
         /// Information about any failures that occurred when attempting to enable or configure features for the hosted zone.
         public var failureReasons: Route53ClientTypes.HostedZoneFailureReasons?
+        /// The current status of public DNS fallback for the hosted zone. Valid values:
+        ///
+        /// * ENABLED: Public DNS fallback is enabled.
+        ///
+        /// * DISABLED: Public DNS fallback is disabled.
+        ///
+        /// * ENABLING: A request to enable public DNS fallback is still propagating.
+        ///
+        /// * DISABLING: A request to disable public DNS fallback is still propagating.
+        public var publicDNSFallbackStatus: Route53ClientTypes.FeatureStatus?
 
         public init(
             acceleratedRecoveryStatus: Route53ClientTypes.AcceleratedRecoveryStatus? = nil,
-            failureReasons: Route53ClientTypes.HostedZoneFailureReasons? = nil
+            changeGuardrails: [Route53ClientTypes.ChangeGuardrail]? = nil,
+            changeHistory: Route53ClientTypes.ChangeHistoryFeature? = nil,
+            failureReasons: Route53ClientTypes.HostedZoneFailureReasons? = nil,
+            publicDNSFallbackStatus: Route53ClientTypes.FeatureStatus? = nil
         ) {
             self.acceleratedRecoveryStatus = acceleratedRecoveryStatus
+            self.changeGuardrails = changeGuardrails
+            self.changeHistory = changeHistory
             self.failureReasons = failureReasons
+            self.publicDNSFallbackStatus = publicDNSFallbackStatus
         }
     }
 }
@@ -5159,7 +5485,7 @@ public struct GetAccountLimitInput: Swift.Sendable {
     ///
     /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
     ///
-    /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER The maximum number of health check sources that you can create using the current account.
+    /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER: The maximum number of health check sources that you can create using the current account.
     ///
     /// * MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.
     ///
@@ -5748,6 +6074,139 @@ public struct GetHostedZoneOutput: Swift.Sendable {
         self.delegationSet = delegationSet
         self.hostedZone = hostedZone
         self.vpCs = vpCs
+    }
+}
+
+/// This error occurs when a feature that the operation requires isn't turned on for the hosted zone. For example, the tier of the hosted zone doesn't include Change History. To resolve this error, turn on the feature, or move the hosted zone to a tier that includes it.
+public struct FeatureNotEnabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that explains which feature isn't turned on.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureNotEnabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetHostedZoneChangeBatchInput: Swift.Sendable {
+    /// The ID of the change batch that you want to get. This is the ID that ChangeResourceRecordSets returns in ChangeInfo/Id. You can specify the ID with or without the /change/ prefix.
+    /// This member is required.
+    public var changeId: Swift.String?
+    /// The ID of the hosted zone that contains the change batch.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+
+    public init(
+        changeId: Swift.String? = nil,
+        hostedZoneId: Swift.String? = nil
+    ) {
+        self.changeId = changeId
+        self.hostedZoneId = hostedZoneId
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum ChangeHistoryOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case changeresourcerecordsets
+        case createhostedzone
+        case deletehostedzone
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeHistoryOperation] {
+            return [
+                .changeresourcerecordsets,
+                .createhostedzone,
+                .deletehostedzone
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .changeresourcerecordsets: return "ChangeResourceRecordSets"
+            case .createhostedzone: return "CreateHostedZone"
+            case .deletehostedzone: return "DeleteHostedZone"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A summary of one change batch in the change history of a hosted zone.
+    public struct ChangeBatchSummary: Swift.Sendable {
+        /// The number of changes in the change batch. For CreateHostedZone, the value is 0.
+        /// This member is required.
+        public var changeCount: Swift.Int?
+        /// The ID of the change batch. This is the same ID that ChangeResourceRecordSets returns in ChangeInfo/Id and that you pass to GetChange.
+        /// This member is required.
+        public var changeId: Swift.String?
+        /// The comment that was submitted with the change batch, if any.
+        public var comment: Swift.String?
+        /// The Route 53 API operation that submitted the change batch: ChangeResourceRecordSets or CreateHostedZone. New values might be added, so ignore values that your code doesn't recognize.
+        /// This member is required.
+        public var operation: Route53ClientTypes.ChangeHistoryOperation?
+        /// The request ID of the call that submitted the change batch. CloudTrail records the same value in requestID, so you can use it to find the CloudTrail event for the change. This element is absent when there was no request.
+        public var requestId: Swift.String?
+        /// The date and time, in UTC, when the change batch was submitted.
+        /// This member is required.
+        public var submittedAt: Foundation.Date?
+        /// The Amazon Resource Name of the principal that submitted the request, for example, arn:aws:sts::111122223333:assumed-role/Admin/my-session. This element is absent when Route 53 has no principal to record for the change.
+        public var submittedBy: Swift.String?
+
+        public init(
+            changeCount: Swift.Int? = nil,
+            changeId: Swift.String? = nil,
+            comment: Swift.String? = nil,
+            operation: Route53ClientTypes.ChangeHistoryOperation? = nil,
+            requestId: Swift.String? = nil,
+            submittedAt: Foundation.Date? = nil,
+            submittedBy: Swift.String? = nil
+        ) {
+            self.changeCount = changeCount
+            self.changeId = changeId
+            self.comment = comment
+            self.operation = operation
+            self.requestId = requestId
+            self.submittedAt = submittedAt
+            self.submittedBy = submittedBy
+        }
+    }
+}
+
+public struct GetHostedZoneChangeBatchOutput: Swift.Sendable {
+    /// The changes in the change batch. Each resource record set is in the same form that ListResourceRecordSets returns. For example, the name is in lowercase and ends with a dot.
+    /// This member is required.
+    public var changeBatch: Route53ClientTypes.ChangeBatch?
+    /// A summary of the change batch, including who submitted it and when.
+    /// This member is required.
+    public var changeBatchSummary: Route53ClientTypes.ChangeBatchSummary?
+
+    public init(
+        changeBatch: Route53ClientTypes.ChangeBatch? = nil,
+        changeBatchSummary: Route53ClientTypes.ChangeBatchSummary? = nil
+    ) {
+        self.changeBatch = changeBatch
+        self.changeBatchSummary = changeBatchSummary
     }
 }
 
@@ -6477,6 +6936,114 @@ public struct ListHealthCheckSourcesOutput: Swift.Sendable {
     }
 }
 
+/// The value that you specified to get the second or subsequent page of results is invalid.
+public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidPaginationToken" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum ChangeHistorySortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeHistorySortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListHostedZoneChangeBatchesInput: Swift.Sendable {
+    /// The ID of the hosted zone that you want to list change batches for.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// The maximum number of change batches that you want Route 53 to return in this response. Specify a value from 1 to 1,000. If you don't specify a value, Route 53 returns up to 100 change batches.
+    public var maxResults: Swift.Int?
+    /// If the response to a previous ListHostedZoneChangeBatches request included a NextToken element, specify that value here to get the next page of results. If the previous request included any of the following parameters, include them with exactly the same values: SubmittedAfter, SubmittedBefore, SortOrder, and StartAfterChangeId. If you don't, Route 53 returns an InvalidInput error. If you don't specify NextToken, Route 53 returns the first page of results. A NextToken expires 24 hours after Route 53 returns it, and you can use it only with the hosted zone that it was returned for.
+    public var nextToken: Swift.String?
+    /// The order in which you want Route 53 to return change batches. Valid values:
+    ///
+    /// * DESCENDING – Newest first. This is the default.
+    ///
+    /// * ASCENDING – Oldest first.
+    public var sortOrder: Route53ClientTypes.ChangeHistorySortOrder?
+    /// Returns the change batches after the specified change batch, not including it. Use this to read new change batches since the last change batch that you processed. If you specify StartAfterChangeId, you must also specify SortOrderASCENDING, and you can't specify SubmittedAfter or SubmittedBefore. If the change batch has expired, is from before RetentionStartsAt, or isn't in the hosted zone, Route 53 returns an InvalidInput error.
+    public var startAfterChangeId: Swift.String?
+    /// The start of the time range, in ISO 8601 format with a UTC offset, for example 2026-12-01T00:00:00Z or 2026-12-01T05:30:00.123+05:30. You can specify up to nine fractional digits. Route 53 rounds a value with more than millisecond precision up to the next millisecond. The range includes SubmittedAfter. If you don't specify a value, the range starts at RetentionStartsAt. If you specify a value that's earlier than RetentionStartsAt, Route 53 returns an InvalidInput error that includes the earliest time that you can specify. Because submit times can be slightly out of order, a returned SubmittedAt can fall just outside the range that you requested.
+    public var submittedAfter: Swift.String?
+    /// The end of the time range, in ISO 8601 format with a UTC offset, for example 2026-12-02T00:00:00Z or 2026-12-02T05:30:00.123+05:30. You can specify up to nine fractional digits. Route 53 rounds a value with more than millisecond precision up to the next millisecond. The range excludes SubmittedBefore. The value must be at least one millisecond later than SubmittedAfter, or later than RetentionStartsAt if you omit SubmittedAfter. If the range ends within a few seconds of the current time, a later request for the same range might return more change batches.
+    public var submittedBefore: Swift.String?
+
+    public init(
+        hostedZoneId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: Route53ClientTypes.ChangeHistorySortOrder? = nil,
+        startAfterChangeId: Swift.String? = nil,
+        submittedAfter: Swift.String? = nil,
+        submittedBefore: Swift.String? = nil
+    ) {
+        self.hostedZoneId = hostedZoneId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+        self.startAfterChangeId = startAfterChangeId
+        self.submittedAfter = submittedAfter
+        self.submittedBefore = submittedBefore
+    }
+}
+
+public struct ListHostedZoneChangeBatchesOutput: Swift.Sendable {
+    /// A summary of each change batch on this page of results. The list is empty if there are no change batches in the range that you specified.
+    /// This member is required.
+    public var changeBatchSummaries: [Route53ClientTypes.ChangeBatchSummary]?
+    /// If there might be more change batches to list, a token that you can specify in the NextToken parameter of another request to get the next page of results. If there are no more change batches to list, the response doesn't include NextToken.
+    public var nextToken: Swift.String?
+
+    public init(
+        changeBatchSummaries: [Route53ClientTypes.ChangeBatchSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.changeBatchSummaries = changeBatchSummaries
+        self.nextToken = nextToken
+    }
+}
+
 extension Route53ClientTypes {
 
     public enum HostedZoneType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6617,29 +7184,6 @@ public struct ListHostedZonesByNameOutput: Swift.Sendable {
     }
 }
 
-/// The value that you specified to get the second or subsequent page of results is invalid.
-public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidPaginationToken" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account created the hosted zones.
 public struct ListHostedZonesByVPCInput: Swift.Sendable {
     /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
@@ -6764,6 +7308,110 @@ public struct ListQueryLoggingConfigsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.queryLoggingConfigs = queryLoggingConfigs
+    }
+}
+
+public struct ListResourceRecordSetChangesInput: Swift.Sendable {
+    /// The ID of the hosted zone that you want to list changes for.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// The maximum number of changes that you want Route 53 to return in this response. Specify a value from 1 to 100. If you don't specify a value, Route 53 returns up to 100 changes.
+    public var maxResults: Swift.Int?
+    /// If the response to a previous ListResourceRecordSetChanges request included a NextToken element, specify that value here to get the next page of results. If the previous request included any of the following parameters, include them with exactly the same values: SubmittedAfter, SubmittedBefore, SortOrder, RecordName, and RecordType. If you don't, Route 53 returns an InvalidInput error. If you don't specify NextToken, Route 53 returns the first page of results. A NextToken expires 24 hours after Route 53 returns it, and you can use it only with the hosted zone that it was returned for.
+    public var nextToken: Swift.String?
+    /// The name of the resource record sets that you want to list changes for, for example, www.example.com. The name must be the name of the hosted zone or a subdomain of it. If you specify RecordName, you must also specify RecordType. If you specify neither, the results include every change in the hosted zone.
+    public var recordName: Swift.String?
+    /// The DNS record type of the resource record sets that you want to list changes for. If you specify RecordType, you must also specify RecordName.
+    public var recordType: Route53ClientTypes.RRType?
+    /// The order in which you want Route 53 to return changes. Valid values:
+    ///
+    /// * DESCENDING – Newest first. This is the default.
+    ///
+    /// * ASCENDING – Oldest first.
+    public var sortOrder: Route53ClientTypes.ChangeHistorySortOrder?
+    /// The start of the time range, in ISO 8601 format with a UTC offset, for example 2026-12-01T00:00:00Z or 2026-12-01T05:30:00.123+05:30. You can specify up to nine fractional digits. Route 53 rounds a value with more than millisecond precision up to the next millisecond. The range includes SubmittedAfter. If you don't specify a value, the range starts at RetentionStartsAt. If you specify a value that's earlier than RetentionStartsAt, Route 53 returns an InvalidInput error that includes the earliest time that you can specify. Because submit times can be slightly out of order, a returned SubmittedAt can fall just outside the range that you requested.
+    public var submittedAfter: Swift.String?
+    /// The end of the time range, in ISO 8601 format with a UTC offset, for example 2026-12-02T00:00:00Z or 2026-12-02T05:30:00.123+05:30. You can specify up to nine fractional digits. Route 53 rounds a value with more than millisecond precision up to the next millisecond. The range excludes SubmittedBefore. The value must be at least one millisecond later than SubmittedAfter, or later than RetentionStartsAt if you omit SubmittedAfter. If the range ends within a few seconds of the current time, a later request for the same range might return more changes.
+    public var submittedBefore: Swift.String?
+
+    public init(
+        hostedZoneId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recordName: Swift.String? = nil,
+        recordType: Route53ClientTypes.RRType? = nil,
+        sortOrder: Route53ClientTypes.ChangeHistorySortOrder? = nil,
+        submittedAfter: Swift.String? = nil,
+        submittedBefore: Swift.String? = nil
+    ) {
+        self.hostedZoneId = hostedZoneId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recordName = recordName
+        self.recordType = recordType
+        self.sortOrder = sortOrder
+        self.submittedAfter = submittedAfter
+        self.submittedBefore = submittedBefore
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// One change to a resource record set in the change history of a hosted zone, with the resource record set that the change wrote or deleted.
+    public struct ResourceRecordSetChange: Swift.Sendable {
+        /// The action in the change: CREATE, DELETE, or UPSERT.
+        /// This member is required.
+        public var action: Route53ClientTypes.ChangeAction?
+        /// The ID of the change batch that contains the change. To get every change in the change batch, specify this ID in GetHostedZoneChangeBatch.
+        /// This member is required.
+        public var changeId: Swift.String?
+        /// The Route 53 API operation that submitted the change. New values might be added, so ignore values that your code doesn't recognize.
+        /// This member is required.
+        public var operation: Route53ClientTypes.ChangeHistoryOperation?
+        /// The request ID of the call that submitted the change. CloudTrail records the same value in requestID. This element is absent when there was no request.
+        public var requestId: Swift.String?
+        /// The resource record set that the change wrote or deleted, in the same form that ListResourceRecordSets returns. For example, the name is in lowercase and ends with a dot. For an UPSERT or a DELETE, the response doesn't contain the values that the resource record set had before the change.
+        /// This member is required.
+        public var resourceRecordSet: Route53ClientTypes.ResourceRecordSet?
+        /// The date and time, in UTC, when the change batch that contains the change was submitted.
+        /// This member is required.
+        public var submittedAt: Foundation.Date?
+        /// The Amazon Resource Name of the principal that submitted the request. This element is absent when Route 53 has no principal to record for the change.
+        public var submittedBy: Swift.String?
+
+        public init(
+            action: Route53ClientTypes.ChangeAction? = nil,
+            changeId: Swift.String? = nil,
+            operation: Route53ClientTypes.ChangeHistoryOperation? = nil,
+            requestId: Swift.String? = nil,
+            resourceRecordSet: Route53ClientTypes.ResourceRecordSet? = nil,
+            submittedAt: Foundation.Date? = nil,
+            submittedBy: Swift.String? = nil
+        ) {
+            self.action = action
+            self.changeId = changeId
+            self.operation = operation
+            self.requestId = requestId
+            self.resourceRecordSet = resourceRecordSet
+            self.submittedAt = submittedAt
+            self.submittedBy = submittedBy
+        }
+    }
+}
+
+public struct ListResourceRecordSetChangesOutput: Swift.Sendable {
+    /// If there might be more changes to list, a token that you can specify in the NextToken parameter of another request to get the next page of results. If there are no more changes to list, the response doesn't include NextToken.
+    public var nextToken: Swift.String?
+    /// The changes on this page of results. The list is empty if there are no changes that match the request.
+    /// This member is required.
+    public var resourceRecordSetChanges: [Route53ClientTypes.ResourceRecordSetChange]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceRecordSetChanges: [Route53ClientTypes.ResourceRecordSetChange]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceRecordSetChanges = resourceRecordSetChanges
     }
 }
 
@@ -7747,22 +8395,71 @@ public struct UpdateHostedZoneCommentOutput: Swift.Sendable {
 }
 
 public struct UpdateHostedZoneFeaturesInput: Swift.Sendable {
+    /// Specify the Change Guardrails to turn on or off for the hosted zone. Each entry specifies the name of a guardrail and one of the following statuses:
+    ///
+    /// * ENABLED: Turns on the guardrail.
+    ///
+    /// * DISABLED: Turns off the guardrail.
+    ///
+    ///
+    /// Guardrails that aren't in the request keep their current status. You can turn on an optional guardrail only if the tier of the hosted zone offers it. You can't turn off a guardrail that the tier includes, such as NS_FORMAT_CHECK. In either case, Route 53 returns an InvalidInput error.
+    public var changeGuardrails: [Route53ClientTypes.ChangeGuardrail]?
+    /// Specifies whether to validate the request without changing any features. Route 53 returns the same errors as for a real request, but doesn't change the hosted zone. The default is false.
+    public var dryRun: Swift.Bool?
     /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to disable it.
     public var enableAcceleratedRecovery: Swift.Bool?
+    /// Specifies whether to enable public DNS fallback for the hosted zone. Set to true to enable public DNS fallback, or false to disable it. Public DNS fallback applies to the entire hosted zone and to all VPCs that are associated with it. To check whether a change has propagated, call GetHostedZone and review PublicDNSFallbackStatus in the response. Public DNS fallback is supported only for private hosted zones.
+    public var enablePublicDNSFallback: Swift.Bool?
     /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
 
     public init(
+        changeGuardrails: [Route53ClientTypes.ChangeGuardrail]? = nil,
+        dryRun: Swift.Bool? = false,
         enableAcceleratedRecovery: Swift.Bool? = nil,
+        enablePublicDNSFallback: Swift.Bool? = nil,
         hostedZoneId: Swift.String? = nil
     ) {
+        self.changeGuardrails = changeGuardrails
+        self.dryRun = dryRun
         self.enableAcceleratedRecovery = enableAcceleratedRecovery
+        self.enablePublicDNSFallback = enablePublicDNSFallback
         self.hostedZoneId = hostedZoneId
     }
 }
 
 public struct UpdateHostedZoneFeaturesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateHostedZoneTierInput: Swift.Sendable {
+    /// Specifies whether to validate the request without changing the tier. Route 53 returns the same errors as for a real request, but doesn't change the hosted zone. The default is false.
+    public var dryRun: Swift.Bool?
+    /// Specify the ID of the hosted zone whose tier you want to change.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// Specify the tier to move the hosted zone to. Valid values are the following:
+    ///
+    /// * STANDARD: The default tier for new hosted zones.
+    ///
+    /// * ADVANCED: A tier that includes Change History and offers more optional features.
+    /// This member is required.
+    public var hostedZoneTier: Route53ClientTypes.HostedZoneTier?
+
+    public init(
+        dryRun: Swift.Bool? = false,
+        hostedZoneId: Swift.String? = nil,
+        hostedZoneTier: Route53ClientTypes.HostedZoneTier? = nil
+    ) {
+        self.dryRun = dryRun
+        self.hostedZoneId = hostedZoneId
+        self.hostedZoneTier = hostedZoneTier
+    }
+}
+
+public struct UpdateHostedZoneTierOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8297,6 +8994,19 @@ extension GetHostedZoneInput {
     }
 }
 
+extension GetHostedZoneChangeBatchInput {
+
+    static func urlPathProvider(_ value: GetHostedZoneChangeBatchInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        guard let changeId = value.changeId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/changebatches/\(changeId.urlPercentEncoding())"
+    }
+}
+
 extension GetHostedZoneCountInput {
 
     static func urlPathProvider(_ value: GetHostedZoneCountInput) -> Swift.String? {
@@ -8562,6 +9272,48 @@ extension ListHealthCheckSourcesInput {
     }
 }
 
+extension ListHostedZoneChangeBatchesInput {
+
+    static func urlPathProvider(_ value: ListHostedZoneChangeBatchesInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/changebatches"
+    }
+}
+
+extension ListHostedZoneChangeBatchesInput {
+
+    static func queryItemProvider(_ value: ListHostedZoneChangeBatchesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let submittedAfter = value.submittedAfter {
+            let submittedAfterQueryItem = Smithy.URIQueryItem(name: "submittedafter".urlPercentEncoding(), value: Swift.String(submittedAfter).urlPercentEncoding())
+            items.append(submittedAfterQueryItem)
+        }
+        if let submittedBefore = value.submittedBefore {
+            let submittedBeforeQueryItem = Smithy.URIQueryItem(name: "submittedbefore".urlPercentEncoding(), value: Swift.String(submittedBefore).urlPercentEncoding())
+            items.append(submittedBeforeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortorder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let startAfterChangeId = value.startAfterChangeId {
+            let startAfterChangeIdQueryItem = Smithy.URIQueryItem(name: "startafterchangeid".urlPercentEncoding(), value: Swift.String(startAfterChangeId).urlPercentEncoding())
+            items.append(startAfterChangeIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListHostedZonesInput {
 
     static func urlPathProvider(_ value: ListHostedZonesInput) -> Swift.String? {
@@ -8677,6 +9429,52 @@ extension ListQueryLoggingConfigsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListResourceRecordSetChangesInput {
+
+    static func urlPathProvider(_ value: ListResourceRecordSetChangesInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrsetchanges"
+    }
+}
+
+extension ListResourceRecordSetChangesInput {
+
+    static func queryItemProvider(_ value: ListResourceRecordSetChangesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let recordName = value.recordName {
+            let recordNameQueryItem = Smithy.URIQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
+            items.append(recordNameQueryItem)
+        }
+        if let submittedAfter = value.submittedAfter {
+            let submittedAfterQueryItem = Smithy.URIQueryItem(name: "submittedafter".urlPercentEncoding(), value: Swift.String(submittedAfter).urlPercentEncoding())
+            items.append(submittedAfterQueryItem)
+        }
+        if let submittedBefore = value.submittedBefore {
+            let submittedBeforeQueryItem = Smithy.URIQueryItem(name: "submittedbefore".urlPercentEncoding(), value: Swift.String(submittedBefore).urlPercentEncoding())
+            items.append(submittedBeforeQueryItem)
+        }
+        if let recordType = value.recordType {
+            let recordTypeQueryItem = Smithy.URIQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
+            items.append(recordTypeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortorder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
         }
         return items
     }
@@ -9053,6 +9851,16 @@ extension UpdateHostedZoneFeaturesInput {
     }
 }
 
+extension UpdateHostedZoneTierInput {
+
+    static func urlPathProvider(_ value: UpdateHostedZoneTierInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/tier"
+    }
+}
+
 extension UpdateTrafficPolicyCommentInput {
 
     static func urlPathProvider(_ value: UpdateTrafficPolicyCommentInput) -> Swift.String? {
@@ -9144,7 +9952,9 @@ extension CreateHostedZoneInput {
     static func write(value: CreateHostedZoneInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["CallerReference"].write(value.callerReference)
+        try writer["ChangeGuardrails"].writeList(value.changeGuardrails, memberWritingClosure: Route53ClientTypes.ChangeGuardrail.write(value:to:), memberNodeInfo: "ChangeGuardrail", isFlattened: false)
         try writer["DelegationSetId"].write(value.delegationSetId)
+        try writer["EnablePublicDNSFallback"].write(value.enablePublicDNSFallback)
         try writer["HostedZoneConfig"].write(value.hostedZoneConfig, with: Route53ClientTypes.HostedZoneConfig.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
@@ -9297,7 +10107,19 @@ extension UpdateHostedZoneFeaturesInput {
 
     static func write(value: UpdateHostedZoneFeaturesInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["ChangeGuardrails"].writeList(value.changeGuardrails, memberWritingClosure: Route53ClientTypes.ChangeGuardrail.write(value:to:), memberNodeInfo: "ChangeGuardrail", isFlattened: false)
+        try writer["DryRun"].write(value.dryRun)
         try writer["EnableAcceleratedRecovery"].write(value.enableAcceleratedRecovery)
+        try writer["EnablePublicDNSFallback"].write(value.enablePublicDNSFallback)
+    }
+}
+
+extension UpdateHostedZoneTierInput {
+
+    static func write(value: UpdateHostedZoneTierInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["HostedZoneTier"].write(value.hostedZoneTier)
     }
 }
 
@@ -9826,6 +10648,19 @@ extension GetHostedZoneOutput {
     }
 }
 
+extension GetHostedZoneChangeBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHostedZoneChangeBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHostedZoneChangeBatchOutput()
+        value.changeBatch = try reader["ChangeBatch"].readIfPresent(with: Route53ClientTypes.ChangeBatch.read(from:))
+        value.changeBatchSummary = try reader["ChangeBatchSummary"].readIfPresent(with: Route53ClientTypes.ChangeBatchSummary.read(from:))
+        return value
+    }
+}
+
 extension GetHostedZoneCountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHostedZoneCountOutput {
@@ -10025,6 +10860,19 @@ extension ListHealthCheckSourcesOutput {
     }
 }
 
+extension ListHostedZoneChangeBatchesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHostedZoneChangeBatchesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHostedZoneChangeBatchesOutput()
+        value.changeBatchSummaries = try reader["ChangeBatchSummaries"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ChangeBatchSummary.read(from:), memberNodeInfo: "ChangeBatchSummary", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListHostedZonesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHostedZonesOutput {
@@ -10082,6 +10930,19 @@ extension ListQueryLoggingConfigsOutput {
         var value = ListQueryLoggingConfigsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.queryLoggingConfigs = try reader["QueryLoggingConfigs"].readListIfPresent(memberReadingClosure: Route53ClientTypes.QueryLoggingConfig.read(from:), memberNodeInfo: "QueryLoggingConfig", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListResourceRecordSetChangesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceRecordSetChangesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceRecordSetChangesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceRecordSetChanges = try reader["ResourceRecordSetChanges"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecordSetChange.read(from:), memberNodeInfo: "ResourceRecordSetChange", isFlattened: false) ?? []
         return value
     }
 }
@@ -10295,6 +11156,13 @@ extension UpdateHostedZoneFeaturesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHostedZoneFeaturesOutput {
         return UpdateHostedZoneFeaturesOutput()
+    }
+}
+
+extension UpdateHostedZoneTierOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHostedZoneTierOutput {
+        return UpdateHostedZoneTierOutput()
     }
 }
 
@@ -11072,6 +11940,23 @@ enum GetHostedZoneOutputError {
     }
 }
 
+enum GetHostedZoneChangeBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureNotEnabled": return try FeatureNotEnabled.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchChange": return try NoSuchChange.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetHostedZoneCountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11294,6 +12179,23 @@ enum ListHealthCheckSourcesOutputError {
     }
 }
 
+enum ListHostedZoneChangeBatchesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureNotEnabled": return try FeatureNotEnabled.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListHostedZonesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11348,6 +12250,23 @@ enum ListQueryLoggingConfigsOutputError {
         let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceRecordSetChangesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "FeatureNotEnabled": return try FeatureNotEnabled.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
             case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
@@ -11588,6 +12507,22 @@ enum UpdateHostedZoneFeaturesOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHostedZoneTierOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
             case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12529,6 +13464,19 @@ extension IncompatibleVersion {
     }
 }
 
+extension FeatureNotEnabled {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> FeatureNotEnabled {
+        let reader = baseError.errorBodyReader
+        var value = FeatureNotEnabled()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension HostedZoneNotPrivate {
 
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZoneNotPrivate {
@@ -12641,12 +13589,37 @@ extension Route53ClientTypes.AliasTarget {
     }
 }
 
+extension Route53ClientTypes.AZAffinity {
+
+    static func write(value: Route53ClientTypes.AZAffinity?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["LocationId"].write(value.locationId)
+        try writer["LocationType"].write(value.locationType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AZAffinity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AZAffinity()
+        value.locationType = try reader["LocationType"].readIfPresent()
+        value.locationId = try reader["LocationId"].readIfPresent()
+        return value
+    }
+}
+
 extension Route53ClientTypes.Change {
 
     static func write(value: Route53ClientTypes.Change?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Action"].write(value.action)
         try writer["ResourceRecordSet"].write(value.resourceRecordSet, with: Route53ClientTypes.ResourceRecordSet.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Change {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.Change()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceRecordSet = try reader["ResourceRecordSet"].readIfPresent(with: Route53ClientTypes.ResourceRecordSet.read(from:))
+        return value
     }
 }
 
@@ -12656,6 +13629,58 @@ extension Route53ClientTypes.ChangeBatch {
         guard let value else { return }
         try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.write(value:to:), memberNodeInfo: "Change", isFlattened: false)
         try writer["Comment"].write(value.comment)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ChangeBatch()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.changes = try reader["Changes"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Change.read(from:), memberNodeInfo: "Change", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension Route53ClientTypes.ChangeBatchSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeBatchSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ChangeBatchSummary()
+        value.changeId = try reader["ChangeId"].readIfPresent() ?? ""
+        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["SubmittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.submittedBy = try reader["SubmittedBy"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.changeCount = try reader["ChangeCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension Route53ClientTypes.ChangeGuardrail {
+
+    static func write(value: Route53ClientTypes.ChangeGuardrail?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeGuardrail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ChangeGuardrail()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension Route53ClientTypes.ChangeHistoryFeature {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeHistoryFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ChangeHistoryFeature()
+        value.status = try reader["Status"].readIfPresent()
+        value.retentionStartsAt = try reader["RetentionStartsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -12991,6 +14016,7 @@ extension Route53ClientTypes.HostedZoneConfig {
     static func write(value: Route53ClientTypes.HostedZoneConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Comment"].write(value.comment)
+        try writer["HostedZoneTier"].write(value.hostedZoneTier)
         try writer["PrivateZone"].write(value.privateZone)
     }
 
@@ -12999,6 +14025,7 @@ extension Route53ClientTypes.HostedZoneConfig {
         var value = Route53ClientTypes.HostedZoneConfig()
         value.comment = try reader["Comment"].readIfPresent()
         value.privateZone = try reader["PrivateZone"].readIfPresent() ?? false
+        value.hostedZoneTier = try reader["HostedZoneTier"].readIfPresent()
         return value
     }
 }
@@ -13019,7 +14046,10 @@ extension Route53ClientTypes.HostedZoneFeatures {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Route53ClientTypes.HostedZoneFeatures()
         value.acceleratedRecoveryStatus = try reader["AcceleratedRecoveryStatus"].readIfPresent()
+        value.publicDNSFallbackStatus = try reader["PublicDNSFallbackStatus"].readIfPresent()
+        value.changeHistory = try reader["ChangeHistory"].readIfPresent(with: Route53ClientTypes.ChangeHistoryFeature.read(from:))
         value.failureReasons = try reader["FailureReasons"].readIfPresent(with: Route53ClientTypes.HostedZoneFailureReasons.read(from:))
+        value.changeGuardrails = try reader["ChangeGuardrails"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ChangeGuardrail.read(from:), memberNodeInfo: "ChangeGuardrail", isFlattened: false)
         return value
     }
 }
@@ -13148,6 +14178,7 @@ extension Route53ClientTypes.ResourceRecordSet {
 
     static func write(value: Route53ClientTypes.ResourceRecordSet?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["AZAffinity"].write(value.azAffinity, with: Route53ClientTypes.AZAffinity.write(value:to:))
         try writer["AliasTarget"].write(value.aliasTarget, with: Route53ClientTypes.AliasTarget.write(value:to:))
         try writer["CidrRoutingConfig"].write(value.cidrRoutingConfig, with: Route53ClientTypes.CidrRoutingConfig.write(value:to:))
         try writer["Failover"].write(value.failover)
@@ -13183,6 +14214,23 @@ extension Route53ClientTypes.ResourceRecordSet {
         value.trafficPolicyInstanceId = try reader["TrafficPolicyInstanceId"].readIfPresent()
         value.cidrRoutingConfig = try reader["CidrRoutingConfig"].readIfPresent(with: Route53ClientTypes.CidrRoutingConfig.read(from:))
         value.geoProximityLocation = try reader["GeoProximityLocation"].readIfPresent(with: Route53ClientTypes.GeoProximityLocation.read(from:))
+        value.azAffinity = try reader["AZAffinity"].readIfPresent(with: Route53ClientTypes.AZAffinity.read(from:))
+        return value
+    }
+}
+
+extension Route53ClientTypes.ResourceRecordSetChange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecordSetChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ResourceRecordSetChange()
+        value.changeId = try reader["ChangeId"].readIfPresent() ?? ""
+        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["SubmittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.submittedBy = try reader["SubmittedBy"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceRecordSet = try reader["ResourceRecordSet"].readIfPresent(with: Route53ClientTypes.ResourceRecordSet.read(from:))
         return value
     }
 }

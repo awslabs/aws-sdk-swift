@@ -4236,6 +4236,84 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAutonomousDatabaseRefreshableClones` operation on the `Odb` service.
+    ///
+    /// Lists the refreshable clones of the specified Autonomous Database.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAutonomousDatabaseRefreshableClonesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAutonomousDatabaseRefreshableClonesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func listAutonomousDatabaseRefreshableClones(input: ListAutonomousDatabaseRefreshableClonesInput) async throws -> ListAutonomousDatabaseRefreshableClonesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listAutonomousDatabaseRefreshableClonesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAutonomousDatabaseRefreshableClones")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAutonomousDatabaseRefreshableClonesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutonomousDatabaseRefreshableClonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>(overrides: ["X-Amz-Target": "Odb.ListAutonomousDatabaseRefreshableClones"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutonomousDatabaseRefreshableClonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAutonomousDatabaseRefreshableClonesInput, ListAutonomousDatabaseRefreshableClonesOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAutonomousDatabaseRefreshableClones")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAutonomousDatabaseVersions` operation on the `Odb` service.
     ///
     /// Lists the available Oracle Database software versions for Autonomous Databases.
@@ -6010,6 +6088,85 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAutonomousDatabase")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartAutonomousDatabaseRefresh` operation on the `Odb` service.
+    ///
+    /// Starts a refresh of the specified refreshable clone Autonomous Database with data from its source database. The refresh runs asynchronously. To track its progress, check the refreshableStatus of the Autonomous Database.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartAutonomousDatabaseRefreshInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartAutonomousDatabaseRefreshOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func startAutonomousDatabaseRefresh(input: StartAutonomousDatabaseRefreshInput) async throws -> StartAutonomousDatabaseRefreshOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.startAutonomousDatabaseRefreshOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAutonomousDatabaseRefresh")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartAutonomousDatabaseRefreshOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAutonomousDatabaseRefreshOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>(overrides: ["X-Amz-Target": "Odb.StartAutonomousDatabaseRefresh"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutonomousDatabaseRefreshOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAutonomousDatabaseRefreshInput, StartAutonomousDatabaseRefreshOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAutonomousDatabaseRefresh")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
