@@ -98,9 +98,16 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         let cognitoStsClient = STSClient(config: cognitoStsConfig)
 
         // Retry with exponential backoff to handle IAM eventual consistency
-        // Only retry on errors indicating credentials aren't propagated yet
+        // Only retry on errors indicating the role or credentials aren't propagated yet:
+        // - InvalidIdentityPoolConfigurationException: Cognito can't assume the newly created
+        //   unauthenticated role yet, so it rejects the pool's role configuration
+        // - InvalidClientTokenId, AccessDenied: STS doesn't recognize the new credentials yet
         // Worst-case wait: 5+10+20+20 = 55s
-        let retryableErrorCodes: Set<String> = ["InvalidClientTokenId", "AccessDenied"]
+        let retryableErrorCodes: Set<String> = [
+            "InvalidIdentityPoolConfigurationException",
+            "InvalidClientTokenId",
+            "AccessDenied",
+        ]
         var lastError: Error?
         let totalRetries = 5
         for attempt in 0..<totalRetries {
