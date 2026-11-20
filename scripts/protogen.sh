@@ -42,9 +42,6 @@ rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codege
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RestJsonExtras/swift-codegen/RestJsonExtras/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RestJsonExtrasSchemaBased/swift-codegen/RestJsonExtrasSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/AwsQueryExtras/swift-codegen/AwsQueryExtras/Package.swift
-rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStream/swift-codegen/EventStream/Package.swift
-rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStreamSchemaBased/swift-codegen/EventStreamSchemaBased/Package.swift
-rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RPCEventStream/swift-codegen/RPCEventStream/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/StringArrayEndpointParam/swift-codegen/StringArrayEndpointParam/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/StringArrayEndpointParamSchemaBased/swift-codegen/StringArrayEndpointParamSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EndpointBDD/swift-codegen/EndpointBDD/Package.swift

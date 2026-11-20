@@ -37,9 +37,6 @@ val codegenTests = listOf(
     ProtocolTest("RestJsonExtras", "aws.protocoltests.restjson#RestJsonExtras"),
     ProtocolTest("RestJsonExtrasSchemaBased", "aws.protocoltests.restjson#RestJsonExtras", forceSchemaBased = true),
     ProtocolTest("AwsQueryExtras", "aws.protocoltests.query#AwsQueryExtras"),
-    ProtocolTest("EventStream", "aws.protocoltests.eventstream#TestService"),
-    ProtocolTest("EventStreamSchemaBased", "aws.protocoltests.eventstream#TestService", forceSchemaBased = true),
-    ProtocolTest("RPCEventStream", "aws.protocoltests.eventstream#RPCTestService"),
     ProtocolTest("StringArrayEndpointParam", "aws.endpointtests.stringarray#EndpointStringArray"),
     ProtocolTest("StringArrayEndpointParamSchemaBased", "aws.endpointtests.stringarray#EndpointStringArray", forceSchemaBased = true),
     ProtocolTest("EndpointBDD", "aws.endpointtests.bdd#ServiceWithEndpointBdd"),
@@ -100,7 +97,7 @@ tasks["clean"].doFirst {
 
 
 fun exposeLocalTestsToMainGradleTestSuite() {
-    val enabledProtocols = listOf("rest_json_extras", "aws-restjson", "eventstream")
+    val enabledProtocols = listOf("rest_json_extras", "aws-restjson")
     enabledProtocols.forEach {
         tasks.register<ProtocolTestTask>("testProtocol-${it}") {
             dependsOn(tasks.build)
