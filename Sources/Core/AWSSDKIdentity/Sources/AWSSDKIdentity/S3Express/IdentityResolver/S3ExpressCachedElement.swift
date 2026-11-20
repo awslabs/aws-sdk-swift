@@ -5,22 +5,45 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(ClientConfigWrapper) import enum ClientRuntime.IdentityPropertyKeys
+import protocol ClientRuntime.DefaultClientConfiguration
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import struct Foundation.UUID
 import struct Smithy.Attributes
+import struct SmithyIdentity.AWSCredentialIdentity
+
+/// Holds a client config whose base credential resolver has been pinned to fixed credentials.
+///
+/// The config is never mutated after it is boxed, so it is safe to share across concurrency domains.
+/// This is the same rationale as `ClientRuntime.ClientConfigurationWrapper`.
+final class PinnedClientConfig: @unchecked Sendable {
+    let clientConfig: any DefaultClientConfiguration
+
+    init(_ clientConfig: any DefaultClientConfiguration) {
+        self.clientConfig = clientConfig
+    }
+}
 
 final actor S3ExpressIdentityCachedElement {
 
+    /// Identifies a cached S3 Express session by bucket and by the base credentials that created it.
+    ///
+    /// The base secret is part of the key, so a session is only reused by a caller that holds the
+    /// same base credentials that minted it.
     struct CacheKey: Hashable {
         let bucket: String
+        let accessKey: String
+        let secret: String
+        let sessionToken: String?
 
-        init(identityProperties: Attributes) throws {
+        init(identityProperties: Attributes, baseCredentials: AWSCredentialIdentity) throws {
             guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else {
                 throw S3ExpressClientError.bucketNotProvided
             }
             self.bucket = bucket
+            self.accessKey = baseCredentials.accessKey
+            self.secret = baseCredentials.secret
+            self.sessionToken = baseCredentials.sessionToken
         }
     }
 
@@ -35,17 +58,24 @@ final actor S3ExpressIdentityCachedElement {
 
     private weak var resolver: DefaultS3ExpressIdentityResolver?
     private let identityProperties: Attributes
+    private let clientConfig: PinnedClientConfig
     private let cacheKey: CacheKey
     private var retrieveTask: Task<S3ExpressIdentity, Error>
     private var refreshTask: Task<Void, Error>?
     private var status: Status
 
-    init(resolver: DefaultS3ExpressIdentityResolver, identityProperties: Attributes) throws {
+    init(
+        resolver: DefaultS3ExpressIdentityResolver,
+        identityProperties: Attributes,
+        cacheKey: CacheKey,
+        clientConfig: PinnedClientConfig
+    ) {
         self.resolver = resolver
         self.identityProperties = identityProperties
-        self.cacheKey = try CacheKey(identityProperties: identityProperties)
+        self.clientConfig = clientConfig
+        self.cacheKey = cacheKey
         self.status = .initial
-        self.retrieveTask = Self.newRetrieveTask(identityProperties: identityProperties)
+        self.retrieveTask = Self.newRetrieveTask(identityProperties: identityProperties, clientConfig: clientConfig)
         Task {
             // This is performed in its own Task so as to keep the initializer synchronous.
             await scheduleRefreshTask()
@@ -71,20 +101,22 @@ final actor S3ExpressIdentityCachedElement {
         }
     }
 
-    private static func newRetrieveTask(identityProperties: Attributes) -> Task<S3ExpressIdentity, Error> {
+    private static func newRetrieveTask(
+        identityProperties: Attributes,
+        clientConfig: PinnedClientConfig
+    ) -> Task<S3ExpressIdentity, Error> {
         // Note that this task does not capture self, so that the task can be assigned to
         // the retrieveTask property without causing a reference cycle.
+        // The client config is always the pinned config, never the one in identityProperties,
+        // so every CreateSession for this element is signed with the base credentials in its cache key.
         return Task {
-            guard let wrapper = identityProperties.get(key: IdentityPropertyKeys.clientConfigWrapper) else {
-                throw S3ExpressClientError.clientConfigNotProvided
-            }
             guard let client = identityProperties.get(key: AWSIdentityPropertyKeys.s3ExpressClient) else {
                 throw S3ExpressClientError.clientNotProvided
             }
             guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else {
                 throw S3ExpressClientError.bucketNotProvided
             }
-            return try await client.createSession(clientConfig: wrapper.clientConfig, bucket: bucket)
+            return try await client.createSession(clientConfig: clientConfig.clientConfig, bucket: bucket)
         }
     }
 
@@ -142,7 +174,7 @@ final actor S3ExpressIdentityCachedElement {
             // Credential has been accessed since last refresh
             // Refresh again.
             self.status = .unaccessed
-            retrieveTask = Self.newRetrieveTask(identityProperties: identityProperties)
+            retrieveTask = Self.newRetrieveTask(identityProperties: identityProperties, clientConfig: clientConfig)
             scheduleRefreshTask()
         }
     }
