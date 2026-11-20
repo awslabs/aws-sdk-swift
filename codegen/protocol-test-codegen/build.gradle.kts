@@ -2,7 +2,6 @@
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0.
  */
-import software.amazon.smithy.gradle.tasks.ProtocolTestTask
 import software.amazon.smithy.model.shapes.ShapeId
 
 plugins {
@@ -90,15 +89,6 @@ tasks.named("smithyBuild") {
     outputs.upToDateWhen { false }
 }
 
-enabledProtocols.forEach {
-    tasks.register<ProtocolTestTask>("testProtocol-${it.serviceName}") {
-        dependsOn(tasks.build)
-        group = "Verification"
-        protocol = it.serviceName
-        plugin = "swift-codegen"
-    }
-}
-
 fun generateSmithyBuild(tests: List<ProtocolTest>): String {
     val projections = tests.joinToString(",") { test ->
         """
@@ -142,10 +132,4 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
         }
     }
     """.trimIndent()
-}
-
-tasks.register("testAllProtocols") {
-    group = "Verification"
-    val allTests = tasks.withType<ProtocolTestTask>()
-    dependsOn(allTests)
 }

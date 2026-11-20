@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import software.amazon.smithy.gradle.tasks.ProtocolTestTask
 import software.amazon.smithy.model.shapes.ShapeId
 
 plugins {
@@ -94,22 +93,3 @@ tasks.named("smithyBuild") {
 tasks["clean"].doFirst {
     delete("smithy-build.json")
 }
-
-
-fun exposeLocalTestsToMainGradleTestSuite() {
-    val enabledProtocols = listOf("rest_json_extras", "aws-restjson")
-    enabledProtocols.forEach {
-        tasks.register<ProtocolTestTask>("testProtocol-${it}") {
-            dependsOn(tasks.build)
-            group = "Verification"
-            protocol = it
-            plugin = "swift-codegen"
-        }
-    }
-    tasks.register("testAllProtocolsLocal") {
-        group = "Verification"
-        val allTests = tasks.withType<ProtocolTestTask>()
-        dependsOn(allTests)
-    }
-}
-exposeLocalTestsToMainGradleTestSuite()
