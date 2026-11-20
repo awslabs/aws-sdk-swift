@@ -4761,6 +4761,26 @@ extension AppStreamClientTypes {
     }
 }
 
+extension AppStreamClientTypes {
+
+    /// Describes the WebAuthn redirection configuration for a stack. With WebAuthn redirection, your users can complete passkey and security-key authentication from a streaming session by using an authenticator attached to their local device.
+    public struct WebAuthnRedirection: Swift.Sendable {
+        /// Specifies whether WebAuthn redirection is enabled for the stack.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The list of process executable names for which you enable WebAuthn redirection. For example, chrome.exe.
+        public var processCompatibilityList: [Swift.String]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            processCompatibilityList: [Swift.String]? = nil
+        ) {
+            self.enabled = enabled
+            self.processCompatibilityList = processCompatibilityList
+        }
+    }
+}
+
 public struct CreateStackInput: Swift.Sendable {
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
@@ -4793,6 +4813,8 @@ public struct CreateStackInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
     public var userSettings: [AppStreamClientTypes.UserSetting]?
+    /// Configuration for WebAuthn redirection between the streaming session and the user's local device. Use ProcessCompatibilityList to specify which processes can use WebAuthn redirection on Windows fleets.
+    public var webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection?
 
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
@@ -4809,7 +4831,8 @@ public struct CreateStackInput: Swift.Sendable {
         storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        userSettings: [AppStreamClientTypes.UserSetting]? = nil
+        userSettings: [AppStreamClientTypes.UserSetting]? = nil,
+        webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection? = nil
     ) {
         self.accessEndpoints = accessEndpoints
         self.agentAccessConfig = agentAccessConfig
@@ -4826,6 +4849,7 @@ public struct CreateStackInput: Swift.Sendable {
         self.streamingExperienceSettings = streamingExperienceSettings
         self.tags = tags
         self.userSettings = userSettings
+        self.webAuthnRedirection = webAuthnRedirection
     }
 }
 
@@ -4916,6 +4940,8 @@ extension AppStreamClientTypes {
         public var streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public var userSettings: [AppStreamClientTypes.UserSetting]?
+        /// Configuration for WebAuthn redirection between the streaming session and the user's local device. Use ProcessCompatibilityList to specify which processes can use WebAuthn redirection on Windows fleets.
+        public var webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection?
 
         public init(
             accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
@@ -4934,7 +4960,8 @@ extension AppStreamClientTypes {
             storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication? = nil,
             storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
             streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
-            userSettings: [AppStreamClientTypes.UserSetting]? = nil
+            userSettings: [AppStreamClientTypes.UserSetting]? = nil,
+            webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection? = nil
         ) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
@@ -4953,6 +4980,7 @@ extension AppStreamClientTypes {
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
+            self.webAuthnRedirection = webAuthnRedirection
         }
     }
 }
@@ -8049,6 +8077,8 @@ extension AppStreamClientTypes {
     /// * AGENT_ACCESS_CONFIG_KMS_KEY_ARN
     ///
     /// * STORAGE_CONNECTOR_AUTHENTICATION
+    ///
+    /// * WEB_AUTHN_REDIRECTION
     public enum StackAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessEndpoints
         case agentAccessConfig
@@ -8066,6 +8096,7 @@ extension AppStreamClientTypes {
         case streamingExperienceSettings
         case themeName
         case userSettings
+        case webAuthnRedirection
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StackAttribute] {
@@ -8085,7 +8116,8 @@ extension AppStreamClientTypes {
                 .storageConnectorOneDrive,
                 .streamingExperienceSettings,
                 .themeName,
-                .userSettings
+                .userSettings,
+                .webAuthnRedirection
             ]
         }
 
@@ -8112,6 +8144,7 @@ extension AppStreamClientTypes {
             case .streamingExperienceSettings: return "STREAMING_EXPERIENCE_SETTINGS"
             case .themeName: return "THEME_NAME"
             case .userSettings: return "USER_SETTINGS"
+            case .webAuthnRedirection: return "WEB_AUTHN_REDIRECTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8153,6 +8186,8 @@ public struct UpdateStackInput: Swift.Sendable {
     public var streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings?
     /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
     public var userSettings: [AppStreamClientTypes.UserSetting]?
+    /// Configuration for WebAuthn redirection between the streaming session and the user's local device. Use ProcessCompatibilityList to specify which processes can use WebAuthn redirection on Windows fleets. To remove WebAuthn redirection, use AttributesToDelete with the WEB_AUTHN_REDIRECTION value.
+    public var webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection?
 
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
@@ -8170,7 +8205,8 @@ public struct UpdateStackInput: Swift.Sendable {
         storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication? = nil,
         storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
-        userSettings: [AppStreamClientTypes.UserSetting]? = nil
+        userSettings: [AppStreamClientTypes.UserSetting]? = nil,
+        webAuthnRedirection: AppStreamClientTypes.WebAuthnRedirection? = nil
     ) {
         self.accessEndpoints = accessEndpoints
         self.agentAccessConfig = agentAccessConfig
@@ -8188,6 +8224,7 @@ public struct UpdateStackInput: Swift.Sendable {
         self.storageConnectors = storageConnectors
         self.streamingExperienceSettings = streamingExperienceSettings
         self.userSettings = userSettings
+        self.webAuthnRedirection = webAuthnRedirection
     }
 }
 

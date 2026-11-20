@@ -11,6 +11,12 @@ on:
 permissions:
   contents: read
 
+# Cancel a pull request's in-progress run when a newer commit is pushed to it.
+# Runs on main are never cancelled, so every merged commit gets a CI result.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS: 1

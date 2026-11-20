@@ -158,6 +158,40 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
+    /// The Extended Key Usage profile of an Amazon N2 certificate. Valid values:
+    ///
+    /// * CLIENT_AND_SERVER_AUTH – Authenticates both the client and the server.
+    ///
+    /// * CLIENT_AUTH_ONLY – Authenticates only the client.
+    public enum CertificateUsage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientAndServerAuth
+        case clientAuthOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateUsage] {
+            return [
+                .clientAndServerAuth,
+                .clientAuthOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientAndServerAuth: return "CLIENT_AND_SERVER_AUTH"
+            case .clientAuthOnly: return "CLIENT_AUTH_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
     public enum CertificateExport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -269,6 +303,40 @@ extension ACMClientTypes {
             case .pendingAutoRenewal: return "PENDING_AUTO_RENEWAL"
             case .pendingValidation: return "PENDING_VALIDATION"
             case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The root hierarchy from which a certificate is issued. Valid values:
+    ///
+    /// * N2_AMAZON_MANAGED – An Amazon N2 certificate that chains to an Amazon N2 root.
+    ///
+    /// * N2_SFG2_AMAZON_MANAGED – An Amazon N2 certificate that chains to an Amazon N2 root cross-signed by Starfield G2.
+    public enum RootHierarchyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case n2AmazonManaged
+        case n2Sfg2AmazonManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RootHierarchyType] {
+            return [
+                .n2AmazonManaged,
+                .n2Sfg2AmazonManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .n2AmazonManaged: return "N2_AMAZON_MANAGED"
+            case .n2Sfg2AmazonManaged: return "N2_SFG2_AMAZON_MANAGED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -393,6 +461,8 @@ extension ACMClientTypes {
         public var acmeEndpointArn: Swift.String?
         /// The origin of the certificate's key pair.
         public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
+        /// The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If CertificateUsage was omitted from the request, this value is CLIENT_AND_SERVER_AUTH.
+        public var certificateUsage: ACMClientTypes.CertificateUsage?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// Indicates whether the certificate can be exported.
@@ -413,6 +483,8 @@ extension ACMClientTypes {
         public var renewalStatus: ACMClientTypes.RenewalStatus?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
         public var revokedAt: Foundation.Date?
+        /// The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a Type of AMAZON_ISSUED.
+        public var rootHierarchyType: ACMClientTypes.RootHierarchyType?
         /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic [Certificate request fails](https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html). ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html) or [Email validation](https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html), and try again. If validation succeeds, the certificate enters status ISSUED.
         public var status: ACMClientTypes.CertificateStatus?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with [ImportCertificate], this value is IMPORTED. ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
@@ -424,6 +496,7 @@ extension ACMClientTypes {
             acmeAccountId: Swift.String? = nil,
             acmeEndpointArn: Swift.String? = nil,
             certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
+            certificateUsage: ACMClientTypes.CertificateUsage? = nil,
             createdAt: Foundation.Date? = nil,
             exportOption: ACMClientTypes.CertificateExport? = nil,
             exported: Swift.Bool? = nil,
@@ -434,6 +507,7 @@ extension ACMClientTypes {
             renewalEligibility: ACMClientTypes.RenewalEligibility? = nil,
             renewalStatus: ACMClientTypes.RenewalStatus? = nil,
             revokedAt: Foundation.Date? = nil,
+            rootHierarchyType: ACMClientTypes.RootHierarchyType? = nil,
             status: ACMClientTypes.CertificateStatus? = nil,
             type: ACMClientTypes.CertificateType? = nil,
             validationMethod: ACMClientTypes.ValidationMethod? = nil
@@ -441,6 +515,7 @@ extension ACMClientTypes {
             self.acmeAccountId = acmeAccountId
             self.acmeEndpointArn = acmeEndpointArn
             self.certificateKeyPairOrigin = certificateKeyPairOrigin
+            self.certificateUsage = certificateUsage
             self.createdAt = createdAt
             self.exportOption = exportOption
             self.exported = exported
@@ -451,6 +526,7 @@ extension ACMClientTypes {
             self.renewalEligibility = renewalEligibility
             self.renewalStatus = renewalStatus
             self.revokedAt = revokedAt
+            self.rootHierarchyType = rootHierarchyType
             self.status = status
             self.type = type
             self.validationMethod = validationMethod
@@ -484,6 +560,8 @@ extension ACMClientTypes {
         case acmeendpointarn(Swift.String)
         /// Filter by ACME account identifier.
         case acmeaccountid(Swift.String)
+        /// Filter by root hierarchy type. Specify N2_AMAZON_MANAGED or N2_SFG2_AMAZON_MANAGED to return Amazon N2 certificates.
+        case roothierarchytype(ACMClientTypes.RootHierarchyType)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1944,9 +2022,9 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    /// Structure that contains options for your certificate. You can use this structure to change the domain validation method or specify whether to export your certificate. All public certificates are recorded in a certificate transparency log. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// Structure that contains options for your certificate. You can use this structure to change the domain validation method or specify whether to export your certificate. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public struct CertificateOptions: Swift.Sendable {
-        /// This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
+        /// This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log.
         @available(*, deprecated, message: "Certificate transparency logging opt-out is no longer available. API deprecated since 12th June 2026")
         public var certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference?
         /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
@@ -2192,6 +2270,8 @@ extension ACMClientTypes {
         public var certificateAuthorityArn: Swift.String?
         /// The origin of the certificate's key pair.
         public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
+        /// The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If CertificateUsage was omitted from the request, this value is CLIENT_AND_SERVER_AUTH.
+        public var certificateUsage: ACMClientTypes.CertificateUsage?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
@@ -2220,7 +2300,7 @@ extension ACMClientTypes {
         public var notAfter: Foundation.Date?
         /// The time before which the certificate is not valid.
         public var notBefore: Foundation.Date?
-        /// Contains the certificate options. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
+        /// Contains the certificate options. Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log.
         public var options: ACMClientTypes.CertificateOptions?
         /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the [RenewCertificate] command.
         public var renewalEligibility: ACMClientTypes.RenewalEligibility?
@@ -2230,6 +2310,8 @@ extension ACMClientTypes {
         public var revocationReason: ACMClientTypes.RevocationReason?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
         public var revokedAt: Foundation.Date?
+        /// The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a Type of AMAZON_ISSUED.
+        public var rootHierarchyType: ACMClientTypes.RootHierarchyType?
         /// The serial number of the certificate.
         public var serial: Swift.String?
         /// The algorithm that was used to sign the certificate.
@@ -2251,6 +2333,7 @@ extension ACMClientTypes {
             certificateArn: Swift.String? = nil,
             certificateAuthorityArn: Swift.String? = nil,
             certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
+            certificateUsage: ACMClientTypes.CertificateUsage? = nil,
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
             domainValidationOptions: [ACMClientTypes.DomainValidation]? = nil,
@@ -2270,6 +2353,7 @@ extension ACMClientTypes {
             renewalSummary: ACMClientTypes.RenewalSummary? = nil,
             revocationReason: ACMClientTypes.RevocationReason? = nil,
             revokedAt: Foundation.Date? = nil,
+            rootHierarchyType: ACMClientTypes.RootHierarchyType? = nil,
             serial: Swift.String? = nil,
             signatureAlgorithm: Swift.String? = nil,
             status: ACMClientTypes.CertificateStatus? = nil,
@@ -2283,6 +2367,7 @@ extension ACMClientTypes {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateKeyPairOrigin = certificateKeyPairOrigin
+            self.certificateUsage = certificateUsage
             self.createdAt = createdAt
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
@@ -2302,6 +2387,7 @@ extension ACMClientTypes {
             self.renewalSummary = renewalSummary
             self.revocationReason = revocationReason
             self.revokedAt = revokedAt
+            self.rootHierarchyType = rootHierarchyType
             self.serial = serial
             self.signatureAlgorithm = signatureAlgorithm
             self.status = status
@@ -3527,6 +3613,8 @@ public struct ListCertificatesInput: Swift.Sendable {
     public var maxItems: Swift.Int?
     /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
     public var nextToken: Swift.String?
+    /// Filter the certificate list by root hierarchy type. Specify one or more RootHierarchyType values. By default, this action does not return certificates with a RootHierarchyType of N2_AMAZON_MANAGED or N2_SFG2_AMAZON_MANAGED. To list only Amazon N2 certificates, specify one or both of these values in the RootHierarchyTypes filter.
+    public var rootHierarchyTypes: [ACMClientTypes.RootHierarchyType]?
     /// Specifies the field to sort results by. If you specify SortBy, you must also specify SortOrder.
     public var sortBy: ACMClientTypes.SortBy?
     /// Specifies the order of sorted results. If you specify SortOrder, you must also specify SortBy.
@@ -3538,6 +3626,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         includes: ACMClientTypes.Filters? = nil,
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        rootHierarchyTypes: [ACMClientTypes.RootHierarchyType]? = nil,
         sortBy: ACMClientTypes.SortBy? = nil,
         sortOrder: ACMClientTypes.SortOrder? = nil
     ) {
@@ -3546,6 +3635,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         self.includes = includes
         self.maxItems = maxItems
         self.nextToken = nextToken
+        self.rootHierarchyTypes = rootHierarchyTypes
         self.sortBy = sortBy
         self.sortOrder = sortOrder
     }
@@ -3559,6 +3649,8 @@ extension ACMClientTypes {
         public var certificateArn: Swift.String?
         /// The origin of the certificate's key pair.
         public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
+        /// The Extended Key Usage profile of the certificate. This value exists only for Amazon N2 certificates. If CertificateUsage was omitted from the request, this value is CLIENT_AND_SERVER_AUTH.
+        public var certificateUsage: ACMClientTypes.CertificateUsage?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
@@ -3591,6 +3683,8 @@ extension ACMClientTypes {
         public var renewalEligibility: ACMClientTypes.RenewalEligibility?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
         public var revokedAt: Foundation.Date?
+        /// The root hierarchy from which the certificate was issued. This value exists only for Amazon N2 certificates, which have a Type of AMAZON_ISSUED.
+        public var rootHierarchyType: ACMClientTypes.RootHierarchyType?
         /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic [Certificate request fails](https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html). ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html) or [Email validation](https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html), and try again. If validation succeeds, the certificate enters status ISSUED.
         public var status: ACMClientTypes.CertificateStatus?
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. When called by [ListCertificates](https://docs.aws.amazon.com/acm/latest/APIReference/API_ListCertificates.html), this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html).
@@ -3601,6 +3695,7 @@ extension ACMClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
+            certificateUsage: ACMClientTypes.CertificateUsage? = nil,
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
             exportOption: ACMClientTypes.CertificateExport? = nil,
@@ -3617,12 +3712,14 @@ extension ACMClientTypes {
             notBefore: Foundation.Date? = nil,
             renewalEligibility: ACMClientTypes.RenewalEligibility? = nil,
             revokedAt: Foundation.Date? = nil,
+            rootHierarchyType: ACMClientTypes.RootHierarchyType? = nil,
             status: ACMClientTypes.CertificateStatus? = nil,
             subjectAlternativeNameSummaries: [Swift.String]? = nil,
             type: ACMClientTypes.CertificateType? = nil
         ) {
             self.certificateArn = certificateArn
             self.certificateKeyPairOrigin = certificateKeyPairOrigin
+            self.certificateUsage = certificateUsage
             self.createdAt = createdAt
             self.domainName = domainName
             self.exportOption = exportOption
@@ -3639,6 +3736,7 @@ extension ACMClientTypes {
             self.notBefore = notBefore
             self.renewalEligibility = renewalEligibility
             self.revokedAt = revokedAt
+            self.rootHierarchyType = rootHierarchyType
             self.status = status
             self.subjectAlternativeNameSummaries = subjectAlternativeNameSummaries
             self.type = type
@@ -3809,6 +3907,15 @@ extension ACMClientTypes {
 public struct RequestCertificateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the [Amazon Web Services Private Certificate Authority](https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html) user guide. The ARN must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     public var certificateAuthorityArn: Swift.String?
+    /// The Extended Key Usage profile of the certificate. You can specify this parameter only when RootHierarchyType is N2_AMAZON_MANAGED or N2_SFG2_AMAZON_MANAGED. If you specify CertificateUsage with any other root hierarchy type, or without RootHierarchyType, the request fails with a ValidationException.
+    ///
+    /// * CLIENT_AND_SERVER_AUTH authenticates both the client and the server. Valid for both N2 root hierarchy types.
+    ///
+    /// * CLIENT_AUTH_ONLY authenticates only the client. Valid only for N2_AMAZON_MANAGED.
+    ///
+    ///
+    /// Default: CLIENT_AND_SERVER_AUTH
+    public var certificateUsage: ACMClientTypes.CertificateUsage?
     /// Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com. In compliance with [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280), the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3829,8 +3936,23 @@ public struct RequestCertificateInput: Swift.Sendable {
     public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
     /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
     public var managedBy: ACMClientTypes.CertificateManagedBy?
-    /// You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. ACM records all public certificates other than Amazon N2 certificates in a certificate transparency log. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public var options: ACMClientTypes.CertificateOptions?
+    /// The root hierarchy from which ACM issues the certificate. Specify one of the following values to request an Amazon N2 certificate:
+    ///
+    /// * N2_AMAZON_MANAGED – An Amazon N2 certificate that chains to an Amazon N2 root. The maximum validity period, which is also the default, is 395 days.
+    ///
+    /// * N2_SFG2_AMAZON_MANAGED – An Amazon N2 certificate that chains to an Amazon N2 root cross-signed by Starfield G2. The maximum validity period, which is also the default, is 98 days.
+    ///
+    ///
+    /// You cannot specify RootHierarchyType together with CertificateAuthorityArn. If you omit this parameter, ACM issues a standard public certificate. A request that specifies any value other than N2_AMAZON_MANAGED or N2_SFG2_AMAZON_MANAGED fails with a ValidationException. An Amazon N2 certificate request must specify a ValidationMethod of DNS. Amazon N2 certificates are not recorded in a certificate transparency log. A request for a validity period longer than the maximum fails with a ValidationException. Algorithms supported for an N2 certificate request include:
+    ///
+    /// * RSA_2048
+    ///
+    /// * EC_prime256v1
+    ///
+    /// * EC_secp384r1
+    public var rootHierarchyType: ACMClientTypes.RootHierarchyType?
     /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see [Quotas](https://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html). The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:
     ///
     /// * (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.
@@ -3846,23 +3968,27 @@ public struct RequestCertificateInput: Swift.Sendable {
 
     public init(
         certificateAuthorityArn: Swift.String? = nil,
+        certificateUsage: ACMClientTypes.CertificateUsage? = nil,
         domainName: Swift.String? = nil,
         domainValidationOptions: [ACMClientTypes.DomainValidationOption]? = nil,
         idempotencyToken: Swift.String? = nil,
         keyAlgorithm: ACMClientTypes.KeyAlgorithm? = nil,
         managedBy: ACMClientTypes.CertificateManagedBy? = nil,
         options: ACMClientTypes.CertificateOptions? = nil,
+        rootHierarchyType: ACMClientTypes.RootHierarchyType? = nil,
         subjectAlternativeNames: [Swift.String]? = nil,
         tags: [ACMClientTypes.Tag]? = nil,
         validationMethod: ACMClientTypes.ValidationMethod? = nil
     ) {
         self.certificateAuthorityArn = certificateAuthorityArn
+        self.certificateUsage = certificateUsage
         self.domainName = domainName
         self.domainValidationOptions = domainValidationOptions
         self.idempotencyToken = idempotencyToken
         self.keyAlgorithm = keyAlgorithm
         self.managedBy = managedBy
         self.options = options
+        self.rootHierarchyType = rootHierarchyType
         self.subjectAlternativeNames = subjectAlternativeNames
         self.tags = tags
         self.validationMethod = validationMethod

@@ -81,6 +81,7 @@ extension Route53ClientTypes {
 
     public enum AccountLimitType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case maxHealthChecksByOwner
+        case maxHealthCheckSourcesByOwner
         case maxHostedZonesByOwner
         case maxReusableDelegationSetsByOwner
         case maxTrafficPoliciesByOwner
@@ -90,6 +91,7 @@ extension Route53ClientTypes {
         public static var allCases: [AccountLimitType] {
             return [
                 .maxHealthChecksByOwner,
+                .maxHealthCheckSourcesByOwner,
                 .maxHostedZonesByOwner,
                 .maxReusableDelegationSetsByOwner,
                 .maxTrafficPoliciesByOwner,
@@ -105,6 +107,7 @@ extension Route53ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .maxHealthChecksByOwner: return "MAX_HEALTH_CHECKS_BY_OWNER"
+            case .maxHealthCheckSourcesByOwner: return "MAX_HEALTH_CHECK_SOURCES_BY_OWNER"
             case .maxHostedZonesByOwner: return "MAX_HOSTED_ZONES_BY_OWNER"
             case .maxReusableDelegationSetsByOwner: return "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
             case .maxTrafficPoliciesByOwner: return "MAX_TRAFFIC_POLICIES_BY_OWNER"
@@ -122,6 +125,8 @@ extension Route53ClientTypes {
         /// The limit that you requested. Valid values include the following:
         ///
         /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
+        ///
+        /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER The maximum number of health check sources that you can create using the current account.
         ///
         /// * MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.
         ///
@@ -1961,6 +1966,29 @@ public struct ChangeResourceRecordSetsOutput: Swift.Sendable {
     }
 }
 
+/// No health check source exists with the specified ID. Verify that the ID is correct and that the health check source hasn't been deleted.
+public struct NoSuchHealthCheckSource: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchHealthCheckSource" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The limit on the number of requests per second was exceeded.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2019,12 +2047,14 @@ extension Route53ClientTypes {
 
     public enum TagResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthcheck
+        case healthchecksource
         case hostedzone
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TagResourceType] {
             return [
                 .healthcheck,
+                .healthchecksource,
                 .hostedzone
             ]
         }
@@ -2037,6 +2067,7 @@ extension Route53ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .healthcheck: return "healthcheck"
+            case .healthchecksource: return "healthchecksource"
             case .hostedzone: return "hostedzone"
             case let .sdkUnknown(s): return s
             }
@@ -2046,7 +2077,7 @@ extension Route53ClientTypes {
 
 /// A complex type that contains information about the tags that you want to add, edit, or delete.
 public struct ChangeTagsForResourceInput: Swift.Sendable {
-    /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
+    /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check, a health check source, or a hosted zone.
     public var addTags: [Route53ClientTypes.Tag]?
     /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
     public var removeTagKeys: [Swift.String]?
@@ -2056,6 +2087,8 @@ public struct ChangeTagsForResourceInput: Swift.Sendable {
     /// The type of the resource.
     ///
     /// * The resource type for health checks is healthcheck.
+    ///
+    /// * The resource type for health check sources is healthchecksource.
     ///
     /// * The resource type for hosted zones is hostedzone.
     /// This member is required.
@@ -2190,7 +2223,7 @@ public struct HealthCheckAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+/// This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
 public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2210,6 +2243,35 @@ public struct TooManyHealthChecks: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointType] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2360,6 +2422,15 @@ extension Route53ClientTypes {
         public var disabled: Swift.Bool?
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public var enableSNI: Swift.Bool?
+        /// Specifies whether the health check targets a public endpoint or a private endpoint in a virtual private cloud (VPC). Valid values:
+        ///
+        /// * PUBLIC: The health check targets an endpoint that is reachable over the internet. This is the default.
+        ///
+        /// * PRIVATE: The health check targets a private endpoint in your virtual private cloud. You must also specify HealthCheckSourceId. PRIVATE isn't supported for health checks with a Type of CALCULATED, CLOUDWATCH_METRIC, or RECOVERY_CONTROL.
+        ///
+        ///
+        /// You can't change the value of EndpointType after you create a health check.
+        public var endpointType: Route53ClientTypes.EndpointType?
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide. FailureThreshold is not supported when you specify a value for Type of RECOVERY_CONTROL. Otherwise, if you don't specify a value for FailureThreshold, the default value is three health checks.
         public var failureThreshold: Swift.Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for IPAddress. If you specify a value for IPAddress: Amazon Route 53 sends health check requests to the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the Host header for all health checks except TCP health checks. This is typically the fully qualified DNS name of the endpoint on which you want Route 53 to perform health checks. When Route 53 checks the health of an endpoint, here is how it constructs the Host header:
@@ -2373,6 +2444,8 @@ extension Route53ClientTypes {
         ///
         /// If you don't specify a value for FullyQualifiedDomainName, Route 53 substitutes the value of IPAddress in the Host header in each of the preceding cases. If you don't specify a value for IPAddress: Route 53 sends a DNS request to the domain that you specify for FullyQualifiedDomainName at the interval that you specify for RequestInterval. Using an IPv4 address that DNS returns, Route 53 then checks the health of the endpoint. If you don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the endpoint. If there's no resource record set with a type of A for the name that you specify for FullyQualifiedDomainName, the health check fails with a "DNS resolution failed" error. If you want to check the health of weighted, latency, or failover resource record sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (www.example.com). In this configuration, if you create a health check for which the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable. In addition, if the value that you specify for Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
         public var fullyQualifiedDomainName: Swift.String?
+        /// The ID of the health check source that Route 53 uses to send health checks to a private endpoint. Required when EndpointType is PRIVATE. You can change HealthCheckSourceId on an existing private health check. You can't add it to a public health check. Each health check source supports a limited number of active health checks. If you reach that limit, specify a different health check source.
+        public var healthCheckSourceId: Swift.String?
         /// The number of child health checks that are associated with a CALCULATED health check that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the [ChildHealthChecks](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-ChildHealthChecks) element. Note the following:
         ///
         /// * If you specify a number greater than the number of child health checks, Route 53 always considers this health check to be unhealthy.
@@ -2396,7 +2469,7 @@ extension Route53ClientTypes {
         /// * IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.
         ///
         ///
-        /// If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see [FullyQualifiedDomainName](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName). Constraints: Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:
+        /// For a public health check, if the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see [FullyQualifiedDomainName](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName). Constraints: For a public health check (EndpointType of PUBLIC, the default), Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create public health checks, see the following documents:
         ///
         /// * [RFC 5735, Special Use IPv4 Addresses](https://tools.ietf.org/html/rfc5735)
         ///
@@ -2405,7 +2478,7 @@ extension Route53ClientTypes {
         /// * [RFC 5156, Special-Use IPv6 Addresses](https://tools.ietf.org/html/rfc5156)
         ///
         ///
-        /// When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
+        /// For a private endpoint health check (EndpointType of PRIVATE), if you specify IPAddress, it must be a private IPv4 or IPv6 address. Route 53 sends health checks to it from the health check source that you specify in HealthCheckSourceId. When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
         public var ipAddress: Swift.String?
         /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple Amazon Web Services regions and your endpoint, and to display CloudWatch latency graphs on the Health Checks page in the Route 53 console. MeasureLatency is not supported when you specify a value for Type of RECOVERY_CONTROL. You can't change the value of MeasureLatency after you create a health check.
         public var measureLatency: Swift.Bool?
@@ -2449,8 +2522,10 @@ extension Route53ClientTypes {
             childHealthChecks: [Swift.String]? = nil,
             disabled: Swift.Bool? = nil,
             enableSNI: Swift.Bool? = nil,
+            endpointType: Route53ClientTypes.EndpointType? = nil,
             failureThreshold: Swift.Int? = nil,
             fullyQualifiedDomainName: Swift.String? = nil,
+            healthCheckSourceId: Swift.String? = nil,
             healthThreshold: Swift.Int? = nil,
             insufficientDataHealthStatus: Route53ClientTypes.InsufficientDataHealthStatus? = nil,
             inverted: Swift.Bool? = nil,
@@ -2468,8 +2543,10 @@ extension Route53ClientTypes {
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
             self.enableSNI = enableSNI
+            self.endpointType = endpointType
             self.failureThreshold = failureThreshold
             self.fullyQualifiedDomainName = fullyQualifiedDomainName
+            self.healthCheckSourceId = healthCheckSourceId
             self.healthThreshold = healthThreshold
             self.insufficientDataHealthStatus = insufficientDataHealthStatus
             self.inverted = inverted
@@ -2731,6 +2808,190 @@ public struct CreateHealthCheckOutput: Swift.Sendable {
         location: Swift.String? = nil
     ) {
         self.healthCheck = healthCheck
+        self.location = location
+    }
+}
+
+/// The health check source that you're attempting to create already exists. Route 53 returns this error when you submit a request that has the same value for CallerReference as an existing health check source and one or more values that differ from the existing health check source. To create another health check source, specify a new value for CallerReference. To find the existing health check source, call ListHealthCheckSources.
+public struct HealthCheckSourceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "HealthCheckSourceAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You can't create this health check source because the current account has reached its maximum number of health check sources. The maximum includes every health check source that hasn't reached DELETE_COMPLETED status, including a health check source with a status of CREATE_FAILED. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+public struct TooManyHealthCheckSources: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyHealthCheckSources" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A complex type that identifies one subnet for a health check source and the security groups that Route 53 associates with the network interfaces that it creates in that subnet.
+    public struct SubnetConfiguration: Swift.Sendable {
+        /// The ID of the Availability Zone that contains the subnet, for example use1-az1. Specify the Availability Zone ID, not the Availability Zone name.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The IDs of the security groups in the same virtual private cloud (VPC) to associate with the network interfaces that Route 53 creates in this subnet. The security groups must allow outbound traffic to the endpoints that the health checks monitor.
+        /// This member is required.
+        public var securityGroupIdList: [Swift.String]?
+        /// The ID of the subnet that Route 53 uses to send health check requests.
+        /// This member is required.
+        public var subnetId: Swift.String?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            securityGroupIdList: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.availabilityZoneId = availabilityZoneId
+            self.securityGroupIdList = securityGroupIdList
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A complex type that contains the virtual private cloud (VPC), subnets, and security groups for a health check source. You can't change these values after you create the source.
+    public struct HealthCheckSourceConfig: Swift.Sendable {
+        /// A complex type that contains two or three SubnetConfiguration elements, one in each Availability Zone that Route 53 uses for private endpoint health checks in the Amazon Web Services Region. The Availability Zones must be distinct. Route 53 creates network interfaces in each subnet and sends health check requests from all of them.
+        /// This member is required.
+        public var subnetConfigurationList: [Route53ClientTypes.SubnetConfiguration]?
+        /// The ID of the virtual private cloud (VPC) that contains the subnets for the health check source. All subnets in SubnetConfigurationList must belong to this VPC.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            subnetConfigurationList: [Route53ClientTypes.SubnetConfiguration]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.subnetConfigurationList = subnetConfigurationList
+            self.vpcId = vpcId
+        }
+    }
+}
+
+/// Contains the virtual private cloud (VPC), subnets, and security groups that are required to create a health check source, and a caller reference that identifies the request.
+public struct CreateHealthCheckSourceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that ensures that the operation completes no more than one time. If you retry a CreateHealthCheckSource request with the same CallerReference and the same settings as a previous request, Route 53 returns the existing health check source without creating a duplicate. If that health check source has a status of CREATE_FAILED, Route 53 tries to create it again. To create a new health check source after a failure, specify a new value for CallerReference. If a health check source with the same CallerReference already exists and the settings differ, Route 53 returns a HealthCheckSourceAlreadyExists error.
+    public var callerReference: Swift.String?
+    /// A complex type that contains the virtual private cloud (VPC), subnets, and security groups for the health check source.
+    /// This member is required.
+    public var healthCheckSourceConfig: Route53ClientTypes.HealthCheckSourceConfig?
+    /// A complex type that contains a list of the tags that you want to apply to the health check source when you create it.
+    public var tags: [Route53ClientTypes.Tag]?
+
+    public init(
+        callerReference: Swift.String? = nil,
+        healthCheckSourceConfig: Route53ClientTypes.HealthCheckSourceConfig? = nil,
+        tags: [Route53ClientTypes.Tag]? = nil
+    ) {
+        self.callerReference = callerReference
+        self.healthCheckSourceConfig = healthCheckSourceConfig
+        self.tags = tags
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum HealthCheckSourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createCompleted
+        case createFailed
+        case createInProgress
+        case createPending
+        case deleteCompleted
+        case deleteFailed
+        case deleteInProgress
+        case deletePending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthCheckSourceStatus] {
+            return [
+                .createCompleted,
+                .createFailed,
+                .createInProgress,
+                .createPending,
+                .deleteCompleted,
+                .deleteFailed,
+                .deleteInProgress,
+                .deletePending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createCompleted: return "CREATE_COMPLETED"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .createPending: return "CREATE_PENDING"
+            case .deleteCompleted: return "DELETE_COMPLETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .deletePending: return "DELETE_PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Returns the ID, status, and location URL of the new health check source.
+public struct CreateHealthCheckSourceOutput: Swift.Sendable {
+    /// The ID of the new health check source. Route 53 assigns this ID when it creates the source.
+    /// This member is required.
+    public var healthCheckSourceId: Swift.String?
+    /// The current status of the health check source. Immediately after you create a health check source, the status is CREATE_PENDING. If the request is a retry with the same CallerReference, the status is the current status of the existing health check source.
+    /// This member is required.
+    public var healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus?
+    /// The unique URL representing the new health check source.
+    /// This member is required.
+    public var location: Swift.String?
+
+    public init(
+        healthCheckSourceId: Swift.String? = nil,
+        healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus? = nil,
+        location: Swift.String? = nil
+    ) {
+        self.healthCheckSourceId = healthCheckSourceId
+        self.healthCheckSourceStatus = healthCheckSourceStatus
         self.location = location
     }
 }
@@ -4317,6 +4578,37 @@ public struct DeleteHealthCheckOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Contains the ID of the health check source that you want to delete.
+public struct DeleteHealthCheckSourceInput: Swift.Sendable {
+    /// The ID of the health check source that you want to delete.
+    /// This member is required.
+    public var healthCheckSourceId: Swift.String?
+
+    public init(
+        healthCheckSourceId: Swift.String? = nil
+    ) {
+        self.healthCheckSourceId = healthCheckSourceId
+    }
+}
+
+/// Contains the ID and status of the health check source that DeleteHealthCheckSource deletes.
+public struct DeleteHealthCheckSourceOutput: Swift.Sendable {
+    /// The ID of the health check source that is being deleted.
+    /// This member is required.
+    public var healthCheckSourceId: Swift.String?
+    /// The status of the health check source after Route 53 accepts the delete request. The value is DELETE_PENDING, or the current status if deletion of the health check source was already in progress.
+    /// This member is required.
+    public var healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus?
+
+    public init(
+        healthCheckSourceId: Swift.String? = nil,
+        healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus? = nil
+    ) {
+        self.healthCheckSourceId = healthCheckSourceId
+        self.healthCheckSourceStatus = healthCheckSourceStatus
+    }
+}
+
 /// The hosted zone contains resource records that are not SOA or NS records.
 public struct HostedZoneNotEmpty: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4867,6 +5159,8 @@ public struct GetAccountLimitInput: Swift.Sendable {
     ///
     /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
     ///
+    /// * MAX_HEALTH_CHECK_SOURCES_BY_OWNER The maximum number of health check sources that you can create using the current account.
+    ///
     /// * MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.
     ///
     /// * MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.
@@ -5257,6 +5551,143 @@ public struct GetHealthCheckLastFailureReasonOutput: Swift.Sendable {
         healthCheckObservations: [Route53ClientTypes.HealthCheckObservation]? = nil
     ) {
         self.healthCheckObservations = healthCheckObservations
+    }
+}
+
+/// Contains the ID of the health check source that you want to get information about.
+public struct GetHealthCheckSourceInput: Swift.Sendable {
+    /// The ID of the health check source that you want to get information about.
+    /// This member is required.
+    public var healthCheckSourceId: Swift.String?
+
+    public init(
+        healthCheckSourceId: Swift.String? = nil
+    ) {
+        self.healthCheckSourceId = healthCheckSourceId
+    }
+}
+
+extension Route53ClientTypes {
+
+    public enum HealthCheckSourceStatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2LimitExceeded
+        case insufficientSubnetIps
+        case internalError
+        case invalidConfiguration
+        case invalidSecurityGroup
+        case invalidSubnet
+        case slrMissingOrNotAssumable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthCheckSourceStatusReasonCode] {
+            return [
+                .ec2LimitExceeded,
+                .insufficientSubnetIps,
+                .internalError,
+                .invalidConfiguration,
+                .invalidSecurityGroup,
+                .invalidSubnet,
+                .slrMissingOrNotAssumable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2LimitExceeded: return "EC2_LIMIT_EXCEEDED"
+            case .insufficientSubnetIps: return "INSUFFICIENT_SUBNET_IPS"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidConfiguration: return "INVALID_CONFIGURATION"
+            case .invalidSecurityGroup: return "INVALID_SECURITY_GROUP"
+            case .invalidSubnet: return "INVALID_SUBNET"
+            case .slrMissingOrNotAssumable: return "SLR_MISSING_OR_NOT_ASSUMABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A complex type that contains information about a health check source: its ID, its status, and the virtual private cloud (VPC), subnets, and security groups from which Route 53 sends health check requests to private endpoints.
+    public struct HealthCheckSource: Swift.Sendable {
+        /// The virtual private cloud (VPC), subnets, and security groups for the health check source.
+        /// This member is required.
+        public var healthCheckSourceConfig: Route53ClientTypes.HealthCheckSourceConfig?
+        /// The ID of the health check source. Route 53 assigns this ID when it creates the source.
+        /// This member is required.
+        public var healthCheckSourceId: Swift.String?
+        /// The current status of the health check source. The health check source status can have one of the following values:
+        ///
+        /// * CREATE_PENDING - Route 53 accepted the request to create the source and hasn't started creating it. You can't use the source in a health check until its status is CREATE_COMPLETED.
+        ///
+        /// * CREATE_IN_PROGRESS - Route 53 is creating the source. You can't use the source in a health check until its status is CREATE_COMPLETED.
+        ///
+        /// * CREATE_COMPLETED - The source is ready to use.
+        ///
+        /// * CREATE_FAILED - Route 53 couldn't create the source. StatusReasonCode and StatusReason explain why.
+        ///
+        /// * DELETE_PENDING - Route 53 accepted the request to delete the source and hasn't started deleting it.
+        ///
+        /// * DELETE_IN_PROGRESS - Route 53 is deleting the source.
+        ///
+        /// * DELETE_COMPLETED - Route 53 has deleted the source. You can't retrieve a health check source in this status: GetHealthCheckSource returns NoSuchHealthCheckSource.
+        ///
+        /// * DELETE_FAILED - Route 53 couldn't delete the source. StatusReasonCode and StatusReason explain why.
+        ///
+        ///
+        /// If the status is CREATE_FAILED, fix the cause that StatusReasonCode indicates, and then either retry CreateHealthCheckSource with the same CallerReference and settings, or delete the source and create a new one. If the status is DELETE_FAILED, retry the DeleteHealthCheckSource request.
+        /// This member is required.
+        public var healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus?
+        /// A description of why the health check source has a status of CREATE_FAILED or DELETE_FAILED, and what you can do about it. The text corresponds to the value of StatusReasonCode. Route 53 returns this member only when StatusReasonCode is present.
+        public var statusReason: Swift.String?
+        /// A code that indicates why the health check source has a status of CREATE_FAILED or DELETE_FAILED. Route 53 returns this member only when the status is one of those values. The code can have one of the following values:
+        ///
+        /// * INSUFFICIENT_SUBNET_IPS - One of the specified subnets doesn't have enough free private IP addresses. Check the available IP addresses in each subnet, and delete network interfaces that you don't need.
+        ///
+        /// * EC2_LIMIT_EXCEEDED - Your account reached an Amazon virtual private cloud (VPC) quota for network interfaces or security groups. Delete network interfaces that you don't need, specify fewer security groups, or request a quota increase.
+        ///
+        /// * INVALID_SUBNET - One of the specified subnets doesn't exist or isn't valid, or an AvailabilityZoneId doesn't match the Availability Zone of its subnet. Check that each subnet ID is correct, that the subnet exists, and that each AvailabilityZoneId matches its subnet.
+        ///
+        /// * INVALID_SECURITY_GROUP - One of the specified security groups doesn't exist or isn't valid. Check that each security group ID is correct and that the security group exists.
+        ///
+        /// * INVALID_CONFIGURATION - The combination of VPC, subnets, and security groups isn't valid. Check that VpcId is correct and exists, that each subnet is in that VPC, and that the security groups for each subnet are in the same VPC as that subnet.
+        ///
+        /// * SLR_MISSING_OR_NOT_ASSUMABLE - Route 53 couldn't assume its service-linked role in your account. In IAM, check that the service-linked role for Route 53 private endpoint health checks exists and that no deletion task for it is in progress.
+        ///
+        /// * INTERNAL_ERROR - Route 53 encountered an internal error. Contact Amazon Web Services Support and provide the health check source ID.
+        public var statusReasonCode: Route53ClientTypes.HealthCheckSourceStatusReasonCode?
+
+        public init(
+            healthCheckSourceConfig: Route53ClientTypes.HealthCheckSourceConfig? = nil,
+            healthCheckSourceId: Swift.String? = nil,
+            healthCheckSourceStatus: Route53ClientTypes.HealthCheckSourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            statusReasonCode: Route53ClientTypes.HealthCheckSourceStatusReasonCode? = nil
+        ) {
+            self.healthCheckSourceConfig = healthCheckSourceConfig
+            self.healthCheckSourceId = healthCheckSourceId
+            self.healthCheckSourceStatus = healthCheckSourceStatus
+            self.statusReason = statusReason
+            self.statusReasonCode = statusReasonCode
+        }
+    }
+}
+
+/// Contains the health check source that GetHealthCheckSource returns.
+public struct GetHealthCheckSourceOutput: Swift.Sendable {
+    /// A complex type that contains information about the specified health check source.
+    /// This member is required.
+    public var healthCheckSource: Route53ClientTypes.HealthCheckSource?
+
+    public init(
+        healthCheckSource: Route53ClientTypes.HealthCheckSource? = nil
+    ) {
+        self.healthCheckSource = healthCheckSource
     }
 }
 
@@ -5961,6 +6392,91 @@ public struct ListHealthChecksOutput: Swift.Sendable {
     }
 }
 
+/// Contains the parameters for retrieving a list of the health checks that use a specified health check source.
+public struct ListHealthChecksBySourceInput: Swift.Sendable {
+    /// The ID of the health check source whose health checks you want to list.
+    /// This member is required.
+    public var healthCheckSourceId: Swift.String?
+    /// The NextMarker value from the previous response, if the value of IsTruncated was true. Specify it to get the next group of health checks. If IsTruncated was false, there are no more health checks to get.
+    public var marker: Swift.String?
+    /// The maximum number of health checks that you want ListHealthChecksBySource to return. Route 53 returns a maximum of 1000 health checks. If you specify a value greater than 1000, Route 53 returns only the first 1000.
+    public var maxItems: Swift.Int?
+
+    public init(
+        healthCheckSourceId: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.healthCheckSourceId = healthCheckSourceId
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+/// Contains the health checks and pagination information that ListHealthChecksBySource returns.
+public struct ListHealthChecksBySourceOutput: Swift.Sendable {
+    /// A complex type that contains one HealthCheck element for each health check that uses the specified health check source.
+    /// This member is required.
+    public var healthChecks: [Route53ClientTypes.HealthCheck]?
+    /// Specifies whether there are more health checks to list. If the value is true, specify the NextMarker value for marker to get the next group of health checks.
+    /// This member is required.
+    public var isTruncated: Swift.Bool
+    /// The value that you specified for the marker parameter in the call to ListHealthChecksBySource that produced the current response. This value is present for the second and subsequent calls to ListHealthChecksBySource.
+    public var marker: Swift.String?
+    /// The value that you specified for the maxitems parameter in the call to ListHealthChecksBySource that produced the current response.
+    /// This member is required.
+    public var maxItems: Swift.Int?
+    /// The identifier of the first health check in the next group of health checks. If IsTruncated is true, specify this value in the marker parameter of another ListHealthChecksBySource request.
+    public var nextMarker: Swift.String?
+
+    public init(
+        healthChecks: [Route53ClientTypes.HealthCheck]? = nil,
+        isTruncated: Swift.Bool = false,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.healthChecks = healthChecks
+        self.isTruncated = isTruncated
+        self.marker = marker
+        self.maxItems = maxItems
+        self.nextMarker = nextMarker
+    }
+}
+
+/// Contains the parameters for retrieving a list of the health check sources that are associated with the current Amazon Web Services account.
+public struct ListHealthCheckSourcesInput: Swift.Sendable {
+    /// The maximum number of health check sources that you want ListHealthCheckSources to return. Route 53 returns a maximum of 100 health check sources. If you specify a value greater than 100, Route 53 returns only the first 100.
+    public var maxResults: Swift.Int?
+    /// The NextToken value from the previous response, if it included one. Specify it to get the next group of health check sources.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Contains the health check sources and pagination information that ListHealthCheckSources returns.
+public struct ListHealthCheckSourcesOutput: Swift.Sendable {
+    /// A complex type that contains one HealthCheckSource element for each health check source that is associated with the current Amazon Web Services account.
+    /// This member is required.
+    public var healthCheckSources: [Route53ClientTypes.HealthCheckSource]?
+    /// A pagination token. If there are more health check sources to list, specify this value for NextToken in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        healthCheckSources: [Route53ClientTypes.HealthCheckSource]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.healthCheckSources = healthCheckSources
+        self.nextToken = nextToken
+    }
+}
+
 extension Route53ClientTypes {
 
     public enum HostedZoneType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6458,6 +6974,8 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     ///
     /// * The resource type for health checks is healthcheck.
     ///
+    /// * The resource type for health check sources is healthchecksource.
+    ///
     /// * The resource type for hosted zones is hostedzone.
     /// This member is required.
     public var resourceType: Route53ClientTypes.TagResourceType?
@@ -6480,6 +6998,8 @@ extension Route53ClientTypes {
         /// The type of the resource.
         ///
         /// * The resource type for health checks is healthcheck.
+        ///
+        /// * The resource type for health check sources is healthchecksource.
         ///
         /// * The resource type for hosted zones is hostedzone.
         public var resourceType: Route53ClientTypes.TagResourceType?
@@ -6519,6 +7039,8 @@ public struct ListTagsForResourcesInput: Swift.Sendable {
     /// The type of the resources.
     ///
     /// * The resource type for health checks is healthcheck.
+    ///
+    /// * The resource type for health check sources is healthchecksource.
     ///
     /// * The resource type for hosted zones is hostedzone.
     /// This member is required.
@@ -7072,6 +7594,8 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
     /// The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
     /// This member is required.
     public var healthCheckId: Swift.String?
+    /// The ID of the health check source from which Route 53 sends requests to the endpoint. Applies only to health checks that have an EndpointType of PRIVATE. The health check source must be in the same account and have a status of CREATE_COMPLETED. Each health check source supports a limited number of active health checks. If you reach that limit, specify a different health check source.
+    public var healthCheckSourceId: Swift.String?
     /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Route 53 from overwriting an intervening update:
     ///
     /// * If the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Route 53 updates the health check with the new settings.
@@ -7101,20 +7625,23 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
     /// * IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.
     ///
     ///
-    /// If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance never changes. For more information, see the applicable documentation:
+    /// For a public health check, if the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance never changes. For more information, see the applicable documentation:
     ///
     /// * Linux: [Elastic IP Addresses (EIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide for Linux Instances
     ///
     /// * Windows: [Elastic IP Addresses (EIP)](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide for Windows Instances
     ///
     ///
-    /// If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress. For more information, see [FullyQualifiedDomainName](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName). Constraints: Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:
+    /// If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress. For more information, see [FullyQualifiedDomainName](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-FullyQualifiedDomainName). Constraints: For a public health check (EndpointType of PUBLIC, the default), Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create public health checks, see the following documents:
     ///
     /// * [RFC 5735, Special Use IPv4 Addresses](https://tools.ietf.org/html/rfc5735)
     ///
     /// * [RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space](https://tools.ietf.org/html/rfc6598)
     ///
     /// * [RFC 5156, Special-Use IPv6 Addresses](https://tools.ietf.org/html/rfc5156)
+    ///
+    ///
+    /// For a private endpoint health check (EndpointType of PRIVATE), if you specify IPAddress, it must be a private IPv4 or IPv6 address. Route 53 sends health checks to it from the health check source that you specify in HealthCheckSourceId.
     public var ipAddress: Swift.String?
     /// The port on the endpoint that you want Amazon Route 53 to perform health checks on. Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC or CALCULATED.
     public var port: Swift.Int?
@@ -7143,6 +7670,7 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
         failureThreshold: Swift.Int? = nil,
         fullyQualifiedDomainName: Swift.String? = nil,
         healthCheckId: Swift.String? = nil,
+        healthCheckSourceId: Swift.String? = nil,
         healthCheckVersion: Swift.Int? = nil,
         healthThreshold: Swift.Int? = nil,
         insufficientDataHealthStatus: Route53ClientTypes.InsufficientDataHealthStatus? = nil,
@@ -7161,6 +7689,7 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
         self.failureThreshold = failureThreshold
         self.fullyQualifiedDomainName = fullyQualifiedDomainName
         self.healthCheckId = healthCheckId
+        self.healthCheckSourceId = healthCheckSourceId
         self.healthCheckVersion = healthCheckVersion
         self.healthThreshold = healthThreshold
         self.insufficientDataHealthStatus = insufficientDataHealthStatus
@@ -7409,6 +7938,13 @@ extension CreateHealthCheckInput {
     }
 }
 
+extension CreateHealthCheckSourceInput {
+
+    static func urlPathProvider(_ value: CreateHealthCheckSourceInput) -> Swift.String? {
+        return "/2013-04-01/healthchecksource"
+    }
+}
+
 extension CreateHostedZoneInput {
 
     static func urlPathProvider(_ value: CreateHostedZoneInput) -> Swift.String? {
@@ -7511,6 +8047,16 @@ extension DeleteHealthCheckInput {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteHealthCheckSourceInput {
+
+    static func urlPathProvider(_ value: DeleteHealthCheckSourceInput) -> Swift.String? {
+        guard let healthCheckSourceId = value.healthCheckSourceId else {
+            return nil
+        }
+        return "/2013-04-01/healthchecksource/\(healthCheckSourceId.urlPercentEncoding())"
     }
 }
 
@@ -7718,6 +8264,16 @@ extension GetHealthCheckLastFailureReasonInput {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())/lastfailurereason"
+    }
+}
+
+extension GetHealthCheckSourceInput {
+
+    static func urlPathProvider(_ value: GetHealthCheckSourceInput) -> Swift.String? {
+        guard let healthCheckSourceId = value.healthCheckSourceId else {
+            return nil
+        }
+        return "/2013-04-01/healthchecksource/\(healthCheckSourceId.urlPercentEncoding())"
     }
 }
 
@@ -7952,6 +8508,55 @@ extension ListHealthChecksInput {
         if let maxItems = value.maxItems {
             let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHealthChecksBySourceInput {
+
+    static func urlPathProvider(_ value: ListHealthChecksBySourceInput) -> Swift.String? {
+        guard let healthCheckSourceId = value.healthCheckSourceId else {
+            return nil
+        }
+        return "/2013-04-01/healthchecks/source/\(healthCheckSourceId.urlPercentEncoding())"
+    }
+}
+
+extension ListHealthChecksBySourceInput {
+
+    static func queryItemProvider(_ value: ListHealthChecksBySourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHealthCheckSourcesInput {
+
+    static func urlPathProvider(_ value: ListHealthCheckSourcesInput) -> Swift.String? {
+        return "/2013-04-01/healthchecksource"
+    }
+}
+
+extension ListHealthCheckSourcesInput {
+
+    static func queryItemProvider(_ value: ListHealthCheckSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -8524,6 +9129,16 @@ extension CreateHealthCheckInput {
     }
 }
 
+extension CreateHealthCheckSourceInput {
+
+    static func write(value: CreateHealthCheckSourceInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CallerReference"].write(value.callerReference)
+        try writer["HealthCheckSourceConfig"].write(value.healthCheckSourceConfig, with: Route53ClientTypes.HealthCheckSourceConfig.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: Route53ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+}
+
 extension CreateHostedZoneInput {
 
     static func write(value: CreateHostedZoneInput?, to writer: SmithyXML.Writer) throws {
@@ -8656,6 +9271,7 @@ extension UpdateHealthCheckInput {
         try writer["EnableSNI"].write(value.enableSNI)
         try writer["FailureThreshold"].write(value.failureThreshold)
         try writer["FullyQualifiedDomainName"].write(value.fullyQualifiedDomainName)
+        try writer["HealthCheckSourceId"].write(value.healthCheckSourceId)
         try writer["HealthCheckVersion"].write(value.healthCheckVersion)
         try writer["HealthThreshold"].write(value.healthThreshold)
         try writer["IPAddress"].write(value.ipAddress)
@@ -8784,6 +9400,22 @@ extension CreateHealthCheckOutput {
             value.location = locationHeaderValue
         }
         value.healthCheck = try reader["HealthCheck"].readIfPresent(with: Route53ClientTypes.HealthCheck.read(from:))
+        return value
+    }
+}
+
+extension CreateHealthCheckSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHealthCheckSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHealthCheckSourceOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
+        }
+        value.healthCheckSourceId = try reader["HealthCheckSourceId"].readIfPresent() ?? ""
+        value.healthCheckSourceStatus = try reader["HealthCheckSourceStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8940,6 +9572,19 @@ extension DeleteHealthCheckOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHealthCheckOutput {
         return DeleteHealthCheckOutput()
+    }
+}
+
+extension DeleteHealthCheckSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHealthCheckSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteHealthCheckSourceOutput()
+        value.healthCheckSourceId = try reader["HealthCheckSourceId"].readIfPresent() ?? ""
+        value.healthCheckSourceStatus = try reader["HealthCheckSourceStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -9143,6 +9788,18 @@ extension GetHealthCheckLastFailureReasonOutput {
     }
 }
 
+extension GetHealthCheckSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHealthCheckSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHealthCheckSourceOutput()
+        value.healthCheckSource = try reader["HealthCheckSource"].readIfPresent(with: Route53ClientTypes.HealthCheckSource.read(from:))
+        return value
+    }
+}
+
 extension GetHealthCheckStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHealthCheckStatusOutput {
@@ -9335,6 +9992,35 @@ extension ListHealthChecksOutput {
         value.marker = try reader["Marker"].readIfPresent() ?? ""
         value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
         value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHealthChecksBySourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHealthChecksBySourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHealthChecksBySourceOutput()
+        value.healthChecks = try reader["HealthChecks"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheck.read(from:), memberNodeInfo: "HealthCheck", isFlattened: false) ?? []
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHealthCheckSourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHealthCheckSourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHealthCheckSourcesOutput()
+        value.healthCheckSources = try reader["HealthCheckSources"].readListIfPresent(memberReadingClosure: Route53ClientTypes.HealthCheckSource.read(from:), memberNodeInfo: "HealthCheckSource", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -9723,6 +10409,7 @@ enum ChangeTagsForResourceOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
             case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
             case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -9759,6 +10446,23 @@ enum CreateHealthCheckOutputError {
             case "HealthCheckAlreadyExists": return try HealthCheckAlreadyExists.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "TooManyHealthChecks": return try TooManyHealthChecks.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateHealthCheckSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HealthCheckSourceAlreadyExists": return try HealthCheckSourceAlreadyExists.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidVPCId": return try InvalidVPCId.makeError(baseError: baseError)
+            case "TooManyHealthCheckSources": return try TooManyHealthCheckSources.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9986,6 +10690,22 @@ enum DeleteHealthCheckOutputError {
             case "HealthCheckInUse": return try HealthCheckInUse.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteHealthCheckSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10307,6 +11027,21 @@ enum GetHealthCheckLastFailureReasonOutputError {
     }
 }
 
+enum GetHealthCheckSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetHealthCheckStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10530,6 +11265,35 @@ enum ListHealthChecksOutputError {
     }
 }
 
+enum ListHealthChecksBySourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListHealthCheckSourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListHostedZonesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10647,6 +11411,7 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
             case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
             case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -10665,6 +11430,7 @@ enum ListTagsForResourcesOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchHealthCheck": return try NoSuchHealthCheck.makeError(baseError: baseError)
+            case "NoSuchHealthCheckSource": return try NoSuchHealthCheckSource.makeError(baseError: baseError)
             case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
             case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -11098,6 +11864,19 @@ extension NoSuchHealthCheck {
     }
 }
 
+extension NoSuchHealthCheckSource {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchHealthCheckSource {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchHealthCheckSource()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ThrottlingException {
@@ -11142,6 +11921,32 @@ extension TooManyHealthChecks {
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
         let reader = baseError.errorBodyReader
         var value = TooManyHealthChecks()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension HealthCheckSourceAlreadyExists {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HealthCheckSourceAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = HealthCheckSourceAlreadyExists()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyHealthCheckSources {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHealthCheckSources {
+        let reader = baseError.errorBodyReader
+        var value = TooManyHealthCheckSources()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12077,8 +12882,10 @@ extension Route53ClientTypes.HealthCheckConfig {
         try writer["ChildHealthChecks"].writeList(value.childHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "ChildHealthCheck", isFlattened: false)
         try writer["Disabled"].write(value.disabled)
         try writer["EnableSNI"].write(value.enableSNI)
+        try writer["EndpointType"].write(value.endpointType)
         try writer["FailureThreshold"].write(value.failureThreshold)
         try writer["FullyQualifiedDomainName"].write(value.fullyQualifiedDomainName)
+        try writer["HealthCheckSourceId"].write(value.healthCheckSourceId)
         try writer["HealthThreshold"].write(value.healthThreshold)
         try writer["IPAddress"].write(value.ipAddress)
         try writer["InsufficientDataHealthStatus"].write(value.insufficientDataHealthStatus)
@@ -12114,6 +12921,8 @@ extension Route53ClientTypes.HealthCheckConfig {
         value.alarmIdentifier = try reader["AlarmIdentifier"].readIfPresent(with: Route53ClientTypes.AlarmIdentifier.read(from:))
         value.insufficientDataHealthStatus = try reader["InsufficientDataHealthStatus"].readIfPresent()
         value.routingControlArn = try reader["RoutingControlArn"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.healthCheckSourceId = try reader["HealthCheckSourceId"].readIfPresent()
         return value
     }
 }
@@ -12126,6 +12935,37 @@ extension Route53ClientTypes.HealthCheckObservation {
         value.region = try reader["Region"].readIfPresent()
         value.ipAddress = try reader["IPAddress"].readIfPresent()
         value.statusReport = try reader["StatusReport"].readIfPresent(with: Route53ClientTypes.StatusReport.read(from:))
+        return value
+    }
+}
+
+extension Route53ClientTypes.HealthCheckSource {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheckSource()
+        value.healthCheckSourceId = try reader["HealthCheckSourceId"].readIfPresent() ?? ""
+        value.healthCheckSourceStatus = try reader["HealthCheckSourceStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.healthCheckSourceConfig = try reader["HealthCheckSourceConfig"].readIfPresent(with: Route53ClientTypes.HealthCheckSourceConfig.read(from:))
+        value.statusReasonCode = try reader["StatusReasonCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.HealthCheckSourceConfig {
+
+    static func write(value: Route53ClientTypes.HealthCheckSourceConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetConfigurationList"].writeList(value.subnetConfigurationList, memberWritingClosure: Route53ClientTypes.SubnetConfiguration.write(value:to:), memberNodeInfo: "SubnetConfiguration", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheckSourceConfig()
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetConfigurationList = try reader["SubnetConfigurationList"].readListIfPresent(memberReadingClosure: Route53ClientTypes.SubnetConfiguration.read(from:), memberNodeInfo: "SubnetConfiguration", isFlattened: false) ?? []
         return value
     }
 }
@@ -12408,6 +13248,25 @@ extension Route53ClientTypes.StatusReport {
         var value = Route53ClientTypes.StatusReport()
         value.status = try reader["Status"].readIfPresent()
         value.checkedTime = try reader["CheckedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension Route53ClientTypes.SubnetConfiguration {
+
+    static func write(value: Route53ClientTypes.SubnetConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
+        try writer["SecurityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.SubnetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.SubnetConfiguration()
+        value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent() ?? ""
+        value.securityGroupIdList = try reader["SecurityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SecurityGroupId", isFlattened: false) ?? []
         return value
     }
 }

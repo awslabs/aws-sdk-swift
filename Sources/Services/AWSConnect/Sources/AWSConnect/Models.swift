@@ -4267,6 +4267,10 @@ extension ConnectClientTypes {
         case emailMessagePlainText
         case emailMessagePlainTextRedacted
         case emailMessageRedacted
+        case voicemailAnalysis
+        case voicemailAnalysisRedacted
+        case voicemailRecording
+        case voicemailRecordingRedacted
         case voiceRecording
         case sdkUnknown(Swift.String)
 
@@ -4278,6 +4282,10 @@ extension ConnectClientTypes {
                 .emailMessagePlainText,
                 .emailMessagePlainTextRedacted,
                 .emailMessageRedacted,
+                .voicemailAnalysis,
+                .voicemailAnalysisRedacted,
+                .voicemailRecording,
+                .voicemailRecordingRedacted,
                 .voiceRecording
             ]
         }
@@ -4295,6 +4303,10 @@ extension ConnectClientTypes {
             case .emailMessagePlainText: return "EMAIL_MESSAGE_PLAIN_TEXT"
             case .emailMessagePlainTextRedacted: return "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"
             case .emailMessageRedacted: return "EMAIL_MESSAGE_REDACTED"
+            case .voicemailAnalysis: return "VOICEMAIL_ANALYSIS"
+            case .voicemailAnalysisRedacted: return "VOICEMAIL_ANALYSIS_REDACTED"
+            case .voicemailRecording: return "VOICEMAIL_RECORDING"
+            case .voicemailRecordingRedacted: return "VOICEMAIL_RECORDING_REDACTED"
             case .voiceRecording: return "VOICE_RECORDING"
             case let .sdkUnknown(s): return s
             }
@@ -5248,6 +5260,10 @@ extension ConnectClientTypes {
         case number
         case string
         case url
+        case voicemailAnalysis
+        case voicemailAnalysisRedacted
+        case voicemailRecording
+        case voicemailRecordingRedacted
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReferenceType] {
@@ -5262,7 +5278,11 @@ extension ConnectClientTypes {
                 .emailMessageRedacted,
                 .number,
                 .string,
-                .url
+                .url,
+                .voicemailAnalysis,
+                .voicemailAnalysisRedacted,
+                .voicemailRecording,
+                .voicemailRecordingRedacted
             ]
         }
 
@@ -5284,6 +5304,10 @@ extension ConnectClientTypes {
             case .number: return "NUMBER"
             case .string: return "STRING"
             case .url: return "URL"
+            case .voicemailAnalysis: return "VOICEMAIL_ANALYSIS"
+            case .voicemailAnalysisRedacted: return "VOICEMAIL_ANALYSIS_REDACTED"
+            case .voicemailRecording: return "VOICEMAIL_RECORDING"
+            case .voicemailRecordingRedacted: return "VOICEMAIL_RECORDING_REDACTED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15685,6 +15709,21 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about the voicemails recorded for a voice contact.
+    public struct VoicemailInfo: Swift.Sendable {
+        /// The number of voicemails recorded for the contact. Valid range is 1-3.
+        public var numberOfVoicemails: Swift.Int?
+
+        public init(
+            numberOfVoicemails: Swift.Int? = nil
+        ) {
+            self.numberOfVoicemails = numberOfVoicemails
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about Connect Customer Wisdom.
     public struct WisdomInfo: Swift.Sendable {
         /// The array of AI agents involved in the contact.
@@ -25219,6 +25258,60 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about a reference when the referenceType is VOICEMAIL_ANALYSIS or VOICEMAIL_ANALYSIS_REDACTED. Otherwise, null.
+    public struct VoicemailAnalysisReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the voicemail analysis reference.
+        public var arn: Swift.String?
+        /// Identifier of the voicemail analysis reference.
+        public var name: Swift.String?
+        /// Status of the voicemail analysis reference type.
+        public var status: ConnectClientTypes.ReferenceStatus?
+        /// The location path of the voicemail analysis reference.
+        public var value: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.ReferenceStatus? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a reference when the referenceType is VOICEMAIL_RECORDING or VOICEMAIL_RECORDING_REDACTED. Otherwise, null.
+    public struct VoicemailRecordingReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the voicemail recording reference.
+        public var arn: Swift.String?
+        /// Identifier of the voicemail recording reference.
+        public var name: Swift.String?
+        /// Status of the voicemail recording reference type.
+        public var status: ConnectClientTypes.ReferenceStatus?
+        /// The location path of the voicemail recording reference.
+        public var value: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.ReferenceStatus? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains summary information about a reference. ReferenceSummary contains only one non null field between the URL and attachment based on the reference type.
     public enum ReferenceSummary: Swift.Sendable {
         /// Information about the reference when the referenceType is URL. Otherwise, null.
@@ -25243,6 +25336,14 @@ extension ConnectClientTypes {
         case email(ConnectClientTypes.EmailReference)
         /// Information about a reference when the referenceType is CONTACT_ANALYSIS. Otherwise, null.
         case contactanalysis(ConnectClientTypes.ContactAnalysisReference)
+        /// Information about the reference when the referenceType is VOICEMAIL_RECORDING. Otherwise, null.
+        case voicemailrecording(ConnectClientTypes.VoicemailRecordingReference)
+        /// Information about the reference when the referenceType is VOICEMAIL_RECORDING_REDACTED. Otherwise, null.
+        case voicemailrecordingredacted(ConnectClientTypes.VoicemailRecordingReference)
+        /// Information about the reference when the referenceType is VOICEMAIL_ANALYSIS. Otherwise, null.
+        case voicemailanalysis(ConnectClientTypes.VoicemailAnalysisReference)
+        /// Information about the reference when the referenceType is VOICEMAIL_ANALYSIS_REDACTED. Otherwise, null.
+        case voicemailanalysisredacted(ConnectClientTypes.VoicemailAnalysisReference)
         case sdkUnknown(Swift.String)
     }
 }
@@ -41313,6 +41414,8 @@ extension ConnectClientTypes {
         public var totalPauseCount: Swift.Int?
         /// Total pause duration for a contact in seconds.
         public var totalPauseDurationInSeconds: Swift.Int?
+        /// If one or more voicemails were recorded for the contact, this contains information about the voicemails.
+        public var voicemailInfo: ConnectClientTypes.VoicemailInfo?
         /// Information about Connect Customer Wisdom.
         public var wisdomInfo: ConnectClientTypes.WisdomInfo?
 
@@ -41366,6 +41469,7 @@ extension ConnectClientTypes {
             taskTemplateInfo: ConnectClientTypes.TaskTemplateInfoV2? = nil,
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
+            voicemailInfo: ConnectClientTypes.VoicemailInfo? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
         ) {
             self.additionalEmailRecipients = additionalEmailRecipients
@@ -41417,6 +41521,7 @@ extension ConnectClientTypes {
             self.taskTemplateInfo = taskTemplateInfo
             self.totalPauseCount = totalPauseCount
             self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
+            self.voicemailInfo = voicemailInfo
             self.wisdomInfo = wisdomInfo
         }
     }
@@ -41424,7 +41529,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), cases: \(Swift.String(describing: cases)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), contactLens: \(Swift.String(describing: contactLens)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), cases: \(Swift.String(describing: cases)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), contactLens: \(Swift.String(describing: contactLens)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), voicemailInfo: \(Swift.String(describing: voicemailInfo)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -64346,6 +64451,7 @@ extension ConnectClientTypes.Contact {
         value.nextContacts = try reader["NextContacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.NextContactEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
         value.contactLens = try reader["ContactLens"].readIfPresent(with: ConnectClientTypes.ContactLens.read(from:))
+        value.voicemailInfo = try reader["VoicemailInfo"].readIfPresent(with: ConnectClientTypes.VoicemailInfo.read(from:))
         return value
     }
 }
@@ -69832,6 +69938,14 @@ extension ConnectClientTypes.ReferenceSummary {
                 return .email(try reader["Email"].read(with: ConnectClientTypes.EmailReference.read(from:)))
             case "ContactAnalysis":
                 return .contactanalysis(try reader["ContactAnalysis"].read(with: ConnectClientTypes.ContactAnalysisReference.read(from:)))
+            case "VoicemailRecording":
+                return .voicemailrecording(try reader["VoicemailRecording"].read(with: ConnectClientTypes.VoicemailRecordingReference.read(from:)))
+            case "VoicemailRecordingRedacted":
+                return .voicemailrecordingredacted(try reader["VoicemailRecordingRedacted"].read(with: ConnectClientTypes.VoicemailRecordingReference.read(from:)))
+            case "VoicemailAnalysis":
+                return .voicemailanalysis(try reader["VoicemailAnalysis"].read(with: ConnectClientTypes.VoicemailAnalysisReference.read(from:)))
+            case "VoicemailAnalysisRedacted":
+                return .voicemailanalysisredacted(try reader["VoicemailAnalysisRedacted"].read(with: ConnectClientTypes.VoicemailAnalysisReference.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -71726,6 +71840,42 @@ extension ConnectClientTypes.VoiceEnhancementConfig {
         var value = ConnectClientTypes.VoiceEnhancementConfig()
         value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
         value.voiceEnhancementMode = try reader["VoiceEnhancementMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.VoicemailAnalysisReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VoicemailAnalysisReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.VoicemailAnalysisReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.VoicemailInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VoicemailInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.VoicemailInfo()
+        value.numberOfVoicemails = try reader["NumberOfVoicemails"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.VoicemailRecordingReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VoicemailRecordingReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.VoicemailRecordingReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }

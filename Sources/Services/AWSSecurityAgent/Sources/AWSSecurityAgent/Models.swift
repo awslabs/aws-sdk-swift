@@ -3822,23 +3822,74 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Code remediation status for a particular repository.
+    public enum CodeRemediationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case noChangeRequired
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeRemediationJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .noChangeRequired,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .noChangeRequired: return "NO_CHANGE_REQUIRED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Contains details about a code remediation task, including links to the code diff and pull request.
     public struct CodeRemediationTaskDetails: Swift.Sendable {
         /// The link to the code diff for the remediation.
         public var codeDiffLink: Swift.String?
         /// The link to the pull request created for the remediation.
         public var pullRequestLink: Swift.String?
-        /// The name of the repository where the remediation was applied.
+        /// The name of an associated repository where the remediation was applied.
         public var repoName: Swift.String?
+        /// The current status of the code remediation task for the particular repository.
+        public var status: SecurityAgentClientTypes.CodeRemediationJobStatus?
+        /// A category classifier if a repository's code remediation fails.
+        public var statusCode: Swift.String?
+        /// A descriptive reason when a repository's code remediation fails.
+        public var statusReason: Swift.String?
 
         public init(
             codeDiffLink: Swift.String? = nil,
             pullRequestLink: Swift.String? = nil,
-            repoName: Swift.String? = nil
+            repoName: Swift.String? = nil,
+            status: SecurityAgentClientTypes.CodeRemediationJobStatus? = nil,
+            statusCode: Swift.String? = nil,
+            statusReason: Swift.String? = nil
         ) {
             self.codeDiffLink = codeDiffLink
             self.pullRequestLink = pullRequestLink
             self.repoName = repoName
+            self.status = status
+            self.statusCode = statusCode
+            self.statusReason = statusReason
         }
     }
 }
@@ -3847,12 +3898,12 @@ extension SecurityAgentClientTypes {
 
     /// Represents a code remediation task that was initiated to fix a security finding.
     public struct CodeRemediationTask: Swift.Sendable {
-        /// The current status of the code remediation task.
+        /// The current status of the overall code remediation task.
         /// This member is required.
         public var status: SecurityAgentClientTypes.CodeRemediationTaskStatus?
-        /// The reason for the current status of the code remediation task.
+        /// The reason for the current status of the overall code remediation task.
         public var statusReason: Swift.String?
-        /// The list of details for the code remediation task, including repository name, code diff link, and pull request link.
+        /// The list of details for a code remediation task, including repository names, status of code remediation for each associated repository, and generated code diff or pull request links.
         public var taskDetails: [SecurityAgentClientTypes.CodeRemediationTaskDetails]?
 
         public init(
@@ -16453,6 +16504,9 @@ extension SecurityAgentClientTypes.CodeRemediationTaskDetails {
         value.repoName = try reader["repoName"].readIfPresent()
         value.codeDiffLink = try reader["codeDiffLink"].readIfPresent()
         value.pullRequestLink = try reader["pullRequestLink"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }

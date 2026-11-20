@@ -15,7 +15,7 @@ import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 
-/// You do not have sufficient access to perform this action.
+/// The request is denied because you don't have sufficient permissions to perform this operation. Verify that you have the required permissions and try again.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -62,7 +62,7 @@ extension BCMPricingCalculatorClientTypes {
 
     /// Represents an action to add a Savings Plan to a bill scenario.
     public struct AddSavingsPlanAction: Swift.Sendable {
-        /// The hourly commitment, in the same currency of the savingsPlanOfferingId. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
+        /// The hourly commitment, in the same currency of the savingsPlanOfferingId. This is a value between 0.001 and 1 million. You can't specify more than five digits after the decimal point.
         public var commitment: Swift.Double?
         /// The ID of the Savings Plan offering to add. For more information, see [ DescribeSavingsPlansOfferings](https://docs.aws.amazon.com/savingsplans/latest/APIReference/API_DescribeSavingsPlansOfferings.html).
         public var savingsPlanOfferingId: Swift.String?
@@ -101,16 +101,16 @@ public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The specified resource was not found.
+/// The specified resource wasn't found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that was not found.
+        /// The identifier of the resource that wasn't found.
         /// This member is required.
         public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that was not found.
+        /// The type of the resource that wasn't found.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
     }
@@ -869,16 +869,16 @@ extension BCMPricingCalculatorClientTypes {
     }
 }
 
-/// The request could not be processed because of conflict in the current state of the resource.
+/// The request couldn't be processed because the resource is in a conflicting state. Verify the resource's current state and retry the request.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that was not found.
+        /// The identifier of the resource that is in a conflicting state.
         /// This member is required.
         public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that was not found.
+        /// The type of the resource that is in a conflicting state.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
     }
@@ -989,7 +989,7 @@ public struct CreateBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// This attribute provides the reason if a Bill estimate result generation fails.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of your newly created Bill estimate.
     /// This member is required.
@@ -1070,7 +1070,7 @@ public struct GetBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill estimate retrieval failed.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the retrieved bill estimate.
     /// This member is required.
@@ -1293,7 +1293,7 @@ public struct UpdateBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill estimate update failed.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the updated bill estimate.
     /// This member is required.
@@ -1468,7 +1468,7 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct BatchCreateBillScenarioCommitmentModificationOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the commitment item keys that cannot be created in the Bill Scenario.
+    /// Returns the list of errors reason and the commitment item keys that can't be created in the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationError]?
     /// Returns the list of successful commitment line items that were created for the Bill Scenario.
     public var items: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationItem]?
@@ -1555,7 +1555,7 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct BatchDeleteBillScenarioCommitmentModificationOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the commitment item keys that cannot be deleted from the Bill Scenario.
+    /// Returns the list of errors reason and the commitment item keys that can't be deleted from the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioCommitmentModificationError]?
 
     public init(
@@ -1688,7 +1688,7 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct BatchUpdateBillScenarioCommitmentModificationOutput: Swift.Sendable {
-    /// Returns the list of error reasons and commitment line item IDs that could not be updated for the Bill Scenario.
+    /// Returns the list of error reasons and commitment line item IDs that couldn't be updated for the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioCommitmentModificationError]?
     /// Returns the list of successful commitment line items that were updated for a Bill Scenario.
     public var items: [BCMPricingCalculatorClientTypes.BillScenarioCommitmentModificationItem]?
@@ -1966,7 +1966,7 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct BatchDeleteBillScenarioUsageModificationOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the usage item keys that cannot be deleted from the Bill Scenario.
+    /// Returns the list of errors reason and the usage item keys that can't be deleted from the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchDeleteBillScenarioUsageModificationError]?
 
     public init(
@@ -2104,7 +2104,7 @@ public struct CreateBillScenarioInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The arn of the cost category used in the reserved and prioritized group sharing.
     public var costCategoryGroupSharingPreferenceArn: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// A descriptive name for the bill scenario.
     /// This member is required.
@@ -2138,7 +2138,7 @@ public struct CreateBillScenarioOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario creation failed.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier for the created bill scenario.
     /// This member is required.
@@ -2211,7 +2211,7 @@ public struct GetBillScenarioOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario retrieval failed.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the retrieved bill scenario.
     /// This member is required.
@@ -2399,7 +2399,7 @@ public struct UpdateBillScenarioInput: Swift.Sendable {
     public var costCategoryGroupSharingPreferenceArn: Swift.String?
     /// The new expiration date for the bill scenario.
     public var expiresAt: Foundation.Date?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the bill scenario to update.
     /// This member is required.
@@ -2433,7 +2433,7 @@ public struct UpdateBillScenarioOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario update failed.
     public var failureMessage: Swift.String?
-    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    /// The setting for the reserved instance and savings plans group sharing used in this estimate.
     public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the updated bill scenario.
     /// This member is required.
@@ -2550,51 +2550,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to list tags for.
-    /// This member is required.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    ) {
-        self.arn = arn
-    }
-}
-
-public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// The list of tags associated with the specified resource.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.tags = tags
-    }
-}
-
-public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to add tags to.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The tags to add to the resource.
-    /// This member is required.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        arn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.arn = arn
-        self.tags = tags
-    }
-}
-
-public struct TagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 /// The request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2628,66 +2583,6 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
         self.properties.serviceCode = serviceCode
-    }
-}
-
-public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to remove tags from.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The keys of the tags to remove from the resource.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
-
-    public init(
-        arn: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    ) {
-        self.arn = arn
-        self.tagKeys = tagKeys
-    }
-}
-
-public struct UntagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UpdatePreferencesInput: Swift.Sendable {
-    /// The updated preferred rate types for the management account.
-    public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-    /// The updated preferred rate types for member accounts.
-    public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-    /// The updated preferred rate types for a standalone account.
-    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-
-    public init(
-        managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
-    ) {
-        self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
-        self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
-        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
-    }
-}
-
-public struct UpdatePreferencesOutput: Swift.Sendable {
-    /// The updated preferred rate types for the management account.
-    public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-    /// The updated preferred rate types for member accounts.
-    public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-    /// The updated preferred rate types for a standalone account.
-    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
-
-    public init(
-        managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
-    ) {
-        self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
-        self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
-        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2787,6 +2682,326 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BCMPricingCalculatorClientTypes {
 
+    /// Represents a usage line that you want to estimate.
+    public struct GetUsageLinesEstimatedCostInput: Swift.Sendable {
+        /// The usage amount to price for the usage line in the usage type's pricing unit. This value must be 0 or greater.
+        /// This member is required.
+        public var amount: Swift.Double?
+        /// A unique identifier for the usage line in the request. Use the key to match the usage line with its result in lineItems or errors in the response.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The operation of the usage line, for example RunInstances.
+        /// This member is required.
+        public var operation: Swift.String?
+        /// The Amazon Web Services service code of the usage line, for example AmazonEC2.
+        /// This member is required.
+        public var serviceCode: Swift.String?
+        /// The usage type of the usage line, for example BoxUsage:t3.micro.
+        /// This member is required.
+        public var usageType: Swift.String?
+
+        public init(
+            amount: Swift.Double? = nil,
+            key: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            serviceCode: Swift.String? = nil,
+            usageType: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.key = key
+            self.operation = operation
+            self.serviceCode = serviceCode
+            self.usageType = usageType
+        }
+    }
+}
+
+public struct GetUsageLinesEstimatedCostInput: Swift.Sendable {
+    /// The type of pricing rates to use to estimate the cost of the usage lines. You can only use a rate type that your Pricing Calculator rate preferences allow. If you use billing transfer as a bill source account, you can only use BEFORE_DISCOUNTS
+    /// This member is required.
+    public var rateType: BCMPricingCalculatorClientTypes.RateType?
+    /// The usage lines that you want to estimate. You can include up to 500 usage lines in a request.
+    /// This member is required.
+    public var usage: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostInput]?
+
+    public init(
+        rateType: BCMPricingCalculatorClientTypes.RateType? = nil,
+        usage: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostInput]? = nil
+    ) {
+        self.rateType = rateType
+        self.usage = usage
+    }
+}
+
+extension BCMPricingCalculatorClientTypes {
+
+    public enum GetUsageLinesEstimatedCostErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case badRequest
+        case conflict
+        case internalServerError
+        case notFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GetUsageLinesEstimatedCostErrorCode] {
+            return [
+                .badRequest,
+                .conflict,
+                .internalServerError,
+                .notFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .badRequest: return "BAD_REQUEST"
+            case .conflict: return "CONFLICT"
+            case .internalServerError: return "INTERNAL_SERVER_ERROR"
+            case .notFound: return "NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BCMPricingCalculatorClientTypes {
+
+    /// Represents a usage line that couldn't be priced.
+    public struct GetUsageLinesEstimatedCostError: Swift.Sendable {
+        /// The code associated with the error.
+        /// This member is required.
+        public var errorCode: BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostErrorCode?
+        /// The message that describes the error.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The key of the usage line in the request that couldn't be priced.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The operation of the usage line that couldn't be priced.
+        /// This member is required.
+        public var operation: Swift.String?
+        /// The Amazon Web Services service code of the usage line that couldn't be priced.
+        /// This member is required.
+        public var serviceCode: Swift.String?
+        /// The usage type of the usage line that couldn't be priced.
+        /// This member is required.
+        public var usageType: Swift.String?
+
+        public init(
+            errorCode: BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            key: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            serviceCode: Swift.String? = nil,
+            usageType: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.key = key
+            self.operation = operation
+            self.serviceCode = serviceCode
+            self.usageType = usageType
+        }
+    }
+}
+
+extension BCMPricingCalculatorClientTypes {
+
+    /// Represents the estimated cost of the usage amount for a usage line.
+    public struct GetUsageLinesEstimatedCostEstimatedCost: Swift.Sendable {
+        /// The estimated cost for the given usage amount.
+        public var cost: Swift.Double?
+        /// The currency of the estimated cost.
+        public var currency: BCMPricingCalculatorClientTypes.CurrencyCode?
+        /// The usage amount that was priced.
+        public var usageAmount: Swift.Double?
+        /// The unit of the usage amount, for example Hrs or GB-Mo.
+        public var usageUnit: Swift.String?
+
+        public init(
+            cost: Swift.Double? = nil,
+            currency: BCMPricingCalculatorClientTypes.CurrencyCode? = nil,
+            usageAmount: Swift.Double? = nil,
+            usageUnit: Swift.String? = nil
+        ) {
+            self.cost = cost
+            self.currency = currency
+            self.usageAmount = usageAmount
+            self.usageUnit = usageUnit
+        }
+    }
+}
+
+extension BCMPricingCalculatorClientTypes {
+
+    /// Represents the estimated cost of a usage line that was priced.
+    public struct GetUsageLinesEstimatedCostLineItem: Swift.Sendable {
+        /// The estimated cost of the usage amount in the request.
+        public var estimatedCost: BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostEstimatedCost?
+        /// The key of the usage line in the request.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The operation of the usage line.
+        public var operation: Swift.String?
+        /// The Amazon Web Services service code of the usage line.
+        public var serviceCode: Swift.String?
+        /// The usage type of the usage line.
+        public var usageType: Swift.String?
+
+        public init(
+            estimatedCost: BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostEstimatedCost? = nil,
+            key: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            serviceCode: Swift.String? = nil,
+            usageType: Swift.String? = nil
+        ) {
+            self.estimatedCost = estimatedCost
+            self.key = key
+            self.operation = operation
+            self.serviceCode = serviceCode
+            self.usageType = usageType
+        }
+    }
+}
+
+public struct GetUsageLinesEstimatedCostOutput: Swift.Sendable {
+    /// The currency of the costs in the response.
+    public var currency: BCMPricingCalculatorClientTypes.CurrencyCode?
+    /// The usage lines that couldn't be priced, and the reason that each one couldn't be priced.
+    public var errors: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostError]?
+    /// The estimated cost of each usage line that was priced.
+    public var lineItems: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostLineItem]?
+    /// The type of pricing rates used to estimate the cost of the usage lines.
+    public var rateType: BCMPricingCalculatorClientTypes.RateType?
+    /// The sum of the estimated costs of all usage lines that were priced. Usage lines returned in errors aren't included.
+    public var totalCost: Swift.Double?
+
+    public init(
+        currency: BCMPricingCalculatorClientTypes.CurrencyCode? = nil,
+        errors: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostError]? = nil,
+        lineItems: [BCMPricingCalculatorClientTypes.GetUsageLinesEstimatedCostLineItem]? = nil,
+        rateType: BCMPricingCalculatorClientTypes.RateType? = nil,
+        totalCost: Swift.Double? = nil
+    ) {
+        self.currency = currency
+        self.errors = errors
+        self.lineItems = lineItems
+        self.rateType = rateType
+        self.totalCost = totalCost
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to list tags for.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The list of tags associated with the specified resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to add tags to.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The tags to add to the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The keys of the tags to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdatePreferencesInput: Swift.Sendable {
+    /// The updated preferred rate types for the management account.
+    public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for member accounts.
+    public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+
+    public init(
+        managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+    ) {
+        self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
+        self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
+    }
+}
+
+public struct UpdatePreferencesOutput: Swift.Sendable {
+    /// The updated preferred rate types for the management account.
+    public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for member accounts.
+    public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+
+    public init(
+        managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+    ) {
+        self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
+        self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
+    }
+}
+
+extension BCMPricingCalculatorClientTypes {
+
     public enum WorkloadEstimateRateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
         case afterDiscountsAndCommitments
@@ -2823,7 +3038,7 @@ public struct CreateWorkloadEstimateInput: Swift.Sendable {
     /// A descriptive name for the workload estimate.
     /// This member is required.
     public var name: Swift.String?
-    /// The type of pricing rates to use for the estimate.
+    /// The type of pricing rates for the estimate. You can only use a rate type that your Pricing Calculator rate preferences allow. If you use billing transfer as a bill source account, you can only use BEFORE_DISCOUNTS.
     public var rateType: BCMPricingCalculatorClientTypes.WorkloadEstimateRateType?
     /// The tags to apply to the workload estimate.
     public var tags: [Swift.String: Swift.String]?
@@ -3405,7 +3620,7 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct BatchDeleteWorkloadEstimateUsageOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the usage item keys that cannot be deleted from the Workload estimate.
+    /// Returns the list of errors reason and the usage item keys that can't be deleted from the Workload estimate.
     public var errors: [BCMPricingCalculatorClientTypes.BatchDeleteWorkloadEstimateUsageError]?
 
     public init(
@@ -4000,7 +4215,7 @@ public struct BatchCreateBillScenarioUsageModificationInput: Swift.Sendable {
 }
 
 public struct BatchCreateBillScenarioUsageModificationOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the usage item keys that cannot be created in the Bill Scenario.
+    /// Returns the list of errors reason and the usage item keys that can't be created in the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationError]?
     /// Returns the list of successful usage line items that were created for the Bill Scenario.
     public var items: [BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationItem]?
@@ -4036,7 +4251,7 @@ public struct BatchCreateWorkloadEstimateUsageInput: Swift.Sendable {
 }
 
 public struct BatchCreateWorkloadEstimateUsageOutput: Swift.Sendable {
-    /// Returns the list of errors reason and the usage item keys that cannot be created in the Workload estimate.
+    /// Returns the list of errors reason and the usage item keys that can't be created in the Workload estimate.
     public var errors: [BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageError]?
     /// Returns the list of successful usage line items that were created for the Workload estimate.
     public var items: [BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageItem]?
@@ -4051,7 +4266,7 @@ public struct BatchCreateWorkloadEstimateUsageOutput: Swift.Sendable {
 }
 
 public struct BatchUpdateBillScenarioUsageModificationOutput: Swift.Sendable {
-    /// Returns the list of error reasons and usage line item IDs that could not be updated for the Bill Scenario.
+    /// Returns the list of error reasons and usage line item IDs that couldn't be updated for the Bill Scenario.
     public var errors: [BCMPricingCalculatorClientTypes.BatchUpdateBillScenarioUsageModificationError]?
     /// Returns the list of successful usage line items that were updated for a Bill Scenario.
     public var items: [BCMPricingCalculatorClientTypes.BillScenarioUsageModificationItem]?
@@ -4066,7 +4281,7 @@ public struct BatchUpdateBillScenarioUsageModificationOutput: Swift.Sendable {
 }
 
 public struct BatchUpdateWorkloadEstimateUsageOutput: Swift.Sendable {
-    /// Returns the list of error reasons and usage line item IDs that could not be updated for the Workload estimate.
+    /// Returns the list of error reasons and usage line item IDs that couldn't be updated for the Workload estimate.
     public var errors: [BCMPricingCalculatorClientTypes.BatchUpdateWorkloadEstimateUsageError]?
     /// Returns the list of successful usage line items that were updated for a Workload estimate.
     public var items: [BCMPricingCalculatorClientTypes.WorkloadEstimateUsageItem]?

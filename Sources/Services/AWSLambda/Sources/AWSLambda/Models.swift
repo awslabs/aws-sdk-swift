@@ -6600,7 +6600,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// Configuration for multi-tenant applications that use Lambda functions. Defines tenant isolation settings and resource allocations. Required for functions supporting multiple tenants.
     public var tenancyConfig: LambdaClientTypes.TenancyConfig?
-    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
+    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 1,800 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
     public var timeout: Swift.Int?
     /// Set Mode to Active to sample and trace a subset of incoming requests with [X-Ray](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html).
     public var tracingConfig: LambdaClientTypes.TracingConfig?
@@ -9612,7 +9612,7 @@ extension LambdaClientTypes {
 }
 
 public struct InvokeInput: Swift.Sendable {
-    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
+    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only. ClientContext is logged to CloudTrail if you turn on data events.
     public var clientContext: Swift.String?
     /// A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a duplicate. If the payload differs, Lambda returns a DurableExecutionAlreadyStartedException error. If not specified, Lambda generates a unique identifier automatically. For more information, see [Execution names](https://docs.aws.amazon.com/lambda/latest/dg/durable-execution-idempotency.html#durable-idempotency-execution-names).
     public var durableExecutionName: Swift.String?
@@ -9777,7 +9777,7 @@ extension LambdaClientTypes {
 }
 
 public struct InvokeWithResponseStreamInput: Swift.Sendable {
-    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
+    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. ClientContext is logged to CloudTrail if you turn on data events.
     public var clientContext: Swift.String?
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -10847,7 +10847,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
-    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
+    /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 1,800 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
     public var timeout: Swift.Int?
     /// Set Mode to Active to sample and trace a subset of incoming requests with [X-Ray](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html).
     public var tracingConfig: LambdaClientTypes.TracingConfig?

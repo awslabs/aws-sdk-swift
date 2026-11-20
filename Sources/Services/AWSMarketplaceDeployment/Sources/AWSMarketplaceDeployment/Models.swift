@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
+import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
@@ -25,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -50,32 +52,31 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The request configuration has conflicts. For details, see the accompanying error message.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension MarketplaceDeploymentClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier for the resource associated with the error.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-    }
+    /// The delivery option type of a deployment configuration.
+    public enum DeliveryOptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The Data as a Service delivery option.
+        case dataAsAService
+        case sdkUnknown(Swift.String)
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+        public static var allCases: [DeliveryOptionType] {
+            return [
+                .dataAsAService
+            ]
+        }
 
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataAsAService: return "data-as-a-service"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -113,30 +114,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The maximum number of requests per account has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -204,9 +181,122 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct GetDeploymentConfigurationInput: Swift.Sendable {
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The delivery option type of the deployment configuration.
+    /// This member is required.
+    public var deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType?
+    /// The ID of the AWS Marketplace product, for example prod-1234567890abc.
+    /// This member is required.
+    public var productId: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType? = nil,
+        productId: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.deliveryOptionType = deliveryOptionType
+        self.productId = productId
+    }
+}
+
 extension MarketplaceDeploymentClientTypes {
 
-    /// The shape containing the requested deployment parameter name and secretString. To support AWS CloudFormation dynamic references to this resource using Quick Launch, this value must match a parameter defined in the CloudFormation templated provided to buyers.
+    /// Contains the deployment configuration settings for the Data as a Service delivery option, including the fulfillment URL that AWS Marketplace redirects buyers to after they subscribe.
+    public struct DataAsAServiceConfigurationDetail: Swift.Sendable {
+        /// The HTTPS URL that AWS Marketplace redirects buyers to after they subscribe to the product. The value must be a valid URI that uses the HTTPS scheme. Maximum length: 2,048 characters.
+        /// This member is required.
+        public var fulfillmentUrl: Swift.String?
+
+        public init(
+            fulfillmentUrl: Swift.String? = nil
+        ) {
+            self.fulfillmentUrl = fulfillmentUrl
+        }
+    }
+}
+
+extension MarketplaceDeploymentClientTypes {
+
+    /// The deployment configuration. Exactly one member must be set, and it must match the delivery option type.
+    public enum DeploymentConfigurationDetail: Swift.Sendable {
+        /// The deployment configuration settings for the Data as a Service delivery option, including the fulfillment URL that AWS Marketplace redirects buyers to after they subscribe.
+        case dataasaservice(MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetDeploymentConfigurationOutput: Swift.Sendable {
+    /// The active deployment configuration.
+    /// This member is required.
+    public var configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?
+
+    public init(
+        configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail? = nil
+    ) {
+        self.configuration = configuration
+    }
+}
+
+/// The request configuration has conflicts. For details, see the accompanying error message.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier for the resource associated with the error.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+    }
+}
+
+/// The maximum number of requests per account has been exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension MarketplaceDeploymentClientTypes {
+
+    /// The shape containing the requested deployment parameter name and secretString. To support AWS CloudFormation dynamic references to this resource using Quick Launch, this value must match a parameter defined in the CloudFormation template provided to buyers.
     public struct DeploymentParameterInput: Swift.Sendable {
         /// The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource.
         /// This member is required.
@@ -239,7 +329,7 @@ public struct PutDeploymentParameterInput: Swift.Sendable {
     public var catalog: Swift.String?
     /// The idempotency token for deployment parameters. A unique identifier for the new version. This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request.
     public var clientToken: Swift.String?
-    /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource.
+    /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secrets Manager resource.
     /// This member is required.
     public var deploymentParameter: MarketplaceDeploymentClientTypes.DeploymentParameterInput?
     /// The date when deployment parameters expire and are scheduled for deletion.
@@ -295,8 +385,227 @@ public struct PutDeploymentParameterOutput: Swift.Sendable {
     }
 }
 
+public struct GetDeploymentConfigurationJobInput: Swift.Sendable {
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The delivery option type of the deployment configuration.
+    /// This member is required.
+    public var deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType?
+    /// The unique identifier of the deployment configuration job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The ID of the AWS Marketplace product, for example prod-1234567890abc.
+    /// This member is required.
+    public var productId: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType? = nil,
+        jobId: Swift.String? = nil,
+        productId: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.deliveryOptionType = deliveryOptionType
+        self.jobId = jobId
+        self.productId = productId
+    }
+}
+
+extension MarketplaceDeploymentClientTypes {
+
+    /// The error code that describes why a deployment configuration job failed.
+    public enum DeploymentConfigurationJobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The fulfillment URL isn't a valid absolute HTTPS URL, or it points to a network location that AWS Marketplace doesn't allow, such as a private or loopback address. Correct the fulfillment URL, and then start a new job. A new job with the same URL fails again.
+        case endpointInvalid
+        /// AWS Marketplace couldn't reach the fulfillment URL when it validated the deployment configuration. The URL returned no HTTP response, for example because of a Domain Name System (DNS) failure, a refused connection, an untrusted or mismatched Transport Layer Security (TLS) certificate, or a timeout. Verify that the fulfillment URL is publicly reachable over HTTPS and responding, and then start a new job.
+        case fulfillmentUrlUnreachable
+        /// An internal error occurred. Start a new job.
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentConfigurationJobErrorCode] {
+            return [
+                .endpointInvalid,
+                .fulfillmentUrlUnreachable,
+                .internalError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .endpointInvalid: return "ENDPOINT_INVALID"
+            case .fulfillmentUrlUnreachable: return "FULFILLMENT_URL_UNREACHABLE"
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceDeploymentClientTypes {
+
+    /// The status of a deployment configuration job.
+    public enum DeploymentConfigurationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The job failed. The active deployment configuration didn't change. For details, see errorCode and message.
+        case failed
+        /// The job is running.
+        case inProgress
+        /// The job finished, and its configuration is now the active deployment configuration.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentConfigurationJobStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDeploymentConfigurationJobOutput: Swift.Sendable {
+    /// The deployment configuration submitted with the job.
+    /// This member is required.
+    public var configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?
+    /// The Amazon Resource Name (ARN) of the deployment configuration. This field is present only when the job status is SUCCEEDED.
+    public var configurationArn: Swift.String?
+    /// The date and time when the job was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the job reached the SUCCEEDED or FAILED status.
+    public var endedAt: Foundation.Date?
+    /// The error code that describes why the job failed. This field is present only when the job status is FAILED.
+    public var errorCode: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobErrorCode?
+    /// The unique identifier of the deployment configuration job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// A message that describes why the job failed. This field is present only when the job status is FAILED.
+    public var message: Swift.String?
+    /// The status of the deployment configuration job.
+    /// This member is required.
+    public var status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus?
+
+    public init(
+        configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail? = nil,
+        configurationArn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        endedAt: Foundation.Date? = nil,
+        errorCode: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobErrorCode? = nil,
+        jobId: Swift.String? = nil,
+        message: Swift.String? = nil,
+        status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus? = nil
+    ) {
+        self.configuration = configuration
+        self.configurationArn = configurationArn
+        self.createdAt = createdAt
+        self.endedAt = endedAt
+        self.errorCode = errorCode
+        self.jobId = jobId
+        self.message = message
+        self.status = status
+    }
+}
+
+public struct ListDeploymentConfigurationJobsInput: Swift.Sendable {
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The delivery option type of the deployment configuration.
+    /// This member is required.
+    public var deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType?
+    /// The maximum number of jobs to return in a single page. Valid values are 1 through 100. The default is 20.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results. Use the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The ID of the AWS Marketplace product, for example prod-1234567890abc.
+    /// This member is required.
+    public var productId: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        productId: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.deliveryOptionType = deliveryOptionType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.productId = productId
+    }
+}
+
+extension MarketplaceDeploymentClientTypes {
+
+    /// Contains summary information about a deployment configuration job, including its identifier, status, configuration, and creation time.
+    public struct DeploymentConfigurationJobSummary: Swift.Sendable {
+        /// The deployment configuration submitted with the job.
+        /// This member is required.
+        public var configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?
+        /// The date and time when the job was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the deployment configuration job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The status of the deployment configuration job.
+        /// This member is required.
+        public var status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus?
+
+        public init(
+            configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail? = nil,
+            createdAt: Foundation.Date? = nil,
+            jobId: Swift.String? = nil,
+            status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus? = nil
+        ) {
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.jobId = jobId
+            self.status = status
+        }
+    }
+}
+
+public struct ListDeploymentConfigurationJobsOutput: Swift.Sendable {
+    /// A list of deployment configuration job summaries, ordered from newest to oldest.
+    /// This member is required.
+    public var jobs: [MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary]?
+    /// The token for the next page of results. This value is absent when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.
+    /// The Amazon Resource Name (ARN) of the resource you want to list tags on.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -315,6 +624,68 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct StartDeploymentConfigurationJobInput: Swift.Sendable {
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token and the same input, the service returns the original job instead of starting a new one. If you reuse a token with different input, the request fails with a ConflictException. This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request.
+    public var clientToken: Swift.String?
+    /// The deployment configuration to publish.
+    /// This member is required.
+    public var configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?
+    /// The delivery option type of the deployment configuration.
+    /// This member is required.
+    public var deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType?
+    /// The ID of the AWS Marketplace product, for example prod-1234567890abc.
+    /// This member is required.
+    public var productId: Swift.String?
+    /// A map of key-value pairs, where each pair represents a tag to apply to the deployment configuration. Only the request that creates the deployment configuration can apply tags. If the deployment configuration already exists, a request that includes one or more tags fails with a ValidationException. To change tags on an existing deployment configuration, use TagResource and UntagResource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail? = nil,
+        deliveryOptionType: MarketplaceDeploymentClientTypes.DeliveryOptionType? = nil,
+        productId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.deliveryOptionType = deliveryOptionType
+        self.productId = productId
+        self.tags = tags
+    }
+}
+
+public struct StartDeploymentConfigurationJobOutput: Swift.Sendable {
+    /// The deployment configuration submitted with the job.
+    /// This member is required.
+    public var configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?
+    /// The date and time when the job was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the deployment configuration job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The status of the deployment configuration job. The value is IN_PROGRESS.
+    /// This member is required.
+    public var status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus?
+
+    public init(
+        configuration: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail? = nil,
+        createdAt: Foundation.Date? = nil,
+        jobId: Swift.String? = nil,
+        status: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobStatus? = nil
+    ) {
+        self.configuration = configuration
+        self.createdAt = createdAt
+        self.jobId = jobId
+        self.status = status
     }
 }
 
@@ -361,6 +732,73 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension GetDeploymentConfigurationInput {
+
+    static func urlPathProvider(_ value: GetDeploymentConfigurationInput) -> Swift.String? {
+        guard let catalog = value.catalog else {
+            return nil
+        }
+        guard let productId = value.productId else {
+            return nil
+        }
+        guard let deliveryOptionType = value.deliveryOptionType else {
+            return nil
+        }
+        return "/catalogs/\(catalog.urlPercentEncoding())/products/\(productId.urlPercentEncoding())/delivery-options/\(deliveryOptionType.rawValue.urlPercentEncoding())/deployment-configuration"
+    }
+}
+
+extension GetDeploymentConfigurationJobInput {
+
+    static func urlPathProvider(_ value: GetDeploymentConfigurationJobInput) -> Swift.String? {
+        guard let catalog = value.catalog else {
+            return nil
+        }
+        guard let productId = value.productId else {
+            return nil
+        }
+        guard let deliveryOptionType = value.deliveryOptionType else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/catalogs/\(catalog.urlPercentEncoding())/products/\(productId.urlPercentEncoding())/delivery-options/\(deliveryOptionType.rawValue.urlPercentEncoding())/deployment-configuration/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension ListDeploymentConfigurationJobsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentConfigurationJobsInput) -> Swift.String? {
+        guard let catalog = value.catalog else {
+            return nil
+        }
+        guard let productId = value.productId else {
+            return nil
+        }
+        guard let deliveryOptionType = value.deliveryOptionType else {
+            return nil
+        }
+        return "/catalogs/\(catalog.urlPercentEncoding())/products/\(productId.urlPercentEncoding())/delivery-options/\(deliveryOptionType.rawValue.urlPercentEncoding())/deployment-configuration/jobs"
+    }
+}
+
+extension ListDeploymentConfigurationJobsInput {
+
+    static func queryItemProvider(_ value: ListDeploymentConfigurationJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -381,6 +819,22 @@ extension PutDeploymentParameterInput {
             return nil
         }
         return "/catalogs/\(catalog.urlPercentEncoding())/products/\(productId.urlPercentEncoding())/deployment-parameters"
+    }
+}
+
+extension StartDeploymentConfigurationJobInput {
+
+    static func urlPathProvider(_ value: StartDeploymentConfigurationJobInput) -> Swift.String? {
+        guard let catalog = value.catalog else {
+            return nil
+        }
+        guard let productId = value.productId else {
+            return nil
+        }
+        guard let deliveryOptionType = value.deliveryOptionType else {
+            return nil
+        }
+        return "/catalogs/\(catalog.urlPercentEncoding())/products/\(productId.urlPercentEncoding())/delivery-options/\(deliveryOptionType.rawValue.urlPercentEncoding())/deployment-configuration/jobs"
     }
 }
 
@@ -432,11 +886,65 @@ extension PutDeploymentParameterInput {
     }
 }
 
+extension StartDeploymentConfigurationJobInput {
+
+    static func write(value: StartDeploymentConfigurationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GetDeploymentConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDeploymentConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDeploymentConfigurationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail.read(from:))
+        return value
+    }
+}
+
+extension GetDeploymentConfigurationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDeploymentConfigurationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDeploymentConfigurationJobOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail.read(from:))
+        value.configurationArn = try reader["configurationArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ListDeploymentConfigurationJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDeploymentConfigurationJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDeploymentConfigurationJobsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -467,6 +975,21 @@ extension PutDeploymentParameterOutput {
     }
 }
 
+extension StartDeploymentConfigurationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDeploymentConfigurationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDeploymentConfigurationJobOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -478,6 +1001,59 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+enum GetDeploymentConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDeploymentConfigurationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDeploymentConfigurationJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -512,6 +1088,25 @@ enum PutDeploymentParameterOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDeploymentConfigurationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -646,6 +1241,58 @@ extension ServiceQuotaExceededException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail {
+
+    static func write(value: MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fulfillmentUrl"].write(value.fulfillmentUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail()
+        value.fulfillmentUrl = try reader["fulfillmentUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail {
+
+    static func write(value: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dataasaservice(dataasaservice):
+                try writer["dataAsAService"].write(dataasaservice, with: MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dataAsAService":
+                return .dataasaservice(try reader["dataAsAService"].read(with: MarketplaceDeploymentClientTypes.DataAsAServiceConfigurationDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDeploymentClientTypes.DeploymentConfigurationJobSummary()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceDeploymentClientTypes.DeploymentConfigurationDetail.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

@@ -14,7 +14,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AgentRegistryClientEndpointPlugin: Plugin {
@@ -43,9 +44,9 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? AgentRegistryClient.AgentRegistryClientConfig {
             config.authSchemeResolver = DefaultAgentRegistryAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            config.authSchemes = [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            config.bearerTokenIdentityResolver = AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             guard let modifiedConfig = config as? Config else { return }
             clientConfiguration = modifiedConfig
         }

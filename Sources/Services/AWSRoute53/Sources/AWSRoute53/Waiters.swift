@@ -9,6 +9,7 @@
 
 import class SmithyWaitersAPI.Waiter
 import enum SmithyWaitersAPI.JMESUtils
+import protocol ClientRuntime.ServiceError
 import struct SmithyWaitersAPI.WaiterConfiguration
 import struct SmithyWaitersAPI.WaiterOptions
 import struct SmithyWaitersAPI.WaiterOutcome
@@ -43,6 +44,94 @@ extension Route53Client {
     /// `WaiterTimeoutError` if the waiter times out.
     public func waitUntilResourceRecordSetsChanged(options: SmithyWaitersAPI.WaiterOptions, input: GetChangeInput) async throws -> SmithyWaitersAPI.WaiterOutcome<GetChangeOutput> {
         let waiter = SmithyWaitersAPI.Waiter(config: try Self.resourceRecordSetsChangedWaiterConfig(), operation: self.getChange(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func healthCheckSourceCreatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "HealthCheckSource.HealthCheckSourceStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_COMPLETED"
+                guard case .success(let output) = result else { return false }
+                let healthCheckSource = output.healthCheckSource
+                let healthCheckSourceStatus = healthCheckSource?.healthCheckSourceStatus
+                return SmithyWaitersAPI.JMESUtils.compare(healthCheckSourceStatus, ==, "CREATE_COMPLETED")
+            }),
+            .init(state: .failure, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "HealthCheckSource.HealthCheckSourceStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let healthCheckSource = output.healthCheckSource
+                let healthCheckSourceStatus = healthCheckSource?.healthCheckSourceStatus
+                return SmithyWaitersAPI.JMESUtils.compare(healthCheckSourceStatus, ==, "CREATE_FAILED")
+            }),
+            .init(state: .retry, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "NoSuchHealthCheckSource"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the HealthCheckSourceCreated event on the getHealthCheckSource operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetHealthCheckSourceInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilHealthCheckSourceCreated(options: SmithyWaitersAPI.WaiterOptions, input: GetHealthCheckSourceInput) async throws -> SmithyWaitersAPI.WaiterOutcome<GetHealthCheckSourceOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.healthCheckSourceCreatedWaiterConfig(), operation: self.getHealthCheckSource(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func healthCheckSourceDeletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "NoSuchHealthCheckSource"
+            }),
+            .init(state: .success, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "HealthCheckSource.HealthCheckSourceStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETE_COMPLETED"
+                guard case .success(let output) = result else { return false }
+                let healthCheckSource = output.healthCheckSource
+                let healthCheckSourceStatus = healthCheckSource?.healthCheckSourceStatus
+                return SmithyWaitersAPI.JMESUtils.compare(healthCheckSourceStatus, ==, "DELETE_COMPLETED")
+            }),
+            .init(state: .failure, matcher: { (input: GetHealthCheckSourceInput, result: Swift.Result<GetHealthCheckSourceOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "HealthCheckSource.HealthCheckSourceStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let healthCheckSource = output.healthCheckSource
+                let healthCheckSourceStatus = healthCheckSource?.healthCheckSourceStatus
+                return SmithyWaitersAPI.JMESUtils.compare(healthCheckSourceStatus, ==, "DELETE_FAILED")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<GetHealthCheckSourceInput, GetHealthCheckSourceOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the HealthCheckSourceDeleted event on the getHealthCheckSource operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetHealthCheckSourceInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilHealthCheckSourceDeleted(options: SmithyWaitersAPI.WaiterOptions, input: GetHealthCheckSourceInput) async throws -> SmithyWaitersAPI.WaiterOutcome<GetHealthCheckSourceOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.healthCheckSourceDeletedWaiterConfig(), operation: self.getHealthCheckSource(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 }

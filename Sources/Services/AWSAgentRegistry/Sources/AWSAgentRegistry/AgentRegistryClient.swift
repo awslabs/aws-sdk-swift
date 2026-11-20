@@ -49,6 +49,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -62,8 +63,7 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct Smithy.Document
-import struct SmithyIdentity.BearerTokenIdentity
-@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -204,10 +204,10 @@ extension AgentRegistryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultAgentRegistryAuthSchemeResolver()
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: AgentRegistryClient.clientName)
@@ -259,10 +259,10 @@ extension AgentRegistryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultAgentRegistryAuthSchemeResolver()
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: AgentRegistryClient.clientName)
@@ -319,10 +319,10 @@ extension AgentRegistryClient {
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes: [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference: nil,
                 authSchemeResolver: DefaultAgentRegistryAuthSchemeResolver(),
-                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                bearerTokenIdentityResolver: AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders: [],
                 httpInterceptorProviders: []
             )
@@ -435,10 +435,10 @@ extension AgentRegistryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultAgentRegistryAuthSchemeResolver()
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: AgentRegistryClient.clientName)
@@ -490,10 +490,10 @@ extension AgentRegistryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultAgentRegistryAuthSchemeResolver()
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: AgentRegistryClient.clientName)
@@ -550,10 +550,10 @@ extension AgentRegistryClient {
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes: [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference: nil,
                 authSchemeResolver: DefaultAgentRegistryAuthSchemeResolver(),
-                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                bearerTokenIdentityResolver: AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders: [],
                 httpInterceptorProviders: []
             )
@@ -615,7 +615,7 @@ extension AgentRegistryClient {
 extension AgentRegistryClient {
     /// Performs the `BatchGetDiscoverableRegistryRecord` operation on the `AgentRegistry` service.
     ///
-    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request.
+    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. For each skill record that has a skill package, the operation also returns artifact. It contains a short-lived download URL and a SHA-256 checksum for the package of the record's latest approved revision. If the registry can't create a download URL for a package, the whole request fails.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchGetDiscoverableRegistryRecordInput`)
     ///
@@ -761,7 +761,7 @@ extension AgentRegistryClient {
 
     /// Performs the `SearchDiscoverableRegistryRecords` operation on the `AgentRegistry` service.
     ///
-    /// Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
+    /// Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance. Returns at most 1000 results across all pages when searchType is KEYWORD, and at most 20 results when it is HYBRID or SEMANTIC. To retrieve more records, refine the query or filters, or use ListDiscoverableRegistryRecords to list every record.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchDiscoverableRegistryRecordsInput`)
     ///

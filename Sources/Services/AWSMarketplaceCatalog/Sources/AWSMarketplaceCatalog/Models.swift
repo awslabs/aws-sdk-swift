@@ -53,6 +53,53 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MarketplaceCatalogClientTypes {
 
+    /// An additional resource for a listing, with its type, display text, and URL.
+    public struct AdditionalResource: Swift.Sendable {
+        /// The text to display for the resource.
+        /// This member is required.
+        public var text: Swift.String?
+        /// The type of the resource. Currently, the only value that the service returns is Link.
+        /// This member is required.
+        public var type: Swift.String?
+        /// The URL of the resource.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            text: Swift.String? = nil,
+            type: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.text = text
+            self.type = type
+            self.url = url
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A proposed set of additional resources for a listing.
+    public struct AdditionalResourcesAlternative: Swift.Sendable {
+        /// Why this alternative is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The proposed additional resources.
+        /// This member is required.
+        public var value: [MarketplaceCatalogClientTypes.AdditionalResource]?
+
+        public init(
+            rationale: Swift.String? = nil,
+            value: [MarketplaceCatalogClientTypes.AdditionalResource]? = nil
+        ) {
+            self.rationale = rationale
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Object that allows filtering on entity id of an AMI product.
     public struct AmiProductEntityIdFilter: Swift.Sendable {
         /// A string array of unique entity id values to be filtered on.
@@ -393,12 +440,91 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum ListingQualityTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case excellent
+        case needsImprovement
+        case strong
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListingQualityTier] {
+            return [
+                .basic,
+                .excellent,
+                .needsImprovement,
+                .strong
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .excellent: return "EXCELLENT"
+            case .needsImprovement: return "NEEDS_IMPROVEMENT"
+            case .strong: return "STRONG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The details of the resource assessed under the Listing Quality framework.
+    public struct ListingQualitySummary: Swift.Sendable {
+        /// The revision of the entity that the tier was evaluated against. To check whether the tier is out of date, compare this value with the current revision of the entity.
+        public var entityRevision: Swift.String?
+        /// The quality tier of the listing. Valid values are NEEDS_IMPROVEMENT, BASIC, STRONG, and EXCELLENT.
+        /// This member is required.
+        public var tier: MarketplaceCatalogClientTypes.ListingQualityTier?
+
+        public init(
+            entityRevision: Swift.String? = nil,
+            tier: MarketplaceCatalogClientTypes.ListingQualityTier? = nil
+        ) {
+            self.entityRevision = entityRevision
+            self.tier = tier
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The details of the resource assessed under the Listing Recommendations framework.
+    public struct ListingRecommendationsSummary: Swift.Sendable {
+        /// The revision of the entity that the recommendations were generated against. To check whether the recommendations are out of date, compare this value with the current revision of the entity.
+        public var entityRevision: Swift.String?
+        /// The quality tier of the listing. Valid values are NEEDS_IMPROVEMENT, BASIC, STRONG, and EXCELLENT.
+        /// This member is required.
+        public var tier: MarketplaceCatalogClientTypes.ListingQualityTier?
+
+        public init(
+            entityRevision: Swift.String? = nil,
+            tier: MarketplaceCatalogClientTypes.ListingQualityTier? = nil
+        ) {
+            self.entityRevision = entityRevision
+            self.tier = tier
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// The framework-specific details of the assessed resource. Exactly one member is set, corresponding to the framework that was assessed.
     public enum FrameworkSummary: Swift.Sendable {
         /// The details of the resource assessed under the AMI Security framework.
         case amisecuritysummary(MarketplaceCatalogClientTypes.AMISecuritySummary)
         /// The details of the resource assessed under the Container Security framework.
         case containersecuritysummary(MarketplaceCatalogClientTypes.ContainerSecuritySummary)
+        /// The details of the resource assessed under the Listing Quality framework.
+        case listingqualitysummary(MarketplaceCatalogClientTypes.ListingQualitySummary)
+        /// The details of the resource assessed under the Listing Recommendations framework.
+        case listingrecommendationssummary(MarketplaceCatalogClientTypes.ListingRecommendationsSummary)
         case sdkUnknown(Swift.String)
     }
 }
@@ -454,13 +580,17 @@ extension MarketplaceCatalogClientTypes {
         public var changeSetId: Swift.String?
         /// The unique ID of the entity whose assessments you want to list.
         public var entityId: Swift.String?
+        /// A list of up to 50 entity IDs whose assessments you want to list. The response includes only the latest published assessment of each entity. You must also specify FrameworkId in the request, and you can't combine EntityIds with EntityId or ChangeSetId.
+        public var entityIds: [Swift.String]?
 
         public init(
             changeSetId: Swift.String? = nil,
-            entityId: Swift.String? = nil
+            entityId: Swift.String? = nil,
+            entityIds: [Swift.String]? = nil
         ) {
             self.changeSetId = changeSetId
             self.entityId = entityId
+            self.entityIds = entityIds
         }
     }
 }
@@ -863,6 +993,615 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum RecommendedFeatureId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case freeTrial
+        case promotionalMedia
+        case quickLaunch
+        case requestADemo
+        case requestPrivateOffer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendedFeatureId] {
+            return [
+                .freeTrial,
+                .promotionalMedia,
+                .quickLaunch,
+                .requestADemo,
+                .requestPrivateOffer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .freeTrial: return "FREE_TRIAL"
+            case .promotionalMedia: return "PROMOTIONAL_MEDIA"
+            case .quickLaunch: return "QUICK_LAUNCH"
+            case .requestADemo: return "REQUEST_A_DEMO"
+            case .requestPrivateOffer: return "REQUEST_PRIVATE_OFFER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum RecommendationSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advisory
+        case blocking
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationSeverity] {
+            return [
+                .advisory,
+                .blocking
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advisory: return "ADVISORY"
+            case .blocking: return "BLOCKING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum RecommendedFeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendedFeatureStatus] {
+            return [
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A recommended AWS Marketplace feature for a listing.
+    public struct FeatureRecommendation: Swift.Sendable {
+        /// What you should do. It might contain a link to the console.
+        /// This member is required.
+        public var action: Swift.String?
+        /// The feature that is recommended. Valid values are REQUEST_PRIVATE_OFFER, REQUEST_A_DEMO, PROMOTIONAL_MEDIA, FREE_TRIAL, and QUICK_LAUNCH.
+        /// This member is required.
+        public var featureId: MarketplaceCatalogClientTypes.RecommendedFeatureId?
+        /// Why the feature is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// How much the recommendation blocks the listing. Valid values are BLOCKING and ADVISORY.
+        /// This member is required.
+        public var severity: MarketplaceCatalogClientTypes.RecommendationSeverity?
+        /// Whether the listing has the feature. Valid values are:
+        ///
+        /// * PASS - The listing already has the feature.
+        ///
+        /// * FAIL - The feature is one to turn on.
+        /// This member is required.
+        public var status: MarketplaceCatalogClientTypes.RecommendedFeatureStatus?
+
+        public init(
+            action: Swift.String? = nil,
+            featureId: MarketplaceCatalogClientTypes.RecommendedFeatureId? = nil,
+            rationale: Swift.String? = nil,
+            severity: MarketplaceCatalogClientTypes.RecommendationSeverity? = nil,
+            status: MarketplaceCatalogClientTypes.RecommendedFeatureStatus? = nil
+        ) {
+            self.action = action
+            self.featureId = featureId
+            self.rationale = rationale
+            self.severity = severity
+            self.status = status
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The feature recommendations for a listing, for a product or a solution.
+    public struct FeatureRecommendations: Swift.Sendable {
+        /// The recommended features, in ranked order. The list has at most one entry for each feature and up to 5 entries.
+        /// This member is required.
+        public var recommendations: [MarketplaceCatalogClientTypes.FeatureRecommendation]?
+
+        public init(
+            recommendations: [MarketplaceCatalogClientTypes.FeatureRecommendation]? = nil
+        ) {
+            self.recommendations = recommendations
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A recommended case study.
+    public struct ListingCaseStudy: Swift.Sendable {
+        /// The ID of the case study entity. Identify a case study by this ID and not by Title, which you can edit.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Why this case study was selected.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The title of the case study.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            rationale: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.id = id
+            self.rationale = rationale
+            self.title = title
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A proposed set of case studies for a solution.
+    public struct CaseStudiesAlternative: Swift.Sendable {
+        /// Why this set of case studies fits the solution.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The proposed case studies.
+        /// This member is required.
+        public var value: [MarketplaceCatalogClientTypes.ListingCaseStudy]?
+
+        public init(
+            rationale: Swift.String? = nil,
+            value: [MarketplaceCatalogClientTypes.ListingCaseStudy]? = nil
+        ) {
+            self.rationale = rationale
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A proposed text value for a listing field.
+    public struct TextAlternative: Swift.Sendable {
+        /// Why this alternative is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The proposed text. The limit of the field itself, such as 255 characters for a title, applies.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            rationale: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.rationale = rationale
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A proposed list of text values for a listing field.
+    public struct TextListAlternative: Swift.Sendable {
+        /// Why this alternative is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The proposed list of text values. The list has 1–15 items.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            rationale: Swift.String? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.rationale = rationale
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A use case from the AWS Marketplace use case taxonomy.
+    public struct ListingUseCase: Swift.Sendable {
+        /// The group of the use case in the taxonomy.
+        /// This member is required.
+        public var group: Swift.String?
+        /// The unique identifier of the use case.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the use case.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The rank of the use case. A rank of 1 is the strongest match. Valid values range from 1 to 5.
+        /// This member is required.
+        public var rank: Swift.Int?
+        /// Why this use case is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The subgroup of the use case in the taxonomy.
+        /// This member is required.
+        public var subgroup: Swift.String?
+        /// How the solution serves the use case.
+        public var useCaseDetails: Swift.String?
+
+        public init(
+            group: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            rank: Swift.Int? = nil,
+            rationale: Swift.String? = nil,
+            subgroup: Swift.String? = nil,
+            useCaseDetails: Swift.String? = nil
+        ) {
+            self.group = group
+            self.id = id
+            self.name = name
+            self.rank = rank
+            self.rationale = rationale
+            self.subgroup = subgroup
+            self.useCaseDetails = useCaseDetails
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A proposed set of use cases for a solution.
+    public struct UseCasesAlternative: Swift.Sendable {
+        /// Why this alternative is recommended.
+        /// This member is required.
+        public var rationale: Swift.String?
+        /// The proposed use cases, in ranked order.
+        /// This member is required.
+        public var value: [MarketplaceCatalogClientTypes.ListingUseCase]?
+
+        public init(
+            rationale: Swift.String? = nil,
+            value: [MarketplaceCatalogClientTypes.ListingUseCase]? = nil
+        ) {
+            self.rationale = rationale
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The proposed values for a listing field. Exactly one member is set, depending on the field. The list in that member is empty if the status of the recommendation is INSUFFICIENT_CONTEXT.
+    public enum ContentAlternatives: Swift.Sendable {
+        /// The proposed values for a text field, such as ProductTitle or LongDescription. You can have up to 3 alternatives.
+        case text([MarketplaceCatalogClientTypes.TextAlternative])
+        /// The proposed values for Highlights, SearchKeywords, or Categories. You can have up to 3 alternatives.
+        case textlist([MarketplaceCatalogClientTypes.TextListAlternative])
+        /// The proposed values for AdditionalResources. You can have up to 3 alternatives.
+        case additionalresources([MarketplaceCatalogClientTypes.AdditionalResourcesAlternative])
+        /// The proposed values for UseCases. You can have up to 3 alternatives.
+        case usecases([MarketplaceCatalogClientTypes.UseCasesAlternative])
+        /// The proposed values for CaseStudies. You can have up to 3 alternatives.
+        case casestudies([MarketplaceCatalogClientTypes.CaseStudiesAlternative])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum ListingFindingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListingFindingStatus] {
+            return [
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// One row of the checklist of criteria for a listing field. A row is either a criterion that the field already meets or advice for a criterion that it doesn't.
+    public struct ListingFinding: Swift.Sendable {
+        /// What you should do to meet the criterion.
+        /// This member is required.
+        public var action: Swift.String?
+        /// What the criterion asks for. The text is the same for every listing. The reasoning for a specific listing is in the rationale of the alternatives.
+        /// This member is required.
+        public var description: Swift.String?
+        /// How much the criterion blocks the listing. It is set on every row. For a row with a status of PASS, it is the weight of a criterion that is already met. Valid values are BLOCKING and ADVISORY.
+        /// This member is required.
+        public var severity: MarketplaceCatalogClientTypes.RecommendationSeverity?
+        /// The result for the criterion. Valid values are:
+        ///
+        /// * PASS - The criterion is met and no action is needed.
+        ///
+        /// * FAIL - The criterion isn't met or wasn't scored.
+        ///
+        ///
+        /// This value is different from the status of the content recommendation.
+        /// This member is required.
+        public var status: MarketplaceCatalogClientTypes.ListingFindingStatus?
+
+        public init(
+            action: Swift.String? = nil,
+            description: Swift.String? = nil,
+            severity: MarketplaceCatalogClientTypes.RecommendationSeverity? = nil,
+            status: MarketplaceCatalogClientTypes.ListingFindingStatus? = nil
+        ) {
+            self.action = action
+            self.description = description
+            self.severity = severity
+            self.status = status
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A question that you can answer to get a better recommendation, and the reason that it's asked.
+    public struct FollowUpQuestion: Swift.Sendable {
+        /// Why the question is asked.
+        /// This member is required.
+        public var justification: Swift.String?
+        /// The question to answer.
+        /// This member is required.
+        public var question: Swift.String?
+
+        public init(
+            justification: Swift.String? = nil,
+            question: Swift.String? = nil
+        ) {
+            self.justification = justification
+            self.question = question
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum ContentRecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generated
+        case insufficientContext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentRecommendationStatus] {
+            return [
+                .generated,
+                .insufficientContext
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .generated: return "GENERATED"
+            case .insufficientContext: return "INSUFFICIENT_CONTEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A recommendation for a listing field.
+    public struct ContentRecommendation: Swift.Sendable {
+        /// The proposed values for the field, in ranked order.
+        /// This member is required.
+        public var alternatives: MarketplaceCatalogClientTypes.ContentAlternatives?
+        /// The checklist of criteria for the field, in ranked order. It includes the criteria that the field passes and the criteria that it fails. The list is empty if there are none.
+        /// This member is required.
+        public var findings: [MarketplaceCatalogClientTypes.ListingFinding]?
+        /// Questions that you can answer to get a better recommendation. The list is empty if there are none.
+        /// This member is required.
+        public var followUpQuestions: [MarketplaceCatalogClientTypes.FollowUpQuestion]?
+        /// The status of the recommendation. Valid values are:
+        ///
+        /// * GENERATED - The service proposed values for the field.
+        ///
+        /// * INSUFFICIENT_CONTEXT - The service couldn't propose a value. The follow-up questions say what is missing.
+        /// This member is required.
+        public var status: MarketplaceCatalogClientTypes.ContentRecommendationStatus?
+
+        public init(
+            alternatives: MarketplaceCatalogClientTypes.ContentAlternatives? = nil,
+            findings: [MarketplaceCatalogClientTypes.ListingFinding]? = nil,
+            followUpQuestions: [MarketplaceCatalogClientTypes.FollowUpQuestion]? = nil,
+            status: MarketplaceCatalogClientTypes.ContentRecommendationStatus? = nil
+        ) {
+            self.alternatives = alternatives
+            self.findings = findings
+            self.followUpQuestions = followUpQuestions
+            self.status = status
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A source that the recommendations are based on.
+    public struct RecommendationCitation: Swift.Sendable {
+        /// The HTTPS URL of the source.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        ) {
+            self.url = url
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The content recommendations for a product listing, with one member for each listing field. A member is absent if nothing is recommended for that field.
+    public struct ProductContentRecommendations: Swift.Sendable {
+        /// The recommendation for the additional resources. Each alternative has up to 3 resources.
+        public var additionalResources: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the categories.
+        public var categories: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The sources that the recommendations are based on. You can have up to 5 sources. The list is empty if there are none.
+        /// This member is required.
+        public var citations: [MarketplaceCatalogClientTypes.RecommendationCitation]?
+        /// The recommendation for the highlights.
+        public var highlights: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the long description.
+        public var longDescription: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the product title.
+        public var productTitle: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the search keywords.
+        public var searchKeywords: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the short description.
+        public var shortDescription: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the support description.
+        public var supportDescription: MarketplaceCatalogClientTypes.ContentRecommendation?
+
+        public init(
+            additionalResources: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            categories: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            citations: [MarketplaceCatalogClientTypes.RecommendationCitation]? = nil,
+            highlights: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            longDescription: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            productTitle: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            searchKeywords: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            shortDescription: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            supportDescription: MarketplaceCatalogClientTypes.ContentRecommendation? = nil
+        ) {
+            self.additionalResources = additionalResources
+            self.categories = categories
+            self.citations = citations
+            self.highlights = highlights
+            self.longDescription = longDescription
+            self.productTitle = productTitle
+            self.searchKeywords = searchKeywords
+            self.shortDescription = shortDescription
+            self.supportDescription = supportDescription
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The content recommendations for a solution listing, with one member for each listing field. A member is absent if nothing is recommended for that field.
+    public struct SolutionContentRecommendations: Swift.Sendable {
+        /// The recommendation for the additional resources. Each alternative has up to 8 resources.
+        public var additionalResources: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the case studies of the solution. Each alternative has up to 20 case studies.
+        public var caseStudies: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The sources that the recommendations are based on. You can have up to 5 sources. The list is empty if there are none.
+        /// This member is required.
+        public var citations: [MarketplaceCatalogClientTypes.RecommendationCitation]?
+        /// The recommendation for the integration details of the solution.
+        public var integrationDetails: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the long description of the solution.
+        public var longDescription: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the value proposition of the solution.
+        public var shortDescription: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the external title of the solution.
+        public var title: MarketplaceCatalogClientTypes.ContentRecommendation?
+        /// The recommendation for the use cases of the solution.
+        public var useCases: MarketplaceCatalogClientTypes.ContentRecommendation?
+
+        public init(
+            additionalResources: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            caseStudies: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            citations: [MarketplaceCatalogClientTypes.RecommendationCitation]? = nil,
+            integrationDetails: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            longDescription: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            shortDescription: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            title: MarketplaceCatalogClientTypes.ContentRecommendation? = nil,
+            useCases: MarketplaceCatalogClientTypes.ContentRecommendation? = nil
+        ) {
+            self.additionalResources = additionalResources
+            self.caseStudies = caseStudies
+            self.citations = citations
+            self.integrationDetails = integrationDetails
+            self.longDescription = longDescription
+            self.shortDescription = shortDescription
+            self.title = title
+            self.useCases = useCases
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The recommendations that a listing recommendations control produced. Exactly one member is set, corresponding to the control: content recommendations for a product, content recommendations for a solution, or feature recommendations.
+    public enum ListingRecommendations: Swift.Sendable {
+        /// The content recommendations for a product listing.
+        case productcontentrecommendations(MarketplaceCatalogClientTypes.ProductContentRecommendations)
+        /// The content recommendations for a solution listing.
+        case solutioncontentrecommendations(MarketplaceCatalogClientTypes.SolutionContentRecommendations)
+        /// The recommendations for AWS Marketplace features to use with the listing, for a product or a solution.
+        case featurerecommendations(MarketplaceCatalogClientTypes.FeatureRecommendations)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A summary of what a control produced. Exactly one member is set, corresponding to the kind of control.
+    public enum ControlSummary: Swift.Sendable {
+        /// The recommendations that a listing recommendations control produced for the listing.
+        case listingrecommendations(MarketplaceCatalogClientTypes.ListingRecommendations)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// A name-value pair that identifies the resource or attribute that a ControlError applies to.
     public struct ErrorScope: Swift.Sendable {
         /// The name of the resource field the error applies to (for example, AMI_ID, FILE_PATH, or PACKAGE_NAME).
@@ -905,23 +1644,64 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum VerificationSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsVerified
+        case selfAttested
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationSource] {
+            return [
+                .awsVerified,
+                .selfAttested
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsVerified: return "AWS_VERIFIED"
+            case .selfAttested: return "SELF_ATTESTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// The result of evaluating a single control as part of an assessment.
     public struct ControlAssessment: Swift.Sendable {
         /// The result of the control evaluation.
         public var controlAssessmentResult: MarketplaceCatalogClientTypes.ControlAssessmentResult?
         /// The unique ID of the control that was evaluated.
         public var controlId: Swift.String?
+        /// A summary of what the control produced, such as recommendations for the listing.
+        public var controlSummary: MarketplaceCatalogClientTypes.ControlSummary?
         /// An array of ControlError objects associated with the control evaluation.
         public var errors: [MarketplaceCatalogClientTypes.ControlError]?
+        /// Where the result of the control came from. This value doesn't say whether the control passed. A control that you attested to can still have a result of PASS. Valid values are:
+        ///
+        /// * AWS_VERIFIED - AWS evaluated the control.
+        ///
+        /// * SELF_ATTESTED - You attested to the result of the control.
+        public var verificationSource: MarketplaceCatalogClientTypes.VerificationSource?
 
         public init(
             controlAssessmentResult: MarketplaceCatalogClientTypes.ControlAssessmentResult? = nil,
             controlId: Swift.String? = nil,
-            errors: [MarketplaceCatalogClientTypes.ControlError]? = nil
+            controlSummary: MarketplaceCatalogClientTypes.ControlSummary? = nil,
+            errors: [MarketplaceCatalogClientTypes.ControlError]? = nil,
+            verificationSource: MarketplaceCatalogClientTypes.VerificationSource? = nil
         ) {
             self.controlAssessmentResult = controlAssessmentResult
             self.controlId = controlId
+            self.controlSummary = controlSummary
             self.errors = errors
+            self.verificationSource = verificationSource
         }
     }
 }
@@ -1336,7 +2116,7 @@ public struct ListAssessmentsInput: Swift.Sendable {
     public var catalog: Swift.String?
     /// Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework.
     public var frameworkFilters: MarketplaceCatalogClientTypes.FrameworkFilters?
-    /// The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity.
+    /// The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity. Required when you use EntityIds in AssessmentTargetFilter.
     public var frameworkId: Swift.String?
     /// Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20. Valid values range from 1 to 100.
     public var maxResults: Swift.Int?
@@ -2347,6 +3127,21 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// A filter that matches offers by the ID of the subsidiary authorization they were created from. Not all offers have a SubsidiaryAuthorizationId.
+    public struct OfferSubsidiaryAuthorizationIdFilter: Swift.Sendable {
+        /// A list of subsidiary authorization IDs to filter offers by. You can include up to 10 subsidiary authorization IDs in this list.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Allows filtering on the TargetAgreementId of an offer.
     public struct OfferTargetAgreementIdFilter: Swift.Sendable {
         /// Allows filtering on the TargetAgreementId of an offer with list input.
@@ -2477,6 +3272,8 @@ extension MarketplaceCatalogClientTypes {
         public var resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter?
         /// Allows filtering on the State of an offer.
         public var state: MarketplaceCatalogClientTypes.OfferStateFilter?
+        /// A filter that matches offers by the ID of the subsidiary authorization that they were created from. Not all offers have a SubsidiaryAuthorizationId.
+        public var subsidiaryAuthorizationId: MarketplaceCatalogClientTypes.OfferSubsidiaryAuthorizationIdFilter?
         /// Allows filtering on the TargetAgreementId of an offer.
         public var targetAgreementId: MarketplaceCatalogClientTypes.OfferTargetAgreementIdFilter?
         /// Allows filtering on the TargetAgreementIntent of an offer.
@@ -2496,6 +3293,7 @@ extension MarketplaceCatalogClientTypes {
             releaseDate: MarketplaceCatalogClientTypes.OfferReleaseDateFilter? = nil,
             resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateFilter? = nil,
+            subsidiaryAuthorizationId: MarketplaceCatalogClientTypes.OfferSubsidiaryAuthorizationIdFilter? = nil,
             targetAgreementId: MarketplaceCatalogClientTypes.OfferTargetAgreementIdFilter? = nil,
             targetAgreementIntent: MarketplaceCatalogClientTypes.OfferTargetAgreementIntentFilter? = nil,
             targeting: MarketplaceCatalogClientTypes.OfferTargetingFilter? = nil
@@ -2511,6 +3309,7 @@ extension MarketplaceCatalogClientTypes {
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
+            self.subsidiaryAuthorizationId = subsidiaryAuthorizationId
             self.targetAgreementId = targetAgreementId
             self.targetAgreementIntent = targetAgreementIntent
             self.targeting = targeting
@@ -3912,6 +4711,7 @@ extension MarketplaceCatalogClientTypes {
         case releasedate
         case resaleauthorizationid
         case state
+        case subsidiaryauthorizationid
         case targetagreementid
         case targetagreementintent
         case targeting
@@ -3930,6 +4730,7 @@ extension MarketplaceCatalogClientTypes {
                 .releasedate,
                 .resaleauthorizationid,
                 .state,
+                .subsidiaryauthorizationid,
                 .targetagreementid,
                 .targetagreementintent,
                 .targeting
@@ -3954,6 +4755,7 @@ extension MarketplaceCatalogClientTypes {
             case .releasedate: return "ReleaseDate"
             case .resaleauthorizationid: return "ResaleAuthorizationId"
             case .state: return "State"
+            case .subsidiaryauthorizationid: return "SubsidiaryAuthorizationId"
             case .targetagreementid: return "TargetAgreementId"
             case .targetagreementintent: return "TargetAgreementIntent"
             case .targeting: return "Targeting"
@@ -4424,6 +5226,8 @@ extension MarketplaceCatalogClientTypes {
         public var resaleAuthorizationId: Swift.String?
         /// The status of the offer.
         public var state: MarketplaceCatalogClientTypes.OfferStateString?
+        /// The ID of the subsidiary authorization that the offer was created from. The ID begins with subauthz- followed by 13 alphanumeric characters.
+        public var subsidiaryAuthorizationId: Swift.String?
         /// The target agreement ID of the offer.
         public var targetAgreementId: Swift.String?
         /// The target agreement intent of the offer.
@@ -4441,6 +5245,7 @@ extension MarketplaceCatalogClientTypes {
             releaseDate: Swift.String? = nil,
             resaleAuthorizationId: Swift.String? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateString? = nil,
+            subsidiaryAuthorizationId: Swift.String? = nil,
             targetAgreementId: Swift.String? = nil,
             targetAgreementIntent: MarketplaceCatalogClientTypes.OfferTargetAgreementIntentString? = nil,
             targeting: [MarketplaceCatalogClientTypes.OfferTargetingString]? = nil
@@ -4454,6 +5259,7 @@ extension MarketplaceCatalogClientTypes {
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
+            self.subsidiaryAuthorizationId = subsidiaryAuthorizationId
             self.targetAgreementId = targetAgreementId
             self.targetAgreementIntent = targetAgreementIntent
             self.targeting = targeting
@@ -4773,6 +5579,71 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension MarketplaceCatalogClientTypes {
 
+    /// A control to run as part of an assessment, and the input to run it with.
+    public struct ControlInput: Swift.Sendable {
+        /// The unique identifier of the control to run.
+        /// This member is required.
+        public var controlId: Swift.String?
+        /// Optional. The input for the control, as a JSON document. The fields that a control accepts depend on the control.
+        public var input: Smithy.Document?
+
+        public init(
+            controlId: Swift.String? = nil,
+            input: Smithy.Document? = nil
+        ) {
+            self.controlId = controlId
+            self.input = input
+        }
+    }
+}
+
+public struct StartAssessmentInput: Swift.Sendable {
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique token to identify the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The controls to provide input for. Every control in the framework is included in the assessment, and a control that you don't specify gets no input. You can specify 1–100 controls.
+    public var controls: [MarketplaceCatalogClientTypes.ControlInput]?
+    /// The unique ID of the product entity to assess.
+    /// This member is required.
+    public var entityId: Swift.String?
+    /// The unique identifier of the framework that defines the controls to run.
+    /// This member is required.
+    public var frameworkId: Swift.String?
+    /// A map of tags to apply to the assessment when you create it. Each tag is a key-value pair. You can specify 1–200 tags.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        controls: [MarketplaceCatalogClientTypes.ControlInput]? = nil,
+        entityId: Swift.String? = nil,
+        frameworkId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.controls = controls
+        self.entityId = entityId
+        self.frameworkId = frameworkId
+        self.tags = tags
+    }
+}
+
+public struct StartAssessmentOutput: Swift.Sendable {
+    /// The unique ID of the assessment that was started.
+    public var assessmentId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// An object that contains the ChangeType, Details, and Entity.
     public struct Change: Swift.Sendable {
         /// Optional name for the change.
@@ -5072,6 +5943,13 @@ extension PutResourcePolicyInput {
     }
 }
 
+extension StartAssessmentInput {
+
+    static func urlPathProvider(_ value: StartAssessmentInput) -> Swift.String? {
+        return "/StartAssessment"
+    }
+}
+
 extension StartChangeSetInput {
 
     static func urlPathProvider(_ value: StartChangeSetInput) -> Swift.String? {
@@ -5167,6 +6045,19 @@ extension PutResourcePolicyInput {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
         try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension StartAssessmentInput {
+
+    static func write(value: StartAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Controls"].writeList(value.controls, memberWritingClosure: MarketplaceCatalogClientTypes.ControlInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EntityId"].write(value.entityId)
+        try writer["FrameworkId"].write(value.frameworkId)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5361,6 +6252,18 @@ extension PutResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
         return PutResourcePolicyOutput()
+    }
+}
+
+extension StartAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAssessmentOutput()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        return value
     }
 }
 
@@ -5606,6 +6509,26 @@ enum PutResourcePolicyOutputError {
     }
 }
 
+enum StartAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartChangeSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5767,6 +6690,29 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension MarketplaceCatalogClientTypes.AdditionalResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AdditionalResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.AdditionalResource()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AdditionalResourcesAlternative {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AdditionalResourcesAlternative {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.AdditionalResourcesAlternative()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.AdditionalResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.AmiProductEntityIdFilter {
 
     static func write(value: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
@@ -5881,6 +6827,7 @@ extension MarketplaceCatalogClientTypes.AssessmentTargetFilter {
         guard let value else { return }
         try writer["ChangeSetId"].write(value.changeSetId)
         try writer["EntityId"].write(value.entityId)
+        try writer["EntityIds"].writeList(value.entityIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5902,6 +6849,17 @@ extension MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
         var value = MarketplaceCatalogClientTypes.BatchDescribeErrorDetail()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.CaseStudiesAlternative {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.CaseStudiesAlternative {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.CaseStudiesAlternative()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ListingCaseStudy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6042,6 +7000,41 @@ extension MarketplaceCatalogClientTypes.ContainerSecuritySummary {
     }
 }
 
+extension MarketplaceCatalogClientTypes.ContentAlternatives {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContentAlternatives {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Text":
+                return .text(try reader["Text"].readList(memberReadingClosure: MarketplaceCatalogClientTypes.TextAlternative.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "TextList":
+                return .textlist(try reader["TextList"].readList(memberReadingClosure: MarketplaceCatalogClientTypes.TextListAlternative.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "AdditionalResources":
+                return .additionalresources(try reader["AdditionalResources"].readList(memberReadingClosure: MarketplaceCatalogClientTypes.AdditionalResourcesAlternative.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "UseCases":
+                return .usecases(try reader["UseCases"].readList(memberReadingClosure: MarketplaceCatalogClientTypes.UseCasesAlternative.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "CaseStudies":
+                return .casestudies(try reader["CaseStudies"].readList(memberReadingClosure: MarketplaceCatalogClientTypes.CaseStudiesAlternative.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContentRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContentRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ContentRecommendation()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.alternatives = try reader["Alternatives"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentAlternatives.read(from:))
+        value.followUpQuestions = try reader["FollowUpQuestions"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.FollowUpQuestion.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ListingFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.ControlAssessment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ControlAssessment {
@@ -6049,7 +7042,9 @@ extension MarketplaceCatalogClientTypes.ControlAssessment {
         var value = MarketplaceCatalogClientTypes.ControlAssessment()
         value.controlId = try reader["ControlId"].readIfPresent()
         value.controlAssessmentResult = try reader["ControlAssessmentResult"].readIfPresent()
+        value.verificationSource = try reader["VerificationSource"].readIfPresent()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ControlError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlSummary = try reader["ControlSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ControlSummary.read(from:))
         return value
     }
 }
@@ -6063,6 +7058,29 @@ extension MarketplaceCatalogClientTypes.ControlError {
         value.message = try reader["Message"].readIfPresent()
         value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ErrorScope.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ControlInput {
+
+    static func write(value: MarketplaceCatalogClientTypes.ControlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ControlId"].write(value.controlId)
+        try writer["Input"].write(value.input)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ControlSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ControlSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ListingRecommendations":
+                return .listingrecommendations(try reader["ListingRecommendations"].read(with: MarketplaceCatalogClientTypes.ListingRecommendations.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6342,12 +7360,47 @@ extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary 
     }
 }
 
+extension MarketplaceCatalogClientTypes.FeatureRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.FeatureRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.FeatureRecommendation()
+        value.featureId = try reader["FeatureId"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["Action"].readIfPresent() ?? ""
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        value.severity = try reader["Severity"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.FeatureRecommendations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.FeatureRecommendations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.FeatureRecommendations()
+        value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.FeatureRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.Filter {
 
     static func write(value: MarketplaceCatalogClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.FollowUpQuestion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.FollowUpQuestion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.FollowUpQuestion()
+        value.question = try reader["Question"].readIfPresent() ?? ""
+        value.justification = try reader["Justification"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -6376,9 +7429,94 @@ extension MarketplaceCatalogClientTypes.FrameworkSummary {
                 return .amisecuritysummary(try reader["AMISecuritySummary"].read(with: MarketplaceCatalogClientTypes.AMISecuritySummary.read(from:)))
             case "ContainerSecuritySummary":
                 return .containersecuritysummary(try reader["ContainerSecuritySummary"].read(with: MarketplaceCatalogClientTypes.ContainerSecuritySummary.read(from:)))
+            case "ListingQualitySummary":
+                return .listingqualitysummary(try reader["ListingQualitySummary"].read(with: MarketplaceCatalogClientTypes.ListingQualitySummary.read(from:)))
+            case "ListingRecommendationsSummary":
+                return .listingrecommendationssummary(try reader["ListingRecommendationsSummary"].read(with: MarketplaceCatalogClientTypes.ListingRecommendationsSummary.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingCaseStudy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingCaseStudy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ListingCaseStudy()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ListingFinding()
+        value.action = try reader["Action"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.severity = try reader["Severity"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingQualitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingQualitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ListingQualitySummary()
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.entityRevision = try reader["EntityRevision"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingRecommendations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingRecommendations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ProductContentRecommendations":
+                return .productcontentrecommendations(try reader["ProductContentRecommendations"].read(with: MarketplaceCatalogClientTypes.ProductContentRecommendations.read(from:)))
+            case "SolutionContentRecommendations":
+                return .solutioncontentrecommendations(try reader["SolutionContentRecommendations"].read(with: MarketplaceCatalogClientTypes.SolutionContentRecommendations.read(from:)))
+            case "FeatureRecommendations":
+                return .featurerecommendations(try reader["FeatureRecommendations"].read(with: MarketplaceCatalogClientTypes.FeatureRecommendations.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingRecommendationsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingRecommendationsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ListingRecommendationsSummary()
+        value.tier = try reader["Tier"].readIfPresent() ?? .sdkUnknown("")
+        value.entityRevision = try reader["EntityRevision"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ListingUseCase {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ListingUseCase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ListingUseCase()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.rank = try reader["Rank"].readIfPresent() ?? 0
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.group = try reader["Group"].readIfPresent() ?? ""
+        value.subgroup = try reader["Subgroup"].readIfPresent() ?? ""
+        value.useCaseDetails = try reader["UseCaseDetails"].readIfPresent()
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -6511,6 +7649,7 @@ extension MarketplaceCatalogClientTypes.OfferFilters {
         try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilter.write(value:to:))
         try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId, with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.write(value:to:))
         try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferStateFilter.write(value:to:))
+        try writer["SubsidiaryAuthorizationId"].write(value.subsidiaryAuthorizationId, with: MarketplaceCatalogClientTypes.OfferSubsidiaryAuthorizationIdFilter.write(value:to:))
         try writer["TargetAgreementId"].write(value.targetAgreementId, with: MarketplaceCatalogClientTypes.OfferTargetAgreementIdFilter.write(value:to:))
         try writer["TargetAgreementIntent"].write(value.targetAgreementIntent, with: MarketplaceCatalogClientTypes.OfferTargetAgreementIntentFilter.write(value:to:))
         try writer["Targeting"].write(value.targeting, with: MarketplaceCatalogClientTypes.OfferTargetingFilter.write(value:to:))
@@ -6712,6 +7851,14 @@ extension MarketplaceCatalogClientTypes.OfferStateFilter {
     }
 }
 
+extension MarketplaceCatalogClientTypes.OfferSubsidiaryAuthorizationIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSubsidiaryAuthorizationIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MarketplaceCatalogClientTypes.OfferSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSummary {
@@ -6720,6 +7867,7 @@ extension MarketplaceCatalogClientTypes.OfferSummary {
         value.name = try reader["Name"].readIfPresent()
         value.productId = try reader["ProductId"].readIfPresent()
         value.resaleAuthorizationId = try reader["ResaleAuthorizationId"].readIfPresent()
+        value.subsidiaryAuthorizationId = try reader["SubsidiaryAuthorizationId"].readIfPresent()
         value.releaseDate = try reader["ReleaseDate"].readIfPresent()
         value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
         value.buyerAccounts = try reader["BuyerAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6754,6 +7902,34 @@ extension MarketplaceCatalogClientTypes.OfferTargetingFilter {
     static func write(value: MarketplaceCatalogClientTypes.OfferTargetingFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ProductContentRecommendations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ProductContentRecommendations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ProductContentRecommendations()
+        value.productTitle = try reader["ProductTitle"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.shortDescription = try reader["ShortDescription"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.longDescription = try reader["LongDescription"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.supportDescription = try reader["SupportDescription"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.highlights = try reader["Highlights"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.searchKeywords = try reader["SearchKeywords"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.categories = try reader["Categories"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.additionalResources = try reader["AdditionalResources"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.citations = try reader["Citations"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.RecommendationCitation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.RecommendationCitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.RecommendationCitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.RecommendationCitation()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -7049,6 +8225,23 @@ extension MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter {
     }
 }
 
+extension MarketplaceCatalogClientTypes.SolutionContentRecommendations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SolutionContentRecommendations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.SolutionContentRecommendations()
+        value.title = try reader["Title"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.shortDescription = try reader["ShortDescription"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.longDescription = try reader["LongDescription"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.integrationDetails = try reader["IntegrationDetails"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.additionalResources = try reader["AdditionalResources"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.useCases = try reader["UseCases"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.caseStudies = try reader["CaseStudies"].readIfPresent(with: MarketplaceCatalogClientTypes.ContentRecommendation.read(from:))
+        value.citations = try reader["Citations"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.RecommendationCitation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.Sort {
 
     static func write(value: MarketplaceCatalogClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
@@ -7194,6 +8387,39 @@ extension MarketplaceCatalogClientTypes.Tag {
         var value = MarketplaceCatalogClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.TextAlternative {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.TextAlternative {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.TextAlternative()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.TextListAlternative {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.TextListAlternative {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.TextListAlternative()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.UseCasesAlternative {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.UseCasesAlternative {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.UseCasesAlternative()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ListingUseCase.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rationale = try reader["Rationale"].readIfPresent() ?? ""
         return value
     }
 }

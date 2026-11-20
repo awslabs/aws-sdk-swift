@@ -41,6 +41,234 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 extension KafkaClientTypes {
 
+    /// The category of an assessment finding.
+    public enum FindingCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case brokerConfiguration
+        case capacity
+        case health
+        case infrastructure
+        case topicConfiguration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingCategory] {
+            return [
+                .brokerConfiguration,
+                .capacity,
+                .health,
+                .infrastructure,
+                .topicConfiguration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .brokerConfiguration: return "BROKER_CONFIGURATION"
+            case .capacity: return "CAPACITY"
+            case .health: return "HEALTH"
+            case .infrastructure: return "INFRASTRUCTURE"
+            case .topicConfiguration: return "TOPIC_CONFIGURATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Guidance for resolving a finding.
+    public struct FindingRemediation: Swift.Sendable {
+        /// The recommended action to resolve this finding.
+        public var action: Swift.String?
+        /// A link to documentation with more detail about this finding and how to resolve it.
+        public var documentationUrl: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            documentationUrl: Swift.String? = nil
+        ) {
+            self.action = action
+            self.documentationUrl = documentationUrl
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The severity level of an assessment finding.
+    public enum FindingSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case info
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingSeverity] {
+            return [
+                .error,
+                .info,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// A single finding from an assessment, describing a specific issue or observation.
+    public struct AssessmentFinding: Swift.Sendable {
+        /// The category of this finding.
+        /// This member is required.
+        public var category: KafkaClientTypes.FindingCategory?
+        /// A deterministic content-based identifier for this finding. Generated from hash(category + resource + check_type). The same resource with the same problem always produces the same findingId across assessment runs.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// Human-readable description of what is wrong, why it matters, and what to do.
+        /// This member is required.
+        public var message: Swift.String?
+        /// Guidance for resolving this finding. Absent when no specific remediation applies.
+        public var remediation: KafkaClientTypes.FindingRemediation?
+        /// The specific resource affected (e.g., topic name). Absent for cluster-level findings.
+        public var resource: Swift.String?
+        /// The severity of this finding.
+        /// This member is required.
+        public var severity: KafkaClientTypes.FindingSeverity?
+
+        public init(
+            category: KafkaClientTypes.FindingCategory? = nil,
+            findingId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            remediation: KafkaClientTypes.FindingRemediation? = nil,
+            resource: Swift.String? = nil,
+            severity: KafkaClientTypes.FindingSeverity? = nil
+        ) {
+            self.category = category
+            self.findingId = findingId
+            self.message = message
+            self.remediation = remediation
+            self.resource = resource
+            self.severity = severity
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The type of assessment to perform.
+    public enum AssessmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updateBrokerType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentType] {
+            return [
+                .updateBrokerType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .updateBrokerType: return "UPDATE_BROKER_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The lifecycle status of an assessment.
+    public enum AssessmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case deleting
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentStatus] {
+            return [
+                .complete,
+                .deleting,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Summary information about an assessment, returned by ListAssessments.
+    public struct AssessmentInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the assessment.
+        public var assessmentArn: Swift.String?
+        /// The type of assessment.
+        public var assessmentType: KafkaClientTypes.AssessmentType?
+        /// The Amazon Resource Name (ARN) of the cluster that was assessed.
+        public var clusterArn: Swift.String?
+        /// The time when the assessment was created.
+        public var creationTime: Foundation.Date?
+        /// The current status of the assessment.
+        public var status: KafkaClientTypes.AssessmentStatus?
+        /// The tags attached to the assessment.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            assessmentArn: Swift.String? = nil,
+            assessmentType: KafkaClientTypes.AssessmentType? = nil,
+            clusterArn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            status: KafkaClientTypes.AssessmentStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.assessmentArn = assessmentArn
+            self.assessmentType = assessmentType
+            self.clusterArn = clusterArn
+            self.creationTime = creationTime
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Contains information about provisioned throughput for EBS storage volumes attached to kafka broker nodes.
     public struct ProvisionedThroughput: Swift.Sendable {
         /// Provisioned throughput is enabled or not.
@@ -1550,6 +1778,55 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// How topics are reassigned to the target broker type after an UpdateBrokerType operation adds brokers of that type. AUTO: Amazon MSK reassigns all topics. MANUAL: you reassign topics with the StartTopicReassignment operation.
+    public enum TopicReassignmentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicReassignmentMode] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Information about the topic reassignment of an UpdateBrokerType operation that upgrades a cluster from Standard brokers to Express brokers. Present only on the operation that initiated the upgrade.
+    public struct BrokerTypeUpgradeInfo: Swift.Sendable {
+        /// How topics are reassigned to the Express brokers.
+        public var topicReassignmentMode: KafkaClientTypes.TopicReassignmentMode?
+        /// The Amazon Resource Name (ARN) of the topic reassignment operation that Amazon MSK started for this upgrade. Present once that reassignment has started. Under MANUAL you start reassignments yourself, so Amazon MSK starts none.
+        public var topicReassignmentOperationArn: Swift.String?
+
+        public init(
+            topicReassignmentMode: KafkaClientTypes.TopicReassignmentMode? = nil,
+            topicReassignmentOperationArn: Swift.String? = nil
+        ) {
+            self.topicReassignmentMode = topicReassignmentMode
+            self.topicReassignmentOperationArn = topicReassignmentOperationArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Returns information about an error state of the cluster.
     public struct ErrorInfo: Swift.Sendable {
         /// A number describing the error programmatically.
@@ -1807,6 +2084,8 @@ extension KafkaClientTypes {
 
     /// Returns information about a cluster operation.
     public struct ClusterOperationInfo: Swift.Sendable {
+        /// Topic reassignment details of the UpdateBrokerType operation that started an upgrade from Standard brokers to Express brokers.
+        public var brokerTypeUpgradeInfo: KafkaClientTypes.BrokerTypeUpgradeInfo?
         /// The ID of the API request that triggered this operation.
         public var clientRequestId: Swift.String?
         /// ARN of the cluster.
@@ -1833,6 +2112,7 @@ extension KafkaClientTypes {
         public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo?
 
         public init(
+            brokerTypeUpgradeInfo: KafkaClientTypes.BrokerTypeUpgradeInfo? = nil,
             clientRequestId: Swift.String? = nil,
             clusterArn: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
@@ -1846,6 +2126,7 @@ extension KafkaClientTypes {
             targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
         ) {
+            self.brokerTypeUpgradeInfo = brokerTypeUpgradeInfo
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
             self.creationTime = creationTime
@@ -2609,12 +2890,44 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The broker type of an individual broker node. STANDARD: a Standard broker. EXPRESS: an Express broker. A cluster contains brokers of both types while an UpdateBrokerType operation upgrades it in place from Standard brokers to Express brokers.
+    public enum BrokerNodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case express
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrokerNodeType] {
+            return [
+                .express,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .express: return "EXPRESS"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// BrokerNodeInfo
     public struct BrokerNodeInfo: Swift.Sendable {
         /// The attached elastic network interface of the broker.
         public var attachedENIId: Swift.String?
         /// The ID of the broker.
         public var brokerId: Swift.Double?
+        /// Whether this broker is a Standard broker or an Express broker. While an UpdateBrokerType operation upgrades a cluster in place from Standard brokers to Express brokers, the cluster contains brokers of both types and this field tells them apart.
+        public var brokerNodeType: KafkaClientTypes.BrokerNodeType?
         /// The client subnet to which this broker node belongs.
         public var clientSubnet: Swift.String?
         /// The virtual private cloud (VPC) of the client.
@@ -2627,6 +2940,7 @@ extension KafkaClientTypes {
         public init(
             attachedENIId: Swift.String? = nil,
             brokerId: Swift.Double? = nil,
+            brokerNodeType: KafkaClientTypes.BrokerNodeType? = nil,
             clientSubnet: Swift.String? = nil,
             clientVpcIpAddress: Swift.String? = nil,
             currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo? = nil,
@@ -2634,6 +2948,7 @@ extension KafkaClientTypes {
         ) {
             self.attachedENIId = attachedENIId
             self.brokerId = brokerId
+            self.brokerNodeType = brokerNodeType
             self.clientSubnet = clientSubnet
             self.clientVpcIpAddress = clientVpcIpAddress
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
@@ -3264,6 +3579,8 @@ extension KafkaClientTypes {
         public var outOfSyncReplicaCount: Swift.Int?
         /// Partition count for a topic.
         public var partitionCount: Swift.Int?
+        /// The broker IDs hosting replicas of this topic's partitions.
+        public var replicaIds: [Swift.Int]?
         /// Replication factor for a topic.
         public var replicationFactor: Swift.Int?
         /// The Amazon Resource Name (ARN) of the topic.
@@ -3274,12 +3591,14 @@ extension KafkaClientTypes {
         public init(
             outOfSyncReplicaCount: Swift.Int? = nil,
             partitionCount: Swift.Int? = nil,
+            replicaIds: [Swift.Int]? = nil,
             replicationFactor: Swift.Int? = nil,
             topicArn: Swift.String? = nil,
             topicName: Swift.String? = nil
         ) {
             self.outOfSyncReplicaCount = outOfSyncReplicaCount
             self.partitionCount = partitionCount
+            self.replicaIds = replicaIds
             self.replicationFactor = replicationFactor
             self.topicArn = topicArn
             self.topicName = topicName
@@ -3310,6 +3629,83 @@ extension KafkaClientTypes {
             self.leader = leader
             self.partition = partition
             self.replicas = replicas
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The lifecycle status of a topic reassignment operation.
+    public enum TopicReassignmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case pending
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicReassignmentStatus] {
+            return [
+                .complete,
+                .failed,
+                .inProgress,
+                .pending,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Summary information about a topic reassignment operation.
+    public struct TopicReassignmentInfo: Swift.Sendable {
+        /// Number of topics fully migrated.
+        public var completedTopics: Swift.Int?
+        /// When the operation was created.
+        public var creationTime: Foundation.Date?
+        /// The current status of the reassignment operation.
+        public var status: KafkaClientTypes.TopicReassignmentStatus?
+        /// The target broker instance type for this reassignment.
+        public var targetInstanceType: Swift.String?
+        /// The Amazon Resource Name (ARN) of the topic reassignment operation.
+        public var topicReassignmentOperationArn: Swift.String?
+        /// Total number of topics matching the selector.
+        public var totalTopics: Swift.Int?
+
+        public init(
+            completedTopics: Swift.Int? = nil,
+            creationTime: Foundation.Date? = nil,
+            status: KafkaClientTypes.TopicReassignmentStatus? = nil,
+            targetInstanceType: Swift.String? = nil,
+            topicReassignmentOperationArn: Swift.String? = nil,
+            totalTopics: Swift.Int? = nil
+        ) {
+            self.completedTopics = completedTopics
+            self.creationTime = creationTime
+            self.status = status
+            self.targetInstanceType = targetInstanceType
+            self.topicReassignmentOperationArn = topicReassignmentOperationArn
+            self.totalTopics = totalTopics
         }
     }
 }
@@ -3370,6 +3766,52 @@ extension KafkaClientTypes {
             self.targetClusterArn = targetClusterArn
             self.vpcConnectionArn = vpcConnectionArn
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Type-specific parameters for the assessment. All fields are optional.
+    public struct AssessmentParameters: Swift.Sendable {
+        /// The target instance type to assess against (for example, express.m7g.large). Optional: when omitted, the assessment reports a recommended instance type as a CAPACITY finding. Supply it to assess readiness for a specific instance type.
+        public var targetInstanceType: Swift.String?
+
+        public init(
+            targetInstanceType: Swift.String? = nil
+        ) {
+            self.targetInstanceType = targetInstanceType
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Summary of assessment findings broken down by category and severity.
+    public struct AssessmentSummary: Swift.Sendable {
+        /// Count of findings grouped by category.
+        public var byCategory: [Swift.String: Swift.Int]?
+        /// Count of findings grouped by severity.
+        public var bySeverity: [Swift.String: Swift.Int]?
+        /// True when the assessment detected more findings than it stores. Resolve the reported findings and re-run the assessment to surface the remaining ones.
+        public var findingsCapped: Swift.Bool?
+        /// True when the assessment detected at least one ERROR-severity finding. ERROR findings block the migration until resolved.
+        public var hasBlockingFindings: Swift.Bool?
+        /// The total number of findings detected by the assessment, including any findings beyond the stored-findings cap.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            byCategory: [Swift.String: Swift.Int]? = nil,
+            bySeverity: [Swift.String: Swift.Int]? = nil,
+            findingsCapped: Swift.Bool? = nil,
+            hasBlockingFindings: Swift.Bool? = nil,
+            totalFindings: Swift.Int? = nil
+        ) {
+            self.byCategory = byCategory
+            self.bySeverity = bySeverity
+            self.findingsCapped = findingsCapped
+            self.hasBlockingFindings = hasBlockingFindings
+            self.totalFindings = totalFindings
         }
     }
 }
@@ -3729,6 +4171,8 @@ extension KafkaClientTypes {
 
     /// Returns information about a provisioned cluster operation.
     public struct ClusterOperationV2Provisioned: Swift.Sendable {
+        /// Topic reassignment details of the UpdateBrokerType operation that started an upgrade from Standard brokers to Express brokers.
+        public var brokerTypeUpgradeInfo: KafkaClientTypes.BrokerTypeUpgradeInfo?
         /// Steps completed during the operation.
         public var operationSteps: [KafkaClientTypes.ClusterOperationStep]?
         /// Information about cluster attributes before a cluster is updated.
@@ -3739,11 +4183,13 @@ extension KafkaClientTypes {
         public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo?
 
         public init(
+            brokerTypeUpgradeInfo: KafkaClientTypes.BrokerTypeUpgradeInfo? = nil,
             operationSteps: [KafkaClientTypes.ClusterOperationStep]? = nil,
             sourceClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
         ) {
+            self.brokerTypeUpgradeInfo = brokerTypeUpgradeInfo
             self.operationSteps = operationSteps
             self.sourceClusterInfo = sourceClusterInfo
             self.targetClusterInfo = targetClusterInfo
@@ -3937,6 +4383,60 @@ public struct ControllerMovedException: ClientRuntime.ModeledError, AWSClientRun
     ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
+    }
+}
+
+/// Creates a new assessment for a cluster. Kicks off an asynchronous scan and returns immediately with an assessment ARN and status.
+public struct CreateAssessmentInput: Swift.Sendable {
+    /// Optional type-specific parameters for the assessment.
+    public var assessmentParameters: KafkaClientTypes.AssessmentParameters?
+    /// The type of assessment to perform.
+    /// This member is required.
+    public var assessmentType: KafkaClientTypes.AssessmentType?
+    /// The Amazon Resource Name (ARN) of the cluster to assess.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The tags to attach to the assessment.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        assessmentParameters: KafkaClientTypes.AssessmentParameters? = nil,
+        assessmentType: KafkaClientTypes.AssessmentType? = nil,
+        clusterArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.assessmentParameters = assessmentParameters
+        self.assessmentType = assessmentType
+        self.clusterArn = clusterArn
+        self.tags = tags
+    }
+}
+
+/// Returns information about the created assessment.
+public struct CreateAssessmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment.
+    public var assessmentArn: Swift.String?
+    /// The type of assessment.
+    public var assessmentType: KafkaClientTypes.AssessmentType?
+    /// The Amazon Resource Name (ARN) of the cluster being assessed.
+    public var clusterArn: Swift.String?
+    /// The time when the assessment was created.
+    public var creationTime: Foundation.Date?
+    /// The current status of the assessment.
+    public var status: KafkaClientTypes.AssessmentStatus?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        assessmentType: KafkaClientTypes.AssessmentType? = nil,
+        clusterArn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        status: KafkaClientTypes.AssessmentStatus? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.assessmentType = assessmentType
+        self.clusterArn = clusterArn
+        self.creationTime = creationTime
+        self.status = status
     }
 }
 
@@ -5063,6 +5563,39 @@ public struct CreateVpcConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteAssessmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment to delete.
+    /// This member is required.
+    public var assessmentArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        clusterArn: Swift.String? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.clusterArn = clusterArn
+    }
+}
+
+/// Returns the result of deleting an assessment.
+public struct DeleteAssessmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment being deleted.
+    public var assessmentArn: Swift.String?
+    /// The current status of the assessment. Will be DELETING.
+    public var status: KafkaClientTypes.AssessmentStatus?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        status: KafkaClientTypes.AssessmentStatus? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.status = status
+    }
+}
+
 public struct DeleteChannelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
     /// This member is required.
@@ -5263,6 +5796,71 @@ public struct DeleteVpcConnectionOutput: Swift.Sendable {
     ) {
         self.state = state
         self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+public struct DescribeAssessmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment.
+    /// This member is required.
+    public var assessmentArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        clusterArn: Swift.String? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.clusterArn = clusterArn
+    }
+}
+
+/// Returns the status and summary of an assessment.
+public struct DescribeAssessmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment.
+    public var assessmentArn: Swift.String?
+    /// The parameters that were provided when creating the assessment.
+    public var assessmentParameters: KafkaClientTypes.AssessmentParameters?
+    /// The type of assessment.
+    public var assessmentType: KafkaClientTypes.AssessmentType?
+    /// The Amazon Resource Name (ARN) of the cluster that was assessed.
+    public var clusterArn: Swift.String?
+    /// The time when the assessment completed. Present only when status is COMPLETE or FAILED.
+    public var completionTime: Foundation.Date?
+    /// The time when the assessment was created.
+    public var creationTime: Foundation.Date?
+    /// The current status of the assessment.
+    public var status: KafkaClientTypes.AssessmentStatus?
+    /// Additional information about the current status. Present when status is FAILED.
+    public var statusMessage: Swift.String?
+    /// Summary of findings by category and severity. Present only when status is COMPLETE.
+    public var summary: KafkaClientTypes.AssessmentSummary?
+    /// The tags attached to the assessment.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        assessmentParameters: KafkaClientTypes.AssessmentParameters? = nil,
+        assessmentType: KafkaClientTypes.AssessmentType? = nil,
+        clusterArn: Swift.String? = nil,
+        completionTime: Foundation.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        status: KafkaClientTypes.AssessmentStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        summary: KafkaClientTypes.AssessmentSummary? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.assessmentParameters = assessmentParameters
+        self.assessmentType = assessmentType
+        self.clusterArn = clusterArn
+        self.completionTime = completionTime
+        self.creationTime = creationTime
+        self.status = status
+        self.statusMessage = statusMessage
+        self.summary = summary
+        self.tags = tags
     }
 }
 
@@ -5648,6 +6246,8 @@ public struct DescribeTopicOutput: Swift.Sendable {
     public var configs: Swift.String?
     /// The partition count of the topic.
     public var partitionCount: Swift.Int?
+    /// The broker IDs hosting replicas of this topic's partitions.
+    public var replicaIds: [Swift.Int]?
     /// The replication factor of the topic.
     public var replicationFactor: Swift.Int?
     /// The status of the topic.
@@ -5660,6 +6260,7 @@ public struct DescribeTopicOutput: Swift.Sendable {
     public init(
         configs: Swift.String? = nil,
         partitionCount: Swift.Int? = nil,
+        replicaIds: [Swift.Int]? = nil,
         replicationFactor: Swift.Int? = nil,
         status: KafkaClientTypes.TopicState? = nil,
         topicArn: Swift.String? = nil,
@@ -5667,6 +6268,7 @@ public struct DescribeTopicOutput: Swift.Sendable {
     ) {
         self.configs = configs
         self.partitionCount = partitionCount
+        self.replicaIds = replicaIds
         self.replicationFactor = replicationFactor
         self.status = status
         self.topicArn = topicArn
@@ -5711,6 +6313,83 @@ public struct DescribeTopicPartitionsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.partitions = partitions
+    }
+}
+
+public struct DescribeTopicReassignmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the topic reassignment operation.
+    /// This member is required.
+    public var topicReassignmentOperationArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicReassignmentOperationArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicReassignmentOperationArn = topicReassignmentOperationArn
+    }
+}
+
+/// Returns the status and progress of a topic reassignment operation.
+public struct DescribeTopicReassignmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    public var clusterArn: Swift.String?
+    /// Number of topics fully migrated to the target broker type.
+    public var completedTopics: Swift.Int?
+    /// When the operation was created.
+    public var creationTime: Foundation.Date?
+    /// Error details. Present only when status is FAILED.
+    public var errorInfo: KafkaClientTypes.ErrorInfo?
+    /// Last time the status or progress counters were updated.
+    public var lastUpdateTime: Foundation.Date?
+    /// Number of partitions confirmed on the target broker type.
+    public var migratedPartitions: Swift.Int?
+    /// The current status of the reassignment operation.
+    public var status: KafkaClientTypes.TopicReassignmentStatus?
+    /// The target broker instance type for this reassignment.
+    public var targetInstanceType: Swift.String?
+    /// The Amazon Resource Name (ARN) of the topic reassignment operation.
+    public var topicReassignmentOperationArn: Swift.String?
+    /// The original exclude patterns provided in the request.
+    public var topicsToExclude: [Swift.String]?
+    /// The original include patterns provided in the request.
+    public var topicsToInclude: [Swift.String]?
+    /// Total number of partitions across all matched topics.
+    public var totalPartitions: Swift.Int?
+    /// Total number of topics matching the selector at resolution time.
+    public var totalTopics: Swift.Int?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        completedTopics: Swift.Int? = nil,
+        creationTime: Foundation.Date? = nil,
+        errorInfo: KafkaClientTypes.ErrorInfo? = nil,
+        lastUpdateTime: Foundation.Date? = nil,
+        migratedPartitions: Swift.Int? = nil,
+        status: KafkaClientTypes.TopicReassignmentStatus? = nil,
+        targetInstanceType: Swift.String? = nil,
+        topicReassignmentOperationArn: Swift.String? = nil,
+        topicsToExclude: [Swift.String]? = nil,
+        topicsToInclude: [Swift.String]? = nil,
+        totalPartitions: Swift.Int? = nil,
+        totalTopics: Swift.Int? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.completedTopics = completedTopics
+        self.creationTime = creationTime
+        self.errorInfo = errorInfo
+        self.lastUpdateTime = lastUpdateTime
+        self.migratedPartitions = migratedPartitions
+        self.status = status
+        self.targetInstanceType = targetInstanceType
+        self.topicReassignmentOperationArn = topicReassignmentOperationArn
+        self.topicsToExclude = topicsToExclude
+        self.topicsToInclude = topicsToInclude
+        self.totalPartitions = totalPartitions
+        self.totalTopics = totalTopics
     }
 }
 
@@ -5906,6 +6585,95 @@ extension KafkaClientTypes {
         ) {
             self.dataFreshnessInSeconds = dataFreshnessInSeconds
         }
+    }
+}
+
+public struct ListAssessmentFindingsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the assessment.
+    /// This member is required.
+    public var assessmentArn: Swift.String?
+    /// Optional filter. Only return findings matching this category.
+    public var category: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Maximum number of findings to return. Default 100, maximum 500.
+    public var maxResults: Swift.Int?
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+    /// Optional filter. Only return findings matching this severity.
+    public var severity: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        category: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        severity: Swift.String? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.category = category
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.severity = severity
+    }
+}
+
+/// Returns the findings for a completed assessment.
+public struct ListAssessmentFindingsOutput: Swift.Sendable {
+    /// A list of findings from the assessment.
+    public var findings: [KafkaClientTypes.AssessmentFinding]?
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+
+    public init(
+        findings: [KafkaClientTypes.AssessmentFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.findings = findings
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAssessmentsInput: Swift.Sendable {
+    /// Optional filter. The type of assessment to filter by.
+    public var assessmentType: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster to list assessments for.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Maximum number of assessments to return. Default 25, maximum 100.
+    public var maxResults: Swift.Int?
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentType: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessmentType = assessmentType
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Returns a list of assessments.
+public struct ListAssessmentsOutput: Swift.Sendable {
+    /// A list of assessment summaries.
+    public var assessments: [KafkaClientTypes.AssessmentInfo]?
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessments: [KafkaClientTypes.AssessmentInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessments = assessments
+        self.nextToken = nextToken
     }
 }
 
@@ -6346,6 +7114,46 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListTopicReassignmentsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Maximum number of reassignment operations to return. Default 50, maximum 100.
+    public var maxResults: Swift.Int?
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+    /// Optional filter. Only return reassignments matching these statuses.
+    public var statusFilter: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statusFilter: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statusFilter = statusFilter
+    }
+}
+
+/// Returns a list of topic reassignment operations for a cluster.
+public struct ListTopicReassignmentsOutput: Swift.Sendable {
+    /// If the response is truncated, it returns a nextToken. Send this in the subsequent request to get the remaining results.
+    public var nextToken: Swift.String?
+    /// A list of topic reassignment operation summaries.
+    public var reassignments: [KafkaClientTypes.TopicReassignmentInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reassignments: [KafkaClientTypes.TopicReassignmentInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reassignments = reassignments
+    }
+}
+
 public struct ListTopicsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
     /// This member is required.
@@ -6502,6 +7310,90 @@ public struct RejectClientVpcConnectionOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Initiates topic partition reassignment between broker types in a mixed-mode cluster.
+public struct StartTopicReassignmentInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token within 24 hours, the API returns the original response without creating a duplicate operation.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Instance type of the target brokers. Must exist in the cluster. Use Express instance type (e.g., express.m7g.large) for Standard-to-Express migration. Use Standard instance type (e.g., kafka.m7g.large) to move topics back to Standard.
+    /// This member is required.
+    public var targetInstanceType: Swift.String?
+    /// Regex patterns for topics to exclude from reassignment. Evaluated after include patterns.
+    public var topicsToExclude: [Swift.String]?
+    /// Regex patterns for topics to reassign. Use ['.*'] for all topics. Max 10 patterns.
+    /// This member is required.
+    public var topicsToInclude: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        targetInstanceType: Swift.String? = nil,
+        topicsToExclude: [Swift.String]? = nil,
+        topicsToInclude: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.targetInstanceType = targetInstanceType
+        self.topicsToExclude = topicsToExclude
+        self.topicsToInclude = topicsToInclude
+    }
+}
+
+/// Returns information about the initiated topic reassignment operation.
+public struct StartTopicReassignmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    public var clusterArn: Swift.String?
+    /// The current status of the reassignment operation.
+    public var status: KafkaClientTypes.TopicReassignmentStatus?
+    /// The Amazon Resource Name (ARN) of the topic reassignment operation.
+    public var topicReassignmentOperationArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        status: KafkaClientTypes.TopicReassignmentStatus? = nil,
+        topicReassignmentOperationArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.status = status
+        self.topicReassignmentOperationArn = topicReassignmentOperationArn
+    }
+}
+
+public struct StopTopicReassignmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the topic reassignment operation to stop.
+    /// This member is required.
+    public var topicReassignmentOperationArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicReassignmentOperationArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicReassignmentOperationArn = topicReassignmentOperationArn
+    }
+}
+
+/// Returns the result of stopping a topic reassignment operation.
+public struct StopTopicReassignmentOutput: Swift.Sendable {
+    /// The current status of the operation. Will be STOPPING.
+    public var status: KafkaClientTypes.TopicReassignmentStatus?
+    /// The Amazon Resource Name (ARN) of the topic reassignment operation.
+    public var topicReassignmentOperationArn: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicReassignmentStatus? = nil,
+        topicReassignmentOperationArn: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicReassignmentOperationArn = topicReassignmentOperationArn
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
     /// This member is required.
@@ -6618,6 +7510,36 @@ public struct UpdateBrokerStorageOutput: Swift.Sendable {
     }
 }
 
+extension KafkaClientTypes {
+
+    /// Controls automatic topic reassignment when entering mixed broker mode.
+    public enum TopicReassignment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicReassignment] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateBrokerTypeInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
     /// This member is required.
@@ -6625,18 +7547,22 @@ public struct UpdateBrokerTypeInput: Swift.Sendable {
     /// The cluster version that you want to change. After this operation completes successfully, the cluster will have a new version.
     /// This member is required.
     public var currentVersion: Swift.String?
-    /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
+    /// The type of Amazon EC2 instances to use for Kafka brokers. For in-place upgrades to Express, use the composite format to initiate mixed mode, the Express instance type to complete the upgrade, or the Standard instance type to rollback.
     /// This member is required.
     public var targetInstanceType: Swift.String?
+    /// Controls automatic topic reassignment when entering mixed broker mode. When set to AUTO, MSK automatically reassigns all topics to the target broker type after adding new brokers. When set to MANUAL (default), customers manage topic reassignment using the StartTopicReassignment API. Only valid when targetInstanceType is a composite mixed-mode value. Must be set to MANUAL before completing the upgrade or rolling back.
+    public var topicReassignment: KafkaClientTypes.TopicReassignment?
 
     public init(
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
-        targetInstanceType: Swift.String? = nil
+        targetInstanceType: Swift.String? = nil,
+        topicReassignment: KafkaClientTypes.TopicReassignment? = nil
     ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.targetInstanceType = targetInstanceType
+        self.topicReassignment = topicReassignment
     }
 }
 
@@ -7196,6 +8122,16 @@ extension BatchDisassociateScramSecretInput {
     }
 }
 
+extension CreateAssessmentInput {
+
+    static func urlPathProvider(_ value: CreateAssessmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/assessments"
+    }
+}
+
 extension CreateChannelInput {
 
     static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
@@ -7248,6 +8184,19 @@ extension CreateVpcConnectionInput {
 
     static func urlPathProvider(_ value: CreateVpcConnectionInput) -> Swift.String? {
         return "/v1/vpc-connection"
+    }
+}
+
+extension DeleteAssessmentInput {
+
+    static func urlPathProvider(_ value: DeleteAssessmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let assessmentArn = value.assessmentArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/assessments/\(assessmentArn.urlPercentEncoding())"
     }
 }
 
@@ -7348,6 +8297,19 @@ extension DeleteVpcConnectionInput {
             return nil
         }
         return "/v1/vpc-connection/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension DescribeAssessmentInput {
+
+    static func urlPathProvider(_ value: DescribeAssessmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let assessmentArn = value.assessmentArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/assessments/\(assessmentArn.urlPercentEncoding())"
     }
 }
 
@@ -7479,6 +8441,19 @@ extension DescribeTopicPartitionsInput {
     }
 }
 
+extension DescribeTopicReassignmentInput {
+
+    static func urlPathProvider(_ value: DescribeTopicReassignmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicReassignmentOperationArn = value.topicReassignmentOperationArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topic-reassignments/\(topicReassignmentOperationArn.urlPercentEncoding())"
+    }
+}
+
 extension DescribeVpcConnectionInput {
 
     static func urlPathProvider(_ value: DescribeVpcConnectionInput) -> Swift.String? {
@@ -7523,6 +8498,73 @@ extension GetCompatibleKafkaVersionsInput {
         if let clusterArn = value.clusterArn {
             let clusterArnQueryItem = Smithy.URIQueryItem(name: "clusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
             items.append(clusterArnQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssessmentFindingsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentFindingsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let assessmentArn = value.assessmentArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/assessments/\(assessmentArn.urlPercentEncoding())/findings"
+    }
+}
+
+extension ListAssessmentFindingsInput {
+
+    static func queryItemProvider(_ value: ListAssessmentFindingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let category = value.category {
+            let categoryQueryItem = Smithy.URIQueryItem(name: "category".urlPercentEncoding(), value: Swift.String(category).urlPercentEncoding())
+            items.append(categoryQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let severity = value.severity {
+            let severityQueryItem = Smithy.URIQueryItem(name: "severity".urlPercentEncoding(), value: Swift.String(severity).urlPercentEncoding())
+            items.append(severityQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssessmentsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/assessments"
+    }
+}
+
+extension ListAssessmentsInput {
+
+    static func queryItemProvider(_ value: ListAssessmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let assessmentType = value.assessmentType {
+            let assessmentTypeQueryItem = Smithy.URIQueryItem(name: "assessmentType".urlPercentEncoding(), value: Swift.String(assessmentType).urlPercentEncoding())
+            items.append(assessmentTypeQueryItem)
         }
         return items
     }
@@ -7855,6 +8897,36 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTopicReassignmentsInput {
+
+    static func urlPathProvider(_ value: ListTopicReassignmentsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topic-reassignments"
+    }
+}
+
+extension ListTopicReassignmentsInput {
+
+    static func queryItemProvider(_ value: ListTopicReassignmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let statusFilter = value.statusFilter {
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "statusFilter".urlPercentEncoding(), value: Swift.String(statusFilter).urlPercentEncoding())
+            items.append(statusFilterQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTopicsInput {
 
     static func urlPathProvider(_ value: ListTopicsInput) -> Swift.String? {
@@ -7935,6 +9007,29 @@ extension RejectClientVpcConnectionInput {
             return nil
         }
         return "/v1/clusters/\(clusterArn.urlPercentEncoding())/client-vpc-connection"
+    }
+}
+
+extension StartTopicReassignmentInput {
+
+    static func urlPathProvider(_ value: StartTopicReassignmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topic-reassignments"
+    }
+}
+
+extension StopTopicReassignmentInput {
+
+    static func urlPathProvider(_ value: StopTopicReassignmentInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicReassignmentOperationArn = value.topicReassignmentOperationArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topic-reassignments/\(topicReassignmentOperationArn.urlPercentEncoding())/stop"
     }
 }
 
@@ -8136,6 +9231,16 @@ extension BatchDisassociateScramSecretInput {
     }
 }
 
+extension CreateAssessmentInput {
+
+    static func write(value: CreateAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assessmentParameters"].write(value.assessmentParameters, with: KafkaClientTypes.AssessmentParameters.write(value:to:))
+        try writer["assessmentType"].write(value.assessmentType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateChannelInput {
 
     static func write(value: CreateChannelInput?, to writer: SmithyJSON.Writer) throws {
@@ -8255,6 +9360,17 @@ extension RejectClientVpcConnectionInput {
     }
 }
 
+extension StartTopicReassignmentInput {
+
+    static func write(value: StartTopicReassignmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["targetInstanceType"].write(value.targetInstanceType)
+        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["topicsToInclude"].writeList(value.topicsToInclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -8287,6 +9403,7 @@ extension UpdateBrokerTypeInput {
         guard let value else { return }
         try writer["currentVersion"].write(value.currentVersion)
         try writer["targetInstanceType"].write(value.targetInstanceType)
+        try writer["topicReassignment"].write(value.topicReassignment)
     }
 }
 
@@ -8428,6 +9545,22 @@ extension BatchDisassociateScramSecretOutput {
     }
 }
 
+extension CreateAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAssessmentOutput()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentType = try reader["assessmentType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelOutput {
@@ -8533,6 +9666,19 @@ extension CreateVpcConnectionOutput {
     }
 }
 
+extension DeleteAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteAssessmentOutput()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChannelOutput {
@@ -8615,6 +9761,27 @@ extension DeleteVpcConnectionOutput {
         var value = DeleteVpcConnectionOutput()
         value.state = try reader["state"].readIfPresent()
         value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAssessmentOutput()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentParameters = try reader["assessmentParameters"].readIfPresent(with: KafkaClientTypes.AssessmentParameters.read(from:))
+        value.assessmentType = try reader["assessmentType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: KafkaClientTypes.AssessmentSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8759,6 +9926,7 @@ extension DescribeTopicOutput {
         var value = DescribeTopicOutput()
         value.configs = try reader["configs"].readIfPresent()
         value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.replicaIds = try reader["replicaIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationFactor = try reader["replicationFactor"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.topicArn = try reader["topicArn"].readIfPresent()
@@ -8776,6 +9944,30 @@ extension DescribeTopicPartitionsOutput {
         var value = DescribeTopicPartitionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.partitions = try reader["partitions"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicPartitionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeTopicReassignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicReassignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicReassignmentOutput()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.completedTopics = try reader["completedTopics"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
+        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.migratedPartitions = try reader["migratedPartitions"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.targetInstanceType = try reader["targetInstanceType"].readIfPresent()
+        value.topicReassignmentOperationArn = try reader["topicReassignmentOperationArn"].readIfPresent()
+        value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsToInclude = try reader["topicsToInclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalPartitions = try reader["totalPartitions"].readIfPresent()
+        value.totalTopics = try reader["totalTopics"].readIfPresent()
         return value
     }
 }
@@ -8846,6 +10038,32 @@ extension GetCompatibleKafkaVersionsOutput {
         let reader = responseReader
         var value = GetCompatibleKafkaVersionsOutput()
         value.compatibleKafkaVersions = try reader["compatibleKafkaVersions"].readListIfPresent(memberReadingClosure: KafkaClientTypes.CompatibleKafkaVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListAssessmentFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssessmentFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssessmentFindingsOutput()
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: KafkaClientTypes.AssessmentFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssessmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssessmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssessmentsOutput()
+        value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: KafkaClientTypes.AssessmentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -9018,6 +10236,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTopicReassignmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTopicReassignmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTopicReassignmentsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.reassignments = try reader["reassignments"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicReassignmentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTopicsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTopicsOutput {
@@ -9073,6 +10304,33 @@ extension RejectClientVpcConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectClientVpcConnectionOutput {
         return RejectClientVpcConnectionOutput()
+    }
+}
+
+extension StartTopicReassignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTopicReassignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTopicReassignmentOutput()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.topicReassignmentOperationArn = try reader["topicReassignmentOperationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension StopTopicReassignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopTopicReassignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopTopicReassignmentOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicReassignmentOperationArn = try reader["topicReassignmentOperationArn"].readIfPresent()
+        return value
     }
 }
 
@@ -9313,6 +10571,27 @@ enum BatchDisassociateScramSecretOutputError {
     }
 }
 
+enum CreateAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateChannelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9463,6 +10742,27 @@ enum CreateVpcConnectionOutputError {
     }
 }
 
+enum DeleteAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteChannelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9591,6 +10891,26 @@ enum DeleteVpcConnectionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9784,6 +11104,26 @@ enum DescribeTopicPartitionsOutputError {
     }
 }
 
+enum DescribeTopicReassignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9839,6 +11179,47 @@ enum GetClusterPolicyOutputError {
 }
 
 enum GetCompatibleKafkaVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssessmentFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssessmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -10094,6 +11475,26 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTopicReassignmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTopicsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10178,6 +11579,47 @@ enum RejectClientVpcConnectionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartTopicReassignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopTopicReassignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10764,6 +12206,65 @@ extension KafkaClientTypes.ApacheKafkaCluster {
     }
 }
 
+extension KafkaClientTypes.AssessmentFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AssessmentFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.AssessmentFinding()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.remediation = try reader["remediation"].readIfPresent(with: KafkaClientTypes.FindingRemediation.read(from:))
+        value.resource = try reader["resource"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KafkaClientTypes.AssessmentInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AssessmentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.AssessmentInfo()
+        value.assessmentArn = try reader["assessmentArn"].readIfPresent()
+        value.assessmentType = try reader["assessmentType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.AssessmentParameters {
+
+    static func write(value: KafkaClientTypes.AssessmentParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetInstanceType"].write(value.targetInstanceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AssessmentParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.AssessmentParameters()
+        value.targetInstanceType = try reader["targetInstanceType"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.AssessmentSummary()
+        value.byCategory = try reader["byCategory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.bySeverity = try reader["bySeverity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.findingsCapped = try reader["findingsCapped"].readIfPresent()
+        value.hasBlockingFindings = try reader["hasBlockingFindings"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.AuthorizerLogs {
 
     static func write(value: KafkaClientTypes.AuthorizerLogs?, to writer: SmithyJSON.Writer) throws {
@@ -10866,6 +12367,7 @@ extension KafkaClientTypes.BrokerNodeInfo {
         var value = KafkaClientTypes.BrokerNodeInfo()
         value.attachedENIId = try reader["attachedENIId"].readIfPresent()
         value.brokerId = try reader["brokerId"].readIfPresent()
+        value.brokerNodeType = try reader["brokerNodeType"].readIfPresent()
         value.clientSubnet = try reader["clientSubnet"].readIfPresent()
         value.clientVpcIpAddress = try reader["clientVpcIpAddress"].readIfPresent()
         value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
@@ -10882,6 +12384,17 @@ extension KafkaClientTypes.BrokerSoftwareInfo {
         value.configurationArn = try reader["configurationArn"].readIfPresent()
         value.configurationRevision = try reader["configurationRevision"].readIfPresent()
         value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerTypeUpgradeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerTypeUpgradeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerTypeUpgradeInfo()
+        value.topicReassignmentMode = try reader["topicReassignmentMode"].readIfPresent()
+        value.topicReassignmentOperationArn = try reader["topicReassignmentOperationArn"].readIfPresent()
         return value
     }
 }
@@ -11053,6 +12566,7 @@ extension KafkaClientTypes.ClusterOperationInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ClusterOperationInfo()
+        value.brokerTypeUpgradeInfo = try reader["brokerTypeUpgradeInfo"].readIfPresent(with: KafkaClientTypes.BrokerTypeUpgradeInfo.read(from:))
         value.clientRequestId = try reader["clientRequestId"].readIfPresent()
         value.clusterArn = try reader["clusterArn"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -11114,6 +12628,7 @@ extension KafkaClientTypes.ClusterOperationV2Provisioned {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Provisioned {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ClusterOperationV2Provisioned()
+        value.brokerTypeUpgradeInfo = try reader["brokerTypeUpgradeInfo"].readIfPresent(with: KafkaClientTypes.BrokerTypeUpgradeInfo.read(from:))
         value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
         value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
@@ -11395,6 +12910,17 @@ extension KafkaClientTypes.ErrorInfo {
         var value = KafkaClientTypes.ErrorInfo()
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorString = try reader["errorString"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.FindingRemediation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.FindingRemediation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.FindingRemediation()
+        value.action = try reader["action"].readIfPresent()
+        value.documentationUrl = try reader["documentationUrl"].readIfPresent()
         return value
     }
 }
@@ -12447,6 +13973,7 @@ extension KafkaClientTypes.TopicInfo {
         value.replicationFactor = try reader["replicationFactor"].readIfPresent()
         value.partitionCount = try reader["partitionCount"].readIfPresent()
         value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
+        value.replicaIds = try reader["replicaIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12460,6 +13987,21 @@ extension KafkaClientTypes.TopicPartitionInfo {
         value.leader = try reader["leader"].readIfPresent()
         value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicReassignmentInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicReassignmentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicReassignmentInfo()
+        value.completedTopics = try reader["completedTopics"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.targetInstanceType = try reader["targetInstanceType"].readIfPresent()
+        value.topicReassignmentOperationArn = try reader["topicReassignmentOperationArn"].readIfPresent()
+        value.totalTopics = try reader["totalTopics"].readIfPresent()
         return value
     }
 }

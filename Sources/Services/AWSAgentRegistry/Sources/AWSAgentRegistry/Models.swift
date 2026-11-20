@@ -31,7 +31,7 @@ extension AgentRegistryClientTypes {
 
     /// A URL-based descriptor source that identifies where descriptor content is retrieved from.
     public struct DescriptorSourceFromUrl: Swift.Sendable {
-        /// The URL from which the descriptor content is retrieved.
+        /// The URL from which the descriptor content is retrieved. For an agent skill that synchronizes its SKILL.md from GitHub, this is the GitHub folder URL. The data plane doesn't return Amazon S3 (s3://) source URLs.
         /// This member is required.
         public var url: Swift.String?
 
@@ -230,6 +230,7 @@ extension AgentRegistryClientTypes {
         case idempotentParameterMismatchException
         case resourceConflict
         case rootEventInOtherSession
+        case unsupportedInRegion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
@@ -238,7 +239,8 @@ extension AgentRegistryClientTypes {
                 .fieldValidationFailed,
                 .idempotentParameterMismatchException,
                 .resourceConflict,
-                .rootEventInOtherSession
+                .rootEventInOtherSession,
+                .unsupportedInRegion
             ]
         }
 
@@ -254,6 +256,7 @@ extension AgentRegistryClientTypes {
             case .idempotentParameterMismatchException: return "IdempotentParameterMismatchException"
             case .resourceConflict: return "ResourceConflict"
             case .rootEventInOtherSession: return "EventInOtherSession"
+            case .unsupportedInRegion: return "UnsupportedInRegion"
             case let .sdkUnknown(s): return s
             }
         }
@@ -386,6 +389,30 @@ extension AgentRegistryClientTypes {
             self.registryId = registryId
         }
     }
+}
+
+extension AgentRegistryClientTypes {
+
+    /// The skill package of a registry record, as a short-lived download URL and the package's SHA-256 checksum. Responses never include the package bytes.
+    public struct RegistryRecordArtifactDownload: Swift.Sendable {
+        /// A presigned Amazon S3 URL that downloads the package. The URL is valid for up to 5 minutes, and the response doesn't include its expiry time. To get a new URL, call the operation again. Anyone who has the URL can download the package until it expires, so don't log, store, or share it.
+        public var downloadUrl: Swift.String?
+        /// The SHA-256 checksum of the package, as 64 lowercase hexadecimal characters. The download response carries no signature that you can check, so compare the checksum of the file that you download with this value before you use the package.
+        public var sha256: Swift.String?
+
+        public init(
+            downloadUrl: Swift.String? = nil,
+            sha256: Swift.String? = nil
+        ) {
+            self.downloadUrl = downloadUrl
+            self.sha256 = sha256
+        }
+    }
+}
+
+extension AgentRegistryClientTypes.RegistryRecordArtifactDownload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegistryRecordArtifactDownload(sha256: \(Swift.String(describing: sha256)), downloadUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryClientTypes {
@@ -656,16 +683,18 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes {
 
-    /// Registry record status
+    /// The lifecycle status of a registry record. A record is DRAFT before it is submitted, PENDING_APPROVAL while it awaits curator review, and APPROVED after it is approved and discoverable. Rejecting a newer revision keeps the last approved revision discoverable. A DEPRECATED record isn't discoverable. CREATING, UPDATING, CREATE_FAILED, and UPDATE_FAILED reflect an asynchronous change that is in progress or has failed. CREATE_PENDING_AUTH and UPDATE_PENDING_AUTH mean that the record waits for a GitHub user to authorize access before it synchronizes from its GitHub source.
     public enum RegistryRecordStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
         case createFailed
+        case createPendingAuth
         case creating
         case deprecated
         case draft
         case pendingApproval
         case rejected
         case updateFailed
+        case updatePendingAuth
         case updating
         case sdkUnknown(Swift.String)
 
@@ -673,12 +702,14 @@ extension AgentRegistryClientTypes {
             return [
                 .approved,
                 .createFailed,
+                .createPendingAuth,
                 .creating,
                 .deprecated,
                 .draft,
                 .pendingApproval,
                 .rejected,
                 .updateFailed,
+                .updatePendingAuth,
                 .updating
             ]
         }
@@ -692,12 +723,14 @@ extension AgentRegistryClientTypes {
             switch self {
             case .approved: return "APPROVED"
             case .createFailed: return "CREATE_FAILED"
+            case .createPendingAuth: return "CREATE_PENDING_AUTH"
             case .creating: return "CREATING"
             case .deprecated: return "DEPRECATED"
             case .draft: return "DRAFT"
             case .pendingApproval: return "PENDING_APPROVAL"
             case .rejected: return "REJECTED"
             case .updateFailed: return "UPDATE_FAILED"
+            case .updatePendingAuth: return "UPDATE_PENDING_AUTH"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -709,6 +742,8 @@ extension AgentRegistryClientTypes {
 
     /// Summary information about a registry record, including its descriptors.
     public struct RegistryRecordSummary: Swift.Sendable {
+        /// The skill package of the record's latest approved revision, as the package's SHA-256 checksum and a download URL that is valid for up to 5 minutes. Only BatchGetDiscoverableRegistryRecord returns this member, not SearchDiscoverableRegistryRecords. Absent when the record has no skill package.
+        public var artifact: AgentRegistryClientTypes.RegistryRecordArtifactDownload?
         /// The timestamp when the registry record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -747,6 +782,7 @@ extension AgentRegistryClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            artifact: AgentRegistryClientTypes.RegistryRecordArtifactDownload? = nil,
             createdAt: Foundation.Date? = nil,
             customMetadata: Smithy.Document? = nil,
             description: Swift.String? = nil,
@@ -761,6 +797,7 @@ extension AgentRegistryClientTypes {
             status: AgentRegistryClientTypes.RegistryRecordStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.artifact = artifact
             self.createdAt = createdAt
             self.customMetadata = customMetadata
             self.description = description
@@ -780,7 +817,7 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "RegistryRecordSummary(artifact: \(Swift.String(describing: artifact)), createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchGetDiscoverableRegistryRecordOutput: Swift.Sendable {
@@ -965,45 +1002,106 @@ public struct ListDiscoverableRegistryRecordsOutput: Swift.Sendable {
     }
 }
 
+extension AgentRegistryClientTypes {
+
+    /// Specifies the ranking method for a search request.
+    public enum SearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Combines keyword ranking and semantic ranking. Use this type when a query mixes specific terms with a natural language description.
+        case hybrid
+        /// Ranks records by keyword match between the query terms and the record name, description, descriptors, and custom metadata text values. Use this type for queries built from specific terms, such as tool names or API names.
+        case keyword
+        /// Ranks records by semantic similarity to the query. Use this type for natural language descriptions of a task. Returns the most similar records even when none of them closely matches the query.
+        case semantic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchType] {
+            return [
+                .hybrid,
+                .keyword,
+                .semantic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hybrid: return "HYBRID"
+            case .keyword: return "KEYWORD"
+            case .semantic: return "SEMANTIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct SearchDiscoverableRegistryRecordsInput: Swift.Sendable {
     /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq, $ne, and $in, and the logical operators $and and $or on filterable fields. Specifies additional filtering on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}}. For a Boolean field, you can also use a native JSON boolean value, for example: {"customMetadata.requiresApproval": {"$eq": true}}.
     public var filters: Smithy.Document?
-    /// The maximum number of results to return. Valid values are 1 through 20. The default value is 10.
+    /// The maximum number of results to return in one page. Valid values are 1 through 50 when searchType is KEYWORD, and 1 through 20 when it is HYBRID or SEMANTIC. The default value is 10.
     public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Use it to retrieve the next page of results, and send the same searchQuery, registryIds, filters, and searchType that you used for the first page. If any of them differ, the request fails with a ValidationException. A pagination token expires 15 minutes after the service returns the first page.
+    public var nextToken: Swift.String?
     /// The registry identifiers to search within. Currently, you must specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID.
     /// This member is required.
     public var registryIds: [Swift.String]?
-    /// The natural language query to search for matching registry records.
+    /// The natural language query to search for matching registry records. If you specify an empty string, the operation returns the records that match the filters, most recently updated first, up to the result limit for the searchType.
     /// This member is required.
     public var searchQuery: Swift.String?
+    /// Specifies how the service ranks registry records against the search query. If you omit this parameter, the service uses HYBRID in Amazon Web Services Regions that support semantic search and KEYWORD in Regions that do not. The response reports the search type that the service used. Valid values are the following:
+    ///
+    /// * KEYWORD – Ranks records by keyword match between the query terms and the record name, description, descriptors, and custom metadata text values. Available in every Amazon Web Services Region.
+    ///
+    /// * SEMANTIC – Ranks records by semantic similarity to the query and returns the most similar records, up to maxResults, even when none of them closely matches the query.
+    ///
+    /// * HYBRID – Combines keyword ranking and semantic ranking.
+    ///
+    ///
+    /// HYBRID and SEMANTIC are available in a limited number of Regions. If you specify either one in a Region that does not support semantic search, the request fails with a ValidationException that has the reason UnsupportedInRegion.
+    public var searchType: AgentRegistryClientTypes.SearchType?
 
     public init(
         filters: Smithy.Document? = nil,
         maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         registryIds: [Swift.String]? = nil,
-        searchQuery: Swift.String? = nil
+        searchQuery: Swift.String? = nil,
+        searchType: AgentRegistryClientTypes.SearchType? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
+        self.nextToken = nextToken
         self.registryIds = registryIds
         self.searchQuery = searchQuery
+        self.searchType = searchType
     }
 }
 
 extension SearchDiscoverableRegistryRecordsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchDiscoverableRegistryRecordsInput(maxResults: \(Swift.String(describing: maxResults)), registryIds: \(Swift.String(describing: registryIds)), filters: \"CONTENT_REDACTED\", searchQuery: \"CONTENT_REDACTED\")"}
+        "SearchDiscoverableRegistryRecordsInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), registryIds: \(Swift.String(describing: registryIds)), searchType: \(Swift.String(describing: searchType)), filters: \"CONTENT_REDACTED\", searchQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchDiscoverableRegistryRecordsOutput: Swift.Sendable {
-    /// The registry records that match the search query, ordered by relevance.
+    /// The pagination token to pass to a subsequent request to retrieve the next page of results. This field is absent when there are no more results, or when the search has returned the maximum number of results for its search type.
+    public var nextToken: Swift.String?
+    /// The registry records that match the search query, ordered by relevance. A page can contain fewer than maxResults records, or none, even when the response includes a nextToken. To retrieve every result, continue until the response has no nextToken.
     /// This member is required.
     public var registryRecords: [AgentRegistryClientTypes.RegistryRecordSummary]?
+    /// Specifies the search type that the service used to rank the returned records. If you omitted searchType in the request, this is the default for the Amazon Web Services Region: HYBRID where semantic search is supported, and KEYWORD elsewhere.
+    public var searchType: AgentRegistryClientTypes.SearchType?
 
     public init(
-        registryRecords: [AgentRegistryClientTypes.RegistryRecordSummary]? = nil
+        nextToken: Swift.String? = nil,
+        registryRecords: [AgentRegistryClientTypes.RegistryRecordSummary]? = nil,
+        searchType: AgentRegistryClientTypes.SearchType? = nil
     ) {
+        self.nextToken = nextToken
         self.registryRecords = registryRecords
+        self.searchType = searchType
     }
 }
 
@@ -1055,8 +1153,10 @@ extension SearchDiscoverableRegistryRecordsInput {
         guard let value else { return }
         try writer["filters"].write(value.filters)
         try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["registryIds"].writeList(value.registryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["searchQuery"].write(value.searchQuery)
+        try writer["searchType"].write(value.searchType)
     }
 }
 
@@ -1093,7 +1193,9 @@ extension SearchDiscoverableRegistryRecordsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchDiscoverableRegistryRecordsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.registryRecords = try reader["registryRecords"].readListIfPresent(memberReadingClosure: AgentRegistryClientTypes.RegistryRecordSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.searchType = try reader["searchType"].readIfPresent()
         return value
     }
 }
@@ -1414,6 +1516,17 @@ extension AgentRegistryClientTypes.McpToolsDescriptor {
     }
 }
 
+extension AgentRegistryClientTypes.RegistryRecordArtifactDownload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryClientTypes.RegistryRecordArtifactDownload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryClientTypes.RegistryRecordArtifactDownload()
+        value.sha256 = try reader["sha256"].readIfPresent()
+        value.downloadUrl = try reader["downloadUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension AgentRegistryClientTypes.RegistryRecordFilter {
 
     static func write(value: AgentRegistryClientTypes.RegistryRecordFilter?, to writer: SmithyJSON.Writer) throws {
@@ -1450,6 +1563,7 @@ extension AgentRegistryClientTypes.RegistryRecordSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customMetadata = try reader["customMetadata"].readIfPresent()
+        value.artifact = try reader["artifact"].readIfPresent(with: AgentRegistryClientTypes.RegistryRecordArtifactDownload.read(from:))
         return value
     }
 }

@@ -1108,6 +1108,30 @@ public struct AssociateResolverRuleOutput: Swift.Sendable {
 
 extension Route53ResolverClientTypes {
 
+    /// The configuration for an AutoAllowlist firewall rule, which observes the DNS traffic of the VPCs that use the rule group, through a rule group association or a Route 53 Profile. The rule allows the domains on its managed domain list. When you create the rule, DNS Firewall seeds the observed domains from the look-back window of each VPC. After that, a domain is listed as observed when any DNS Firewall rule blocks a query for it from a VPC that uses the rule group, including rules in other rule groups, so place a rule that blocks the domains you haven't approved after the AutoAllowlist rule. To review the observed domains, call [ListFirewallRuleDomains]. To approve or deny them, call [UpdateFirewallDomains] on the rule's managed domain list. An AutoAllowlist rule uses the ALLOW action, applies to all query types, and always inspects redirection domains. You can't set Qtype, FirewallDomainRedirectionAction, BlockResponse, or the DNS Firewall Advanced settings on it. A rule group can contain one AutoAllowlist rule. A new AutoAllowlist rule has status CREATING while DNS Firewall reads the look-back window of each VPC that uses the rule group, which can take hours for a rule group that many VPCs use. Until the status is COMPLETE, the observed domains and request counts are partial and [UpdateFirewallRule] rejects the rule. You can approve, remove, and deny domains while the rule is CREATING.
+    public struct AutoAllowlistConfig: Swift.Sendable {
+        /// The ID of the managed domain list that DNS Firewall creates and maintains for this AutoAllowlist rule. The list is named AutoAllowlist -  followed by the rule name, cut to 64 characters, and is renamed when you rename the rule. DNS Firewall returns this value in responses. You can't set it.
+        public var autoAllowlistFirewallDomainListId: Swift.String?
+        /// The ID of a domain list whose domains DNS Firewall copies into the AutoAllowlist rule's managed domain list after you create the rule. You must own the source list, and it must be in COMPLETE status, in the same Region, and not a managed or AutoAllowlist list. DNS Firewall reads the source list while the copy runs, so don't change or delete it until the managed list's status is no longer IMPORTING. A change made to the source list during the copy can be reflected in the managed list, and deleting the source list fails the copy. The managed list then has status COMPLETE, or COMPLETE_IMPORT_FAILED if the copy failed. DNS Firewall uses this value only when you create the rule.
+        public var importFromFirewallDomainListId: Swift.String?
+        /// The look-back window, in hours, of historical DNS traffic that DNS Firewall uses to seed the initial set of observed domains when you create the rule. Valid values are from 1 to 168 (7 days). You can't change this value after you create the rule.
+        /// This member is required.
+        public var initialDataTimeframeHours: Swift.Int?
+
+        public init(
+            autoAllowlistFirewallDomainListId: Swift.String? = nil,
+            importFromFirewallDomainListId: Swift.String? = nil,
+            initialDataTimeframeHours: Swift.Int? = nil
+        ) {
+            self.autoAllowlistFirewallDomainListId = autoAllowlistFirewallDomainListId
+            self.importFromFirewallDomainListId = importFromFirewallDomainListId
+            self.initialDataTimeframeHours = initialDataTimeframeHours
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
     public enum AutodefinedReverseFlag: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disable
         case enable
@@ -1379,8 +1403,10 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes {
 
-    /// The rule-type configuration for a DNS Firewall rule. FirewallRuleType is a tagged union — exactly one member must be set per rule, and the member determines what the rule matches against. This shape is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields on [CreateFirewallRule] and [UpdateFirewallRule]. Call [ListFirewallRuleTypes] to discover which rule-type variants and which values within each variant are available in your account and Region.
+    /// The rule-type configuration for a DNS Firewall rule. FirewallRuleType is a tagged union — exactly one member must be set per rule, and the member determines what the rule matches against. This shape is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields on [CreateFirewallRule] and [UpdateFirewallRule]. Call [ListFirewallRuleTypes] to discover which rule-type variants and which values within each variant are available in your account and Region. It doesn't return the AutoAllowlist variant.
     public struct FirewallRuleType: Swift.Sendable {
+        /// Configures the rule as an AutoAllowlist rule, which observes the DNS traffic of the VPCs that use the rule group, through a rule group association or a Route 53 Profile, so that you can review the domains and allow them. See [AutoAllowlistConfig].
+        public var autoAllowlist: Route53ResolverClientTypes.AutoAllowlistConfig?
         /// Configures the rule to match a built-in DNS Firewall Advanced threat detector — DGA, DNS_TUNNELING, or DICTIONARY_DGA. See [DnsThreatProtectionRuleTypeConfig].
         public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtectionRuleTypeConfig?
         /// Configures the rule to match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH). See [FirewallAdvancedContentCategoryConfig].
@@ -1391,11 +1417,13 @@ extension Route53ResolverClientTypes {
         public var partnerThreatProtection: Route53ResolverClientTypes.PartnerThreatProtectionConfig?
 
         public init(
+            autoAllowlist: Route53ResolverClientTypes.AutoAllowlistConfig? = nil,
             dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtectionRuleTypeConfig? = nil,
             firewallAdvancedContentCategory: Route53ResolverClientTypes.FirewallAdvancedContentCategoryConfig? = nil,
             firewallAdvancedThreatCategory: Route53ResolverClientTypes.FirewallAdvancedThreatCategoryConfig? = nil,
             partnerThreatProtection: Route53ResolverClientTypes.PartnerThreatProtectionConfig? = nil
         ) {
+            self.autoAllowlist = autoAllowlist
             self.dnsThreatProtection = dnsThreatProtection
             self.firewallAdvancedContentCategory = firewallAdvancedContentCategory
             self.firewallAdvancedThreatCategory = firewallAdvancedThreatCategory
@@ -1467,8 +1495,10 @@ extension Route53ResolverClientTypes {
         ///
         /// * PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.
         ///
+        /// * AutoAllowlist — automatically observe the domains that the VPCs associated with the rule group resolve, and allow the ones that you approve. See [AutoAllowlistConfig].
         ///
-        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
+        ///
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes]. It doesn't return AutoAllowlist.
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// A name that lets you identify the rule in the rule group.
         /// This member is required.
@@ -1617,8 +1647,10 @@ extension Route53ResolverClientTypes {
         ///
         /// * PartnerThreatProtection — a third-party threat feed delivered through Amazon Web Services Marketplace.
         ///
+        /// * AutoAllowlist — an AutoAllowlist rule, which allows the domains on its managed domain list. See [AutoAllowlistConfig].
         ///
-        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
+        ///
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes]. It doesn't return AutoAllowlist.
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// ID of the DNS Firewall Advanced rule.
         public var firewallThreatProtectionId: Swift.String?
@@ -1660,7 +1692,7 @@ extension Route53ResolverClientTypes {
         public var qtype: Swift.String?
         /// The lifecycle state of the firewall rule. Possible values:
         ///
-        /// * CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's Amazon Web Services Marketplace entitlement.
+        /// * CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's Amazon Web Services Marketplace entitlement. Rules created with the AutoAllowlist rule type begin in this state while DNS Firewall reads the look-back window of each VPC that uses the rule group.
         ///
         /// * COMPLETE — The rule is provisioned and enforcing matches.
         ///
@@ -1894,7 +1926,7 @@ extension Route53ResolverClientTypes {
         /// * PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.
         ///
         ///
-        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes]. It doesn't return AutoAllowlist. You can't specify FirewallRuleType when you update an AutoAllowlist rule, even with its current values. InitialDataTimeframeHours and ImportFromFirewallDomainListId can't be changed. To change them, delete the rule and create a new one. Deleting an AutoAllowlist rule also deletes its managed domain list and the domains that you allowed.
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// The ID of the DNS Firewall Advanced rule.
         public var firewallThreatProtectionId: Swift.String?
@@ -2043,12 +2075,14 @@ public struct CreateFirewallDomainListInput: Swift.Sendable {
 extension Route53ResolverClientTypes {
 
     public enum DomainListType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoallowlist
         case content
         case threat
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DomainListType] {
             return [
+                .autoallowlist,
                 .content,
                 .threat
             ]
@@ -2061,6 +2095,7 @@ extension Route53ResolverClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoallowlist: return "AUTOALLOWLIST"
             case .content: return "CONTENT"
             case .threat: return "THREAT"
             case let .sdkUnknown(s): return s
@@ -2225,7 +2260,7 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list. You can't set this value on an AutoAllowlist rule, which always inspects the redirection chain.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
@@ -2240,8 +2275,10 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     ///
     /// * PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.
     ///
+    /// * AutoAllowlist — automatically observe the domains that the VPCs associated with the rule group resolve, and allow the ones that you approve. See [AutoAllowlistConfig].
     ///
-    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
+    ///
+    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes]. It doesn't return AutoAllowlist.
     public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
     /// A name that lets you identify the rule in the rule group.
     /// This member is required.
@@ -2278,6 +2315,9 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     /// * TXT: Verifies email senders and application-specific values.
     ///
     /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+    ///
+    ///
+    /// You can't set Qtype on an AutoAllowlist rule, because the rule applies to all query types.
     public var qtype: Swift.String?
 
     public init(
@@ -3686,6 +3726,10 @@ extension Route53ResolverClientTypes {
         public var category: Swift.String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public var creatorRequestId: Swift.String?
+        /// For an AutoAllowlist domain list, the ID of the firewall rule group that contains the auto-allowlist rule that owns this domain list. Use it to navigate to the rule group and its VPC associations. Present only when ManagedListType is AUTOALLOWLIST.
+        public var firewallRuleGroupId: Swift.String?
+        /// For an AutoAllowlist domain list, the threat protection ID of the auto-allowlist rule that owns this domain list. Provide it to [ListFirewallRuleDomains] to review the observed, allowed, and denied domains. Present only when ManagedListType is AUTOALLOWLIST.
+        public var firewallThreatProtectionId: Swift.String?
         /// The ID of the domain list.
         public var id: Swift.String?
         /// The type of the managed domain list, for example THREAT.
@@ -3694,23 +3738,98 @@ extension Route53ResolverClientTypes {
         public var managedOwnerName: Swift.String?
         /// The name of the domain list.
         public var name: Swift.String?
+        /// For an AutoAllowlist domain list, the status of the list: IMPORTING while domains are being copied from the source domain list specified at rule creation, COMPLETE_IMPORT_FAILED if that copy failed, UPDATING while a change made with [UpdateFirewallDomains] is being applied, COMPLETE otherwise, and DELETING while the owning rule is being deleted. The first change that you make after a failed copy replaces COMPLETE_IMPORT_FAILED with UPDATING and then COMPLETE. Present only when ManagedListType is AUTOALLOWLIST. Use [GetFirewallDomainList] for the status of other domain lists.
+        public var status: Route53ResolverClientTypes.FirewallDomainListStatus?
 
         public init(
             arn: Swift.String? = nil,
             category: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
+            firewallRuleGroupId: Swift.String? = nil,
+            firewallThreatProtectionId: Swift.String? = nil,
             id: Swift.String? = nil,
             managedListType: Route53ResolverClientTypes.DomainListType? = nil,
             managedOwnerName: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            status: Route53ResolverClientTypes.FirewallDomainListStatus? = nil
         ) {
             self.arn = arn
             self.category = category
             self.creatorRequestId = creatorRequestId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.id = id
             self.managedListType = managedListType
             self.managedOwnerName = managedOwnerName
             self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    public enum FirewallDomainStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowed
+        case denied
+        case observed
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallDomainStatus] {
+            return [
+                .allowed,
+                .denied,
+                .observed,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "ALLOWED"
+            case .denied: return "DENIED"
+            case .observed: return "OBSERVED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    public enum FirewallDomainStatusFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowed
+        case denied
+        case observed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallDomainStatusFilter] {
+            return [
+                .allowed,
+                .denied,
+                .observed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "ALLOWED"
+            case .denied: return "DENIED"
+            case .observed: return "OBSERVED"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -3719,6 +3838,7 @@ extension Route53ResolverClientTypes {
 
     public enum FirewallDomainUpdateOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case add
+        case deny
         case remove
         case replace
         case sdkUnknown(Swift.String)
@@ -3726,6 +3846,7 @@ extension Route53ResolverClientTypes {
         public static var allCases: [FirewallDomainUpdateOperation] {
             return [
                 .add,
+                .deny,
                 .remove,
                 .replace
             ]
@@ -3739,8 +3860,107 @@ extension Route53ResolverClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .add: return "ADD"
+            case .deny: return "DENY"
             case .remove: return "REMOVE"
             case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    /// A domain that DNS Firewall observed for an AutoAllowlist rule, with its review status and request volume. Counts are aggregated across all VPCs that use the rule group, through a rule group association or through a Route 53 Profile that includes the rule group, including VPCs in other accounts. The domain isn't attributed to the VPC or account in which it was observed.
+    public struct FirewallRuleDomain: Swift.Sendable {
+        /// The date and time when the domain was first observed and added, in RFC 3339 format.
+        public var addedTime: Swift.String?
+        /// The domain name.
+        public var domainName: Swift.String?
+        /// The review status of the domain:
+        ///
+        /// * OBSERVED - DNS Firewall saw the domain in the VPCs' DNS traffic and you haven't allowed or denied it. The look-back window seeds the initial observed domains. After that, a domain becomes observed when any DNS Firewall rule blocks a query for it from a VPC that uses the rule group, including rules in other rule groups, or when you remove it from the managed domain list with REMOVE. To keep observing new domains, place a rule that blocks the domains you haven't approved after the AutoAllowlist rule. Domains from the look-back period that keep being queried and aren't blocked move to ALLOWED within about a day after the rule is created. Observed domains aren't evaluated for safety, so review them before you allow them.
+        ///
+        /// * ALLOWED - DNS Firewall allowed queries for the domain, whether or not the domain is in the rule's managed domain list. To get the domains in the managed domain list (the allowlist that the rule enforces), call [ListFirewallRuleDomains] with FirewallDomainListId.
+        ///
+        /// * DENIED - The domain was denied with the DENY operation of [UpdateFirewallDomains], which also removes it from the managed domain list if it was there. A denied domain that is still queried and not blocked can move to ALLOWED.
+        public var domainStatus: Route53ResolverClientTypes.FirewallDomainStatus?
+        /// The number of DNS requests observed for this domain in the last 24 hours.
+        public var last24HourRequests: Swift.Int?
+        /// The total number of DNS requests observed for this domain since it was first added, including the requests in the look-back window that seeded the rule.
+        public var totalRequests: Swift.Int?
+
+        public init(
+            addedTime: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            domainStatus: Route53ResolverClientTypes.FirewallDomainStatus? = nil,
+            last24HourRequests: Swift.Int? = nil,
+            totalRequests: Swift.Int? = nil
+        ) {
+            self.addedTime = addedTime
+            self.domainName = domainName
+            self.domainStatus = domainStatus
+            self.last24HourRequests = last24HourRequests
+            self.totalRequests = totalRequests
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    public enum FirewallRuleDomainSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dailyTotal
+        case timeAdded
+        case totalRequests
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallRuleDomainSortBy] {
+            return [
+                .dailyTotal,
+                .timeAdded,
+                .totalRequests
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dailyTotal: return "DAILY_TOTAL"
+            case .timeAdded: return "TIME_ADDED"
+            case .totalRequests: return "TOTAL_REQUESTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    public enum FirewallRuleDomainSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallRuleDomainSortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3870,11 +4090,19 @@ public struct GetFirewallDomainListInput: Swift.Sendable {
 public struct GetFirewallDomainListOutput: Swift.Sendable {
     /// The domain list that you requested.
     public var firewallDomainList: Route53ResolverClientTypes.FirewallDomainList?
+    /// For an AutoAllowlist domain list, the ID of the firewall rule group that contains the AutoAllowlist rule that owns this domain list. Present only when ManagedListType is AUTOALLOWLIST.
+    public var firewallRuleGroupId: Swift.String?
+    /// For an AutoAllowlist domain list, the threat protection ID of the auto-allowlist rule that owns this domain list. Provide it to [ListFirewallRuleDomains] to review the observed, allowed, and denied domains. Present only when ManagedListType is AUTOALLOWLIST.
+    public var firewallThreatProtectionId: Swift.String?
 
     public init(
-        firewallDomainList: Route53ResolverClientTypes.FirewallDomainList? = nil
+        firewallDomainList: Route53ResolverClientTypes.FirewallDomainList? = nil,
+        firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil
     ) {
         self.firewallDomainList = firewallDomainList
+        self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
     }
 }
 
@@ -4662,6 +4890,98 @@ public struct ListFirewallDomainsOutput: Swift.Sendable {
 
     public init(
         domains: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domains = domains
+        self.nextToken = nextToken
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    /// Optional filters and sort order for [ListFirewallRuleDomains].
+    public struct ListFirewallRuleDomainsQueryOptions: Swift.Sendable {
+        /// Returns only the domains whose name contains this substring.
+        public var domainNameFilter: Swift.String?
+        /// Filters the returned domains by review status. Valid values:
+        ///
+        /// * OBSERVED - Domains that DNS Firewall saw in the VPCs' DNS traffic and that you haven't allowed or denied. After the look-back window, a domain is observed when any DNS Firewall rule blocks a query for it from a VPC that uses the rule group, including rules in other rule groups, or when you remove it from the managed domain list. Domains from the look-back period that keep being queried and aren't blocked move to ALLOWED within about a day after the rule is created.
+        ///
+        /// * ALLOWED - Domains that DNS Firewall allowed queries for, whether or not they're in the rule's managed domain list.
+        ///
+        /// * DENIED - Domains that were denied with the DENY operation. A denied domain that is still queried and not blocked can move to ALLOWED.
+        ///
+        ///
+        /// If you don't specify a value, the operation returns OBSERVED domains.
+        public var domainStatus: Route53ResolverClientTypes.FirewallDomainStatusFilter?
+        /// The attribute to sort the returned domains by. Valid values:
+        ///
+        /// * TIME_ADDED - The AddedTime of the domain.
+        ///
+        /// * DAILY_TOTAL - The Last24HourRequests count.
+        ///
+        /// * TOTAL_REQUESTS - The TotalRequests count.
+        ///
+        ///
+        /// If you don't specify a value, the operation sorts by TIME_ADDED.
+        public var sortBy: Route53ResolverClientTypes.FirewallRuleDomainSortBy?
+        /// The sort direction: ASC for ascending or DESC for descending. If you don't specify a value, the operation sorts in descending order.
+        public var sortOrder: Route53ResolverClientTypes.FirewallRuleDomainSortOrder?
+
+        public init(
+            domainNameFilter: Swift.String? = nil,
+            domainStatus: Route53ResolverClientTypes.FirewallDomainStatusFilter? = nil,
+            sortBy: Route53ResolverClientTypes.FirewallRuleDomainSortBy? = nil,
+            sortOrder: Route53ResolverClientTypes.FirewallRuleDomainSortOrder? = nil
+        ) {
+            self.domainNameFilter = domainNameFilter
+            self.domainStatus = domainStatus
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+public struct ListFirewallRuleDomainsInput: Swift.Sendable {
+    /// The ID of the AutoAllowlist rule's managed domain list. Provide this to list the domains that the rule currently allows.
+    public var firewallDomainListId: Swift.String?
+    /// The unique identifier of the firewall rule group that contains the rule.
+    /// This member is required.
+    public var firewallRuleGroupId: Swift.String?
+    /// The threat protection ID that identifies an AutoAllowlist rule. Provide this to list an AutoAllowlist rule's domains.
+    public var firewallThreatProtectionId: Swift.String?
+    /// The maximum number of domains that you want to return in a single call. If more domains remain than can be returned, the response includes a NextToken value that you can use in a subsequent call to get the next batch. The default is 100.
+    public var maxResults: Swift.Int?
+    /// For the first call to this operation, omit this value. If more domains remain than can be returned in a single call, the response includes a NextToken value. In your next call, specify that value to get the next batch of domains.
+    public var nextToken: Swift.String?
+    /// Optional filters and sort order for the returned domains. If you don't specify this, the operation returns the OBSERVED domains sorted by TIME_ADDED in descending order. See [ListFirewallRuleDomainsQueryOptions].
+    public var queryOptions: Route53ResolverClientTypes.ListFirewallRuleDomainsQueryOptions?
+
+    public init(
+        firewallDomainListId: Swift.String? = nil,
+        firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        queryOptions: Route53ResolverClientTypes.ListFirewallRuleDomainsQueryOptions? = nil
+    ) {
+        self.firewallDomainListId = firewallDomainListId
+        self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queryOptions = queryOptions
+    }
+}
+
+public struct ListFirewallRuleDomainsOutput: Swift.Sendable {
+    /// The domains for the rule. See [FirewallRuleDomain].
+    public var domains: [Route53ResolverClientTypes.FirewallRuleDomain]?
+    /// If more domains remain than were returned in this response, DNS Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of domains.
+    public var nextToken: Swift.String?
+
+    public init(
+        domains: [Route53ResolverClientTypes.FirewallRuleDomain]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.domains = domains
@@ -5555,11 +5875,13 @@ public struct UpdateFirewallDomainsInput: Swift.Sendable {
     public var firewallDomainListId: Swift.String?
     /// What you want DNS Firewall to do with the domains that you are providing:
     ///
-    /// * ADD - Add the domains to the ones that are already in the domain list.
+    /// * ADD - Add the domains to the ones that are already in the domain list. For an AutoAllowlist rule's managed domain list, this also marks the observed domains as allowed.
     ///
-    /// * REMOVE - Search the domain list for the domains and remove them from the list.
+    /// * REMOVE - Search the domain list for the domains and remove them from the list. For an AutoAllowlist rule's managed domain list, the rule no longer allows the removed domains, unless a wildcard entry that's still on the list matches them.
     ///
-    /// * REPLACE - Update the domain list to exactly match the list that you are providing.
+    /// * REPLACE - Update the domain list to exactly match the list that you are providing. Not supported for an AutoAllowlist rule's managed domain list.
+    ///
+    /// * DENY - For an AutoAllowlist rule's managed domain list only, mark the specified observed domains as denied so that they're no longer listed for review. If a domain is on the managed domain list, DENY also removes it from the list. Specify fully qualified domain names. Wildcards aren't accepted.
     /// This member is required.
     public var operation: Route53ResolverClientTypes.FirewallDomainUpdateOperation?
 
@@ -5638,7 +5960,7 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list to use in the rule.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list. You can't set this value on an AutoAllowlist rule, which always inspects the redirection chain.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.
@@ -5654,7 +5976,7 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     /// * PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.
     ///
     ///
-    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
+    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes]. It doesn't return AutoAllowlist. You can't specify FirewallRuleType when you update an AutoAllowlist rule, even with its current values. InitialDataTimeframeHours and ImportFromFirewallDomainListId can't be changed. To change them, delete the rule and create a new one. Deleting an AutoAllowlist rule also deletes its managed domain list and the domains that you allowed.
     public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
     /// The DNS Firewall Advanced rule ID.
     public var firewallThreatProtectionId: Swift.String?
@@ -5691,6 +6013,9 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     /// * TXT: Verifies email senders and application-specific values.
     ///
     /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types). If you set up a firewall BLOCK rule with action NXDOMAIN on query type equals AAAA, this action will not be applied to synthetic IPv6 addresses generated when DNS64 is enabled.
+    ///
+    ///
+    /// You can't set Qtype on an AutoAllowlist rule, because the rule applies to all query types.
     public var qtype: Swift.String?
 
     public init(

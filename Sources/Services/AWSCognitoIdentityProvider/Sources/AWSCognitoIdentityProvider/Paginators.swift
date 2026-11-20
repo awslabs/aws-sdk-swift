@@ -75,6 +75,69 @@ extension PaginatorSequence where OperationStackInput == AdminListUserAuthEvents
     }
 }
 extension CognitoIdentityProviderClient {
+    /// Paginate over `[ListCIMDPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCIMDPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCIMDPoliciesOutput`
+    public func listCIMDPoliciesPaginated(input: ListCIMDPoliciesInput) -> ClientRuntime.PaginatorSequence<ListCIMDPoliciesInput, ListCIMDPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCIMDPoliciesInput, ListCIMDPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCIMDPolicies(input:))
+    }
+}
+
+extension ListCIMDPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCIMDPoliciesInput {
+        return ListCIMDPoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            userPoolId: self.userPoolId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCIMDPoliciesInput, OperationStackOutput == ListCIMDPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCIMDPoliciesPaginated`
+    /// to access the nested member `[CognitoIdentityProviderClientTypes.CIMDPolicySummaryType]`
+    /// - Returns: `[CognitoIdentityProviderClientTypes.CIMDPolicySummaryType]`
+    public func cimdPolicies() async throws -> [CognitoIdentityProviderClientTypes.CIMDPolicySummaryType] {
+        return try await self.asyncCompactMap { item in item.cimdPolicies }
+    }
+}
+extension CognitoIdentityProviderClient {
+    /// Paginate over `[ListClientMetadataURLsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClientMetadataURLsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClientMetadataURLsOutput`
+    public func listClientMetadataURLsPaginated(input: ListClientMetadataURLsInput) -> ClientRuntime.PaginatorSequence<ListClientMetadataURLsInput, ListClientMetadataURLsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClientMetadataURLsInput, ListClientMetadataURLsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClientMetadataURLs(input:))
+    }
+}
+
+extension ListClientMetadataURLsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClientMetadataURLsInput {
+        return ListClientMetadataURLsInput(
+            cimdPolicyId: self.cimdPolicyId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userPoolId: self.userPoolId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClientMetadataURLsInput, OperationStackOutput == ListClientMetadataURLsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClientMetadataURLsPaginated`
+    /// to access the nested member `[CognitoIdentityProviderClientTypes.ClientMetadataURLType]`
+    /// - Returns: `[CognitoIdentityProviderClientTypes.ClientMetadataURLType]`
+    public func clientMetadataURLs() async throws -> [CognitoIdentityProviderClientTypes.ClientMetadataURLType] {
+        return try await self.asyncCompactMap { item in item.clientMetadataURLs }
+    }
+}
+extension CognitoIdentityProviderClient {
     /// Paginate over `[ListGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

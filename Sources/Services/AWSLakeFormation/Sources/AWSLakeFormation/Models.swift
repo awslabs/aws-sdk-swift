@@ -2822,6 +2822,64 @@ public struct GetRLSPolicyInput: Swift.Sendable {
 
 extension LakeFormationClientTypes {
 
+    public enum RLSPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalid
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RLSPolicyStatus] {
+            return [
+                .invalid,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "INVALID"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    public enum RLSPolicyStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case referencedLookupTableDeleted
+        case referencedUdfDeleted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RLSPolicyStatusReason] {
+            return [
+                .referencedLookupTableDeleted,
+                .referencedUdfDeleted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .referencedLookupTableDeleted: return "REFERENCED_LOOKUP_TABLE_DELETED"
+            case .referencedUdfDeleted: return "REFERENCED_UDF_DELETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A structure that describes a row-level security policy, including the columns its filter expression references and the filter expression itself.
     public struct RLSPolicy: Swift.Sendable {
         /// The list of columns that the filter expression references.
@@ -2832,17 +2890,25 @@ extension LakeFormationClientTypes {
         public var filterExpression: Swift.String?
         /// The name of the row-level security policy.
         public var name: Swift.String?
+        /// Whether the row-level security policy can be evaluated. VALID means that every lookup table and user-defined function the filter expression references exists. INVALID means that a lookup table or user-defined function the filter expression references was deleted.
+        public var status: LakeFormationClientTypes.RLSPolicyStatus?
+        /// The reason the row-level security policy is INVALID. REFERENCED_LOOKUP_TABLE_DELETED means that a lookup table the filter expression references was deleted. REFERENCED_UDF_DELETED means that a user-defined function the filter expression references was deleted. Not returned when the status is VALID.
+        public var statusReason: LakeFormationClientTypes.RLSPolicyStatusReason?
 
         public init(
             attachmentColumns: [LakeFormationClientTypes.Column]? = nil,
             catalogId: Swift.String? = nil,
             filterExpression: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            status: LakeFormationClientTypes.RLSPolicyStatus? = nil,
+            statusReason: LakeFormationClientTypes.RLSPolicyStatusReason? = nil
         ) {
             self.attachmentColumns = attachmentColumns
             self.catalogId = catalogId
             self.filterExpression = filterExpression
             self.name = name
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 }
@@ -9151,6 +9217,8 @@ extension LakeFormationClientTypes.RLSPolicy {
         value.name = try reader["Name"].readIfPresent()
         value.attachmentColumns = try reader["AttachmentColumns"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterExpression = try reader["FilterExpression"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }

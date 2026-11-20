@@ -1,0 +1,4 @@
+{
+    "service": "com.amazonaws.partnercentralmarketing#AWSPartnerDemandGenerator",
+    "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-marketing.json"
+}

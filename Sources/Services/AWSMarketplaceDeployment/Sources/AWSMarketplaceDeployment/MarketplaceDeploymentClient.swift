@@ -615,9 +615,216 @@ extension MarketplaceDeploymentClient {
 }
 
 extension MarketplaceDeploymentClient {
+    /// Performs the `GetDeploymentConfiguration` operation on the `MarketplaceDeployment` service.
+    ///
+    /// Returns the active deployment configuration for a product and delivery option. The active deployment configuration is the configuration from the most recent successful deployment configuration job. The seller that owns the product and buyers entitled to the product can call this operation. If the product and delivery option have no active deployment configuration, the operation returns a ResourceNotFoundException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDeploymentConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal service exception.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
+    /// - `ThrottlingException` : Too many requests.
+    /// - `ValidationException` : An error occurred during validation.
+    public func getDeploymentConfiguration(input: GetDeploymentConfigurationInput) async throws -> GetDeploymentConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDeploymentConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>(GetDeploymentConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentConfigurationOutput>(GetDeploymentConfigurationOutput.httpOutput(from:), GetDeploymentConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Deployment", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Deployment"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeploymentConfigurationInput, GetDeploymentConfigurationOutput>(serviceID: serviceName, version: MarketplaceDeploymentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDeployment")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDeploymentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDeploymentConfigurationJob` operation on the `MarketplaceDeployment` service.
+    ///
+    /// Returns the details of a deployment configuration job. Only the seller that started the job can call this operation. If the job doesn't belong to the product and delivery option in the request path, the operation returns a ResourceNotFoundException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentConfigurationJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDeploymentConfigurationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal service exception.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
+    /// - `ThrottlingException` : Too many requests.
+    /// - `ValidationException` : An error occurred during validation.
+    public func getDeploymentConfigurationJob(input: GetDeploymentConfigurationJobInput) async throws -> GetDeploymentConfigurationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDeploymentConfigurationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>(GetDeploymentConfigurationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentConfigurationJobOutput>(GetDeploymentConfigurationJobOutput.httpOutput(from:), GetDeploymentConfigurationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentConfigurationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Deployment", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentConfigurationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentConfigurationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Deployment"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeploymentConfigurationJobInput, GetDeploymentConfigurationJobOutput>(serviceID: serviceName, version: MarketplaceDeploymentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDeployment")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDeploymentConfigurationJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDeploymentConfigurationJobs` operation on the `MarketplaceDeployment` service.
+    ///
+    /// Lists the deployment configuration jobs that you started for a product and delivery option, ordered from newest to oldest. Results are paginated. Use the nextToken parameter to retrieve additional results. If you haven't started any jobs for the product and delivery option, the operation returns an empty jobs list.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentConfigurationJobsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDeploymentConfigurationJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : There was an internal service exception.
+    /// - `ThrottlingException` : Too many requests.
+    /// - `ValidationException` : An error occurred during validation.
+    public func listDeploymentConfigurationJobs(input: ListDeploymentConfigurationJobsInput) async throws -> ListDeploymentConfigurationJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDeploymentConfigurationJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>(ListDeploymentConfigurationJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>(ListDeploymentConfigurationJobsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentConfigurationJobsOutput>(ListDeploymentConfigurationJobsOutput.httpOutput(from:), ListDeploymentConfigurationJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentConfigurationJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Deployment", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentConfigurationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentConfigurationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Deployment"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeploymentConfigurationJobsInput, ListDeploymentConfigurationJobsOutput>(serviceID: serviceName, version: MarketplaceDeploymentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDeployment")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDeploymentConfigurationJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `MarketplaceDeployment` service.
     ///
-    /// Lists all tags that have been added to a deployment parameter resource.
+    /// Lists all tags that have been added to a resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -747,6 +954,80 @@ extension MarketplaceDeploymentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDeployment")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDeploymentParameter")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartDeploymentConfigurationJob` operation on the `MarketplaceDeployment` service.
+    ///
+    /// Starts a job that publishes a deployment configuration for a product and delivery option. The job runs asynchronously. Use GetDeploymentConfigurationJob to track its status. When the job reaches the SUCCEEDED status, its configuration becomes the active deployment configuration for the product and delivery option. The populated member of configuration must match the deliveryOptionType in the request path.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartDeploymentConfigurationJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartDeploymentConfigurationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `InternalServerException` : There was an internal service exception.
+    /// - `ResourceNotFoundException` : The specified resource wasn't found.
+    /// - `ThrottlingException` : Too many requests.
+    /// - `ValidationException` : An error occurred during validation.
+    public func startDeploymentConfigurationJob(input: StartDeploymentConfigurationJobInput) async throws -> StartDeploymentConfigurationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startDeploymentConfigurationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(StartDeploymentConfigurationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDeploymentConfigurationJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeploymentConfigurationJobOutput>(StartDeploymentConfigurationJobOutput.httpOutput(from:), StartDeploymentConfigurationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartDeploymentConfigurationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Deployment", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDeploymentConfigurationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDeploymentConfigurationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Deployment"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDeploymentConfigurationJobInput, StartDeploymentConfigurationJobOutput>(serviceID: serviceName, version: MarketplaceDeploymentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDeployment")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDeploymentConfigurationJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

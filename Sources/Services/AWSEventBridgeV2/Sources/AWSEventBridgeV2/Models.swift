@@ -189,7 +189,7 @@ public struct CreateEventBusInput: Swift.Sendable {
     public var description: Swift.String?
     /// Encryption configuration for an event bus.
     public var encryptionConfiguration: EventBridgeV2ClientTypes.EncryptionConfiguration?
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
     /// This member is required.
     public var name: Swift.String?
     /// Event storage configuration for an event bus.
@@ -301,7 +301,7 @@ public struct CreateEventBusOutput: Swift.Sendable {
     public var encryptionConfiguration: EventBridgeV2ClientTypes.EncryptionConfiguration?
     /// The Amazon Resource Name (ARN) that uniquely identifies an event bus.
     public var eventBusArn: Swift.String?
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
     public var name: Swift.String?
     /// Lifecycle state of an event bus.
     ///
@@ -415,7 +415,7 @@ extension EventBridgeV2ClientTypes {
         public var onFailureConfiguration: EventBridgeV2ClientTypes.OnFailureConfiguration?
         /// Identifier of the AWS KMS customer managed key used to encrypt events: a key ID, key ARN, alias name, or alias ARN. When absent, events are encrypted with an AWS owned key.
         public var partnerBusKmsKeyIdentifier: Swift.String?
-        /// ARN of the partner event source to forward. It is a partner-owned resource, so the account segment is empty: arn:aws:events:::event-source/aws.partner/.
+        /// ARN of the partner event source to forward. It is a partner-owned resource, so the account segment is empty: arn:aws:events:<region>::event-source/aws.partner/<name>.
         /// This member is required.
         public var partnerEventSourceArn: Swift.String?
         /// A filter pattern, as a JSON string, that defines which of the partner event source's events are forwarded to the event bus. If no pattern is specified, all events from the partner event source are forwarded.
@@ -437,12 +437,426 @@ extension EventBridgeV2ClientTypes {
 
 extension EventBridgeV2ClientTypes {
 
+    /// The provider sends HTTP Basic authentication credentials: an Authorization header with the value "Basic " followed by the Base64 encoding of username:password. Supply both Username and Password, or omit both so that EventBridge generates the pair. Supplying only one fails with InvalidInputException. EventBridge stores both only in AWS Secrets Manager and never returns them, including from DescribeEventSource.
+    public struct WebhookBasicHttpAuthConfiguration: Swift.Sendable {
+        /// The password.
+        public var password: Swift.String?
+        /// The username.
+        public var username: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Hash algorithms supported for hash-based message authentication code (HMAC) signatures.
+    public enum WebhookHmacAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sha1
+        case sha256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookHmacAlgorithm] {
+            return [
+                .sha1,
+                .sha256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sha1: return "SHA1"
+            case .sha256: return "SHA256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Encodings supported for HMAC signatures.
+    public enum WebhookHmacEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base64
+        case hex
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookHmacEncoding] {
+            return [
+                .base64,
+                .hex
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base64: return "BASE64"
+            case .hex: return "HEX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Encodings supported for an HMAC secret.
+    public enum WebhookSecretEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base64
+        case raw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookSecretEncoding] {
+            return [
+                .base64,
+                .raw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base64: return "BASE64"
+            case .raw: return "RAW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// How the provider assembles the message it signs from the request.
+    ///
+    /// * BODY - The request body alone. BODY provides no replay protection.
+    ///
+    /// * TIMESTAMP_DOT_BODY - <timestamp>.<body>. Requires TimestampHttpHeader.
+    ///
+    /// * MESSAGE_ID_DOT_TIMESTAMP_DOT_BODY - <messageId>.<timestamp>.<body>, as in the Standard Webhooks specification. Requires TimestampHttpHeader and MessageIdHttpHeader.
+    public enum WebhookSignedMessageComposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case body
+        case messageIdDotTimestampDotBody
+        case timestampDotBody
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookSignedMessageComposition] {
+            return [
+                .body,
+                .messageIdDotTimestampDotBody,
+                .timestampDotBody
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .body: return "BODY"
+            case .messageIdDotTimestampDotBody: return "MESSAGE_ID_DOT_TIMESTAMP_DOT_BODY"
+            case .timestampDotBody: return "TIMESTAMP_DOT_BODY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// The provider signs each request with a hash-based message authentication code (HMAC) of the secret. Amazon EventBridge accepts the request if any signature in SignatureHttpHeader matches.
+    public struct WebhookHmacAuthConfiguration: Swift.Sendable {
+        /// The hash algorithm the provider uses to compute the signature.
+        /// This member is required.
+        public var algorithm: EventBridgeV2ClientTypes.WebhookHmacAlgorithm?
+        /// The separator between parts of the signature header value, for example a comma for a header value of t=1727816400,v1=<signature>, or a space when the header carries several signatures. Required when TimestampHttpHeader is the same header as SignatureHttpHeader.
+        public var delimiter: Swift.String?
+        /// How the provider encodes the signature in the header.
+        /// This member is required.
+        public var encoding: EventBridgeV2ClientTypes.WebhookHmacEncoding?
+        /// The name of the header that carries the message ID. Required when SignedMessageComposition is MESSAGE_ID_DOT_TIMESTAMP_DOT_BODY. Requests whose message ID contains a period (.) are rejected. Reserved names are rejected, as described on StaticTokenAuthConfiguration's TokenHttpHeader.
+        public var messageIdHttpHeader: Swift.String?
+        /// How the secret is encoded. RAW uses the secret's characters as the signing key. BASE64 decodes the secret first, as providers that follow the Standard Webhooks specification require. The default is RAW.
+        public var secretEncoding: EventBridgeV2ClientTypes.WebhookSecretEncoding?
+        /// The signing key shared with the provider. If you omit it, EventBridge generates one. EventBridge stores the key only in AWS Secrets Manager and never returns it, including from DescribeEventSource. The key must be 16 to 512 bytes; with BASE64 SecretEncoding, this is measured after decoding.
+        public var secretValue: Swift.String?
+        /// The name of the header that carries the signature, for example X-Hub-Signature-256. When TimestampHttpHeader names the same header, Delimiter, SignaturePrefix and TimestampPrefix are all required. Reserved names are rejected, as described on StaticTokenAuthConfiguration's TokenHttpHeader.
+        /// This member is required.
+        public var signatureHttpHeader: Swift.String?
+        /// The text that precedes the signature in the header value, for example sha256=. Required when TimestampHttpHeader is the same header as SignatureHttpHeader.
+        public var signaturePrefix: Swift.String?
+        /// How the provider assembles the message it signs from the request.
+        ///
+        /// * BODY - The request body alone. BODY provides no replay protection.
+        ///
+        /// * TIMESTAMP_DOT_BODY - <timestamp>.<body>. Requires TimestampHttpHeader.
+        ///
+        /// * MESSAGE_ID_DOT_TIMESTAMP_DOT_BODY - <messageId>.<timestamp>.<body>, as in the Standard Webhooks specification. Requires TimestampHttpHeader and MessageIdHttpHeader.
+        /// This member is required.
+        public var signedMessageComposition: EventBridgeV2ClientTypes.WebhookSignedMessageComposition?
+        /// The name of the header that carries the request timestamp. Required when SignedMessageComposition is TIMESTAMP_DOT_BODY or MESSAGE_ID_DOT_TIMESTAMP_DOT_BODY, or when TimestampToleranceInSeconds is set. Not allowed when SignedMessageComposition is BODY, because BODY does not sign the timestamp. Reserved names are rejected, as described on StaticTokenAuthConfiguration's TokenHttpHeader.
+        public var timestampHttpHeader: Swift.String?
+        /// The text that precedes the timestamp in the header value, for example t=. Required when TimestampHttpHeader is the same header as SignatureHttpHeader.
+        public var timestampPrefix: Swift.String?
+        /// The maximum difference, in seconds, allowed between the request timestamp and the time EventBridge receives the request. Requests outside this window are rejected. The default is 300 seconds. Requires TimestampHttpHeader. Not allowed when SignedMessageComposition is BODY, because BODY does not sign the timestamp.
+        public var timestampToleranceInSeconds: Swift.Int?
+
+        public init(
+            algorithm: EventBridgeV2ClientTypes.WebhookHmacAlgorithm? = nil,
+            delimiter: Swift.String? = nil,
+            encoding: EventBridgeV2ClientTypes.WebhookHmacEncoding? = nil,
+            messageIdHttpHeader: Swift.String? = nil,
+            secretEncoding: EventBridgeV2ClientTypes.WebhookSecretEncoding? = nil,
+            secretValue: Swift.String? = nil,
+            signatureHttpHeader: Swift.String? = nil,
+            signaturePrefix: Swift.String? = nil,
+            signedMessageComposition: EventBridgeV2ClientTypes.WebhookSignedMessageComposition? = nil,
+            timestampHttpHeader: Swift.String? = nil,
+            timestampPrefix: Swift.String? = nil,
+            timestampToleranceInSeconds: Swift.Int? = nil
+        ) {
+            self.algorithm = algorithm
+            self.delimiter = delimiter
+            self.encoding = encoding
+            self.messageIdHttpHeader = messageIdHttpHeader
+            self.secretEncoding = secretEncoding
+            self.secretValue = secretValue
+            self.signatureHttpHeader = signatureHttpHeader
+            self.signaturePrefix = signaturePrefix
+            self.signedMessageComposition = signedMessageComposition
+            self.timestampHttpHeader = timestampHttpHeader
+            self.timestampPrefix = timestampPrefix
+            self.timestampToleranceInSeconds = timestampToleranceInSeconds
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// The provider sends the secret as the value of an HTTP header.
+    public struct WebhookStaticTokenAuthConfiguration: Swift.Sendable {
+        /// The token the provider sends in the header. If you omit it, EventBridge generates one. EventBridge stores the token only in AWS Secrets Manager and never returns it, including from DescribeEventSource. EventBridge compares it against the entire header value, so a provider that sends Authorization: Bearer <token> needs SecretValue to include the "Bearer " prefix.
+        public var secretValue: Swift.String?
+        /// The name of the header that carries the secret, for example X-Webhook-Secret. Reserved names are rejected: the names EventBridge's edge writes, such as Host and the X-Forwarded-* family, and the hop-by-hop and framing names an HTTP intermediary may rewrite, such as Connection and Content-Length. Authorization is allowed.
+        /// This member is required.
+        public var tokenHttpHeader: Swift.String?
+
+        public init(
+            secretValue: Swift.String? = nil,
+            tokenHttpHeader: Swift.String? = nil
+        ) {
+            self.secretValue = secretValue
+            self.tokenHttpHeader = tokenHttpHeader
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// How the provider authenticates its webhook requests. Exactly one variant must be set.
+    public enum WebhookAuthConfiguration: Swift.Sendable {
+        /// The provider sends a static token in an HTTP header.
+        case statictokenauthconfiguration(EventBridgeV2ClientTypes.WebhookStaticTokenAuthConfiguration)
+        /// The provider uses HTTP Basic authentication.
+        case basichttpauthconfiguration(EventBridgeV2ClientTypes.WebhookBasicHttpAuthConfiguration)
+        /// The provider signs each request with an HMAC of the secret.
+        case hmacauthconfiguration(EventBridgeV2ClientTypes.WebhookHmacAuthConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// How duplicate events are detected. Deduplicating by a caller-supplied ID is not available for a webhook EventSource, because its sender calls an HTTP endpoint and so cannot set an ID per event.
+    public enum WebhookDeduplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Duplicates are detected by a hash of the event content.
+        case contentBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookDeduplicationType] {
+            return [
+                .contentBased
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentBased: return "CONTENT_BASED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Deduplication settings for a webhook EventSource's events.
+    public struct WebhookDeduplicationConfiguration: Swift.Sendable {
+        /// How duplicate events are detected.
+        /// This member is required.
+        public var deduplicationType: EventBridgeV2ClientTypes.WebhookDeduplicationType?
+
+        public init(
+            deduplicationType: EventBridgeV2ClientTypes.WebhookDeduplicationType? = nil
+        ) {
+            self.deduplicationType = deduplicationType
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    public enum IncludePayload: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case onErrorOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludePayload] {
+            return [
+                .full,
+                .onErrorOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .onErrorOnly: return "ON_ERROR_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    public enum LogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case info
+        case off
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogLevel] {
+            return [
+                .error,
+                .info,
+                .off
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .off: return "OFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Log configuration for a resource that delivers vended logs: a subscriber or a webhook EventSource.
+    public struct LogConfiguration: Swift.Sendable {
+        /// Whether the customer event payload is embedded in log records. Defaults to ON_ERROR_ONLY.
+        public var includePayload: EventBridgeV2ClientTypes.IncludePayload?
+        /// Minimum log level. Records below this level are not emitted. Defaults to OFF.
+        public var level: EventBridgeV2ClientTypes.LogLevel?
+
+        public init(
+            includePayload: EventBridgeV2ClientTypes.IncludePayload? = nil,
+            level: EventBridgeV2ClientTypes.LogLevel? = nil
+        ) {
+            self.includePayload = includePayload
+            self.level = level
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Configuration for receiving events from an external provider, such as a SaaS application, that sends them as HTTPS POST requests to a webhook URL. The provider authenticates with an HTTP scheme instead of AWS credentials.
+    public struct WebhookEventsSourceConfiguration: Swift.Sendable {
+        /// How the provider authenticates its requests. Exactly one authentication type must be set, and it can't be changed after the EventSource is created.
+        /// This member is required.
+        public var authConfiguration: EventBridgeV2ClientTypes.WebhookAuthConfiguration?
+        /// Optional. Deduplicates this EventSource's events on the event bus. Omit it to deduplicate nothing.
+        public var deduplicationConfiguration: EventBridgeV2ClientTypes.WebhookDeduplicationConfiguration?
+        /// Optional. The AWS KMS key that encrypts the EventSource's secret in AWS Secrets Manager. Omit it to encrypt the secret with the AWS managed key aws/secretsmanager. A key you supply must be an enabled customer managed key in your account and Region. Changing it re-encrypts the secret under the new key. The previous key can still decrypt the stored versions until the credential is next rotated.
+        public var kmsKeyIdentifier: Swift.String?
+        /// Optional. Controls the log records EventBridge delivers for this EventSource's webhook requests. Omit it to deliver no logs. Logs are delivered to the destinations you configure with Amazon CloudWatch Logs vended log delivery.
+        public var logConfiguration: EventBridgeV2ClientTypes.LogConfiguration?
+        /// The HTTP request headers to add to each event's metadata, up to 20. Header names are case-insensitive and can't repeat. Each header is added under its lowercase name. Omit the list to add no headers. Headers that carry credentials or that describe the network path, and the header that carries the static token, can't be listed.
+        public var metadataHttpHeaders: [Swift.String]?
+        /// IAM role the service assumes to put the webhook's events on the event bus. Must belong to the calling account.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            authConfiguration: EventBridgeV2ClientTypes.WebhookAuthConfiguration? = nil,
+            deduplicationConfiguration: EventBridgeV2ClientTypes.WebhookDeduplicationConfiguration? = nil,
+            kmsKeyIdentifier: Swift.String? = nil,
+            logConfiguration: EventBridgeV2ClientTypes.LogConfiguration? = nil,
+            metadataHttpHeaders: [Swift.String]? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.authConfiguration = authConfiguration
+            self.deduplicationConfiguration = deduplicationConfiguration
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.logConfiguration = logConfiguration
+            self.metadataHttpHeaders = metadataHttpHeaders
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
     /// Discriminated EventSource configuration. Exactly one variant must be set.
     public enum EventSourceConfiguration: Swift.Sendable {
         /// Configuration for forwarding a single AWS service's events from the account's default event bus.
         case awsserviceeventsconfiguration(EventBridgeV2ClientTypes.AwsServiceEventsSourceConfiguration)
         /// Configuration for forwarding a partner event source's events through a managed partner event bus.
         case partnereventsconfiguration(EventBridgeV2ClientTypes.PartnerEventsSourceConfiguration)
+        /// Configuration for receiving events that a third-party provider sends to an HTTPS webhook URL.
+        case webhookeventsconfiguration(EventBridgeV2ClientTypes.WebhookEventsSourceConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -458,7 +872,7 @@ public struct CreateEventSourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies an event bus.
     /// This member is required.
     public var eventBusArn: Swift.String?
-    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
     /// This member is required.
     public var name: Swift.String?
     /// Tags attached to a resource, as key-value pairs.
@@ -478,6 +892,40 @@ public struct CreateEventSourceInput: Swift.Sendable {
         self.eventBusArn = eventBusArn
         self.name = name
         self.tags = tags
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Values EventBridge generated for a webhook EventSource.
+    public struct WebhookDetails: Swift.Sendable {
+        /// The ARN of the AWS Secrets Manager secret, in your account, that holds the secret.
+        public var secretArn: Swift.String?
+        /// The HTTPS URL to configure in the provider. The URL doesn't change for the life of the EventSource.
+        public var webhookUrl: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil,
+            webhookUrl: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+            self.webhookUrl = webhookUrl
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Values EventBridge generated for an EventSource that depend on its type. Only the member for the EventSource's type is set. Returned in responses only. You never supply these values.
+    public struct EventSourceDetails: Swift.Sendable {
+        /// Values generated for a webhook EventSource.
+        public var webhookDetails: EventBridgeV2ClientTypes.WebhookDetails?
+
+        public init(
+            webhookDetails: EventBridgeV2ClientTypes.WebhookDetails? = nil
+        ) {
+            self.webhookDetails = webhookDetails
+        }
     }
 }
 
@@ -531,9 +979,11 @@ public struct CreateEventSourceOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) that uniquely identifies an event bus.
     public var eventBusArn: Swift.String?
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     public var eventSourceArn: Swift.String?
-    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+    /// Values EventBridge generated for this EventSource type, such as a webhook's URL and the ARN of its secret. Absent for EventSource types that have no generated values.
+    public var eventSourceDetails: EventBridgeV2ClientTypes.EventSourceDetails?
+    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
     public var name: Swift.String?
     /// Lifecycle state of an EventSource. Revocation is reported by the Revoked flag.
     public var state: EventBridgeV2ClientTypes.EventSourceState?
@@ -542,12 +992,14 @@ public struct CreateEventSourceOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         eventBusArn: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceDetails: EventBridgeV2ClientTypes.EventSourceDetails? = nil,
         name: Swift.String? = nil,
         state: EventBridgeV2ClientTypes.EventSourceState? = nil
     ) {
         self.creationTime = creationTime
         self.eventBusArn = eventBusArn
         self.eventSourceArn = eventSourceArn
+        self.eventSourceDetails = eventSourceDetails
         self.name = name
         self.state = state
     }
@@ -866,6 +1318,166 @@ extension EventBridgeV2ClientTypes {
 
 extension EventBridgeV2ClientTypes {
 
+    /// Producer acknowledgement mode. ALL waits for all in-sync replicas; LEADER waits for the partition leader only.
+    public enum MskAcks: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case leader
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MskAcks] {
+            return [
+                .all,
+                .leader
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .leader: return "LEADER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Producer compression codec.
+    public enum MskCompression: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case lz4
+        case `none`
+        case snappy
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MskCompression] {
+            return [
+                .gzip,
+                .lz4,
+                .none,
+                .snappy,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .lz4: return "LZ4"
+            case .none: return "NONE"
+            case .snappy: return "SNAPPY"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// How the service connects to an Amazon MSK cluster. PUBLIC connects through the cluster's public access; PRIVATE connects through the cluster's multi-VPC private connectivity.
+    public enum MskConnectivity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MskConnectivity] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// A single Kafka record header. Both Key and Value accept a literal or a JSONata expression (e.g. "{% $events.metadata.source %}") resolved once per delivered event.
+    public struct MskHeader: Swift.Sendable {
+        /// The header key. Accepts a literal or a JSONata expression.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The header value. Accepts a literal or a JSONata expression.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// MSK (Apache Kafka) invocation parameters for subscribers targeting an Amazon MSK cluster.
+    public struct MskParameters: Swift.Sendable {
+        /// Producer acknowledgement mode. Defaults to ALL.
+        public var acks: EventBridgeV2ClientTypes.MskAcks?
+        /// Producer client.id passed to the Kafka broker. Identifies the producer in broker-side logs, metrics, and quota enforcement. A literal, not a JSONata expression: it is a connection-level setting resolved once when the producer is created, not per event. If you do not set it, EventBridge uses the subscriber ARN.
+        public var clientId: Swift.String?
+        /// Producer compression codec applied to the record batch. Defaults to NONE.
+        public var compression: EventBridgeV2ClientTypes.MskCompression?
+        /// How the service connects to the cluster. A cluster can have public access and multi-VPC private connectivity turned on at the same time, so the subscriber names the one to use. That path must be turned on, with IAM access control, on the cluster.
+        /// This member is required.
+        public var connectivity: EventBridgeV2ClientTypes.MskConnectivity?
+        /// Kafka record headers attached to each produced record.
+        public var headers: [EventBridgeV2ClientTypes.MskHeader]?
+        /// Kafka record key. Accepts a literal or a JSONata expression (e.g. "{% $events.data.customerId %}") resolved once per delivered event; the resolved value selects the destination partition. If you omit it, the producer selects the partition; on an ordered (FIFO) subscriber, EventBridge instead uses the event group ID as the record key to preserve ordering.
+        public var partitionKey: Swift.String?
+        /// Name of the Kafka topic events are produced to. Accepts a literal or a JSONata expression resolved once per delivered event.
+        /// This member is required.
+        public var topicName: Swift.String?
+
+        public init(
+            acks: EventBridgeV2ClientTypes.MskAcks? = nil,
+            clientId: Swift.String? = nil,
+            compression: EventBridgeV2ClientTypes.MskCompression? = nil,
+            connectivity: EventBridgeV2ClientTypes.MskConnectivity? = nil,
+            headers: [EventBridgeV2ClientTypes.MskHeader]? = nil,
+            partitionKey: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        ) {
+            self.acks = acks
+            self.clientId = clientId
+            self.compression = compression
+            self.connectivity = connectivity
+            self.headers = headers
+            self.partitionKey = partitionKey
+            self.topicName = topicName
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
     /// A custom SNS message attribute (data type plus string or binary value).
     public struct SnsMessageAttributeValue: Swift.Sendable {
         /// Base64-encoded literal binary attribute value.
@@ -1006,7 +1618,7 @@ extension EventBridgeV2ClientTypes {
         /// JSON string or JSONata expression that produces the API request. Supports {% ... %} JSONata expressions for dynamic values from the event.
         /// This member is required.
         public var input: Swift.String?
-        /// Timeout in seconds for each invocation of the target (1-30, default 30). Accepts a literal integer or a {% ... %} JSONata expression evaluated against the event at invocation time. A JSONata expression is syntax-checked at create time. Resolved values outside of the range [1, 30] will be constrained to the nearest bound at delivery time. Defaults to 30 seconds when unset.
+        /// Timeout in seconds for each invocation of the target (1-30, default 30). Must be a literal integer; JSONata expressions are not supported for this field. String-typed to match the other targets' timeout fields. Defaults to 30s when unset.
         public var invocationTimeoutSeconds: Swift.String?
 
         public init(
@@ -1031,6 +1643,8 @@ extension EventBridgeV2ClientTypes {
         public var kinesisParameters: EventBridgeV2ClientTypes.KinesisParameters?
         /// Lambda invocation parameters for subscribers. Values are forwarded to the Lambda Invoke API. Every string member accepts a literal or a JSONata expression (e.g. "{% $events.Data.qualifier %}").
         public var lambdaParameters: EventBridgeV2ClientTypes.LambdaParameters?
+        /// MSK (Apache Kafka) invocation parameters for subscribers targeting an Amazon MSK cluster.
+        public var mskParameters: EventBridgeV2ClientTypes.MskParameters?
         /// IAM role the service assumes to invoke the target. Must belong to the calling account.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -1051,6 +1665,7 @@ extension EventBridgeV2ClientTypes {
             httpParameters: EventBridgeV2ClientTypes.HttpParameters? = nil,
             kinesisParameters: EventBridgeV2ClientTypes.KinesisParameters? = nil,
             lambdaParameters: EventBridgeV2ClientTypes.LambdaParameters? = nil,
+            mskParameters: EventBridgeV2ClientTypes.MskParameters? = nil,
             roleArn: Swift.String? = nil,
             snsParameters: EventBridgeV2ClientTypes.SnsParameters? = nil,
             sqsParameters: EventBridgeV2ClientTypes.SqsParameters? = nil,
@@ -1062,92 +1677,13 @@ extension EventBridgeV2ClientTypes {
             self.httpParameters = httpParameters
             self.kinesisParameters = kinesisParameters
             self.lambdaParameters = lambdaParameters
+            self.mskParameters = mskParameters
             self.roleArn = roleArn
             self.snsParameters = snsParameters
             self.sqsParameters = sqsParameters
             self.stepFunctionsParameters = stepFunctionsParameters
             self.targetArn = targetArn
             self.universalTargetParameters = universalTargetParameters
-        }
-    }
-}
-
-extension EventBridgeV2ClientTypes {
-
-    public enum IncludePayload: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case full
-        case onErrorOnly
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IncludePayload] {
-            return [
-                .full,
-                .onErrorOnly
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .full: return "FULL"
-            case .onErrorOnly: return "ON_ERROR_ONLY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EventBridgeV2ClientTypes {
-
-    public enum LogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case error
-        case info
-        case off
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LogLevel] {
-            return [
-                .error,
-                .info,
-                .off
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .error: return "ERROR"
-            case .info: return "INFO"
-            case .off: return "OFF"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EventBridgeV2ClientTypes {
-
-    /// Log configuration for a subscriber.
-    public struct LogConfiguration: Swift.Sendable {
-        /// Whether the customer event payload is embedded in log records. Defaults to ON_ERROR_ONLY.
-        public var includePayload: EventBridgeV2ClientTypes.IncludePayload?
-        /// Minimum log level. Records below this level are not emitted. Defaults to OFF.
-        public var level: EventBridgeV2ClientTypes.LogLevel?
-
-        public init(
-            includePayload: EventBridgeV2ClientTypes.IncludePayload? = nil,
-            level: EventBridgeV2ClientTypes.LogLevel? = nil
-        ) {
-            self.includePayload = includePayload
-            self.level = level
         }
     }
 }
@@ -1452,7 +1988,7 @@ public struct CreateSubscriberInput: Swift.Sendable {
     public var state: EventBridgeV2ClientTypes.SubscriberState?
     /// Tags attached to a resource, as key-value pairs.
     public var tags: [Swift.String: Swift.String]?
-    /// Not applicable to universal (aws-sdk) targets, whose input transformation is UniversalTargetParameters.Input; a Transformer on such a target is rejected.
+    /// Transformer configuration for a subscriber.
     public var transformer: EventBridgeV2ClientTypes.Transformer?
     /// Delivery ordering mode of a subscriber: FIFO delivers events in order within an event group; UNORDERED delivers without an ordering guarantee.
     public var type: EventBridgeV2ClientTypes.OrderingType?
@@ -1494,6 +2030,77 @@ public struct CreateSubscriberInput: Swift.Sendable {
     }
 }
 
+extension EventBridgeV2ClientTypes {
+
+    /// Provisioning state of the connectivity EventBridge sets up between a subscriber and its target cluster. Covers all of that setup (for PRIVATE connectivity: the VPC connection, DNS records, and related resources), so it can lag the state the target service reports for the VPC connection. Distinct from the customer-controlled subscriber State (RUNNING/STOPPED). PROVISIONING: provisioning is in progress. PROVISION_FAILED: provisioning failed; see StateReason. ACTIVE: provisioning is complete and the subscriber is ready for delivery.
+    public enum ConnectivityState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case provisioning
+        case provisionFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectivityState] {
+            return [
+                .active,
+                .provisioning,
+                .provisionFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .provisioning: return "PROVISIONING"
+            case .provisionFailed: return "PROVISION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Values EventBridge manages for a subscriber that targets an Amazon MSK cluster.
+    public struct MskDetails: Swift.Sendable {
+        /// Provisioning state of the connectivity EventBridge sets up to the cluster. Distinct from the subscriber's State, which the customer controls.
+        public var connectivityState: EventBridgeV2ClientTypes.ConnectivityState?
+        /// Why provisioning failed. Present only when ConnectivityState is PROVISION_FAILED.
+        public var stateReason: Swift.String?
+        /// ARN of the VPC connection EventBridge uses to reach the cluster. Present only for PRIVATE connectivity, once the connection exists. It is the connection the cluster owner sees through the MSK ListClientVpcConnections API.
+        public var vpcConnectionArn: Swift.String?
+
+        public init(
+            connectivityState: EventBridgeV2ClientTypes.ConnectivityState? = nil,
+            stateReason: Swift.String? = nil,
+            vpcConnectionArn: Swift.String? = nil
+        ) {
+            self.connectivityState = connectivityState
+            self.stateReason = stateReason
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// Values EventBridge manages for a subscriber that depend on its target type. Only the member for the subscriber's target type is set. Returned in responses only; the customer never supplies these values.
+    public struct SubscriberDetails: Swift.Sendable {
+        /// Values EventBridge manages for a subscriber that targets an Amazon MSK cluster.
+        public var mskDetails: EventBridgeV2ClientTypes.MskDetails?
+
+        public init(
+            mskDetails: EventBridgeV2ClientTypes.MskDetails? = nil
+        ) {
+            self.mskDetails = mskDetails
+        }
+    }
+}
+
 public struct CreateSubscriberOutput: Swift.Sendable {
     /// The time the subscriber was created.
     public var creationTime: Foundation.Date?
@@ -1509,6 +2116,8 @@ public struct CreateSubscriberOutput: Swift.Sendable {
     public var state: EventBridgeV2ClientTypes.SubscriberState?
     /// The Amazon Resource Name (ARN) that uniquely identifies a subscriber.
     public var subscriberArn: Swift.String?
+    /// Values EventBridge manages for a subscriber that depend on its target type. Only the member for the subscriber's target type is set. Returned in responses only; the customer never supplies these values.
+    public var subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails?
     /// Delivery ordering mode of a subscriber: FIFO delivers events in order within an event group; UNORDERED delivers without an ordering guarantee.
     public var type: EventBridgeV2ClientTypes.OrderingType?
 
@@ -1520,6 +2129,7 @@ public struct CreateSubscriberOutput: Swift.Sendable {
         startingPosition: EventBridgeV2ClientTypes.StartingPosition? = nil,
         state: EventBridgeV2ClientTypes.SubscriberState? = nil,
         subscriberArn: Swift.String? = nil,
+        subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails? = nil,
         type: EventBridgeV2ClientTypes.OrderingType? = nil
     ) {
         self.creationTime = creationTime
@@ -1529,6 +2139,7 @@ public struct CreateSubscriberOutput: Swift.Sendable {
         self.startingPosition = startingPosition
         self.state = state
         self.subscriberArn = subscriberArn
+        self.subscriberDetails = subscriberDetails
         self.type = type
     }
 }
@@ -1574,7 +2185,7 @@ public struct DeleteEventBusOutput: Swift.Sendable {
 }
 
 public struct DeleteEventSourceInput: Swift.Sendable {
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     /// This member is required.
     public var eventSourceArn: Swift.String?
 
@@ -1684,7 +2295,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// The time the event bus was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
     public var name: Swift.String?
     /// Lifecycle state of an event bus.
     ///
@@ -1731,7 +2342,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
 }
 
 public struct DescribeEventSourceInput: Swift.Sendable {
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     /// This member is required.
     public var eventSourceArn: Swift.String?
 
@@ -1751,11 +2362,13 @@ public struct DescribeEventSourceOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) that uniquely identifies an event bus.
     public var eventBusArn: Swift.String?
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     public var eventSourceArn: Swift.String?
+    /// Values EventBridge generated for this EventSource type, such as a webhook's URL and the ARN of its secret. Absent for EventSource types that have no generated values.
+    public var eventSourceDetails: EventBridgeV2ClientTypes.EventSourceDetails?
     /// The time the EventSource was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
     public var name: Swift.String?
     /// True when the bus owner has withdrawn this EventSource. Present only when true, so an absent member means the EventSource is not revoked. Revocation is terminal: it never returns to false. Mutating operations on a revoked EventSource fail with InvalidStateException, except DeleteEventSource, which stays available so a revoked EventSource can still be cleaned up.
     public var revoked: Swift.Bool?
@@ -1768,6 +2381,7 @@ public struct DescribeEventSourceOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eventBusArn: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
+        eventSourceDetails: EventBridgeV2ClientTypes.EventSourceDetails? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         revoked: Swift.Bool? = nil,
@@ -1778,6 +2392,7 @@ public struct DescribeEventSourceOutput: Swift.Sendable {
         self.description = description
         self.eventBusArn = eventBusArn
         self.eventSourceArn = eventSourceArn
+        self.eventSourceDetails = eventSourceDetails
         self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.revoked = revoked
@@ -1830,7 +2445,9 @@ public struct DescribeSubscriberOutput: Swift.Sendable {
     public var state: EventBridgeV2ClientTypes.SubscriberState?
     /// The Amazon Resource Name (ARN) that uniquely identifies a subscriber.
     public var subscriberArn: Swift.String?
-    /// Absent for universal (aws-sdk) targets, whose input transformation is UniversalTargetParameters.Input.
+    /// Values EventBridge manages for a subscriber that depend on its target type. Only the member for the subscriber's target type is set. Returned in responses only; the customer never supplies these values.
+    public var subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails?
+    /// Transformer configuration for a subscriber.
     public var transformer: EventBridgeV2ClientTypes.Transformer?
     /// Delivery ordering mode of a subscriber: FIFO delivers events in order within an event group; UNORDERED delivers without an ordering guarantee.
     public var type: EventBridgeV2ClientTypes.OrderingType?
@@ -1852,6 +2469,7 @@ public struct DescribeSubscriberOutput: Swift.Sendable {
         startingPosition: EventBridgeV2ClientTypes.StartingPosition? = nil,
         state: EventBridgeV2ClientTypes.SubscriberState? = nil,
         subscriberArn: Swift.String? = nil,
+        subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails? = nil,
         transformer: EventBridgeV2ClientTypes.Transformer? = nil,
         type: EventBridgeV2ClientTypes.OrderingType? = nil
     ) {
@@ -1871,6 +2489,7 @@ public struct DescribeSubscriberOutput: Swift.Sendable {
         self.startingPosition = startingPosition
         self.state = state
         self.subscriberArn = subscriberArn
+        self.subscriberDetails = subscriberDetails
         self.transformer = transformer
         self.type = type
     }
@@ -1894,7 +2513,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
 /// Returned only when the named policy exists. A missing event bus or a missing named policy fails with ResourceNotFoundException rather than returning an empty or null policy document. Every member is therefore always present on a successful response.
 public struct GetResourcePolicyOutput: Swift.Sendable {
-    /// A resource policy document, as a JSON string. The "default" policy can be up to 20 KB (20,480 bytes of UTF-8) by default. This quota is adjustable in Service Quotas. A "default" policy that exceeds the quota is rejected with PolicyLengthExceededException. No policy document can exceed 389,120 bytes of UTF-8, regardless of the quota.
+    /// A resource policy document, as a JSON string. The maximum size is 389,120 bytes of UTF-8; the byte limit is enforced by the service.
     /// This member is required.
     public var policyDocument: Swift.String?
     /// Name of a policy attached to a resource. Valid values: "default" (the customer-managed policy) and "AWS_RAM" (managed exclusively by AWS Resource Access Manager). Any other value is rejected.
@@ -1971,7 +2590,7 @@ public struct ListEventBusesInput: Swift.Sendable {
     public var eventBusAccountId: Swift.String?
     /// Maximum number of results to return in one page of a List operation.
     public var maxResults: Swift.Int?
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
     public var namePrefix: Swift.String?
     /// Opaque pagination token returned by a List operation. Pass it back in the next request to retrieve the next page of results.
     public var nextToken: Swift.String?
@@ -2003,7 +2622,7 @@ extension EventBridgeV2ClientTypes {
         public var eventBusArn: Swift.String?
         /// The time the event bus was last modified.
         public var lastModifiedTime: Foundation.Date?
-        /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+        /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
         public var name: Swift.String?
         /// Lifecycle state of an event bus.
         ///
@@ -2066,7 +2685,7 @@ public struct ListEventSourcesInput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// Maximum number of results to return in one page of a List operation.
     public var maxResults: Swift.Int?
-    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
     public var namePrefix: Swift.String?
     /// Opaque pagination token returned by a List operation. Pass it back in the next request to retrieve the next page of results.
     public var nextToken: Swift.String?
@@ -2086,16 +2705,24 @@ public struct ListEventSourcesInput: Swift.Sendable {
 
 extension EventBridgeV2ClientTypes {
 
-    /// Origin type of an EventSource: an AWS service's events (AWS_SERVICE_EVENTS) or a partner event source's events (PARTNER_EVENTS).
+    /// Origin type of an EventSource.
+    ///
+    /// * AWS_SERVICE_EVENTS - Events from an AWS service.
+    ///
+    /// * PARTNER_EVENTS - Events from a partner event source.
+    ///
+    /// * WEBHOOK_EVENTS - Events that a third-party provider sends to a webhook URL.
     public enum EventSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsServiceEvents
         case partnerEvents
+        case webhookEvents
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventSourceType] {
             return [
                 .awsServiceEvents,
-                .partnerEvents
+                .partnerEvents,
+                .webhookEvents
             ]
         }
 
@@ -2108,6 +2735,7 @@ extension EventBridgeV2ClientTypes {
             switch self {
             case .awsServiceEvents: return "AWS_SERVICE_EVENTS"
             case .partnerEvents: return "PARTNER_EVENTS"
+            case .webhookEvents: return "WEBHOOK_EVENTS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2124,17 +2752,23 @@ extension EventBridgeV2ClientTypes {
         public var eventBusArn: Swift.String?
         /// AWS Account Id.
         public var eventSourceAccountId: Swift.String?
-        /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+        /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
         public var eventSourceArn: Swift.String?
         /// The time the EventSource was last modified.
         public var lastModifiedTime: Foundation.Date?
-        /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+        /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
         public var name: Swift.String?
         /// True when the bus owner has withdrawn this EventSource. Present only when true, so a bus owner listing EventSources sees at a glance which ones they revoked. See DescribeEventSourceResponse$Revoked.
         public var revoked: Swift.Bool?
         /// Lifecycle state of an EventSource. Revocation is reported by the Revoked flag.
         public var state: EventBridgeV2ClientTypes.EventSourceState?
-        /// Origin type of an EventSource: an AWS service's events (AWS_SERVICE_EVENTS) or a partner event source's events (PARTNER_EVENTS).
+        /// Origin type of an EventSource.
+        ///
+        /// * AWS_SERVICE_EVENTS - Events from an AWS service.
+        ///
+        /// * PARTNER_EVENTS - Events from a partner event source.
+        ///
+        /// * WEBHOOK_EVENTS - Events that a third-party provider sends to a webhook URL.
         public var type: EventBridgeV2ClientTypes.EventSourceType?
 
         public init(
@@ -2458,9 +3092,9 @@ extension EventBridgeV2ClientTypes {
 
     /// Result entry for a published event. The position of each entry in the response list aligns 1:1 with the corresponding request entry.
     public struct PutEventsResultEntry: Swift.Sendable {
-        /// Error code identifying why a publish batch entry failed.
+        /// Error code if the entry failed.
         public var errorCode: Swift.String?
-        /// Human-readable explanation of why a publish batch entry failed.
+        /// Error message if the entry failed.
         public var errorMessage: Swift.String?
         /// Unique event ID assigned by the service.
         public var eventId: Swift.String?
@@ -2527,7 +3161,7 @@ extension EventBridgeV2ClientTypes {
 
     /// System metadata for PutRawEvents entries. ContentType is required because PutRawEvents supports arbitrary binary formats.
     public struct PutRawEventsSystemMetadata: Swift.Sendable {
-        /// Content type of the event data (e.g., "application/cloudevents+json").
+        /// Content type of the event data. Valid values: application/json, application/avro, application/protobuf, application/octet-stream.
         /// This member is required.
         public var contentType: Swift.String?
         /// Deduplication ID for FIFO deduplication.
@@ -2679,7 +3313,7 @@ public struct PutRawEventsOutput: Swift.Sendable {
     }
 }
 
-/// The policy document is larger than the account's resource policy size quota, or larger than the service maximum.
+/// The policy document exceeds the maximum allowed size.
 public struct PolicyLengthExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2728,7 +3362,7 @@ public struct PublicPolicyException: ClientRuntime.ModeledError, ClientRuntime.S
 public struct PutResourcePolicyInput: Swift.Sendable {
     /// The write succeeds only if the named policy's current revision ID matches this value; a policy that does not exist yet matches only the sentinel "NO_POLICY" (create-only). On mismatch the operation fails with ConflictException. When omitted, the write is unconditional. Every attempt stores a newly generated revision ID, so retrying an unanswered request can conflict with the caller's own earlier attempt; read the policy back and compare it with the one you intended before treating a conflict as another writer's change.
     public var expectedRevisionId: Swift.String?
-    /// A resource policy document, as a JSON string. The "default" policy can be up to 20 KB (20,480 bytes of UTF-8) by default. This quota is adjustable in Service Quotas. A "default" policy that exceeds the quota is rejected with PolicyLengthExceededException. No policy document can exceed 389,120 bytes of UTF-8, regardless of the quota.
+    /// A resource policy document, as a JSON string. The maximum size is 389,120 bytes of UTF-8; the byte limit is enforced by the service.
     /// This member is required.
     public var policyDocument: Swift.String?
     /// Which named policy to write. Defaults to "default", the customer-managed policy, when omitted (a write AWS Resource Access Manager makes on the owner's behalf resolves to "AWS_RAM" instead). The two writers are exclusive in both directions — only Resource Access Manager can write "AWS_RAM", and only the bus owner can write "default" — so naming the other party's policy fails with AccessDeniedException. A well-formed name that is neither of the two fails with InvalidInputException.
@@ -2791,6 +3425,52 @@ public struct RevokeResourceOutput: Swift.Sendable {
         arn: Swift.String? = nil
     ) {
         self.arn = arn
+    }
+}
+
+extension EventBridgeV2ClientTypes {
+
+    /// A new webhook credential. Exactly one variant must be set.
+    public enum WebhookCredential: Swift.Sendable {
+        /// The new token for static token authentication.
+        case statictokensecretvalue(Swift.String)
+        /// The new password for HTTP Basic authentication. The username does not change.
+        case basichttppassword(Swift.String)
+        /// The new HMAC secret, in the SecretEncoding of the EventSource. With BASE64, EventBridge removes a leading "whsec_". The key must be 16 to 512 bytes; with BASE64 SecretEncoding, this is measured after decoding.
+        case hmacsecretvalue(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct RotateWebhookCredentialsInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that ensures the idempotency of the request. The SDK generates one automatically when the field is omitted.
+    public var clientToken: Swift.String?
+    /// The new credential. Set the member that matches the authentication type of the EventSource. If you set a member that does not match the authentication type, EventBridge returns InvalidInputException. If you omit Credential, EventBridge generates a value.
+    public var credential: EventBridgeV2ClientTypes.WebhookCredential?
+    /// The ARN of the webhook EventSource.
+    /// This member is required.
+    public var eventSourceArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        credential: EventBridgeV2ClientTypes.WebhookCredential? = nil,
+        eventSourceArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.credential = credential
+        self.eventSourceArn = eventSourceArn
+    }
+}
+
+public struct RotateWebhookCredentialsOutput: Swift.Sendable {
+    /// The ARN of the AWS Secrets Manager secret that holds the credential. It doesn't change when the credential is rotated.
+    /// This member is required.
+    public var secretArn: Swift.String?
+
+    public init(
+        secretArn: Swift.String? = nil
+    ) {
+        self.secretArn = secretArn
     }
 }
 
@@ -2894,7 +3574,7 @@ public struct UpdateEventBusOutput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// The time the event bus was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2/<name>/<id>), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears.
     public var name: Swift.String?
     /// Lifecycle state of an event bus.
     ///
@@ -2943,7 +3623,7 @@ public struct UpdateEventSourceInput: Swift.Sendable {
     public var configuration: EventBridgeV2ClientTypes.EventSourceConfiguration?
     /// Free-text description. Used by every resource type that has one: event buses, subscribers, and event sources.
     public var description: Swift.String?
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     /// This member is required.
     public var eventSourceArn: Swift.String?
 
@@ -2961,11 +3641,11 @@ public struct UpdateEventSourceInput: Swift.Sendable {
 public struct UpdateEventSourceOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies an event bus.
     public var eventBusArn: Swift.String?
-    /// EventSource ARN: event-sourcev2///. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
+    /// EventSource ARN: event-sourcev2/<type>/<name>/<id>. The type segment is set by the service (aws.service for AWS service events, aws.partner for partner events, webhook for webhook events) and is not part of the resource's name. The id segment is a 25-character identifier generated by the service.
     public var eventSourceArn: Swift.String?
     /// The time the EventSource was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2///), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
+    /// EventSource name. First character alphanumeric; the rest may add '.', '-', '_'. Names may not begin with the reserved "aws." prefix. The grammar matches the ARN local-name segment in EventSourceArn (event-sourcev2/<type>/<name>/<id>), mirroring EventBusName, so a name the ARN cannot represent cannot be created.
     public var name: Swift.String?
     /// Lifecycle state of an EventSource. Revocation is reported by the Revoked flag.
     public var state: EventBridgeV2ClientTypes.EventSourceState?
@@ -2997,6 +3677,8 @@ extension EventBridgeV2ClientTypes {
         public var kinesisParameters: EventBridgeV2ClientTypes.KinesisParameters?
         /// Lambda invocation parameters for subscribers. Values are forwarded to the Lambda Invoke API. Every string member accepts a literal or a JSONata expression (e.g. "{% $events.Data.qualifier %}").
         public var lambdaParameters: EventBridgeV2ClientTypes.LambdaParameters?
+        /// MSK (Apache Kafka) invocation parameters for subscribers targeting an Amazon MSK cluster.
+        public var mskParameters: EventBridgeV2ClientTypes.MskParameters?
         /// IAM role the service assumes to invoke the target. Must belong to the calling account.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -3014,6 +3696,7 @@ extension EventBridgeV2ClientTypes {
             httpParameters: EventBridgeV2ClientTypes.HttpParameters? = nil,
             kinesisParameters: EventBridgeV2ClientTypes.KinesisParameters? = nil,
             lambdaParameters: EventBridgeV2ClientTypes.LambdaParameters? = nil,
+            mskParameters: EventBridgeV2ClientTypes.MskParameters? = nil,
             roleArn: Swift.String? = nil,
             snsParameters: EventBridgeV2ClientTypes.SnsParameters? = nil,
             sqsParameters: EventBridgeV2ClientTypes.SqsParameters? = nil,
@@ -3024,6 +3707,7 @@ extension EventBridgeV2ClientTypes {
             self.httpParameters = httpParameters
             self.kinesisParameters = kinesisParameters
             self.lambdaParameters = lambdaParameters
+            self.mskParameters = mskParameters
             self.roleArn = roleArn
             self.snsParameters = snsParameters
             self.sqsParameters = sqsParameters
@@ -3087,7 +3771,7 @@ public struct UpdateSubscriberInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a subscriber.
     /// This member is required.
     public var subscriberArn: Swift.String?
-    /// Not applicable to universal (aws-sdk) targets, whose input transformation is UniversalTargetParameters.Input; a Transformer on such a target is rejected.
+    /// Transformer configuration for a subscriber.
     public var transformer: EventBridgeV2ClientTypes.Transformer?
 
     public init(
@@ -3132,6 +3816,8 @@ public struct UpdateSubscriberOutput: Swift.Sendable {
     public var state: EventBridgeV2ClientTypes.SubscriberState?
     /// The Amazon Resource Name (ARN) that uniquely identifies a subscriber.
     public var subscriberArn: Swift.String?
+    /// Values EventBridge manages for a subscriber that depend on its target type. Only the member for the subscriber's target type is set. Returned in responses only; the customer never supplies these values.
+    public var subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails?
     /// Delivery ordering mode of a subscriber: FIFO delivers events in order within an event group; UNORDERED delivers without an ordering guarantee.
     public var type: EventBridgeV2ClientTypes.OrderingType?
 
@@ -3143,6 +3829,7 @@ public struct UpdateSubscriberOutput: Swift.Sendable {
         startingPosition: EventBridgeV2ClientTypes.StartingPosition? = nil,
         state: EventBridgeV2ClientTypes.SubscriberState? = nil,
         subscriberArn: Swift.String? = nil,
+        subscriberDetails: EventBridgeV2ClientTypes.SubscriberDetails? = nil,
         type: EventBridgeV2ClientTypes.OrderingType? = nil
     ) {
         self.eventBusArn = eventBusArn
@@ -3152,6 +3839,7 @@ public struct UpdateSubscriberOutput: Swift.Sendable {
         self.startingPosition = startingPosition
         self.state = state
         self.subscriberArn = subscriberArn
+        self.subscriberDetails = subscriberDetails
         self.type = type
     }
 }

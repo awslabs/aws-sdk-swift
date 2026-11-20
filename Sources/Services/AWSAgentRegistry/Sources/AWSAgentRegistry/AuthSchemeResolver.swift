@@ -43,6 +43,8 @@ public struct DefaultAgentRegistryAuthSchemeResolver: AgentRegistryAuthSchemeRes
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                validAuthOptions.append(httpBearerAuthOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }

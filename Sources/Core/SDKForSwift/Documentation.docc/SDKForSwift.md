@@ -703,6 +703,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPartnerCentralChannel](/sdk-for-swift/latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
 
+[AWSPartnerCentralMarketing](/sdk-for-swift/latest/api/awspartnercentralmarketing/documentation/awspartnercentralmarketing)
+
 [AWSPartnerCentralRevenueMeasurement](/sdk-for-swift/latest/api/awspartnercentralrevenuemeasurement/documentation/awspartnercentralrevenuemeasurement)
 
 [AWSPartnerCentralSelling](/sdk-for-swift/latest/api/awspartnercentralselling/documentation/awspartnercentralselling)

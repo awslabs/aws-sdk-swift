@@ -92,6 +92,29 @@ extension CodeConnectionsClientTypes {
     }
 }
 
+/// The input is not valid. Verify that the action is typed correctly.
+public struct InvalidInputException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Exceeded the maximum limit for connections.
 public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -161,12 +184,36 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, ClientRu
     }
 }
 
+/// The specified provider type is not supported for connections.
+public struct UnsupportedProviderTypeException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedProviderTypeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension CodeConnectionsClientTypes {
 
     public enum ProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azureDevOps
         case bitbucket
         case github
+        case githubEnterpriseCloudDataResidency
         case githubEnterpriseServer
         case gitlab
         case gitlabSelfManaged
@@ -177,6 +224,7 @@ extension CodeConnectionsClientTypes {
                 .azureDevOps,
                 .bitbucket,
                 .github,
+                .githubEnterpriseCloudDataResidency,
                 .githubEnterpriseServer,
                 .gitlab,
                 .gitlabSelfManaged
@@ -193,6 +241,7 @@ extension CodeConnectionsClientTypes {
             case .azureDevOps: return "AzureDevOps"
             case .bitbucket: return "Bitbucket"
             case .github: return "GitHub"
+            case .githubEnterpriseCloudDataResidency: return "GitHubEnterpriseCloudDataResidency"
             case .githubEnterpriseServer: return "GitHubEnterpriseServer"
             case .gitlab: return "GitLab"
             case .gitlabSelfManaged: return "GitLabSelfManaged"
@@ -229,6 +278,8 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var connectionName: Swift.String?
     /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
     public var hostArn: Swift.String?
+    /// The endpoint of the ghe.com tenant where your organization resides. Provide this parameter only when ProviderType is GitHubEnterpriseCloudDataResidency. Leave this parameter empty for all other provider types.
+    public var providerEndpoint: Swift.String?
     /// The name of the external provider where your third-party code repository is configured.
     public var providerType: CodeConnectionsClientTypes.ProviderType?
     /// The key-value pair to use when tagging the resource.
@@ -237,11 +288,13 @@ public struct CreateConnectionInput: Swift.Sendable {
     public init(
         connectionName: Swift.String? = nil,
         hostArn: Swift.String? = nil,
+        providerEndpoint: Swift.String? = nil,
         providerType: CodeConnectionsClientTypes.ProviderType? = nil,
         tags: [CodeConnectionsClientTypes.Tag]? = nil
     ) {
         self.connectionName = connectionName
         self.hostArn = hostArn
+        self.providerEndpoint = providerEndpoint
         self.providerType = providerType
         self.tags = tags
     }
@@ -371,29 +424,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServerException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The input is not valid. Verify that the action is typed correctly.
-public struct InvalidInputException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidInputException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -838,29 +868,6 @@ public struct SyncConfigurationStillExistsException: ClientRuntime.ModeledError,
     }
 }
 
-/// The specified provider type is not supported for connections.
-public struct UnsupportedProviderTypeException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedProviderTypeException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct DeleteRepositoryLinkInput: Swift.Sendable {
     /// The ID of the repository link to be deleted.
     /// This member is required.
@@ -958,6 +965,8 @@ extension CodeConnectionsClientTypes {
         public var hostArn: Swift.String?
         /// The identifier of the external provider where your third-party code repository is configured. For Bitbucket, this is the account ID of the owner of the Bitbucket repository.
         public var ownerAccountId: Swift.String?
+        /// The endpoint of the ghe.com tenant where your organization resides. This value is populated only for a connection with a ProviderType of GitHubEnterpriseCloudDataResidency. It is empty for all other provider types.
+        public var providerEndpoint: Swift.String?
         /// The name of the external provider where your third-party code repository is configured.
         public var providerType: CodeConnectionsClientTypes.ProviderType?
 
@@ -967,6 +976,7 @@ extension CodeConnectionsClientTypes {
             connectionStatus: CodeConnectionsClientTypes.ConnectionStatus? = nil,
             hostArn: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
+            providerEndpoint: Swift.String? = nil,
             providerType: CodeConnectionsClientTypes.ProviderType? = nil
         ) {
             self.connectionArn = connectionArn
@@ -974,6 +984,7 @@ extension CodeConnectionsClientTypes {
             self.connectionStatus = connectionStatus
             self.hostArn = hostArn
             self.ownerAccountId = ownerAccountId
+            self.providerEndpoint = providerEndpoint
             self.providerType = providerType
         }
     }

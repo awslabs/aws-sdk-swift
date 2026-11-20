@@ -186,6 +186,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
             includes: self.includes,
             maxItems: self.maxItems,
             nextToken: token,
+            rootHierarchyTypes: self.rootHierarchyTypes,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )}

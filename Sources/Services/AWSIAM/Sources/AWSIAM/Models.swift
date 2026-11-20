@@ -434,6 +434,11 @@ public struct UpdateLoginProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateOpenIDConnectProviderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateOpenIDConnectProviderThumbprintOutput: Swift.Sendable {
 
     public init() { }
@@ -1945,9 +1950,61 @@ public struct OpenIdIdpCommunicationErrorException: ClientRuntime.ModeledError, 
     }
 }
 
+extension IAMClientTypes {
+
+    /// Defines a single mapping from a source key in the external identity provider's assertion or token to a target trusted context key. This data type is used as a member of the [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html) data type.
+    public struct ContextProviderKeyDefinition: Swift.Sendable {
+        /// The key in the external identity provider's assertion or token to read the value from. The key can contain only ASCII letters (A-Z, a-z), numbers (0-9), single spaces, and the following characters: _ . : / = + - @ #. It can't start or end with a space or contain two spaces in a row.
+        /// This member is required.
+        public var sourceKey: Swift.String?
+        /// The trusted context key to map the source value into. The key can contain only ASCII letters (A-Z, a-z), numbers (0-9), single spaces, and the following characters: _ . : / = + - @ #. It can't start or end with a space or contain two spaces in a row.
+        public var targetKey: Swift.String?
+
+        public init(
+            sourceKey: Swift.String? = nil,
+            targetKey: Swift.String? = nil
+        ) {
+            self.sourceKey = sourceKey
+            self.targetKey = targetKey
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains the trusted identity propagation context provider configuration for a SAML or OpenID Connect (OIDC) identity provider. The context provider defines how the subject is derived and how keys from the external identity provider's assertion or token are mapped into trusted context keys. This data type is used as a request parameter in the [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html), [UpdateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateOpenIDConnectProvider.html), [CreateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html), and [UpdateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html) operations, and as a response element in the [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html) and [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) operations.
+    public struct ContextProvider: Swift.Sendable {
+        /// A list of source-to-target key mappings that define how keys from the external identity provider's assertion or token are mapped into trusted context keys. You can specify from 0 to 10 mappings.
+        public var keyDefinitionList: [IAMClientTypes.ContextProviderKeyDefinition]?
+        /// The source key that is used to derive the subject for the injected trusted context. This value identifies the claim or attribute in the external identity provider's assertion or token that supplies the subject. The key can contain only ASCII letters (A-Z, a-z), numbers (0-9), single spaces, and the following characters: _ . : / = + - @ #. It can't start or end with a space or contain two spaces in a row.
+        /// This member is required.
+        public var subjectSourceKey: Swift.String?
+        /// The source key that supplies the subject type from the external identity provider's assertion or token. The key can contain only ASCII letters (A-Z, a-z), numbers (0-9), single spaces, and the following characters: _ . : / = + - @ #. It can't start or end with a space or contain two spaces in a row. This parameter is mutually exclusive with SubjectTypeValue. Specify either SubjectTypeSourceKey or SubjectTypeValue, but not both.
+        public var subjectTypeSourceKey: Swift.String?
+        /// A static value for the subject type, such as user or workload. This parameter is optional and is mutually exclusive with SubjectTypeSourceKey. Specify either SubjectTypeValue or SubjectTypeSourceKey, but not both.
+        public var subjectTypeValue: Swift.String?
+
+        public init(
+            keyDefinitionList: [IAMClientTypes.ContextProviderKeyDefinition]? = nil,
+            subjectSourceKey: Swift.String? = nil,
+            subjectTypeSourceKey: Swift.String? = nil,
+            subjectTypeValue: Swift.String? = nil
+        ) {
+            self.keyDefinitionList = keyDefinitionList
+            self.subjectSourceKey = subjectSourceKey
+            self.subjectTypeSourceKey = subjectTypeSourceKey
+            self.subjectTypeValue = subjectTypeValue
+        }
+    }
+}
+
 public struct CreateOpenIDConnectProviderInput: Swift.Sendable {
     /// Provides a list of client IDs, also known as audiences. When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. This is the value that's sent as the client_id parameter on OAuth requests. You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
     public var clientIDList: [Swift.String]?
+    /// The trusted identity propagation context provider configuration to associate with the OpenID Connect (OIDC) provider. The context provider defines how the subject is derived and how keys from the provider's token are mapped into trusted context keys. Specifying a context provider enables trusted identity propagation for the provider. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html).
+    public var contextProvider: IAMClientTypes.ContextProvider?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to associate with the OpenID Connect (OIDC) provider. If you specify this parameter, you must also specify ContextProvider. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference.
+    public var identityCenterInstanceArn: Swift.String?
     /// A list of tags that you want to attach to the new IAM OpenID Connect (OIDC) provider. Each tag consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created.
     public var tags: [IAMClientTypes.Tag]?
     /// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. This parameter is optional. If it is not included, IAM will retrieve and use the top intermediate certificate authority (CA) thumbprint of the OpenID Connect identity provider server certificate. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider thumbprint, see [Obtaining the thumbprint for an OpenID Connect provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html) in the IAM user Guide. If your OIDC provider's discovery endpoint and JWKS endpoint (jwks_uri) use different certificates or hosts, include the thumbprints for both endpoints in this list.
@@ -1958,11 +2015,15 @@ public struct CreateOpenIDConnectProviderInput: Swift.Sendable {
 
     public init(
         clientIDList: [Swift.String]? = nil,
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         thumbprintList: [Swift.String]? = nil,
         url: Swift.String? = nil
     ) {
         self.clientIDList = clientIDList
+        self.contextProvider = contextProvider
+        self.identityCenterInstanceArn = identityCenterInstanceArn
         self.tags = tags
         self.thumbprintList = thumbprintList
         self.url = url
@@ -2225,6 +2286,10 @@ public struct CreateSAMLProviderInput: Swift.Sendable {
     public var addPrivateKey: Swift.String?
     /// Specifies the encryption setting for the SAML provider.
     public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
+    /// The trusted identity propagation context provider configuration to associate with the SAML provider. The context provider defines how the subject is derived and how keys from the provider's SAML assertion are mapped into trusted context keys. Specifying a context provider enables trusted identity propagation for the provider. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html).
+    public var contextProvider: IAMClientTypes.ContextProvider?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to associate with the SAML provider. If you specify this parameter, you must also specify ContextProvider. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference.
+    public var identityCenterInstanceArn: Swift.String?
     /// The name of the provider to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var name: Swift.String?
@@ -2237,12 +2302,16 @@ public struct CreateSAMLProviderInput: Swift.Sendable {
     public init(
         addPrivateKey: Swift.String? = nil,
         assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
         samlMetadataDocument: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
     ) {
         self.addPrivateKey = addPrivateKey
         self.assertionEncryptionMode = assertionEncryptionMode
+        self.contextProvider = contextProvider
+        self.identityCenterInstanceArn = identityCenterInstanceArn
         self.name = name
         self.samlMetadataDocument = samlMetadataDocument
         self.tags = tags
@@ -2251,7 +2320,7 @@ public struct CreateSAMLProviderInput: Swift.Sendable {
 
 extension CreateSAMLProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), name: \(Swift.String(describing: name)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), tags: \(Swift.String(describing: tags)), addPrivateKey: \"CONTENT_REDACTED\")"}
+        "CreateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), contextProvider: \(Swift.String(describing: contextProvider)), identityCenterInstanceArn: \(Swift.String(describing: identityCenterInstanceArn)), name: \(Swift.String(describing: name)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), tags: \(Swift.String(describing: tags)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the response to a successful [CreateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html) request.
@@ -4670,8 +4739,14 @@ public struct GetOpenIDConnectProviderInput: Swift.Sendable {
 public struct GetOpenIDConnectProviderOutput: Swift.Sendable {
     /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     public var clientIDList: [Swift.String]?
+    /// The trusted identity propagation context provider configuration associated with the IAM OIDC provider resource object. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html). This element is returned only when a trusted identity propagation context provider is configured for the OIDC provider.
+    public var contextProvider: IAMClientTypes.ContextProvider?
     /// The date and time when the IAM OIDC provider resource object was created in the Amazon Web Services account.
     public var createDate: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance associated with the IAM OIDC provider resource object. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference. This element is returned only when an IAM Identity Center instance is associated with the OIDC provider.
+    public var identityCenterInstanceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the identity store that is resolved from the associated IAM Identity Center instance. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference. This element is returned only when an IAM Identity Center instance is associated with the OIDC provider.
+    public var identityStoreArn: Swift.String?
     /// A list of tags that are attached to the specified IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
     /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
@@ -4681,13 +4756,19 @@ public struct GetOpenIDConnectProviderOutput: Swift.Sendable {
 
     public init(
         clientIDList: [Swift.String]? = nil,
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
         createDate: Foundation.Date? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
+        identityStoreArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         thumbprintList: [Swift.String]? = nil,
         url: Swift.String? = nil
     ) {
         self.clientIDList = clientIDList
+        self.contextProvider = contextProvider
         self.createDate = createDate
+        self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityStoreArn = identityStoreArn
         self.tags = tags
         self.thumbprintList = thumbprintList
         self.url = url
@@ -5296,14 +5377,41 @@ extension IAMClientTypes {
     }
 }
 
+extension IAMClientTypes {
+
+    /// Contains the key hashes that are associated with a SAML identity provider issuer. This data type is used as a response element in the [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) operation.
+    public struct SAMLKeyHashEntry: Swift.Sendable {
+        /// The issuer URL of the SAML identity provider that the key hashes are associated with.
+        public var issuerURL: Swift.String?
+        /// The list of key hashes for the SAML identity provider issuer.
+        public var keyHashes: [Swift.String]?
+
+        public init(
+            issuerURL: Swift.String? = nil,
+            keyHashes: [Swift.String]? = nil
+        ) {
+            self.issuerURL = issuerURL
+            self.keyHashes = keyHashes
+        }
+    }
+}
+
 /// Contains the response to a successful [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) request.
 public struct GetSAMLProviderOutput: Swift.Sendable {
     /// Specifies the encryption setting for the SAML provider.
     public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
+    /// The trusted identity propagation context provider configuration associated with the SAML provider. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html). This element is returned only when a trusted identity propagation context provider is configured for the SAML provider.
+    public var contextProvider: IAMClientTypes.ContextProvider?
     /// The date and time when the SAML provider was created.
     public var createDate: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance associated with the SAML provider. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference. This element is returned only when an IAM Identity Center instance is associated with the SAML provider.
+    public var identityCenterInstanceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the identity store that is resolved from the associated IAM Identity Center instance. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference. This element is returned only when an IAM Identity Center instance is associated with the SAML provider.
+    public var identityStoreArn: Swift.String?
     /// The private key metadata for the SAML provider.
     public var privateKeyList: [IAMClientTypes.SAMLPrivateKey]?
+    /// The key hashes associated with the SAML provider, grouped by identity provider issuer. For more information, see [SAMLKeyHashEntry](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SAMLKeyHashEntry.html).
+    public var samlKeyHashes: [IAMClientTypes.SAMLKeyHashEntry]?
     /// The XML metadata document that includes information about an identity provider.
     public var samlMetadataDocument: Swift.String?
     /// The unique identifier assigned to the SAML provider.
@@ -5315,16 +5423,24 @@ public struct GetSAMLProviderOutput: Swift.Sendable {
 
     public init(
         assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
         createDate: Foundation.Date? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
+        identityStoreArn: Swift.String? = nil,
         privateKeyList: [IAMClientTypes.SAMLPrivateKey]? = nil,
+        samlKeyHashes: [IAMClientTypes.SAMLKeyHashEntry]? = nil,
         samlMetadataDocument: Swift.String? = nil,
         samlProviderUUID: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         validUntil: Foundation.Date? = nil
     ) {
         self.assertionEncryptionMode = assertionEncryptionMode
+        self.contextProvider = contextProvider
         self.createDate = createDate
+        self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.identityStoreArn = identityStoreArn
         self.privateKeyList = privateKeyList
+        self.samlKeyHashes = samlKeyHashes
         self.samlMetadataDocument = samlMetadataDocument
         self.samlProviderUUID = samlProviderUUID
         self.tags = tags
@@ -6751,11 +6867,15 @@ extension IAMClientTypes {
     public struct OpenIDConnectProviderListEntry: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
+        /// Specifies whether trusted identity propagation is enabled for the OpenID Connect (OIDC) provider. This is true when an IAM Identity Center instance is associated with the provider.
+        public var isTrustedIdentityPropagationEnabled: Swift.Bool
 
         public init(
-            arn: Swift.String? = nil
+            arn: Swift.String? = nil,
+            isTrustedIdentityPropagationEnabled: Swift.Bool = false
         ) {
             self.arn = arn
+            self.isTrustedIdentityPropagationEnabled = isTrustedIdentityPropagationEnabled
         }
     }
 }
@@ -7251,16 +7371,20 @@ extension IAMClientTypes {
         public var arn: Swift.String?
         /// The date and time when the SAML provider was created.
         public var createDate: Foundation.Date?
+        /// Specifies whether trusted identity propagation is enabled for the SAML provider. This is true when an IAM Identity Center instance is associated with the provider.
+        public var isTrustedIdentityPropagationEnabled: Swift.Bool
         /// The expiration date and time for the SAML provider.
         public var validUntil: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             createDate: Foundation.Date? = nil,
+            isTrustedIdentityPropagationEnabled: Swift.Bool = false,
             validUntil: Foundation.Date? = nil
         ) {
             self.arn = arn
             self.createDate = createDate
+            self.isTrustedIdentityPropagationEnabled = isTrustedIdentityPropagationEnabled
             self.validUntil = validUntil
         }
     }
@@ -9216,6 +9340,34 @@ extension UpdateLoginProfileInput: Swift.CustomDebugStringConvertible {
         "UpdateLoginProfileInput(maxSigninSessionDuration: \(Swift.String(describing: maxSigninSessionDuration)), passwordResetRequired: \(Swift.String(describing: passwordResetRequired)), resetMaxSigninSessionDuration: \(Swift.String(describing: resetMaxSigninSessionDuration)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
+public struct UpdateOpenIDConnectProviderInput: Swift.Sendable {
+    /// The trusted identity propagation context provider configuration to set on the OIDC provider. This configuration defines the subject mapping and the source-to-target key mappings that are used when trusted context is injected. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html). To remove the existing context provider instead of replacing it, use RemoveContextProvider. Do not specify both ContextProvider and RemoveContextProvider in the same request.
+    public var contextProvider: IAMClientTypes.ContextProvider?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to associate with the OIDC provider. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference. To disassociate the currently associated instance instead of changing it, use RemoveIdentityCenterInstance. Do not specify both IdentityCenterInstanceArn and RemoveIdentityCenterInstance in the same request.
+    public var identityCenterInstanceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object to update. You can get a list of OIDC provider resource ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var openIDConnectProviderArn: Swift.String?
+    /// Specifies whether to remove the existing context provider configuration from the OIDC provider. Set this value to true to remove the context provider. This parameter is mutually exclusive with ContextProvider. In a single request, specify either a new ContextProvider value or RemoveContextProvider, but not both.
+    public var removeContextProvider: Swift.Bool?
+    /// Specifies whether to disassociate the IAM Identity Center instance from the OIDC provider. Set this value to true to remove the association. This parameter is mutually exclusive with IdentityCenterInstanceArn. In a single request, specify either a new IdentityCenterInstanceArn value or RemoveIdentityCenterInstance, but not both.
+    public var removeIdentityCenterInstance: Swift.Bool?
+
+    public init(
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
+        openIDConnectProviderArn: Swift.String? = nil,
+        removeContextProvider: Swift.Bool? = false,
+        removeIdentityCenterInstance: Swift.Bool? = false
+    ) {
+        self.contextProvider = contextProvider
+        self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.openIDConnectProviderArn = openIDConnectProviderArn
+        self.removeContextProvider = removeContextProvider
+        self.removeIdentityCenterInstance = removeIdentityCenterInstance
+    }
+}
+
 public struct UpdateOpenIDConnectProviderThumbprintInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
@@ -9299,6 +9451,14 @@ public struct UpdateSAMLProviderInput: Swift.Sendable {
     public var addPrivateKey: Swift.String?
     /// Specifies the encryption setting for the SAML provider.
     public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
+    /// The trusted identity propagation context provider configuration to associate with the SAML provider. This replaces the existing context provider configuration. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html).
+    public var contextProvider: IAMClientTypes.ContextProvider?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to associate with the SAML provider. For the format, see [InstanceMetadata](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_InstanceMetadata.html) in the IAM Identity Center API Reference.
+    public var identityCenterInstanceArn: Swift.String?
+    /// Specifies whether to remove the existing trusted identity propagation context provider configuration from the SAML provider. When set to true, the context provider is removed. This parameter is mutually exclusive with ContextProvider.
+    public var removeContextProvider: Swift.Bool?
+    /// Specifies whether to disassociate the IAM Identity Center instance from the SAML provider. When set to true, the instance is disassociated. This parameter is mutually exclusive with IdentityCenterInstanceArn.
+    public var removeIdentityCenterInstance: Swift.Bool?
     /// The Key ID of the private key to remove.
     public var removePrivateKey: Swift.String?
     /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your IdP.
@@ -9310,12 +9470,20 @@ public struct UpdateSAMLProviderInput: Swift.Sendable {
     public init(
         addPrivateKey: Swift.String? = nil,
         assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
+        contextProvider: IAMClientTypes.ContextProvider? = nil,
+        identityCenterInstanceArn: Swift.String? = nil,
+        removeContextProvider: Swift.Bool? = false,
+        removeIdentityCenterInstance: Swift.Bool? = false,
         removePrivateKey: Swift.String? = nil,
         samlMetadataDocument: Swift.String? = nil,
         samlProviderArn: Swift.String? = nil
     ) {
         self.addPrivateKey = addPrivateKey
         self.assertionEncryptionMode = assertionEncryptionMode
+        self.contextProvider = contextProvider
+        self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.removeContextProvider = removeContextProvider
+        self.removeIdentityCenterInstance = removeIdentityCenterInstance
         self.removePrivateKey = removePrivateKey
         self.samlMetadataDocument = samlMetadataDocument
         self.samlProviderArn = samlProviderArn
@@ -9324,7 +9492,7 @@ public struct UpdateSAMLProviderInput: Swift.Sendable {
 
 extension UpdateSAMLProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), removePrivateKey: \(Swift.String(describing: removePrivateKey)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), samlProviderArn: \(Swift.String(describing: samlProviderArn)), addPrivateKey: \"CONTENT_REDACTED\")"}
+        "UpdateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), contextProvider: \(Swift.String(describing: contextProvider)), identityCenterInstanceArn: \(Swift.String(describing: identityCenterInstanceArn)), removeContextProvider: \(Swift.String(describing: removeContextProvider)), removeIdentityCenterInstance: \(Swift.String(describing: removeIdentityCenterInstance)), removePrivateKey: \(Swift.String(describing: removePrivateKey)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), samlProviderArn: \(Swift.String(describing: samlProviderArn)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the response to a successful [UpdateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html) request.
@@ -10900,6 +11068,13 @@ extension UpdateLoginProfileInput {
     }
 }
 
+extension UpdateOpenIDConnectProviderInput {
+
+    static func urlPathProvider(_ value: UpdateOpenIDConnectProviderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateOpenIDConnectProviderThumbprintInput {
 
     static func urlPathProvider(_ value: UpdateOpenIDConnectProviderThumbprintInput) -> Swift.String? {
@@ -11172,6 +11347,8 @@ extension CreateOpenIDConnectProviderInput {
     static func write(value: CreateOpenIDConnectProviderInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ClientIDList"].writeList(value.clientIDList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContextProvider"].write(value.contextProvider, with: IAMClientTypes.ContextProvider.write(value:to:))
+        try writer["IdentityCenterInstanceArn"].write(value.identityCenterInstanceArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThumbprintList"].writeList(value.thumbprintList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Url"].write(value.url)
@@ -11229,6 +11406,8 @@ extension CreateSAMLProviderInput {
         guard let value else { return }
         try writer["AddPrivateKey"].write(value.addPrivateKey)
         try writer["AssertionEncryptionMode"].write(value.assertionEncryptionMode)
+        try writer["ContextProvider"].write(value.contextProvider, with: IAMClientTypes.ContextProvider.write(value:to:))
+        try writer["IdentityCenterInstanceArn"].write(value.identityCenterInstanceArn)
         try writer["Name"].write(value.name)
         try writer["SAMLMetadataDocument"].write(value.samlMetadataDocument)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12906,6 +13085,20 @@ extension UpdateLoginProfileInput {
     }
 }
 
+extension UpdateOpenIDConnectProviderInput {
+
+    static func write(value: UpdateOpenIDConnectProviderInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ContextProvider"].write(value.contextProvider, with: IAMClientTypes.ContextProvider.write(value:to:))
+        try writer["IdentityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["OpenIDConnectProviderArn"].write(value.openIDConnectProviderArn)
+        try writer["RemoveContextProvider"].write(value.removeContextProvider)
+        try writer["RemoveIdentityCenterInstance"].write(value.removeIdentityCenterInstance)
+        try writer["Action"].write("UpdateOpenIDConnectProvider")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension UpdateOpenIDConnectProviderThumbprintInput {
 
     static func write(value: UpdateOpenIDConnectProviderThumbprintInput?, to writer: SmithyFormURL.Writer) throws {
@@ -12948,6 +13141,10 @@ extension UpdateSAMLProviderInput {
         guard let value else { return }
         try writer["AddPrivateKey"].write(value.addPrivateKey)
         try writer["AssertionEncryptionMode"].write(value.assertionEncryptionMode)
+        try writer["ContextProvider"].write(value.contextProvider, with: IAMClientTypes.ContextProvider.write(value:to:))
+        try writer["IdentityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["RemoveContextProvider"].write(value.removeContextProvider)
+        try writer["RemoveIdentityCenterInstance"].write(value.removeIdentityCenterInstance)
         try writer["RemovePrivateKey"].write(value.removePrivateKey)
         try writer["SAMLMetadataDocument"].write(value.samlMetadataDocument)
         try writer["SAMLProviderArn"].write(value.samlProviderArn)
@@ -13823,7 +14020,10 @@ extension GetOpenIDConnectProviderOutput {
         let reader = responseReader["GetOpenIDConnectProviderResult"]
         var value = GetOpenIDConnectProviderOutput()
         value.clientIDList = try reader["ClientIDList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contextProvider = try reader["ContextProvider"].readIfPresent(with: IAMClientTypes.ContextProvider.read(from:))
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.identityCenterInstanceArn = try reader["IdentityCenterInstanceArn"].readIfPresent()
+        value.identityStoreArn = try reader["IdentityStoreArn"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.thumbprintList = try reader["ThumbprintList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.url = try reader["Url"].readIfPresent()
@@ -13934,8 +14134,12 @@ extension GetSAMLProviderOutput {
         let reader = responseReader["GetSAMLProviderResult"]
         var value = GetSAMLProviderOutput()
         value.assertionEncryptionMode = try reader["AssertionEncryptionMode"].readIfPresent()
+        value.contextProvider = try reader["ContextProvider"].readIfPresent(with: IAMClientTypes.ContextProvider.read(from:))
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.identityCenterInstanceArn = try reader["IdentityCenterInstanceArn"].readIfPresent()
+        value.identityStoreArn = try reader["IdentityStoreArn"].readIfPresent()
         value.privateKeyList = try reader["PrivateKeyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.SAMLPrivateKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.samlKeyHashes = try reader["SAMLKeyHashes"].readListIfPresent(memberReadingClosure: IAMClientTypes.SAMLKeyHashEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.samlMetadataDocument = try reader["SAMLMetadataDocument"].readIfPresent()
         value.samlProviderUUID = try reader["SAMLProviderUUID"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -14837,6 +15041,13 @@ extension UpdateLoginProfileOutput {
     }
 }
 
+extension UpdateOpenIDConnectProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOpenIDConnectProviderOutput {
+        return UpdateOpenIDConnectProviderOutput()
+    }
+}
+
 extension UpdateOpenIDConnectProviderThumbprintOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOpenIDConnectProviderThumbprintOutput {
@@ -15538,6 +15749,7 @@ enum DeleteOpenIDConnectProviderOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15642,6 +15854,7 @@ enum DeleteSAMLProviderOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -17681,6 +17894,23 @@ enum UpdateLoginProfileOutputError {
     }
 }
 
+enum UpdateOpenIDConnectProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateOpenIDConnectProviderThumbprintOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18470,6 +18700,44 @@ extension IAMClientTypes.ContextEntry {
     }
 }
 
+extension IAMClientTypes.ContextProvider {
+
+    static func write(value: IAMClientTypes.ContextProvider?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["KeyDefinitionList"].writeList(value.keyDefinitionList, memberWritingClosure: IAMClientTypes.ContextProviderKeyDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubjectSourceKey"].write(value.subjectSourceKey)
+        try writer["SubjectTypeSourceKey"].write(value.subjectTypeSourceKey)
+        try writer["SubjectTypeValue"].write(value.subjectTypeValue)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ContextProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ContextProvider()
+        value.keyDefinitionList = try reader["KeyDefinitionList"].readListIfPresent(memberReadingClosure: IAMClientTypes.ContextProviderKeyDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subjectSourceKey = try reader["SubjectSourceKey"].readIfPresent() ?? ""
+        value.subjectTypeValue = try reader["SubjectTypeValue"].readIfPresent()
+        value.subjectTypeSourceKey = try reader["SubjectTypeSourceKey"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.ContextProviderKeyDefinition {
+
+    static func write(value: IAMClientTypes.ContextProviderKeyDefinition?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SourceKey"].write(value.sourceKey)
+        try writer["TargetKey"].write(value.targetKey)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ContextProviderKeyDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ContextProviderKeyDefinition()
+        value.sourceKey = try reader["SourceKey"].readIfPresent() ?? ""
+        value.targetKey = try reader["TargetKey"].readIfPresent()
+        return value
+    }
+}
+
 extension IAMClientTypes.DelegationPermission {
 
     static func write(value: IAMClientTypes.DelegationPermission?, to writer: SmithyFormURL.Writer) throws {
@@ -18711,6 +18979,7 @@ extension IAMClientTypes.OpenIDConnectProviderListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.OpenIDConnectProviderListEntry()
         value.arn = try reader["Arn"].readIfPresent()
+        value.isTrustedIdentityPropagationEnabled = try reader["IsTrustedIdentityPropagationEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -19037,6 +19306,17 @@ extension IAMClientTypes.RoleUsageType {
     }
 }
 
+extension IAMClientTypes.SAMLKeyHashEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLKeyHashEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.SAMLKeyHashEntry()
+        value.issuerURL = try reader["IssuerURL"].readIfPresent()
+        value.keyHashes = try reader["KeyHashes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IAMClientTypes.SAMLPrivateKey {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLPrivateKey {
@@ -19056,6 +19336,7 @@ extension IAMClientTypes.SAMLProviderListEntry {
         value.arn = try reader["Arn"].readIfPresent()
         value.validUntil = try reader["ValidUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.isTrustedIdentityPropagationEnabled = try reader["IsTrustedIdentityPropagationEnabled"].readIfPresent() ?? false
         return value
     }
 }

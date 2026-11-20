@@ -1775,8 +1775,12 @@ extension IAMClient {
     ///
     /// * A list of thumbprints of one or more server certificates that the IdP uses
     ///
+    /// * A trusted identity propagation context provider that defines how the subject is derived and how keys from the provider's token are mapped into trusted context keys. Specifying a context provider enables trusted identity propagation for the provider. For more information, see [ContextProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ContextProvider.html).
     ///
-    /// You get all of this information from the OIDC IdP you want to use to access Amazon Web Services. Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by one of these trusted CAs, only then we secure communication using the thumbprints set in the IdP's configuration. The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) operation to highly privileged users.
+    /// * The ARN of an IAM Identity Center instance to associate with the OIDC provider. If you specify an IAM Identity Center instance, you must also specify a context provider.
+    ///
+    ///
+    /// You get the URL, client IDs, and thumbprints from the OIDC IdP you want to use to access Amazon Web Services. Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by one of these trusted CAs, only then we secure communication using the thumbprints set in the IdP's configuration. The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) operation to highly privileged users. To control who can configure trusted identity propagation on an OIDC provider, use the [iam:EnableIdentityPropagation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityPropagation), [iam:EnableIdentityCenterAssociation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityCenterAssociation), [iam:RequestIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityProviderIssuers), [iam:ResourceIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityProviderIssuers), [iam:RequestIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityCenterInstanceArn), and [iam:ResourceIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityCenterInstanceArn) condition keys in IAM policies. The Request keys contain the values in the request. The Resource keys contain the values stored on the provider.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOpenIDConnectProviderInput`)
     ///
@@ -2067,7 +2071,7 @@ extension IAMClient {
 
     /// Performs the `CreateSAMLProvider` operation on the `IAM` service.
     ///
-    /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). For more information, see [Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html) and [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html) in the IAM User Guide.
+    /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). For more information, see [Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html) and [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html) in the IAM User Guide. To control who can configure trusted identity propagation on a SAML provider, use the [iam:EnableIdentityPropagation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityPropagation), [iam:EnableIdentityCenterAssociation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityCenterAssociation), [iam:RequestIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityProviderIssuers), [iam:ResourceIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityProviderIssuers), [iam:RequestIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityCenterInstanceArn), and [iam:ResourceIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityCenterInstanceArn) condition keys in IAM policies. The Request keys contain the values in the request. The Resource keys contain the values stored on the provider.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateSAMLProviderInput`)
     ///
@@ -2997,7 +3001,7 @@ extension IAMClient {
 
     /// Performs the `DeleteOpenIDConnectProvider` operation on the `IAM` service.
     ///
-    /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist.
+    /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting the provider also deletes its trusted identity propagation context provider and removes any IAM Identity Center instance association. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteOpenIDConnectProviderInput`)
     ///
@@ -3006,6 +3010,7 @@ extension IAMClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
@@ -3454,6 +3459,7 @@ extension IAMClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
@@ -12652,6 +12658,77 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateOpenIDConnectProvider` operation on the `IAM` service.
+    ///
+    /// Updates the configuration of an existing IAM OpenID Connect (OIDC) identity provider resource object. Use this operation to set, change, or remove the trusted identity propagation context provider, and to associate or disassociate an IAM Identity Center instance with the provider. This operation does not update the OIDC provider's server certificate thumbprints. Thumbprints are managed only by the [UpdateOpenIDConnectProviderThumbprint](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateOpenIDConnectProviderThumbprint.html) operation. To change a provider's thumbprints, call that operation instead. To remove a configuration rather than replace it, use the RemoveContextProvider and RemoveIdentityCenterInstance parameters. For each configuration, provide either the new value or the corresponding Remove flag in a single request, but not both. For example, specifying both ContextProvider and RemoveContextProvider in the same request is not allowed. A single request can change either the context provider or the IAM Identity Center association, but not both. To change both, make separate UpdateOpenIDConnectProvider requests. To remove the context provider, first remove the IAM Identity Center association in a separate request. To control who can configure trusted identity propagation on an OIDC provider, use the [iam:EnableIdentityPropagation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityPropagation), [iam:EnableIdentityCenterAssociation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityCenterAssociation), [iam:ResourceIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityProviderIssuers), [iam:RequestIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityCenterInstanceArn), and [iam:ResourceIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityCenterInstanceArn) condition keys in IAM policies. The Request keys contain the values in the request. The Resource keys contain the values stored on the provider.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpenIDConnectProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateOpenIDConnectProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func updateOpenIDConnectProvider(input: UpdateOpenIDConnectProviderInput) async throws -> UpdateOpenIDConnectProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateOpenIDConnectProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>(UpdateOpenIDConnectProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderOutput>(UpdateOpenIDConnectProviderOutput.httpOutput(from:), UpdateOpenIDConnectProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpenIDConnectProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOpenIDConnectProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOpenIDConnectProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOpenIDConnectProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOpenIDConnectProviderInput, UpdateOpenIDConnectProviderOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateOpenIDConnectProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateOpenIDConnectProviderThumbprint` operation on the `IAM` service.
     ///
     /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated. Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by one of these trusted CAs, only then we secure communication using the thumbprints set in the IdP's configuration. Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
@@ -12866,7 +12943,7 @@ extension IAMClient {
 
     /// Performs the `UpdateSAMLProvider` operation on the `IAM` service.
     ///
-    /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request.
+    /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request. You can also use this operation to set, change, or remove the trusted identity propagation context provider, and to associate or disassociate an IAM Identity Center instance with the provider. To remove a configuration rather than replace it, use the RemoveContextProvider and RemoveIdentityCenterInstance parameters. For each configuration, provide either the new value or the corresponding Remove flag in a single request, but not both. A single request can change either the context provider or the provider metadata, but not both. Provider metadata includes the SAML metadata document, assertion encryption mode, private keys, and IAM Identity Center association. To change both, make separate UpdateSAMLProvider requests. To remove the context provider, first remove the IAM Identity Center association in a separate request. To control who can configure trusted identity propagation on a SAML provider, use the [iam:EnableIdentityPropagation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityPropagation), [iam:EnableIdentityCenterAssociation](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_EnableIdentityCenterAssociation), [iam:RequestIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityProviderIssuers), [iam:ResourceIdentityProviderIssuers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityProviderIssuers), [iam:RequestIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_RequestIdentityCenterInstanceArn), and [iam:ResourceIdentityCenterInstanceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_ResourceIdentityCenterInstanceArn) condition keys in IAM policies. The Request keys contain the values in the request. The Resource keys contain the values stored on the provider.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSAMLProviderInput`)
     ///

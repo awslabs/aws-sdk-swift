@@ -7125,19 +7125,31 @@ extension Inspector2ClientTypes {
 
     public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case deleteFailed
+        case deleteInProgress
         case disabling
+        case establishingConnectionCompleted
+        case establishingConnectionFailed
+        case establishingConnectionInProgress
         case inactive
         case inProgress
         case pending
+        case pendingManifestCode
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IntegrationStatus] {
             return [
                 .active,
+                .deleteFailed,
+                .deleteInProgress,
                 .disabling,
+                .establishingConnectionCompleted,
+                .establishingConnectionFailed,
+                .establishingConnectionInProgress,
                 .inactive,
                 .inProgress,
-                .pending
+                .pending,
+                .pendingManifestCode
             ]
         }
 
@@ -7149,10 +7161,16 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
             case .disabling: return "DISABLING"
+            case .establishingConnectionCompleted: return "ESTABLISHING_CONNECTION_COMPLETED"
+            case .establishingConnectionFailed: return "ESTABLISHING_CONNECTION_FAILED"
+            case .establishingConnectionInProgress: return "ESTABLISHING_CONNECTION_IN_PROGRESS"
             case .inactive: return "INACTIVE"
             case .inProgress: return "IN_PROGRESS"
             case .pending: return "PENDING"
+            case .pendingManifestCode: return "PENDING_MANIFEST_CODE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7163,12 +7181,14 @@ extension Inspector2ClientTypes {
 
     public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case github
+        case githubEnterpriseServer
         case gitlabSelfManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IntegrationType] {
             return [
                 .github,
+                .githubEnterpriseServer,
                 .gitlabSelfManaged
             ]
         }
@@ -7181,6 +7201,7 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .github: return "GITHUB"
+            case .githubEnterpriseServer: return "GITHUB_ENTERPRISE_SERVER"
             case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
             case let .sdkUnknown(s): return s
             }
@@ -7232,6 +7253,48 @@ extension Inspector2ClientTypes {
             self.type = type
         }
     }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The VPC configuration that Amazon Inspector uses to connect to a source code repository provider that is hosted in a private network.
+    public struct CodeSecurityIntegrationVpcConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS CodeConnections host used for the connection.
+        public var codeConnectionsHostArn: Swift.String?
+        /// The IDs of the security groups used for the connection.
+        public var securityGroups: [Swift.String]?
+        /// The IDs of the subnets used for the connection.
+        public var subnetIds: [Swift.String]?
+        /// The TLS certificate used to establish a trusted connection to the repository provider.
+        public var tlsCertificate: Swift.String?
+        /// The ID of the VPC endpoint used for the connection.
+        /// This member is required.
+        public var vpcEndpointId: Swift.String?
+        /// The ID of the VPC that Amazon Inspector connects through to reach the repository provider.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            codeConnectionsHostArn: Swift.String? = nil,
+            securityGroups: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tlsCertificate: Swift.String? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.codeConnectionsHostArn = codeConnectionsHostArn
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.tlsCertificate = tlsCertificate
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CodeSecurityIntegrationVpcConfiguration(codeConnectionsHostArn: \(Swift.String(describing: codeConnectionsHostArn)), securityGroups: \(Swift.String(describing: securityGroups)), subnetIds: \(Swift.String(describing: subnetIds)), vpcEndpointId: \(Swift.String(describing: vpcEndpointId)), vpcId: \(Swift.String(describing: vpcId)), tlsCertificate: \"CONTENT_REDACTED\")"}
 }
 
 extension Inspector2ClientTypes {
@@ -9241,6 +9304,31 @@ public struct CreateCisScanConfigurationOutput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    /// Contains the details required to create an integration with a GitHub Enterprise Server instance.
+    public struct CreateGitHubEnterpriseIntegrationDetail: Swift.Sendable {
+        /// The URL of the GitHub Enterprise Server instance.
+        /// This member is required.
+        public var instanceUrl: Swift.String?
+        /// The VPC configuration used to connect to the GitHub Enterprise Server instance in a private network. For publicly accessible instances, omit this field.
+        public var vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration?
+
+        public init(
+            instanceUrl: Swift.String? = nil,
+            vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration? = nil
+        ) {
+            self.instanceUrl = instanceUrl
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CreateGitHubEnterpriseIntegrationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateGitHubEnterpriseIntegrationDetail(vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), instanceUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains details required to create an integration with a self-managed GitLab instance.
     public struct CreateGitLabSelfManagedIntegrationDetail: Swift.Sendable {
         /// The personal access token used to authenticate with the self-managed GitLab instance.
@@ -9249,20 +9337,24 @@ extension Inspector2ClientTypes {
         /// The URL of the self-managed GitLab instance.
         /// This member is required.
         public var instanceUrl: Swift.String?
+        /// The VPC configuration used to connect to the self-managed GitLab instance in a private network. For publicly accessible instances, omit this field.
+        public var vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration?
 
         public init(
             accessToken: Swift.String? = nil,
-            instanceUrl: Swift.String? = nil
+            instanceUrl: Swift.String? = nil,
+            vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration? = nil
         ) {
             self.accessToken = accessToken
             self.instanceUrl = instanceUrl
+            self.vpcConfiguration = vpcConfiguration
         }
     }
 }
 
 extension Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGitLabSelfManagedIntegrationDetail(accessToken: \"CONTENT_REDACTED\", instanceUrl: \"CONTENT_REDACTED\")"}
+        "CreateGitLabSelfManagedIntegrationDetail(vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), accessToken: \"CONTENT_REDACTED\", instanceUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension Inspector2ClientTypes {
@@ -9271,6 +9363,8 @@ extension Inspector2ClientTypes {
     public enum CreateIntegrationDetail: Swift.Sendable {
         /// Details specific to creating an integration with a self-managed GitLab instance.
         case gitlabselfmanaged(Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail)
+        /// Details specific to creating an integration with a GitHub Enterprise Server instance.
+        case githubenterprise(Inspector2ClientTypes.CreateGitHubEnterpriseIntegrationDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -11901,30 +11995,30 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
-    /// Details about a machine image resource scanned directly by Inspector.
+    /// Contains details about an Amazon Machine Image (AMI) that Amazon Inspector scanned directly.
     public struct MachineImageDetails: Swift.Sendable {
-        /// CPU architecture (x86_64/arm64)
+        /// The CPU architecture of the machine image, for example x86_64 or arm64.
         public var architecture: Inspector2ClientTypes.Architecture?
-        /// When the image was created
+        /// The date and time that the machine image was created.
         public var creationDate: Foundation.Date?
-        /// Whether the image is publicly shared
+        /// Indicates whether the machine image is shared publicly.
         public var isPublic: Swift.Bool?
-        /// The machine image ID (e.g., ami-0abcdef1234567890)
+        /// The ID of the machine image, for example ami-0abcdef1234567890.
         /// This member is required.
         public var machineImageId: Swift.String?
-        /// Human-readable image name
+        /// The name of the machine image.
         public var name: Swift.String?
-        /// Account ID that owns the image
+        /// The ID of the account that owns the machine image.
         public var ownerAccountId: Swift.String?
-        /// OS platform (Linux/Windows)
+        /// The operating system platform of the machine image.
         public var platform: Swift.String?
-        /// Root device type (ebs/instance-store) — AWS-specific
+        /// The root device type of the machine image, either ebs or instance-store.
         public var rootDeviceType: Swift.String?
-        /// Source resource the image was created from (nullable)
+        /// The ID of the Amazon EC2 instance that the machine image was created from, if available.
         public var sourceResourceId: Swift.String?
-        /// Image state (available/pending/deregistered)
+        /// The state of the machine image, for example available, pending, or deregistered.
         public var state: Swift.String?
-        /// Virtualization type (hvm/paravirtual) — AWS-specific
+        /// The virtualization type of the machine image, either hvm or paravirtual.
         public var virtualizationType: Swift.String?
 
         public init(
@@ -12087,7 +12181,7 @@ extension Inspector2ClientTypes {
         public var codeRepository: Inspector2ClientTypes.CodeRepositoryDetails?
         /// An object that contains details about a container image involved in the finding.
         public var image: Inspector2ClientTypes.Image?
-        /// Details about a machine image resource scanned directly by Inspector.
+        /// An object that contains details about the Amazon Machine Image (AMI) involved in the finding.
         public var machineImage: Inspector2ClientTypes.MachineImageDetails?
         /// An object that contains details about a serverless function involved in the finding.
         public var serverlessFunction: Inspector2ClientTypes.ServerlessFunction?
@@ -12625,6 +12719,8 @@ public struct GetCodeSecurityIntegrationOutput: Swift.Sendable {
     /// The timestamp when the code security integration was created.
     /// This member is required.
     public var createdOn: Foundation.Date?
+    /// The URL of the self-managed GitLab or GitHub Enterprise Server instance associated with the integration.
+    public var instanceUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the code security integration.
     /// This member is required.
     public var integrationArn: Swift.String?
@@ -12645,20 +12741,25 @@ public struct GetCodeSecurityIntegrationOutput: Swift.Sendable {
     /// The type of repository provider for the integration.
     /// This member is required.
     public var type: Inspector2ClientTypes.IntegrationType?
+    /// The VPC configuration associated with the integration, if it connects to a repository provider in a private network.
+    public var vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration?
 
     public init(
         authorizationUrl: Swift.String? = nil,
         createdOn: Foundation.Date? = nil,
+        instanceUrl: Swift.String? = nil,
         integrationArn: Swift.String? = nil,
         lastUpdateOn: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: Inspector2ClientTypes.IntegrationStatus? = nil,
         statusReason: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        type: Inspector2ClientTypes.IntegrationType? = nil
+        type: Inspector2ClientTypes.IntegrationType? = nil,
+        vpcConfiguration: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration? = nil
     ) {
         self.authorizationUrl = authorizationUrl
         self.createdOn = createdOn
+        self.instanceUrl = instanceUrl
         self.integrationArn = integrationArn
         self.lastUpdateOn = lastUpdateOn
         self.name = name
@@ -12666,12 +12767,13 @@ public struct GetCodeSecurityIntegrationOutput: Swift.Sendable {
         self.statusReason = statusReason
         self.tags = tags
         self.type = type
+        self.vpcConfiguration = vpcConfiguration
     }
 }
 
 extension GetCodeSecurityIntegrationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCodeSecurityIntegrationOutput(createdOn: \(Swift.String(describing: createdOn)), integrationArn: \(Swift.String(describing: integrationArn)), lastUpdateOn: \(Swift.String(describing: lastUpdateOn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), authorizationUrl: \"CONTENT_REDACTED\")"}
+        "GetCodeSecurityIntegrationOutput(createdOn: \(Swift.String(describing: createdOn)), integrationArn: \(Swift.String(describing: integrationArn)), lastUpdateOn: \(Swift.String(describing: lastUpdateOn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), authorizationUrl: \"CONTENT_REDACTED\", instanceUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetCodeSecurityScanInput: Swift.Sendable {
@@ -13223,6 +13325,27 @@ public struct GetSbomExportOutput: Swift.Sendable {
         self.s3Destination = s3Destination
         self.status = status
     }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the details required to register the GitHub App on the GitHub Enterprise Server instance.
+    public struct GitHubEnterpriseServerAppRegistrationDetail: Swift.Sendable {
+        /// The manifest code used to register the GitHub App on the GitHub Enterprise Server instance.
+        /// This member is required.
+        public var manifestCode: Swift.String?
+
+        public init(
+            manifestCode: Swift.String? = nil
+        ) {
+            self.manifestCode = manifestCode
+        }
+    }
+}
+
+extension Inspector2ClientTypes.GitHubEnterpriseServerAppRegistrationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GitHubEnterpriseServerAppRegistrationDetail(manifestCode: \"CONTENT_REDACTED\")"}
 }
 
 extension Inspector2ClientTypes {
@@ -15107,20 +15230,66 @@ extension Inspector2ClientTypes {
         /// The installation ID of the GitHub App associated with the integration.
         /// This member is required.
         public var installationId: Swift.String?
+        /// The PKCE state token used to validate the authorization request.
+        public var stateToken: Swift.String?
 
         public init(
             code: Swift.String? = nil,
-            installationId: Swift.String? = nil
+            installationId: Swift.String? = nil,
+            stateToken: Swift.String? = nil
         ) {
             self.code = code
             self.installationId = installationId
+            self.stateToken = stateToken
         }
     }
 }
 
 extension Inspector2ClientTypes.UpdateGitHubIntegrationDetail: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGitHubIntegrationDetail(installationId: \(Swift.String(describing: installationId)), code: \"CONTENT_REDACTED\")"}
+        "UpdateGitHubIntegrationDetail(installationId: \(Swift.String(describing: installationId)), code: \"CONTENT_REDACTED\", stateToken: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the details required to complete the GitHub App installation for a GitHub Enterprise Server integration.
+    public struct UpdateGitHubEnterpriseServerAppInstallationDetail: Swift.Sendable {
+        /// The authorization code received from GitHub Enterprise Server.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The installation ID of the GitHub App associated with the integration.
+        /// This member is required.
+        public var installationId: Swift.String?
+        /// The PKCE state token used to validate the authorization request.
+        public var stateToken: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            installationId: Swift.String? = nil,
+            stateToken: Swift.String? = nil
+        ) {
+            self.code = code
+            self.installationId = installationId
+            self.stateToken = stateToken
+        }
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitHubEnterpriseServerAppInstallationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateGitHubEnterpriseServerAppInstallationDetail(installationId: \(Swift.String(describing: installationId)), code: \"CONTENT_REDACTED\", stateToken: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the details required to update an integration with a GitHub Enterprise Server instance. Provide one of the following, depending on the step of the setup flow.
+    public enum UpdateGitHubEnterpriseServerIntegrationDetail: Swift.Sendable {
+        /// Details for completing the GitHub App installation step of the GitHub Enterprise Server integration.
+        case appinstallation(Inspector2ClientTypes.UpdateGitHubEnterpriseServerAppInstallationDetail)
+        /// Details for completing the GitHub App manifest registration step of the GitHub Enterprise Server integration.
+        case appregistration(Inspector2ClientTypes.GitHubEnterpriseServerAppRegistrationDetail)
+        case sdkUnknown(Swift.String)
+    }
 }
 
 extension Inspector2ClientTypes {
@@ -15130,18 +15299,22 @@ extension Inspector2ClientTypes {
         /// The authorization code received from the self-managed GitLab instance to update the integration.
         /// This member is required.
         public var authCode: Swift.String?
+        /// The PKCE state token used to validate the authorization request.
+        public var stateToken: Swift.String?
 
         public init(
-            authCode: Swift.String? = nil
+            authCode: Swift.String? = nil,
+            stateToken: Swift.String? = nil
         ) {
             self.authCode = authCode
+            self.stateToken = stateToken
         }
     }
 }
 
 extension Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGitLabSelfManagedIntegrationDetail(authCode: \"CONTENT_REDACTED\")"}
+        "UpdateGitLabSelfManagedIntegrationDetail(authCode: \"CONTENT_REDACTED\", stateToken: \"CONTENT_REDACTED\")"}
 }
 
 extension Inspector2ClientTypes {
@@ -15152,6 +15325,8 @@ extension Inspector2ClientTypes {
         case gitlabselfmanaged(Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail)
         /// Details specific to updating an integration with GitHub.
         case github(Inspector2ClientTypes.UpdateGitHubIntegrationDetail)
+        /// Details specific to updating an integration with a GitHub Enterprise Server instance.
+        case githubenterpriseserver(Inspector2ClientTypes.UpdateGitHubEnterpriseServerIntegrationDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -17304,6 +17479,7 @@ extension GetCodeSecurityIntegrationOutput {
         var value = GetCodeSecurityIntegrationOutput()
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.instanceUrl = try reader["instanceUrl"].readIfPresent()
         value.integrationArn = try reader["integrationArn"].readIfPresent() ?? ""
         value.lastUpdateOn = try reader["lastUpdateOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -17311,6 +17487,7 @@ extension GetCodeSecurityIntegrationOutput {
         value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration.read(from:))
         return value
     }
 }
@@ -20388,6 +20565,31 @@ extension Inspector2ClientTypes.CodeSecurityIntegrationSummary {
     }
 }
 
+extension Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration {
+
+    static func write(value: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeConnectionsHostArn"].write(value.codeConnectionsHostArn)
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tlsCertificate"].write(value.tlsCertificate)
+        try writer["vpcEndpointId"].write(value.vpcEndpointId)
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent() ?? ""
+        value.codeConnectionsHostArn = try reader["codeConnectionsHostArn"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tlsCertificate = try reader["tlsCertificate"].readIfPresent()
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.CodeSecurityResource {
 
     static func write(value: Inspector2ClientTypes.CodeSecurityResource?, to writer: SmithyJSON.Writer) throws {
@@ -20838,12 +21040,22 @@ extension Inspector2ClientTypes.CreateCisTargets {
     }
 }
 
+extension Inspector2ClientTypes.CreateGitHubEnterpriseIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.CreateGitHubEnterpriseIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instanceUrl"].write(value.instanceUrl)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration.write(value:to:))
+    }
+}
+
 extension Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail {
 
     static func write(value: Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accessToken"].write(value.accessToken)
         try writer["instanceUrl"].write(value.instanceUrl)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: Inspector2ClientTypes.CodeSecurityIntegrationVpcConfiguration.write(value:to:))
     }
 }
 
@@ -20852,6 +21064,8 @@ extension Inspector2ClientTypes.CreateIntegrationDetail {
     static func write(value: Inspector2ClientTypes.CreateIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .githubenterprise(githubenterprise):
+                try writer["githubEnterprise"].write(githubenterprise, with: Inspector2ClientTypes.CreateGitHubEnterpriseIntegrationDetail.write(value:to:))
             case let .gitlabselfmanaged(gitlabselfmanaged):
                 try writer["gitlabSelfManaged"].write(gitlabselfmanaged, with: Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -21597,6 +21811,14 @@ extension Inspector2ClientTypes.GcpScopeConfigurationInput {
         try writer["containerImageScanning"].write(value.containerImageScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
         try writer["serverlessScanning"].write(value.serverlessScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
         try writer["vmScanning"].write(value.vmScanning, with: Inspector2ClientTypes.GcpCapabilityScopeInput.write(value:to:))
+    }
+}
+
+extension Inspector2ClientTypes.GitHubEnterpriseServerAppRegistrationDetail {
+
+    static func write(value: Inspector2ClientTypes.GitHubEnterpriseServerAppRegistrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["manifestCode"].write(value.manifestCode)
     }
 }
 
@@ -22734,12 +22956,38 @@ extension Inspector2ClientTypes.UpdateConfigurationInheritance {
     }
 }
 
+extension Inspector2ClientTypes.UpdateGitHubEnterpriseServerAppInstallationDetail {
+
+    static func write(value: Inspector2ClientTypes.UpdateGitHubEnterpriseServerAppInstallationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
+        try writer["stateToken"].write(value.stateToken)
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitHubEnterpriseServerIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.UpdateGitHubEnterpriseServerIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .appinstallation(appinstallation):
+                try writer["appInstallation"].write(appinstallation, with: Inspector2ClientTypes.UpdateGitHubEnterpriseServerAppInstallationDetail.write(value:to:))
+            case let .appregistration(appregistration):
+                try writer["appRegistration"].write(appregistration, with: Inspector2ClientTypes.GitHubEnterpriseServerAppRegistrationDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension Inspector2ClientTypes.UpdateGitHubIntegrationDetail {
 
     static func write(value: Inspector2ClientTypes.UpdateGitHubIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["code"].write(value.code)
         try writer["installationId"].write(value.installationId)
+        try writer["stateToken"].write(value.stateToken)
     }
 }
 
@@ -22748,6 +22996,7 @@ extension Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail {
     static func write(value: Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["authCode"].write(value.authCode)
+        try writer["stateToken"].write(value.stateToken)
     }
 }
 
@@ -22758,6 +23007,8 @@ extension Inspector2ClientTypes.UpdateIntegrationDetails {
         switch value {
             case let .github(github):
                 try writer["github"].write(github, with: Inspector2ClientTypes.UpdateGitHubIntegrationDetail.write(value:to:))
+            case let .githubenterpriseserver(githubenterpriseserver):
+                try writer["githubEnterpriseServer"].write(githubenterpriseserver, with: Inspector2ClientTypes.UpdateGitHubEnterpriseServerIntegrationDetail.write(value:to:))
             case let .gitlabselfmanaged(gitlabselfmanaged):
                 try writer["gitlabSelfManaged"].write(gitlabselfmanaged, with: Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail.write(value:to:))
             case let .sdkUnknown(sdkUnknown):

@@ -2549,10 +2549,15 @@ extension CostExplorerClientTypes {
 
     public enum Metric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amortizedCost
+        case billedCost
         case blendedCost
+        case contractedCost
+        case listCost
         case netAmortizedCost
         case netUnblendedCost
         case normalizedUsageAmount
+        case publicEquivalentBilledCost
+        case publicOnDemandCost
         case unblendedCost
         case usageQuantity
         case sdkUnknown(Swift.String)
@@ -2560,10 +2565,15 @@ extension CostExplorerClientTypes {
         public static var allCases: [Metric] {
             return [
                 .amortizedCost,
+                .billedCost,
                 .blendedCost,
+                .contractedCost,
+                .listCost,
                 .netAmortizedCost,
                 .netUnblendedCost,
                 .normalizedUsageAmount,
+                .publicEquivalentBilledCost,
+                .publicOnDemandCost,
                 .unblendedCost,
                 .usageQuantity
             ]
@@ -2577,10 +2587,15 @@ extension CostExplorerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .amortizedCost: return "AMORTIZED_COST"
+            case .billedCost: return "BILLED_COST"
             case .blendedCost: return "BLENDED_COST"
+            case .contractedCost: return "CONTRACTED_COST"
+            case .listCost: return "LIST_COST"
             case .netAmortizedCost: return "NET_AMORTIZED_COST"
             case .netUnblendedCost: return "NET_UNBLENDED_COST"
             case .normalizedUsageAmount: return "NORMALIZED_USAGE_AMOUNT"
+            case .publicEquivalentBilledCost: return "PUBLIC_EQUIVALENT_BILLED_COST"
+            case .publicOnDemandCost: return "PUBLIC_ON_DEMAND_COST"
             case .unblendedCost: return "UNBLENDED_COST"
             case .usageQuantity: return "USAGE_QUANTITY"
             case let .sdkUnknown(s): return s
@@ -6408,7 +6423,7 @@ public struct GetCostAndUsageInput: Swift.Sendable {
     public var granularity: CostExplorerClientTypes.Granularity?
     /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, product attributes, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings. To group by the PRODUCT_ATTRIBUTE type, set Key to a product attribute key, such as model. For the keys of each supported service, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html). The results include only the costs of supported services, and if you have no such costs, the response contains no groups. In the response, each group key has the format key$value, for example, model$Claude Sonnet 5. Costs that have no value for the key are in the group key$, for example, model$. Remove the key$ prefix before you use a value in a ProductAttributes filter. Keys are case-sensitive: if you group by a key that doesn't exist, such as Model, all of your costs of supported services are in the group Model$.
     public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
-    /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsage requests.
+    /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, UsageQuantity, BilledCost, ContractedCost, ListCost, PublicEquivalentBilledCost, and PublicOnDemandCost. BilledCost, ContractedCost, ListCost, PublicEquivalentBilledCost, and PublicOnDemandCost are cost analytics metrics. They use the same definitions as the cost analytics columns in Cost and Usage Report (CUR) 2.0. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsage requests.
     /// This member is required.
     public var metrics: [Swift.String]?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
@@ -6447,7 +6462,7 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     public var granularity: CostExplorerClientTypes.Granularity?
     /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY, and PRODUCT_ATTRIBUTE. PRODUCT_ATTRIBUTE groups work the same way as in [GetCostAndUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetCostAndUsage.html). A PRODUCT_ATTRIBUTE group or a ProductAttributes filter doesn't meet the requirement to group by or filter by a ResourceId.
     public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
-    /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsageWithResources requests.
+    /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, UsageQuantity, BilledCost, ContractedCost, ListCost, PublicEquivalentBilledCost, and PublicOnDemandCost. BilledCost, ContractedCost, ListCost, PublicEquivalentBilledCost, and PublicOnDemandCost are cost analytics metrics. They use the same definitions as the cost analytics columns in Cost and Usage Report (CUR) 2.0. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsageWithResources requests.
     public var metrics: [Swift.String]?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
@@ -6554,6 +6569,16 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     /// * UsageQuantity
     ///
     /// * NormalizedUsageAmount
+    ///
+    /// * BilledCost
+    ///
+    /// * ContractedCost
+    ///
+    /// * ListCost
+    ///
+    /// * PublicEquivalentBilledCost
+    ///
+    /// * PublicOnDemandCost
     ///
     ///
     /// The supported key values for the SortOrder value are ASCENDING and DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values aren't supported.
@@ -6939,6 +6964,16 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     ///
     /// * NormalizedUsageAmount
     ///
+    /// * BilledCost
+    ///
+    /// * ContractedCost
+    ///
+    /// * ListCost
+    ///
+    /// * PublicEquivalentBilledCost
+    ///
+    /// * PublicOnDemandCost
+    ///
     ///
     /// The supported values for the SortOrder key are ASCENDING or DESCENDING. When you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using SortBy, NextPageToken and SearchString aren't supported.
     public var sortBy: [CostExplorerClientTypes.SortDefinition]?
@@ -6973,7 +7008,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
 
 /// You can use the following request parameters to query for how much of your instance usage a reservation covered.
 public struct GetReservationCoverageInput: Swift.Sendable {
-    /// Filters utilization data by dimensions. You can filter by the following dimensions:
+    /// Filters coverage data by dimensions. You can filter by the following dimensions:
     ///
     /// * AZ
     ///
@@ -6985,52 +7020,41 @@ public struct GetReservationCoverageInput: Swift.Sendable {
     ///
     /// * INSTANCE_TYPE
     ///
-    /// * LINKED_ACCOUNT
+    /// * INSTANCE_TYPE_FAMILY
     ///
-    /// * OPERATING_SYSTEM
+    /// * LINKED_ACCOUNT
     ///
     /// * PLATFORM
     ///
     /// * REGION
     ///
-    /// * SERVICE
+    /// * SERVICE Supported values for SERVICE are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon MemoryDB, Amazon Redshift, Amazon Elasticsearch Service, and Amazon OpenSearch Service. You can specify up to two SERVICE values.
     ///
     /// * TAG
     ///
     /// * TENANCY
     ///
     ///
-    /// GetReservationCoverage uses the same [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2. Cost category is also supported.
+    /// The dimensions that you can use depend on the service in the SERVICE filter. CACHE_ENGINE applies only to Amazon ElastiCache and Amazon MemoryDB. DATABASE_ENGINE and DEPLOYMENT_OPTION apply only to Amazon Relational Database Service. INSTANCE_TYPE_FAMILY, PLATFORM, and TENANCY apply only to Amazon Elastic Compute Cloud - Compute. If you specify two SERVICE values, use only dimensions that both services support. GetReservationCoverage uses the same [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2. Cost category is also supported.
     public var filter: CostExplorerClientTypes.Expression?
     /// The granularity of the Amazon Web Services cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
     public var granularity: CostExplorerClientTypes.Granularity?
-    /// You can group the data by the following attributes:
+    /// You can group the data by the following attributes. The attributes that you can use depend on the service in the SERVICE filter. If you don't provide a SERVICE filter, Cost Explorer uses Amazon Elastic Compute Cloud - Compute.
     ///
-    /// * AZ
+    /// * Amazon Elastic Compute Cloud - Compute: AZ, INSTANCE_TYPE, INSTANCE_TYPE_FAMILY, LINKED_ACCOUNT, PLATFORM, REGION, and TENANCY
     ///
-    /// * CACHE_ENGINE
+    /// * Amazon Relational Database Service: AZ, DATABASE_ENGINE, DEPLOYMENT_OPTION, INSTANCE_TYPE, LINKED_ACCOUNT, and REGION
     ///
-    /// * DATABASE_ENGINE
+    /// * Amazon ElastiCache and Amazon MemoryDB: AZ, CACHE_ENGINE, INSTANCE_TYPE, LINKED_ACCOUNT, and REGION
     ///
-    /// * DEPLOYMENT_OPTION
+    /// * Amazon Redshift, Amazon Elasticsearch Service, and Amazon OpenSearch Service: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, and REGION
     ///
-    /// * INSTANCE_TYPE
     ///
-    /// * INVOICING_ENTITY
-    ///
-    /// * LINKED_ACCOUNT
-    ///
-    /// * OPERATING_SYSTEM
-    ///
-    /// * PLATFORM
-    ///
-    /// * REGION
-    ///
-    /// * TENANCY
+    /// If you specify two SERVICE values, use only attributes that both services support. You can specify up to four attributes, and only the DIMENSION type is supported.
     public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
     /// The maximum number of objects that you returned for this request. If more objects are available, in the response, Amazon Web Services provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
-    /// The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
+    /// The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request. Hour returns CoverageHours, Unit returns CoverageNormalizedUnits, and Cost returns CoverageCost. Unit is supported only for Amazon Elastic Compute Cloud - Compute. If you don't specify Metrics, the response includes only CoverageHours.
     public var metrics: [Swift.String]?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextPageToken: Swift.String?
@@ -7189,23 +7213,21 @@ public struct GetReservationUtilizationInput: Swift.Sendable {
     ///
     /// * AZ
     ///
-    /// * CACHE_ENGINE
-    ///
-    /// * DEPLOYMENT_OPTION
-    ///
     /// * INSTANCE_TYPE
     ///
-    /// * LINKED_ACCOUNT
+    /// * INSTANCE_TYPE_FAMILY
     ///
-    /// * OPERATING_SYSTEM
+    /// * LINKED_ACCOUNT
     ///
     /// * PLATFORM
     ///
     /// * REGION
     ///
-    /// * SERVICE If not specified, the SERVICE filter defaults to Amazon Elastic Compute Cloud - Compute. Supported values for SERVICE are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch Service. The value for the SERVICE filter should not exceed "1".
+    /// * SERVICE If not specified, the SERVICE filter defaults to Amazon Elastic Compute Cloud - Compute. Supported values for SERVICE are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon MemoryDB, Amazon Redshift, Amazon Elasticsearch Service, and Amazon OpenSearch Service.
     ///
     /// * SCOPE
+    ///
+    /// * SUBSCRIPTION_ID Values for SUBSCRIPTION_ID must contain only digits.
     ///
     /// * TENANCY
     ///
@@ -7665,6 +7687,16 @@ public struct GetTagsInput: Swift.Sendable {
     /// * UsageQuantity
     ///
     /// * NormalizedUsageAmount
+    ///
+    /// * BilledCost
+    ///
+    /// * ContractedCost
+    ///
+    /// * ListCost
+    ///
+    /// * PublicEquivalentBilledCost
+    ///
+    /// * PublicOnDemandCost
     ///
     ///
     /// The supported values for SortOrder are ASCENDING and DESCENDING. When you use SortBy, NextPageToken and SearchString aren't supported.

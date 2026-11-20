@@ -1563,6 +1563,78 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateTableReplication` operation on the `S3Tables` service.
+    ///
+    /// Disassociates a replica table from replication, making it a standalone writable table. Any in-progress replication to the table stops, and in-flight commits fail without being committed to the table. Disassociating a table from replication is permanent and can't be reversed. You can only disassociate a replica table. If you call this operation on a table that isn't a replica table, including a table that you have already disassociated, the request fails. After you disassociate a table from replication, you can write to the table as you do any other table. GetTable no longer returns managedByService and managedTableInformation for the table, and ListTables no longer returns managedByService for it. On the source table, GetTableReplicationStatus reports a failure for this destination the next time replication to it is attempted. Disassociating a table from replication doesn't change its maintenance configuration. Review the maintenance settings of the table, such as compaction, after you disassociate it. Permissions You must have the s3tables:DisassociateTableReplication permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTableReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateTableReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func disassociateTableReplication(input: DisassociateTableReplicationInput) async throws -> DisassociateTableReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateTableReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateTableReplicationInput, DisassociateTableReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>(DisassociateTableReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>(DisassociateTableReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTableReplicationOutput>(DisassociateTableReplicationOutput.httpOutput(from:), DisassociateTableReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTableReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateTableReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateTableReplicationInput, DisassociateTableReplicationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateTableReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetNamespace` operation on the `S3Tables` service.
     ///
     /// Gets details about a namespace. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetNamespace permission to use this operation.

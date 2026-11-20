@@ -1702,6 +1702,144 @@ extension RTBFabricClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAvailableModule` operation on the `RTBFabric` service.
+    ///
+    /// Returns a module that you can attach. If you can't attach the module, the operation returns ResourceNotFoundException, the same as for a missing one.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAvailableModuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAvailableModuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func getAvailableModule(input: GetAvailableModuleInput) async throws -> GetAvailableModuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAvailableModule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAvailableModuleInput, GetAvailableModuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>(GetAvailableModuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAvailableModuleOutput>(GetAvailableModuleOutput.httpOutput(from:), GetAvailableModuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAvailableModuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAvailableModuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAvailableModuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAvailableModuleInput, GetAvailableModuleOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAvailableModule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAvailableModuleVersion` operation on the `RTBFabric` service.
+    ///
+    /// Returns an ACTIVE or DEPRECATED version of a module that you can attach. If you can't attach the module, or the version is in another status, the operation returns ResourceNotFoundException, the same as for a missing one.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAvailableModuleVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAvailableModuleVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func getAvailableModuleVersion(input: GetAvailableModuleVersionInput) async throws -> GetAvailableModuleVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAvailableModuleVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>(GetAvailableModuleVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAvailableModuleVersionOutput>(GetAvailableModuleVersionOutput.httpOutput(from:), GetAvailableModuleVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAvailableModuleVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAvailableModuleVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAvailableModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAvailableModuleVersionInput, GetAvailableModuleVersionOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAvailableModuleVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCertificateAssociation` operation on the `RTBFabric` service.
     ///
     /// Retrieves the details of a certificate association with a responder gateway.
@@ -2187,6 +2325,214 @@ extension RTBFabricClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetUpdate` operation on the `RTBFabric` service.
+    ///
+    /// Returns ResourceNotFoundException for an updateId past the 90-day retention window, indistinguishable in the response from an id that never existed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetUpdateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetUpdateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func getUpdate(input: GetUpdateInput) async throws -> GetUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getUpdate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetUpdateInput, GetUpdateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetUpdateInput, GetUpdateOutput>(GetUpdateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUpdateInput, GetUpdateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUpdateOutput>(GetUpdateOutput.httpOutput(from:), GetUpdateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUpdateInput, GetUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetUpdateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUpdateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUpdateInput, GetUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUpdateInput, GetUpdateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUpdateInput, GetUpdateOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAvailableModuleVersions` operation on the `RTBFabric` service.
+    ///
+    /// Lists the ACTIVE and DEPRECATED versions of a module that you can attach, highest version first (numerically by MAJOR, then MINOR, then PATCH). If you can't attach the module, the operation returns ResourceNotFoundException, the same as for a missing one. If the module has no ACTIVE or DEPRECATED versions, the operation returns an empty list. The operation lists DEPRECATED versions so that you can inspect one that you've attached, but you can't attach them. Results are paginated. Use nextToken to get the next page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableModuleVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAvailableModuleVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func listAvailableModuleVersions(input: ListAvailableModuleVersionsInput) async throws -> ListAvailableModuleVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAvailableModuleVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(ListAvailableModuleVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(ListAvailableModuleVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableModuleVersionsOutput>(ListAvailableModuleVersionsOutput.httpOutput(from:), ListAvailableModuleVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableModuleVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAvailableModuleVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableModuleVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAvailableModuleVersionsInput, ListAvailableModuleVersionsOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAvailableModuleVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAvailableModules` operation on the `RTBFabric` service.
+    ///
+    /// Lists the modules that you can attach, newest first by createdAt. Results are paginated. Use nextToken to get the next page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableModulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAvailableModulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func listAvailableModules(input: ListAvailableModulesInput) async throws -> ListAvailableModulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAvailableModules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAvailableModulesInput, ListAvailableModulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>(ListAvailableModulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>(ListAvailableModulesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableModulesOutput>(ListAvailableModulesOutput.httpOutput(from:), ListAvailableModulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableModulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAvailableModulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAvailableModulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAvailableModulesInput, ListAvailableModulesOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAvailableModules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListCertificateAssociations` operation on the `RTBFabric` service.
     ///
     /// Lists the certificate associations for a responder gateway.
@@ -2600,6 +2946,151 @@ extension RTBFabricClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListUpdates` operation on the `RTBFabric` service.
+    ///
+    /// Lists the updates on a gateway. Results are paginated. Use nextToken to get the next page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListUpdatesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListUpdatesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func listUpdates(input: ListUpdatesInput) async throws -> ListUpdatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listUpdates")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListUpdatesInput, ListUpdatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUpdatesInput, ListUpdatesOutput>(ListUpdatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUpdatesInput, ListUpdatesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListUpdatesInput, ListUpdatesOutput>(ListUpdatesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUpdatesOutput>(ListUpdatesOutput.httpOutput(from:), ListUpdatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUpdatesInput, ListUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListUpdatesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUpdatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUpdatesInput, ListUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUpdatesInput, ListUpdatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUpdatesInput, ListUpdatesOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUpdates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutLinkFlows` operation on the `RTBFabric` service.
+    ///
+    /// Replaces a link's flow configuration. The change applies asynchronously. The call returns once the change is accepted, and the link serves its prior flows until the update commits atomically. RTB Fabric validates the request before accepting it, and a request that fails validation changes nothing. After the call, use GetLink. Once the change completes, the link's status is ACTIVE again and its flows show the change.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutLinkFlowsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutLinkFlowsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed because of a conflict in the current state of the resource.
+    /// - `InternalServerException` : The request could not be completed because of an internal server error. Try your call again.
+    /// - `ResourceNotFoundException` : The request could not be completed because the resource does not exist.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because you exceeded a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request could not be completed because it fails satisfy the constraints specified by the service.
+    public func putLinkFlows(input: PutLinkFlowsInput) async throws -> PutLinkFlowsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putLinkFlows")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rtbfabric")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutLinkFlowsInput, PutLinkFlowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(PutLinkFlowsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLinkFlowsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLinkFlowsOutput>(PutLinkFlowsOutput.httpOutput(from:), PutLinkFlowsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutLinkFlowsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RTBFabric", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLinkFlowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLinkFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RTBFabric"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLinkFlowsInput, PutLinkFlowsOutput>(serviceID: serviceName, version: RTBFabricClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RTBFabric")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLinkFlows")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RejectLink` operation on the `RTBFabric` service.
     ///
     /// Rejects a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to decline the link request.
@@ -2850,6 +3341,7 @@ extension RTBFabricClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateLinkInput, UpdateLinkOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLinkInput, UpdateLinkOutput>(UpdateLinkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLinkInput, UpdateLinkOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLinkInput, UpdateLinkOutput>(contentType: "application/json"))
@@ -2998,6 +3490,7 @@ extension RTBFabricClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateLinkRoutingRuleInput, UpdateLinkRoutingRuleOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLinkRoutingRuleInput, UpdateLinkRoutingRuleOutput>(UpdateLinkRoutingRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLinkRoutingRuleInput, UpdateLinkRoutingRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLinkRoutingRuleInput, UpdateLinkRoutingRuleOutput>(contentType: "application/json"))
