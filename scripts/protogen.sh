@@ -17,7 +17,9 @@ rm -rf codegen/protocol-test-codegen-local/build
 
 # Delete the generated Package.swift for protocol test packages so they may be seen in Xcode
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSRestJsonTestSDK/swift-codegen/AWSRestJsonTestSDK/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSRestJsonTestSDKSchemaBased/swift-codegen/AWSRestJsonTestSDKSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSRestJsonValidationTestSDK/swift-codegen/AWSRestJsonValidationTestSDK/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSRestJsonValidationTestSDKSchemaBased/swift-codegen/AWSRestJsonValidationTestSDKSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSJson10TestSDK/swift-codegen/AWSJson10TestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSJson11TestSDK/swift-codegen/AWSJson11TestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/RestXmlTestSDK/swift-codegen/RestXmlTestSDK/Package.swift
@@ -25,7 +27,9 @@ rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codege
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/Ec2QueryTestSDK/swift-codegen/Ec2QueryTestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/AWSQueryTestSDK/swift-codegen/AWSQueryTestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/APIGatewayTestSDK/swift-codegen/APIGatewayTestSDK/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/APIGatewayTestSDKSchemaBased/swift-codegen/APIGatewayTestSDKSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/GlacierTestSDK/swift-codegen/GlacierTestSDK/Package.swift
+rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/GlacierTestSDKSchemaBased/swift-codegen/GlacierTestSDKSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/MachineLearningTestSDK/swift-codegen/MachineLearningTestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/S3TestSDK/swift-codegen/S3TestSDK/Package.swift
 rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/RPCV2CBORTestSDK/swift-codegen/RPCV2CBORTestSDK/Package.swift
@@ -36,9 +40,9 @@ rm -f codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codege
 
 # Now do the same for local protocol tests
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RestJsonExtras/swift-codegen/RestJsonExtras/Package.swift
+rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RestJsonExtrasSchemaBased/swift-codegen/RestJsonExtrasSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/AwsQueryExtras/swift-codegen/AwsQueryExtras/Package.swift
-rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStream/swift-codegen/EventStream/Package.swift
-rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RPCEventStream/swift-codegen/RPCEventStream/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/StringArrayEndpointParam/swift-codegen/StringArrayEndpointParam/Package.swift
+rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/StringArrayEndpointParamSchemaBased/swift-codegen/StringArrayEndpointParamSchemaBased/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EndpointBDD/swift-codegen/EndpointBDD/Package.swift
 

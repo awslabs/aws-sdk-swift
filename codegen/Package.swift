@@ -38,7 +38,9 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
+    static var smithyAWSJSON: Self { .product(name: "SmithyAWSJSON", package: "smithy-swift") }
     static var smithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
+    static var smithyRestJSON1: Self { .product(name: "SmithyRestJSON1", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -85,7 +87,9 @@ private var protocolTestTargets: [Target] {
 
     let protocolTests: [ProtocolTest] = [
         .init(name: "AWSRestJsonTestSDK", basePath: baseDir),
+        .init(name: "AWSRestJsonTestSDKSchemaBased", basePath: baseDir),
         .init(name: "AWSRestJsonValidationTestSDK", basePath: baseDir),
+        .init(name: "AWSRestJsonValidationTestSDKSchemaBased", basePath: baseDir),
         .init(name: "AWSJson10TestSDK", basePath: baseDir),
         .init(name: "AWSJson11TestSDK", basePath: baseDir),
         .init(name: "RestXmlTestSDK", basePath: baseDir),
@@ -93,14 +97,16 @@ private var protocolTestTargets: [Target] {
         .init(name: "Ec2QueryTestSDK", basePath: baseDir),
         .init(name: "AWSQueryTestSDK", basePath: baseDir),
         .init(name: "APIGatewayTestSDK", basePath: baseDir),
+        .init(name: "APIGatewayTestSDKSchemaBased", basePath: baseDir),
         .init(name: "GlacierTestSDK", basePath: baseDir),
+        .init(name: "GlacierTestSDKSchemaBased", basePath: baseDir),
         .init(name: "MachineLearningTestSDK", basePath: baseDir),
         .init(name: "S3TestSDK", basePath: baseDir),
         .init(name: "RestJsonExtras", basePath: baseDirLocal),
+        .init(name: "RestJsonExtrasSchemaBased", basePath: baseDirLocal),
         .init(name: "AwsQueryExtras", basePath: baseDirLocal),
-        .init(name: "EventStream", basePath: baseDirLocal, buildOnly: true),
-        .init(name: "RPCEventStream", basePath: baseDirLocal, buildOnly: true),
         .init(name: "StringArrayEndpointParam", basePath: baseDirLocal),
+        .init(name: "StringArrayEndpointParamSchemaBased", basePath: baseDirLocal),
         .init(name: "EndpointBDD", basePath: baseDirLocal),
         .init(name: "RPCV2CBORTestSDK", basePath: baseDir),
         .init(name: "RPCV2CBORTestQueryCompatSDK", basePath: baseDir),
@@ -114,7 +120,9 @@ private var protocolTestTargets: [Target] {
             dependencies: [
                 .clientRuntime,
                 .awsClientRuntime,
+                .smithyAWSJSON,
                 .smithyRPCv2CBOR,
+                .smithyRestJSON1,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .smithy,
