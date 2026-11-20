@@ -69,6 +69,7 @@ data class AwsService(
     val visibility: String,
     val internalClient: Boolean,
     val operations: List<String>,
+    val forceSchemaBased: Boolean,
 )
 
 // Generates a smithy-build.json file by creating a new projection.
@@ -104,7 +105,8 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "visibility": "${service.visibility}",
                       "internalClient": ${service.internalClient},
                       "operations": [${service.operations.map { "\"$it\"" }.joinToString(", ")}],
-                      "modelPath": "${service.modelFile.relativeTo(rootProject.projectDir)}"
+                      "modelPath": "${service.modelFile.relativeTo(rootProject.projectDir)}",
+                      "forceSchemaBased": ${service.forceSchemaBased}
                     }
                 }
             }
@@ -118,6 +120,325 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         }
     }
     """.trimIndent()
+}
+
+// Schema-based serde rollout waves for restJson1 services.
+// Waves are the restJson1 waves used by aws-sdk-go-v2 (their w09-w19), renumbered from 1:
+// https://github.com/aws/aws-sdk-go-v2/blob/main/codegen/sdk-codegen/build.gradle.kts
+// Entries are service shape ID prefixes.
+val w01_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.mediastoredata#",
+    "com.amazonaws.pinpointsmsvoice#",
+    "com.amazonaws.taxsettings#",
+    "com.amazonaws.chimesdkidentity#",
+    "com.amazonaws.chimesdkmediapipelines#",
+    "com.amazonaws.chimesdkmeetings#",
+    "com.amazonaws.chimesdkmessaging#",
+    "com.amazonaws.chimesdkvoice#",
+    "com.amazonaws.chime#",
+    "com.amazonaws.codeguruprofiler#",
+    "com.amazonaws.notifications#",
+    "com.amazonaws.ssmsap#",
+    "com.amazonaws.notificationscontacts#",
+    "com.amazonaws.groundstation#",
+    "com.amazonaws.dlm#",
+    "com.amazonaws.resourcegroups#",
+    "com.amazonaws.securitylake#",
+    "com.amazonaws.cognitosync#",
+    "com.amazonaws.connectcases#",
+    "com.amazonaws.controltower#",
+    "com.amazonaws.mgn#",
+    "com.amazonaws.lexruntimev2#",
+    "com.amazonaws.ssmquicksetup#",
+    "com.amazonaws.bedrockagentruntime#",
+    "com.amazonaws.appmesh#",
+)
+val w02_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.detective#",
+    "com.amazonaws.billingconductor#",
+    "com.amazonaws.qconnect#",
+    "com.amazonaws.wisdom#",
+    "com.amazonaws.codegurureviewer#",
+    "com.amazonaws.signer#",
+    "com.amazonaws.networkmanager#",
+    "com.amazonaws.transcribestreaming#",
+    "com.amazonaws.outposts#",
+    "com.amazonaws.deadline#",
+    "com.amazonaws.emrcontainers#",
+    "com.amazonaws.servicecatalogappregistry#",
+    "com.amazonaws.mediapackagevod#",
+    "com.amazonaws.ivsrealtime#",
+    "com.amazonaws.ivs#",
+    "com.amazonaws.marketplacecatalog#",
+    "com.amazonaws.account#",
+    "com.amazonaws.mediapackage#",
+    "com.amazonaws.drs#",
+    "com.amazonaws.resourceexplorer2#",
+    "com.amazonaws.workspacesthinclient#",
+    "com.amazonaws.xray#",
+    "com.amazonaws.iottwinmaker#",
+    "com.amazonaws.vpclattice#",
+    "com.amazonaws.dataexchange#",
+)
+val w03_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.grafana#",
+    "com.amazonaws.managedblockchain#",
+    "com.amazonaws.dsql#",
+    "com.amazonaws.paymentcryptographydata#",
+    "com.amazonaws.iot#",
+    "com.amazonaws.internetmonitor#",
+    "com.amazonaws.neptunegraph#",
+    "com.amazonaws.serverlessapplicationrepository#",
+    "com.amazonaws.pipes#",
+    "com.amazonaws.cloudsearchdomain#",
+    "com.amazonaws.amplify#",
+    "com.amazonaws.pinpoint#",
+    "com.amazonaws.glacier#",
+    "com.amazonaws.wellarchitected#",
+    "com.amazonaws.connectcontactlens#",
+    "com.amazonaws.connect#",
+    "com.amazonaws.connectparticipant#",
+    "com.amazonaws.lexmodelsv2#",
+    "com.amazonaws.amp#",
+    "com.amazonaws.schemas#",
+    "com.amazonaws.cleanrooms#",
+    "com.amazonaws.m2#",
+    "com.amazonaws.greengrass#",
+    "com.amazonaws.greengrassv2#",
+    "com.amazonaws.appflow#",
+)
+val w04_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.fis#",
+    "com.amazonaws.resiliencehub#",
+    "com.amazonaws.resiliencehubv2#",
+    "com.amazonaws.inspector2#",
+    "com.amazonaws.appsync#",
+    "com.amazonaws.accessanalyzer#",
+    "com.amazonaws.mediatailor#",
+    "com.amazonaws.auditmanager#",
+    "com.amazonaws.mediaconnect#",
+    "com.amazonaws.mq#",
+    "com.amazonaws.bedrockagent#",
+    "com.amazonaws.medialive#",
+    "com.amazonaws.ram#",
+    "com.amazonaws.mediaconvert#",
+    "com.amazonaws.bedrock#",
+    "com.amazonaws.kafka#",
+    "com.amazonaws.batch#",
+    "com.amazonaws.appconfig#",
+    "com.amazonaws.appconfigdata#",
+    "com.amazonaws.securityhub#",
+    "com.amazonaws.bedrockruntime#",
+    "com.amazonaws.personalizeevents#",
+    "com.amazonaws.personalizeruntime#",
+    "com.amazonaws.imagebuilder#",
+    "com.amazonaws.elasticsearchservice#",
+)
+val w05_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.opensearch#",
+    "com.amazonaws.backup#",
+    "com.amazonaws.quicksight#",
+    "com.amazonaws.guardduty#",
+    "com.amazonaws.pinpointemail#",
+    "com.amazonaws.sesv2#",
+    "com.amazonaws.apigateway#",
+    "com.amazonaws.apigatewaymanagementapi#",
+    "com.amazonaws.apigatewayv2#",
+    "com.amazonaws.eks#",
+    "com.amazonaws.sagemakeredge#",
+    "com.amazonaws.sagemakerfeaturestoreruntime#",
+    "com.amazonaws.sagemakermetrics#",
+    "com.amazonaws.lambdacore#",
+    "com.amazonaws.lambdamicrovms#",
+    "com.amazonaws.lambda#",
+    "com.amazonaws.aiops#",
+    "com.amazonaws.amplifybackend#",
+    "com.amazonaws.amplifyuibuilder#",
+    "com.amazonaws.appfabric#",
+    "com.amazonaws.appintegrations#",
+    "com.amazonaws.applicationcostprofiler#",
+    "com.amazonaws.applicationsignals#",
+    "com.amazonaws.arczonalshift#",
+    "com.amazonaws.artifact#",
+)
+val w06_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.backupsearch#",
+    "com.amazonaws.bedrockagentcore#",
+    "com.amazonaws.bedrockagentcorecontrol#",
+    "com.amazonaws.bedrockdataautomation#",
+    "com.amazonaws.braket#",
+    "com.amazonaws.chatbot#",
+    "com.amazonaws.cleanroomsml#",
+    "com.amazonaws.clouddirectory#",
+    "com.amazonaws.cloudfrontkeyvaluestore#",
+    "com.amazonaws.cloudtraildata#",
+    "com.amazonaws.codeartifact#",
+    "com.amazonaws.codecatalyst#",
+    "com.amazonaws.codegurusecurity#",
+    "com.amazonaws.codestarnotifications#",
+    "com.amazonaws.connectcampaigns#",
+    "com.amazonaws.connectcampaignsv2#",
+    "com.amazonaws.connecthealth#",
+    "com.amazonaws.controlcatalog#",
+    "com.amazonaws.customerprofiles#",
+    "com.amazonaws.databrew#",
+    "com.amazonaws.datazone#",
+    "com.amazonaws.devopsagent#",
+    "com.amazonaws.devopsguru#",
+    "com.amazonaws.directoryservicedata#",
+    "com.amazonaws.docdbelastic#",
+)
+val w07_restJson1 = listOf( // 23 svcs
+    "com.amazonaws.ebs#",
+    "com.amazonaws.efs#",
+    "com.amazonaws.eksauth#",
+    "com.amazonaws.elementalinference#",
+    "com.amazonaws.emrserverless#",
+    "com.amazonaws.entityresolution#",
+    "com.amazonaws.gameliftstreams#",
+    "com.amazonaws.geomaps#",
+    "com.amazonaws.geoplaces#",
+    "com.amazonaws.georoutes#",
+    "com.amazonaws.inspectorscan#",
+    "com.amazonaws.iotdataplane#",
+    "com.amazonaws.iotdeviceadvisor#",
+    "com.amazonaws.iotjobsdataplane#",
+    "com.amazonaws.iotmanagedintegrations#",
+    "com.amazonaws.iotsitewise#",
+    "com.amazonaws.iotwireless#",
+    "com.amazonaws.ivschat#",
+    "com.amazonaws.kafkaconnect#",
+    "com.amazonaws.kinesisvideo#",
+    "com.amazonaws.kinesisvideoarchivedmedia#",
+    "com.amazonaws.kinesisvideomedia#",
+    "com.amazonaws.kinesisvideosignaling#",
+)
+val w08_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.kinesisvideowebrtcstorage#",
+    "com.amazonaws.lakeformation#",
+    "com.amazonaws.launchwizard#",
+    "com.amazonaws.lexmodelbuildingservice#",
+    "com.amazonaws.lexruntimeservice#",
+    "com.amazonaws.licensemanagerlinuxsubscriptions#",
+    "com.amazonaws.licensemanagerusersubscriptions#",
+    "com.amazonaws.location#",
+    "com.amazonaws.macie2#",
+    "com.amazonaws.managedblockchainquery#",
+    "com.amazonaws.marketplacedeployment#",
+    "com.amazonaws.marketplacediscovery#",
+    "com.amazonaws.marketplacereporting#",
+    "com.amazonaws.mediapackagev2#",
+    "com.amazonaws.medicalimaging#",
+    "com.amazonaws.migrationhuborchestrator#",
+    "com.amazonaws.migrationhubrefactorspaces#",
+    "com.amazonaws.migrationhubstrategy#",
+    "com.amazonaws.mpa#",
+    "com.amazonaws.mwaa#",
+    "com.amazonaws.neptunedata#",
+    "com.amazonaws.networkflowmonitor#",
+    "com.amazonaws.networkmonitor#",
+    "com.amazonaws.novaact#",
+    "com.amazonaws.oam#",
+)
+val w09_restJson1 = listOf( // 25 svcs
+    "com.amazonaws.observabilityadmin#",
+    "com.amazonaws.omics#",
+    "com.amazonaws.osis#",
+    "com.amazonaws.pcaconnectorad#",
+    "com.amazonaws.pcaconnectorscep#",
+    "com.amazonaws.polly#",
+    "com.amazonaws.qapps#",
+    "com.amazonaws.qbusiness#",
+    "com.amazonaws.rbin#",
+    "com.amazonaws.rdsdata#",
+    "com.amazonaws.repostspace#",
+    "com.amazonaws.rolesanywhere#",
+    "com.amazonaws.route53globalresolver#",
+    "com.amazonaws.route53profiles#",
+    "com.amazonaws.route53recoverycontrolconfig#",
+    "com.amazonaws.route53recoveryreadiness#",
+    "com.amazonaws.rtbfabric#",
+    "com.amazonaws.rum#",
+    "com.amazonaws.s3files#",
+    "com.amazonaws.s3outposts#",
+    "com.amazonaws.s3tables#",
+    "com.amazonaws.s3vectors#",
+    "com.amazonaws.sagemakera2iruntime#",
+    "com.amazonaws.sagemakergeospatial#",
+    "com.amazonaws.sagemakerjobruntime#",
+)
+val w10_restJson1 = listOf( // 24 svcs
+    "com.amazonaws.sagemakerruntime#",
+    "com.amazonaws.sagemakerruntimehttp2#",
+    "com.amazonaws.savingsplans#",
+    "com.amazonaws.scheduler#",
+    "com.amazonaws.securityagent#",
+    "com.amazonaws.securityir#",
+    "com.amazonaws.signerdata#",
+    "com.amazonaws.signin#",
+    "com.amazonaws.simpledbv2#",
+    "com.amazonaws.snowdevicemanagement#",
+    "com.amazonaws.socialmessaging#",
+    "com.amazonaws.ssmguiconnect#",
+    "com.amazonaws.ssmincidents#",
+    "com.amazonaws.sso#",
+    "com.amazonaws.ssooidc#",
+    "com.amazonaws.supplychain#",
+    "com.amazonaws.supportapp#",
+    "com.amazonaws.supportauthz#",
+    "com.amazonaws.sustainability#",
+    "com.amazonaws.synthetics#",
+    "com.amazonaws.trustedadvisor#",
+    "com.amazonaws.uxc#",
+    "com.amazonaws.wickr#",
+    "com.amazonaws.workdocs#",
+)
+val w11_restJson1 = listOf( // 16 svcs
+    "com.amazonaws.workmailmessageflow#",
+    "com.amazonaws.workspacesweb#",
+    // Services not in aws-sdk-go-v2 waves
+    "com.amazonaws.abusesignal#",
+    "com.amazonaws.accountaccess#",
+    "com.amazonaws.accountaccessruntime#",
+    "com.amazonaws.agentregistry#",
+    "com.amazonaws.agentregistrycontrol#",
+    "com.amazonaws.connectscheduling#",
+    "com.amazonaws.continuum#",
+    "com.amazonaws.endusermessaging#",
+    "com.amazonaws.iamtoolbox#",
+    "com.amazonaws.lambdaweb#",
+    "com.amazonaws.networksecuritymanager#",
+    "com.amazonaws.pricingplanmanager#",
+    "com.amazonaws.sagemakerinferencerouterruntime#",
+    "com.amazonaws.sagemakertrainingsessionruntime#",
+)
+
+// restJson1 services that are code-generated with schema-based serde.
+// Uncomment a wave to roll it out.
+val schemaBasedRestJson1Services: List<String> = buildList {
+    addAll(w01_restJson1)
+    // addAll(w02_restJson1)
+    // addAll(w03_restJson1)
+    // addAll(w04_restJson1)
+    // addAll(w05_restJson1)
+    // addAll(w06_restJson1)
+    // addAll(w07_restJson1)
+    // addAll(w08_restJson1)
+    // addAll(w09_restJson1)
+    // addAll(w10_restJson1)
+    // addAll(w11_restJson1)
+}
+
+
+// Returns true if the service should be code-generated with schema-based serde.
+// Services may also be opted in with the `forceSchemaBasedServices` property, a comma-separated
+// list of service shape ID prefixes, i.e. `-PforceSchemaBasedServices=com.amazonaws.lambda#`
+fun useForceSchemaBased(service: ServiceShape): Boolean {
+    val overrides = getProperty("forceSchemaBasedServices")
+        ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+        .orEmpty()
+    val serviceId = service.id.toString()
+    return (schemaBasedRestJson1Services + overrides).any { serviceId.startsWith(it) }
 }
 
 // Returns an AwsService model for every JSON file found in in directory defined by property `modelsDirProp`
@@ -153,6 +474,7 @@ fun discoverServices(): List<AwsService> {
             val packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.replaceFirstChar { it.titlecase() }}"
 
             logger.info("discovered service: ${serviceApi.sdkId}")
+            val forceSchemaBased = useForceSchemaBased(service)
 
             val publicService = AwsService(
                 name = service.id.toString(),
@@ -165,6 +487,7 @@ fun discoverServices(): List<AwsService> {
                 visibility = "public",
                 internalClient = false,
                 operations = listOf(),
+                forceSchemaBased = forceSchemaBased,
             )
 
             // Codegen internal clients used by credential resolvers.
@@ -180,6 +503,7 @@ fun discoverServices(): List<AwsService> {
                     visibility = "package",
                     internalClient = true,
                     operations = internalOperations(serviceApi.sdkId),
+                    forceSchemaBased = forceSchemaBased,
                 )
                 listOf(publicService, internalProjection)
             } else {
