@@ -13068,6 +13068,387 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The status of a SageMaker Capacity Reservation.
+    public enum CapacityReservationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationStatus] {
+            return [
+                .active,
+                .expired,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a SageMaker Capacity Reservation. A SageMaker Capacity Reservation reserves a number of instances of one instance type in one Availability Zone for a period of time.
+    public struct CapacityReservationDetail: Swift.Sendable {
+        /// The name of the Availability Zone of the reserved instances, for example us-east-1a. Availability Zone names can map to different physical zones in different accounts. To identify the same zone across accounts, use AvailabilityZoneId.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone of the reserved instances, for example use1-az1. An Availability Zone ID identifies the same physical zone in every account.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The time when the SageMaker Capacity Reservation was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The time when the SageMaker Capacity Reservation ends. This value is not returned if the reservation has no end time.
+        public var endTime: Foundation.Date?
+        /// The SageMaker AI instance type of the reserved instances, for example ml.p5.48xlarge.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var owner: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var smCapacityReservationArn: Swift.String?
+        /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+        /// This member is required.
+        public var smCapacityReservationId: Swift.String?
+        /// The time when the reserved instances become available.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The status of the SageMaker Capacity Reservation. SageMaker AI sets the status from the start and end times of the reservation. Valid values: Scheduled The current time is before StartTime. Active The current time is between StartTime and EndTime. You can use the reserved instances. Expired The current time is at or after EndTime.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationStatus?
+        /// The number of instances in the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            smCapacityReservationArn: Swift.String? = nil,
+            smCapacityReservationId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.CapacityReservationStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.owner = owner
+            self.smCapacityReservationArn = smCapacityReservationArn
+            self.smCapacityReservationId = smCapacityReservationId
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Whether one endpoint or multiple endpoints can use an ML capacity reservation.
+    public enum CapacityReservationEndpointSharing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multipleEndpoints
+        case singleEndpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationEndpointSharing] {
+            return [
+                .multipleEndpoints,
+                .singleEndpoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multipleEndpoints: return "MultipleEndpoints"
+            case .singleEndpoint: return "SingleEndpoint"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How endpoints match an ML capacity reservation.
+    public enum CapacityReservationMatchCriteria: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `open`
+        case targeted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationMatchCriteria] {
+            return [
+                .open,
+                .targeted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .open: return "Open"
+            case .targeted: return "Targeted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of an association between resources and a SageMaker Capacity Reservation.
+    public enum CapacityReservationOptInStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationOptInStatus] {
+            return [
+                .active,
+                .inactive,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .inactive: return "Inactive"
+            case .pending: return "Pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The association between the SageMaker AI endpoints in your account and a SageMaker Capacity Reservation, through one ML capacity reservation. To use the reserved instances for an endpoint, specify the ML capacity reservation ARN in the MlReservationArn field of ProductionVariantCapacityReservationConfig when you call CreateEndpointConfig.
+    public struct CapacityReservationEndpointsAssociation: Swift.Sendable {
+        /// The time when SageMaker AI started the current association. This time resets when you add the association again after it was removed or after it failed.
+        /// This member is required.
+        public var associatedTime: Foundation.Date?
+        /// Whether one endpoint or multiple endpoints can use the ML capacity reservation. Valid values: SingleEndpoint Only one endpoint can use the ML capacity reservation. MultipleEndpoints Multiple endpoints can use the ML capacity reservation.
+        public var endpointSharing: SageMakerClientTypes.CapacityReservationEndpointSharing?
+        /// The reason that the most recent attempt to add or remove the association failed. This value is returned only when the most recent attempt failed. After a failure to add the association, the status is Inactive. After a failure to remove the association, the status is Active.
+        public var failureReason: Swift.String?
+        /// How endpoints in your account match the ML capacity reservation. Valid values: Open Endpoints in your account use the ML capacity reservation automatically when their instance type matches. You don't specify the ML capacity reservation ARN when you create the endpoint. Targeted An endpoint uses the ML capacity reservation only when you specify its ARN when you create or update the endpoint.
+        public var matchCriteria: SageMakerClientTypes.CapacityReservationMatchCriteria?
+        /// The Amazon Resource Name (ARN) of the ML capacity reservation. Specify this ARN in CreateEndpointConfig to use the reserved instances for an endpoint. For a new ML capacity reservation, this value is returned when the status is Active.
+        public var mlReservationArn: Swift.String?
+        /// The name of the ML capacity reservation. The name is the last part of the ML capacity reservation ARN.
+        public var mlReservationId: Swift.String?
+        /// The status of the association. Valid values: Pending SageMaker AI is adding or removing the association. Active The resources are associated with the SageMaker Capacity Reservation and can use its instances. Inactive The resources are not associated with the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationOptInStatus?
+
+        public init(
+            associatedTime: Foundation.Date? = nil,
+            endpointSharing: SageMakerClientTypes.CapacityReservationEndpointSharing? = nil,
+            failureReason: Swift.String? = nil,
+            matchCriteria: SageMakerClientTypes.CapacityReservationMatchCriteria? = nil,
+            mlReservationArn: Swift.String? = nil,
+            mlReservationId: Swift.String? = nil,
+            status: SageMakerClientTypes.CapacityReservationOptInStatus? = nil
+        ) {
+            self.associatedTime = associatedTime
+            self.endpointSharing = endpointSharing
+            self.failureReason = failureReason
+            self.matchCriteria = matchCriteria
+            self.mlReservationArn = mlReservationArn
+            self.mlReservationId = mlReservationId
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The name of a field to filter SageMaker Capacity Reservations on.
+    public enum CapacityReservationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationFilterName] {
+            return [
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter for the ListCapacityReservations operation. A reservation matches the filter when its value for Name equals any of the values in Values.
+    public struct CapacityReservationFilter: Swift.Sendable {
+        /// The name of the field to filter on. The only supported value is Status.
+        /// This member is required.
+        public var name: SageMakerClientTypes.CapacityReservationFilterName?
+        /// The values to match. For the Status filter, valid values are Scheduled, Active, and Expired. Values are case sensitive. You can specify up to 10 values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: SageMakerClientTypes.CapacityReservationFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The association between the SageMaker AI HyperPod clusters in your account and a SageMaker Capacity Reservation.
+    public struct CapacityReservationHyperPodClustersAssociation: Swift.Sendable {
+        /// The time when SageMaker AI started the current association. This time resets when you add the association again after it was removed or after it failed.
+        /// This member is required.
+        public var associatedTime: Foundation.Date?
+        /// The reason that the most recent attempt to add or remove the association failed. This value is returned only when the most recent attempt failed. After a failure to add the association, the status is Inactive. After a failure to remove the association, the status is Active.
+        public var failureReason: Swift.String?
+        /// The status of the association. Valid values: Pending SageMaker AI is adding or removing the association. Active The resources are associated with the SageMaker Capacity Reservation and can use its instances. Inactive The resources are not associated with the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationOptInStatus?
+
+        public init(
+            associatedTime: Foundation.Date? = nil,
+            failureReason: Swift.String? = nil,
+            status: SageMakerClientTypes.CapacityReservationOptInStatus? = nil
+        ) {
+            self.associatedTime = associatedTime
+            self.failureReason = failureReason
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A type of resource that uses instances from a SageMaker Capacity Reservation.
+    public enum CapacityReservationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case endpoints
+        case hyperpodClusters
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationResourceType] {
+            return [
+                .endpoints,
+                .hyperpodClusters
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .endpoints: return "Endpoints"
+            case .hyperpodClusters: return "HyperPodClusters"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The instances from a SageMaker Capacity Reservation that one resource type uses in an account.
+    public struct CapacityReservationResourceUsage: Swift.Sendable {
+        /// The number of instances from the SageMaker Capacity Reservation that are in use.
+        /// This member is required.
+        public var inUseInstanceCount: Swift.Int?
+        /// The type of resource that uses the instances. Valid values: HyperPodClusters SageMaker AI HyperPod clusters. Endpoints SageMaker AI endpoints.
+        /// This member is required.
+        public var resourceType: SageMakerClientTypes.CapacityReservationResourceType?
+
+        public init(
+            inUseInstanceCount: Swift.Int? = nil,
+            resourceType: SageMakerClientTypes.CapacityReservationResourceType? = nil
+        ) {
+            self.inUseInstanceCount = inUseInstanceCount
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The instances from a SageMaker Capacity Reservation that one account uses.
+    public struct CapacityReservationInstanceUsage: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that uses the instances.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The number of instances that the account uses, across all resource types.
+        /// This member is required.
+        public var inUseInstanceCount: Swift.Int?
+        /// The instance usage for each resource type that has instances in use in the account.
+        /// This member is required.
+        public var resourcesUsage: [SageMakerClientTypes.CapacityReservationResourceUsage]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            inUseInstanceCount: Swift.Int? = nil,
+            resourcesUsage: [SageMakerClientTypes.CapacityReservationResourceUsage]? = nil
+        ) {
+            self.accountId = accountId
+            self.inUseInstanceCount = inUseInstanceCount
+            self.resourcesUsage = resourcesUsage
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityReservationsOnly
         case sdkUnknown(Swift.String)
@@ -13088,6 +13469,82 @@ extension SageMakerClientTypes {
             case .capacityReservationsOnly: return "capacity-reservations-only"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// An association between one type of resource in your account and a SageMaker Capacity Reservation. Each item contains exactly one member.
+    public enum CapacityReservationResourceAssociation: Swift.Sendable {
+        /// The association between the SageMaker AI HyperPod clusters in your account and the SageMaker Capacity Reservation. The association applies to all HyperPod clusters in your account.
+        case hyperpodclusters(SageMakerClientTypes.CapacityReservationHyperPodClustersAssociation)
+        /// The association between the SageMaker AI endpoints in your account and the SageMaker Capacity Reservation, through one ML capacity reservation. The response includes one item for each ML capacity reservation.
+        case endpoints(SageMakerClientTypes.CapacityReservationEndpointsAssociation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary information about a SageMaker Capacity Reservation.
+    public struct CapacityReservationSummary: Swift.Sendable {
+        /// The name of the Availability Zone of the reserved instances, for example us-east-1a. Availability Zone names can map to different physical zones in different accounts. To identify the same zone across accounts, use AvailabilityZoneId.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone of the reserved instances, for example use1-az1. An Availability Zone ID identifies the same physical zone in every account.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The time when the SageMaker Capacity Reservation was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The time when the SageMaker Capacity Reservation ends. This value is not returned if the reservation has no end time.
+        public var endTime: Foundation.Date?
+        /// The SageMaker AI instance type of the reserved instances, for example ml.p5.48xlarge.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var owner: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var smCapacityReservationArn: Swift.String?
+        /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+        /// This member is required.
+        public var smCapacityReservationId: Swift.String?
+        /// The time when the reserved instances become available.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The status of the SageMaker Capacity Reservation. SageMaker AI sets the status from the start and end times of the reservation. Valid values: Scheduled The current time is before StartTime. Active The current time is between StartTime and EndTime. You can use the reserved instances. Expired The current time is at or after EndTime.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationStatus?
+        /// The number of instances in the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            smCapacityReservationArn: Swift.String? = nil,
+            smCapacityReservationId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.CapacityReservationStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.owner = owner
+            self.smCapacityReservationArn = smCapacityReservationArn
+            self.smCapacityReservationId = smCapacityReservationId
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
         }
     }
 }
@@ -15598,6 +16055,7 @@ extension SageMakerClientTypes {
     public enum SoftwareUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
+        case partiallySucceeded
         case pending
         case rollbackComplete
         case rollbackInProgress
@@ -15608,6 +16066,7 @@ extension SageMakerClientTypes {
             return [
                 .failed,
                 .inProgress,
+                .partiallySucceeded,
                 .pending,
                 .rollbackComplete,
                 .rollbackInProgress,
@@ -15624,6 +16083,7 @@ extension SageMakerClientTypes {
             switch self {
             case .failed: return "Failed"
             case .inProgress: return "InProgress"
+            case .partiallySucceeded: return "PartiallySucceeded"
             case .pending: return "Pending"
             case .rollbackComplete: return "RollbackComplete"
             case .rollbackInProgress: return "RollbackInProgress"
@@ -37246,6 +37706,30 @@ public struct DescribeAutoMLJobV2Output: Swift.Sendable {
     }
 }
 
+public struct DescribeCapacityReservationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct DescribeCapacityReservationOutput: Swift.Sendable {
+    /// Details about the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var capacityReservation: SageMakerClientTypes.CapacityReservationDetail?
+
+    public init(
+        capacityReservation: SageMakerClientTypes.CapacityReservationDetail? = nil
+    ) {
+        self.capacityReservation = capacityReservation
+    }
+}
+
 public struct DescribeClusterInput: Swift.Sendable {
     /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
     /// This member is required.
@@ -45610,6 +46094,52 @@ public struct DescribeReservedCapacityOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeResourceAssociationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct DescribeResourceAssociationsOutput: Swift.Sendable {
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// The associations between resources in your account and the SageMaker Capacity Reservation. The list is empty when your account has no associations with the reservation.
+    /// This member is required.
+    public var resourceAssociations: [SageMakerClientTypes.CapacityReservationResourceAssociation]?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+    /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+    /// This member is required.
+    public var smCapacityReservationId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceAssociations: [SageMakerClientTypes.CapacityReservationResourceAssociation]? = nil,
+        smCapacityReservationArn: Swift.String? = nil,
+        smCapacityReservationId: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceAssociations = resourceAssociations
+        self.smCapacityReservationArn = smCapacityReservationArn
+        self.smCapacityReservationId = smCapacityReservationId
+    }
+}
+
 public struct DescribeSpaceInput: Swift.Sendable {
     /// The ID of the associated domain.
     /// This member is required.
@@ -49585,6 +50115,62 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct GetCapacityReservationUsageInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct GetCapacityReservationUsageOutput: Swift.Sendable {
+    /// The number of instances in the SageMaker Capacity Reservation that are not in use.
+    /// This member is required.
+    public var availableInstanceCount: Swift.Int?
+    /// The instance usage for each account that uses instances from the SageMaker Capacity Reservation, sorted by account ID. Each account appears at most once across all pages. The list is empty when no instances are in use.
+    /// This member is required.
+    public var instanceUsageSet: [SageMakerClientTypes.CapacityReservationInstanceUsage]?
+    /// The time when SageMaker AI last refreshed the usage counts in this response.
+    /// This member is required.
+    public var lastRefreshTime: Foundation.Date?
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+    /// This member is required.
+    public var smCapacityReservationId: Swift.String?
+    /// The number of instances in the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var totalInstanceCount: Swift.Int?
+
+    public init(
+        availableInstanceCount: Swift.Int? = nil,
+        instanceUsageSet: [SageMakerClientTypes.CapacityReservationInstanceUsage]? = nil,
+        lastRefreshTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationId: Swift.String? = nil,
+        totalInstanceCount: Swift.Int? = nil
+    ) {
+        self.availableInstanceCount = availableInstanceCount
+        self.instanceUsageSet = instanceUsageSet
+        self.lastRefreshTime = lastRefreshTime
+        self.nextToken = nextToken
+        self.smCapacityReservationId = smCapacityReservationId
+        self.totalInstanceCount = totalInstanceCount
+    }
+}
+
 public struct GetDeviceFleetReportInput: Swift.Sendable {
     /// The name of the fleet.
     /// This member is required.
@@ -52668,6 +53254,41 @@ public struct ListCandidatesForAutoMLJobOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.candidates = candidates
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCapacityReservationsInput: Swift.Sendable {
+    /// A filter that returns only the reservations that match it. You can specify one filter. If you don't specify a filter, the response includes all reservations in your account.
+    public var filters: [SageMakerClientTypes.CapacityReservationFilter]?
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [SageMakerClientTypes.CapacityReservationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCapacityReservationsOutput: Swift.Sendable {
+    /// Summaries of the SageMaker Capacity Reservations in your account.
+    /// This member is required.
+    public var capacityReservationSummaries: [SageMakerClientTypes.CapacityReservationSummary]?
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationSummaries: [SageMakerClientTypes.CapacityReservationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationSummaries = capacityReservationSummaries
         self.nextToken = nextToken
     }
 }

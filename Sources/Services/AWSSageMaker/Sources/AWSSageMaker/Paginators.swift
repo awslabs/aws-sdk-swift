@@ -47,6 +47,37 @@ extension PaginatorSequence where OperationStackInput == CreateHubContentPresign
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[DescribeResourceAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeResourceAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeResourceAssociationsOutput`
+    public func describeResourceAssociationsPaginated(input: DescribeResourceAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeResourceAssociationsInput, DescribeResourceAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeResourceAssociationsInput, DescribeResourceAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeResourceAssociations(input:))
+    }
+}
+
+extension DescribeResourceAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeResourceAssociationsInput {
+        return DescribeResourceAssociationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            smCapacityReservationArn: self.smCapacityReservationArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeResourceAssociationsInput, OperationStackOutput == DescribeResourceAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeResourceAssociationsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.CapacityReservationResourceAssociation]`
+    /// - Returns: `[SageMakerClientTypes.CapacityReservationResourceAssociation]`
+    public func resourceAssociations() async throws -> [SageMakerClientTypes.CapacityReservationResourceAssociation] {
+        return try await self.asyncCompactMap { item in item.resourceAssociations }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[DescribeTrainingPlanExtensionHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -75,6 +106,37 @@ extension PaginatorSequence where OperationStackInput == DescribeTrainingPlanExt
     /// - Returns: `[SageMakerClientTypes.TrainingPlanExtension]`
     public func trainingPlanExtensions() async throws -> [SageMakerClientTypes.TrainingPlanExtension] {
         return try await self.asyncCompactMap { item in item.trainingPlanExtensions }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[GetCapacityReservationUsageOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityReservationUsageInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityReservationUsageOutput`
+    public func getCapacityReservationUsagePaginated(input: GetCapacityReservationUsageInput) -> ClientRuntime.PaginatorSequence<GetCapacityReservationUsageInput, GetCapacityReservationUsageOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityReservationUsageInput, GetCapacityReservationUsageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityReservationUsage(input:))
+    }
+}
+
+extension GetCapacityReservationUsageInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityReservationUsageInput {
+        return GetCapacityReservationUsageInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            smCapacityReservationArn: self.smCapacityReservationArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityReservationUsageInput, OperationStackOutput == GetCapacityReservationUsageOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityReservationUsagePaginated`
+    /// to access the nested member `[SageMakerClientTypes.CapacityReservationInstanceUsage]`
+    /// - Returns: `[SageMakerClientTypes.CapacityReservationInstanceUsage]`
+    public func instanceUsageSet() async throws -> [SageMakerClientTypes.CapacityReservationInstanceUsage] {
+        return try await self.asyncCompactMap { item in item.instanceUsageSet }
     }
 }
 extension SageMakerClient {
@@ -506,6 +568,37 @@ extension PaginatorSequence where OperationStackInput == ListCandidatesForAutoML
     /// - Returns: `[SageMakerClientTypes.AutoMLCandidate]`
     public func candidates() async throws -> [SageMakerClientTypes.AutoMLCandidate] {
         return try await self.asyncCompactMap { item in item.candidates }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListCapacityReservationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCapacityReservationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityReservationsOutput`
+    public func listCapacityReservationsPaginated(input: ListCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCapacityReservations(input:))
+    }
+}
+
+extension ListCapacityReservationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCapacityReservationsInput {
+        return ListCapacityReservationsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCapacityReservationsInput, OperationStackOutput == ListCapacityReservationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCapacityReservationsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.CapacityReservationSummary]`
+    /// - Returns: `[SageMakerClientTypes.CapacityReservationSummary]`
+    public func capacityReservationSummaries() async throws -> [SageMakerClientTypes.CapacityReservationSummary] {
+        return try await self.asyncCompactMap { item in item.capacityReservationSummaries }
     }
 }
 extension SageMakerClient {
