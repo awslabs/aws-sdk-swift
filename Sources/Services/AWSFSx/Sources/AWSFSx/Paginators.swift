@@ -34,6 +34,38 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FSxClient {
+    /// Paginate over `[DescribeClusterPeersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterPeersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterPeersOutput`
+    public func describeClusterPeersPaginated(input: DescribeClusterPeersInput) -> ClientRuntime.PaginatorSequence<DescribeClusterPeersInput, DescribeClusterPeersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeClusterPeersInput, DescribeClusterPeersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClusterPeers(input:))
+    }
+}
+
+extension DescribeClusterPeersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeClusterPeersInput {
+        return DescribeClusterPeersInput(
+            clusterPeerIds: self.clusterPeerIds,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeClusterPeersInput, OperationStackOutput == DescribeClusterPeersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterPeersPaginated`
+    /// to access the nested member `[FSxClientTypes.ClusterPeer]`
+    /// - Returns: `[FSxClientTypes.ClusterPeer]`
+    public func clusterPeers() async throws -> [FSxClientTypes.ClusterPeer] {
+        return try await self.asyncCompactMap { item in item.clusterPeers }
+    }
+}
+extension FSxClient {
     /// Paginate over `[DescribeDataRepositoryAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -179,6 +211,102 @@ extension PaginatorSequence where OperationStackInput == DescribeS3AccessPointAt
     }
 }
 extension FSxClient {
+    /// Paginate over `[DescribeSnapmirrorPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapmirrorPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapmirrorPoliciesOutput`
+    public func describeSnapmirrorPoliciesPaginated(input: DescribeSnapmirrorPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapmirrorPolicies(input:))
+    }
+}
+
+extension DescribeSnapmirrorPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSnapmirrorPoliciesInput {
+        return DescribeSnapmirrorPoliciesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            snapmirrorPolicyIds: self.snapmirrorPolicyIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSnapmirrorPoliciesInput, OperationStackOutput == DescribeSnapmirrorPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapmirrorPoliciesPaginated`
+    /// to access the nested member `[FSxClientTypes.SnapmirrorPolicy]`
+    /// - Returns: `[FSxClientTypes.SnapmirrorPolicy]`
+    public func snapmirrorPolicies() async throws -> [FSxClientTypes.SnapmirrorPolicy] {
+        return try await self.asyncCompactMap { item in item.snapmirrorPolicies }
+    }
+}
+extension FSxClient {
+    /// Paginate over `[DescribeSnapmirrorRelationshipsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapmirrorRelationshipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapmirrorRelationshipsOutput`
+    public func describeSnapmirrorRelationshipsPaginated(input: DescribeSnapmirrorRelationshipsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapmirrorRelationships(input:))
+    }
+}
+
+extension DescribeSnapmirrorRelationshipsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSnapmirrorRelationshipsInput {
+        return DescribeSnapmirrorRelationshipsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            snapmirrorRelationshipIds: self.snapmirrorRelationshipIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSnapmirrorRelationshipsInput, OperationStackOutput == DescribeSnapmirrorRelationshipsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapmirrorRelationshipsPaginated`
+    /// to access the nested member `[FSxClientTypes.SnapmirrorRelationship]`
+    /// - Returns: `[FSxClientTypes.SnapmirrorRelationship]`
+    public func snapmirrorRelationships() async throws -> [FSxClientTypes.SnapmirrorRelationship] {
+        return try await self.asyncCompactMap { item in item.snapmirrorRelationships }
+    }
+}
+extension FSxClient {
+    /// Paginate over `[DescribeSnapshotPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapshotPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotPoliciesOutput`
+    public func describeSnapshotPoliciesPaginated(input: DescribeSnapshotPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshotPolicies(input:))
+    }
+}
+
+extension DescribeSnapshotPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSnapshotPoliciesInput {
+        return DescribeSnapshotPoliciesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            snapshotPolicyIds: self.snapshotPolicyIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSnapshotPoliciesInput, OperationStackOutput == DescribeSnapshotPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotPoliciesPaginated`
+    /// to access the nested member `[FSxClientTypes.SnapshotPolicy]`
+    /// - Returns: `[FSxClientTypes.SnapshotPolicy]`
+    public func snapshotPolicies() async throws -> [FSxClientTypes.SnapshotPolicy] {
+        return try await self.asyncCompactMap { item in item.snapshotPolicies }
+    }
+}
+extension FSxClient {
     /// Paginate over `[DescribeSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -209,6 +337,38 @@ extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput,
     /// - Returns: `[FSxClientTypes.Snapshot]`
     public func snapshots() async throws -> [FSxClientTypes.Snapshot] {
         return try await self.asyncCompactMap { item in item.snapshots }
+    }
+}
+extension FSxClient {
+    /// Paginate over `[DescribeStorageVirtualMachinePeersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeStorageVirtualMachinePeersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageVirtualMachinePeersOutput`
+    public func describeStorageVirtualMachinePeersPaginated(input: DescribeStorageVirtualMachinePeersInput) -> ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStorageVirtualMachinePeers(input:))
+    }
+}
+
+extension DescribeStorageVirtualMachinePeersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeStorageVirtualMachinePeersInput {
+        return DescribeStorageVirtualMachinePeersInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            storageVirtualMachinePeerIds: self.storageVirtualMachinePeerIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeStorageVirtualMachinePeersInput, OperationStackOutput == DescribeStorageVirtualMachinePeersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeStorageVirtualMachinePeersPaginated`
+    /// to access the nested member `[FSxClientTypes.StorageVirtualMachinePeer]`
+    /// - Returns: `[FSxClientTypes.StorageVirtualMachinePeer]`
+    public func storageVirtualMachinePeers() async throws -> [FSxClientTypes.StorageVirtualMachinePeer] {
+        return try await self.asyncCompactMap { item in item.storageVirtualMachinePeers }
     }
 }
 extension FSxClient {
