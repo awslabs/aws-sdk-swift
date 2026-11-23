@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct AwsCommonRuntimeKit.HostResolverArguments
+import class ClientRuntime.SDKDefaultIO
 import Foundation
 import struct Smithy.Attributes
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
@@ -15,13 +17,30 @@ import FoundationNetworking // For URLSession in Linux.
 public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let urlSession: URLSession
     private let maxRetries: Int
+    private let resolveHost: @Sendable (String) async throws -> [String]
 
     public init(
         urlSession: URLSession? = nil,
         maxRetries: Int = 3
     ) {
+        self.init(urlSession: urlSession, maxRetries: maxRetries, resolveHost: Self.resolveHostWithCRT)
+    }
+
+    /// - Parameter resolveHost: Resolves a host name to its IP addresses. Injectable for testing.
+    init(
+        urlSession: URLSession?,
+        maxRetries: Int,
+        resolveHost: @escaping @Sendable (String) async throws -> [String]
+    ) {
         self.urlSession = urlSession ?? URLSession.shared
         self.maxRetries = maxRetries
+        self.resolveHost = resolveHost
+    }
+
+    private static func resolveHostWithCRT(_ host: String) async throws -> [String] {
+        try await SDKDefaultIO.shared.hostResolver
+            .resolveAddress(args: HostResolverArguments(hostName: host))
+            .map(\.address)
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -29,7 +48,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         let (resolvedURL, authToken) = try resolveURLAndOptionalAuthToken()
 
         // 2. Validate resolved URL before proceeding.
-        try validateResolvedURL(resolvedURL)
+        try await validateResolvedURL(resolvedURL)
 
         // 3. Create URLRequest; add Authorization header if applicable.
         var request = URLRequest(url: resolvedURL)
@@ -110,43 +129,89 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
     }
 
-    private func validateResolvedURL(_ resolvedURL: URL) throws {
-        guard let host = resolvedURL.host else {
+    private func validateResolvedURL(_ resolvedURL: URL) async throws {
+        guard let host = resolvedURL.host, !host.isEmpty else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
                 + "Resolved URL does not have a host."
             )
         }
 
-        // Must fail if host isn't IP address & scheme isn't HTTPS.
-        if resolvedURL.scheme != "https" && !isIPv4Address(host) {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "ECSAWSCredentialIdentityResolver: "
-                + "Resolved URL has HTTP scheme with host that isn't an IP address."
-            )
-        } else if !isIPv4Address(host) {
+        // Any host is allowed over HTTPS. URL schemes are case-insensitive (RFC 3986).
+        if resolvedURL.scheme?.lowercased() == "https" { return }
+
+        // If host is an IP address, it must be one of the allowed IP addresses.
+        if let ipAddress = Self.ipAddressBytes(host) {
+            guard isAllowedIPAddress(ipAddress) else {
+                throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                    "ECSAWSCredentialIdentityResolver: "
+                    + "The IP address in resolved URL is invalid. "
+                    + "It must be within loopback CIDR 127.0.0.0/8 or ::1/128, "
+                    + "or be the ECS container host 169.254.170.2, "
+                    + "or be the EKS container host 169.254.170.23 or fd00:ec2::23."
+                )
+            }
             return
         }
 
-        // Must fail if host is IP address and doesn't match one of the three conditions below.
-        guard host == "169.254.170.2" // ECS container host.
-            || host == "169.254.170.23" // EKS container host.
-            || host.split(separator: ".").first == "127" else { // Loopback CIDR.
+        // Otherwise host is a host name (e.g. `localhost`); every IP address it resolves to must be allowed.
+        let resolvedAddresses: [String]
+        do {
+            resolvedAddresses = try await resolveHost(host)
+        } catch {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
-                + "The IP address in resolved URL is invalid. "
-                + "It must be within loopback CIDR 127.0.0.0/8, "
-                + "or be the ECS container host 169.254.170.2, "
-                + "or be the EKS container host 169.254.170.23."
+                + "Failed to resolve the host in resolved URL to an IP address: \(error)"
+            )
+        }
+        let allResolvedAddressesAllowed = resolvedAddresses.allSatisfy { address in
+            Self.ipAddressBytes(address).map(isAllowedIPAddress) ?? false
+        }
+        guard !resolvedAddresses.isEmpty, allResolvedAddressesAllowed else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "The host in resolved URL does not resolve exclusively to allowed IP addresses. "
+                + "It must resolve within loopback CIDR 127.0.0.0/8 or ::1/128, "
+                + "or to the ECS container host 169.254.170.2, "
+                + "or to the EKS container host 169.254.170.23 or fd00:ec2::23."
             )
         }
     }
 
-    private func isIPv4Address(_ host: String) -> Bool {
-        // Regex pattern that checks string of pattern X.X.X.X where X is an integer between 0 and 255.
-        let pattern = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}"
-        + "([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-        return host.range(of: pattern, options: .regularExpression) != nil
+    private func isAllowedIPAddress(_ ipAddress: [UInt8]) -> Bool {
+        let isIPv4Loopback = ipAddress.count == 4 && ipAddress[0] == 127 // Loopback CIDR 127.0.0.0/8.
+        return isIPv4Loopback || Self.allowedIPAddresses.contains(ipAddress)
+    }
+
+    /// IP addresses allowed over HTTP in addition to the IPv4 loopback CIDR.
+    ///
+    /// - ECS container host: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+    /// - EKS Pod Identity Agent (IPv4 and IPv6):
+    ///   https://docs.aws.amazon.com/eks/latest/userguide/pod-id-agent-setup.html
+    private static let allowedIPAddresses: [[UInt8]] = [
+        "169.254.170.2", // ECS container host.
+        "169.254.170.23", // EKS Pod Identity Agent (IPv4).
+        "fd00:ec2::23", // EKS Pod Identity Agent (IPv6).
+        "::1", // IPv6 loopback.
+    ].compactMap(ipAddressBytes)
+
+    /// Parses an IPv4 (dotted-decimal) or IPv6 address literal.
+    ///
+    /// `URL.host` returns IPv6 address literals without the enclosing square brackets, so `host` is expected to be
+    /// unbracketed.
+    ///
+    /// - Returns: The address bytes in network byte order (4 bytes for IPv4, 16 bytes for IPv6),
+    ///   or `nil` if `host` is not an IP address literal.
+    private static func ipAddressBytes(_ host: String) -> [UInt8]? {
+        var ipv4 = in_addr()
+        if inet_pton(AF_INET, host, &ipv4) == 1 {
+            return withUnsafeBytes(of: &ipv4) { Array($0) }
+        }
+        var ipv6 = in6_addr()
+        if inet_pton(AF_INET6, host, &ipv6) == 1 {
+            return withUnsafeBytes(of: &ipv6) { Array($0) }
+        }
+        return nil
     }
 
     private func fetchCredentials(request: URLRequest) async throws -> AWSCredentialIdentity {

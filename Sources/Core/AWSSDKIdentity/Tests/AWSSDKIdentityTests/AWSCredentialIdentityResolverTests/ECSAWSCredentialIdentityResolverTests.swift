@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
+@testable import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
 import Foundation
 #if os(Linux)
 import FoundationNetworking // For URLSession in Linux.
@@ -121,6 +121,149 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
         // Pass the token directly to the resolver
         let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
         XCTAssertEqual(creds.accessKey, "access-123")
+    }
+
+    // MARK: - Full URI host validation
+
+    func testFullURIAllowsEKSContainerHostIPv6() async throws {
+        try await assertFullURIAllowed("http://[fd00:ec2::23]/v1/credentials")
+        try await assertFullURIAllowed("http://[fd00:ec2::23]:80/v1/credentials")
+        try await assertFullURIAllowed("http://[FD00:EC2:0:0:0:0:0:23]/v1/credentials")
+    }
+
+    func testFullURIAllowsEKSContainerHostIPv4() async throws {
+        try await assertFullURIAllowed("http://169.254.170.23/v1/credentials")
+    }
+
+    func testFullURIAllowsECSContainerHost() async throws {
+        try await assertFullURIAllowed("http://169.254.170.2/credentials")
+    }
+
+    func testFullURIAllowsIPv6Loopback() async throws {
+        try await assertFullURIAllowed("http://[::1]/credentials")
+        try await assertFullURIAllowed("http://[0:0:0:0:0:0:0:1]:8080/credentials")
+    }
+
+    func testFullURIAllowsIPv4LoopbackCIDR() async throws {
+        try await assertFullURIAllowed("http://127.0.0.2/credentials")
+        try await assertFullURIAllowed("http://127.255.255.254/credentials")
+        try await assertFullURIAllowed("http://127.0.0.1:8080/credentials?foo=bar%20baz")
+    }
+
+    func testFullURIAllowsAnyHostOverHTTPS() async throws {
+        try await assertFullURIAllowed("https://awscredentials.amazonaws.com/credentials")
+        try await assertFullURIAllowed("https://192.168.1.1/credentials")
+        try await assertFullURIAllowed("HTTPS://192.168.1.1/credentials")
+    }
+
+    func testFullURIAllowsHostNameResolvingToAllowedAddresses() async throws {
+        let dns = [
+            "localhost": ["127.0.0.1", "::1"],
+            "creds.internal": ["169.254.170.23", "fd00:ec2::23"],
+            "ecs.internal": ["169.254.170.2"],
+        ]
+        try await assertFullURIAllowed("http://localhost/credentials", dns: dns)
+        try await assertFullURIAllowed("http://localhost:8080/credentials", dns: dns)
+        try await assertFullURIAllowed("http://creds.internal/credentials", dns: dns)
+        try await assertFullURIAllowed("http://ecs.internal/credentials", dns: dns)
+    }
+
+    func testFullURIAllowsLocalhostWithDefaultHostResolver() async throws {
+        let fullURI = "http://localhost/credentials"
+        MockURLProtocol.expectedURL = URL(string: fullURI)!
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", fullURI, 1)
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session, maxRetries: 0)
+            .getIdentity(identityProperties: nil)
+        XCTAssertEqual(creds.accessKey, "access-123")
+    }
+
+    func testFullURIRejectsDisallowedIPv4Hosts() async throws {
+        try await assertFullURIRejected("http://192.168.1.1/endpoint")
+        try await assertFullURIRejected("http://169.254.170.3/endpoint")
+        try await assertFullURIRejected("http://169.254.171.23/creds")
+        try await assertFullURIRejected("http://128.0.0.1/creds")
+    }
+
+    func testFullURIRejectsDisallowedIPv6Hosts() async throws {
+        try await assertFullURIRejected("http://[fd00:ec2::2]/creds")
+        try await assertFullURIRejected("http://[fd00:ec2::254]/creds")
+        try await assertFullURIRejected("http://[::2]/creds")
+        try await assertFullURIRejected("http://[::]/creds")
+    }
+
+    func testFullURIValidatesNonHTTPSSchemes() async throws {
+        try await assertFullURIRejected("HTTP://169.254.170.3/creds")
+        try await assertFullURIRejected("ftp://192.168.1.1/creds")
+    }
+
+    func testFullURIRejectsHostNameResolvingToDisallowedAddresses() async throws {
+        let dns = [
+            "awscredentials.amazonaws.com": ["52.94.0.1"],
+            "localhost.example.com": ["93.184.215.14"],
+            "mixed.example.com": ["127.0.0.1", "10.0.0.1"],
+            "mixed6.example.com": ["::1", "fd00:ec2::2"],
+            "empty.example.com": [],
+        ]
+        try await assertFullURIRejected("http://awscredentials.amazonaws.com/credentials", dns: dns)
+        try await assertFullURIRejected("http://localhost.example.com/credentials", dns: dns)
+        try await assertFullURIRejected("http://mixed.example.com/credentials", dns: dns)
+        try await assertFullURIRejected("http://mixed6.example.com/credentials", dns: dns)
+        try await assertFullURIRejected("http://empty.example.com/credentials", dns: dns)
+    }
+
+    func testFullURIRejectsHostNameThatFailsToResolve() async throws {
+        try await assertFullURIRejected("http://localhostx/credentials")
+        try await assertFullURIRejected("http://127.0.0.1.example.com/credentials")
+    }
+
+    /// Asserts the full URI is accepted. Hosts are resolved with `dns`, a fake that fails for unlisted hosts,
+    /// so with the default empty `dns` this also asserts that no host name resolution is needed.
+    private func assertFullURIAllowed(
+        _ fullURI: String,
+        dns: [String: [String]] = [:],
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async throws {
+        MockURLProtocol.expectedURL = URL(string: fullURI)!
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", fullURI, 1)
+        do {
+            let creds = try await makeResolver(dns: dns).getIdentity(identityProperties: nil)
+            XCTAssertEqual(creds.accessKey, "access-123", file: file, line: line)
+        } catch {
+            XCTFail("Expected \(fullURI) to be allowed, but got error: \(error)", file: file, line: line)
+        }
+    }
+
+    private func assertFullURIRejected(
+        _ fullURI: String,
+        dns: [String: [String]] = [:],
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async throws {
+        // The mock would serve credentials for this URL, so the request is only rejected by URL validation.
+        MockURLProtocol.expectedURL = URL(string: fullURI)!
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", fullURI, 1)
+        do {
+            _ = try await makeResolver(dns: dns).getIdentity(identityProperties: nil)
+            XCTFail("Expected \(fullURI) to be rejected", file: file, line: line)
+        } catch {
+            let message = "\(error)"
+            XCTAssertTrue(
+                message.contains("The IP address in resolved URL is invalid")
+                    || message.contains("does not resolve exclusively to allowed IP addresses")
+                    || message.contains("Failed to resolve the host in resolved URL"),
+                "Expected \(fullURI) to be rejected by URL validation, but got: \(error)",
+                file: file,
+                line: line
+            )
+        }
+    }
+
+    private func makeResolver(dns: [String: [String]]) -> ECSAWSCredentialIdentityResolver {
+        ECSAWSCredentialIdentityResolver(urlSession: session, maxRetries: 0) { host in
+            guard let addresses = dns[host] else { throw URLError(.cannotFindHost) }
+            return addresses
+        }
     }
 }
 
