@@ -10687,6 +10687,21 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// The geographic location to use for the web search.
+    public struct WebSearchUserLocation: Swift.Sendable {
+        /// The two-letter ISO 3166-1 alpha-2 country code. The code is case-insensitive.
+        public var country: Swift.String?
+
+        public init(
+            country: Swift.String? = nil
+        ) {
+            self.country = country
+        }
+    }
+}
+
 /// Request for the InvokeWebSearch operation.
 public struct InvokeWebSearchInput: Swift.Sendable {
     /// The filters to apply to the search results.
@@ -10696,6 +10711,8 @@ public struct InvokeWebSearchInput: Swift.Sendable {
     /// The text to search for.
     /// This member is required.
     public var searchQuery: Swift.String?
+    /// userLocation may allow for Web Search results to be refined for that location. This is done by supplying a country. The field is optional. The value is checked against assigned ISO 3166-1 alpha-2 codes, so unassigned and user-assigned codes such as UK and XK, empty or whitespace-only values are rejected. An omitted value is treated as absent. Without location, as a fallback Web Search may use your query to localize results or default to en_US.
+    public var userLocation: BedrockAgentCoreClientTypes.WebSearchUserLocation?
     /// The identifier of the web search tool to invoke. The Amazon Web Services-managed web search tool is web-search.v1.
     /// This member is required.
     public var webSearchId: Swift.String?
@@ -10704,11 +10721,13 @@ public struct InvokeWebSearchInput: Swift.Sendable {
         filters: BedrockAgentCoreClientTypes.WebSearchFilters? = nil,
         maxResults: Swift.Int? = nil,
         searchQuery: Swift.String? = nil,
+        userLocation: BedrockAgentCoreClientTypes.WebSearchUserLocation? = nil,
         webSearchId: Swift.String? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
         self.searchQuery = searchQuery
+        self.userLocation = userLocation
         self.webSearchId = webSearchId
     }
 }
@@ -16157,6 +16176,7 @@ extension InvokeWebSearchInput {
         try writer["filters"].write(value.filters, with: BedrockAgentCoreClientTypes.WebSearchFilters.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["searchQuery"].write(value.searchQuery)
+        try writer["userLocation"].write(value.userLocation, with: BedrockAgentCoreClientTypes.WebSearchUserLocation.write(value:to:))
     }
 }
 
@@ -24014,6 +24034,14 @@ extension BedrockAgentCoreClientTypes.WebSearchResult {
         value.text = try reader["text"].readIfPresent() ?? ""
         value.publishedAt = try reader["publishedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.WebSearchUserLocation {
+
+    static func write(value: BedrockAgentCoreClientTypes.WebSearchUserLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["country"].write(value.country)
     }
 }
 
