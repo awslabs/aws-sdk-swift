@@ -640,11 +640,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func getListing(input: GetListingInput) async throws -> GetListingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -713,11 +713,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func getOffer(input: GetOfferInput) async throws -> GetOfferOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -786,11 +786,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func getOfferSet(input: GetOfferSetInput) async throws -> GetOfferSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -850,7 +850,7 @@ extension MarketplaceDiscoveryClient {
 
     /// Performs the `GetOfferTerms` operation on the `MarketplaceDiscovery` service.
     ///
-    /// Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.
+    /// Retrieves the terms attached to an offer, such as pricing terms (usage-based, contract, Bring Your Own License (BYOL), free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms. The operation returns results in pages. Use nextToken to retrieve the next page.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetOfferTermsInput`)
     ///
@@ -859,11 +859,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func getOfferTerms(input: GetOfferTermsInput) async throws -> GetOfferTermsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -932,11 +932,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func getProduct(input: GetProductInput) async throws -> GetProductOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -996,7 +996,7 @@ extension MarketplaceDiscoveryClient {
 
     /// Performs the `ListFulfillmentOptions` operation on the `MarketplaceDiscovery` service.
     ///
-    /// Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
+    /// Retrieves the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes. The operation returns results in pages. Use nextToken to retrieve the next page.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFulfillmentOptionsInput`)
     ///
@@ -1005,11 +1005,11 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func listFulfillmentOptions(input: ListFulfillmentOptionsInput) async throws -> ListFulfillmentOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1067,9 +1067,82 @@ extension MarketplaceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListListingAttributes` operation on the `MarketplaceDiscovery` service.
+    ///
+    /// Retrieves the requested attributes for a listing, including case studies and trust center information. The operation returns results in pages. Use nextToken to retrieve the next page.
+    ///
+    /// - Parameter input: Contains the listing and attribute types to retrieve. (Type: `ListListingAttributesInput`)
+    ///
+    /// - Returns: Contains the requested listing attributes and pagination information. (Type: `ListListingAttributesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
+    /// - `InternalServerException` : Unexpected error during processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist. Verify that the identifier is correct.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
+    public func listListingAttributes(input: ListListingAttributesInput) async throws -> ListListingAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listListingAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListListingAttributesInput, ListListingAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListListingAttributesInput, ListListingAttributesOutput>(ListListingAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListListingAttributesInput, ListListingAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListListingAttributesInput, ListListingAttributesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListListingAttributesInput, ListListingAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListListingAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListListingAttributesInput, ListListingAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListListingAttributesOutput>(ListListingAttributesOutput.httpOutput(from:), ListListingAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListListingAttributesInput, ListListingAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListListingAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Discovery", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListListingAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListListingAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListListingAttributesInput, ListListingAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListListingAttributesInput, ListListingAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Discovery"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListListingAttributesInput, ListListingAttributesOutput>(serviceID: serviceName, version: MarketplaceDiscoveryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceDiscovery")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListListingAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListPurchaseOptions` operation on the `MarketplaceDiscovery` service.
     ///
-    /// Returns the purchase options (offers and offer sets) available to the buyer. You can filter results by product, seller, purchase option type, visibility scope, and availability status. You must include at least one of the following filters in the request: a PRODUCT_ID filter to specify the product for which to retrieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility.
+    /// Retrieves the purchase options (offers and offer sets) available to you. You can filter results by product, seller, purchase option type, visibility scope, and availability status. The operation returns results in pages. Use nextToken to retrieve the next page. You must include at least one of the following filters in the request: a PRODUCT_ID filter to specify the product for which to retrieve purchase options, or a VISIBILITY_SCOPE filter to retrieve purchase options by visibility.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPurchaseOptionsInput`)
     ///
@@ -1078,10 +1151,10 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func listPurchaseOptions(input: ListPurchaseOptionsInput) async throws -> ListPurchaseOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1141,7 +1214,7 @@ extension MarketplaceDiscoveryClient {
 
     /// Performs the `SearchFacets` operation on the `MarketplaceDiscovery` service.
     ///
-    /// Returns available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.
+    /// Retrieves the available facet values for filtering listings, such as categories, pricing models, fulfillment option types, publishers, and customer ratings. Each facet value includes a count of matching listings.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchFacetsInput`)
     ///
@@ -1150,10 +1223,10 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func searchFacets(input: SearchFacetsInput) async throws -> SearchFacetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1213,7 +1286,7 @@ extension MarketplaceDiscoveryClient {
 
     /// Performs the `SearchListings` operation on the `MarketplaceDiscovery` service.
     ///
-    /// Returns a list of product listings based on search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating.
+    /// Searches for listings that match your search criteria and filters. You can search by keyword, filter by category, pricing model, fulfillment type, and other attributes, and sort results by relevance or customer rating. The operation returns results in pages. Use nextToken to retrieve the next page.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchListingsInput`)
     ///
@@ -1222,10 +1295,10 @@ extension MarketplaceDiscoveryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Verify that you have the required permissions.
     /// - `InternalServerException` : Unexpected error during processing of the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and retry.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service. Check the reason field for the constraint that failed.
     public func searchListings(input: SearchListingsInput) async throws -> SearchListingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

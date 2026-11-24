@@ -941,7 +941,7 @@ extension FSxClient {
 
     /// Performs the `CreateAndAttachS3AccessPoint` operation on the `FSx` service.
     ///
-    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see [Accessing your data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/s3accesspoints-for-FSx.html). in the Amazon FSx for OpenZFS User Guide. The requester requires the following permissions to perform these actions:
+    /// Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file systems, the volume must be hosted on a high-availability file system, either Single-AZ or Multi-AZ. For more information, see [Accessing your data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/s3accesspoints-for-FSx.html) in the Amazon FSx for OpenZFS User Guide. For FSx for ONTAP file systems, see [Accessing data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/s3-access-points.html) in the Amazon FSx for NetApp ONTAP User Guide. The requester requires the following permissions to perform these actions:
     ///
     /// * fsx:CreateAndAttachS3AccessPoint
     ///
@@ -1134,6 +1134,86 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBackup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateClusterPeer` operation on the `FSx` service.
+    ///
+    /// Creates a cluster peer relationship between an Amazon FSx for NetApp ONTAP file system and another ONTAP cluster. The CreateClusterPeer operation returns while the cluster peer's lifecycle state is still CREATING. You can check the cluster peer creation status by calling the DescribeClusterPeers operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterPeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateClusterPeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
+    public func createClusterPeer(input: CreateClusterPeerInput) async throws -> CreateClusterPeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createClusterPeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createClusterPeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterPeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateClusterPeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateClusterPeerInput, CreateClusterPeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateClusterPeer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1590,11 +1670,171 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateSnapmirrorPolicy` operation on the `FSx` service.
+    ///
+    /// Creates a SnapMirror policy for an Amazon FSx for NetApp ONTAP file system or storage virtual machine (SVM). A SnapMirror policy defines how the SnapMirror relationships that use the policy replicate data, including which snapshots to transfer, the maximum number of snapshots to retain on the destination volume, and when to transfer data. The CreateSnapmirrorPolicy operation returns while the SnapMirror policy's lifecycle state is still CREATING. You can check the SnapMirror policy creation status by calling the DescribeSnapmirrorPolicies operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapmirrorPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSnapmirrorPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
+    public func createSnapmirrorPolicy(input: CreateSnapmirrorPolicyInput) async throws -> CreateSnapmirrorPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createSnapmirrorPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSnapmirrorPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapmirrorPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapmirrorPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateSnapmirrorPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSnapmirrorPolicyInput, CreateSnapmirrorPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapmirrorPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateSnapmirrorRelationship` operation on the `FSx` service.
+    ///
+    /// Creates a SnapMirror relationship that replicates data from a source volume to a destination volume on an Amazon FSx for NetApp ONTAP file system. The CreateSnapmirrorRelationship operation returns while the SnapMirror relationship's lifecycle state is still CREATING. You can check the SnapMirror relationship creation status by calling the DescribeSnapmirrorRelationships operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapmirrorRelationshipInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSnapmirrorRelationshipOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
+    /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
+    public func createSnapmirrorRelationship(input: CreateSnapmirrorRelationshipInput) async throws -> CreateSnapmirrorRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createSnapmirrorRelationshipOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSnapmirrorRelationship")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapmirrorRelationshipOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapmirrorRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateSnapmirrorRelationship"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSnapmirrorRelationshipInput, CreateSnapmirrorRelationshipOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapmirrorRelationship")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateSnapshot` operation on the `FSx` service.
     ///
-    /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the existing snapshot. If a snapshot with the specified client request token exists, and the parameters don't match, this operation returns IncompatibleParameterError. If a snapshot with the specified client request token doesn't exist, CreateSnapshot does the following:
+    /// Creates a snapshot of an existing Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP volume. With snapshots, you can easily undo file changes and compare file versions by restoring the volume to a previous version. If a snapshot with the specified client request token exists, and the parameters match, this operation returns the description of the existing snapshot. If a snapshot with the specified client request token exists, and the parameters don't match, this operation returns IncompatibleParameterError. If a snapshot with the specified client request token doesn't exist, CreateSnapshot does the following:
     ///
-    /// * Creates a new OpenZFS snapshot with an assigned ID, and an initial lifecycle state of CREATING.
+    /// * Creates a new snapshot with an assigned ID, and an initial lifecycle state of CREATING.
     ///
     /// * Returns the description of the snapshot.
     ///
@@ -1609,6 +1849,7 @@ extension FSxClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
@@ -1663,6 +1904,86 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateSnapshotPolicy` operation on the `FSx` service.
+    ///
+    /// Creates a snapshot policy for an Amazon FSx for NetApp ONTAP file system or storage virtual machine (SVM). A snapshot policy defines the schedules on which ONTAP automatically creates snapshots of the volumes that use the policy, and the maximum number of snapshots to retain for each schedule. The CreateSnapshotPolicy operation returns while the snapshot policy's lifecycle state is still CREATING. You can check the snapshot policy creation status by calling the DescribeSnapshotPolicies operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
+    public func createSnapshotPolicy(input: CreateSnapshotPolicyInput) async throws -> CreateSnapshotPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createSnapshotPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSnapshotPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapshotPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateSnapshotPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSnapshotPolicyInput, CreateSnapshotPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapshotPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1756,6 +2077,86 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateStorageVirtualMachinePeer` operation on the `FSx` service.
+    ///
+    /// Creates a storage virtual machine (SVM) peer relationship between an SVM on an Amazon FSx for NetApp ONTAP file system and another SVM. The CreateStorageVirtualMachinePeer operation returns while the SVM peer's lifecycle state is still CREATING. You can check the SVM peer creation status by calling the DescribeStorageVirtualMachinePeers operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageVirtualMachinePeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateStorageVirtualMachinePeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
+    /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
+    public func createStorageVirtualMachinePeer(input: CreateStorageVirtualMachinePeerInput) async throws -> CreateStorageVirtualMachinePeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createStorageVirtualMachinePeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createStorageVirtualMachinePeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageVirtualMachinePeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStorageVirtualMachinePeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateStorageVirtualMachinePeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStorageVirtualMachinePeerInput, CreateStorageVirtualMachinePeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStorageVirtualMachinePeer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateVolume` operation on the `FSx` service.
     ///
     /// Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
@@ -1775,6 +2176,7 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
+    /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1989,6 +2391,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBackup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteClusterPeer` operation on the `FSx` service.
+    ///
+    /// Deletes an Amazon FSx for NetApp ONTAP cluster peer relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterPeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteClusterPeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `ClusterPeerNotFound` : No Amazon FSx cluster peers were found based on the supplied parameters.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    public func deleteClusterPeer(input: DeleteClusterPeerInput) async throws -> DeleteClusterPeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteClusterPeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteClusterPeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterPeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteClusterPeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterPeerInput, DeleteClusterPeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClusterPeer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2238,9 +2718,165 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteSnapmirrorPolicy` operation on the `FSx` service.
+    ///
+    /// Deletes an Amazon FSx for NetApp ONTAP SnapMirror policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapmirrorPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSnapmirrorPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorPolicyNotFound` : No Amazon FSx SnapMirror policies were found based on the supplied parameters.
+    public func deleteSnapmirrorPolicy(input: DeleteSnapmirrorPolicyInput) async throws -> DeleteSnapmirrorPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteSnapmirrorPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSnapmirrorPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapmirrorPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapmirrorPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteSnapmirrorPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSnapmirrorPolicyInput, DeleteSnapmirrorPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapmirrorPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSnapmirrorRelationship` operation on the `FSx` service.
+    ///
+    /// Deletes an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapmirrorRelationshipInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSnapmirrorRelationshipOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorRelationshipNotFound` : No Amazon FSx SnapMirror relationships were found based on the supplied parameters.
+    public func deleteSnapmirrorRelationship(input: DeleteSnapmirrorRelationshipInput) async throws -> DeleteSnapmirrorRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteSnapmirrorRelationshipOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSnapmirrorRelationship")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapmirrorRelationshipOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapmirrorRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteSnapmirrorRelationship"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSnapmirrorRelationshipInput, DeleteSnapmirrorRelationshipOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapmirrorRelationship")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteSnapshot` operation on the `FSx` service.
     ///
-    /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete.
+    /// Deletes an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
@@ -2250,6 +2886,7 @@ extension FSxClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
@@ -2303,6 +2940,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSnapshotPolicy` operation on the `FSx` service.
+    ///
+    /// Deletes an Amazon FSx for NetApp ONTAP snapshot policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapshotPolicyNotFound` : No Amazon FSx snapshot policies were found based on the supplied parameters.
+    public func deleteSnapshotPolicy(input: DeleteSnapshotPolicyInput) async throws -> DeleteSnapshotPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteSnapshotPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSnapshotPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapshotPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteSnapshotPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSnapshotPolicyInput, DeleteSnapshotPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapshotPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2381,6 +3096,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStorageVirtualMachine")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteStorageVirtualMachinePeer` operation on the `FSx` service.
+    ///
+    /// Deletes an Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peer relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageVirtualMachinePeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteStorageVirtualMachinePeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `StorageVirtualMachinePeerNotFound` : No Amazon FSx storage virtual machine (SVM) peers were found based on the supplied parameters.
+    public func deleteStorageVirtualMachinePeer(input: DeleteStorageVirtualMachinePeerInput) async throws -> DeleteStorageVirtualMachinePeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteStorageVirtualMachinePeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteStorageVirtualMachinePeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageVirtualMachinePeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStorageVirtualMachinePeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteStorageVirtualMachinePeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStorageVirtualMachinePeerInput, DeleteStorageVirtualMachinePeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStorageVirtualMachinePeer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2542,6 +3335,83 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBackups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeClusterPeers` operation on the `FSx` service.
+    ///
+    /// Returns the description of specific Amazon FSx for NetApp ONTAP cluster peers, if a ClusterPeerIds value is provided. Otherwise, this operation returns all cluster peers owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all cluster peers, you can optionally specify the MaxResults parameter to limit the number of cluster peers in a response. If more cluster peers remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterPeersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeClusterPeersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `ClusterPeerNotFound` : No Amazon FSx cluster peers were found based on the supplied parameters.
+    /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    public func describeClusterPeers(input: DescribeClusterPeersInput) async throws -> DescribeClusterPeersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeClusterPeersOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeClusterPeers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterPeersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterPeersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeClusterPeers"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterPeersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeClusterPeersInput, DescribeClusterPeersOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClusterPeers")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3100,13 +3970,242 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeSnapmirrorPolicies` operation on the `FSx` service.
+    ///
+    /// Returns the description of specific Amazon FSx for NetApp ONTAP SnapMirror policies, if a SnapmirrorPolicyIds value is provided. Otherwise, this operation returns all SnapMirror policies owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all SnapMirror policies, you can optionally specify the MaxResults parameter to limit the number of SnapMirror policies in a response. If more SnapMirror policies remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapmirrorPoliciesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSnapmirrorPoliciesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorPolicyNotFound` : No Amazon FSx SnapMirror policies were found based on the supplied parameters.
+    public func describeSnapmirrorPolicies(input: DescribeSnapmirrorPoliciesInput) async throws -> DescribeSnapmirrorPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeSnapmirrorPoliciesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSnapmirrorPolicies")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapmirrorPoliciesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapmirrorPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeSnapmirrorPolicies"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapmirrorPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSnapmirrorPoliciesInput, DescribeSnapmirrorPoliciesOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapmirrorPolicies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeSnapmirrorRelationships` operation on the `FSx` service.
+    ///
+    /// Returns the description of specific Amazon FSx for NetApp ONTAP SnapMirror relationships, if a SnapmirrorRelationshipIds value is provided. Otherwise, this operation returns all SnapMirror relationships owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all SnapMirror relationships, you can optionally specify the MaxResults parameter to limit the number of SnapMirror relationships in a response. If more SnapMirror relationships remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapmirrorRelationshipsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSnapmirrorRelationshipsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorRelationshipNotFound` : No Amazon FSx SnapMirror relationships were found based on the supplied parameters.
+    /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
+    public func describeSnapmirrorRelationships(input: DescribeSnapmirrorRelationshipsInput) async throws -> DescribeSnapmirrorRelationshipsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeSnapmirrorRelationshipsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSnapmirrorRelationships")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapmirrorRelationshipsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapmirrorRelationshipsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeSnapmirrorRelationships"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapmirrorRelationshipsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSnapmirrorRelationshipsInput, DescribeSnapmirrorRelationshipsOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapmirrorRelationships")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeSnapshotPolicies` operation on the `FSx` service.
+    ///
+    /// Returns the description of specific Amazon FSx for NetApp ONTAP snapshot policies, if a SnapshotPolicyIds value is provided. Otherwise, this operation returns all snapshot policies owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshot policies, you can optionally specify the MaxResults parameter to limit the number of snapshot policies in a response. If more snapshot policies remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotPoliciesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotPoliciesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapshotPolicyNotFound` : No Amazon FSx snapshot policies were found based on the supplied parameters.
+    public func describeSnapshotPolicies(input: DescribeSnapshotPoliciesInput) async throws -> DescribeSnapshotPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeSnapshotPoliciesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSnapshotPolicies")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotPoliciesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapshotPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeSnapshotPolicies"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapshotPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSnapshotPoliciesInput, DescribeSnapshotPoliciesOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshotPolicies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeSnapshots` operation on the `FSx` service.
     ///
-    /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more backups remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. Use this operation in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first without a NextToken value. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken value. When using this operation, keep the following in mind:
+    /// Returns the description of specific Amazon FSx for OpenZFS and Amazon FSx for NetApp ONTAP snapshots, if a SnapshotIds value is provided. Otherwise, this operation returns all snapshots owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all snapshots, you can optionally specify the MaxResults parameter to limit the number of snapshots in a response. If more snapshots remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. Use this operation in an iterative process to retrieve a list of your snapshots. DescribeSnapshots is called first without a NextToken value. Then the operation continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken value. When using this operation, keep the following in mind:
     ///
     /// * The operation might return fewer than the MaxResults value of snapshot descriptions while still including a NextToken value.
     ///
-    /// * The order of snapshots returned in the response of one DescribeSnapshots call and the order of backups returned across the responses of a multi-call iteration is unspecified.
+    /// * The order of snapshots returned in the response of one DescribeSnapshots call and the order of snapshots returned across the responses of a multi-call iteration is unspecified.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///
@@ -3168,6 +4267,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshots")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeStorageVirtualMachinePeers` operation on the `FSx` service.
+    ///
+    /// Returns the description of specific Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peers, if a StorageVirtualMachinePeerIds value is provided. Otherwise, this operation returns all SVM peers owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all SVM peers, you can optionally specify the MaxResults parameter to limit the number of SVM peers in a response. If more SVM peers remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeStorageVirtualMachinePeersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeStorageVirtualMachinePeersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
+    /// - `StorageVirtualMachinePeerNotFound` : No Amazon FSx storage virtual machine (SVM) peers were found based on the supplied parameters.
+    public func describeStorageVirtualMachinePeers(input: DescribeStorageVirtualMachinePeersInput) async throws -> DescribeStorageVirtualMachinePeersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeStorageVirtualMachinePeersOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeStorageVirtualMachinePeers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageVirtualMachinePeersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorageVirtualMachinePeersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeStorageVirtualMachinePeers"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorageVirtualMachinePeersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStorageVirtualMachinePeersInput, DescribeStorageVirtualMachinePeersOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStorageVirtualMachinePeers")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3963,6 +5140,84 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateClusterPeer` operation on the `FSx` service.
+    ///
+    /// Updates an Amazon FSx for NetApp ONTAP cluster peer relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterPeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateClusterPeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `ClusterPeerNotFound` : No Amazon FSx cluster peers were found based on the supplied parameters.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    public func updateClusterPeer(input: UpdateClusterPeerInput) async throws -> UpdateClusterPeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateClusterPeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateClusterPeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterPeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateClusterPeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterPeerInput, UpdateClusterPeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateClusterPeer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateDataRepositoryAssociation` operation on the `FSx` service.
     ///
     /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
@@ -4383,9 +5638,165 @@ extension FSxClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateSnapmirrorPolicy` operation on the `FSx` service.
+    ///
+    /// Updates an Amazon FSx for NetApp ONTAP SnapMirror policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapmirrorPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSnapmirrorPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorPolicyNotFound` : No Amazon FSx SnapMirror policies were found based on the supplied parameters.
+    public func updateSnapmirrorPolicy(input: UpdateSnapmirrorPolicyInput) async throws -> UpdateSnapmirrorPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateSnapmirrorPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSnapmirrorPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSnapmirrorPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSnapmirrorPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateSnapmirrorPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSnapmirrorPolicyInput, UpdateSnapmirrorPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSnapmirrorPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSnapmirrorRelationship` operation on the `FSx` service.
+    ///
+    /// Updates an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapmirrorRelationshipInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSnapmirrorRelationshipOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapmirrorRelationshipNotFound` : No Amazon FSx SnapMirror relationships were found based on the supplied parameters.
+    public func updateSnapmirrorRelationship(input: UpdateSnapmirrorRelationshipInput) async throws -> UpdateSnapmirrorRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateSnapmirrorRelationshipOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSnapmirrorRelationship")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSnapmirrorRelationshipOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSnapmirrorRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateSnapmirrorRelationship"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSnapmirrorRelationshipInput, UpdateSnapmirrorRelationshipOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSnapmirrorRelationship")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateSnapshot` operation on the `FSx` service.
     ///
-    /// Updates the name of an Amazon FSx for OpenZFS snapshot.
+    /// Updates an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP snapshot. For Amazon FSx for OpenZFS snapshots, you can update only the name. For Amazon FSx for NetApp ONTAP snapshots, you can update the name and the properties in OntapConfiguration.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSnapshotInput`)
     ///
@@ -4395,6 +5806,7 @@ extension FSxClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
     public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
@@ -4448,6 +5860,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSnapshotPolicy` operation on the `FSx` service.
+    ///
+    /// Updates an Amazon FSx for NetApp ONTAP snapshot policy. You can enable or disable the snapshot policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapshotPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSnapshotPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `SnapshotPolicyNotFound` : No Amazon FSx snapshot policies were found based on the supplied parameters.
+    public func updateSnapshotPolicy(input: UpdateSnapshotPolicyInput) async throws -> UpdateSnapshotPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateSnapshotPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSnapshotPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSnapshotPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSnapshotPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateSnapshotPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSnapshotPolicyInput, UpdateSnapshotPolicyOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSnapshotPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4527,6 +6017,84 @@ extension FSxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStorageVirtualMachine")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateStorageVirtualMachinePeer` operation on the `FSx` service.
+    ///
+    /// Updates an Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peer relationship.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateStorageVirtualMachinePeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateStorageVirtualMachinePeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : A generic error indicating a failure with a client request.
+    /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
+    /// - `InternalServerError` : A generic error indicating a server-side failure.
+    /// - `StorageVirtualMachinePeerNotFound` : No Amazon FSx storage virtual machine (SVM) peers were found based on the supplied parameters.
+    public func updateStorageVirtualMachinePeer(input: UpdateStorageVirtualMachinePeerInput) async throws -> UpdateStorageVirtualMachinePeerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateStorageVirtualMachinePeerOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateStorageVirtualMachinePeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "fsx")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStorageVirtualMachinePeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("FSx", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStorageVirtualMachinePeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateStorageVirtualMachinePeer"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "FSx"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStorageVirtualMachinePeerInput, UpdateStorageVirtualMachinePeerOutput>(serviceID: serviceName, version: FSxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "FSx")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStorageVirtualMachinePeer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

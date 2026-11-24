@@ -1504,6 +1504,176 @@ extension SageMakerClientTypes {
     }
 }
 
+/// There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Resource being accessed is in use.
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUse" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AddInferenceGatewayInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that runs the in-cluster inference gateway. The cluster must be in the same account and partition as the global inference gateway. It can be in a different Region, but not in an opt-in Region.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the InferenceGatewayConfig resource that defines the in-cluster inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Kubernetes namespace of the in-cluster inference gateway.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.identifier = identifier
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// An in-cluster inference gateway, identified by the SageMaker HyperPod cluster that runs it (ClusterArn), its Kubernetes namespace (Namespace), and the name of the InferenceGatewayConfig resource that defines it (Name).
+    public struct GlobalInferenceGatewayMember: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that runs the in-cluster inference gateway. The cluster must be in the same account and partition as the global inference gateway. It can be in a different Region, but not in an opt-in Region.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The name of the InferenceGatewayConfig resource that defines the in-cluster inference gateway.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Kubernetes namespace of the in-cluster inference gateway.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.name = name
+            self.namespace = namespace
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of an in-cluster inference gateway in a global inference gateway. This status describes the membership in the global inference gateway, not the health of the in-cluster inference gateway.
+    public enum GlobalInferenceGatewayMemberStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The in-cluster inference gateway is added and receives requests.
+        case active
+        /// The in-cluster inference gateway is being added and doesn't receive requests yet.
+        case adding
+        /// Adding or removing the in-cluster inference gateway failed. For details, see FailureReason. After you fix the cause, remove the in-cluster inference gateway and add it again.
+        case failed
+        /// The in-cluster inference gateway is being removed.
+        case removing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalInferenceGatewayMemberStatus] {
+            return [
+                .active,
+                .adding,
+                .failed,
+                .removing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .adding: return "ADDING"
+            case .failed: return "FAILED"
+            case .removing: return "REMOVING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AddInferenceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global inference gateway.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The in-cluster inference gateway that you added.
+    /// This member is required.
+    public var gateway: SageMakerClientTypes.GlobalInferenceGatewayMember?
+    /// The ID of the global inference gateway.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the global inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the in-cluster inference gateway in the global inference gateway.
+    public var status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        gateway: SageMakerClientTypes.GlobalInferenceGatewayMember? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus? = nil
+    ) {
+        self.arn = arn
+        self.gateway = gateway
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
 extension SageMakerClientTypes {
 
     /// Information about additional Elastic Network Interfaces (ENIs) associated with an instance.
@@ -11235,7 +11405,9 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum ClusterInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachInProgress
         case deepHealthCheckInProgress
+        case detachInProgress
         case failure
         case notFound
         case pending
@@ -11246,7 +11418,9 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ClusterInstanceStatus] {
             return [
+                .attachInProgress,
                 .deepHealthCheckInProgress,
+                .detachInProgress,
                 .failure,
                 .notFound,
                 .pending,
@@ -11263,7 +11437,9 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .attachInProgress: return "AttachInProgress"
             case .deepHealthCheckInProgress: return "DeepHealthCheckInProgress"
+            case .detachInProgress: return "DetachInProgress"
             case .failure: return "Failure"
             case .notFound: return "NotFound"
             case .pending: return "Pending"
@@ -12892,6 +13068,387 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The status of a SageMaker Capacity Reservation.
+    public enum CapacityReservationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationStatus] {
+            return [
+                .active,
+                .expired,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a SageMaker Capacity Reservation. A SageMaker Capacity Reservation reserves a number of instances of one instance type in one Availability Zone for a period of time.
+    public struct CapacityReservationDetail: Swift.Sendable {
+        /// The name of the Availability Zone of the reserved instances, for example us-east-1a. Availability Zone names can map to different physical zones in different accounts. To identify the same zone across accounts, use AvailabilityZoneId.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone of the reserved instances, for example use1-az1. An Availability Zone ID identifies the same physical zone in every account.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The time when the SageMaker Capacity Reservation was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The time when the SageMaker Capacity Reservation ends. This value is not returned if the reservation has no end time.
+        public var endTime: Foundation.Date?
+        /// The SageMaker AI instance type of the reserved instances, for example ml.p5.48xlarge.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var owner: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var smCapacityReservationArn: Swift.String?
+        /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+        /// This member is required.
+        public var smCapacityReservationId: Swift.String?
+        /// The time when the reserved instances become available.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The status of the SageMaker Capacity Reservation. SageMaker AI sets the status from the start and end times of the reservation. Valid values: Scheduled The current time is before StartTime. Active The current time is between StartTime and EndTime. You can use the reserved instances. Expired The current time is at or after EndTime.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationStatus?
+        /// The number of instances in the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            smCapacityReservationArn: Swift.String? = nil,
+            smCapacityReservationId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.CapacityReservationStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.owner = owner
+            self.smCapacityReservationArn = smCapacityReservationArn
+            self.smCapacityReservationId = smCapacityReservationId
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Whether one endpoint or multiple endpoints can use an ML capacity reservation.
+    public enum CapacityReservationEndpointSharing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multipleEndpoints
+        case singleEndpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationEndpointSharing] {
+            return [
+                .multipleEndpoints,
+                .singleEndpoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multipleEndpoints: return "MultipleEndpoints"
+            case .singleEndpoint: return "SingleEndpoint"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How endpoints match an ML capacity reservation.
+    public enum CapacityReservationMatchCriteria: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `open`
+        case targeted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationMatchCriteria] {
+            return [
+                .open,
+                .targeted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .open: return "Open"
+            case .targeted: return "Targeted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of an association between resources and a SageMaker Capacity Reservation.
+    public enum CapacityReservationOptInStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationOptInStatus] {
+            return [
+                .active,
+                .inactive,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .inactive: return "Inactive"
+            case .pending: return "Pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The association between the SageMaker AI endpoints in your account and a SageMaker Capacity Reservation, through one ML capacity reservation. To use the reserved instances for an endpoint, specify the ML capacity reservation ARN in the MlReservationArn field of ProductionVariantCapacityReservationConfig when you call CreateEndpointConfig.
+    public struct CapacityReservationEndpointsAssociation: Swift.Sendable {
+        /// The time when SageMaker AI started the current association. This time resets when you add the association again after it was removed or after it failed.
+        /// This member is required.
+        public var associatedTime: Foundation.Date?
+        /// Whether one endpoint or multiple endpoints can use the ML capacity reservation. Valid values: SingleEndpoint Only one endpoint can use the ML capacity reservation. MultipleEndpoints Multiple endpoints can use the ML capacity reservation.
+        public var endpointSharing: SageMakerClientTypes.CapacityReservationEndpointSharing?
+        /// The reason that the most recent attempt to add or remove the association failed. This value is returned only when the most recent attempt failed. After a failure to add the association, the status is Inactive. After a failure to remove the association, the status is Active.
+        public var failureReason: Swift.String?
+        /// How endpoints in your account match the ML capacity reservation. Valid values: Open Endpoints in your account use the ML capacity reservation automatically when their instance type matches. You don't specify the ML capacity reservation ARN when you create the endpoint. Targeted An endpoint uses the ML capacity reservation only when you specify its ARN when you create or update the endpoint.
+        public var matchCriteria: SageMakerClientTypes.CapacityReservationMatchCriteria?
+        /// The Amazon Resource Name (ARN) of the ML capacity reservation. Specify this ARN in CreateEndpointConfig to use the reserved instances for an endpoint. For a new ML capacity reservation, this value is returned when the status is Active.
+        public var mlReservationArn: Swift.String?
+        /// The name of the ML capacity reservation. The name is the last part of the ML capacity reservation ARN.
+        public var mlReservationId: Swift.String?
+        /// The status of the association. Valid values: Pending SageMaker AI is adding or removing the association. Active The resources are associated with the SageMaker Capacity Reservation and can use its instances. Inactive The resources are not associated with the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationOptInStatus?
+
+        public init(
+            associatedTime: Foundation.Date? = nil,
+            endpointSharing: SageMakerClientTypes.CapacityReservationEndpointSharing? = nil,
+            failureReason: Swift.String? = nil,
+            matchCriteria: SageMakerClientTypes.CapacityReservationMatchCriteria? = nil,
+            mlReservationArn: Swift.String? = nil,
+            mlReservationId: Swift.String? = nil,
+            status: SageMakerClientTypes.CapacityReservationOptInStatus? = nil
+        ) {
+            self.associatedTime = associatedTime
+            self.endpointSharing = endpointSharing
+            self.failureReason = failureReason
+            self.matchCriteria = matchCriteria
+            self.mlReservationArn = mlReservationArn
+            self.mlReservationId = mlReservationId
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The name of a field to filter SageMaker Capacity Reservations on.
+    public enum CapacityReservationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationFilterName] {
+            return [
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter for the ListCapacityReservations operation. A reservation matches the filter when its value for Name equals any of the values in Values.
+    public struct CapacityReservationFilter: Swift.Sendable {
+        /// The name of the field to filter on. The only supported value is Status.
+        /// This member is required.
+        public var name: SageMakerClientTypes.CapacityReservationFilterName?
+        /// The values to match. For the Status filter, valid values are Scheduled, Active, and Expired. Values are case sensitive. You can specify up to 10 values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: SageMakerClientTypes.CapacityReservationFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The association between the SageMaker AI HyperPod clusters in your account and a SageMaker Capacity Reservation.
+    public struct CapacityReservationHyperPodClustersAssociation: Swift.Sendable {
+        /// The time when SageMaker AI started the current association. This time resets when you add the association again after it was removed or after it failed.
+        /// This member is required.
+        public var associatedTime: Foundation.Date?
+        /// The reason that the most recent attempt to add or remove the association failed. This value is returned only when the most recent attempt failed. After a failure to add the association, the status is Inactive. After a failure to remove the association, the status is Active.
+        public var failureReason: Swift.String?
+        /// The status of the association. Valid values: Pending SageMaker AI is adding or removing the association. Active The resources are associated with the SageMaker Capacity Reservation and can use its instances. Inactive The resources are not associated with the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationOptInStatus?
+
+        public init(
+            associatedTime: Foundation.Date? = nil,
+            failureReason: Swift.String? = nil,
+            status: SageMakerClientTypes.CapacityReservationOptInStatus? = nil
+        ) {
+            self.associatedTime = associatedTime
+            self.failureReason = failureReason
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A type of resource that uses instances from a SageMaker Capacity Reservation.
+    public enum CapacityReservationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case endpoints
+        case hyperpodClusters
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationResourceType] {
+            return [
+                .endpoints,
+                .hyperpodClusters
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .endpoints: return "Endpoints"
+            case .hyperpodClusters: return "HyperPodClusters"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The instances from a SageMaker Capacity Reservation that one resource type uses in an account.
+    public struct CapacityReservationResourceUsage: Swift.Sendable {
+        /// The number of instances from the SageMaker Capacity Reservation that are in use.
+        /// This member is required.
+        public var inUseInstanceCount: Swift.Int?
+        /// The type of resource that uses the instances. Valid values: HyperPodClusters SageMaker AI HyperPod clusters. Endpoints SageMaker AI endpoints.
+        /// This member is required.
+        public var resourceType: SageMakerClientTypes.CapacityReservationResourceType?
+
+        public init(
+            inUseInstanceCount: Swift.Int? = nil,
+            resourceType: SageMakerClientTypes.CapacityReservationResourceType? = nil
+        ) {
+            self.inUseInstanceCount = inUseInstanceCount
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The instances from a SageMaker Capacity Reservation that one account uses.
+    public struct CapacityReservationInstanceUsage: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that uses the instances.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The number of instances that the account uses, across all resource types.
+        /// This member is required.
+        public var inUseInstanceCount: Swift.Int?
+        /// The instance usage for each resource type that has instances in use in the account.
+        /// This member is required.
+        public var resourcesUsage: [SageMakerClientTypes.CapacityReservationResourceUsage]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            inUseInstanceCount: Swift.Int? = nil,
+            resourcesUsage: [SageMakerClientTypes.CapacityReservationResourceUsage]? = nil
+        ) {
+            self.accountId = accountId
+            self.inUseInstanceCount = inUseInstanceCount
+            self.resourcesUsage = resourcesUsage
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityReservationsOnly
         case sdkUnknown(Swift.String)
@@ -12912,6 +13469,82 @@ extension SageMakerClientTypes {
             case .capacityReservationsOnly: return "capacity-reservations-only"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// An association between one type of resource in your account and a SageMaker Capacity Reservation. Each item contains exactly one member.
+    public enum CapacityReservationResourceAssociation: Swift.Sendable {
+        /// The association between the SageMaker AI HyperPod clusters in your account and the SageMaker Capacity Reservation. The association applies to all HyperPod clusters in your account.
+        case hyperpodclusters(SageMakerClientTypes.CapacityReservationHyperPodClustersAssociation)
+        /// The association between the SageMaker AI endpoints in your account and the SageMaker Capacity Reservation, through one ML capacity reservation. The response includes one item for each ML capacity reservation.
+        case endpoints(SageMakerClientTypes.CapacityReservationEndpointsAssociation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary information about a SageMaker Capacity Reservation.
+    public struct CapacityReservationSummary: Swift.Sendable {
+        /// The name of the Availability Zone of the reserved instances, for example us-east-1a. Availability Zone names can map to different physical zones in different accounts. To identify the same zone across accounts, use AvailabilityZoneId.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone of the reserved instances, for example use1-az1. An Availability Zone ID identifies the same physical zone in every account.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The time when the SageMaker Capacity Reservation was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The time when the SageMaker Capacity Reservation ends. This value is not returned if the reservation has no end time.
+        public var endTime: Foundation.Date?
+        /// The SageMaker AI instance type of the reserved instances, for example ml.p5.48xlarge.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var owner: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var smCapacityReservationArn: Swift.String?
+        /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+        /// This member is required.
+        public var smCapacityReservationId: Swift.String?
+        /// The time when the reserved instances become available.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The status of the SageMaker Capacity Reservation. SageMaker AI sets the status from the start and end times of the reservation. Valid values: Scheduled The current time is before StartTime. Active The current time is between StartTime and EndTime. You can use the reserved instances. Expired The current time is at or after EndTime.
+        /// This member is required.
+        public var status: SageMakerClientTypes.CapacityReservationStatus?
+        /// The number of instances in the SageMaker Capacity Reservation.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            smCapacityReservationArn: Swift.String? = nil,
+            smCapacityReservationId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.CapacityReservationStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.owner = owner
+            self.smCapacityReservationArn = smCapacityReservationArn
+            self.smCapacityReservationId = smCapacityReservationId
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
         }
     }
 }
@@ -15422,6 +16055,7 @@ extension SageMakerClientTypes {
     public enum SoftwareUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
+        case partiallySucceeded
         case pending
         case rollbackComplete
         case rollbackInProgress
@@ -15432,6 +16066,7 @@ extension SageMakerClientTypes {
             return [
                 .failed,
                 .inProgress,
+                .partiallySucceeded,
                 .pending,
                 .rollbackComplete,
                 .rollbackInProgress,
@@ -15448,6 +16083,7 @@ extension SageMakerClientTypes {
             switch self {
             case .failed: return "Failed"
             case .inProgress: return "InProgress"
+            case .partiallySucceeded: return "PartiallySucceeded"
             case .pending: return "Pending"
             case .rollbackComplete: return "RollbackComplete"
             case .rollbackInProgress: return "RollbackInProgress"
@@ -17859,29 +18495,6 @@ extension SageMakerClientTypes {
     }
 }
 
-/// There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public enum MetricPublishFrequencyInSeconds: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
     /// Metrics publishing at 10 seconds frequency
     case freq10S
@@ -18432,29 +19045,6 @@ public struct CreateActionOutput: Swift.Sendable {
         actionArn: Swift.String? = nil
     ) {
         self.actionArn = actionArn
-    }
-}
-
-/// Resource being accessed is in use.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUse" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -24551,6 +25141,167 @@ public struct CreateFlowDefinitionOutput: Swift.Sendable {
         flowDefinitionArn: Swift.String? = nil
     ) {
         self.flowDefinitionArn = flowDefinitionArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The relative weights of the four routing signals, each from 0 to 1. Specify all four weights or none. If you specify them, they must sum to 1.0, within 0.001. If you specify none, the global inference gateway uses default weights.
+    public struct GlobalInferenceGatewayRoutingWeights: Swift.Sendable {
+        /// The weight of the recent error rate of the cluster.
+        public var errorRate: Swift.Float?
+        /// The weight of the free key-value (KV) cache capacity on the cluster.
+        public var kvHeadroom: Swift.Float?
+        /// The weight of the number of requests that are waiting on the cluster.
+        public var queueDepth: Swift.Float?
+        /// The weight of how close the cluster is to the caller.
+        public var regionProximity: Swift.Float?
+
+        public init(
+            errorRate: Swift.Float? = nil,
+            kvHeadroom: Swift.Float? = nil,
+            queueDepth: Swift.Float? = nil,
+            regionProximity: Swift.Float? = nil
+        ) {
+            self.errorRate = errorRate
+            self.kvHeadroom = kvHeadroom
+            self.queueDepth = queueDepth
+            self.regionProximity = regionProximity
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The routing configuration of a global inference gateway. To add or remove in-cluster inference gateways, use AddInferenceGateway and RemoveInferenceGateway.
+    public struct GlobalInferenceGatewayRouting: Swift.Sendable {
+        /// The weights that the global inference gateway applies to each routing signal when it scores the in-cluster inference gateways for a request.
+        /// This member is required.
+        public var weights: SageMakerClientTypes.GlobalInferenceGatewayRoutingWeights?
+
+        public init(
+            weights: SageMakerClientTypes.GlobalInferenceGatewayRoutingWeights? = nil
+        ) {
+            self.weights = weights
+        }
+    }
+}
+
+public struct CreateGlobalInferenceGatewayInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. An idempotent operation completes no more than one time. If you don't specify a client token, the Amazon Web Services SDKs and the Amazon Web Services CLI generate one for you.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the global inference gateway assumes to access your SageMaker HyperPod clusters. The role must be in your account and partition, and you must have iam:PassRole permission for it. You can't change the role after you create the global inference gateway.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The 1 to 10 in-cluster inference gateways to add to the global inference gateway. A global inference gateway must always have at least one in-cluster inference gateway, so RemoveInferenceGateway can't remove the last one.
+    /// This member is required.
+    public var gateways: [SageMakerClientTypes.GlobalInferenceGatewayMember]?
+    /// The name of the global inference gateway. The name must be unique in your account in the current Region, and is case-sensitive. The name can't be exactly 12 lowercase letters or digits, because the global inference gateway ID uses that format.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The routing configuration of the global inference gateway. If you omit it, the global inference gateway uses default routing weights.
+    public var routing: SageMakerClientTypes.GlobalInferenceGatewayRouting?
+    /// Custom tags for managing the global inference gateway as an Amazon Web Services resource. You can add tags to your global inference gateway in the same way you add them in other Amazon Web Services services that support tagging. For more information about tagging Amazon Web Services resources, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide. The global inference gateway doesn't return tags in its responses. To read the tags, use ListTags.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        gateways: [SageMakerClientTypes.GlobalInferenceGatewayMember]? = nil,
+        name: Swift.String? = nil,
+        routing: SageMakerClientTypes.GlobalInferenceGatewayRouting? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.executionRoleArn = executionRoleArn
+        self.gateways = gateways
+        self.name = name
+        self.routing = routing
+        self.tags = tags
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of a global inference gateway.
+    public enum GlobalInferenceGatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The global inference gateway is serving requests, and no operation is in progress.
+        case active
+        /// The global inference gateway is being created. Don't send inference requests to it yet.
+        case creating
+        /// The global inference gateway is being deleted.
+        case deleting
+        /// The global inference gateway failed. For details, see FailureReason.
+        case failed
+        /// An update, add, or remove operation is in progress. The global inference gateway continues to serve requests.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalInferenceGatewayStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Contains the identifiers and status of the new global inference gateway, and the parameters from the request except Tags. To read the tags, use ListTags.
+public struct CreateGlobalInferenceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global inference gateway.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the global inference gateway assumes to access your SageMaker HyperPod clusters.
+    public var executionRoleArn: Swift.String?
+    /// The in-cluster inference gateways that you specified in the request.
+    public var gateways: [SageMakerClientTypes.GlobalInferenceGatewayMember]?
+    /// The ID of the global inference gateway.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the global inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The routing configuration of the global inference gateway.
+    public var routing: SageMakerClientTypes.GlobalInferenceGatewayRouting?
+    /// The status of the global inference gateway. A new global inference gateway starts in the CREATING status.
+    /// This member is required.
+    public var status: SageMakerClientTypes.GlobalInferenceGatewayStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        gateways: [SageMakerClientTypes.GlobalInferenceGatewayMember]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routing: SageMakerClientTypes.GlobalInferenceGatewayRouting? = nil,
+        status: SageMakerClientTypes.GlobalInferenceGatewayStatus? = nil
+    ) {
+        self.arn = arn
+        self.executionRoleArn = executionRoleArn
+        self.gateways = gateways
+        self.id = id
+        self.name = name
+        self.routing = routing
+        self.status = status
     }
 }
 
@@ -35176,6 +35927,37 @@ public struct DeleteFlowDefinitionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteGlobalInferenceGatewayInput: Swift.Sendable {
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteGlobalInferenceGatewayOutput: Swift.Sendable {
+    /// Set when a global inference gateway was deleted, and for an already-gone one when the Identifier was an ARN or Id.
+    public var arn: Swift.String?
+    /// Set when a global inference gateway was deleted, and for an already-gone one when the Identifier was an ARN or Id.
+    public var id: Swift.String?
+    /// Set when a global inference gateway was deleted, and for an already-gone one when the Identifier was a name.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.name = name
+    }
+}
+
 public struct DeleteHubInput: Swift.Sendable {
     /// The name of the hub to delete.
     /// This member is required.
@@ -36921,6 +37703,30 @@ public struct DescribeAutoMLJobV2Output: Swift.Sendable {
         self.resolvedAttributes = resolvedAttributes
         self.roleArn = roleArn
         self.securityConfig = securityConfig
+    }
+}
+
+public struct DescribeCapacityReservationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct DescribeCapacityReservationOutput: Swift.Sendable {
+    /// Details about the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var capacityReservation: SageMakerClientTypes.CapacityReservationDetail?
+
+    public init(
+        capacityReservation: SageMakerClientTypes.CapacityReservationDetail? = nil
+    ) {
+        self.capacityReservation = capacityReservation
     }
 }
 
@@ -39550,6 +40356,70 @@ public struct DescribeFlowDefinitionOutput: Swift.Sendable {
         self.humanLoopRequestSource = humanLoopRequestSource
         self.outputConfig = outputConfig
         self.roleArn = roleArn
+    }
+}
+
+public struct DescribeGlobalInferenceGatewayInput: Swift.Sendable {
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DescribeGlobalInferenceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global inference gateway.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time when the global inference gateway was created.
+    public var creationTime: Foundation.Date?
+    /// The URL that you use to invoke the global inference gateway. This value is set after the global inference gateway becomes ACTIVE.
+    public var endpointUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the global inference gateway assumes to access your SageMaker HyperPod clusters. You can't change the role after you create the global inference gateway.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The reason that the global inference gateway failed. SageMaker returns this value only when the status is FAILED.
+    public var failureReason: Swift.String?
+    /// The ID of the global inference gateway.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the global inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The routing configuration of the global inference gateway.
+    public var routing: SageMakerClientTypes.GlobalInferenceGatewayRouting?
+    /// The status of the global inference gateway.
+    /// This member is required.
+    public var status: SageMakerClientTypes.GlobalInferenceGatewayStatus?
+    /// The name of the VPC endpoint service to create an interface VPC endpoint (AWS PrivateLink) from, so that you can call EndpointUrl without going over the internet. This value is set after the global inference gateway becomes ACTIVE.
+    public var vpcEndpointServiceName: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        endpointUrl: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routing: SageMakerClientTypes.GlobalInferenceGatewayRouting? = nil,
+        status: SageMakerClientTypes.GlobalInferenceGatewayStatus? = nil,
+        vpcEndpointServiceName: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.endpointUrl = endpointUrl
+        self.executionRoleArn = executionRoleArn
+        self.failureReason = failureReason
+        self.id = id
+        self.name = name
+        self.routing = routing
+        self.status = status
+        self.vpcEndpointServiceName = vpcEndpointServiceName
     }
 }
 
@@ -45224,6 +46094,52 @@ public struct DescribeReservedCapacityOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeResourceAssociationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct DescribeResourceAssociationsOutput: Swift.Sendable {
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// The associations between resources in your account and the SageMaker Capacity Reservation. The list is empty when your account has no associations with the reservation.
+    /// This member is required.
+    public var resourceAssociations: [SageMakerClientTypes.CapacityReservationResourceAssociation]?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+    /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+    /// This member is required.
+    public var smCapacityReservationId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceAssociations: [SageMakerClientTypes.CapacityReservationResourceAssociation]? = nil,
+        smCapacityReservationArn: Swift.String? = nil,
+        smCapacityReservationId: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceAssociations = resourceAssociations
+        self.smCapacityReservationArn = smCapacityReservationArn
+        self.smCapacityReservationId = smCapacityReservationId
+    }
+}
+
 public struct DescribeSpaceInput: Swift.Sendable {
     /// The ID of the associated domain.
     /// This member is required.
@@ -49199,6 +50115,62 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct GetCapacityReservationUsageInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker Capacity Reservation. The ARN has the format arn:aws:sagemaker:region:account-id:sm-capacity-reservation/smcr-id.
+    /// This member is required.
+    public var smCapacityReservationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.smCapacityReservationArn = smCapacityReservationArn
+    }
+}
+
+public struct GetCapacityReservationUsageOutput: Swift.Sendable {
+    /// The number of instances in the SageMaker Capacity Reservation that are not in use.
+    /// This member is required.
+    public var availableInstanceCount: Swift.Int?
+    /// The instance usage for each account that uses instances from the SageMaker Capacity Reservation, sorted by account ID. Each account appears at most once across all pages. The list is empty when no instances are in use.
+    /// This member is required.
+    public var instanceUsageSet: [SageMakerClientTypes.CapacityReservationInstanceUsage]?
+    /// The time when SageMaker AI last refreshed the usage counts in this response.
+    /// This member is required.
+    public var lastRefreshTime: Foundation.Date?
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// The ID of the SageMaker Capacity Reservation. The ID is the last part of the ARN and starts with smcr-.
+    /// This member is required.
+    public var smCapacityReservationId: Swift.String?
+    /// The number of instances in the SageMaker Capacity Reservation.
+    /// This member is required.
+    public var totalInstanceCount: Swift.Int?
+
+    public init(
+        availableInstanceCount: Swift.Int? = nil,
+        instanceUsageSet: [SageMakerClientTypes.CapacityReservationInstanceUsage]? = nil,
+        lastRefreshTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        smCapacityReservationId: Swift.String? = nil,
+        totalInstanceCount: Swift.Int? = nil
+    ) {
+        self.availableInstanceCount = availableInstanceCount
+        self.instanceUsageSet = instanceUsageSet
+        self.lastRefreshTime = lastRefreshTime
+        self.nextToken = nextToken
+        self.smCapacityReservationId = smCapacityReservationId
+        self.totalInstanceCount = totalInstanceCount
+    }
+}
+
 public struct GetDeviceFleetReportInput: Swift.Sendable {
     /// The name of the fleet.
     /// This member is required.
@@ -49647,6 +50619,177 @@ extension SageMakerClientTypes {
             secretArn: Swift.String? = nil
         ) {
             self.secretArn = secretArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The attribute to filter on when you call ListGlobalInferenceGateways.
+    public enum GlobalInferenceGatewayFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Filter by the status of the global inference gateway.
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalInferenceGatewayFilterName] {
+            return [
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter for ListGlobalInferenceGateways. The filter matches the global inference gateways whose attribute named by Name equals Value.
+    public struct GlobalInferenceGatewayFilter: Swift.Sendable {
+        /// The attribute to filter global inference gateways on. The only supported value is Status.
+        /// This member is required.
+        public var name: SageMakerClientTypes.GlobalInferenceGatewayFilterName?
+        /// The value to match. For the Status filter, specify a global inference gateway status.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: SageMakerClientTypes.GlobalInferenceGatewayFilterName? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The attribute to filter on when you call ListInferenceGateways.
+    public enum GlobalInferenceGatewayMemberFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Filter by the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
+        case clusterArn
+        /// Filter by the status of the in-cluster inference gateway.
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalInferenceGatewayMemberFilterName] {
+            return [
+                .clusterArn,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clusterArn: return "ClusterArn"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter for ListInferenceGateways. The filter matches the in-cluster inference gateways whose attribute named by Name equals Value.
+    public struct GlobalInferenceGatewayMemberFilter: Swift.Sendable {
+        /// The attribute to filter in-cluster inference gateways on. Supported values are Status and ClusterArn.
+        /// This member is required.
+        public var name: SageMakerClientTypes.GlobalInferenceGatewayMemberFilterName?
+        /// The value to match. For the Status filter, specify a status of an in-cluster inference gateway. For the ClusterArn filter, specify the Amazon Resource Name (ARN) of a SageMaker HyperPod cluster.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: SageMakerClientTypes.GlobalInferenceGatewayMemberFilterName? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary information about an in-cluster inference gateway in a global inference gateway, including its status.
+    public struct GlobalInferenceGatewayMemberSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that runs the in-cluster inference gateway.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The reason that adding or removing the in-cluster inference gateway failed. This value is set only when the status is FAILED.
+        public var failureReason: Swift.String?
+        /// The name of the InferenceGatewayConfig resource that defines the in-cluster inference gateway.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Kubernetes namespace of the in-cluster inference gateway.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The status of the in-cluster inference gateway in the global inference gateway. This status describes the membership in the global inference gateway, not the health of the in-cluster inference gateway.
+        public var status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.failureReason = failureReason
+            self.name = name
+            self.namespace = namespace
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary information about a global inference gateway.
+    public struct GlobalInferenceGatewaySummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the global inference gateway.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time when the global inference gateway was created.
+        public var creationTime: Foundation.Date?
+        /// The ID of the global inference gateway.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the global inference gateway.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the global inference gateway.
+        /// This member is required.
+        public var status: SageMakerClientTypes.GlobalInferenceGatewayStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.GlobalInferenceGatewayStatus? = nil
+        ) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.id = id
+            self.name = name
+            self.status = status
         }
     }
 }
@@ -52115,6 +53258,41 @@ public struct ListCandidatesForAutoMLJobOutput: Swift.Sendable {
     }
 }
 
+public struct ListCapacityReservationsInput: Swift.Sendable {
+    /// A filter that returns only the reservations that match it. You can specify one filter. If you don't specify a filter, the response includes all reservations in your account.
+    public var filters: [SageMakerClientTypes.CapacityReservationFilter]?
+    /// The maximum number of results to return in the response. If more results are available, the response includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, the response includes a NextToken value. To retrieve the next set of results, use that token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [SageMakerClientTypes.CapacityReservationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCapacityReservationsOutput: Swift.Sendable {
+    /// Summaries of the SageMaker Capacity Reservations in your account.
+    /// This member is required.
+    public var capacityReservationSummaries: [SageMakerClientTypes.CapacityReservationSummary]?
+    /// If the response is truncated, SageMaker AI returns this token. To retrieve the next set of results, use this token in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationSummaries: [SageMakerClientTypes.CapacityReservationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationSummaries = capacityReservationSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListClusterEventsInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events.
     /// This member is required.
@@ -53690,6 +54868,41 @@ public struct ListFlowDefinitionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListGlobalInferenceGatewaysInput: Swift.Sendable {
+    /// The filters to apply to the results. You can filter by Status. Multiple filters are combined with a logical AND.
+    public var filters: [SageMakerClientTypes.GlobalInferenceGatewayFilter]?
+    /// The maximum number of global inference gateways to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListGlobalInferenceGateways request was truncated, the response includes a NextToken. To retrieve the next set of global inference gateways, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [SageMakerClientTypes.GlobalInferenceGatewayFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGlobalInferenceGatewaysOutput: Swift.Sendable {
+    /// The summaries of the global inference gateways.
+    /// This member is required.
+    public var globalInferenceGatewaySummaries: [SageMakerClientTypes.GlobalInferenceGatewaySummary]?
+    /// If the result of the previous ListGlobalInferenceGateways request was truncated, the response includes a NextToken. To retrieve the next set of global inference gateways, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        globalInferenceGatewaySummaries: [SageMakerClientTypes.GlobalInferenceGatewaySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.globalInferenceGatewaySummaries = globalInferenceGatewaySummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListHubContentsInput: Swift.Sendable {
     /// Only list hub content that was created after the time specified.
     public var creationTimeAfter: Foundation.Date?
@@ -54272,6 +55485,46 @@ public struct ListInferenceExperimentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.inferenceExperiments = inferenceExperiments
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListInferenceGatewaysInput: Swift.Sendable {
+    /// The filters to apply to the results. You can filter by Status and ClusterArn. Multiple filters are combined with a logical AND.
+    public var filters: [SageMakerClientTypes.GlobalInferenceGatewayMemberFilter]?
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The maximum number of in-cluster inference gateways to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListInferenceGateways request was truncated, the response includes a NextToken. To retrieve the next set of in-cluster inference gateways, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [SageMakerClientTypes.GlobalInferenceGatewayMemberFilter]? = nil,
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListInferenceGatewaysOutput: Swift.Sendable {
+    /// The summaries of the in-cluster inference gateways, in the order that they were added.
+    /// This member is required.
+    public var inferenceGatewaySummaries: [SageMakerClientTypes.GlobalInferenceGatewayMemberSummary]?
+    /// If the result of the previous ListInferenceGateways request was truncated, the response includes a NextToken. To retrieve the next set of in-cluster inference gateways, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        inferenceGatewaySummaries: [SageMakerClientTypes.GlobalInferenceGatewayMemberSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.inferenceGatewaySummaries = inferenceGatewaySummaries
         self.nextToken = nextToken
     }
 }
@@ -58018,7 +59271,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public var createdAfter: Foundation.Date?
     /// A filter that returns the pipelines that were created before a specified time.
     public var createdBefore: Foundation.Date?
-    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that Amazon Web Services manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
+    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that Amazon Web Services manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes only pipelines that you created.
     public var managedBy: SageMakerClientTypes.PipelineManagedBy?
     /// The maximum number of pipelines to return in the response.
     public var maxResults: Swift.Int?
@@ -60963,6 +62216,175 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum MoveClusterNodesErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalidNodeStatus
+        case nodeIdInUse
+        case nodeIdNotFound
+        case nodeInstanceTypeMismatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MoveClusterNodesErrorCode] {
+            return [
+                .invalidNodeStatus,
+                .nodeIdInUse,
+                .nodeIdNotFound,
+                .nodeInstanceTypeMismatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidNodeStatus: return "InvalidNodeStatus"
+            case .nodeIdInUse: return "NodeIdInUse"
+            case .nodeIdNotFound: return "NodeIdNotFound"
+            case .nodeInstanceTypeMismatch: return "NodeInstanceTypeMismatch"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Describes why a node, identified by its NodeLogicalId, could not be moved in a MoveClusterNodes request. Contains the NodeLogicalId, an error code, and an error message.
+    public struct MoveClusterNodeLogicalIdsError: Swift.Sendable {
+        /// The error code associated with the error encountered when moving the node. The error code is one of the following values:
+        ///
+        /// * NodeIdNotFound: The node does not exist in the source instance group.
+        ///
+        /// * InvalidNodeStatus: The node is not in a state that allows the move. For example, the node is not Running, is not in a subnet of the target instance group, or has an attached Amazon EBS volume that you must detach first.
+        ///
+        /// * NodeIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.
+        ///
+        /// * NodeInstanceTypeMismatch: The target instance group does not support the node's instance type.
+        /// This member is required.
+        public var code: SageMakerClientTypes.MoveClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when moving the node.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The NodeLogicalId of the node that could not be moved.
+        /// This member is required.
+        public var nodeLogicalId: Swift.String?
+
+        public init(
+            code: SageMakerClientTypes.MoveClusterNodesErrorCode? = nil,
+            message: Swift.String? = nil,
+            nodeLogicalId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.nodeLogicalId = nodeLogicalId
+        }
+    }
+}
+
+public struct MoveClusterNodesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry the request with the same client token and the same parameters within 8 hours, the service returns the original response. It doesn't start a new move. If you reuse a client token with different parameters, the request fails.
+    public var clientToken: Swift.String?
+    /// The number of nodes to move, from 1 to 50. HyperPod selects the nodes from the source instance group. If fewer than this number of nodes are eligible to move, the request fails and no nodes are moved. Specify exactly one of NodeIds, NodeLogicalIds, or InstanceCount.
+    public var instanceCount: Swift.Int?
+    /// A list of instance IDs of the nodes to move. You can specify up to 50 instance IDs. Each node is evaluated separately, so some nodes can be moved while others fail. The request fails if moving the eligible nodes would reduce the source instance group below its minimum instance count. Specify exactly one of NodeIds, NodeLogicalIds, or InstanceCount.
+    public var nodeIds: [Swift.String]?
+    /// A list of NodeLogicalIds of the nodes to move. You can specify up to 50 NodeLogicalIds. Each node is evaluated separately, so some nodes can be moved while others fail. The request fails if moving the eligible nodes would reduce the source instance group below its minimum instance count. Specify exactly one of NodeIds, NodeLogicalIds, or InstanceCount.
+    public var nodeLogicalIds: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the HyperPod cluster that the nodes are moved from.
+    /// This member is required.
+    public var sourceClusterArn: Swift.String?
+    /// The name of the instance group in the source cluster that the nodes are moved from.
+    /// This member is required.
+    public var sourceInstanceGroupName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the HyperPod cluster that the nodes are moved to. The target cluster must be in the same account and Region as the source cluster, and can be the same cluster as the source.
+    /// This member is required.
+    public var targetClusterArn: Swift.String?
+    /// The name of the instance group in the target cluster that the nodes are moved to. If the target cluster is the same as the source cluster, the target instance group must be different from the source instance group.
+    /// This member is required.
+    public var targetInstanceGroupName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        instanceCount: Swift.Int? = nil,
+        nodeIds: [Swift.String]? = nil,
+        nodeLogicalIds: [Swift.String]? = nil,
+        sourceClusterArn: Swift.String? = nil,
+        sourceInstanceGroupName: Swift.String? = nil,
+        targetClusterArn: Swift.String? = nil,
+        targetInstanceGroupName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.instanceCount = instanceCount
+        self.nodeIds = nodeIds
+        self.nodeLogicalIds = nodeLogicalIds
+        self.sourceClusterArn = sourceClusterArn
+        self.sourceInstanceGroupName = sourceInstanceGroupName
+        self.targetClusterArn = targetClusterArn
+        self.targetInstanceGroupName = targetInstanceGroupName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Describes why a node, identified by its instance ID, could not be moved in a MoveClusterNodes request. Contains the instance ID, an error code, and an error message.
+    public struct MoveClusterNodesError: Swift.Sendable {
+        /// The error code associated with the error encountered when moving the node. The error code is one of the following values:
+        ///
+        /// * NodeIdNotFound: The node does not exist in the source instance group.
+        ///
+        /// * InvalidNodeStatus: The node is not in a state that allows the move. For example, the node is not Running, is not in a subnet of the target instance group, or has an attached Amazon EBS volume that you must detach first.
+        ///
+        /// * NodeIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.
+        ///
+        /// * NodeInstanceTypeMismatch: The target instance group does not support the node's instance type.
+        /// This member is required.
+        public var code: SageMakerClientTypes.MoveClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when moving the node.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The instance ID of the node that could not be moved.
+        /// This member is required.
+        public var nodeId: Swift.String?
+
+        public init(
+            code: SageMakerClientTypes.MoveClusterNodesErrorCode? = nil,
+            message: Swift.String? = nil,
+            nodeId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.nodeId = nodeId
+        }
+    }
+}
+
+public struct MoveClusterNodesOutput: Swift.Sendable {
+    /// The instance IDs that could not be moved, each with an error code and message. The response includes this list when you specify NodeIds. If none of the specified nodes can be moved, the request fails and no nodes are moved.
+    public var failed: [SageMakerClientTypes.MoveClusterNodesError]?
+    /// The NodeLogicalIds that could not be moved, each with an error code and message. The response includes this list when you specify NodeLogicalIds. If none of the specified nodes can be moved, the request fails and no nodes are moved.
+    public var failedNodeLogicalIds: [SageMakerClientTypes.MoveClusterNodeLogicalIdsError]?
+    /// This list contains the instance IDs of the nodes that were accepted for the move. The response includes this list when you specify NodeIds or InstanceCount.
+    public var successful: [Swift.String]?
+    /// The NodeLogicalIds of the nodes that were accepted for the move. The response includes this list when you specify NodeLogicalIds.
+    public var successfulNodeLogicalIds: [Swift.String]?
+
+    public init(
+        failed: [SageMakerClientTypes.MoveClusterNodesError]? = nil,
+        failedNodeLogicalIds: [SageMakerClientTypes.MoveClusterNodeLogicalIdsError]? = nil,
+        successful: [Swift.String]? = nil,
+        successfulNodeLogicalIds: [Swift.String]? = nil
+    ) {
+        self.failed = failed
+        self.failedNodeLogicalIds = failedNodeLogicalIds
+        self.successful = successful
+        self.successfulNodeLogicalIds = successfulNodeLogicalIds
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A list of nested [Filter](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Filter.html) objects. A resource must satisfy the conditions of all filters to be included in the results returned from the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. For example, to filter on a training job's InputDataConfig property with a specific channel name and S3Uri prefix, define the following filters:
     ///
     /// * '{Name:"InputDataConfig.ChannelName", "Operator":"Equals", "Value":"train"}',
@@ -61661,6 +63083,64 @@ extension SageMakerClientTypes {
         ) {
             self.enableRemoteDebug = enableRemoteDebug
         }
+    }
+}
+
+public struct RemoveInferenceGatewayInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that runs the in-cluster inference gateway.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the InferenceGatewayConfig resource that defines the in-cluster inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Kubernetes namespace of the in-cluster inference gateway.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.identifier = identifier
+        self.name = name
+        self.namespace = namespace
+    }
+}
+
+public struct RemoveInferenceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global inference gateway.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The in-cluster inference gateway that you removed.
+    /// This member is required.
+    public var gateway: SageMakerClientTypes.GlobalInferenceGatewayMember?
+    /// The ID of the global inference gateway.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the global inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the in-cluster inference gateway in the global inference gateway. This value is absent if the in-cluster inference gateway wasn't in the global inference gateway.
+    public var status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        gateway: SageMakerClientTypes.GlobalInferenceGatewayMember? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.GlobalInferenceGatewayMemberStatus? = nil
+    ) {
+        self.arn = arn
+        self.gateway = gateway
+        self.id = id
+        self.name = name
+        self.status = status
     }
 }
 
@@ -64064,6 +65544,54 @@ public struct UpdateFeatureMetadataInput: Swift.Sendable {
         self.featureName = featureName
         self.parameterAdditions = parameterAdditions
         self.parameterRemovals = parameterRemovals
+    }
+}
+
+public struct UpdateGlobalInferenceGatewayInput: Swift.Sendable {
+    /// The name, Amazon Resource Name (ARN), or ID of the global inference gateway to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The new routing configuration of the global inference gateway.
+    /// This member is required.
+    public var routing: SageMakerClientTypes.GlobalInferenceGatewayRouting?
+
+    public init(
+        identifier: Swift.String? = nil,
+        routing: SageMakerClientTypes.GlobalInferenceGatewayRouting? = nil
+    ) {
+        self.identifier = identifier
+        self.routing = routing
+    }
+}
+
+public struct UpdateGlobalInferenceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global inference gateway.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the global inference gateway.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the global inference gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The routing configuration that you specified in the request.
+    public var routing: SageMakerClientTypes.GlobalInferenceGatewayRouting?
+    /// The status of the global inference gateway.
+    /// This member is required.
+    public var status: SageMakerClientTypes.GlobalInferenceGatewayStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routing: SageMakerClientTypes.GlobalInferenceGatewayRouting? = nil,
+        status: SageMakerClientTypes.GlobalInferenceGatewayStatus? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.name = name
+        self.routing = routing
+        self.status = status
     }
 }
 

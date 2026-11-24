@@ -1105,7 +1105,7 @@ extension Route53Client {
     ///
     /// * The same value for CallerReference as a health check that you created and later deleted, regardless of the other settings in the request.
     /// - `InvalidInput` : The input is not valid.
-    /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks, or because the health check source for a private health check has reached its limit on active health checks. In the second case, specify a different health check source. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3802,6 +3802,75 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetHostedZoneChangeBatch` operation on the `Route53` service.
+    ///
+    /// Returns one change batch from the change history of a hosted zone, including every change in the batch. Each resource record set is in the same form that ListResourceRecordSets returns. For example, the name is in lowercase and ends with a dot. For an UPSERT or a DELETE, the response doesn't contain the values that the resource record set had before the change. If the change batch isn't in the hosted zone's retained change history, for example because it's in another hosted zone, it expired, or it's from before RetentionStartsAt, Route 53 returns a NoSuchChange error. If Change History isn't turned on for the hosted zone, Route 53 returns a FeatureNotEnabled error.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetHostedZoneChangeBatchInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetHostedZoneChangeBatchOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureNotEnabled` : This error occurs when a feature that the operation requires isn't turned on for the hosted zone. For example, the tier of the hosted zone doesn't include Change History. To resolve this error, turn on the feature, or move the hosted zone to a tier that includes it.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchChange` : A change with the specified change ID does not exist.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    public func getHostedZoneChangeBatch(input: GetHostedZoneChangeBatchInput) async throws -> GetHostedZoneChangeBatchOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getHostedZoneChangeBatch")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>(GetHostedZoneChangeBatchInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneChangeBatchOutput>(GetHostedZoneChangeBatchOutput.httpOutput(from:), GetHostedZoneChangeBatchOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneChangeBatchOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetHostedZoneChangeBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHostedZoneChangeBatchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHostedZoneChangeBatchInput, GetHostedZoneChangeBatchOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHostedZoneChangeBatch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetHostedZoneCount` operation on the `Route53` service.
     ///
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
@@ -4795,6 +4864,76 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListHostedZoneChangeBatches` operation on the `Route53` service.
+    ///
+    /// Lists the change batches in an Amazon Route 53 hosted zone. For each change batch, the response contains its change ID, the operation that submitted it, and when and by whom it was submitted. It also contains the request ID, the comment if there is one, and the number of changes. Use this list to review who changed the hosted zone and when. Each change batch records one ChangeResourceRecordSets or CreateHostedZone request. A CreateHostedZone change batch has a ChangeCount of 0. You can read a change batch for 365 days after it was submitted, but not from before the RetentionStartsAt time that GetHostedZone returns in Features/ChangeHistory. If Change History isn't turned on for the hosted zone, Route 53 returns a FeatureNotEnabled error. Results are paginated. To get the next page, use the NextToken value from the response. To get the changes in a change batch, use GetHostedZoneChangeBatch.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListHostedZoneChangeBatchesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListHostedZoneChangeBatchesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureNotEnabled` : This error occurs when a feature that the operation requires isn't turned on for the hosted zone. For example, the tier of the hosted zone doesn't include Change History. To resolve this error, turn on the feature, or move the hosted zone to a tier that includes it.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    public func listHostedZoneChangeBatches(input: ListHostedZoneChangeBatchesInput) async throws -> ListHostedZoneChangeBatchesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listHostedZoneChangeBatches")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(ListHostedZoneChangeBatchesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(ListHostedZoneChangeBatchesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZoneChangeBatchesOutput>(ListHostedZoneChangeBatchesOutput.httpOutput(from:), ListHostedZoneChangeBatchesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZoneChangeBatchesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHostedZoneChangeBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHostedZoneChangeBatchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHostedZoneChangeBatches")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListHostedZones` operation on the `Route53` service.
     ///
     /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account. The response includes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100.
@@ -5077,6 +5216,76 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueryLoggingConfigs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResourceRecordSetChanges` operation on the `Route53` service.
+    ///
+    /// Lists the individual changes in the change history of a hosted zone. Each entry is one change, with the full resource record set that the change wrote or deleted. To list only the changes to the resource record sets that have a specific name and type, specify RecordName and RecordType. Weighted, latency, and other resource record sets that have the same name and type appear as separate entries, each with its SetIdentifier. A change can take a few seconds to appear in ListResourceRecordSetChanges after it appears in ListHostedZoneChangeBatches. For a complete, ordered list of changes, use ListHostedZoneChangeBatches. Results are paginated. To get the next page, use the NextToken value from the response. If Change History isn't turned on for the hosted zone, Route 53 returns a FeatureNotEnabled error.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListResourceRecordSetChangesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListResourceRecordSetChangesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureNotEnabled` : This error occurs when a feature that the operation requires isn't turned on for the hosted zone. For example, the tier of the hosted zone doesn't include Change History. To resolve this error, turn on the feature, or move the hosted zone to a tier that includes it.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    public func listResourceRecordSetChanges(input: ListResourceRecordSetChangesInput) async throws -> ListResourceRecordSetChangesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResourceRecordSetChanges")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(ListResourceRecordSetChangesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(ListResourceRecordSetChangesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRecordSetChangesOutput>(ListResourceRecordSetChangesOutput.httpOutput(from:), ListResourceRecordSetChangesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceRecordSetChangesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceRecordSetChangesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceRecordSetChangesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResourceRecordSetChanges")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6050,7 +6259,7 @@ extension Route53Client {
 
     /// Performs the `UpdateHostedZoneFeatures` operation on the `Route53` service.
     ///
-    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery and public DNS fallback. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable. Public DNS fallback enables Route 53 to retry a query against public DNS when a query for a domain name in a private hosted zone matches no existing name (NXDOMAIN). Fallback does not occur when the name exists but has no record of the requested type. Public DNS fallback is supported only for private hosted zones.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateHostedZoneFeaturesInput`)
     ///
@@ -6108,6 +6317,77 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHostedZoneFeatures")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateHostedZoneTier` operation on the `Route53` service.
+    ///
+    /// Changes the tier of a hosted zone. The tier determines which features the hosted zone includes and which optional features you can turn on. For pricing information, see [Amazon Route 53 pricing](https://aws.amazon.com/route53/pricing/) on the AWS website. When the hosted zone moves to a new tier, Route 53 turns on the features that the new tier includes. Route 53 also disables any enabled features that the new tier doesn't include. Before you move a hosted zone to a tier that doesn't offer an optional feature that you turned on, turn off that feature. You can't change the tier of a hosted zone that uses a CloudFront flat-rate pricing plan.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostedZoneTierInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateHostedZoneTierOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    public func updateHostedZoneTier(input: UpdateHostedZoneTierInput) async throws -> UpdateHostedZoneTierOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateHostedZoneTier")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(UpdateHostedZoneTierInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHostedZoneTierRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHostedZoneTierInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneTierOutput>(UpdateHostedZoneTierOutput.httpOutput(from:), UpdateHostedZoneTierOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostedZoneTierOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHostedZoneTierOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHostedZoneTierOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateHostedZoneTierInput, UpdateHostedZoneTierOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHostedZoneTier")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

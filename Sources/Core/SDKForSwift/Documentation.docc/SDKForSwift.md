@@ -103,6 +103,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAPIGateway](/sdk-for-swift/latest/api/awsapigateway/documentation/awsapigateway)
 
+[AWSAPIPortal](/sdk-for-swift/latest/api/awsapiportal/documentation/awsapiportal)
+
 [AWSARCRegionswitch](/sdk-for-swift/latest/api/awsarcregionswitch/documentation/awsarcregionswitch)
 
 [AWSARCZonalShift](/sdk-for-swift/latest/api/awsarczonalshift/documentation/awsarczonalshift)
@@ -116,6 +118,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSAccountAccess](/sdk-for-swift/latest/api/awsaccountaccess/documentation/awsaccountaccess)
 
 [AWSAccountAccessRuntime](/sdk-for-swift/latest/api/awsaccountaccessruntime/documentation/awsaccountaccessruntime)
+
+[AWSAgentDiscovery](/sdk-for-swift/latest/api/awsagentdiscovery/documentation/awsagentdiscovery)
 
 [AWSAgentRegistry](/sdk-for-swift/latest/api/awsagentregistry/documentation/awsagentregistry)
 
@@ -713,6 +717,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPaymentCryptographyData](/sdk-for-swift/latest/api/awspaymentcryptographydata/documentation/awspaymentcryptographydata)
 
+[AWSPayments](/sdk-for-swift/latest/api/awspayments/documentation/awspayments)
+
 [AWSPcaConnectorAd](/sdk-for-swift/latest/api/awspcaconnectorad/documentation/awspcaconnectorad)
 
 [AWSPcaConnectorScep](/sdk-for-swift/latest/api/awspcaconnectorscep/documentation/awspcaconnectorscep)
@@ -846,6 +852,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSageMakerA2IRuntime](/sdk-for-swift/latest/api/awssagemakera2iruntime/documentation/awssagemakera2iruntime)
 
 [AWSSageMakerFeatureStoreRuntime](/sdk-for-swift/latest/api/awssagemakerfeaturestoreruntime/documentation/awssagemakerfeaturestoreruntime)
+
+[AWSSageMakerGatewayRuntime](/sdk-for-swift/latest/api/awssagemakergatewayruntime/documentation/awssagemakergatewayruntime)
 
 [AWSSageMakerGeospatial](/sdk-for-swift/latest/api/awssagemakergeospatial/documentation/awssagemakergeospatial)
 

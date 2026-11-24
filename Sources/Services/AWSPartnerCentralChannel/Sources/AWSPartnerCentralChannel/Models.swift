@@ -314,17 +314,88 @@ public struct AcceptChannelHandshakeOutput: Swift.Sendable {
 
 extension PartnerCentralChannelClientTypes {
 
+    public enum AccountScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entireOrganization
+        case specificMemberAccounts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountScope] {
+            return [
+                .entireOrganization,
+                .specificMemberAccounts
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entireOrganization: return "ENTIRE_ORGANIZATION"
+            case .specificMemberAccounts: return "SPECIFIC_MEMBER_ACCOUNTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// The postal address of a legal entity.
+    public struct Address: Swift.Sendable {
+        /// The first line of the street address.
+        /// This member is required.
+        public var addressLine: Swift.String?
+        /// The second line of the street address.
+        public var addressLine2: Swift.String?
+        /// The city or locality.
+        /// This member is required.
+        public var city: Swift.String?
+        /// The two-letter ISO 3166-1 country code.
+        /// This member is required.
+        public var countryCode: Swift.String?
+        /// The postal code.
+        /// This member is required.
+        public var postalCode: Swift.String?
+        /// The state, province, or prefecture.
+        /// This member is required.
+        public var stateOrRegion: Swift.String?
+
+        public init(
+            addressLine: Swift.String? = nil,
+            addressLine2: Swift.String? = nil,
+            city: Swift.String? = nil,
+            countryCode: Swift.String? = nil,
+            postalCode: Swift.String? = nil,
+            stateOrRegion: Swift.String? = nil
+        ) {
+            self.addressLine = addressLine
+            self.addressLine2 = addressLine2
+            self.city = city
+            self.countryCode = countryCode
+            self.postalCode = postalCode
+            self.stateOrRegion = stateOrRegion
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
     public enum AssociationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case downstreamSeller
         case endCustomer
         case `internal`
+        case managedServicesEndCustomer
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssociationType] {
             return [
                 .downstreamSeller,
                 .endCustomer,
-                .internal
+                .internal,
+                .managedServicesEndCustomer
             ]
         }
 
@@ -338,9 +409,146 @@ extension PartnerCentralChannelClientTypes {
             case .downstreamSeller: return "DOWNSTREAM_SELLER"
             case .endCustomer: return "END_CUSTOMER"
             case .internal: return "INTERNAL"
+            case .managedServicesEndCustomer: return "MANAGED_SERVICES_END_CUSTOMER"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+/// The request could not be completed due to a conflict with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the conflict.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that caused the conflict.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that caused the conflict.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct CancelChannelContractInput: Swift.Sendable {
+    /// The catalog identifier for the channel contract.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the channel contract to cancel.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The reason for canceling the channel contract. Later requests don't change or remove it.
+    public var reason: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifier = identifier
+        self.reason = reason
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    public enum ChannelContractStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case canceled
+        case expired
+        case inactive
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelContractStatus] {
+            return [
+                .accepted,
+                .canceled,
+                .expired,
+                .inactive,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .canceled: return "CANCELED"
+            case .expired: return "EXPIRED"
+            case .inactive: return "INACTIVE"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Contains details about a canceled channel contract.
+    public struct CancelChannelContractDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the canceled channel contract.
+        public var arn: Swift.String?
+        /// The reason the channel contract was canceled, if one was provided.
+        public var cancellationReason: Swift.String?
+        /// The unique identifier of the canceled channel contract.
+        public var id: Swift.String?
+        /// The current status of the canceled channel contract.
+        public var status: PartnerCentralChannelClientTypes.ChannelContractStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            cancellationReason: Swift.String? = nil,
+            id: Swift.String? = nil,
+            status: PartnerCentralChannelClientTypes.ChannelContractStatus? = nil
+        ) {
+            self.arn = arn
+            self.cancellationReason = cancellationReason
+            self.id = id
+            self.status = status
+        }
+    }
+}
+
+public struct CancelChannelContractOutput: Swift.Sendable {
+    /// Details of the canceled channel contract.
+    public var channelContractDetail: PartnerCentralChannelClientTypes.CancelChannelContractDetail?
+
+    public init(
+        channelContractDetail: PartnerCentralChannelClientTypes.CancelChannelContractDetail? = nil
+    ) {
+        self.channelContractDetail = channelContractDetail
     }
 }
 
@@ -392,6 +600,689 @@ public struct CancelChannelHandshakeOutput: Swift.Sendable {
         channelHandshakeDetail: PartnerCentralChannelClientTypes.CancelChannelHandshakeDetail? = nil
     ) {
         self.channelHandshakeDetail = channelHandshakeDetail
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    public enum ChannelContractType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managedServicesAttestation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelContractType] {
+            return [
+                .managedServicesAttestation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managedServicesAttestation: return "MANAGED_SERVICES_ATTESTATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    public enum ManagedServicesSupportedService: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case artificialIntelligenceAndMachineLearningOperations
+        case backupAndDisasterRecovery
+        case financialOperations
+        case infrastructureAsCodeAndAutomation
+        case monitoring
+        case patching
+        case security
+        case wellArchitected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedServicesSupportedService] {
+            return [
+                .artificialIntelligenceAndMachineLearningOperations,
+                .backupAndDisasterRecovery,
+                .financialOperations,
+                .infrastructureAsCodeAndAutomation,
+                .monitoring,
+                .patching,
+                .security,
+                .wellArchitected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .artificialIntelligenceAndMachineLearningOperations: return "ARTIFICIAL_INTELLIGENCE_AND_MACHINE_LEARNING_OPERATIONS"
+            case .backupAndDisasterRecovery: return "BACKUP_AND_DISASTER_RECOVERY"
+            case .financialOperations: return "FINANCIAL_OPERATIONS"
+            case .infrastructureAsCodeAndAutomation: return "INFRASTRUCTURE_AS_CODE_AND_AUTOMATION"
+            case .monitoring: return "MONITORING"
+            case .patching: return "PATCHING"
+            case .security: return "SECURITY"
+            case .wellArchitected: return "WELL_ARCHITECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Details specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+    public struct ManagedServicesAttestationDetails: Swift.Sendable {
+        /// The end date of the managed services attestation.
+        /// This member is required.
+        public var endDate: Foundation.Date?
+        /// The address of the end customer's legal entity, if available.
+        public var legalEntityAddress: PartnerCentralChannelClientTypes.Address?
+        /// The legal name of the end customer's legal entity.
+        /// This member is required.
+        public var legalEntityName: Swift.String?
+        /// The AWS account IDs of the end customer's member accounts covered by the managed services.
+        public var memberAccountIds: [Swift.String]?
+        /// The identifier of the program management account.
+        /// This member is required.
+        public var programManagementAccountIdentifier: Swift.String?
+        /// The identifier of the relationship covered by the attestation.
+        /// This member is required.
+        public var relationshipIdentifier: Swift.String?
+        /// The email address of the signatory.
+        /// This member is required.
+        public var signatoryEmail: Swift.String?
+        /// The name of the person who signs the attestation for the end customer.
+        /// This member is required.
+        public var signatoryName: Swift.String?
+        /// The managed services that the partner provides to the end customer.
+        /// This member is required.
+        public var supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]?
+
+        public init(
+            endDate: Foundation.Date? = nil,
+            legalEntityAddress: PartnerCentralChannelClientTypes.Address? = nil,
+            legalEntityName: Swift.String? = nil,
+            memberAccountIds: [Swift.String]? = nil,
+            programManagementAccountIdentifier: Swift.String? = nil,
+            relationshipIdentifier: Swift.String? = nil,
+            signatoryEmail: Swift.String? = nil,
+            signatoryName: Swift.String? = nil,
+            supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]? = nil
+        ) {
+            self.endDate = endDate
+            self.legalEntityAddress = legalEntityAddress
+            self.legalEntityName = legalEntityName
+            self.memberAccountIds = memberAccountIds
+            self.programManagementAccountIdentifier = programManagementAccountIdentifier
+            self.relationshipIdentifier = relationshipIdentifier
+            self.signatoryEmail = signatoryEmail
+            self.signatoryName = signatoryName
+            self.supportedServices = supportedServices
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Contains detailed information about different types of channel contracts.
+    public enum ChannelContractDetails: Swift.Sendable {
+        /// Details specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+        case managedservicesattestationdetails(PartnerCentralChannelClientTypes.ManagedServicesAttestationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Detailed information about a channel contract.
+    public struct ChannelContractDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the channel contract.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The reason the channel contract was canceled, if one was provided.
+        public var cancellationReason: Swift.String?
+        /// The catalog identifier associated with the channel contract.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The type of the channel contract.
+        /// This member is required.
+        public var contractType: PartnerCentralChannelClientTypes.ChannelContractType?
+        /// The timestamp when the channel contract was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Type-specific details of the channel contract.
+        /// This member is required.
+        public var details: PartnerCentralChannelClientTypes.ChannelContractDetails?
+        /// The unique identifier of the channel contract.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the channel contract was accepted, if applicable.
+        public var respondedAt: Foundation.Date?
+        /// The current status of the channel contract.
+        /// This member is required.
+        public var status: PartnerCentralChannelClientTypes.ChannelContractStatus?
+        /// The timestamp when the channel contract was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            cancellationReason: Swift.String? = nil,
+            catalog: Swift.String? = nil,
+            contractType: PartnerCentralChannelClientTypes.ChannelContractType? = nil,
+            createdAt: Foundation.Date? = nil,
+            details: PartnerCentralChannelClientTypes.ChannelContractDetails? = nil,
+            id: Swift.String? = nil,
+            respondedAt: Foundation.Date? = nil,
+            status: PartnerCentralChannelClientTypes.ChannelContractStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.cancellationReason = cancellationReason
+            self.catalog = catalog
+            self.contractType = contractType
+            self.createdAt = createdAt
+            self.details = details
+            self.id = id
+            self.respondedAt = respondedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Payload for managed services attestation channel contract requests. Applies only to managed services attestation channel contracts.
+    public struct ManagedServicesAttestationPayload: Swift.Sendable {
+        /// The end date of the attestation, which must be after the start date of the relationship.
+        /// This member is required.
+        public var endDate: Foundation.Date?
+        /// The address of the end customer's legal entity.
+        /// This member is required.
+        public var legalEntityAddress: PartnerCentralChannelClientTypes.Address?
+        /// The legal name of the end customer's legal entity.
+        /// This member is required.
+        public var legalEntityName: Swift.String?
+        /// The AWS account IDs of the end customer's member accounts to cover, not allowed when the account scope is the entire organization.
+        public var memberAccountIds: [Swift.String]?
+        /// The identifier of the program management account for the relationship.
+        /// This member is required.
+        public var programManagementAccountIdentifier: Swift.String?
+        /// The identifier of the managed services relationship to cover with the attestation.
+        /// This member is required.
+        public var relationshipIdentifier: Swift.String?
+        /// The email address to which the attestation is sent for signature.
+        /// This member is required.
+        public var signatoryEmail: Swift.String?
+        /// The name of the person who signs the attestation for the end customer.
+        /// This member is required.
+        public var signatoryName: Swift.String?
+        /// The managed services that the partner provides to the end customer.
+        /// This member is required.
+        public var supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]?
+
+        public init(
+            endDate: Foundation.Date? = nil,
+            legalEntityAddress: PartnerCentralChannelClientTypes.Address? = nil,
+            legalEntityName: Swift.String? = nil,
+            memberAccountIds: [Swift.String]? = nil,
+            programManagementAccountIdentifier: Swift.String? = nil,
+            relationshipIdentifier: Swift.String? = nil,
+            signatoryEmail: Swift.String? = nil,
+            signatoryName: Swift.String? = nil,
+            supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]? = nil
+        ) {
+            self.endDate = endDate
+            self.legalEntityAddress = legalEntityAddress
+            self.legalEntityName = legalEntityName
+            self.memberAccountIds = memberAccountIds
+            self.programManagementAccountIdentifier = programManagementAccountIdentifier
+            self.relationshipIdentifier = relationshipIdentifier
+            self.signatoryEmail = signatoryEmail
+            self.signatoryName = signatoryName
+            self.supportedServices = supportedServices
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Contains the payload data for different types of channel contracts.
+    public enum ChannelContractPayload: Swift.Sendable {
+        /// Payload for creating a managed services attestation channel contract. Applies only to managed services attestation channel contracts.
+        case managedservicesattestationpayload(PartnerCentralChannelClientTypes.ManagedServicesAttestationPayload)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// The request would exceed a service quota limit.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the service quota exceeded error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The code identifying the specific quota that would be exceeded.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The identifier of the resource that would exceed the quota.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that would exceed the quota.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// A key-value pair that can be associated with a resource.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateChannelContractInput: Swift.Sendable {
+    /// The catalog identifier for the channel contract.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The type of channel contract to create (for example, managed services attestation).
+    /// This member is required.
+    public var contractType: PartnerCentralChannelClientTypes.ChannelContractType?
+    /// The payload containing specific details for the contract type.
+    /// This member is required.
+    public var payload: PartnerCentralChannelClientTypes.ChannelContractPayload?
+    /// Key-value pairs to associate with the channel contract.
+    public var tags: [PartnerCentralChannelClientTypes.Tag]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        contractType: PartnerCentralChannelClientTypes.ChannelContractType? = nil,
+        payload: PartnerCentralChannelClientTypes.ChannelContractPayload? = nil,
+        tags: [PartnerCentralChannelClientTypes.Tag]? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.contractType = contractType
+        self.payload = payload
+        self.tags = tags
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Contains details about a newly created channel contract.
+    public struct CreateChannelContractDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the created channel contract.
+        public var arn: Swift.String?
+        /// The unique identifier of the created channel contract.
+        public var id: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+        }
+    }
+}
+
+public struct CreateChannelContractOutput: Swift.Sendable {
+    /// Details of the created channel contract.
+    public var channelContractDetail: PartnerCentralChannelClientTypes.CreateChannelContractDetail?
+
+    public init(
+        channelContractDetail: PartnerCentralChannelClientTypes.CreateChannelContractDetail? = nil
+    ) {
+        self.channelContractDetail = channelContractDetail
+    }
+}
+
+public struct GetChannelContractInput: Swift.Sendable {
+    /// The catalog identifier for the channel contract.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the channel contract to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+public struct GetChannelContractOutput: Swift.Sendable {
+    /// Details of the requested channel contract.
+    public var channelContractDetail: PartnerCentralChannelClientTypes.ChannelContractDetail?
+
+    public init(
+        channelContractDetail: PartnerCentralChannelClientTypes.ChannelContractDetail? = nil
+    ) {
+        self.channelContractDetail = channelContractDetail
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Filters specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+    public struct ManagedServicesAttestationTypeFilters: Swift.Sendable {
+        /// Filter by legal entity names.
+        public var legalEntityNames: [Swift.String]?
+        /// Filter by relationship identifiers.
+        public var relationshipIdentifiers: [Swift.String]?
+
+        public init(
+            legalEntityNames: [Swift.String]? = nil,
+            relationshipIdentifiers: [Swift.String]? = nil
+        ) {
+            self.legalEntityNames = legalEntityNames
+            self.relationshipIdentifiers = relationshipIdentifiers
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Type-specific filters for listing channel contracts.
+    public enum ListChannelContractsTypeFilters: Swift.Sendable {
+        /// Filters specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+        case managedservicesattestationtypefilters(PartnerCentralChannelClientTypes.ManagedServicesAttestationTypeFilters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    public enum ManagedServicesAttestationTypeSortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updatedAt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedServicesAttestationTypeSortName] {
+            return [
+                .updatedAt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .updatedAt: return "UpdatedAt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Sorting options specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+    public struct ManagedServicesAttestationTypeSort: Swift.Sendable {
+        /// The field to sort by.
+        /// This member is required.
+        public var sortBy: PartnerCentralChannelClientTypes.ManagedServicesAttestationTypeSortName?
+        /// The sort order (ascending or descending).
+        /// This member is required.
+        public var sortOrder: PartnerCentralChannelClientTypes.SortOrder?
+
+        public init(
+            sortBy: PartnerCentralChannelClientTypes.ManagedServicesAttestationTypeSortName? = nil,
+            sortOrder: PartnerCentralChannelClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Type-specific sorting options for listing channel contracts.
+    public enum ListChannelContractsTypeSort: Swift.Sendable {
+        /// Sorting options specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+        case managedservicesattestationtypesort(PartnerCentralChannelClientTypes.ManagedServicesAttestationTypeSort)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListChannelContractsInput: Swift.Sendable {
+    /// The catalog identifier to filter channel contracts.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filter results by contract type.
+    /// This member is required.
+    public var contractType: PartnerCentralChannelClientTypes.ChannelContractType?
+    /// Type-specific filters for channel contracts.
+    public var contractTypeFilters: PartnerCentralChannelClientTypes.ListChannelContractsTypeFilters?
+    /// Type-specific sorting options for channel contracts.
+    public var contractTypeSort: PartnerCentralChannelClientTypes.ListChannelContractsTypeSort?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Token for retrieving the next page of results.
+    public var nextToken: Swift.String?
+    /// Filter results by channel contract status.
+    public var statuses: [PartnerCentralChannelClientTypes.ChannelContractStatus]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        contractType: PartnerCentralChannelClientTypes.ChannelContractType? = nil,
+        contractTypeFilters: PartnerCentralChannelClientTypes.ListChannelContractsTypeFilters? = nil,
+        contractTypeSort: PartnerCentralChannelClientTypes.ListChannelContractsTypeSort? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statuses: [PartnerCentralChannelClientTypes.ChannelContractStatus]? = nil
+    ) {
+        self.catalog = catalog
+        self.contractType = contractType
+        self.contractTypeFilters = contractTypeFilters
+        self.contractTypeSort = contractTypeSort
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statuses = statuses
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Summary information about a managed services attestation channel contract. Applies only to managed services attestation channel contracts.
+    public struct ManagedServicesAttestationSummaryDetails: Swift.Sendable {
+        /// The end date of the managed services attestation.
+        /// This member is required.
+        public var endDate: Foundation.Date?
+        /// The legal name of the end customer's legal entity.
+        /// This member is required.
+        public var legalEntityName: Swift.String?
+        /// The AWS account IDs of the end customer's member accounts covered by the managed services.
+        public var memberAccountIds: [Swift.String]?
+        /// The identifier of the program management account.
+        /// This member is required.
+        public var programManagementAccountIdentifier: Swift.String?
+        /// The identifier of the relationship covered by the attestation.
+        /// This member is required.
+        public var relationshipIdentifier: Swift.String?
+        /// The managed services that the partner provides to the end customer.
+        /// This member is required.
+        public var supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]?
+
+        public init(
+            endDate: Foundation.Date? = nil,
+            legalEntityName: Swift.String? = nil,
+            memberAccountIds: [Swift.String]? = nil,
+            programManagementAccountIdentifier: Swift.String? = nil,
+            relationshipIdentifier: Swift.String? = nil,
+            supportedServices: [PartnerCentralChannelClientTypes.ManagedServicesSupportedService]? = nil
+        ) {
+            self.endDate = endDate
+            self.legalEntityName = legalEntityName
+            self.memberAccountIds = memberAccountIds
+            self.programManagementAccountIdentifier = programManagementAccountIdentifier
+            self.relationshipIdentifier = relationshipIdentifier
+            self.supportedServices = supportedServices
+        }
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Contains summary information about different types of channel contracts.
+    public enum ChannelContractSummaryDetails: Swift.Sendable {
+        /// Summary details specific to managed services attestation channel contracts. Applies only to managed services attestation channel contracts.
+        case managedservicesattestationdetails(PartnerCentralChannelClientTypes.ManagedServicesAttestationSummaryDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralChannelClientTypes {
+
+    /// Summary information about a channel contract.
+    public struct ChannelContractSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the channel contract.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The catalog identifier associated with the channel contract.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The type of the channel contract.
+        /// This member is required.
+        public var contractType: PartnerCentralChannelClientTypes.ChannelContractType?
+        /// The timestamp when the channel contract was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Type-specific summary details of the channel contract.
+        /// This member is required.
+        public var details: PartnerCentralChannelClientTypes.ChannelContractSummaryDetails?
+        /// The unique identifier of the channel contract.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the channel contract was accepted, if applicable.
+        public var respondedAt: Foundation.Date?
+        /// The current status of the channel contract.
+        /// This member is required.
+        public var status: PartnerCentralChannelClientTypes.ChannelContractStatus?
+        /// The timestamp when the channel contract was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            catalog: Swift.String? = nil,
+            contractType: PartnerCentralChannelClientTypes.ChannelContractType? = nil,
+            createdAt: Foundation.Date? = nil,
+            details: PartnerCentralChannelClientTypes.ChannelContractSummaryDetails? = nil,
+            id: Swift.String? = nil,
+            respondedAt: Foundation.Date? = nil,
+            status: PartnerCentralChannelClientTypes.ChannelContractStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.catalog = catalog
+            self.contractType = contractType
+            self.createdAt = createdAt
+            self.details = details
+            self.id = id
+            self.respondedAt = respondedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListChannelContractsOutput: Swift.Sendable {
+    /// List of channel contracts matching the criteria.
+    /// This member is required.
+    public var items: [PartnerCentralChannelClientTypes.ChannelContractSummary]?
+    /// Token for retrieving the next page of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [PartnerCentralChannelClientTypes.ChannelContractSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -489,81 +1380,6 @@ extension PartnerCentralChannelClientTypes {
     }
 }
 
-/// The request could not be completed due to a conflict with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the conflict.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that caused the conflict.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that caused the conflict.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
-/// The request would exceed a service quota limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the service quota exceeded error.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The code identifying the specific quota that would be exceeded.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The identifier of the resource that would exceed the quota.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that would exceed the quota.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 extension PartnerCentralChannelClientTypes {
 
     public enum HandshakeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -592,27 +1408,6 @@ extension PartnerCentralChannelClientTypes {
             case .startServicePeriod: return "START_SERVICE_PERIOD"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes {
-
-    /// A key-value pair that can be associated with a resource.
-    public struct Tag: Swift.Sendable {
-        /// The key of the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
         }
     }
 }
@@ -686,6 +1481,7 @@ extension PartnerCentralChannelClientTypes {
     public enum Program: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case distribution
         case distributionSeller
+        case managedServicesProvider
         case solutionProvider
         case sdkUnknown(Swift.String)
 
@@ -693,6 +1489,7 @@ extension PartnerCentralChannelClientTypes {
             return [
                 .distribution,
                 .distributionSeller,
+                .managedServicesProvider,
                 .solutionProvider
             ]
         }
@@ -706,6 +1503,7 @@ extension PartnerCentralChannelClientTypes {
             switch self {
             case .distribution: return "DISTRIBUTION"
             case .distributionSeller: return "DISTRIBUTION_SELLER"
+            case .managedServicesProvider: return "MANAGED_SERVICES_PROVIDER"
             case .solutionProvider: return "SOLUTION_PROVIDER"
             case let .sdkUnknown(s): return s
             }
@@ -792,35 +1590,6 @@ extension PartnerCentralChannelClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .updatedAt: return "UpdatedAt"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralChannelClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "Ascending"
-            case .descending: return "Descending"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1280,6 +2049,35 @@ extension PartnerCentralChannelClientTypes {
     }
 }
 
+extension PartnerCentralChannelClientTypes {
+
+    public enum ProgramManagementAccountType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managedServices
+        case resaleBillingTransfer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProgramManagementAccountType] {
+            return [
+                .managedServices,
+                .resaleBillingTransfer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managedServices: return "MANAGED_SERVICES"
+            case .resaleBillingTransfer: return "RESALE_BILLING_TRANSFER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateProgramManagementAccountInput: Swift.Sendable {
     /// The AWS account ID to associate with the program management account.
     /// This member is required.
@@ -1297,6 +2095,8 @@ public struct CreateProgramManagementAccountInput: Swift.Sendable {
     public var program: PartnerCentralChannelClientTypes.Program?
     /// Key-value pairs to associate with the program management account.
     public var tags: [PartnerCentralChannelClientTypes.Tag]?
+    /// The type of the program management account (for example, resale billing transfer, managed services), required for the managed services provider program.
+    public var type: PartnerCentralChannelClientTypes.ProgramManagementAccountType?
 
     public init(
         accountId: Swift.String? = nil,
@@ -1304,7 +2104,8 @@ public struct CreateProgramManagementAccountInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         program: PartnerCentralChannelClientTypes.Program? = nil,
-        tags: [PartnerCentralChannelClientTypes.Tag]? = nil
+        tags: [PartnerCentralChannelClientTypes.Tag]? = nil,
+        type: PartnerCentralChannelClientTypes.ProgramManagementAccountType? = nil
     ) {
         self.accountId = accountId
         self.catalog = catalog
@@ -1312,6 +2113,7 @@ public struct CreateProgramManagementAccountInput: Swift.Sendable {
         self.displayName = displayName
         self.program = program
         self.tags = tags
+        self.type = type
     }
 }
 
@@ -1528,8 +2330,9 @@ extension PartnerCentralChannelClientTypes {
 }
 
 public struct CreateRelationshipInput: Swift.Sendable {
+    /// The account scope for a managed services relationship (for example, entire organization, specific member accounts). Applies only to managed services relationships.
+    public var accountScope: PartnerCentralChannelClientTypes.AccountScope?
     /// The AWS account ID to associate in this relationship.
-    /// This member is required.
     public var associatedAccountId: Swift.String?
     /// The type of association for the relationship (e.g., reseller, distributor).
     /// This member is required.
@@ -1545,17 +2348,20 @@ public struct CreateRelationshipInput: Swift.Sendable {
     /// The identifier of the program management account for this relationship.
     /// This member is required.
     public var programManagementAccountIdentifier: Swift.String?
-    /// The support plan requested for this relationship.
+    /// The support plan requested for this relationship. Applies only to billing transfer relationships.
     public var requestedSupportPlan: PartnerCentralChannelClientTypes.SupportPlan?
-    /// The resale account model for the relationship.
+    /// The resale account model for the relationship. Applies only to billing transfer relationships.
     public var resaleAccountModel: PartnerCentralChannelClientTypes.ResaleAccountModel?
     /// The business sector for the relationship.
     /// This member is required.
     public var sector: PartnerCentralChannelClientTypes.Sector?
+    /// The start date of the managed services relationship. Applies only to managed services relationships.
+    public var startDate: Foundation.Date?
     /// Key-value pairs to associate with the relationship.
     public var tags: [PartnerCentralChannelClientTypes.Tag]?
 
     public init(
+        accountScope: PartnerCentralChannelClientTypes.AccountScope? = nil,
         associatedAccountId: Swift.String? = nil,
         associationType: PartnerCentralChannelClientTypes.AssociationType? = nil,
         catalog: Swift.String? = nil,
@@ -1565,8 +2371,10 @@ public struct CreateRelationshipInput: Swift.Sendable {
         requestedSupportPlan: PartnerCentralChannelClientTypes.SupportPlan? = nil,
         resaleAccountModel: PartnerCentralChannelClientTypes.ResaleAccountModel? = nil,
         sector: PartnerCentralChannelClientTypes.Sector? = nil,
+        startDate: Foundation.Date? = nil,
         tags: [PartnerCentralChannelClientTypes.Tag]? = nil
     ) {
+        self.accountScope = accountScope
         self.associatedAccountId = associatedAccountId
         self.associationType = associationType
         self.catalog = catalog
@@ -1576,6 +2384,7 @@ public struct CreateRelationshipInput: Swift.Sendable {
         self.requestedSupportPlan = requestedSupportPlan
         self.resaleAccountModel = resaleAccountModel
         self.sector = sector
+        self.startDate = startDate
         self.tags = tags
     }
 }
@@ -1693,6 +2502,8 @@ extension PartnerCentralChannelClientTypes {
 
     /// Detailed information about a partner relationship.
     public struct RelationshipDetail: Swift.Sendable {
+        /// The account scope of the managed services relationship. Applies only to managed services relationships.
+        public var accountScope: PartnerCentralChannelClientTypes.AccountScope?
         /// The Amazon Resource Name (ARN) of the relationship.
         public var arn: Swift.String?
         /// The AWS account ID associated in this relationship.
@@ -1701,15 +2512,19 @@ extension PartnerCentralChannelClientTypes {
         public var associationType: PartnerCentralChannelClientTypes.AssociationType?
         /// The catalog identifier associated with the relationship.
         public var catalog: Swift.String?
+        /// The identifier of the channel contract currently in effect for the relationship. Applies only to managed services relationships.
+        public var channelContractId: Swift.String?
         /// The timestamp when the relationship was created.
         public var createdAt: Foundation.Date?
         /// The display name of the relationship.
         public var displayName: Swift.String?
+        /// The end date of the relationship.
+        public var endDate: Foundation.Date?
         /// The unique identifier of the relationship.
         public var id: Swift.String?
         /// The identifier of the program management account.
         public var programManagementAccountId: Swift.String?
-        /// The resale account model for the relationship.
+        /// The resale account model for the relationship. Applies only to billing transfer relationships.
         public var resaleAccountModel: PartnerCentralChannelClientTypes.ResaleAccountModel?
         /// The current revision number of the relationship.
         public var revision: Swift.String?
@@ -1721,12 +2536,15 @@ extension PartnerCentralChannelClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            accountScope: PartnerCentralChannelClientTypes.AccountScope? = nil,
             arn: Swift.String? = nil,
             associatedAccountId: Swift.String? = nil,
             associationType: PartnerCentralChannelClientTypes.AssociationType? = nil,
             catalog: Swift.String? = nil,
+            channelContractId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
+            endDate: Foundation.Date? = nil,
             id: Swift.String? = nil,
             programManagementAccountId: Swift.String? = nil,
             resaleAccountModel: PartnerCentralChannelClientTypes.ResaleAccountModel? = nil,
@@ -1735,12 +2553,15 @@ extension PartnerCentralChannelClientTypes {
             startDate: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.accountScope = accountScope
             self.arn = arn
             self.associatedAccountId = associatedAccountId
             self.associationType = associationType
             self.catalog = catalog
+            self.channelContractId = channelContractId
             self.createdAt = createdAt
             self.displayName = displayName
+            self.endDate = endDate
             self.id = id
             self.programManagementAccountId = programManagementAccountId
             self.resaleAccountModel = resaleAccountModel
@@ -1860,6 +2681,8 @@ public struct ListProgramManagementAccountsInput: Swift.Sendable {
     public var sort: PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase?
     /// Filter by program management account statuses.
     public var statuses: [PartnerCentralChannelClientTypes.ProgramManagementAccountStatus]?
+    /// Filter by program management account type.
+    public var type: PartnerCentralChannelClientTypes.ProgramManagementAccountType?
 
     public init(
         accountIds: [Swift.String]? = nil,
@@ -1869,7 +2692,8 @@ public struct ListProgramManagementAccountsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         programs: [PartnerCentralChannelClientTypes.Program]? = nil,
         sort: PartnerCentralChannelClientTypes.ListProgramManagementAccountsSortBase? = nil,
-        statuses: [PartnerCentralChannelClientTypes.ProgramManagementAccountStatus]? = nil
+        statuses: [PartnerCentralChannelClientTypes.ProgramManagementAccountStatus]? = nil,
+        type: PartnerCentralChannelClientTypes.ProgramManagementAccountType? = nil
     ) {
         self.accountIds = accountIds
         self.catalog = catalog
@@ -1879,6 +2703,7 @@ public struct ListProgramManagementAccountsInput: Swift.Sendable {
         self.programs = programs
         self.sort = sort
         self.statuses = statuses
+        self.type = type
     }
 }
 
@@ -1906,6 +2731,8 @@ extension PartnerCentralChannelClientTypes {
         public var startDate: Foundation.Date?
         /// The current status of the program management account.
         public var status: PartnerCentralChannelClientTypes.ProgramManagementAccountStatus?
+        /// The type of the program management account.
+        public var type: PartnerCentralChannelClientTypes.ProgramManagementAccountType?
         /// The timestamp when the account was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -1920,6 +2747,7 @@ extension PartnerCentralChannelClientTypes {
             revision: Swift.String? = nil,
             startDate: Foundation.Date? = nil,
             status: PartnerCentralChannelClientTypes.ProgramManagementAccountStatus? = nil,
+            type: PartnerCentralChannelClientTypes.ProgramManagementAccountType? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.accountId = accountId
@@ -1932,6 +2760,7 @@ extension PartnerCentralChannelClientTypes {
             self.revision = revision
             self.startDate = startDate
             self.status = status
+            self.type = type
             self.updatedAt = updatedAt
         }
     }
@@ -2211,7 +3040,7 @@ public struct UpdateRelationshipInput: Swift.Sendable {
     /// The identifier of the program management account associated with the relationship.
     /// This member is required.
     public var programManagementAccountIdentifier: Swift.String?
-    /// The updated support plan for the relationship.
+    /// The updated support plan for the relationship. Applies only to billing transfer relationships.
     public var requestedSupportPlan: PartnerCentralChannelClientTypes.SupportPlan?
     /// The current revision number of the relationship.
     public var revision: Swift.String?

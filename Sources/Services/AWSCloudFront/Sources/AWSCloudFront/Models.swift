@@ -4132,6 +4132,36 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    /// HTTP version CloudFront uses for connections to a custom or VPC origin. http2 negotiates HTTP/2 via ALPN, with automatic fallback to HTTP/1.1 if the origin does not support HTTP/2. CloudFront uses HTTP/2 only over TLS 1.2 or later; otherwise it uses HTTP/1.1. When absent, HTTP/1.1 is used.
+    public enum OriginHttpVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http11
+        case http2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginHttpVersion] {
+            return [
+                .http11,
+                .http2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http11: return "http1.1"
+            case .http2: return "http2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// Configures mutual TLS authentication between CloudFront and your origin server.
     public struct OriginMtlsConfig: Swift.Sendable, Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the client certificate stored in Amazon Web Services Certificate Manager (ACM) that CloudFront uses to authenticate with your origin using Mutual TLS.
@@ -4246,6 +4276,8 @@ extension CloudFrontClientTypes {
         public var httpsPort: Swift.Int?
         /// Specifies which IP protocol CloudFront uses when connecting to your origin. If your origin uses both IPv4 and IPv6 protocols, you can choose dualstack to help optimize reliability.
         public var ipAddressType: CloudFrontClientTypes.IpAddressType?
+        /// The HTTP version that CloudFront uses for requests to your custom origin. Valid values are http1.1 and http2. If you don't specify a value, CloudFront uses HTTP/1.1. When you specify http2, CloudFront offers HTTP/2 to the origin by using ALPN. If the origin doesn't negotiate HTTP/2, CloudFront uses HTTP/1.1. CloudFront uses HTTP/2 only over Transport Layer Security (TLS) 1.2 or later. Otherwise, it uses HTTP/1.1. If you use a version of an AWS SDK or the AWS CLI that doesn't support this field, an update that sends back a configuration you got from CloudFront removes the value, and CloudFront then uses HTTP/1.1. For more information, see [Origin HTTP version](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginHttpVersion) in the Amazon CloudFront Developer Guide.
+        public var originHttpVersion: CloudFrontClientTypes.OriginHttpVersion?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Configures mutual TLS authentication between CloudFront and your origin server.
@@ -4268,6 +4300,7 @@ extension CloudFrontClientTypes {
             httpPort: Swift.Int? = nil,
             httpsPort: Swift.Int? = nil,
             ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
+            originHttpVersion: CloudFrontClientTypes.OriginHttpVersion? = nil,
             originKeepaliveTimeout: Swift.Int? = nil,
             originMtlsConfig: CloudFrontClientTypes.OriginMtlsConfig? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
@@ -4277,6 +4310,7 @@ extension CloudFrontClientTypes {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
             self.ipAddressType = ipAddressType
+            self.originHttpVersion = originHttpVersion
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originMtlsConfig = originMtlsConfig
             self.originProtocolPolicy = originProtocolPolicy
@@ -4330,6 +4364,8 @@ extension CloudFrontClientTypes {
 
     /// An Amazon CloudFront VPC origin configuration.
     public struct VpcOriginConfig: Swift.Sendable, Swift.Equatable {
+        /// The HTTP version that CloudFront uses for requests to the VPC origin for this distribution. Valid values are http1.1 and http2. If you don't specify a value, CloudFront uses HTTP/1.1. When you specify http2, CloudFront offers HTTP/2 to the origin by using ALPN. If the origin doesn't negotiate HTTP/2, CloudFront uses HTTP/1.1. CloudFront uses HTTP/2 only over Transport Layer Security (TLS) 1.2 or later. Otherwise, it uses HTTP/1.1. If you use a version of an AWS SDK or the AWS CLI that doesn't support this field, an update that sends back a configuration you got from CloudFront removes the value, and CloudFront then uses HTTP/1.1. For more information, see [Origin HTTP version](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginHttpVersion) in the Amazon CloudFront Developer Guide.
+        public var originHttpVersion: CloudFrontClientTypes.OriginHttpVersion?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
@@ -4341,11 +4377,13 @@ extension CloudFrontClientTypes {
         public var vpcOriginId: Swift.String?
 
         public init(
+            originHttpVersion: CloudFrontClientTypes.OriginHttpVersion? = nil,
             originKeepaliveTimeout: Swift.Int? = nil,
             originReadTimeout: Swift.Int? = nil,
             ownerAccountId: Swift.String? = nil,
             vpcOriginId: Swift.String? = nil
         ) {
+            self.originHttpVersion = originHttpVersion
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originReadTimeout = originReadTimeout
             self.ownerAccountId = ownerAccountId
@@ -28398,6 +28436,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         try writer["HTTPPort"].write(value.httpPort)
         try writer["HTTPSPort"].write(value.httpsPort)
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["OriginHttpVersion"].write(value.originHttpVersion)
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginMtlsConfig"].write(value.originMtlsConfig, with: CloudFrontClientTypes.OriginMtlsConfig.write(value:to:))
         try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
@@ -28416,6 +28455,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.originMtlsConfig = try reader["OriginMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.OriginMtlsConfig.read(from:))
+        value.originHttpVersion = try reader["OriginHttpVersion"].readIfPresent()
         return value
     }
 }
@@ -31017,6 +31057,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
 
     static func write(value: CloudFrontClientTypes.VpcOriginConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["OriginHttpVersion"].write(value.originHttpVersion)
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
         try writer["OwnerAccountId"].write(value.ownerAccountId)
@@ -31030,6 +31071,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
         value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
+        value.originHttpVersion = try reader["OriginHttpVersion"].readIfPresent()
         return value
     }
 }

@@ -1332,6 +1332,40 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Specifies the data protection setting that a rule applies to the log events that it centralizes. If you don't specify a value, the rule centralizes the original log events. The following values are supported:
+    ///
+    /// * ENABLED – The rule centralizes masked log events.
+    ///
+    /// * DISABLED – The rule centralizes the original log events.
+    public enum CentralizeWithDataProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CentralizeWithDataProtection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum EncryptedLogGroupStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case skip
@@ -1363,6 +1397,8 @@ extension ObservabilityAdminClientTypes {
 
     /// Configuration for selecting and handling source log groups for centralization.
     public struct SourceLogsConfiguration: Swift.Sendable {
+        /// Specifies whether this centralization rule centralizes log events with data protection applied. If you don't specify this setting, or you set it to DISABLED, the rule centralizes the original log events, including any sensitive data that a data protection policy on the source log group masks. When you set this to ENABLED, the rule centralizes the same masked data that anyone in the source account without the logs:Unmask permission sees. The rule doesn't copy the original values to the destination, so you can't unmask them in the destination account. The rule centralizes log events from source log groups that don't have a data protection policy without changes. The setting applies only to log events that the rule centralizes after you enable it. It doesn't change log events that the rule already centralized.
+        public var centralizeWithDataProtection: ObservabilityAdminClientTypes.CentralizeWithDataProtection?
         /// The selection criteria that specifies which data sources to centralize. The selection criteria uses the same filter expression format as LogGroupSelectionCriteria, but operates on DataSourceName and DataSourceType operands. When both LogGroupSelectionCriteria and DataSourceSelectionCriteria are specified, a log event must match both criteria to be centralized.
         public var dataSourceSelectionCriteria: Swift.String?
         /// A strategy determining whether to centralize source log groups that are encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK encrypted source log groups for centralization while SKIP will skip CMK encrypted source log groups from centralization.
@@ -1372,10 +1408,12 @@ extension ObservabilityAdminClientTypes {
         public var logGroupSelectionCriteria: Swift.String?
 
         public init(
+            centralizeWithDataProtection: ObservabilityAdminClientTypes.CentralizeWithDataProtection? = nil,
             dataSourceSelectionCriteria: Swift.String? = nil,
             encryptedLogGroupStrategy: ObservabilityAdminClientTypes.EncryptedLogGroupStrategy? = nil,
             logGroupSelectionCriteria: Swift.String? = "*"
         ) {
+            self.centralizeWithDataProtection = centralizeWithDataProtection
             self.dataSourceSelectionCriteria = dataSourceSelectionCriteria
             self.encryptedLogGroupStrategy = encryptedLogGroupStrategy
             self.logGroupSelectionCriteria = logGroupSelectionCriteria
@@ -1682,7 +1720,7 @@ extension ObservabilityAdminClientTypes {
 
     /// Condition that matches based on WAF rule labels, with label names limited to 1024 characters.
     public struct LabelNameCondition: Swift.Sendable {
-        /// The label name to match, supporting alphanumeric characters, underscores, hyphens, and colons.
+        /// The label name to match, supporting alphanumeric characters, underscores, hyphens, colons, and periods.
         public var labelName: Swift.String?
 
         public init(
@@ -2431,15 +2469,24 @@ extension ObservabilityAdminClientTypes {
     /// * CONNECTION_LOGS – Connection logs.
     ///
     /// * S3_SERVER_ACCESS_LOGS – Amazon S3 server access logs.
+    ///
+    /// * FLOW_LOGS – Amazon Web Services Network Firewall flow logs.
+    ///
+    /// * ALERT_LOGS – Amazon Web Services Network Firewall alert logs.
+    ///
+    /// * TLS_LOGS – Amazon Web Services Network Firewall TLS logs.
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case albAccess
         case albConnection
         case albHealthCheck
+        case alert
         case application
         case connection
+        case flow
         case s3ServerAccess
         case securityFinding
+        case tls
         case usage
         case sdkUnknown(Swift.String)
 
@@ -2449,10 +2496,13 @@ extension ObservabilityAdminClientTypes {
                 .albAccess,
                 .albConnection,
                 .albHealthCheck,
+                .alert,
                 .application,
                 .connection,
+                .flow,
                 .s3ServerAccess,
                 .securityFinding,
+                .tls,
                 .usage
             ]
         }
@@ -2468,10 +2518,13 @@ extension ObservabilityAdminClientTypes {
             case .albAccess: return "ALB_ACCESS_LOGS"
             case .albConnection: return "ALB_CONNECTION_LOGS"
             case .albHealthCheck: return "ALB_HEALTH_CHECK_LOGS"
+            case .alert: return "ALERT_LOGS"
             case .application: return "APPLICATION_LOGS"
             case .connection: return "CONNECTION_LOGS"
+            case .flow: return "FLOW_LOGS"
             case .s3ServerAccess: return "S3_SERVER_ACCESS_LOGS"
             case .securityFinding: return "SECURITY_FINDING_LOGS"
+            case .tls: return "TLS_LOGS"
             case .usage: return "USAGE_LOGS"
             case let .sdkUnknown(s): return s
             }
@@ -2481,7 +2534,7 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
-    /// The configuration parameters for log delivery, including logType settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, and Elastic Load Balancing Application Load Balancers.
+    /// The configuration parameters for log delivery, including logType settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, Amazon Web Services Network Firewall firewalls, and Elastic Load Balancing Application Load Balancers.
     public struct LogDeliveryParameters: Swift.Sendable {
         /// The types of logs to collect from the resource.
         public var logTypes: [ObservabilityAdminClientTypes.LogType]?
@@ -2776,7 +2829,7 @@ extension ObservabilityAdminClientTypes {
         public var elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?
         /// The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
         public var kmsKeyArn: Swift.String?
-        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, or Elastic Load Balancing Application Load Balancers.
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, Amazon Web Services Network Firewall firewalls, or Elastic Load Balancing Application Load Balancers.
         public var logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters?
         /// Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public var mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters?
@@ -2826,12 +2879,14 @@ extension ObservabilityAdminClientTypes {
         case awsBedrockKnowledgebase
         case awsCloudfrontDistribution
         case awsCloudtrail
+        case awsCloudwatchOmni
         case awsEc2Instance
         case awsEc2Vpc
         case awsEksCluster
         case awsElbLoadbalancer
         case awsLamdbaFunction
         case awsMskCluster
+        case awsNetworkFirewallFirewall
         case awsOtelEnrichment
         case awsRoute53ResolverResolverEndpoint
         case awsS3Bucket
@@ -2853,12 +2908,14 @@ extension ObservabilityAdminClientTypes {
                 .awsBedrockKnowledgebase,
                 .awsCloudfrontDistribution,
                 .awsCloudtrail,
+                .awsCloudwatchOmni,
                 .awsEc2Instance,
                 .awsEc2Vpc,
                 .awsEksCluster,
                 .awsElbLoadbalancer,
                 .awsLamdbaFunction,
                 .awsMskCluster,
+                .awsNetworkFirewallFirewall,
                 .awsOtelEnrichment,
                 .awsRoute53ResolverResolverEndpoint,
                 .awsS3Bucket,
@@ -2886,12 +2943,14 @@ extension ObservabilityAdminClientTypes {
             case .awsBedrockKnowledgebase: return "AWS::Bedrock::KnowledgeBase"
             case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
+            case .awsCloudwatchOmni: return "AWS::CloudWatchOmni"
             case .awsEc2Instance: return "AWS::EC2::Instance"
             case .awsEc2Vpc: return "AWS::EC2::VPC"
             case .awsEksCluster: return "AWS::EKS::Cluster"
             case .awsElbLoadbalancer: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
             case .awsMskCluster: return "AWS::MSK::Cluster"
+            case .awsNetworkFirewallFirewall: return "AWS::NetworkFirewall::Firewall"
             case .awsOtelEnrichment: return "AWS::CloudWatch::OTelEnrichment"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .awsS3Bucket: return "AWS::S3::Bucket"
@@ -2997,7 +3056,7 @@ extension ObservabilityAdminClientTypes {
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
         /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public var regions: [Swift.String]?
-        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, AWS::BedrockAgentCore::PaymentManager, or AWS::XRay::TransactionSearchConfig).
+        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, AWS::BedrockAgentCore::PaymentManager, AWS::XRay::TransactionSearchConfig, AWS::CloudWatchOmni, or AWS::NetworkFirewall::Firewall).
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The organizational scope to which the rule applies, specified using accounts or organizational units.
         public var scope: Swift.String?
@@ -9335,6 +9394,7 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
 
     static func write(value: ObservabilityAdminClientTypes.SourceLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CentralizeWithDataProtection"].write(value.centralizeWithDataProtection)
         try writer["DataSourceSelectionCriteria"].write(value.dataSourceSelectionCriteria)
         try writer["EncryptedLogGroupStrategy"].write(value.encryptedLogGroupStrategy)
         try writer["LogGroupSelectionCriteria"].write(value.logGroupSelectionCriteria)
@@ -9346,6 +9406,7 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
         value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? "*"
         value.dataSourceSelectionCriteria = try reader["DataSourceSelectionCriteria"].readIfPresent()
         value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.centralizeWithDataProtection = try reader["CentralizeWithDataProtection"].readIfPresent()
         return value
     }
 }

@@ -195,6 +195,41 @@ extension PaginatorSequence where OperationStackInput == ListHealthCheckSourcesI
     }
 }
 extension Route53Client {
+    /// Paginate over `[ListHostedZoneChangeBatchesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListHostedZoneChangeBatchesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHostedZoneChangeBatchesOutput`
+    public func listHostedZoneChangeBatchesPaginated(input: ListHostedZoneChangeBatchesInput) -> ClientRuntime.PaginatorSequence<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput> {
+        return ClientRuntime.PaginatorSequence<ListHostedZoneChangeBatchesInput, ListHostedZoneChangeBatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHostedZoneChangeBatches(input:))
+    }
+}
+
+extension ListHostedZoneChangeBatchesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListHostedZoneChangeBatchesInput {
+        return ListHostedZoneChangeBatchesInput(
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder,
+            startAfterChangeId: self.startAfterChangeId,
+            submittedAfter: self.submittedAfter,
+            submittedBefore: self.submittedBefore
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListHostedZoneChangeBatchesInput, OperationStackOutput == ListHostedZoneChangeBatchesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listHostedZoneChangeBatchesPaginated`
+    /// to access the nested member `[Route53ClientTypes.ChangeBatchSummary]`
+    /// - Returns: `[Route53ClientTypes.ChangeBatchSummary]`
+    public func changeBatchSummaries() async throws -> [Route53ClientTypes.ChangeBatchSummary] {
+        return try await self.asyncCompactMap { item in item.changeBatchSummaries }
+    }
+}
+extension Route53Client {
     /// Paginate over `[ListHostedZonesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -255,6 +290,42 @@ extension PaginatorSequence where OperationStackInput == ListQueryLoggingConfigs
     /// - Returns: `[Route53ClientTypes.QueryLoggingConfig]`
     public func queryLoggingConfigs() async throws -> [Route53ClientTypes.QueryLoggingConfig] {
         return try await self.asyncCompactMap { item in item.queryLoggingConfigs }
+    }
+}
+extension Route53Client {
+    /// Paginate over `[ListResourceRecordSetChangesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceRecordSetChangesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceRecordSetChangesOutput`
+    public func listResourceRecordSetChangesPaginated(input: ListResourceRecordSetChangesInput) -> ClientRuntime.PaginatorSequence<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceRecordSetChangesInput, ListResourceRecordSetChangesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceRecordSetChanges(input:))
+    }
+}
+
+extension ListResourceRecordSetChangesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceRecordSetChangesInput {
+        return ListResourceRecordSetChangesInput(
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recordName: self.recordName,
+            recordType: self.recordType,
+            sortOrder: self.sortOrder,
+            submittedAfter: self.submittedAfter,
+            submittedBefore: self.submittedBefore
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceRecordSetChangesInput, OperationStackOutput == ListResourceRecordSetChangesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceRecordSetChangesPaginated`
+    /// to access the nested member `[Route53ClientTypes.ResourceRecordSetChange]`
+    /// - Returns: `[Route53ClientTypes.ResourceRecordSetChange]`
+    public func resourceRecordSetChanges() async throws -> [Route53ClientTypes.ResourceRecordSetChange] {
+        return try await self.asyncCompactMap { item in item.resourceRecordSetChanges }
     }
 }
 extension Route53Client {

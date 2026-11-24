@@ -62,6 +62,7 @@ extension ListAutomationEventsInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds,
             startTimeInclusive: self.startTimeInclusive
         )}
 }
@@ -126,6 +127,7 @@ extension ListAutomationEventSummariesInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds,
             startDateInclusive: self.startDateInclusive
         )}
 }
@@ -238,6 +240,68 @@ extension PaginatorSequence where OperationStackInput == ListAutomationRulesInpu
     }
 }
 extension ComputeOptimizerAutomationClient {
+    /// Paginate over `[ListOrganizationalUnitsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOrganizationalUnitsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationalUnitsOutput`
+    public func listOrganizationalUnitsPaginated(input: ListOrganizationalUnitsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationalUnits(input:))
+    }
+}
+
+extension ListOrganizationalUnitsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOrganizationalUnitsInput {
+        return ListOrganizationalUnitsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOrganizationalUnitsInput, OperationStackOutput == ListOrganizationalUnitsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOrganizationalUnitsPaginated`
+    /// to access the nested member `[ComputeOptimizerAutomationClientTypes.OrganizationalUnitInfo]`
+    /// - Returns: `[ComputeOptimizerAutomationClientTypes.OrganizationalUnitInfo]`
+    public func organizationalUnits() async throws -> [ComputeOptimizerAutomationClientTypes.OrganizationalUnitInfo] {
+        return try await self.asyncCompactMap { item in item.organizationalUnits }
+    }
+}
+extension ComputeOptimizerAutomationClient {
+    /// Paginate over `[ListOrganizationEnrollmentConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOrganizationEnrollmentConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationEnrollmentConfigurationsOutput`
+    public func listOrganizationEnrollmentConfigurationsPaginated(input: ListOrganizationEnrollmentConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationEnrollmentConfigurations(input:))
+    }
+}
+
+extension ListOrganizationEnrollmentConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOrganizationEnrollmentConfigurationsInput {
+        return ListOrganizationEnrollmentConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            targetType: self.targetType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOrganizationEnrollmentConfigurationsInput, OperationStackOutput == ListOrganizationEnrollmentConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOrganizationEnrollmentConfigurationsPaginated`
+    /// to access the nested member `[ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfiguration]`
+    /// - Returns: `[ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfiguration]`
+    public func organizationEnrollmentConfigurations() async throws -> [ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfiguration] {
+        return try await self.asyncCompactMap { item in item.organizationEnrollmentConfigurations }
+    }
+}
+extension ComputeOptimizerAutomationClient {
     /// Paginate over `[ListRecommendedActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -256,7 +320,8 @@ extension ListRecommendedActionsInput: ClientRuntime.PaginateToken {
         return ListRecommendedActionsInput(
             filters: self.filters,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds
         )}
 }
 
@@ -287,7 +352,8 @@ extension ListRecommendedActionSummariesInput: ClientRuntime.PaginateToken {
         return ListRecommendedActionSummariesInput(
             filters: self.filters,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            organizationalUnitIds: self.organizationalUnitIds
         )}
 }
 

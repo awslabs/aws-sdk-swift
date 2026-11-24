@@ -624,7 +624,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -712,7 +712,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -792,7 +792,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -872,7 +872,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -952,7 +952,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -1032,7 +1032,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1111,7 +1111,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteCallAnalyticsJob(input: DeleteCallAnalyticsJobInput) async throws -> DeleteCallAnalyticsJobOutput {
@@ -1189,7 +1189,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteLanguageModel(input: DeleteLanguageModelInput) async throws -> DeleteLanguageModelOutput {
@@ -1267,7 +1267,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteMedicalScribeJob(input: DeleteMedicalScribeJobInput) async throws -> DeleteMedicalScribeJobOutput {
@@ -1345,7 +1345,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteMedicalTranscriptionJob(input: DeleteMedicalTranscriptionJobInput) async throws -> DeleteMedicalTranscriptionJobOutput {
@@ -1423,7 +1423,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1502,7 +1502,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteTranscriptionJob(input: DeleteTranscriptionJobInput) async throws -> DeleteTranscriptionJobOutput {
@@ -1580,7 +1580,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1659,7 +1659,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1738,7 +1738,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1817,7 +1817,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1896,7 +1896,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -1975,7 +1975,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2054,7 +2054,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2133,7 +2133,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2212,7 +2212,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2291,7 +2291,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2370,7 +2370,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2449,7 +2449,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listCallAnalyticsCategories(input: ListCallAnalyticsCategoriesInput) async throws -> ListCallAnalyticsCategoriesOutput {
@@ -2527,7 +2527,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listCallAnalyticsJobs(input: ListCallAnalyticsJobsInput) async throws -> ListCallAnalyticsJobsOutput {
@@ -2605,7 +2605,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listLanguageModels(input: ListLanguageModelsInput) async throws -> ListLanguageModelsOutput {
@@ -2683,7 +2683,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalScribeJobs(input: ListMedicalScribeJobsInput) async throws -> ListMedicalScribeJobsOutput {
@@ -2761,7 +2761,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalTranscriptionJobs(input: ListMedicalTranscriptionJobsInput) async throws -> ListMedicalTranscriptionJobsOutput {
@@ -2839,7 +2839,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalVocabularies(input: ListMedicalVocabulariesInput) async throws -> ListMedicalVocabulariesOutput {
@@ -2917,7 +2917,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
@@ -2996,7 +2996,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listTranscriptionJobs(input: ListTranscriptionJobsInput) async throws -> ListTranscriptionJobsOutput {
@@ -3074,7 +3074,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listVocabularies(input: ListVocabulariesInput) async throws -> ListVocabulariesOutput {
@@ -3152,7 +3152,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listVocabularyFilters(input: ListVocabularyFiltersInput) async throws -> ListVocabularyFiltersOutput {
@@ -3239,7 +3239,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3331,7 +3331,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3425,7 +3425,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3513,7 +3513,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3593,7 +3593,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3663,6 +3663,92 @@ extension TranscribeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TranscribeAudio` operation on the `Transcribe` service.
+    ///
+    /// Transcribes a media file and returns the transcript in the same response. There is no job to start and no status to poll. Use TranscribeAudio when you already have a complete media file and want the transcript right away. For large files, long audio, or bulk processing, use . You must include the following parameters in your TranscribeAudio request:
+    ///
+    /// * Media: Your audio, either as inline bytes (MediaBytes) or as the Amazon S3 location of a media file (MediaFileUri).
+    ///
+    /// * One of Language or LanguageDetectionMode: Specify the language of your audio, or have Amazon Transcribe identify it.
+    ///
+    ///
+    /// Your audio must be between 0.5 seconds and 1 hour long. Supported formats are WAV, MP3, FLAC, M4A, MP4, Ogg, WebM, and AMR. If you send your audio in the request (MediaBytes), the file can be up to 25 MB. If you provide an Amazon S3 location (MediaFileUri), the file can be up to 500 MB. Amazon Transcribe always turns on smart formatting, also known as inverse text normalization (ITN). It writes numbers, dates, currency, and similar items in their usual written form. For example, "one hundred" becomes "100". You can't turn smart formatting off. By default, Amazon Transcribe returns the transcript in TranscriptResponse. If you include OutputConfiguration, Amazon Transcribe writes the transcript to the Amazon S3 location you specify instead, and the response contains only that location.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TranscribeAudioInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TranscribeAudioOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    public func transcribeAudio(input: TranscribeAudioInput) async throws -> TranscribeAudioOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TranscribeClient.transcribeAudioOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "transcribeAudio")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "transcribe")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TranscribeAudioInput, TranscribeAudioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranscribeAudioInput, TranscribeAudioOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<TranscribeAudioOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TranscribeAudioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TranscribeAudioInput, TranscribeAudioOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranscribeAudioInput, TranscribeAudioOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranscribeAudioOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TranscribeAudioInput, TranscribeAudioOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Transcribe"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TranscribeAudioInput, TranscribeAudioOutput>(serviceID: serviceName, version: TranscribeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Transcribe")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TranscribeAudio")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UntagResource` operation on the `Transcribe` service.
     ///
     /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
@@ -3674,7 +3760,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3754,7 +3840,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3835,7 +3921,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3916,7 +4002,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -3997,7 +4083,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
@@ -4078,7 +4164,7 @@ extension TranscribeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.

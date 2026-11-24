@@ -68,6 +68,69 @@ extension ComputeOptimizerAutomationClientTypes {
 
 extension ComputeOptimizerAutomationClientTypes {
 
+    public enum OrganizationRuleModeSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applied
+        case `default`
+        case direct
+        case inherited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationRuleModeSourceType] {
+            return [
+                .applied,
+                .default,
+                .direct,
+                .inherited
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applied: return "Applied"
+            case .default: return "Default"
+            case .direct: return "Direct"
+            case .inherited: return "Inherited"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    /// Information about the source of an effective organization rule mode.
+    public struct OrganizationRuleModeSource: Swift.Sendable {
+        /// The ID of the account, organizational unit (OU), or organization root that has the organization enrollment configuration. This field is omitted when sourceType is Direct or Default.
+        public var sourceTargetId: Swift.String?
+        /// How the effective organization rule mode is supplied.
+        ///
+        /// * Applied - An organization enrollment configuration is on this organizational unit or account.
+        ///
+        /// * Inherited - The organization enrollment configuration is on the parent organizational unit or root.
+        ///
+        /// * Direct - The organization rule mode is set on the account itself, with no organization enrollment configuration applied.
+        ///
+        /// * Default - No organization enrollment configuration applies, so the organization rule mode is None allowed.
+        /// This member is required.
+        public var sourceType: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSourceType?
+
+        public init(
+            sourceTargetId: Swift.String? = nil,
+            sourceType: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSourceType? = nil
+        ) {
+            self.sourceTargetId = sourceTargetId
+            self.sourceType = sourceType
+        }
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
     public enum EnrollmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case failed
@@ -114,6 +177,8 @@ extension ComputeOptimizerAutomationClientTypes {
         /// Specifies whether the management account can create Automation rules that implement optimization actions for this account.
         /// This member is required.
         public var organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode?
+        /// Information about the source of the account's effective organization rule mode.
+        public var organizationRuleModeSource: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSource?
         /// The enrollment status of the account: Active, Inactive, Pending, or Failed.
         /// This member is required.
         public var status: ComputeOptimizerAutomationClientTypes.EnrollmentStatus?
@@ -124,12 +189,14 @@ extension ComputeOptimizerAutomationClientTypes {
             accountId: Swift.String? = nil,
             lastUpdatedTimestamp: Foundation.Date? = nil,
             organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode? = nil,
+            organizationRuleModeSource: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSource? = nil,
             status: ComputeOptimizerAutomationClientTypes.EnrollmentStatus? = nil,
             statusReason: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.organizationRuleMode = organizationRuleMode
+            self.organizationRuleModeSource = organizationRuleModeSource
             self.status = status
             self.statusReason = statusReason
         }
@@ -251,7 +318,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, Client
     }
 }
 
-/// The operation can only be performed by a management account.
+/// The operation can only be performed by an organization's management account or a delegated administrator.
 public struct NotManagementAccountException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -347,7 +414,7 @@ public struct AssociateAccountsInput: Swift.Sendable {
     /// The IDs of the member accounts to associate. You can specify up to 50 account IDs.
     /// This member is required.
     public var accountIds: [Swift.String]?
-    /// A unique identifier to ensure idempotency of the request. Valid for 24 hours after creation.
+    /// A unique identifier to ensure idempotency of the request. Valid for 30 minutes after creation.
     public var clientToken: Swift.String?
 
     public init(
@@ -371,6 +438,35 @@ public struct AssociateAccountsOutput: Swift.Sendable {
     ) {
         self.accountIds = accountIds
         self.errors = errors
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    public enum AutoEnrollMemberAccounts: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoEnrollMemberAccounts] {
+            return [
+                .all,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -653,7 +749,7 @@ extension ComputeOptimizerAutomationClientTypes {
         /// The name of the filter to apply.
         /// This member is required.
         public var name: ComputeOptimizerAutomationClientTypes.AutomationEventFilterName?
-        /// The values to use for the specified filter.
+        /// The values to use for the specified filter. For the ResourceType, EventType, and EventStatus filters, the value that you specify must exactly match the corresponding field of the automation event, including case. For example, specify Complete, not complete. Wildcards aren't supported. An asterisk (*) or a question mark (?) in a value matches only that literal character. Valid values for the EventStatus filter are Ready, InProgress, Complete, Failed, Cancelled, RollbackReady, RollbackInProgress, RollbackComplete, and RollbackFailed.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -923,18 +1019,30 @@ extension ComputeOptimizerAutomationClientTypes {
 
 extension ComputeOptimizerAutomationClientTypes {
 
-    /// Configuration settings for organization-wide automation rules.
+    /// Configuration settings that define the scope of an organization-wide automation rule. Each organizational unit (OU) list can contain up to 150 OUs or organization roots, and each account list can contain up to 50 accounts. Each included OU or organization root must have an effective organization rule mode of AnyAllowed. Exclusions take precedence over inclusions. An account that is in an included OU and is also excluded is excluded. The rule doesn't apply to the management account when the account is reached through an OU or the organization root.
     public struct OrganizationConfiguration: Swift.Sendable {
-        /// List of specific Amazon Web Services account IDs where the organization rule should be applied.
+        /// The specific Amazon Web Services account IDs where the organization rule should be applied. You can specify up to 50 account IDs.
         public var accountIds: [Swift.String]?
+        /// The Amazon Web Services account IDs to exclude from the organization rule scope. You can specify up to 50 account IDs. An excluded account remains excluded even if it is in an included OU.
+        public var excludedAccountIds: [Swift.String]?
+        /// The organizational unit (OU) or organization root IDs to exclude from the organization rule scope. The rule doesn't apply to accounts in the specified OUs or their child OUs. You can specify up to 150 IDs.
+        public var excludedOrganizationalUnitIds: [Swift.String]?
+        /// The organizational unit (OU) or organization root IDs to include in the organization rule scope. The rule applies to accounts in the specified OUs and their child OUs. You can specify up to 150 IDs.
+        public var organizationalUnitIds: [Swift.String]?
         /// Specifies when organization rules should be applied relative to account rules.
         public var ruleApplyOrder: ComputeOptimizerAutomationClientTypes.RuleApplyOrder?
 
         public init(
             accountIds: [Swift.String]? = nil,
+            excludedAccountIds: [Swift.String]? = nil,
+            excludedOrganizationalUnitIds: [Swift.String]? = nil,
+            organizationalUnitIds: [Swift.String]? = nil,
             ruleApplyOrder: ComputeOptimizerAutomationClientTypes.RuleApplyOrder? = nil
         ) {
             self.accountIds = accountIds
+            self.excludedAccountIds = excludedAccountIds
+            self.excludedOrganizationalUnitIds = excludedOrganizationalUnitIds
+            self.organizationalUnitIds = organizationalUnitIds
             self.ruleApplyOrder = ruleApplyOrder
         }
     }
@@ -1316,7 +1424,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Defines a condition for filtering based on integer values with comparison operators.
     public struct IntegerCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the attribute against the specified values.
+        /// The comparison operator used to evaluate the attribute against the specified values. Only operators that begin with Numeric are valid. Any other operator returns an InvalidParameterValueException.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The list of integer values to compare against using the specified comparison operator.
         public var values: [Swift.Int]?
@@ -1335,7 +1443,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Criteria condition for filtering based on string values, including comparison operators and target values.
     public struct StringCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the attribute against the specified values.
+        /// The comparison operator used to evaluate the attribute against the specified values. Only operators that begin with String are valid. Any other operator returns an InvalidParameterValueException.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// List of string values to compare against when applying the criteria condition.
         public var values: [Swift.String]?
@@ -1354,7 +1462,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Defines a condition for filtering based on double/floating-point numeric values with comparison operators.
     public struct DoubleCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the attribute against the specified values.
+        /// The comparison operator used to evaluate the attribute against the specified values. Only operators that begin with Numeric are valid. Any other operator returns an InvalidParameterValueException.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The list of double values to compare against using the specified comparison operator.
         public var values: [Swift.Double]?
@@ -1373,7 +1481,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Criteria condition for filtering resources based on their tags, including comparison operators and values.
     public struct ResourceTagsCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the attribute against the specified values.
+        /// The comparison operator used to evaluate the attribute against the specified values. Only operators that begin with String are valid. Any other operator returns an InvalidParameterValueException.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The tag key to use for comparison when filtering resources.
         public var key: Swift.String?
@@ -1410,7 +1518,7 @@ extension ComputeOptimizerAutomationClientTypes {
         public var resourceArn: [ComputeOptimizerAutomationClientTypes.StringCriteriaCondition]?
         /// Filter criteria for resource tags, allowing filtering by tag key and value combinations.
         public var resourceTag: [ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition]?
-        /// Filter criteria indicating whether the recommended action requires a resource restart.
+        /// Filter criteria indicating whether the recommended action requires a resource restart. Valid values are true and false. Values are case-sensitive unless you use an IgnoreCase comparison operator. For example, StringEquals with the value False matches no recommended actions.
         public var restartNeeded: [ComputeOptimizerAutomationClientTypes.StringCriteriaCondition]?
 
         public init(
@@ -1601,6 +1709,93 @@ public struct DeleteAutomationRuleOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The request conflicts with a concurrent change to the same resource. Retry the request.
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    public enum OrganizationEnrollmentConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organizationRuleMode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationEnrollmentConfigurationType] {
+            return [
+                .organizationRuleMode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .organizationRuleMode: return "OrganizationRuleMode"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    /// An account, organizational unit (OU), or organization root to which an organization enrollment configuration applies. The management account can't be specified as an account target.
+    public enum OrganizationTarget: Swift.Sendable {
+        /// The ID of the member account to target. You can't specify the management account.
+        case accountid(Swift.String)
+        /// The ID of the organizational unit (OU) or organization root to target.
+        case organizationalunitid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DeleteOrganizationEnrollmentConfigurationInput: Swift.Sendable {
+    /// A unique identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The organization enrollment configuration types to delete from the target.
+    /// This member is required.
+    public var configurationTypes: [ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfigurationType]?
+    /// The account, organizational unit (OU), or organization root whose organization enrollment configuration you want to delete.
+    /// This member is required.
+    public var target: ComputeOptimizerAutomationClientTypes.OrganizationTarget?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configurationTypes: [ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfigurationType]? = nil,
+        target: ComputeOptimizerAutomationClientTypes.OrganizationTarget? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configurationTypes = configurationTypes
+        self.target = target
+    }
+}
+
+public struct DeleteOrganizationEnrollmentConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisassociateAccountsInput: Swift.Sendable {
     /// The IDs of the member accounts to disassociate.
     /// This member is required.
@@ -1736,7 +1931,7 @@ public struct GetAutomationRuleOutput: Swift.Sendable {
     public var lastUpdatedTimestamp: Foundation.Date?
     /// The name of the automation rule.
     public var name: Swift.String?
-    /// Configuration settings for organization-wide automation rules.
+    /// Configuration settings that define the scope of an organization-wide automation rule. Each organizational unit (OU) list can contain up to 150 OUs or organization roots, and each account list can contain up to 50 accounts. Each included OU or organization root must have an effective organization rule mode of AnyAllowed. Exclusions take precedence over inclusions. An account that is in an included OU and is also excluded is excluded. The rule doesn't apply to the management account when the account is reached through an OU or the organization root.
     public var organizationConfiguration: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration?
     /// A string representation of a decimal number between 0 and 1 (having up to 30 digits after the decimal point) that determines the priority of the rule.
     public var priority: Swift.String?
@@ -1799,9 +1994,40 @@ public struct GetEnrollmentConfigurationInput: Swift.Sendable {
     public init() { }
 }
 
+extension ComputeOptimizerAutomationClientTypes {
+
+    public enum OrganizationEnrollmentConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationEnrollmentConfigurationStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .inactive: return "Inactive"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetEnrollmentConfigurationOutput: Swift.Sendable {
     /// The timestamp of the last update to the enrollment configuration.
     public var lastUpdatedTimestamp: Foundation.Date?
+    /// Specifies whether an organization enrollment configuration on your account, or inherited from a parent OU or the organization root, enables Automation for your member account. Associations made using AssociateAccounts don't affect this status. This field is returned for organization member accounts, including delegated administrators. It's omitted for management accounts and accounts that aren't in an organization.
+    public var organizationEnrollmentConfigurationStatus: ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfigurationStatus?
     /// Specifies whether the management account can create Automation rules that implement optimization actions for this account.
     public var organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode?
     /// The current enrollment status.
@@ -1812,11 +2038,13 @@ public struct GetEnrollmentConfigurationOutput: Swift.Sendable {
 
     public init(
         lastUpdatedTimestamp: Foundation.Date? = nil,
+        organizationEnrollmentConfigurationStatus: ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfigurationStatus? = nil,
         organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode? = nil,
         status: ComputeOptimizerAutomationClientTypes.EnrollmentStatus? = nil,
         statusReason: Swift.String? = nil
     ) {
         self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.organizationEnrollmentConfigurationStatus = organizationEnrollmentConfigurationStatus
         self.organizationRuleMode = organizationRuleMode
         self.status = status
         self.statusReason = statusReason
@@ -1859,10 +2087,12 @@ public struct ListAutomationEventsInput: Swift.Sendable {
     public var endTimeExclusive: Foundation.Date?
     /// The filters to apply to the list of automation events.
     public var filters: [ComputeOptimizerAutomationClientTypes.AutomationEventFilter]?
-    /// The maximum number of results to return in a single call.
+    /// The maximum number of automation events to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
+    /// The organizational unit (OU) or organization root IDs to use to filter the results. The response includes events for accounts in the specified OUs and their child OUs. Only the management account or a delegated administrator can specify this parameter.
+    public var organizationalUnitIds: [Swift.String]?
     /// The start of the time range to query for events.
     public var startTimeInclusive: Foundation.Date?
 
@@ -1871,12 +2101,14 @@ public struct ListAutomationEventsInput: Swift.Sendable {
         filters: [ComputeOptimizerAutomationClientTypes.AutomationEventFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        organizationalUnitIds: [Swift.String]? = nil,
         startTimeInclusive: Foundation.Date? = nil
     ) {
         self.endTimeExclusive = endTimeExclusive
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationalUnitIds = organizationalUnitIds
         self.startTimeInclusive = startTimeInclusive
     }
 }
@@ -1900,7 +2132,7 @@ public struct ListAutomationEventStepsInput: Swift.Sendable {
     /// The ID of the automation event.
     /// This member is required.
     public var eventId: Swift.String?
-    /// The maximum number of automation event steps to return in a single response. Valid range is 1-1000.
+    /// The maximum number of automation event steps to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
@@ -1936,10 +2168,12 @@ public struct ListAutomationEventSummariesInput: Swift.Sendable {
     public var endDateExclusive: Swift.String?
     /// The filters to apply to the list of automation event summaries.
     public var filters: [ComputeOptimizerAutomationClientTypes.AutomationEventFilter]?
-    /// The maximum number of automation event summaries to return in a single response. Valid range is 1-1000.
+    /// The maximum number of automation event summaries to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
+    /// The organizational unit (OU) or organization root IDs to use to filter the results. The response includes event summaries for accounts in the specified OUs and their child OUs. Only the management account or a delegated administrator can specify this parameter.
+    public var organizationalUnitIds: [Swift.String]?
     /// The start date for filtering automation event summaries, inclusive. Events created on or after this date will be included.
     public var startDateInclusive: Swift.String?
 
@@ -1948,12 +2182,14 @@ public struct ListAutomationEventSummariesInput: Swift.Sendable {
         filters: [ComputeOptimizerAutomationClientTypes.AutomationEventFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        organizationalUnitIds: [Swift.String]? = nil,
         startDateInclusive: Swift.String? = nil
     ) {
         self.endDateExclusive = endDateExclusive
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationalUnitIds = organizationalUnitIds
         self.startDateInclusive = startDateInclusive
     }
 }
@@ -1979,11 +2215,23 @@ extension ComputeOptimizerAutomationClientTypes {
     public struct OrganizationScope: Swift.Sendable {
         /// List of Amazon Web Services account IDs to include in the organization scope.
         public var accountIds: [Swift.String]?
+        /// The Amazon Web Services account IDs to exclude from the preview scope.
+        public var excludedAccountIds: [Swift.String]?
+        /// The organizational unit (OU) or organization root IDs to exclude from the preview scope. The preview doesn't include accounts in the specified OUs or their child OUs.
+        public var excludedOrganizationalUnitIds: [Swift.String]?
+        /// The organizational unit (OU) or organization root IDs to include in the preview scope. The preview includes accounts in the specified OUs and their child OUs.
+        public var organizationalUnitIds: [Swift.String]?
 
         public init(
-            accountIds: [Swift.String]? = nil
+            accountIds: [Swift.String]? = nil,
+            excludedAccountIds: [Swift.String]? = nil,
+            excludedOrganizationalUnitIds: [Swift.String]? = nil,
+            organizationalUnitIds: [Swift.String]? = nil
         ) {
             self.accountIds = accountIds
+            self.excludedAccountIds = excludedAccountIds
+            self.excludedOrganizationalUnitIds = excludedOrganizationalUnitIds
+            self.organizationalUnitIds = organizationalUnitIds
         }
     }
 }
@@ -1991,11 +2239,11 @@ extension ComputeOptimizerAutomationClientTypes {
 public struct ListAutomationRulePreviewInput: Swift.Sendable {
     /// A set of conditions that specify which recommended action qualify for implementation. When a rule is active and a recommended action matches these criteria, Compute Optimizer implements the action at the scheduled run time.
     public var criteria: ComputeOptimizerAutomationClientTypes.Criteria?
-    /// The maximum number of automation rule preview results to return in a single response. Valid range is 1-1000.
+    /// The maximum number of automation rule preview results to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
-    /// The organizational scope for the rule preview.
+    /// The organizational scope for the rule preview. This parameter is required when ruleType is OrganizationRule. Don't specify it when ruleType is AccountRule.
     public var organizationScope: ComputeOptimizerAutomationClientTypes.OrganizationScope?
     /// The types of recommended actions to include in the preview.
     /// This member is required.
@@ -2162,11 +2410,11 @@ public struct ListAutomationRulePreviewOutput: Swift.Sendable {
 public struct ListAutomationRulePreviewSummariesInput: Swift.Sendable {
     /// A set of conditions that specify which recommended action qualify for implementation. When a rule is active and a recommended action matches these criteria, Compute Optimizer implements the action at the scheduled run time. You can specify up to 20 conditions per filter criteria and 20 values per condition.
     public var criteria: ComputeOptimizerAutomationClientTypes.Criteria?
-    /// The maximum number of automation rule preview summaries to return in a single response. Valid range is 1-1000.
+    /// The maximum number of automation rule preview summaries to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
-    /// The organizational scope for the rule preview.
+    /// The organizational scope for the rule preview. This parameter is required when ruleType is OrganizationRule. Don't specify it when ruleType is AccountRule.
     public var organizationScope: ComputeOptimizerAutomationClientTypes.OrganizationScope?
     /// The types of recommended actions to include in the preview.
     /// This member is required.
@@ -2273,7 +2521,7 @@ extension ComputeOptimizerAutomationClientTypes {
 public struct ListAutomationRulesInput: Swift.Sendable {
     /// The filters to apply to the list of automation rules.
     public var filters: [ComputeOptimizerAutomationClientTypes.Filter]?
-    /// The maximum number of automation rules to return in a single response. Valid range is 1-1000.
+    /// The maximum number of automation rules to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
@@ -2301,6 +2549,165 @@ public struct ListAutomationRulesOutput: Swift.Sendable {
     ) {
         self.automationRules = automationRules
         self.nextToken = nextToken
+    }
+}
+
+public struct ListOrganizationalUnitsInput: Swift.Sendable {
+    /// The maximum number of organizational units to return in a single response. If you don't specify a value, the default is 1,000.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The organizational unit (OU) or organization root IDs to return. If you don't specify this parameter, the operation returns the organization root and every OU.
+    public var organizationalUnitIds: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        organizationalUnitIds: [Swift.String]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.organizationalUnitIds = organizationalUnitIds
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    /// Information about an organizational unit (OU) or the organization root, including whether an applicable organization enrollment configuration enables Automation for member accounts and the effective organization rule mode.
+    public struct OrganizationalUnitInfo: Swift.Sendable {
+        /// Whether an applicable organization enrollment configuration enables Automation for eligible member accounts beneath the organizational unit (OU) or organization root.
+        ///
+        /// * All - An organization enrollment configuration applies and enables Automation for affected member accounts, including accounts that join later. This value applies to configurations with either AnyAllowed or NoneAllowed.
+        ///
+        /// * None - No organization enrollment configuration applies, so Automation isn't enabled by an organization enrollment configuration.
+        /// This member is required.
+        public var autoEnrollMemberAccounts: ComputeOptimizerAutomationClientTypes.AutoEnrollMemberAccounts?
+        /// The effective organization rule mode for the organizational unit or organization root.
+        /// This member is required.
+        public var organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode?
+        /// Information about the source of the effective organization rule mode.
+        /// This member is required.
+        public var organizationRuleModeSource: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSource?
+        /// The ID of the organizational unit (OU) or organization root.
+        /// This member is required.
+        public var organizationalUnitId: Swift.String?
+
+        public init(
+            autoEnrollMemberAccounts: ComputeOptimizerAutomationClientTypes.AutoEnrollMemberAccounts? = nil,
+            organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode? = nil,
+            organizationRuleModeSource: ComputeOptimizerAutomationClientTypes.OrganizationRuleModeSource? = nil,
+            organizationalUnitId: Swift.String? = nil
+        ) {
+            self.autoEnrollMemberAccounts = autoEnrollMemberAccounts
+            self.organizationRuleMode = organizationRuleMode
+            self.organizationRuleModeSource = organizationRuleModeSource
+            self.organizationalUnitId = organizationalUnitId
+        }
+    }
+}
+
+public struct ListOrganizationalUnitsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The organizational units and organization root returned in this page of results, including the organization rule mode that applies to each.
+    /// This member is required.
+    public var organizationalUnits: [ComputeOptimizerAutomationClientTypes.OrganizationalUnitInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        organizationalUnits: [ComputeOptimizerAutomationClientTypes.OrganizationalUnitInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.organizationalUnits = organizationalUnits
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    public enum OrganizationTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case organizationalUnit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationTargetType] {
+            return [
+                .account,
+                .organizationalUnit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "Account"
+            case .organizationalUnit: return "OrganizationalUnit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListOrganizationEnrollmentConfigurationsInput: Swift.Sendable {
+    /// The maximum number of organization enrollment configurations to return in a single response. If you don't specify a value, the default is 1,000.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The target type to use to filter the results. If you specify OrganizationalUnit, the results also include configurations stored on the organization root. If you don't specify a target type, the operation returns configurations for every target type.
+    public var targetType: ComputeOptimizerAutomationClientTypes.OrganizationTargetType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        targetType: ComputeOptimizerAutomationClientTypes.OrganizationTargetType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.targetType = targetType
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes {
+
+    /// An organization enrollment configuration sets the organization rule mode on an account, organizational unit (OU), or the organization root and enables Automation for affected member accounts that have opted in to Compute Optimizer.
+    public struct OrganizationEnrollmentConfiguration: Swift.Sendable {
+        /// The organization rule mode set on the target by the organization enrollment configuration.
+        public var organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode?
+        /// The ID of the account, organizational unit (OU), or organization root on which the configuration is stored.
+        /// This member is required.
+        public var targetId: Swift.String?
+        /// The type of target on which the configuration is stored.
+        /// This member is required.
+        public var targetType: ComputeOptimizerAutomationClientTypes.OrganizationTargetType?
+
+        public init(
+            organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode? = nil,
+            targetId: Swift.String? = nil,
+            targetType: ComputeOptimizerAutomationClientTypes.OrganizationTargetType? = nil
+        ) {
+            self.organizationRuleMode = organizationRuleMode
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+    }
+}
+
+public struct ListOrganizationEnrollmentConfigurationsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The organization enrollment configurations stored on each target in this page of results.
+    /// This member is required.
+    public var organizationEnrollmentConfigurations: [ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        organizationEnrollmentConfigurations: [ComputeOptimizerAutomationClientTypes.OrganizationEnrollmentConfiguration]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.organizationEnrollmentConfigurations = organizationEnrollmentConfigurations
     }
 }
 
@@ -2356,12 +2763,12 @@ extension ComputeOptimizerAutomationClientTypes {
 
 extension ComputeOptimizerAutomationClientTypes {
 
-    /// A filter used to narrow down recommended action results based on specific criteria.
+    /// A filter used to narrow down recommended action results based on specific criteria. If a filter has more than one value, a recommended action matches the filter when it matches any of the values. If you specify more than one filter, a recommended action must match all of the filters.
     public struct RecommendedActionFilter: Swift.Sendable {
         /// The name of the filter field to apply.
         /// This member is required.
         public var name: ComputeOptimizerAutomationClientTypes.RecommendedActionFilterName?
-        /// List of filter values to match against the specified filter name. Used to narrow down recommended actions based on specific criteria.
+        /// The list of values to filter by for the specified filter name. Wildcards aren't supported. An asterisk (*) or a question mark (?) in a value matches only that literal character. How a value is matched depends on the filter name: ResourceType, RecommendedActionType, ResourceId, and AccountId The value that you specify must exactly match the corresponding field of the recommended action, including case. For example, specify EbsVolume, not ebsvolume. CurrentResourceDetailsEbsVolumeType Matches when the value appears anywhere in the current resource details of the recommended action, which include the volume type, size, IOPS, and throughput. Matching is case sensitive, and a partial value also matches. For example, gp matches both gp2 and gp3 volumes, and 100 matches any volume whose size, IOPS, or throughput contains 100. To filter by volume type, specify the complete volume type, such as gp3 or io2. ResourceTagsKey and ResourceTagsValue Matches when the value appears anywhere in the tags of the resource. Both filter names search every tag key and tag value. Matching is case sensitive, and a partial value also matches. For example, a ResourceTagsKey value of test matches a resource that has a tag value of test. LookBackPeriodInDays Matches when the lookback period of the recommended action equals the value. Specify a number of days, such as 14. RestartNeeded Matches recommended actions based on whether implementing them requires a resource restart. Specify true or false.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -2378,19 +2785,23 @@ extension ComputeOptimizerAutomationClientTypes {
 public struct ListRecommendedActionsInput: Swift.Sendable {
     /// The filters to apply to the list of recommended actions.
     public var filters: [ComputeOptimizerAutomationClientTypes.RecommendedActionFilter]?
-    /// The maximum number of recommended actions to return in a single response. Valid range is 1-1000.
+    /// The maximum number of recommended actions to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
+    /// The organizational unit (OU) or organization root IDs to use to filter the results. The response includes recommended actions for accounts in the specified OUs and their child OUs. Only the management account or a delegated administrator can specify this parameter.
+    public var organizationalUnitIds: [Swift.String]?
 
     public init(
         filters: [ComputeOptimizerAutomationClientTypes.RecommendedActionFilter]? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        organizationalUnitIds: [Swift.String]? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationalUnitIds = organizationalUnitIds
     }
 }
 
@@ -2483,19 +2894,23 @@ public struct ListRecommendedActionsOutput: Swift.Sendable {
 public struct ListRecommendedActionSummariesInput: Swift.Sendable {
     /// A list of filters to apply when retrieving recommended action summaries. Filters can be based on resource type, action type, account ID, and other criteria.
     public var filters: [ComputeOptimizerAutomationClientTypes.RecommendedActionFilter]?
-    /// The maximum number of recommended action summaries to return in a single response. Valid range is 1-1000.
+    /// The maximum number of recommended action summaries to return in a single response. If you don't specify a value, the default is 100.
     public var maxResults: Swift.Int?
     /// A token used for pagination to retrieve the next set of results when the response is truncated.
     public var nextToken: Swift.String?
+    /// The organizational unit (OU) or organization root IDs to use to filter the results. The response includes recommended action summaries for accounts in the specified OUs and their child OUs. Only the management account or a delegated administrator can specify this parameter.
+    public var organizationalUnitIds: [Swift.String]?
 
     public init(
         filters: [ComputeOptimizerAutomationClientTypes.RecommendedActionFilter]? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        organizationalUnitIds: [Swift.String]? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationalUnitIds = organizationalUnitIds
     }
 }
 
@@ -2577,6 +2992,31 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     ) {
         self.tags = tags
     }
+}
+
+public struct PutOrganizationEnrollmentConfigurationInput: Swift.Sendable {
+    /// A unique identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The organization rule mode to set on the target. An organization enrollment configuration with either AnyAllowed or NoneAllowed enables Automation for affected member accounts. AnyAllowed permits organization rules to apply to those accounts, while NoneAllowed doesn't.
+    public var organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode?
+    /// The account, organizational unit (OU), or organization root on which to create or update the organization enrollment configuration. You can't specify the management account.
+    /// This member is required.
+    public var target: ComputeOptimizerAutomationClientTypes.OrganizationTarget?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        organizationRuleMode: ComputeOptimizerAutomationClientTypes.OrganizationRuleMode? = nil,
+        target: ComputeOptimizerAutomationClientTypes.OrganizationTarget? = nil
+    ) {
+        self.clientToken = clientToken
+        self.organizationRuleMode = organizationRuleMode
+        self.target = target
+    }
+}
+
+public struct PutOrganizationEnrollmentConfigurationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct RollbackAutomationEventInput: Swift.Sendable {
@@ -2833,7 +3273,7 @@ public struct UpdateEnrollmentConfigurationInput: Swift.Sendable {
     /// * Inactive - Disables the Automation feature for your account and stops all of your automation rules. If you opt in again later, all rules will be inactive, and you must enable the rules you want to run. You must wait at least 24 hours after opting out to opt in again.
     ///
     ///
-    /// The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, your account must be disassociated from your organization’s management account before you can disable Automation. Contact your administrator to make this change.
+    /// The Pending and Failed options can't be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account. If you are a member account, you can't disable Automation while an organization enrollment configuration applies. If no organization enrollment configuration applies, you also can't disable Automation while your organization rule mode is AnyAllowed. Ask your administrator to delete the organization enrollment configuration or disassociate your account, as applicable.
     /// This member is required.
     public var status: ComputeOptimizerAutomationClientTypes.EnrollmentStatus?
 

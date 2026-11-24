@@ -538,6 +538,7 @@ extension DeviceFarmClientTypes {
         case appiumVersion
         case arn
         case availability
+        case deviceType
         case fleetType
         case formFactor
         case instanceArn
@@ -555,6 +556,7 @@ extension DeviceFarmClientTypes {
                 .appiumVersion,
                 .arn,
                 .availability,
+                .deviceType,
                 .fleetType,
                 .formFactor,
                 .instanceArn,
@@ -578,6 +580,7 @@ extension DeviceFarmClientTypes {
             case .appiumVersion: return "APPIUM_VERSION"
             case .arn: return "ARN"
             case .availability: return "AVAILABILITY"
+            case .deviceType: return "DEVICE_TYPE"
             case .fleetType: return "FLEET_TYPE"
             case .formFactor: return "FORM_FACTOR"
             case .instanceArn: return "INSTANCE_ARN"
@@ -645,7 +648,7 @@ extension DeviceFarmClientTypes {
 
     /// Represents a condition for a device pool.
     public struct Rule: Swift.Sendable {
-        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list. APPIUM_VERSION The Appium version for the test. Supported operators: CONTAINS ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN MODEL The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored.
+        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list. APPIUM_VERSION The Appium version for the test. Supported operators: CONTAINS ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS DEVICE_TYPE The device type. Valid values are PHYSICAL or VIRTUAL. Supported operators: EQUALS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN MODEL The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored.
         public var attribute: DeviceFarmClientTypes.DeviceAttribute?
         /// Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each attribute, see the attribute descriptions.
         public var `operator`: DeviceFarmClientTypes.RuleOperator?
@@ -676,7 +679,7 @@ public struct CreateDevicePoolInput: Swift.Sendable {
     /// The ARN of the project for the device pool.
     /// This member is required.
     public var projectArn: Swift.String?
-    /// The device pool's rules.
+    /// The device pool's rules. A device pool contains either physical devices or virtual devices, but not both. If you define the pool with attribute rules and those rules do not include a DEVICE_TYPE rule, the pool contains only physical devices. If you define the pool by listing device ARNs, the pool contains the devices you list.
     /// This member is required.
     public var rules: [DeviceFarmClientTypes.Rule]?
 
@@ -736,7 +739,7 @@ extension DeviceFarmClientTypes {
         public var maxDevices: Swift.Int?
         /// The device pool's name.
         public var name: Swift.String?
-        /// Information about the device pool's rules.
+        /// Information about the device pool's rules. A device pool contains either physical devices or virtual devices, but not both. If you define the pool with attribute rules and those rules do not include a DEVICE_TYPE rule, the pool contains only physical devices. If you define the pool by listing device ARNs, the pool contains the devices you list.
         public var rules: [DeviceFarmClientTypes.Rule]?
         /// The device pool's type. Allowed values include:
         ///
@@ -1405,7 +1408,36 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes {
 
-    /// Represents a device type that an app is tested against.
+    public enum DeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case physical
+        case virtual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceType] {
+            return [
+                .physical,
+                .virtual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .physical: return "PHYSICAL"
+            case .virtual: return "VIRTUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Represents a device that an app is tested against.
     public struct Device: Swift.Sendable {
         /// The device's ARN.
         public var arn: Swift.String?
@@ -1455,6 +1487,15 @@ extension DeviceFarmClientTypes {
         public var remoteAccessEnabled: Swift.Bool?
         /// The resolution of the device.
         public var resolution: DeviceFarmClientTypes.Resolution?
+        /// The device type. Allowed values include:
+        ///
+        /// * PHYSICAL: A physical device.
+        ///
+        /// * VIRTUAL: An emulator or simulator hosted by Device Farm.
+        ///
+        ///
+        /// For iOS, a virtual device requires a simulator build of your app, and a physical device requires a device build. If the app does not match the device type, the device is reported as incompatible with a DEVICE_TYPE incompatibility message.
+        public var type: DeviceFarmClientTypes.DeviceType?
 
         public init(
             arn: Swift.String? = nil,
@@ -1476,7 +1517,8 @@ extension DeviceFarmClientTypes {
             platform: DeviceFarmClientTypes.DevicePlatform? = nil,
             radio: Swift.String? = nil,
             remoteAccessEnabled: Swift.Bool? = nil,
-            resolution: DeviceFarmClientTypes.Resolution? = nil
+            resolution: DeviceFarmClientTypes.Resolution? = nil,
+            type: DeviceFarmClientTypes.DeviceType? = nil
         ) {
             self.arn = arn
             self.availability = availability
@@ -1498,6 +1540,7 @@ extension DeviceFarmClientTypes {
             self.radio = radio
             self.remoteAccessEnabled = remoteAccessEnabled
             self.resolution = resolution
+            self.type = type
         }
     }
 }
@@ -3085,6 +3128,8 @@ extension DeviceFarmClientTypes {
         ///
         /// * ARN
         ///
+        /// * DEVICE_TYPE (for example, physical or virtual)
+        ///
         /// * FORM_FACTOR (for example, phone or tablet)
         ///
         /// * MANUFACTURER
@@ -3793,6 +3838,7 @@ extension DeviceFarmClientTypes {
     public enum DeviceFilterAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arn
         case availability
+        case deviceType
         case fleetType
         case formFactor
         case instanceArn
@@ -3809,6 +3855,7 @@ extension DeviceFarmClientTypes {
             return [
                 .arn,
                 .availability,
+                .deviceType,
                 .fleetType,
                 .formFactor,
                 .instanceArn,
@@ -3831,6 +3878,7 @@ extension DeviceFarmClientTypes {
             switch self {
             case .arn: return "ARN"
             case .availability: return "AVAILABILITY"
+            case .deviceType: return "DEVICE_TYPE"
             case .fleetType: return "FLEET_TYPE"
             case .formFactor: return "FORM_FACTOR"
             case .instanceArn: return "INSTANCE_ARN"
@@ -3851,7 +3899,7 @@ extension DeviceFarmClientTypes {
 
     /// Represents a device filter used to select a set of devices to be included in a test run. This data structure is passed in as the deviceSelectionConfiguration parameter to ScheduleRun. For an example of the JSON request syntax, see [ScheduleRun]. It is also passed in as the filters parameter to ListDevices. For an example of the JSON request syntax, see [ListDevices].
     public struct DeviceFilter: Swift.Sendable {
-        /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list. ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN MODEL The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored. INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS
+        /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list. ARN The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN PLATFORM The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS OS_VERSION The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN MODEL The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN AVAILABILITY The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS FORM_FACTOR The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS DEVICE_TYPE The device type. Valid values are PHYSICAL or VIRTUAL. Supported operators: EQUALS MANUFACTURER The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN REMOTE_ACCESS_ENABLED Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS REMOTE_DEBUG_ENABLED Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS Because remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html), this filter is ignored. INSTANCE_ARN The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN INSTANCE_LABELS The label of the device instance. Supported operators: CONTAINS FLEET_TYPE The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS
         /// This member is required.
         public var attribute: DeviceFarmClientTypes.DeviceFilterAttribute?
         /// Specifies how Device Farm compares the filter's attribute to the value. See the attribute descriptions.
@@ -3871,6 +3919,8 @@ extension DeviceFarmClientTypes {
         /// * The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
         ///
         /// * The FORM_FACTOR attribute can be set to PHONE or TABLET.
+        ///
+        /// * The DEVICE_TYPE attribute can be set to PHYSICAL or VIRTUAL.
         ///
         /// * The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
         /// This member is required.
@@ -4884,6 +4934,8 @@ public struct ListDevicesInput: Swift.Sendable {
     /// * AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
     ///
     /// * FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
+    ///
+    /// * DEVICE_TYPE: The device type. Valid values are PHYSICAL or VIRTUAL.
     ///
     /// * MANUFACTURER: The device manufacturer (for example, Apple).
     ///
@@ -6198,6 +6250,8 @@ extension DeviceFarmClientTypes {
         ///
         /// * FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
         ///
+        /// * DEVICE_TYPE: The device type. Valid values are PHYSICAL or VIRTUAL.
+        ///
         /// * MANUFACTURER: The device manufacturer (for example, Apple).
         ///
         /// * REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.
@@ -6241,7 +6295,15 @@ extension DeviceFarmClientTypes {
         ///
         /// * The FORM_FACTOR attribute can be set to PHONE or TABLET.
         ///
+        /// * The DEVICE_TYPE attribute can be set to PHYSICAL or VIRTUAL.
+        ///
         /// * The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// If the filters select devices by attribute and do not include a DEVICE_TYPE filter, only physical devices are selected. If the filters select devices by ARN, the run uses the devices you list.
         /// This member is required.
         public var filters: [DeviceFarmClientTypes.DeviceFilter]?
         /// The maximum number of devices to be included in a test run.
@@ -6297,7 +6359,7 @@ public struct ScheduleRunInput: Swift.Sendable {
     public var configuration: DeviceFarmClientTypes.ScheduleRunConfiguration?
     /// The ARN of the device pool for the run to be scheduled.
     public var devicePoolArn: Swift.String?
-    /// The filter criteria used to dynamically select a set of devices for a test run and the maximum number of devices to be included in the run. Either devicePoolArn or deviceSelectionConfiguration is required in a request.
+    /// The filter criteria used to dynamically select a set of devices for a test run and the maximum number of devices to be included in the run. Either devicePoolArn or deviceSelectionConfiguration is required in a request. If the filters select devices by attribute and do not include a DEVICE_TYPE filter, only physical devices are selected. If the filters select devices by ARN, the run uses the devices you list.
     public var deviceSelectionConfiguration: DeviceFarmClientTypes.DeviceSelectionConfiguration?
     /// Specifies configuration information about a test run, such as the execution timeout (in minutes).
     public var executionConfiguration: DeviceFarmClientTypes.ExecutionConfiguration?
@@ -6556,7 +6618,7 @@ public struct UpdateDevicePoolInput: Swift.Sendable {
     public var maxDevices: Swift.Int?
     /// A string that represents the name of the device pool to update.
     public var name: Swift.String?
-    /// Represents the rules to modify for the device pool. Updating rules is optional. If you update rules for your request, the update replaces the existing rules.
+    /// Represents the rules to modify for the device pool. Updating rules is optional. If you update rules for your request, the update replaces the existing rules. A device pool contains either physical devices or virtual devices, but not both. If you define the pool with attribute rules and those rules do not include a DEVICE_TYPE rule, the pool contains only physical devices. If you define the pool by listing device ARNs, the pool contains the devices you list.
     public var rules: [DeviceFarmClientTypes.Rule]?
 
     public init(

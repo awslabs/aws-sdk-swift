@@ -6265,6 +6265,595 @@ public struct PutAccountDataRetentionOutput: Swift.Sendable {
     }
 }
 
+extension BedrockClientTypes {
+
+    /// Model provider owning a retention storage configuration. Clients must tolerate unknown values.
+    public enum DataRetentionStorageModelProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The Anthropic model provider.
+        case anthropic
+        /// The OpenAI model provider.
+        case openai
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataRetentionStorageModelProvider] {
+            return [
+                .anthropic,
+                .openai
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anthropic: return "anthropic"
+            case .openai: return "openai"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Identifies the model provider whose account retention storage configuration to delete.
+public struct DeleteAccountDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil
+    ) {
+        self.modelProvider = modelProvider
+    }
+}
+
+/// A successful deletion returns no response fields.
+public struct DeleteAccountDataRetentionStorageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Identifies the model provider whose organization retention storage configuration to delete.
+public struct DeleteOrganizationDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil
+    ) {
+        self.modelProvider = modelProvider
+    }
+}
+
+/// A successful deletion returns no response fields.
+public struct DeleteOrganizationDataRetentionStorageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Identifies the project and model provider whose retention storage configuration to delete.
+public struct DeleteProjectDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// The ID or ARN of a named project owned by the calling account in this AWS Region. The default project is not supported; use the account-level retention storage operations instead.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.modelProvider = modelProvider
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// A successful deletion returns no response fields.
+public struct DeleteProjectDataRetentionStorageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Identifies the model provider whose account retention storage configuration to retrieve.
+public struct GetAccountDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil
+    ) {
+        self.modelProvider = modelProvider
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Validation state of a configured destination resource. Clients must tolerate unknown values.
+    public enum DataRetentionStorageResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Access to the destination resource was denied.
+        case accessDenied
+        /// The destination resource has passed validation.
+        case active
+        /// Validation of the destination resource is pending.
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataRetentionStorageResourceStatus] {
+            return [
+                .accessDenied,
+                .active,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "access_denied"
+            case .active: return "active"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Scope addressed by a retention storage operation. Clients must tolerate unknown values.
+    public enum DataRetentionStorageScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The calling AWS account.
+        case account
+        /// The calling account's organization.
+        case organization
+        /// The named project addressed by the request.
+        case project
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataRetentionStorageScope] {
+            return [
+                .account,
+                .organization,
+                .project
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .organization: return "organization"
+            case .project: return "project"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// You provide the Amazon S3 destination and AWS Key Management Service (AWS KMS) key for retained data. Before saving a customer-managed destination, Amazon Bedrock validates that you can use the bucket and key and that their resource policies permit the required Amazon Bedrock access. If validation fails, Amazon Bedrock rejects the configuration without saving it. You need s3:PutObject, s3:GetObject, kms:GenerateDataKey, and kms:Decrypt permissions. The Amazon S3 bucket policy must allow the Amazon Bedrock service principal, bedrock.amazonaws.com, to put, get, and delete objects with conditions appropriate to the configuration scope. Use aws:SourceAccount for account scope, aws:SourceOrgID for organization scope, and both aws:SourceAccount and the project's aws:SourceArn for project scope. Validation rejects resource policies that allow the service principal to access the destination without the required scope conditions. The key policy must permit kms:GenerateDataKey and kms:Decrypt for both uses of the key: direct use by Amazon Bedrock with the scope conditions, and use through Amazon S3 with a kms:ViaService condition for the bucket's Region and kms:EncryptionContext:aws:s3:arn scoped to the bucket.
+    public struct DataRetentionStorageConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer managed AWS Key Management Service (AWS KMS) key you use to encrypt retained data. Specify an enabled symmetric encryption key in the AWS Region where you register the configuration. You cannot specify a key alias.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket that receives retained data. The bucket must be in the AWS Region where you register the configuration.
+        /// This member is required.
+        public var s3BucketArn: Swift.String?
+        /// The AWS account ID of the destination bucket's owner. You must specify the owner, even when the bucket belongs to another account. Amazon Bedrock uses this ID to verify bucket ownership for each delivery request.
+        /// This member is required.
+        public var s3BucketOwner: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            s3BucketArn: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3BucketArn = s3BucketArn
+            self.s3BucketOwner = s3BucketOwner
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Where a scope's retained data is delivered. Clients must tolerate unknown values.
+    public enum DataRetentionStorageDestination: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Retained data uses Amazon-managed storage. Do not provide storageConfiguration.
+        case amazonManaged
+        /// Stores retained data in the Amazon S3 bucket you specify and encrypts it with the AWS KMS key you specify. You must provide storageConfiguration.
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataRetentionStorageDestination] {
+            return [
+                .amazonManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonManaged: return "amazon_managed"
+            case .customerManaged: return "customer_managed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The calling account's stored retention storage configuration for the requested model provider.
+public struct GetAccountDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the model provider whose organization retention storage configuration to retrieve.
+public struct GetOrganizationDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil
+    ) {
+        self.modelProvider = modelProvider
+    }
+}
+
+/// The organization's stored retention storage configuration for the requested model provider.
+public struct GetOrganizationDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the project and model provider whose retention storage configuration to retrieve.
+public struct GetProjectDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// The ID or ARN of a named project owned by the calling account in this AWS Region. The default project is not supported; use the account-level retention storage operations instead.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.modelProvider = modelProvider
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// The project's stored retention storage configuration for the requested model provider.
+public struct GetProjectDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// ARN of the configured project.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        projectArn: Swift.String? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.projectArn = projectArn
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The model provider and retention storage destination to configure for the calling account.
+public struct PutAccountDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Destination bucket and key. Required when storageDestination is customer_managed; rejected with ValidationException when amazon_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where retained data is delivered for this scope. customer_managed requires storageConfiguration; amazon_managed forbids it.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil
+    ) {
+        self.modelProvider = modelProvider
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+    }
+}
+
+/// The stored configuration after the write.
+public struct PutAccountDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The model provider and retention storage destination to configure for the organization.
+public struct PutOrganizationDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Destination bucket and key. Required when storageDestination is customer_managed; rejected with ValidationException when amazon_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where retained data is delivered for this scope. customer_managed requires storageConfiguration; amazon_managed forbids it.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil
+    ) {
+        self.modelProvider = modelProvider
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+    }
+}
+
+/// The organization's stored retention storage configuration after the write.
+public struct PutOrganizationDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The project, model provider, and retention storage destination to configure.
+public struct PutProjectDataRetentionStorageInput: Swift.Sendable {
+    /// The model provider whose retention storage configuration is addressed by this request.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// The ID or ARN of a named project owned by the calling account in this AWS Region. The default project is not supported; use the account-level retention storage operations instead.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+    /// Destination bucket and key. Required when storageDestination is customer_managed; rejected with ValidationException when amazon_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where retained data is delivered for this scope. customer_managed requires storageConfiguration; amazon_managed forbids it.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+
+    public init(
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        projectIdentifier: Swift.String? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil
+    ) {
+        self.modelProvider = modelProvider
+        self.projectIdentifier = projectIdentifier
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+    }
+}
+
+/// The project's stored retention storage configuration after the write.
+public struct PutProjectDataRetentionStorageOutput: Swift.Sendable {
+    /// Validation state of the KMS key. Present only when storageDestination is customer_managed.
+    public var kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Model provider this configuration applies to.
+    /// This member is required.
+    public var modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider?
+    /// ARN of the configured project.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// Validation state of the bucket. Present only when storageDestination is customer_managed.
+    public var s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus?
+    /// Scope addressed by the operation that returned this record.
+    /// This member is required.
+    public var scope: BedrockClientTypes.DataRetentionStorageScope?
+    /// The stored destination and key. Present only when storageDestination is customer_managed.
+    public var storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration?
+    /// Where this record delivers retained data.
+    /// This member is required.
+    public var storageDestination: BedrockClientTypes.DataRetentionStorageDestination?
+    /// Time the stored record last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        kmsKeyStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        modelProvider: BedrockClientTypes.DataRetentionStorageModelProvider? = nil,
+        projectArn: Swift.String? = nil,
+        s3BucketStatus: BedrockClientTypes.DataRetentionStorageResourceStatus? = nil,
+        scope: BedrockClientTypes.DataRetentionStorageScope? = nil,
+        storageConfiguration: BedrockClientTypes.DataRetentionStorageConfiguration? = nil,
+        storageDestination: BedrockClientTypes.DataRetentionStorageDestination? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.kmsKeyStatus = kmsKeyStatus
+        self.modelProvider = modelProvider
+        self.projectArn = projectArn
+        self.s3BucketStatus = s3BucketStatus
+        self.scope = scope
+        self.storageConfiguration = storageConfiguration
+        self.storageDestination = storageDestination
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct DeleteEnforcedGuardrailConfigurationInput: Swift.Sendable {
     /// Unique ID for the account enforced configuration.
     /// This member is required.
@@ -10387,11 +10976,15 @@ public struct GetInferenceProfileInput: Swift.Sendable {
     /// The ID or Amazon Resource Name (ARN) of the inference profile.
     /// This member is required.
     public var inferenceProfileIdentifier: Swift.String?
+    /// The ID or Amazon Resource Name (ARN) of a project. Amazon Bedrock uses the project's trusted access program participation when determining whether to return a system-defined inference profile. The project must belong to your account in the same AWS Region and partition as the request. If you omit this parameter or specify default, Amazon Bedrock uses your account's participation, including organization inheritance. A project that doesn't exist or is archived causes a ValidationException. Specifying a project other than default for an application inference profile also causes a ValidationException.
+    public var projectIdentifier: Swift.String?
 
     public init(
-        inferenceProfileIdentifier: Swift.String? = nil
+        inferenceProfileIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
     ) {
         self.inferenceProfileIdentifier = inferenceProfileIdentifier
+        self.projectIdentifier = projectIdentifier
     }
 }
 
@@ -10502,6 +11095,8 @@ public struct ListInferenceProfilesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     public var nextToken: Swift.String?
+    /// The ID or Amazon Resource Name (ARN) of a project. Amazon Bedrock uses the project's trusted access program participation when determining which system-defined inference profiles to return. The project must belong to your account in the same AWS Region and partition as the request. If you omit this parameter or specify default, Amazon Bedrock uses your account's participation, including organization inheritance. A project that doesn't exist or is archived causes a ValidationException. Specifying a project other than default with typeEquals set to APPLICATION also causes a ValidationException. Omit typeEquals or set it to SYSTEM_DEFINED to list system-defined inference profiles for the project.
+    public var projectIdentifier: Swift.String?
     /// Filters for inference profiles that match the type you specify.
     ///
     /// * SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.
@@ -10512,10 +11107,12 @@ public struct ListInferenceProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil,
         typeEquals: BedrockClientTypes.InferenceProfileType? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.projectIdentifier = projectIdentifier
         self.typeEquals = typeEquals
     }
 }
@@ -12048,11 +12645,15 @@ public struct GetFoundationModelInput: Swift.Sendable {
     /// The model identifier.
     /// This member is required.
     public var modelIdentifier: Swift.String?
+    /// The ID or Amazon Resource Name (ARN) of a project. Amazon Bedrock uses the project's trusted access program participation when determining whether to return the model. The project must belong to your account in the same AWS Region and partition as the request. If you omit this parameter or specify default, Amazon Bedrock uses your account's participation, including organization inheritance. A project that doesn't exist or is archived causes a ValidationException. A model outside the project's available model catalog causes a ResourceNotFoundException.
+    public var projectIdentifier: Swift.String?
 
     public init(
-        modelIdentifier: Swift.String? = nil
+        modelIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
     ) {
         self.modelIdentifier = modelIdentifier
+        self.projectIdentifier = projectIdentifier
     }
 }
 
@@ -12283,17 +12884,21 @@ public struct ListFoundationModelsInput: Swift.Sendable {
     public var byOutputModality: BedrockClientTypes.ModelModality?
     /// Return models belonging to the model provider that you specify.
     public var byProvider: Swift.String?
+    /// The ID or Amazon Resource Name (ARN) of a project. Amazon Bedrock uses the project's trusted access program participation when determining which models to return. The project must belong to your account in the same AWS Region and partition as the request. If you omit this parameter or specify default, Amazon Bedrock uses your account's participation, including organization inheritance. A project that doesn't exist or is archived causes a ValidationException.
+    public var projectIdentifier: Swift.String?
 
     public init(
         byCustomizationType: BedrockClientTypes.ModelCustomization? = nil,
         byInferenceType: BedrockClientTypes.InferenceType? = nil,
         byOutputModality: BedrockClientTypes.ModelModality? = nil,
-        byProvider: Swift.String? = nil
+        byProvider: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
     ) {
         self.byCustomizationType = byCustomizationType
         self.byInferenceType = byInferenceType
         self.byOutputModality = byOutputModality
         self.byProvider = byProvider
+        self.projectIdentifier = projectIdentifier
     }
 }
 
@@ -12359,6 +12964,407 @@ public struct ListFoundationModelsOutput: Swift.Sendable {
     ) {
         self.modelSummaries = modelSummaries
     }
+}
+
+/// Identifies the project to archive.
+public struct ArchiveProjectInput: Swift.Sendable {
+    /// The id or ARN of the project to archive.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A project's data-retention setting: the project-scope mode, which may be inherit to defer to the account scope or the model default. Uses the same mode space as the account-level data-retention operations; the effective mode for a request resolves project, then account, then model default.
+    public struct ProjectDataRetention: Swift.Sendable {
+        /// The project's data retention mode. Use inherit to defer to the account setting or model default.
+        /// This member is required.
+        public var mode: BedrockClientTypes.DataRetentionMode?
+
+        public init(
+            mode: BedrockClientTypes.DataRetentionMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The lifecycle status of a project. An archived project rejects new inference requests and mutations; its stored data remains readable until it expires. There is no delete: archive is the terminal state.
+    public enum ProjectStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The project has not been archived.
+        case active
+        /// The project rejects new inference requests and mutations. Its stored data remains readable until it expires.
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectStatus] {
+            return [
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .archived: return "archived"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The project after the archive operation.
+public struct ArchiveProjectOutput: Swift.Sendable {
+    /// The time the project was archived.
+    public var archivedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the project.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time the project was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The project's data retention setting. A mode of inherit defers to the account setting or model default.
+    /// This member is required.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The project ID. The account's default project uses default; a named project's generated ID starts with proj_.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The project's display name. Project names do not have to be unique.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The project's lifecycle status.
+    /// This member is required.
+    public var status: BedrockClientTypes.ProjectStatus?
+
+    public init(
+        archivedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockClientTypes.ProjectStatus? = nil
+    ) {
+        self.archivedAt = archivedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataRetention = dataRetention
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
+extension ArchiveProjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ArchiveProjectOutput(archivedAt: \(Swift.String(describing: archivedAt)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dataRetention: \(Swift.String(describing: dataRetention)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// The display name, optional tags, and optional data retention setting for the new project.
+public struct CreateProjectInput: Swift.Sendable {
+    /// The project's data-retention mode. If you omit this field, Amazon Bedrock sets the mode to inherit. The project then uses the account setting or the model default.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The display name for the project. Project names do not have to be unique.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to associate with the project.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        name: Swift.String? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    ) {
+        self.dataRetention = dataRetention
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateProjectInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProjectInput(dataRetention: \(Swift.String(describing: dataRetention)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// The newly created project.
+public struct CreateProjectOutput: Swift.Sendable {
+    /// The time the project was archived.
+    public var archivedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the project.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time the project was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The project's data retention setting. A mode of inherit defers to the account setting or model default.
+    /// This member is required.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The project ID. The account's default project uses default; a named project's generated ID starts with proj_.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The project's display name. Project names do not have to be unique.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The project's lifecycle status.
+    /// This member is required.
+    public var status: BedrockClientTypes.ProjectStatus?
+
+    public init(
+        archivedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockClientTypes.ProjectStatus? = nil
+    ) {
+        self.archivedAt = archivedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataRetention = dataRetention
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
+extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProjectOutput(archivedAt: \(Swift.String(describing: archivedAt)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dataRetention: \(Swift.String(describing: dataRetention)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// Identifies the project to retrieve.
+public struct GetProjectInput: Swift.Sendable {
+    /// The id or ARN of the project to retrieve.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// The requested project's details and data retention setting.
+public struct GetProjectOutput: Swift.Sendable {
+    /// The time the project was archived.
+    public var archivedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the project.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time the project was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The project's data retention setting. A mode of inherit defers to the account setting or model default.
+    /// This member is required.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The project ID. The account's default project uses default; a named project's generated ID starts with proj_.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The project's display name. Project names do not have to be unique.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The project's lifecycle status.
+    /// This member is required.
+    public var status: BedrockClientTypes.ProjectStatus?
+
+    public init(
+        archivedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockClientTypes.ProjectStatus? = nil
+    ) {
+        self.archivedAt = archivedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataRetention = dataRetention
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
+extension GetProjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProjectOutput(archivedAt: \(Swift.String(describing: archivedAt)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dataRetention: \(Swift.String(describing: dataRetention)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// The page size, continuation token, and optional lifecycle status filter for listing projects.
+public struct ListProjectsInput: Swift.Sendable {
+    /// The maximum number of projects to return in one response, from 1 to 100. The default is 20.
+    public var maxResults: Swift.Int?
+    /// Continuation token from a previous ListProjects response.
+    public var nextToken: Swift.String?
+    /// Returns only the projects in this lifecycle status. When absent, no status filtering is applied and every project is returned. New lifecycle states extend the ProjectStatus enum, and with it this filter, compatibly.
+    public var statusFilter: BedrockClientTypes.ProjectStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statusFilter: BedrockClientTypes.ProjectStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statusFilter = statusFilter
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A project. The same field set every project-returning operation uses: create, get, update, and archive all return the full project, and list returns one per project.
+    public struct ProjectSummary: Swift.Sendable {
+        /// The time the project was archived.
+        public var archivedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the project.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time the project was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The project's data retention setting. A mode of inherit defers to the account setting or model default.
+        /// This member is required.
+        public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+        /// The project ID. The account's default project uses default; a named project's generated ID starts with proj_.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The project's display name. Project names do not have to be unique.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The project's lifecycle status.
+        /// This member is required.
+        public var status: BedrockClientTypes.ProjectStatus?
+
+        public init(
+            archivedAt: Foundation.Date? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: BedrockClientTypes.ProjectStatus? = nil
+        ) {
+            self.archivedAt = archivedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataRetention = dataRetention
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes.ProjectSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProjectSummary(archivedAt: \(Swift.String(describing: archivedAt)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dataRetention: \(Swift.String(describing: dataRetention)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// A page of projects and a continuation token when more results are available.
+public struct ListProjectsOutput: Swift.Sendable {
+    /// Continuation token; present only when more results exist. Pass it in the next request to fetch the following page.
+    public var nextToken: Swift.String?
+    /// The projects returned for this page, including their details and data retention settings.
+    /// This member is required.
+    public var projectSummaries: [BedrockClientTypes.ProjectSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        projectSummaries: [BedrockClientTypes.ProjectSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.projectSummaries = projectSummaries
+    }
+}
+
+/// Identifies the project and the field to update. Specify exactly one of name or dataRetention.
+public struct UpdateProjectInput: Swift.Sendable {
+    /// The project's new data-retention mode. Must be set on its own.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The project's new display name. Specify this field only when dataRetention is omitted. Project names do not have to be unique.
+    public var name: Swift.String?
+    /// The id or ARN of the project to update.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        name: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.dataRetention = dataRetention
+        self.name = name
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+extension UpdateProjectInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateProjectInput(dataRetention: \(Swift.String(describing: dataRetention)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), name: \"CONTENT_REDACTED\")"}
+}
+
+/// The project after the update.
+public struct UpdateProjectOutput: Swift.Sendable {
+    /// The time the project was archived.
+    public var archivedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the project.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time the project was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The project's data retention setting. A mode of inherit defers to the account setting or model default.
+    /// This member is required.
+    public var dataRetention: BedrockClientTypes.ProjectDataRetention?
+    /// The project ID. The account's default project uses default; a named project's generated ID starts with proj_.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The project's display name. Project names do not have to be unique.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The project's lifecycle status.
+    /// This member is required.
+    public var status: BedrockClientTypes.ProjectStatus?
+
+    public init(
+        archivedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataRetention: BedrockClientTypes.ProjectDataRetention? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockClientTypes.ProjectStatus? = nil
+    ) {
+        self.archivedAt = archivedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataRetention = dataRetention
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
+extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateProjectOutput(archivedAt: \(Swift.String(describing: archivedAt)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dataRetention: \(Swift.String(describing: dataRetention)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -14154,6 +15160,672 @@ public struct StopModelCustomizationJobOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Identifies the trusted access program and optional named project for which to resolve participation.
+public struct GetTrustedAccessProgramInput: Swift.Sendable {
+    /// Identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+    /// The ID or ARN of a named Bedrock project owned by the calling account in this Region. When omitted, resolves participation for the calling account, including participation inherited from its current organization. When specified, resolves participation for the project, including participation inherited from the account and its current organization. You cannot specify the default project. Omit this field to resolve its inherited participation. An ARN from another account, Region, or partition returns ValidationException. A project that does not exist in the calling account returns ResourceNotFoundException.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Scope supplying a trusted access decision. Clients must tolerate unknown values.
+    public enum TrustedAccessProgramScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The calling AWS account.
+        case account
+        /// The calling account's current organization.
+        case organization
+        /// Program fallback when no stored record decides the status. This is not a writable scope.
+        case programDefault
+        /// The named project addressed by the request.
+        case project
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedAccessProgramScope] {
+            return [
+                .account,
+                .organization,
+                .programDefault,
+                .project
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .organization: return "organization"
+            case .programDefault: return "program_default"
+            case .project: return "project"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Customer preference for a trusted access program. Clients must tolerate unknown values.
+    public enum TrustedAccessProgramOptIn: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Explicitly opt out at this scope.
+        case disabled
+        /// Accept the program's terms and opt in at this scope.
+        case enabled
+        /// Defer to a broader scope without accepting or declining the program at this scope.
+        case inherit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedAccessProgramOptIn] {
+            return [
+                .disabled,
+                .enabled,
+                .inherit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case .inherit: return "inherit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account and optional project context evaluated when resolving a trusted access program's status.
+    public struct TrustedAccessResolutionContext: Swift.Sendable {
+        /// AWS account for which the program status was resolved, including applicable organization settings.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The canonical ARN of the authorized named project for which participation was resolved. Omitted when the request has no project context.
+        public var projectArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            projectArn: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.projectArn = projectArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Resolved participation status for a trusted access program. Clients must tolerate unknown values.
+    public enum TrustedAccessProgramStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Approved and explicitly opted out at the deciding enrollment scope.
+        case disabled
+        /// Approved with no resolved enabled or disabled preference, or qualified by a read-only automatic eligibility preview.
+        case eligible
+        /// Approved and opted in for the evaluated context.
+        case enabled
+        /// No applicable approval or revocation exists. The status reason explains how to request access.
+        case requestable
+        /// An applicable revocation removes eligibility. The saved opt-in preference is preserved.
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedAccessProgramStatus] {
+            return [
+                .disabled,
+                .eligible,
+                .enabled,
+                .requestable,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .eligible: return "eligible"
+            case .enabled: return "enabled"
+            case .requestable: return "requestable"
+            case .revoked: return "revoked"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The program's details and participation resolved for the calling account or requested project.
+public struct GetTrustedAccessProgramOutput: Swift.Sendable {
+    /// Description of the program and its effects on model access or data handling.
+    /// This member is required.
+    public var description: Swift.String?
+    /// URL with program details, terms, and instructions for obtaining access.
+    /// This member is required.
+    public var detailsUrl: Swift.String?
+    /// Scope supplying the applicable approval or most-specific revocation. Omitted when no approval or revocation applies.
+    public var eligibilityScope: BedrockClientTypes.TrustedAccessProgramScope?
+    /// Provider application intake URL. Omitted when the program has no customer-facing intake URL.
+    public var enrollmentUrl: Swift.String?
+    /// Display name of the program.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Resolved customer preference, preserved independently of eligibility, including while revoked.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// Identifier of the trusted access program.
+    /// This member is required.
+    public var programId: Swift.String?
+    /// Name of the model provider offering the program.
+    /// This member is required.
+    public var providerName: Swift.String?
+    /// Account and optional project context for which participation was resolved.
+    /// This member is required.
+    public var resolvedFor: BedrockClientTypes.TrustedAccessResolutionContext?
+    /// Scope deciding the status. This can differ from the scope supplying the resolved opt-in preference and enrollment timestamps.
+    /// This member is required.
+    public var source: BedrockClientTypes.TrustedAccessProgramScope?
+    /// Participation status resolved for the account and optional project context.
+    /// This member is required.
+    public var status: BedrockClientTypes.TrustedAccessProgramStatus?
+    /// Nonempty explanation for requestable or revoked status. Omitted for other statuses.
+    public var statusReason: Swift.String?
+    /// Last change to the enrollment supplying the resolved opt-in. Present for enabled or disabled, including while revoked; omitted for inherit.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        description: Swift.String? = nil,
+        detailsUrl: Swift.String? = nil,
+        eligibilityScope: BedrockClientTypes.TrustedAccessProgramScope? = nil,
+        enrollmentUrl: Swift.String? = nil,
+        name: Swift.String? = nil,
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        programId: Swift.String? = nil,
+        providerName: Swift.String? = nil,
+        resolvedFor: BedrockClientTypes.TrustedAccessResolutionContext? = nil,
+        source: BedrockClientTypes.TrustedAccessProgramScope? = nil,
+        status: BedrockClientTypes.TrustedAccessProgramStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.description = description
+        self.detailsUrl = detailsUrl
+        self.eligibilityScope = eligibilityScope
+        self.enrollmentUrl = enrollmentUrl
+        self.name = name
+        self.optIn = optIn
+        self.programId = programId
+        self.providerName = providerName
+        self.resolvedFor = resolvedFor
+        self.source = source
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the trusted access program whose saved account enrollment preference to retrieve.
+public struct GetTrustedAccessProgramAccountEnrollmentInput: Swift.Sendable {
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+    }
+}
+
+/// The account's stored enrollment. updatedAt is present whenever a row exists, including an explicit inherit setting.
+public struct GetTrustedAccessProgramAccountEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// Last change to the stored enrollment. Present whenever a row exists, including an explicitly stored inherit setting.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the trusted access program whose saved organization enrollment preference to retrieve.
+public struct GetTrustedAccessProgramOrganizationEnrollmentInput: Swift.Sendable {
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+    }
+}
+
+/// The organization's stored enrollment. updatedAt is present whenever a row exists, including an explicit inherit setting.
+public struct GetTrustedAccessProgramOrganizationEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// Last change to the stored enrollment. Present whenever a row exists, including an explicitly stored inherit setting.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the trusted access program and named project whose saved enrollment preference to retrieve.
+public struct GetTrustedAccessProgramProjectEnrollmentInput: Swift.Sendable {
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+    /// The id or ARN of the named Bedrock project. The default project is not supported; use GetTrustedAccessProgramAccountEnrollment for account-level enrollment. An ARN from another account, Region, or partition returns ValidationException. A project that does not exist in the calling account returns ResourceNotFoundException.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// The project's stored enrollment. updatedAt is present whenever a row exists, including an explicit inherit setting.
+public struct GetTrustedAccessProgramProjectEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// Last change to the stored enrollment. Present whenever a row exists, including an explicitly stored inherit setting.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The optional named project for which to resolve participation in visible trusted access programs.
+public struct ListTrustedAccessProgramsInput: Swift.Sendable {
+    /// Reserved for future pagination support. Currently ignored; the response includes all visible programs.
+    public var maxResults: Swift.Int?
+    /// Reserved for future pagination support. Omit this field.
+    public var nextToken: Swift.String?
+    /// The ID or ARN of a named Bedrock project owned by the calling account in this Region. When omitted, resolves participation for the calling account, including participation inherited from its current organization. When specified, resolves participation for the project, including participation inherited from the account and its current organization. You cannot specify the default project. Omit this field to resolve its inherited participation. An ARN from another account, Region, or partition returns ValidationException. A project that does not exist in the calling account returns ResourceNotFoundException.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Program details and participation resolved for the calling account and optional named project.
+    public struct TrustedAccessProgramSummary: Swift.Sendable {
+        /// Description of the program and its effects on model access or data handling.
+        /// This member is required.
+        public var description: Swift.String?
+        /// URL with program details, terms, and instructions for obtaining access.
+        /// This member is required.
+        public var detailsUrl: Swift.String?
+        /// Scope supplying the applicable approval or most-specific revocation. Omitted when no approval or revocation applies.
+        public var eligibilityScope: BedrockClientTypes.TrustedAccessProgramScope?
+        /// Provider application intake URL. Omitted when the program has no customer-facing intake URL.
+        public var enrollmentUrl: Swift.String?
+        /// Display name of the program.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Resolved customer preference, preserved independently of eligibility, including while revoked.
+        /// This member is required.
+        public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+        /// Identifier of the trusted access program.
+        /// This member is required.
+        public var programId: Swift.String?
+        /// Name of the model provider offering the program.
+        /// This member is required.
+        public var providerName: Swift.String?
+        /// Account and optional project context for which participation was resolved.
+        /// This member is required.
+        public var resolvedFor: BedrockClientTypes.TrustedAccessResolutionContext?
+        /// Scope deciding the status. This can differ from the scope supplying the resolved opt-in preference and enrollment timestamps.
+        /// This member is required.
+        public var source: BedrockClientTypes.TrustedAccessProgramScope?
+        /// Participation status resolved for the account and optional project context.
+        /// This member is required.
+        public var status: BedrockClientTypes.TrustedAccessProgramStatus?
+        /// Nonempty explanation for requestable or revoked status. Omitted for other statuses.
+        public var statusReason: Swift.String?
+        /// Last change to the enrollment supplying the resolved opt-in. Present for enabled or disabled, including while revoked; omitted for inherit.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            detailsUrl: Swift.String? = nil,
+            eligibilityScope: BedrockClientTypes.TrustedAccessProgramScope? = nil,
+            enrollmentUrl: Swift.String? = nil,
+            name: Swift.String? = nil,
+            optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+            programId: Swift.String? = nil,
+            providerName: Swift.String? = nil,
+            resolvedFor: BedrockClientTypes.TrustedAccessResolutionContext? = nil,
+            source: BedrockClientTypes.TrustedAccessProgramScope? = nil,
+            status: BedrockClientTypes.TrustedAccessProgramStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.description = description
+            self.detailsUrl = detailsUrl
+            self.eligibilityScope = eligibilityScope
+            self.enrollmentUrl = enrollmentUrl
+            self.name = name
+            self.optIn = optIn
+            self.programId = programId
+            self.providerName = providerName
+            self.resolvedFor = resolvedFor
+            self.source = source
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// The visible trusted access programs and their resolved participation statuses.
+public struct ListTrustedAccessProgramsOutput: Swift.Sendable {
+    /// Reserved for future pagination support. Currently omitted because the response contains the complete list.
+    public var nextToken: Swift.String?
+    /// All visible programs with resolved participation, ordered by program ID. Always present, including an empty array when no programs are visible.
+    /// This member is required.
+    public var programSummaries: [BedrockClientTypes.TrustedAccessProgramSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        programSummaries: [BedrockClientTypes.TrustedAccessProgramSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.programSummaries = programSummaries
+    }
+}
+
+/// The trusted access program and enrollment preference to save for the calling account.
+public struct PutTrustedAccessProgramAccountEnrollmentInput: Swift.Sendable {
+    /// The enrollment preference to store. A transition to enabled accepts the program's terms. Changing the preference records a new updatedAt. Repeating the same stored preference preserves updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.optIn = optIn
+        self.programIdentifier = programIdentifier
+    }
+}
+
+/// The account's resulting stored enrollment setting. An initial inherit write creates a stored setting with updatedAt.
+public struct PutTrustedAccessProgramAccountEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The time the stored enrollment setting last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The trusted access program and enrollment preference to save for the organization.
+public struct PutTrustedAccessProgramOrganizationEnrollmentInput: Swift.Sendable {
+    /// The enrollment preference to store for the organization. A transition to enabled accepts the program's terms. Changing the preference records a new updatedAt. Repeating the same stored preference preserves updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.optIn = optIn
+        self.programIdentifier = programIdentifier
+    }
+}
+
+/// The organization's resulting stored enrollment setting. An initial inherit write creates a stored setting with updatedAt.
+public struct PutTrustedAccessProgramOrganizationEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The time the stored enrollment setting last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// The trusted access program, named project, and enrollment preference to save.
+public struct PutTrustedAccessProgramProjectEnrollmentInput: Swift.Sendable {
+    /// The enrollment preference to store. A transition to enabled accepts the program's terms. Changing the preference records a new updatedAt. Repeating the same stored preference preserves updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+    /// The id or ARN of the named Bedrock project. The default project is not supported; use PutTrustedAccessProgramAccountEnrollment for account-level enrollment. An ARN from another account, Region, or partition returns ValidationException. A project that does not exist in the calling account returns ResourceNotFoundException.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        programIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.optIn = optIn
+        self.programIdentifier = programIdentifier
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// The project's resulting stored enrollment setting. An initial inherit write creates a stored setting with updatedAt.
+public struct PutTrustedAccessProgramProjectEnrollmentOutput: Swift.Sendable {
+    /// Stored preference at the addressed scope. A missing enrollment returns inherit without updatedAt.
+    /// This member is required.
+    public var optIn: BedrockClientTypes.TrustedAccessProgramOptIn?
+    /// The time the stored enrollment setting last changed.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        optIn: BedrockClientTypes.TrustedAccessProgramOptIn? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.optIn = optIn
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Identifies the trusted access program for which to prepare an account application handoff.
+public struct StartTrustedAccessProgramAccountApplicationInput: Swift.Sendable {
+    /// Identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Information needed to continue an application with the provider.
+    public struct TrustedAccessProgramProviderHandoff: Swift.Sendable {
+        /// Opaque token binding the application to the authenticated customer, requested program, and scope.
+        /// This member is required.
+        public var applicationToken: Swift.String?
+        /// Deadline for the provider to accept the application context. Start another application handoff if the token expires before acceptance.
+        /// This member is required.
+        public var applicationTokenExpiresAt: Foundation.Date?
+        /// Provider intake URL. When present, open it and paste the complete application token into the provider's token field. Omitted when the provider receives the application token through a separate integration.
+        public var enrollmentUrl: Swift.String?
+
+        public init(
+            applicationToken: Swift.String? = nil,
+            applicationTokenExpiresAt: Foundation.Date? = nil,
+            enrollmentUrl: Swift.String? = nil
+        ) {
+            self.applicationToken = applicationToken
+            self.applicationTokenExpiresAt = applicationTokenExpiresAt
+            self.enrollmentUrl = enrollmentUrl
+        }
+    }
+}
+
+extension BedrockClientTypes.TrustedAccessProgramProviderHandoff: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TrustedAccessProgramProviderHandoff(applicationTokenExpiresAt: \(Swift.String(describing: applicationTokenExpiresAt)), enrollmentUrl: \(Swift.String(describing: enrollmentUrl)), applicationToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Result of preparing an application. A provider handoff does not submit an application, grant eligibility, or change enrollment. Clients must tolerate unknown union members.
+    public enum TrustedAccessProgramApplicationResult: Swift.Sendable {
+        /// Information for continuing the application with the provider.
+        case providerhandoff(BedrockClientTypes.TrustedAccessProgramProviderHandoff)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// The information needed to continue the account's application with the provider.
+public struct StartTrustedAccessProgramAccountApplicationOutput: Swift.Sendable {
+    /// Provider handoff for the calling account.
+    /// This member is required.
+    public var result: BedrockClientTypes.TrustedAccessProgramApplicationResult?
+
+    public init(
+        result: BedrockClientTypes.TrustedAccessProgramApplicationResult? = nil
+    ) {
+        self.result = result
+    }
+}
+
+/// Identifies the trusted access program for which to prepare an organization application handoff.
+public struct StartTrustedAccessProgramOrganizationApplicationInput: Swift.Sendable {
+    /// Identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+    }
+}
+
+/// The information needed to continue the organization's application with the provider.
+public struct StartTrustedAccessProgramOrganizationApplicationOutput: Swift.Sendable {
+    /// Provider handoff for the calling account's current organization.
+    /// This member is required.
+    public var result: BedrockClientTypes.TrustedAccessProgramApplicationResult?
+
+    public init(
+        result: BedrockClientTypes.TrustedAccessProgramApplicationResult? = nil
+    ) {
+        self.result = result
+    }
+}
+
+/// Identifies the trusted access program and named project for which to prepare an application handoff.
+public struct StartTrustedAccessProgramProjectApplicationInput: Swift.Sendable {
+    /// Identifier of the trusted access program.
+    /// This member is required.
+    public var programIdentifier: Swift.String?
+    /// The id or ARN of the named Bedrock project. The default project is not supported; use StartTrustedAccessProgramAccountApplication for an account-level application. An ARN from another account, Region, or partition returns ValidationException. A project that does not exist in the calling account returns ResourceNotFoundException.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+
+    public init(
+        programIdentifier: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil
+    ) {
+        self.programIdentifier = programIdentifier
+        self.projectIdentifier = projectIdentifier
+    }
+}
+
+/// The information needed to continue the project's application with the provider.
+public struct StartTrustedAccessProgramProjectApplicationOutput: Swift.Sendable {
+    /// Provider handoff for the named project.
+    /// This member is required.
+    public var result: BedrockClientTypes.TrustedAccessProgramApplicationResult?
+
+    public init(
+        result: BedrockClientTypes.TrustedAccessProgramApplicationResult? = nil
+    ) {
+        self.result = result
+    }
+}
+
 extension BedrockClientTypes {
 
     /// Specifies the filters to use on the metadata attributes/fields in the knowledge base data sources before returning results.
@@ -14494,6 +16166,16 @@ extension GetEvaluationJobOutput: Swift.CustomDebugStringConvertible {
         "GetEvaluationJobOutput(applicationType: \(Swift.String(describing: applicationType)), creationTime: \(Swift.String(describing: creationTime)), customerEncryptionKeyId: \(Swift.String(describing: customerEncryptionKeyId)), evaluationConfig: \(Swift.String(describing: evaluationConfig)), failureMessages: \(Swift.String(describing: failureMessages)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), jobArn: \(Swift.String(describing: jobArn)), jobName: \(Swift.String(describing: jobName)), jobType: \(Swift.String(describing: jobType)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), jobDescription: \"CONTENT_REDACTED\")"}
 }
 
+extension ArchiveProjectInput {
+
+    static func urlPathProvider(_ value: ArchiveProjectInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/projects/\(projectIdentifier.urlPercentEncoding())/archive"
+    }
+}
+
 extension BatchDeleteAdvancedPromptOptimizationJobInput {
 
     static func urlPathProvider(_ value: BatchDeleteAdvancedPromptOptimizationJobInput) -> Swift.String? {
@@ -14642,6 +16324,13 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
+        return "/projects"
+    }
+}
+
 extension CreatePromptRouterInput {
 
     static func urlPathProvider(_ value: CreatePromptRouterInput) -> Swift.String? {
@@ -14653,6 +16342,16 @@ extension CreateProvisionedModelThroughputInput {
 
     static func urlPathProvider(_ value: CreateProvisionedModelThroughputInput) -> Swift.String? {
         return "/provisioned-model-throughput"
+    }
+}
+
+extension DeleteAccountDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: DeleteAccountDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -14828,6 +16527,29 @@ extension DeleteModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension DeleteOrganizationDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: DeleteOrganizationDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/organization-storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension DeleteProjectDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: DeleteProjectDataRetentionStorageInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/projects/\(projectIdentifier.urlPercentEncoding())/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension DeletePromptRouterInput {
 
     static func urlPathProvider(_ value: DeletePromptRouterInput) -> Swift.String? {
@@ -14882,6 +16604,16 @@ extension GetAccountDataRetentionInput {
 
     static func urlPathProvider(_ value: GetAccountDataRetentionInput) -> Swift.String? {
         return "/data-retention"
+    }
+}
+
+extension GetAccountDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: GetAccountDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -15044,6 +16776,18 @@ extension GetFoundationModelInput {
     }
 }
 
+extension GetFoundationModelInput {
+
+    static func queryItemProvider(_ value: GetFoundationModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetFoundationModelAvailabilityInput {
 
     static func urlPathProvider(_ value: GetFoundationModelAvailabilityInput) -> Swift.String? {
@@ -15093,6 +16837,18 @@ extension GetInferenceProfileInput {
             return nil
         }
         return "/inference-profiles/\(inferenceProfileIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetInferenceProfileInput {
+
+    static func queryItemProvider(_ value: GetInferenceProfileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
+        }
+        return items
     }
 }
 
@@ -15153,6 +16909,39 @@ extension GetModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension GetOrganizationDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: GetOrganizationDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/organization-storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension GetProjectInput {
+
+    static func urlPathProvider(_ value: GetProjectInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/projects/\(projectIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetProjectDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: GetProjectDataRetentionStorageInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/projects/\(projectIdentifier.urlPercentEncoding())/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension GetPromptRouterInput {
 
     static func urlPathProvider(_ value: GetPromptRouterInput) -> Swift.String? {
@@ -15180,6 +16969,61 @@ extension GetResourcePolicyInput {
             return nil
         }
         return "/resource-policy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension GetTrustedAccessProgramInput {
+
+    static func urlPathProvider(_ value: GetTrustedAccessProgramInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetTrustedAccessProgramInput {
+
+    static func queryItemProvider(_ value: GetTrustedAccessProgramInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetTrustedAccessProgramAccountEnrollmentInput {
+
+    static func urlPathProvider(_ value: GetTrustedAccessProgramAccountEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/account-enrollment"
+    }
+}
+
+extension GetTrustedAccessProgramOrganizationEnrollmentInput {
+
+    static func urlPathProvider(_ value: GetTrustedAccessProgramOrganizationEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/organization-enrollment"
+    }
+}
+
+extension GetTrustedAccessProgramProjectEnrollmentInput {
+
+    static func urlPathProvider(_ value: GetTrustedAccessProgramProjectEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/project-enrollment/\(projectIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -15554,6 +17398,10 @@ extension ListFoundationModelsInput {
             let byProviderQueryItem = Smithy.URIQueryItem(name: "byProvider".urlPercentEncoding(), value: Swift.String(byProvider).urlPercentEncoding())
             items.append(byProviderQueryItem)
         }
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
+        }
         if let byInferenceType = value.byInferenceType {
             let byInferenceTypeQueryItem = Smithy.URIQueryItem(name: "byInferenceType".urlPercentEncoding(), value: Swift.String(byInferenceType.rawValue).urlPercentEncoding())
             items.append(byInferenceTypeQueryItem)
@@ -15650,6 +17498,10 @@ extension ListInferenceProfilesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
         }
         if let typeEquals = value.typeEquals {
             let typeEqualsQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(typeEquals.rawValue).urlPercentEncoding())
@@ -15882,6 +17734,33 @@ extension ListModelInvocationJobsInput {
     }
 }
 
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
+        return "/projects"
+    }
+}
+
+extension ListProjectsInput {
+
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let statusFilter = value.statusFilter {
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "statusFilter".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
+            items.append(statusFilterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPromptRoutersInput {
 
     static func urlPathProvider(_ value: ListPromptRoutersInput) -> Swift.String? {
@@ -15967,10 +17846,47 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTrustedAccessProgramsInput {
+
+    static func urlPathProvider(_ value: ListTrustedAccessProgramsInput) -> Swift.String? {
+        return "/trusted-access-programs"
+    }
+}
+
+extension ListTrustedAccessProgramsInput {
+
+    static func queryItemProvider(_ value: ListTrustedAccessProgramsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
 extension PutAccountDataRetentionInput {
 
     static func urlPathProvider(_ value: PutAccountDataRetentionInput) -> Swift.String? {
         return "/data-retention"
+    }
+}
+
+extension PutAccountDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: PutAccountDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -15988,10 +17904,66 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension PutOrganizationDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: PutOrganizationDataRetentionStorageInput) -> Swift.String? {
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/data_retention/organization-storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension PutProjectDataRetentionStorageInput {
+
+    static func urlPathProvider(_ value: PutProjectDataRetentionStorageInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        guard let modelProvider = value.modelProvider else {
+            return nil
+        }
+        return "/v1/projects/\(projectIdentifier.urlPercentEncoding())/data_retention/storage/\(modelProvider.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/resource-policy"
+    }
+}
+
+extension PutTrustedAccessProgramAccountEnrollmentInput {
+
+    static func urlPathProvider(_ value: PutTrustedAccessProgramAccountEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/account-enrollment"
+    }
+}
+
+extension PutTrustedAccessProgramOrganizationEnrollmentInput {
+
+    static func urlPathProvider(_ value: PutTrustedAccessProgramOrganizationEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/organization-enrollment"
+    }
+}
+
+extension PutTrustedAccessProgramProjectEnrollmentInput {
+
+    static func urlPathProvider(_ value: PutTrustedAccessProgramProjectEnrollmentInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/project-enrollment/\(projectIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -16046,6 +18018,39 @@ extension StartAutomatedReasoningPolicyTestWorkflowInput {
             return nil
         }
         return "/automated-reasoning-policies/\(policyArn.urlPercentEncoding())/build-workflows/\(buildWorkflowId.urlPercentEncoding())/test-workflows"
+    }
+}
+
+extension StartTrustedAccessProgramAccountApplicationInput {
+
+    static func urlPathProvider(_ value: StartTrustedAccessProgramAccountApplicationInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/account-application"
+    }
+}
+
+extension StartTrustedAccessProgramOrganizationApplicationInput {
+
+    static func urlPathProvider(_ value: StartTrustedAccessProgramOrganizationApplicationInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/organization-application"
+    }
+}
+
+extension StartTrustedAccessProgramProjectApplicationInput {
+
+    static func urlPathProvider(_ value: StartTrustedAccessProgramProjectApplicationInput) -> Swift.String? {
+        guard let programIdentifier = value.programIdentifier else {
+            return nil
+        }
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/trusted-access-programs/\(programIdentifier.urlPercentEncoding())/project-application/\(projectIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -16166,6 +18171,16 @@ extension UpdateMarketplaceModelEndpointInput {
             return nil
         }
         return "/marketplace-model/endpoints/\(endpointArn.urlPercentEncoding())"
+    }
+}
+
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
+        guard let projectIdentifier = value.projectIdentifier else {
+            return nil
+        }
+        return "/projects/\(projectIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -16419,6 +18434,16 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreateProjectInput {
+
+    static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataRetention"].write(value.dataRetention, with: BedrockClientTypes.ProjectDataRetention.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreatePromptRouterInput {
 
     static func write(value: CreatePromptRouterInput?, to writer: SmithyJSON.Writer) throws {
@@ -16470,6 +18495,15 @@ extension PutAccountDataRetentionInput {
     }
 }
 
+extension PutAccountDataRetentionStorageInput {
+
+    static func write(value: PutAccountDataRetentionStorageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BedrockClientTypes.DataRetentionStorageConfiguration.write(value:to:))
+        try writer["storageDestination"].write(value.storageDestination)
+    }
+}
+
 extension PutEnforcedGuardrailConfigurationInput {
 
     static func write(value: PutEnforcedGuardrailConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -16487,12 +18521,54 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension PutOrganizationDataRetentionStorageInput {
+
+    static func write(value: PutOrganizationDataRetentionStorageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BedrockClientTypes.DataRetentionStorageConfiguration.write(value:to:))
+        try writer["storageDestination"].write(value.storageDestination)
+    }
+}
+
+extension PutProjectDataRetentionStorageInput {
+
+    static func write(value: PutProjectDataRetentionStorageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BedrockClientTypes.DataRetentionStorageConfiguration.write(value:to:))
+        try writer["storageDestination"].write(value.storageDestination)
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
         try writer["resourcePolicy"].write(value.resourcePolicy)
+    }
+}
+
+extension PutTrustedAccessProgramAccountEnrollmentInput {
+
+    static func write(value: PutTrustedAccessProgramAccountEnrollmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optIn"].write(value.optIn)
+    }
+}
+
+extension PutTrustedAccessProgramOrganizationEnrollmentInput {
+
+    static func write(value: PutTrustedAccessProgramOrganizationEnrollmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optIn"].write(value.optIn)
+    }
+}
+
+extension PutTrustedAccessProgramProjectEnrollmentInput {
+
+    static func write(value: PutTrustedAccessProgramProjectEnrollmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optIn"].write(value.optIn)
     }
 }
 
@@ -16615,12 +18691,39 @@ extension UpdateMarketplaceModelEndpointInput {
     }
 }
 
+extension UpdateProjectInput {
+
+    static func write(value: UpdateProjectInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataRetention"].write(value.dataRetention, with: BedrockClientTypes.ProjectDataRetention.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
 extension UpdateProvisionedModelThroughputInput {
 
     static func write(value: UpdateProvisionedModelThroughputInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["desiredModelId"].write(value.desiredModelId)
         try writer["desiredProvisionedModelName"].write(value.desiredProvisionedModelName)
+    }
+}
+
+extension ArchiveProjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ArchiveProjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ArchiveProjectOutput()
+        value.archivedAt = try reader["archivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataRetention = try reader["dataRetention"].readIfPresent(with: BedrockClientTypes.ProjectDataRetention.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -16866,6 +18969,24 @@ extension CreateModelInvocationJobOutput {
     }
 }
 
+extension CreateProjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProjectOutput()
+        value.archivedAt = try reader["archivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataRetention = try reader["dataRetention"].readIfPresent(with: BedrockClientTypes.ProjectDataRetention.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreatePromptRouterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePromptRouterOutput {
@@ -16887,6 +19008,13 @@ extension CreateProvisionedModelThroughputOutput {
         var value = CreateProvisionedModelThroughputOutput()
         value.provisionedModelArn = try reader["provisionedModelArn"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension DeleteAccountDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccountDataRetentionStorageOutput {
+        return DeleteAccountDataRetentionStorageOutput()
     }
 }
 
@@ -16974,6 +19102,20 @@ extension DeleteModelInvocationLoggingConfigurationOutput {
     }
 }
 
+extension DeleteOrganizationDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOrganizationDataRetentionStorageOutput {
+        return DeleteOrganizationDataRetentionStorageOutput()
+    }
+}
+
+extension DeleteProjectDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProjectDataRetentionStorageOutput {
+        return DeleteProjectDataRetentionStorageOutput()
+    }
+}
+
 extension DeletePromptRouterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptRouterOutput {
@@ -17023,6 +19165,24 @@ extension GetAccountDataRetentionOutput {
         var value = GetAccountDataRetentionOutput()
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetAccountDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -17466,6 +19626,61 @@ extension GetModelInvocationLoggingConfigurationOutput {
     }
 }
 
+extension GetOrganizationDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOrganizationDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetOrganizationDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetProjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProjectOutput()
+        value.archivedAt = try reader["archivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataRetention = try reader["dataRetention"].readIfPresent(with: BedrockClientTypes.ProjectDataRetention.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetProjectDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProjectDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProjectDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetPromptRouterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPromptRouterOutput {
@@ -17519,6 +19734,69 @@ extension GetResourcePolicyOutput {
         let reader = responseReader
         var value = GetResourcePolicyOutput()
         value.resourcePolicy = try reader["resourcePolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension GetTrustedAccessProgramOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustedAccessProgramOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustedAccessProgramOutput()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.detailsUrl = try reader["detailsUrl"].readIfPresent() ?? ""
+        value.eligibilityScope = try reader["eligibilityScope"].readIfPresent()
+        value.enrollmentUrl = try reader["enrollmentUrl"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.programId = try reader["programId"].readIfPresent() ?? ""
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.resolvedFor = try reader["resolvedFor"].readIfPresent(with: BedrockClientTypes.TrustedAccessResolutionContext.read(from:))
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetTrustedAccessProgramAccountEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustedAccessProgramAccountEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustedAccessProgramAccountEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetTrustedAccessProgramOrganizationEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustedAccessProgramOrganizationEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustedAccessProgramOrganizationEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetTrustedAccessProgramProjectEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustedAccessProgramProjectEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustedAccessProgramProjectEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -17781,6 +20059,19 @@ extension ListModelInvocationJobsOutput {
     }
 }
 
+extension ListProjectsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProjectsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProjectsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.projectSummaries = try reader["projectSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.ProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListPromptRoutersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPromptRoutersOutput {
@@ -17819,6 +20110,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTrustedAccessProgramsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrustedAccessProgramsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrustedAccessProgramsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.programSummaries = try reader["programSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.TrustedAccessProgramSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension PutAccountDataRetentionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDataRetentionOutput {
@@ -17828,6 +20132,24 @@ extension PutAccountDataRetentionOutput {
         var value = PutAccountDataRetentionOutput()
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension PutAccountDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAccountDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -17853,6 +20175,43 @@ extension PutModelInvocationLoggingConfigurationOutput {
     }
 }
 
+extension PutOrganizationDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutOrganizationDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutOrganizationDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PutProjectDataRetentionStorageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProjectDataRetentionStorageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutProjectDataRetentionStorageOutput()
+        value.kmsKeyStatus = try reader["kmsKeyStatus"].readIfPresent()
+        value.modelProvider = try reader["modelProvider"].readIfPresent() ?? .sdkUnknown("")
+        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
+        value.s3BucketStatus = try reader["s3BucketStatus"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BedrockClientTypes.DataRetentionStorageConfiguration.read(from:))
+        value.storageDestination = try reader["storageDestination"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension PutResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
@@ -17861,6 +20220,45 @@ extension PutResourcePolicyOutput {
         let reader = responseReader
         var value = PutResourcePolicyOutput()
         value.resourceArn = try reader["resourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PutTrustedAccessProgramAccountEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTrustedAccessProgramAccountEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutTrustedAccessProgramAccountEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PutTrustedAccessProgramOrganizationEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTrustedAccessProgramOrganizationEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutTrustedAccessProgramOrganizationEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PutTrustedAccessProgramProjectEnrollmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTrustedAccessProgramProjectEnrollmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutTrustedAccessProgramProjectEnrollmentOutput()
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -17905,6 +20303,42 @@ extension StartAutomatedReasoningPolicyTestWorkflowOutput {
         let reader = responseReader
         var value = StartAutomatedReasoningPolicyTestWorkflowOutput()
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartTrustedAccessProgramAccountApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTrustedAccessProgramAccountApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTrustedAccessProgramAccountApplicationOutput()
+        value.result = try reader["result"].readIfPresent(with: BedrockClientTypes.TrustedAccessProgramApplicationResult.read(from:))
+        return value
+    }
+}
+
+extension StartTrustedAccessProgramOrganizationApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTrustedAccessProgramOrganizationApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTrustedAccessProgramOrganizationApplicationOutput()
+        value.result = try reader["result"].readIfPresent(with: BedrockClientTypes.TrustedAccessProgramApplicationResult.read(from:))
+        return value
+    }
+}
+
+extension StartTrustedAccessProgramProjectApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTrustedAccessProgramProjectApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTrustedAccessProgramProjectApplicationOutput()
+        value.result = try reader["result"].readIfPresent(with: BedrockClientTypes.TrustedAccessProgramApplicationResult.read(from:))
         return value
     }
 }
@@ -18033,10 +20467,47 @@ extension UpdateMarketplaceModelEndpointOutput {
     }
 }
 
+extension UpdateProjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProjectOutput()
+        value.archivedAt = try reader["archivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataRetention = try reader["dataRetention"].readIfPresent(with: BedrockClientTypes.ProjectDataRetention.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension UpdateProvisionedModelThroughputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProvisionedModelThroughputOutput {
         return UpdateProvisionedModelThroughputOutput()
+    }
+}
+
+enum ArchiveProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -18418,6 +20889,26 @@ enum CreateModelInvocationJobOutputError {
     }
 }
 
+enum CreateProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePromptRouterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18453,6 +20944,23 @@ enum CreateProvisionedModelThroughputOutputError {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAccountDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -18686,6 +21194,41 @@ enum DeleteModelInvocationLoggingConfigurationOutputError {
     }
 }
 
+enum DeleteOrganizationDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProjectDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePromptRouterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18788,6 +21331,24 @@ enum GetAccountDataRetentionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAccountDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -19189,6 +21750,60 @@ enum GetModelInvocationLoggingConfigurationOutputError {
     }
 }
 
+enum GetOrganizationDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProjectDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPromptRouterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19226,6 +21841,78 @@ enum GetProvisionedModelThroughputOutputError {
 }
 
 enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustedAccessProgramOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustedAccessProgramAccountEnrollmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustedAccessProgramOrganizationEnrollmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustedAccessProgramProjectEnrollmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -19593,6 +22280,23 @@ enum ListModelInvocationJobsOutputError {
     }
 }
 
+enum ListProjectsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPromptRoutersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19645,6 +22349,24 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTrustedAccessProgramsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutAccountDataRetentionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19654,6 +22376,24 @@ enum PutAccountDataRetentionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccountDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -19698,6 +22438,43 @@ enum PutModelInvocationLoggingConfigurationOutputError {
     }
 }
 
+enum PutOrganizationDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutProjectDataRetentionStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19709,6 +22486,63 @@ enum PutResourcePolicyOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTrustedAccessProgramAccountEnrollmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTrustedAccessProgramOrganizationEnrollmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTrustedAccessProgramProjectEnrollmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -19784,6 +22618,60 @@ enum StartAutomatedReasoningPolicyTestWorkflowOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartTrustedAccessProgramAccountApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartTrustedAccessProgramOrganizationApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartTrustedAccessProgramProjectApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -20022,6 +22910,25 @@ enum UpdateMarketplaceModelEndpointOutputError {
     }
 }
 
+enum UpdateProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateProvisionedModelThroughputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20053,11 +22960,37 @@ extension AccessDeniedException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServerException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20084,32 +23017,6 @@ extension ValidationException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21838,6 +24745,25 @@ extension BedrockClientTypes.DataProcessingDetails {
     }
 }
 
+extension BedrockClientTypes.DataRetentionStorageConfiguration {
+
+    static func write(value: BedrockClientTypes.DataRetentionStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["s3BucketArn"].write(value.s3BucketArn)
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DataRetentionStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DataRetentionStorageConfiguration()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
+        value.s3BucketArn = try reader["s3BucketArn"].readIfPresent() ?? ""
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockClientTypes.DimensionalPriceRate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DimensionalPriceRate {
@@ -23560,6 +26486,37 @@ extension BedrockClientTypes.PricingTerm {
     }
 }
 
+extension BedrockClientTypes.ProjectDataRetention {
+
+    static func write(value: BedrockClientTypes.ProjectDataRetention?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ProjectDataRetention {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ProjectDataRetention()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockClientTypes.ProjectSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ProjectSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ProjectSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.archivedAt = try reader["archivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataRetention = try reader["dataRetention"].readIfPresent(with: BedrockClientTypes.ProjectDataRetention.read(from:))
+        return value
+    }
+}
+
 extension BedrockClientTypes.PromptRouterSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PromptRouterSummary {
@@ -24180,6 +27137,65 @@ extension BedrockClientTypes.TrainingMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.TrainingMetrics()
         value.trainingLoss = try reader["trainingLoss"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.TrustedAccessProgramApplicationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrustedAccessProgramApplicationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "providerHandoff":
+                return .providerhandoff(try reader["providerHandoff"].read(with: BedrockClientTypes.TrustedAccessProgramProviderHandoff.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.TrustedAccessProgramProviderHandoff {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrustedAccessProgramProviderHandoff {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TrustedAccessProgramProviderHandoff()
+        value.enrollmentUrl = try reader["enrollmentUrl"].readIfPresent()
+        value.applicationToken = try reader["applicationToken"].readIfPresent() ?? ""
+        value.applicationTokenExpiresAt = try reader["applicationTokenExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockClientTypes.TrustedAccessProgramSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrustedAccessProgramSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TrustedAccessProgramSummary()
+        value.programId = try reader["programId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.detailsUrl = try reader["detailsUrl"].readIfPresent() ?? ""
+        value.enrollmentUrl = try reader["enrollmentUrl"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.eligibilityScope = try reader["eligibilityScope"].readIfPresent()
+        value.resolvedFor = try reader["resolvedFor"].readIfPresent(with: BedrockClientTypes.TrustedAccessResolutionContext.read(from:))
+        value.optIn = try reader["optIn"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.TrustedAccessResolutionContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrustedAccessResolutionContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TrustedAccessResolutionContext()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.projectArn = try reader["projectArn"].readIfPresent()
         return value
     }
 }

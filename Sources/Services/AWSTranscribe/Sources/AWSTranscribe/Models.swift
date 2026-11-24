@@ -77,11 +77,71 @@ extension TranscribeClientTypes {
     }
 }
 
-/// Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+extension TranscribeClientTypes {
+
+    public enum BadRequestExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audioFileTooLarge
+        case audioTooLong
+        case audioTooShort
+        case invalidAudio
+        case mediaDownloadFailed
+        case unsupportedAudioFormat
+        case unsupportedChannelCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BadRequestExceptionReason] {
+            return [
+                .audioFileTooLarge,
+                .audioTooLong,
+                .audioTooShort,
+                .invalidAudio,
+                .mediaDownloadFailed,
+                .unsupportedAudioFormat,
+                .unsupportedChannelCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audioFileTooLarge: return "audioFileTooLarge"
+            case .audioTooLong: return "audioTooLong"
+            case .audioTooShort: return "audioTooShort"
+            case .invalidAudio: return "invalidAudio"
+            case .mediaDownloadFailed: return "mediaDownloadFailed"
+            case .unsupportedAudioFormat: return "unsupportedAudioFormat"
+            case .unsupportedChannelCount: return "unsupportedChannelCount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Your request didn't pass one or more validation tests. This can occur when a parameter has an invalid value, when you combine parameters in a way that isn't supported, when the entity you're trying to delete doesn't exist, or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
 public struct BadRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// A code that identifies why the audio in your request was rejected. Currently, TranscribeAudio returns this field, and only for problems with your audio. It isn't returned for other validation errors. Possible values:
+        ///
+        /// * audioTooLong: The audio is longer than the maximum duration of 1 hour.
+        ///
+        /// * audioTooShort: The audio is shorter than 0.5 seconds.
+        ///
+        /// * audioFileTooLarge: The audio is larger than the maximum size.
+        ///
+        /// * unsupportedAudioFormat: The media format isn't supported.
+        ///
+        /// * unsupportedChannelCount: You enabled ChannelIdentification and the audio has more than two channels.
+        ///
+        /// * invalidAudio: Amazon Transcribe couldn't decode the audio.
+        ///
+        /// * mediaDownloadFailed: Amazon Transcribe couldn't download the audio at your MediaFileUri.
+        public internal(set) var reason: TranscribeClientTypes.BadRequestExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -94,9 +154,11 @@ public struct BadRequestException: ClientRuntime.ModeledError, ClientRuntime.Ser
     public var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: TranscribeClientTypes.BadRequestExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -929,11 +991,11 @@ extension TranscribeClientTypes {
 
 extension TranscribeClientTypes {
 
-    /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact.
+    /// Makes it possible to redact specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact.
     public struct ContentRedaction: Swift.Sendable {
         /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. If you do not include PiiEntityTypes in your request, all PII is redacted.
         public var piiEntityTypes: [TranscribeClientTypes.PiiEntityType]?
-        /// Specify if you want only a redacted transcript, or if you want a redacted and an unredacted transcript. When you choose redacted Amazon Transcribe creates only a redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe creates a redacted and an unredacted transcript (as two separate files).
+        /// Specify if you want only a redacted transcript, or if you want a redacted and an unredacted transcript. When you choose redacted Amazon Transcribe creates only a redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe creates a redacted and an unredacted transcript. For batch jobs, Amazon Transcribe creates two separate files. For TranscribeAudio, Amazon Transcribe returns them in RedactedResults and Results, or writes them as two separate files if you use OutputConfiguration.
         /// This member is required.
         public var redactionOutput: TranscribeClientTypes.RedactionOutput?
         /// Specify the category of information you want to redact; PII (personally identifiable information) is the only valid value. You can use PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEntityTypes in your request, all PII is redacted.
@@ -1027,7 +1089,7 @@ extension TranscribeClientTypes {
 
     /// Provides additional optional settings for your request, including content redaction, automatic language identification; allows you to apply custom language models, custom vocabulary filters, and custom vocabularies.
     public struct CallAnalyticsJobSettings: Swift.Sendable {
-        /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact.
+        /// Makes it possible to redact specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact.
         public var contentRedaction: TranscribeClientTypes.ContentRedaction?
         /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model, custom vocabulary, or custom vocabulary filter with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName, VocabularyName, or VocabularyFilterName sub-parameters. For a list of languages supported with Call Analytics, refer to [Supported languages and language-specific features](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html).
         public var languageIdSettings: [Swift.String: TranscribeClientTypes.LanguageIdSettings]?
@@ -1797,7 +1859,7 @@ public struct CreateCallAnalyticsCategoryOutput: Swift.Sendable {
 
 extension TranscribeClientTypes {
 
-    /// Encryption configuration for the invocation
+    /// The encryption configuration for your custom resource. Specify a customer managed KMS key, and optionally an encryption context, to encrypt your custom vocabulary, custom vocabulary filter, or custom language model artifacts at rest. If you do not provide a key, your artifacts are encrypted with an Amazon Web Services owned key.
     public struct EncryptionConfiguration: Swift.Sendable {
         /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context).
         public var kmsEncryptionContext: [Swift.String: Swift.String]?
@@ -1844,7 +1906,7 @@ public struct CreateLanguageModelInput: Swift.Sendable {
     /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
     /// This member is required.
     public var baseModelName: TranscribeClientTypes.BaseModelName?
-    /// Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
     /// This member is required.
@@ -2022,7 +2084,7 @@ public struct CreateMedicalVocabularyOutput: Swift.Sendable {
 public struct CreateVocabularyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
@@ -2086,7 +2148,7 @@ public struct CreateVocabularyOutput: Swift.Sendable {
 public struct CreateVocabularyFilterInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
@@ -3422,6 +3484,32 @@ public struct GetVocabularyFilterOutput: Swift.Sendable {
     }
 }
 
+extension TranscribeClientTypes {
+
+    public enum LanguageDetectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case identifyLanguage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageDetectionMode] {
+            return [
+                .identifyLanguage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .identifyLanguage: return "IDENTIFY_LANGUAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListCallAnalyticsCategoriesInput: Swift.Sendable {
     /// The maximum number of Call Analytics categories to return in each page of results. If there are fewer results than the value that you specify, only the actual results are returned. If you do not specify a value, a default of 5 is used.
     public var maxResults: Swift.Int?
@@ -4344,7 +4432,7 @@ extension TranscribeClientTypes {
 }
 
 public struct StartTranscriptionJobInput: Swift.Sendable {
-    /// Makes it possible to redact or flag specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEntityTypes in your request, all PII is redacted.
+    /// Makes it possible to redact specified personally identifiable information (PII) in your transcript. If you use ContentRedaction, you must also include the sub-parameters: RedactionOutput and RedactionType. You can optionally include PiiEntityTypes to choose which types of PII you want to redact. If you do not include PiiEntityTypes in your request, all PII is redacted.
     public var contentRedaction: TranscribeClientTypes.ContentRedaction?
     /// Enables automatic language identification in your transcription job request. Use this parameter if your media file contains only one language. If your media contains multiple languages, use IdentifyMultipleLanguages instead. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
     public var identifyLanguage: Swift.Bool?
@@ -4454,6 +4542,280 @@ public struct StartTranscriptionJobOutput: Swift.Sendable {
     }
 }
 
+extension TranscribeClientTypes {
+
+    public enum SyncLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deCh
+        case deDe
+        case enAb
+        case enAu
+        case enGb
+        case enIe
+        case enIn
+        case enNz
+        case enUs
+        case enWl
+        case enZa
+        case esEs
+        case esMx
+        case esUs
+        case frCa
+        case frFr
+        case itIt
+        case jaJp
+        case koKr
+        case ptBr
+        case ptPt
+        case zhCn
+        case zhHk
+        case zhTw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncLanguageCode] {
+            return [
+                .deCh,
+                .deDe,
+                .enAb,
+                .enAu,
+                .enGb,
+                .enIe,
+                .enIn,
+                .enNz,
+                .enUs,
+                .enWl,
+                .enZa,
+                .esEs,
+                .esMx,
+                .esUs,
+                .frCa,
+                .frFr,
+                .itIt,
+                .jaJp,
+                .koKr,
+                .ptBr,
+                .ptPt,
+                .zhCn,
+                .zhHk,
+                .zhTw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deCh: return "de-CH"
+            case .deDe: return "de-DE"
+            case .enAb: return "en-AB"
+            case .enAu: return "en-AU"
+            case .enGb: return "en-GB"
+            case .enIe: return "en-IE"
+            case .enIn: return "en-IN"
+            case .enNz: return "en-NZ"
+            case .enUs: return "en-US"
+            case .enWl: return "en-WL"
+            case .enZa: return "en-ZA"
+            case .esEs: return "es-ES"
+            case .esMx: return "es-MX"
+            case .esUs: return "es-US"
+            case .frCa: return "fr-CA"
+            case .frFr: return "fr-FR"
+            case .itIt: return "it-IT"
+            case .jaJp: return "ja-JP"
+            case .koKr: return "ko-KR"
+            case .ptBr: return "pt-BR"
+            case .ptPt: return "pt-PT"
+            case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
+            case .zhTw: return "zh-TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A type of personally identifiable information (PII) redacted from an item.
+    public struct SyncRedaction: Swift.Sendable {
+        /// The type of PII that was redacted, for example NAME or SSN.
+        public var type: TranscribeClientTypes.PiiEntityType?
+
+        public init(
+            type: TranscribeClientTypes.PiiEntityType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A word or punctuation mark in your transcript. Labels such as SpeakerLabel and ChannelLabel are present only if you enabled the related feature.
+    public struct SyncItem: Swift.Sendable {
+        /// The audio channel this item came from (ch_0 or ch_1). Present if you enabled ChannelIdentification. Item start and end times are measured from the start of the audio, separately for each channel.
+        public var channelLabel: Swift.String?
+        /// The word or punctuation mark. In RedactedResults, Amazon Transcribe replaces redacted words with [PII].
+        public var content: Swift.String?
+        /// The time, in seconds from the start of your audio, when this item ends.
+        public var endTime: Swift.Double?
+        /// The position of this item in the transcript, starting at 0.
+        public var id: Swift.Int?
+        /// The language of this item, as a locale (for example, en-US).
+        public var languageCode: TranscribeClientTypes.SyncLanguageCode?
+        /// The types of personally identifiable information (PII) that Amazon Transcribe redacted from this item. Present only on redacted items in RedactedResults.
+        public var redactions: [TranscribeClientTypes.SyncRedaction]?
+        /// The speaker of this item (for example, spk_0). Present if you enabled ShowSpeakerLabels.
+        public var speakerLabel: Swift.String?
+        /// The time, in seconds from the start of your audio, when this item starts.
+        public var startTime: Swift.Double?
+        /// Indicates whether this item matched a word in your custom vocabulary filter. Present if you included VocabularyFilterSettings.
+        public var vocabularyFilterMatch: Swift.Bool?
+
+        public init(
+            channelLabel: Swift.String? = nil,
+            content: Swift.String? = nil,
+            endTime: Swift.Double? = nil,
+            id: Swift.Int? = nil,
+            languageCode: TranscribeClientTypes.SyncLanguageCode? = nil,
+            redactions: [TranscribeClientTypes.SyncRedaction]? = nil,
+            speakerLabel: Swift.String? = nil,
+            startTime: Swift.Double? = nil,
+            vocabularyFilterMatch: Swift.Bool? = nil
+        ) {
+            self.channelLabel = channelLabel
+            self.content = content
+            self.endTime = endTime
+            self.id = id
+            self.languageCode = languageCode
+            self.redactions = redactions
+            self.speakerLabel = speakerLabel
+            self.startTime = startTime
+            self.vocabularyFilterMatch = vocabularyFilterMatch
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    public enum SyncLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case de
+        case en
+        case es
+        case fr
+        case it
+        case ja
+        case ko
+        case pt
+        case zhCn
+        case zhHk
+        case zhTw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncLanguage] {
+            return [
+                .de,
+                .en,
+                .es,
+                .fr,
+                .it,
+                .ja,
+                .ko,
+                .pt,
+                .zhCn,
+                .zhHk,
+                .zhTw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .de: return "de"
+            case .en: return "en"
+            case .es: return "es"
+            case .fr: return "fr"
+            case .it: return "it"
+            case .ja: return "ja"
+            case .ko: return "ko"
+            case .pt: return "pt"
+            case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
+            case .zhTw: return "zh-TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A language identified in your audio, and how long it's spoken.
+    public struct SyncLanguageCodeItem: Swift.Sendable {
+        /// The total time, in seconds, the identified language is spoken in your audio.
+        public var durationInSeconds: Swift.Float?
+        /// The identified language, as a locale (for example, en-US).
+        public var languageCode: TranscribeClientTypes.SyncLanguageCode?
+
+        public init(
+            durationInSeconds: Swift.Float? = nil,
+            languageCode: TranscribeClientTypes.SyncLanguageCode? = nil
+        ) {
+            self.durationInSeconds = durationInSeconds
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// The audio to transcribe. Specify exactly one of MediaBytes or MediaFileUri. Audio sent in the request (MediaBytes) can be up to 25 MB. Audio in Amazon S3 (MediaFileUri) can be up to 500 MB.
+    public enum SyncMedia: Swift.Sendable {
+        /// Your audio file, provided inline in the request. The maximum size is 25 MB (26,214,400 bytes) of audio, measured before base64 encoding. If you use an Amazon Web Services SDK, the SDK base64-encodes the bytes for you. If you call the API directly, base64-encode the bytes yourself.
+        case mediabytes(Foundation.Data)
+        /// The Amazon S3 location of the media file you want to transcribe. For example:
+        ///
+        /// * s3://amzn-s3-demo-bucket/my-media-file.flac
+        ///
+        /// * s3://amzn-s3-demo-bucket/media-files/my-media-file.flac
+        ///
+        ///
+        /// The maximum file size is 500 MB. You must have read permission for the file. The Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request.
+        case mediafileuri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// The Amazon S3 location where your transcript is written.
+    public struct SyncOutputConfiguration: Swift.Sendable {
+        /// The Amazon S3 location where you want your transcript written. For example:
+        ///
+        /// * s3://amzn-s3-demo-bucket/my-transcript.json
+        ///
+        /// * s3://amzn-s3-demo-bucket/transcripts/
+        ///
+        ///
+        /// If the location ends with an object key, Amazon Transcribe writes the transcript to that key. If it is a bucket or ends with a forward slash (/), it's treated as a prefix, and Amazon Transcribe writes the transcript under it to a file named with the request ID of your call and a .json extension. If you use ContentRedaction, Amazon Transcribe writes the redacted transcript to the same location and adds redacted- before the file name (for example, redacted-my-transcript.json). With redacted_and_unredacted, Amazon Transcribe writes both files. If an object already exists at that key, Amazon Transcribe overwrites it. In a response, this is the location where Amazon Transcribe wrote your transcript. If you requested redacted_and_unredacted output, this is the location of the unredacted transcript.
+        /// This member is required.
+        public var outputMediaFileUri: Swift.String?
+
+        public init(
+            outputMediaFileUri: Swift.String? = nil
+        ) {
+            self.outputMediaFileUri = outputMediaFileUri
+        }
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
     /// This member is required.
@@ -4474,6 +4836,245 @@ public struct TagResourceInput: Swift.Sendable {
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension TranscribeClientTypes {
+
+    /// A custom vocabulary filter for one language. Specify exactly one of VocabularyFilterName or Words.
+    public struct VocabularyFilterEntry: Swift.Sendable {
+        /// The language this custom vocabulary filter applies to, as a base language code (for example, en). Each language can appear in only one entry.
+        /// This member is required.
+        public var language: TranscribeClientTypes.SyncLanguage?
+        /// The name of a custom vocabulary filter you created. The filter's language must match this entry's Language. Vocabulary filter names are case sensitive. Include either VocabularyFilterName or Words in each entry, but not both.
+        public var vocabularyFilterName: Swift.String?
+        /// The words to filter, provided inline. You don't need to create the vocabulary filter first. Include either Words or VocabularyFilterName in each entry, but not both.
+        public var words: [Swift.String]?
+
+        public init(
+            language: TranscribeClientTypes.SyncLanguage? = nil,
+            vocabularyFilterName: Swift.String? = nil,
+            words: [Swift.String]? = nil
+        ) {
+            self.language = language
+            self.vocabularyFilterName = vocabularyFilterName
+            self.words = words
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// Custom vocabulary filters to apply to your transcript, and how to apply them.
+    public struct VocabularyFilterSettings: Swift.Sendable {
+        /// Custom vocabulary filters, with one entry per language. In each entry, you can reference a custom vocabulary filter you created or provide words inline. All entries must use the same type, either all by name or all inline. If you specify Language, include exactly one entry, and its Language must match. If you use LanguageDetectionMode, you can include one entry for each language in LanguageOptions.
+        /// This member is required.
+        public var filters: [TranscribeClientTypes.VocabularyFilterEntry]?
+        /// Specify how you want your custom vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
+        /// This member is required.
+        public var vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod?
+
+        public init(
+            filters: [TranscribeClientTypes.VocabularyFilterEntry]? = nil,
+            vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod? = nil
+        ) {
+            self.filters = filters
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A phrase in an inline custom vocabulary.
+    public struct VocabularyPhrase: Swift.Sendable {
+        /// How the phrase is written in your transcript. If you don't include DisplayAs, the phrase is written as it appears in Text.
+        public var displayAs: Swift.String?
+        /// The phrase to recognize in your audio.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            displayAs: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.displayAs = displayAs
+            self.text = text
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A custom vocabulary for one language. Specify exactly one of VocabularyName or Phrases.
+    public struct VocabularySettingsEntry: Swift.Sendable {
+        /// The language this custom vocabulary applies to, as a base language code (for example, en). Each language can appear in only one entry.
+        /// This member is required.
+        public var language: TranscribeClientTypes.SyncLanguage?
+        /// Up to 100 phrases to use as a custom vocabulary, provided inline. You don't need to create the vocabulary first. Include either Phrases or VocabularyName in each entry, but not both.
+        public var phrases: [TranscribeClientTypes.VocabularyPhrase]?
+        /// The name of a custom vocabulary you created. The vocabulary must be in the READY state, and its language must match this entry's Language. Vocabulary names are case sensitive. Include either VocabularyName or Phrases in each entry, but not both.
+        public var vocabularyName: Swift.String?
+
+        public init(
+            language: TranscribeClientTypes.SyncLanguage? = nil,
+            phrases: [TranscribeClientTypes.VocabularyPhrase]? = nil,
+            vocabularyName: Swift.String? = nil
+        ) {
+            self.language = language
+            self.phrases = phrases
+            self.vocabularyName = vocabularyName
+        }
+    }
+}
+
+public struct TranscribeAudioInput: Swift.Sendable {
+    /// Enables channel identification in multi-channel audio. Each channel is transcribed independently, and each item in the transcript is labeled with its channel. Channel identification supports up to two channels.
+    public var channelIdentification: Swift.Bool?
+    /// Redacts personally identifiable information (PII) from your transcript. Amazon Transcribe returns the redacted transcript in RedactedResults. If you set RedactionOutput to redacted_and_unredacted, Amazon Transcribe also returns the unredacted transcript in Results. In Sync, content redaction has these limits:
+    ///
+    /// * Languages: English (en), Spanish (es), French (fr), Italian (it), German (de), and Portuguese (pt).
+    ///
+    /// * Language identification: If you use LanguageDetectionMode, you must also include LanguageOptions, and every language in it must be one of the languages above. A request that has no LanguageOptions, or that lists a language that isn't supported, returns a BadRequestException.
+    ///
+    /// * Regions: Content redaction isn't available in the South America (São Paulo) Region (sa-east-1). It's available in the other Amazon Web Services Regions where Sync is available.
+    public var contentRedaction: TranscribeClientTypes.ContentRedaction?
+    /// The language spoken in your audio, as a base language code (for example, en or es). Include either Language or LanguageDetectionMode in your request, but not both.
+    public var language: TranscribeClientTypes.SyncLanguage?
+    /// Enables automatic language identification. Use IDENTIFY_LANGUAGE if your audio contains a single language that you don't know in advance. You can optionally include LanguageOptions to limit identification to languages you think may be present, which can improve accuracy. Amazon Transcribe returns the identified language, as a locale (for example, en-US), in the response metadata. Include either Language or LanguageDetectionMode in your request, but not both.
+    public var languageDetectionMode: TranscribeClientTypes.LanguageDetectionMode?
+    /// A list of two or more languages that you think may be present in your audio, as base language codes (for example, en and es). Each language can appear only once. A list with only one language returns a BadRequestException. You can use LanguageOptions only with LanguageDetectionMode.
+    public var languageOptions: [TranscribeClientTypes.SyncLanguage]?
+    /// Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the specified number, Amazon Transcribe treats multiple speakers as a single speaker. You can set MaxSpeakerLabels only if ShowSpeakerLabels is true.
+    public var maxSpeakerLabels: Swift.Int?
+    /// The audio to transcribe. Specify exactly one of MediaBytes or MediaFileUri. Audio sent in the request (MediaBytes) can be up to 25 MB. Audio in Amazon S3 (MediaFileUri) can be up to 500 MB.
+    /// This member is required.
+    public var media: TranscribeClientTypes.SyncMedia?
+    /// Writes the transcript to an Amazon S3 location instead of returning it in the response. If you include OutputConfiguration, the response contains only the output location. You must have write permission for the location you specify.
+    public var outputConfiguration: TranscribeClientTypes.SyncOutputConfiguration?
+    /// Enables speaker partitioning (diarization) in your transcript. Speaker partitioning labels the speech from individual speakers in your media file. If you set ShowSpeakerLabels to true, you must also include MaxSpeakerLabels. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
+    public var showSpeakerLabels: Swift.Bool?
+    /// Custom vocabulary filters to apply to your transcript, and how to apply them.
+    public var vocabularyFilterSettings: TranscribeClientTypes.VocabularyFilterSettings?
+    /// Custom vocabularies to apply to your transcript, with one entry per language. In each entry, you can reference a custom vocabulary you created or provide phrases inline. All entries must use the same type, either all by name or all inline. If you specify Language, include exactly one entry, and its Language must match. If you use LanguageDetectionMode, you can include one entry for each language in LanguageOptions.
+    public var vocabularySettings: [TranscribeClientTypes.VocabularySettingsEntry]?
+
+    public init(
+        channelIdentification: Swift.Bool? = nil,
+        contentRedaction: TranscribeClientTypes.ContentRedaction? = nil,
+        language: TranscribeClientTypes.SyncLanguage? = nil,
+        languageDetectionMode: TranscribeClientTypes.LanguageDetectionMode? = nil,
+        languageOptions: [TranscribeClientTypes.SyncLanguage]? = nil,
+        maxSpeakerLabels: Swift.Int? = nil,
+        media: TranscribeClientTypes.SyncMedia? = nil,
+        outputConfiguration: TranscribeClientTypes.SyncOutputConfiguration? = nil,
+        showSpeakerLabels: Swift.Bool? = nil,
+        vocabularyFilterSettings: TranscribeClientTypes.VocabularyFilterSettings? = nil,
+        vocabularySettings: [TranscribeClientTypes.VocabularySettingsEntry]? = nil
+    ) {
+        self.channelIdentification = channelIdentification
+        self.contentRedaction = contentRedaction
+        self.language = language
+        self.languageDetectionMode = languageDetectionMode
+        self.languageOptions = languageOptions
+        self.maxSpeakerLabels = maxSpeakerLabels
+        self.media = media
+        self.outputConfiguration = outputConfiguration
+        self.showSpeakerLabels = showSpeakerLabels
+        self.vocabularyFilterSettings = vocabularyFilterSettings
+        self.vocabularySettings = vocabularySettings
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// Information about your audio.
+    public struct TranscribeAudioMetadata: Swift.Sendable {
+        /// The language of your transcript, as a locale (for example, en-US). Present if you used LanguageDetectionMode.
+        public var languageCode: TranscribeClientTypes.SyncLanguageCode?
+        /// The language identified in your audio, and how long it's spoken. Present if you used LanguageDetectionMode.
+        public var languageCodes: [TranscribeClientTypes.SyncLanguageCodeItem]?
+        /// The format of your audio, as detected by Amazon Transcribe.
+        public var mediaFormat: TranscribeClientTypes.MediaFormat?
+        /// The sample rate of your audio, in hertz, as detected by Amazon Transcribe.
+        public var mediaSampleRateHertz: Swift.Int?
+        /// The number of audio channels in your media. Present if you enabled ChannelIdentification.
+        public var numberOfChannels: Swift.Int?
+        /// The number of speakers identified in your audio. Present if you enabled ShowSpeakerLabels.
+        public var speakersCount: Swift.Int?
+
+        public init(
+            languageCode: TranscribeClientTypes.SyncLanguageCode? = nil,
+            languageCodes: [TranscribeClientTypes.SyncLanguageCodeItem]? = nil,
+            mediaFormat: TranscribeClientTypes.MediaFormat? = nil,
+            mediaSampleRateHertz: Swift.Int? = nil,
+            numberOfChannels: Swift.Int? = nil,
+            speakersCount: Swift.Int? = nil
+        ) {
+            self.languageCode = languageCode
+            self.languageCodes = languageCodes
+            self.mediaFormat = mediaFormat
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.numberOfChannels = numberOfChannels
+            self.speakersCount = speakersCount
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// A transcript of your audio.
+    public struct TranscribeAudioResults: Swift.Sendable {
+        /// The words and punctuation in your transcript, with timing and any labels you requested.
+        public var items: [TranscribeClientTypes.SyncItem]?
+        /// The full text of your transcript. If you enabled ChannelIdentification, the text of channel ch_0 is followed by the text of channel ch_1.
+        public var transcript: Swift.String?
+
+        public init(
+            items: [TranscribeClientTypes.SyncItem]? = nil,
+            transcript: Swift.String? = nil
+        ) {
+            self.items = items
+            self.transcript = transcript
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// Your transcript and information about your audio.
+    public struct TranscriptResponse: Swift.Sendable {
+        /// Information about your audio, such as the detected language, format, and sample rate.
+        public var metadata: TranscribeClientTypes.TranscribeAudioMetadata?
+        /// Your transcript with personally identifiable information (PII) redacted. Present only if you included ContentRedaction in your request.
+        public var redactedResults: TranscribeClientTypes.TranscribeAudioResults?
+        /// Your unredacted transcript. If you set RedactionOutput to redacted, Amazon Transcribe doesn't return this field. Use RedactedResults instead.
+        public var results: TranscribeClientTypes.TranscribeAudioResults?
+
+        public init(
+            metadata: TranscribeClientTypes.TranscribeAudioMetadata? = nil,
+            redactedResults: TranscribeClientTypes.TranscribeAudioResults? = nil,
+            results: TranscribeClientTypes.TranscribeAudioResults? = nil
+        ) {
+            self.metadata = metadata
+            self.redactedResults = redactedResults
+            self.results = results
+        }
+    }
+}
+
+public struct TranscribeAudioOutput: Swift.Sendable {
+    /// The Amazon S3 location where your transcript was written. Present only if you included OutputConfiguration in your request. In that case, TranscriptResponse isn't returned.
+    public var outputConfiguration: TranscribeClientTypes.SyncOutputConfiguration?
+    /// Your transcript and information about your audio. Present only if you didn't include OutputConfiguration in your request.
+    public var transcriptResponse: TranscribeClientTypes.TranscriptResponse?
+
+    public init(
+        outputConfiguration: TranscribeClientTypes.SyncOutputConfiguration? = nil,
+        transcriptResponse: TranscribeClientTypes.TranscriptResponse? = nil
+    ) {
+        self.outputConfiguration = outputConfiguration
+        self.transcriptResponse = transcriptResponse
+    }
 }
 
 public struct UntagResourceInput: Swift.Sendable {
@@ -4533,7 +5134,7 @@ public struct UpdateCallAnalyticsCategoryOutput: Swift.Sendable {
 public struct UpdateLanguageModelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of an IAM role. If you include EncryptionConfiguration in your request, this role must have permissions to access the specified KMS key. If the role that you specify doesn't have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The name of the custom language model you want to update. Model names are case sensitive.
     /// This member is required.
@@ -4617,7 +5218,7 @@ public struct UpdateMedicalVocabularyOutput: Swift.Sendable {
 public struct UpdateVocabularyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the new encryption configuration for your custom vocabulary. The vocabulary artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
@@ -4673,7 +5274,7 @@ public struct UpdateVocabularyOutput: Swift.Sendable {
 public struct UpdateVocabularyFilterInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the new encryption configuration for your custom vocabulary filter. The vocabulary filter artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an Amazon Web Services owned key if a key is not supplied.
     public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     public var vocabularyFilterFileUri: Swift.String?

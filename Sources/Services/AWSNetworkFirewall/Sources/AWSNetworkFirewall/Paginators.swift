@@ -213,6 +213,7 @@ extension NetworkFirewallClient {
 extension ListFirewallsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFirewallsInput {
         return ListFirewallsInput(
+            firewallType: self.firewallType,
             maxResults: self.maxResults,
             nextToken: token,
             vpcIds: self.vpcIds

@@ -616,7 +616,7 @@ extension ComputeOptimizerAutomationClient {
 extension ComputeOptimizerAutomationClient {
     /// Performs the `AssociateAccounts` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it. Only the management account or a delegated administrator can perform this action.
+    /// Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it. Requests that include an account to which an organization enrollment configuration applies are rejected. Only the management account or a delegated administrator can perform this action.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateAccountsInput`)
     ///
@@ -631,7 +631,7 @@ extension ComputeOptimizerAutomationClient {
     /// - `IdempotentParameterMismatchException` : Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
     /// - `InternalServerException` : An internal error occurred while processing the request.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
-    /// - `NotManagementAccountException` : The operation can only be performed by a management account.
+    /// - `NotManagementAccountException` : The operation can only be performed by an organization's management account or a delegated administrator.
     /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -876,9 +876,96 @@ extension ComputeOptimizerAutomationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteOrganizationEnrollmentConfiguration` operation on the `ComputeOptimizerAutomation` service.
+    ///
+    /// Deletes the specified configuration types from an organization enrollment configuration. After deletion, Automation stays enabled for affected accounts and earlier account associations aren't restored. Affected accounts inherit the organization rule mode from the closest parent that has an organization enrollment configuration, or get None allowed if no parent has one. Only the management account or a delegated administrator can perform this action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationEnrollmentConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteOrganizationEnrollmentConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : The request conflicts with a concurrent change to the same resource. Retry the request.
+    /// - `ForbiddenException` : You are not authorized to perform this action.
+    /// - `IdempotencyTokenInUseException` : The specified client token is already in use.
+    /// - `IdempotentParameterMismatchException` : Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
+    /// - `InternalServerException` : An internal error occurred while processing the request.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func deleteOrganizationEnrollmentConfiguration(input: DeleteOrganizationEnrollmentConfigurationInput) async throws -> DeleteOrganizationEnrollmentConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerAutomationClient.deleteOrganizationEnrollmentConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteOrganizationEnrollmentConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aco-automation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationEnrollmentConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOrganizationEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationEnrollmentConfigurationInput, DeleteOrganizationEnrollmentConfigurationOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOrganizationEnrollmentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateAccounts` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account. Only the management account or a delegated administrator can perform this action.
+    /// Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) can't create automation rules for that account. Requests that include an account to which an organization enrollment configuration applies are rejected. Only the management account or a delegated administrator can perform this action.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisassociateAccountsInput`)
     ///
@@ -893,7 +980,7 @@ extension ComputeOptimizerAutomationClient {
     /// - `IdempotentParameterMismatchException` : Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
     /// - `InternalServerException` : An internal error occurred while processing the request.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
-    /// - `NotManagementAccountException` : The operation can only be performed by a management account.
+    /// - `NotManagementAccountException` : The operation can only be performed by an organization's management account or a delegated administrator.
     /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1229,7 +1316,7 @@ extension ComputeOptimizerAutomationClient {
     /// - `ForbiddenException` : You are not authorized to perform this action.
     /// - `InternalServerException` : An internal error occurred while processing the request.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
-    /// - `NotManagementAccountException` : The operation can only be performed by a management account.
+    /// - `NotManagementAccountException` : The operation can only be performed by an organization's management account or a delegated administrator.
     /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -1797,9 +1884,175 @@ extension ComputeOptimizerAutomationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListOrganizationEnrollmentConfigurations` operation on the `ComputeOptimizerAutomation` service.
+    ///
+    /// Lists the organization enrollment configurations that are stored directly on accounts, organizational units (OUs), and the organization root. Only the management account or a delegated administrator can perform this action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationEnrollmentConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOrganizationEnrollmentConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ForbiddenException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : An internal error occurred while processing the request.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func listOrganizationEnrollmentConfigurations(input: ListOrganizationEnrollmentConfigurationsInput) async throws -> ListOrganizationEnrollmentConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerAutomationClient.listOrganizationEnrollmentConfigurationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOrganizationEnrollmentConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aco-automation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationEnrollmentConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOrganizationEnrollmentConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationEnrollmentConfigurationsInput, ListOrganizationEnrollmentConfigurationsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOrganizationEnrollmentConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListOrganizationalUnits` operation on the `ComputeOptimizerAutomation` service.
+    ///
+    /// Lists the organization root and organizational units (OUs), including whether an applicable organization enrollment configuration enables Automation for member accounts and the effective organization rule mode for each root or OU. Only the management account or a delegated administrator can perform this action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationalUnitsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOrganizationalUnitsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ForbiddenException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : An internal error occurred while processing the request.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func listOrganizationalUnits(input: ListOrganizationalUnitsInput) async throws -> ListOrganizationalUnitsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerAutomationClient.listOrganizationalUnitsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOrganizationalUnits")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aco-automation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationalUnitsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOrganizationalUnitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOrganizationalUnits")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRecommendedActionSummaries` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Provides a summary of recommended actions based on specified filters. Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using AssociateAccounts.
+    /// Provides a summary of recommended actions based on specified filters. Management accounts and delegated administrators can retrieve recommended action summaries for member accounts that are associated using AssociateAccounts or have an applicable organization enrollment configuration with organizationRuleMode set to AnyAllowed.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRecommendedActionSummariesInput`)
     ///
@@ -1882,7 +2135,7 @@ extension ComputeOptimizerAutomationClient {
 
     /// Performs the `ListRecommendedActions` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Lists the recommended actions based that match specified filters. Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using AssociateAccounts.
+    /// Lists the recommended actions that match the specified filters. Management accounts and delegated administrators can retrieve recommended actions for member accounts that are associated using AssociateAccounts or have an applicable organization enrollment configuration with organizationRuleMode set to AnyAllowed.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRecommendedActionsInput`)
     ///
@@ -2047,9 +2300,96 @@ extension ComputeOptimizerAutomationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutOrganizationEnrollmentConfiguration` operation on the `ComputeOptimizerAutomation` service.
+    ///
+    /// Creates or updates an organization enrollment configuration. The organization enrollment configuration sets the organization rule mode on the specified account, organizational unit (OU), or organization root and enables Automation for affected member accounts that have opted in to Compute Optimizer, including accounts that join later. Changes on an OU or the organization root can take up to 5 minutes. Organization enrollment configurations take precedence over settings made by AssociateAccounts and DisassociateAccounts. You must specify at least one configuration in the request. Only the management account or a delegated administrator can perform this action. Organization enrollment configurations can't be created for the management account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutOrganizationEnrollmentConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutOrganizationEnrollmentConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : The request conflicts with a concurrent change to the same resource. Retry the request.
+    /// - `ForbiddenException` : You are not authorized to perform this action.
+    /// - `IdempotencyTokenInUseException` : The specified client token is already in use.
+    /// - `IdempotentParameterMismatchException` : Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
+    /// - `InternalServerException` : An internal error occurred while processing the request.
+    /// - `InvalidParameterValueException` : One or more parameter values are not valid.
+    /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func putOrganizationEnrollmentConfiguration(input: PutOrganizationEnrollmentConfigurationInput) async throws -> PutOrganizationEnrollmentConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerAutomationClient.putOrganizationEnrollmentConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putOrganizationEnrollmentConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aco-automation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationEnrollmentConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOrganizationEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Compute Optimizer Automation"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationEnrollmentConfigurationInput, PutOrganizationEnrollmentConfigurationOutput>(serviceID: serviceName, version: ComputeOptimizerAutomationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizerAutomation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutOrganizationEnrollmentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RollbackAutomationEvent` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Initiates a rollback for a completed automation event. Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using AssociateAccounts.
+    /// Initiates a rollback for a completed automation event. Management accounts and delegated administrators can initiate a rollback for events belonging to member accounts that are associated using AssociateAccounts or have an applicable organization enrollment configuration with organizationRuleMode set to AnyAllowed.
     ///
     /// - Parameter input: [no documentation found] (Type: `RollbackAutomationEventInput`)
     ///
@@ -2136,7 +2476,7 @@ extension ComputeOptimizerAutomationClient {
 
     /// Performs the `StartAutomationEvent` operation on the `ComputeOptimizerAutomation` service.
     ///
-    /// Initiates a one-time, on-demand automation for the specified recommended action. Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using AssociateAccounts.
+    /// Initiates a one-time, on-demand automation for the specified recommended action. Management accounts and delegated administrators can initiate recommended actions for member accounts that are associated using AssociateAccounts or have an applicable organization enrollment configuration with organizationRuleMode set to AnyAllowed.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartAutomationEventInput`)
     ///
@@ -2500,7 +2840,7 @@ extension ComputeOptimizerAutomationClient {
     /// - `IdempotentParameterMismatchException` : Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
     /// - `InternalServerException` : An internal error occurred while processing the request.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
-    /// - `NotManagementAccountException` : The operation can only be performed by a management account.
+    /// - `NotManagementAccountException` : The operation can only be performed by an organization's management account or a delegated administrator.
     /// - `OptInRequiredException` : The account must be opted in to Compute Optimizer Automation before performing this action.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.

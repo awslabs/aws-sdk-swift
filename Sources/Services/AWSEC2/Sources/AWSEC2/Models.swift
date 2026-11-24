@@ -4235,6 +4235,8 @@ extension EC2ClientTypes {
 
     public enum ServiceManaged: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alb
+        case igwFirewall
+        case lambdaNetworkConnector
         case nlb
         case rds
         case rnat
@@ -4243,6 +4245,8 @@ extension EC2ClientTypes {
         public static var allCases: [ServiceManaged] {
             return [
                 .alb,
+                .igwFirewall,
+                .lambdaNetworkConnector,
                 .nlb,
                 .rds,
                 .rnat
@@ -4257,6 +4261,8 @@ extension EC2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .alb: return "alb"
+            case .igwFirewall: return "igw-firewall"
+            case .lambdaNetworkConnector: return "lambda-network-connector"
             case .nlb: return "nlb"
             case .rds: return "rds"
             case .rnat: return "rnat"
@@ -4296,7 +4302,7 @@ extension EC2ClientTypes {
         public var publicIp: Swift.String?
         /// The ID of an address pool.
         public var publicIpv4Pool: Swift.String?
-        /// The service that manages the elastic IP address. The only option supported today is alb.
+        /// The service that manages the elastic IP address.
         public var serviceManaged: EC2ClientTypes.ServiceManaged?
         /// The ID of the subnet where the IP address is allocated.
         public var subnetId: Swift.String?
@@ -19114,6 +19120,44 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum NetworkFirewallConnectivityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azUnsupported
+        case bidirectional
+        case exclude
+        case flexible
+        case outboundOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkFirewallConnectivityType] {
+            return [
+                .azUnsupported,
+                .bidirectional,
+                .exclude,
+                .flexible,
+                .outboundOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azUnsupported: return "az-unsupported"
+            case .bidirectional: return "bidirectional"
+            case .exclude: return "exclude"
+            case .flexible: return "flexible"
+            case .outboundOnly: return "outbound-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum HostnameType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipName
         case resourceName
@@ -19234,6 +19278,18 @@ extension EC2ClientTypes {
         public var mapCustomerOwnedIpOnLaunch: Swift.Bool?
         /// Indicates whether instances launched in this subnet receive a public IPv4 address. Amazon Web Services charges for all public IPv4 addresses, including public IPv4 addresses associated with running instances and Elastic IP addresses. For more information, see the Public IPv4 Address tab on the [Amazon VPC pricing page](http://aws.amazon.com/vpc/pricing/).
         public var mapPublicIpOnLaunch: Swift.Bool?
+        /// The internet connectivity treatment that the Automated Internet Firewall applies to the subnet. The response includes this value only if the subnet is in a VPC that has a firewall. Possible values:
+        ///
+        /// * az-unsupported: The firewall doesn't support the subnet's Availability Zone, so it doesn't inspect traffic for the subnet.
+        ///
+        /// * bidirectional: Provides bidirectional internet connectivity to every network interface that has a public IP association. Any network interface without a public IP cannot communicate with the internet unless a NAT device is explicitly inserted in the path. All inbound and outbound traffic is inspected against your firewall rules.
+        ///
+        /// * exclude: The firewall doesn't inspect traffic for the subnet. The subnet bypasses the firewall, and its traffic passes directly through the internet gateway.
+        ///
+        /// * flexible: Sets the connectivity for each network interface in the subnet based on whether it is associated with a public IP address. A network interface with a public IP address gets bidirectional internet connectivity. A network interface without a public IP address gets outbound-only connectivity. All traffic is inspected against your firewall rules.
+        ///
+        /// * outbound-only: Provides egress-only connectivity for all network interfaces in the subnet. All outbound traffic and inbound responses are inspected against your firewall rules. Unsolicited inbound connections are dropped. For IPv4 traffic, the firewall performs NAT.
+        public var networkFirewallConnectivityType: EC2ClientTypes.NetworkFirewallConnectivityType?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public var outpostArn: Swift.String?
         /// The ID of the Amazon Web Services account that owns the subnet.
@@ -19272,6 +19328,7 @@ extension EC2ClientTypes {
             ipv6Native: Swift.Bool? = nil,
             mapCustomerOwnedIpOnLaunch: Swift.Bool? = nil,
             mapPublicIpOnLaunch: Swift.Bool? = nil,
+            networkFirewallConnectivityType: EC2ClientTypes.NetworkFirewallConnectivityType? = nil,
             outpostArn: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             privateDnsNameOptionsOnLaunch: EC2ClientTypes.PrivateDnsNameOptionsOnLaunch? = nil,
@@ -19296,6 +19353,7 @@ extension EC2ClientTypes {
             self.ipv6Native = ipv6Native
             self.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
+            self.networkFirewallConnectivityType = networkFirewallConnectivityType
             self.outpostArn = outpostArn
             self.ownerId = ownerId
             self.privateDnsNameOptionsOnLaunch = privateDnsNameOptionsOnLaunch
@@ -19553,6 +19611,100 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum FirewallMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enforce
+        case monitor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallMode] {
+            return [
+                .enforce,
+                .monitor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enforce: return "enforce"
+            case .monitor: return "monitor"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum FirewallOnboardingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabling
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallOnboardingStatus] {
+            return [
+                .active,
+                .disabling,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .disabling: return "disabling"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an Automated Internet Firewall that inspects traffic between a VPC and its internet gateway or egress-only internet gateway.
+    public struct NetworkFirewallAssociation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public var firewallArn: Swift.String?
+        /// The mode of the firewall. Possible values:
+        ///
+        /// * enforce: The firewall applies its policy to traffic.
+        ///
+        /// * monitor: The firewall logs traffic that its policy would act on, but doesn't block it.
+        public var firewallMode: EC2ClientTypes.FirewallMode?
+        /// The status of the firewall for the VPC. Possible values:
+        ///
+        /// * active: The firewall inspects traffic for the VPC.
+        ///
+        /// * disabling: AWS is removing the firewall from the VPC.
+        ///
+        /// * pending: AWS is setting up the firewall for the VPC. The firewall might not inspect traffic yet.
+        public var firewallOnboardingStatus: EC2ClientTypes.FirewallOnboardingStatus?
+
+        public init(
+            firewallArn: Swift.String? = nil,
+            firewallMode: EC2ClientTypes.FirewallMode? = nil,
+            firewallOnboardingStatus: EC2ClientTypes.FirewallOnboardingStatus? = nil
+        ) {
+            self.firewallArn = firewallArn
+            self.firewallMode = firewallMode
+            self.firewallOnboardingStatus = firewallOnboardingStatus
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum VpcState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleting
@@ -19603,6 +19755,8 @@ extension EC2ClientTypes {
         public var ipv6CidrBlockAssociationSet: [EC2ClientTypes.VpcIpv6CidrBlockAssociation]?
         /// Indicates whether the VPC is the default VPC.
         public var isDefault: Swift.Bool?
+        /// Information about the firewall associations for the VPC. Automated Internet Firewall, a feature of Amazon Virtual Private Cloud (Amazon VPC), inspects traffic between the VPC and its internet gateway or egress-only internet gateway. This list is empty if the VPC doesn't have a firewall.
+        public var networkFirewallAssociations: [EC2ClientTypes.NetworkFirewallAssociation]?
         /// The ID of the Amazon Web Services account that owns the VPC.
         public var ownerId: Swift.String?
         /// The current state of the VPC.
@@ -19621,6 +19775,7 @@ extension EC2ClientTypes {
             instanceTenancy: EC2ClientTypes.Tenancy? = nil,
             ipv6CidrBlockAssociationSet: [EC2ClientTypes.VpcIpv6CidrBlockAssociation]? = nil,
             isDefault: Swift.Bool? = nil,
+            networkFirewallAssociations: [EC2ClientTypes.NetworkFirewallAssociation]? = nil,
             ownerId: Swift.String? = nil,
             state: EC2ClientTypes.VpcState? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
@@ -19634,6 +19789,7 @@ extension EC2ClientTypes {
             self.instanceTenancy = instanceTenancy
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
             self.isDefault = isDefault
+            self.networkFirewallAssociations = networkFirewallAssociations
             self.ownerId = ownerId
             self.state = state
             self.tags = tags
@@ -33128,6 +33284,25 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes the Automated Internet Firewall that inspects traffic for an internet gateway or egress-only internet gateway route.
+    public struct IgwFirewall: Swift.Sendable {
+        /// The ARN of the firewall that inspects traffic for this route.
+        public var firewallArn: Swift.String?
+        /// The status of the firewall that inspects traffic for this route. Uses the same values as NetworkFirewallAssociation$firewallOnboardingStatus: active, disabling, or pending.
+        public var status: EC2ClientTypes.FirewallOnboardingStatus?
+
+        public init(
+            firewallArn: Swift.String? = nil,
+            status: EC2ClientTypes.FirewallOnboardingStatus? = nil
+        ) {
+            self.firewallArn = firewallArn
+            self.status = status
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum RouteOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case advertisement
         case createroute
@@ -33211,6 +33386,8 @@ extension EC2ClientTypes {
         public var egressOnlyInternetGatewayId: Swift.String?
         /// The ID of a gateway attached to your VPC.
         public var gatewayId: Swift.String?
+        /// Information about the Automated Internet Firewall that inspects traffic for this route. The response includes this value only for routes that target an internet gateway or egress-only internet gateway in a VPC that has a firewall. The route target remains the internet gateway or egress-only internet gateway.
+        public var igwFirewall: EC2ClientTypes.IgwFirewall?
         /// The ID of a NAT instance in your VPC.
         public var instanceId: Swift.String?
         /// The ID of Amazon Web Services account that owns the instance.
@@ -33250,6 +33427,7 @@ extension EC2ClientTypes {
             destinationPrefixListId: Swift.String? = nil,
             egressOnlyInternetGatewayId: Swift.String? = nil,
             gatewayId: Swift.String? = nil,
+            igwFirewall: EC2ClientTypes.IgwFirewall? = nil,
             instanceId: Swift.String? = nil,
             instanceOwnerId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
@@ -33269,6 +33447,7 @@ extension EC2ClientTypes {
             self.destinationPrefixListId = destinationPrefixListId
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
             self.gatewayId = gatewayId
+            self.igwFirewall = igwFirewall
             self.instanceId = instanceId
             self.instanceOwnerId = instanceOwnerId
             self.ipAddress = ipAddress
@@ -75461,6 +75640,7 @@ extension EC2ClientTypes {
         case t3a
         case t4g
         case t8i
+        case t9g
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UnlimitedSupportedInstanceFamily] {
@@ -75469,7 +75649,8 @@ extension EC2ClientTypes {
                 .t3,
                 .t3a,
                 .t4g,
-                .t8i
+                .t8i,
+                .t9g
             ]
         }
 
@@ -75485,6 +75666,7 @@ extension EC2ClientTypes {
             case .t3a: return "t3a"
             case .t4g: return "t4g"
             case .t8i: return "t8i"
+            case .t9g: return "t9g"
             case let .sdkUnknown(s): return s
             }
         }
@@ -77603,6 +77785,8 @@ extension EC2ClientTypes {
     public enum IpamPolicyResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alb
         case eip
+        case igwFirewall
+        case lambdaNetworkConnector
         case rds
         case rnat
         case sdkUnknown(Swift.String)
@@ -77611,6 +77795,8 @@ extension EC2ClientTypes {
             return [
                 .alb,
                 .eip,
+                .igwFirewall,
+                .lambdaNetworkConnector,
                 .rds,
                 .rnat
             ]
@@ -77625,6 +77811,8 @@ extension EC2ClientTypes {
             switch self {
             case .alb: return "alb"
             case .eip: return "eip"
+            case .igwFirewall: return "igw-firewall"
+            case .lambdaNetworkConnector: return "lambda-network-connector"
             case .rds: return "rds"
             case .rnat: return "rnat"
             case let .sdkUnknown(s): return s
@@ -77650,6 +77838,16 @@ public struct GetIpamPolicyAllocationRulesInput: Swift.Sendable {
     /// The resource type for which to get the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:
     ///
     /// * Elastic IP addresses
+    ///
+    /// * Application Load Balancers
+    ///
+    /// * Amazon RDS
+    ///
+    /// * NAT gateways in regional availability mode
+    ///
+    /// * Lambda Network Connector
+    ///
+    /// * Automated Internet Firewall
     public var resourceType: EC2ClientTypes.IpamPolicyResourceType?
 
     public init(
@@ -77699,6 +77897,16 @@ extension EC2ClientTypes {
         /// The resource type of the IPAM policy document. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:
         ///
         /// * Elastic IP addresses
+        ///
+        /// * Application Load Balancers
+        ///
+        /// * Amazon RDS
+        ///
+        /// * NAT gateways in regional availability mode
+        ///
+        /// * Lambda Network Connector
+        ///
+        /// * Automated Internet Firewall
         public var resourceType: EC2ClientTypes.IpamPolicyResourceType?
 
         public init(
@@ -78807,6 +79015,7 @@ extension EC2ClientTypes {
         case createInProgress
         case deleteComplete
         case deleteInProgress
+        case disableComplete
         case pendingActivate
         case updateComplete
         case updateInProgress
@@ -78819,6 +79028,7 @@ extension EC2ClientTypes {
                 .createInProgress,
                 .deleteComplete,
                 .deleteInProgress,
+                .disableComplete,
                 .pendingActivate,
                 .updateComplete,
                 .updateInProgress
@@ -78837,6 +79047,7 @@ extension EC2ClientTypes {
             case .createInProgress: return "create-in-progress"
             case .deleteComplete: return "delete-complete"
             case .deleteInProgress: return "delete-in-progress"
+            case .disableComplete: return "disable-complete"
             case .pendingActivate: return "pending-activate"
             case .updateComplete: return "update-complete"
             case .updateInProgress: return "update-in-progress"
@@ -84036,6 +84247,16 @@ public struct ModifyIpamPolicyAllocationRulesInput: Swift.Sendable {
     /// The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:
     ///
     /// * Elastic IP addresses
+    ///
+    /// * Application Load Balancers
+    ///
+    /// * Amazon RDS
+    ///
+    /// * NAT gateways in regional availability mode
+    ///
+    /// * Lambda Network Connector
+    ///
+    /// * Automated Internet Firewall
     /// This member is required.
     public var resourceType: EC2ClientTypes.IpamPolicyResourceType?
 
@@ -136796,6 +137017,17 @@ extension EC2ClientTypes.IdFormat {
     }
 }
 
+extension EC2ClientTypes.IgwFirewall {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IgwFirewall {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IgwFirewall()
+        value.firewallArn = try reader["firewallArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.IKEVersionsListValue {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IKEVersionsListValue {
@@ -141003,6 +141235,18 @@ extension EC2ClientTypes.NetworkCardInfo {
     }
 }
 
+extension EC2ClientTypes.NetworkFirewallAssociation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkFirewallAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NetworkFirewallAssociation()
+        value.firewallArn = try reader["firewallArn"].readIfPresent()
+        value.firewallOnboardingStatus = try reader["firewallOnboardingStatus"].readIfPresent()
+        value.firewallMode = try reader["firewallMode"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.NetworkInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkInfo {
@@ -142822,6 +143066,7 @@ extension EC2ClientTypes.Route {
         value.coreNetworkArn = try reader["coreNetworkArn"].readIfPresent()
         value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.igwFirewall = try reader["igwFirewall"].readIfPresent(with: EC2ClientTypes.IgwFirewall.read(from:))
         return value
     }
 }
@@ -144323,6 +144568,7 @@ extension EC2ClientTypes.Subnet {
         value.privateDnsNameOptionsOnLaunch = try reader["privateDnsNameOptionsOnLaunch"].readIfPresent(with: EC2ClientTypes.PrivateDnsNameOptionsOnLaunch.read(from:))
         value.blockPublicAccessStates = try reader["blockPublicAccessStates"].readIfPresent(with: EC2ClientTypes.BlockPublicAccessStates.read(from:))
         value.type = try reader["type"].readIfPresent()
+        value.networkFirewallConnectivityType = try reader["networkFirewallConnectivityType"].readIfPresent()
         value.subnetId = try reader["subnetId"].readIfPresent()
         value.state = try reader["state"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -146395,6 +146641,7 @@ extension EC2ClientTypes.Vpc {
         value.encryptionControl = try reader["encryptionControl"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControl.read(from:))
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.blockPublicAccessStates = try reader["blockPublicAccessStates"].readIfPresent(with: EC2ClientTypes.BlockPublicAccessStates.read(from:))
+        value.networkFirewallAssociations = try reader["networkFirewallAssociationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.NetworkFirewallAssociation.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.state = try reader["state"].readIfPresent()
         value.cidrBlock = try reader["cidrBlock"].readIfPresent()

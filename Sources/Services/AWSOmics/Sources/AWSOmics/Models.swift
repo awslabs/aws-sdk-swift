@@ -2360,7 +2360,7 @@ extension OmicsClientTypes {
 
     /// A per-run configuration that overrides or merges with fields from DefaultRunSetting for a specific run.
     public struct InlineSetting: Swift.Sendable {
-        /// Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). Overrides defaultRunSetting.engineSettings for this run.
+        /// Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles, Nextflow runtime configuration). Overrides defaultRunSetting.engineSettings for this run.
         public var engineSettings: Smithy.Document?
         /// An optional user-friendly name for this run.
         public var name: Swift.String?
@@ -4295,7 +4295,7 @@ extension OmicsClientTypes {
         public var cacheId: Swift.String?
         /// Optional configuration name to use for the workflow run.
         public var configurationName: Swift.String?
-        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles, Nextflow runtime configuration).
         public var engineSettings: Smithy.Document?
         /// The verbosity level for CloudWatch Logs emitted during each run.
         public var logLevel: OmicsClientTypes.RunLogLevel?
@@ -4311,6 +4311,8 @@ extension OmicsClientTypes {
         public var parameters: Smithy.Document?
         /// An integer priority for the workflow runs. Higher values correspond to higher priority. A value of 0 corresponds to the lowest priority. Can be overridden per run.
         public var priority: Swift.Int?
+        /// Specifies whether each workflow run in the batch can read inputs from Amazon Simple Storage Service (Amazon S3) buckets that use Requester Pays. Your account pays the request and data transfer charges for those reads. The default is false.
+        public var requesterPaysEnabled: Swift.Bool?
         /// The retention behavior for runs after completion.
         public var retentionMode: OmicsClientTypes.RunRetentionMode?
         /// The IAM role ARN that grants HealthOmics permissions to access required Amazon Web Services resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
@@ -4350,6 +4352,7 @@ extension OmicsClientTypes {
             outputUri: Swift.String? = nil,
             parameters: Smithy.Document? = nil,
             priority: Swift.Int? = nil,
+            requesterPaysEnabled: Swift.Bool? = nil,
             retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
             roleArn: Swift.String? = nil,
             runGroupId: Swift.String? = nil,
@@ -4374,6 +4377,7 @@ extension OmicsClientTypes {
             self.outputUri = outputUri
             self.parameters = parameters
             self.priority = priority
+            self.requesterPaysEnabled = requesterPaysEnabled
             self.retentionMode = retentionMode
             self.roleArn = roleArn
             self.runGroupId = runGroupId
@@ -6418,8 +6422,19 @@ public struct GetRunOutput: Swift.Sendable {
     public var outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode?
     /// The run's parameters.
     public var parameters: Smithy.Document?
+    /// For a run that you started with parametersUri, the service returns the location of the run parameters in this field instead of parameters. The value is one of the following values:
+    ///
+    /// * A presigned HTTPS URL for the copy of the parameters file that Amazon Web Services HealthOmics stores for the run
+    ///
+    /// * The S3 URI that you submitted, if Amazon Web Services HealthOmics has not stored a copy of the file yet or the run failed validation
+    ///
+    ///
+    /// A presigned URL expires after a limited time. Call GetRun again to get a new URL. Treat the URL as a credential and do not share it. If the run failed because the parameters were not valid, check failureReason and statusMessage.
+    public var parametersUri: Swift.String?
     /// The run's priority.
     public var priority: Swift.Int?
+    /// Specifies whether this workflow run can read inputs from Amazon S3 buckets that use Requester Pays, as set in the StartRun or StartRunBatch request.
+    public var requesterPaysEnabled: Swift.Bool?
     /// The run's resource digests.
     public var resourceDigests: [Swift.String: Swift.String]?
     /// The run's retention mode.
@@ -6488,7 +6503,9 @@ public struct GetRunOutput: Swift.Sendable {
         outputUri: Swift.String? = nil,
         outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode? = nil,
         parameters: Smithy.Document? = nil,
+        parametersUri: Swift.String? = nil,
         priority: Swift.Int? = nil,
+        requesterPaysEnabled: Swift.Bool? = nil,
         resourceDigests: [Swift.String: Swift.String]? = nil,
         retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
         roleArn: Swift.String? = nil,
@@ -6533,7 +6550,9 @@ public struct GetRunOutput: Swift.Sendable {
         self.outputUri = outputUri
         self.outputUriPrefixMode = outputUriPrefixMode
         self.parameters = parameters
+        self.parametersUri = parametersUri
         self.priority = priority
+        self.requesterPaysEnabled = requesterPaysEnabled
         self.resourceDigests = resourceDigests
         self.retentionMode = retentionMode
         self.roleArn = roleArn
@@ -9789,7 +9808,7 @@ public struct StartRunInput: Swift.Sendable {
     public var cacheId: Swift.String?
     /// Optional configuration name to use for the workflow run.
     public var configurationName: Swift.String?
-    /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+    /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles, Nextflow runtime configuration).
     public var engineSettings: Smithy.Document?
     /// A log level for the run.
     public var logLevel: OmicsClientTypes.RunLogLevel?
@@ -9802,13 +9821,17 @@ public struct StartRunInput: Swift.Sendable {
     public var outputUri: Swift.String?
     /// You can control the path prefixes that the service adds beneath outputUri. If you don't specify a value, the service uses SERVICE_DEFINED, which adds a run-specific prefix.
     public var outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode?
-    /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
+    /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation. To supply the parameters in a file in S3 instead, use parametersUri. Specify either parameters or parametersUri, not both.
     public var parameters: Smithy.Document?
+    /// The S3 URI of a JSON file that contains the run parameters. Use this field instead of parameters when your parameters are too large for the request. Specify either parameters or parametersUri, not both. Amazon Web Services HealthOmics validates the file after StartRun returns. If the file isn't valid, Amazon Web Services HealthOmics fails the run with the failure reason INVALID_RUN_PARAMETERS. For more information about permissions, limits, and other requirements, see [Amazon Web Services HealthOmics run inputs](https://docs.aws.amazon.com/omics/latest/dev/workflows-run-inputs.html) and [Amazon Web Services HealthOmics service quotas](https://docs.aws.amazon.com/omics/latest/dev/fixed-quotas.html) in the Amazon Web Services HealthOmics User Guide.
+    public var parametersUri: Swift.String?
     /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see [Run priority](https://docs.aws.amazon.com/omics/latest/dev/creating-run-groups.html#run-priority) in the Amazon Web Services HealthOmics User Guide.
     public var priority: Swift.Int?
     /// An idempotency token used to dedupe retry requests so that duplicate runs are not created.
     /// This member is required.
     public var requestId: Swift.String?
+    /// Specifies whether the workflow run that this request starts can read inputs from Amazon S3 buckets that use Requester Pays. Your account pays the request and data transfer charges for those reads. The default is false.
+    public var requesterPaysEnabled: Swift.Bool?
     /// The retention mode for the run. The default value is RETAIN. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see [Specifying run retention mode](https://docs.aws.amazon.com/omics/latest/dev/starting-a-run.html) in the Amazon Web Services HealthOmics User Guide.
     public var retentionMode: OmicsClientTypes.RunRetentionMode?
     /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
@@ -9848,8 +9871,10 @@ public struct StartRunInput: Swift.Sendable {
         outputUri: Swift.String? = nil,
         outputUriPrefixMode: OmicsClientTypes.RunOutputUriPrefixMode? = nil,
         parameters: Smithy.Document? = nil,
+        parametersUri: Swift.String? = nil,
         priority: Swift.Int? = nil,
         requestId: Swift.String? = nil,
+        requesterPaysEnabled: Swift.Bool? = nil,
         retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
         roleArn: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
@@ -9874,8 +9899,10 @@ public struct StartRunInput: Swift.Sendable {
         self.outputUri = outputUri
         self.outputUriPrefixMode = outputUriPrefixMode
         self.parameters = parameters
+        self.parametersUri = parametersUri
         self.priority = priority
         self.requestId = requestId
+        self.requesterPaysEnabled = requesterPaysEnabled
         self.retentionMode = retentionMode
         self.roleArn = roleArn
         self.runGroupId = runGroupId
@@ -12646,8 +12673,10 @@ extension StartRunInput {
         try writer["outputUri"].write(value.outputUri)
         try writer["outputUriPrefixMode"].write(value.outputUriPrefixMode)
         try writer["parameters"].write(value.parameters)
+        try writer["parametersUri"].write(value.parametersUri)
         try writer["priority"].write(value.priority)
         try writer["requestId"].write(value.requestId)
+        try writer["requesterPaysEnabled"].write(value.requesterPaysEnabled)
         try writer["retentionMode"].write(value.retentionMode)
         try writer["roleArn"].write(value.roleArn)
         try writer["runGroupId"].write(value.runGroupId)
@@ -13520,7 +13549,9 @@ extension GetRunOutput {
         value.outputUri = try reader["outputUri"].readIfPresent()
         value.outputUriPrefixMode = try reader["outputUriPrefixMode"].readIfPresent()
         value.parameters = try reader["parameters"].readIfPresent()
+        value.parametersUri = try reader["parametersUri"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
+        value.requesterPaysEnabled = try reader["requesterPaysEnabled"].readIfPresent()
         value.resourceDigests = try reader["resourceDigests"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.retentionMode = try reader["retentionMode"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
@@ -16866,6 +16897,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         try writer["outputUri"].write(value.outputUri)
         try writer["parameters"].write(value.parameters)
         try writer["priority"].write(value.priority)
+        try writer["requesterPaysEnabled"].write(value.requesterPaysEnabled)
         try writer["retentionMode"].write(value.retentionMode)
         try writer["roleArn"].write(value.roleArn)
         try writer["runGroupId"].write(value.runGroupId)
@@ -16906,6 +16938,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         value.sessionPolicy = try reader["sessionPolicy"].readIfPresent()
         value.engineSettings = try reader["engineSettings"].readIfPresent()
         value.scratchStorageMode = try reader["scratchStorageMode"].readIfPresent()
+        value.requesterPaysEnabled = try reader["requesterPaysEnabled"].readIfPresent()
         return value
     }
 }

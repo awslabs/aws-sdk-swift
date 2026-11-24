@@ -76,3 +76,67 @@ extension PaginatorSequence where OperationStackInput == ListAdapterVersionsInpu
         return try await self.asyncCompactMap { item in item.adapterVersions }
     }
 }
+extension TextractClient {
+    /// Paginate over `[ListBlueprintsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBlueprintsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBlueprintsOutput`
+    public func listBlueprintsPaginated(input: ListBlueprintsInput) -> ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBlueprints(input:))
+    }
+}
+
+extension ListBlueprintsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBlueprintsInput {
+        return ListBlueprintsInput(
+            blueprintArn: self.blueprintArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectFilter: self.projectFilter,
+            resourceOwner: self.resourceOwner
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBlueprintsInput, OperationStackOutput == ListBlueprintsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBlueprintsPaginated`
+    /// to access the nested member `[TextractClientTypes.BlueprintSummary]`
+    /// - Returns: `[TextractClientTypes.BlueprintSummary]`
+    public func blueprints() async throws -> [TextractClientTypes.BlueprintSummary] {
+        return try await self.asyncCompactMap { item in item.blueprints }
+    }
+}
+extension TextractClient {
+    /// Paginate over `[ListProjectsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
+    public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
+    }
+}
+
+extension ListProjectsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProjectsInput {
+        return ListProjectsInput(
+            blueprintFilter: self.blueprintFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
+    /// to access the nested member `[TextractClientTypes.ProjectSummary]`
+    /// - Returns: `[TextractClientTypes.ProjectSummary]`
+    public func projects() async throws -> [TextractClientTypes.ProjectSummary] {
+        return try await self.asyncCompactMap { item in item.projects }
+    }
+}

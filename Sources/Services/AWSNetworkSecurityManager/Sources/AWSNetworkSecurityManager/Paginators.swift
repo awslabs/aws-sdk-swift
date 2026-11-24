@@ -72,6 +72,70 @@ extension PaginatorSequence where OperationStackInput == ListAggregateResourceSy
     }
 }
 extension NetworkSecurityManagerClient {
+    /// Paginate over `[ListEntityCoveragesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntityCoveragesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityCoveragesOutput`
+    public func listEntityCoveragesPaginated(input: ListEntityCoveragesInput) -> ClientRuntime.PaginatorSequence<ListEntityCoveragesInput, ListEntityCoveragesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityCoveragesInput, ListEntityCoveragesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntityCoverages(input:))
+    }
+}
+
+extension ListEntityCoveragesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEntityCoveragesInput {
+        return ListEntityCoveragesInput(
+            entityArn: self.entityArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceOwnerAccountId: self.resourceOwnerAccountId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEntityCoveragesInput, OperationStackOutput == ListEntityCoveragesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntityCoveragesPaginated`
+    /// to access the nested member `[NetworkSecurityManagerClientTypes.ResourceCoverageSummary]`
+    /// - Returns: `[NetworkSecurityManagerClientTypes.ResourceCoverageSummary]`
+    public func resourceCoverages() async throws -> [NetworkSecurityManagerClientTypes.ResourceCoverageSummary] {
+        return try await self.asyncCompactMap { item in item.resourceCoverages }
+    }
+}
+extension NetworkSecurityManagerClient {
+    /// Paginate over `[ListProtectedResourceCoveragesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProtectedResourceCoveragesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectedResourceCoveragesOutput`
+    public func listProtectedResourceCoveragesPaginated(input: ListProtectedResourceCoveragesInput) -> ClientRuntime.PaginatorSequence<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProtectedResourceCoveragesInput, ListProtectedResourceCoveragesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtectedResourceCoverages(input:))
+    }
+}
+
+extension ListProtectedResourceCoveragesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProtectedResourceCoveragesInput {
+        return ListProtectedResourceCoveragesInput(
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProtectedResourceCoveragesInput, OperationStackOutput == ListProtectedResourceCoveragesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProtectedResourceCoveragesPaginated`
+    /// to access the nested member `[NetworkSecurityManagerClientTypes.ResourceCoverageSummary]`
+    /// - Returns: `[NetworkSecurityManagerClientTypes.ResourceCoverageSummary]`
+    public func resourceCoverages() async throws -> [NetworkSecurityManagerClientTypes.ResourceCoverageSummary] {
+        return try await self.asyncCompactMap { item in item.resourceCoverages }
+    }
+}
+extension NetworkSecurityManagerClient {
     /// Paginate over `[ListResourceAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

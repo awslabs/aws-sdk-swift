@@ -417,16 +417,16 @@ val w11_restJson1 = listOf( // 16 svcs
 // Uncomment a wave to roll it out.
 val schemaBasedRestJson1Services: List<String> = buildList {
     addAll(w01_restJson1)
-    // addAll(w02_restJson1)
-    // addAll(w03_restJson1)
-    // addAll(w04_restJson1)
-    // addAll(w05_restJson1)
-    // addAll(w06_restJson1)
-    // addAll(w07_restJson1)
-    // addAll(w08_restJson1)
-    // addAll(w09_restJson1)
-    // addAll(w10_restJson1)
-    // addAll(w11_restJson1)
+    addAll(w02_restJson1)
+    addAll(w03_restJson1)
+    addAll(w04_restJson1)
+    addAll(w05_restJson1)
+    addAll(w06_restJson1)
+    addAll(w07_restJson1)
+    addAll(w08_restJson1)
+    addAll(w09_restJson1)
+    addAll(w10_restJson1)
+    addAll(w11_restJson1)
 }
 
 
