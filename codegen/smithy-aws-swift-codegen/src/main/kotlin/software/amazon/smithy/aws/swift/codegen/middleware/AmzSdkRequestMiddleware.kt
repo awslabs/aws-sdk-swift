@@ -36,7 +36,8 @@ class AmzSdkRequestMiddleware(
         // The SEP calls for ttl to be omitted on streaming operations.
         val isStreamingParam = if (op.isStreaming()) ", isStreaming: true" else ""
         writer.write(
-            "\$N<\$N, \$N>(maxRetries: config.retryStrategyOptions.maxRetriesBase\$L)",
+            "\$N<\$N, \$N>(maxRetries: config.retryStrategyOptions.maxRetriesBase, " +
+                "socketTimeout: config.httpClientConfiguration.socketTimeout\$L)",
             AWSClientRuntimeTypes.Core.AmzSdkRequestMiddleware,
             MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op),
             MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op),

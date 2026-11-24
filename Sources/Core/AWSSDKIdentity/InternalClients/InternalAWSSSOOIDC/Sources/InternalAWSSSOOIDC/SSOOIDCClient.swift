@@ -669,7 +669,7 @@ extension SSOOIDCClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTokenInput, CreateTokenOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTokenInput, CreateTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTokenInput, CreateTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase, socketTimeout: config.httpClientConfiguration.socketTimeout))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSO OIDC"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTokenInput, CreateTokenOutput>(serviceID: serviceName, version: SSOOIDCClient.version, config: config))

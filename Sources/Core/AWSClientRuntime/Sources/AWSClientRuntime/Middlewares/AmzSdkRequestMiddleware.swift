@@ -27,6 +27,7 @@ public class AmzSdkRequestMiddleware<InputType, OperationStackOutput> {
     public var id: String { "AmzSdkRequest" }
 
     private let maxAttempts: Int
+    private let socketTimeout: TimeInterval?
     private let isStreaming: Bool
     private let skewStore: EstimatedSkewStore
     private let now: @Sendable () -> Date
@@ -35,27 +36,37 @@ public class AmzSdkRequestMiddleware<InputType, OperationStackOutput> {
     /// Creates a new `AmzSdkRequestMiddleware`.
     /// - Parameters:
     ///   - maxRetries: The maximum number of retries for the operation.
+    ///   - socketTimeout: The HTTP client's socket read timeout, in seconds.  Used to calculate `ttl`;
+    ///     `ttl` is omitted when this is `nil`.
     ///   - isStreaming: `true` if the operation has a streaming input or output.  `ttl` is omitted for streaming operations.
-    public convenience init(maxRetries: Int, isStreaming: Bool = false) {
-        self.init(maxRetries: maxRetries, isStreaming: isStreaming, skewStore: .shared, now: { Date() })
+    public convenience init(maxRetries: Int, socketTimeout: TimeInterval? = nil, isStreaming: Bool = false) {
+        self.init(
+            maxRetries: maxRetries,
+            socketTimeout: socketTimeout,
+            isStreaming: isStreaming,
+            skewStore: .shared,
+            now: { Date() }
+        )
     }
 
     init(
         maxRetries: Int,
+        socketTimeout: TimeInterval?,
         isStreaming: Bool,
         skewStore: EstimatedSkewStore,
         now: @escaping @Sendable () -> Date
     ) {
         self.maxAttempts = maxRetries + 1
+        self.socketTimeout = socketTimeout
         self.isStreaming = isStreaming
         self.skewStore = skewStore
         self.now = now
     }
 
-    private func headerValue(host: String, context: Context) async -> String {
+    private func headerValue(host: String) async -> String {
         var pairs = [String]()
         if !isStreaming,
-           let socketTimeout = context.socketTimeout,
+           let socketTimeout,
            let estimatedSkew = await skewStore.estimatedSkew(host: host) {
             let ttl = awsGetTTL(now: now(), estimatedSkew: estimatedSkew, socketTimeout: socketTimeout)
             pairs.append("ttl=\(ttl)")
@@ -75,7 +86,7 @@ extension AmzSdkRequestMiddleware: Interceptor {
     public func modifyBeforeSigning(context: some MutableRequest<InputType, HTTPRequest>) async throws {
         attempt += 1
         let request = context.getRequest()
-        let value = await headerValue(host: request.host, context: context.getAttributes())
+        let value = await headerValue(host: request.host)
         let builder = request.toBuilder()
         builder.updateHeader(name: AMZ_SDK_REQUEST_HEADER, value: value)
         context.updateRequest(updated: builder.build())

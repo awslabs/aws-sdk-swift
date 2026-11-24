@@ -34,7 +34,6 @@ final class RetryIntegrationTests: XCTestCase {
         // Setup the HTTP context, used by the retry middleware
         context = Context(attributes: Attributes())
         context.partitionID = partitionID
-        context.socketTimeout = 60.0
 
         // Create the test output handler, which is the "next" middleware called by the retry middleware
         next = TestOutputHandler()
@@ -72,7 +71,7 @@ final class RetryIntegrationTests: XCTestCase {
             })
             .executeRequest(next)
         builder.interceptors.add(AmzSdkInvocationIdMiddleware())
-        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase))
+        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase, socketTimeout: 60.0))
 
         // Set the quota on the test output handler so it can verify state during tests
         next.quota = await quota
@@ -239,7 +238,6 @@ final class RetryIntegrationTests: XCTestCase {
     ) async {
         context = Context(attributes: Attributes())
         context.partitionID = partitionID
-        context.socketTimeout = 60.0
         if let serviceName { context.set(key: SmithyHTTPAPIKeys.serviceName, value: serviceName) }
         if let operationName { context.set(key: SmithyHTTPAPIKeys.operation, value: operationName) }
 
@@ -279,7 +277,7 @@ final class RetryIntegrationTests: XCTestCase {
             })
             .executeRequest(next)
         builder.interceptors.add(AmzSdkInvocationIdMiddleware())
-        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase))
+        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase, socketTimeout: 60.0))
 
         next.quota = await quota
     }

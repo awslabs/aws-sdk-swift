@@ -177,7 +177,6 @@ private final class Harness {
     func invoke(steps: [Step]) async throws {
         let context = Context(attributes: Attributes())
         context.partitionID = "partition"
-        if let socketTimeout { context.socketTimeout = socketTimeout }
 
         let options = RetryStrategyOptions(backoffStrategy: ExponentialBackoffStrategy(), maxRetriesBase: 2)
         var strategy = DefaultRetryStrategy(options: options)
@@ -199,7 +198,11 @@ private final class Harness {
         builder.interceptors.add(RequestClockInterceptor(steps: steps, clock: clock))
         builder.interceptors.add(
             AmzSdkRequestMiddleware<TestInput, TestOutput>(
-                maxRetries: 2, isStreaming: isStreaming, skewStore: skewStore, now: { clock.now }
+                maxRetries: 2,
+                socketTimeout: socketTimeout,
+                isStreaming: isStreaming,
+                skewStore: skewStore,
+                now: { clock.now }
             )
         )
 

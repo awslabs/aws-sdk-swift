@@ -44,7 +44,7 @@ class AWSQueryOperationStackTest {
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(contentType: "application/x-www-form-urlencoded"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NoInputAndOutputOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase, socketTimeout: config.httpClientConfiguration.socketTimeout))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Query Protocol"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(serviceID: serviceName, version: QueryProtocolClient.version, config: config))

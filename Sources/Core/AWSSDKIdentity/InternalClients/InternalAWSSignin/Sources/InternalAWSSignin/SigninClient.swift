@@ -662,7 +662,7 @@ extension SigninClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOAuth2TokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOAuth2TokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase, socketTimeout: config.httpClientConfiguration.socketTimeout))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
