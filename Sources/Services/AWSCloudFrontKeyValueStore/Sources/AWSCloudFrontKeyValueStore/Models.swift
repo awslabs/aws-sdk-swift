@@ -166,13 +166,13 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct DeleteKeyInput: Swift.Sendable {
-    /// The current version (ETag) of the Key Value Store that you are deleting keys from, which you can get using DescribeKeyValueStore.
+    /// The current version (ETag) of the key value store that you are deleting keys from, which you can get by using the DescribeKeyValueStore API operation.
     /// This member is required.
     public var ifMatch: Swift.String?
     /// The key to delete.
     /// This member is required.
     public var key: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
 
@@ -187,15 +187,15 @@ public struct DeleteKeyInput: Swift.Sendable {
     }
 }
 
-/// Metadata information about a Key Value Store.
+/// Metadata information about a key value store.
 public struct DeleteKeyOutput: Swift.Sendable {
-    /// The current version identifier of the Key Value Store after the successful delete.
+    /// The current version identifier of the key value store after the successful delete.
     /// This member is required.
     public var eTag: Swift.String?
-    /// Number of key value pairs in the Key Value Store after the successful delete.
+    /// Number of key-value pairs in the key value store after the successful delete.
     /// This member is required.
     public var itemCount: Swift.Int?
-    /// Total size of the Key Value Store after the successful delete, in bytes.
+    /// Total size of the key value store after the successful delete, in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
 
@@ -211,7 +211,7 @@ public struct DeleteKeyOutput: Swift.Sendable {
 }
 
 public struct DescribeKeyValueStoreInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
 
@@ -222,27 +222,27 @@ public struct DescribeKeyValueStoreInput: Swift.Sendable {
     }
 }
 
-/// Metadata information about a Key Value Store.
+/// Metadata information about a key value store.
 public struct DescribeKeyValueStoreOutput: Swift.Sendable {
-    /// Date and time when the Key Value Store was created.
+    /// Date and time when the key value store was created.
     /// This member is required.
     public var created: Foundation.Date?
-    /// The version identifier for the current version of the Key Value Store.
+    /// The version identifier for the current version of the key value store.
     /// This member is required.
     public var eTag: Swift.String?
-    /// The reason for Key Value Store creation failure.
+    /// The reason why the key value store wasn't created.
     public var failureReason: Swift.String?
-    /// Number of key value pairs in the Key Value Store.
+    /// Number of key-value pairs in the key value store.
     /// This member is required.
     public var itemCount: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
-    /// Date and time when the key value pairs in the Key Value Store was last modified.
+    /// Date and time when the key-value pairs in the key value store was last modified.
     public var lastModified: Foundation.Date?
-    /// The current status of the Key Value Store.
+    /// The current status of the key value store.
     public var status: Swift.String?
-    /// Total size of the Key Value Store in bytes.
+    /// Total size of the key value store in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
 
@@ -271,7 +271,7 @@ public struct GetKeyInput: Swift.Sendable {
     /// The key to get.
     /// This member is required.
     public var key: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
 
@@ -284,18 +284,18 @@ public struct GetKeyInput: Swift.Sendable {
     }
 }
 
-/// A key value pair.
+/// A key-value pair.
 public struct GetKeyOutput: Swift.Sendable {
-    /// Number of key value pairs in the Key Value Store.
+    /// Number of key-value pairs in the key value store.
     /// This member is required.
     public var itemCount: Swift.Int?
-    /// The key of the key value pair.
+    /// The key of the key-value pair.
     /// This member is required.
     public var key: Swift.String?
-    /// Total size of the Key Value Store in bytes.
+    /// Total size of the key value store in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
-    /// The value of the key value pair.
+    /// The value of the key-value pair.
     /// This member is required.
     public var value: Swift.String?
 
@@ -318,7 +318,7 @@ extension GetKeyOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct ListKeysInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
     /// Maximum number of results that are returned per call. The default is 10 and maximum allowed page is 50.
@@ -339,12 +339,12 @@ public struct ListKeysInput: Swift.Sendable {
 
 extension CloudFrontKeyValueStoreClientTypes {
 
-    /// A key value pair.
+    /// A key-value pair.
     public struct ListKeysResponseListItem: Swift.Sendable {
-        /// The key of the key value pair.
+        /// The key of the key-value pair.
         /// This member is required.
         public var key: Swift.String?
-        /// The value of the key value pair.
+        /// The value of the key-value pair.
         /// This member is required.
         public var value: Swift.String?
 
@@ -364,7 +364,7 @@ extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem: Swift.Cus
 }
 
 public struct ListKeysOutput: Swift.Sendable {
-    /// Key value pairs
+    /// The key-value pairs.
     public var items: [CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem]?
     /// If nextToken is returned in the response, there are more results available. Make the next call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
@@ -378,15 +378,15 @@ public struct ListKeysOutput: Swift.Sendable {
     }
 }
 
-/// A key value pair.
+/// A key-value pair.
 public struct PutKeyInput: Swift.Sendable {
-    /// The current version (ETag) of the Key Value Store that you are putting keys into, which you can get using DescribeKeyValueStore.
+    /// The current version (ETag) of the key value store that you are putting keys into, which you can get by using the DescribeKeyValueStore API operation.
     /// This member is required.
     public var ifMatch: Swift.String?
     /// The key to put.
     /// This member is required.
     public var key: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
     /// The value to put.
@@ -411,15 +411,15 @@ extension PutKeyInput: Swift.CustomDebugStringConvertible {
         "PutKeyInput(ifMatch: \(Swift.String(describing: ifMatch)), key: \(Swift.String(describing: key)), kvsARN: \(Swift.String(describing: kvsARN)), value: \"CONTENT_REDACTED\")"}
 }
 
-/// Metadata information about a Key Value Store.
+/// Metadata information about a key value store.
 public struct PutKeyOutput: Swift.Sendable {
-    /// The current version identifier of the Key Value Store after the successful put.
+    /// The current version identifier of the key value store after the successful put.
     /// This member is required.
     public var eTag: Swift.String?
-    /// Number of key value pairs in the Key Value Store after the successful put.
+    /// Number of key-value pairs in the key value store after the successful put.
     /// This member is required.
     public var itemCount: Swift.Int?
-    /// Total size of the Key Value Store after the successful put, in bytes.
+    /// Total size of the key value store after the successful put, in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
 
@@ -438,7 +438,7 @@ extension CloudFrontKeyValueStoreClientTypes {
 
     /// List item for keys to delete.
     public struct DeleteKeyRequestListItem: Swift.Sendable {
-        /// The key of the key value pair to be deleted.
+        /// The key of the key-value pair to be deleted.
         /// This member is required.
         public var key: Swift.String?
 
@@ -452,12 +452,12 @@ extension CloudFrontKeyValueStoreClientTypes {
 
 extension CloudFrontKeyValueStoreClientTypes {
 
-    /// List item for key value pair to put.
+    /// List item for key-value pair to put.
     public struct PutKeyRequestListItem: Swift.Sendable {
-        /// The key of the key value pair list item to put.
+        /// The key of the key-value pair list item to put.
         /// This member is required.
         public var key: Swift.String?
-        /// The value for the key value pair to put.
+        /// The value for the key-value pair to put.
         /// This member is required.
         public var value: Swift.String?
 
@@ -479,13 +479,13 @@ extension CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem: Swift.Custom
 public struct UpdateKeysInput: Swift.Sendable {
     /// List of keys to delete.
     public var deletes: [CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem]?
-    /// The current version (ETag) of the Key Value Store that you are updating keys of, which you can get using DescribeKeyValueStore.
+    /// The current version (ETag) of the key value store that you are updating keys of, which you can get by using the DescribeKeyValueStore API operation.
     /// This member is required.
     public var ifMatch: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Key Value Store.
+    /// The Amazon Resource Name (ARN) of the key value store.
     /// This member is required.
     public var kvsARN: Swift.String?
-    /// List of key value pairs to put.
+    /// List of key-value pairs to put.
     public var puts: [CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem]?
 
     public init(
@@ -501,15 +501,15 @@ public struct UpdateKeysInput: Swift.Sendable {
     }
 }
 
-/// Metadata information about a Key Value Store.
+/// Metadata information about a key value store.
 public struct UpdateKeysOutput: Swift.Sendable {
-    /// The current version identifier of the Key Value Store after the successful update.
+    /// The current version identifier of the key value store after the successful update.
     /// This member is required.
     public var eTag: Swift.String?
-    /// Number of key value pairs in the Key Value Store after the successful update.
+    /// Number of key-value pairs in the key value store after the successful update.
     /// This member is required.
     public var itemCount: Swift.Int?
-    /// Total size of the Key Value Store after the successful update, in bytes.
+    /// Total size of the key value store after the successful update, in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
 

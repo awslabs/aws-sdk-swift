@@ -175,6 +175,8 @@ extension FSxClientTypes {
     /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
     ///
     /// * VOLUME_UPDATE_WITH_SNAPSHOT - A volume is being updated from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CopySnapshotAndUpdateVolume), or CLI (copy-snapshot-and-update-volume).
+    ///
+    /// * VOLUME_CLONE_SPLIT - An FSx for ONTAP volume clone is being split from its parent volume. You can initiate this from the Amazon FSx console, Amazon FSx API (UpdateVolume) or CLI (update-volume) by setting SplitAction to START in the volume's CloneConfiguration.
     public enum AdministrativeActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case downloadDataFromBackup
         case fileSystemAliasAssociation
@@ -187,6 +189,7 @@ extension FSxClientTypes {
         case storageOptimization
         case storageTypeOptimization
         case throughputOptimization
+        case volumeCloneSplit
         case volumeInitializeWithSnapshot
         case volumeRestore
         case volumeUpdate
@@ -206,6 +209,7 @@ extension FSxClientTypes {
                 .storageOptimization,
                 .storageTypeOptimization,
                 .throughputOptimization,
+                .volumeCloneSplit,
                 .volumeInitializeWithSnapshot,
                 .volumeRestore,
                 .volumeUpdate,
@@ -231,6 +235,7 @@ extension FSxClientTypes {
             case .storageOptimization: return "STORAGE_OPTIMIZATION"
             case .storageTypeOptimization: return "STORAGE_TYPE_OPTIMIZATION"
             case .throughputOptimization: return "THROUGHPUT_OPTIMIZATION"
+            case .volumeCloneSplit: return "VOLUME_CLONE_SPLIT"
             case .volumeInitializeWithSnapshot: return "VOLUME_INITIALIZE_WITH_SNAPSHOT"
             case .volumeRestore: return "VOLUME_RESTORE"
             case .volumeUpdate: return "VOLUME_UPDATE"
@@ -1788,6 +1793,7 @@ extension FSxClientTypes {
         case available
         case creating
         case deleting
+        case failed
         case pending
         case sdkUnknown(Swift.String)
 
@@ -1796,6 +1802,7 @@ extension FSxClientTypes {
                 .available,
                 .creating,
                 .deleting,
+                .failed,
                 .pending
             ]
         }
@@ -1810,9 +1817,29 @@ extension FSxClientTypes {
             case .available: return "AVAILABLE"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .failed: return "FAILED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// An error returned by ONTAP for an operation on an Amazon FSx for NetApp ONTAP resource.
+    public struct OntapError: Swift.Sendable {
+        /// The error code returned by ONTAP.
+        public var code: Swift.String?
+        /// The error message returned by ONTAP.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
         }
     }
 }
@@ -1823,11 +1850,75 @@ extension FSxClientTypes {
     public struct LifecycleTransitionReason: Swift.Sendable {
         /// A detailed error message.
         public var message: Swift.String?
+        /// The error returned by ONTAP when an operation on the resource fails. Returned only for certain FSx for ONTAP resources.
+        public var ontapError: FSxClientTypes.OntapError?
 
         public init(
-            message: Swift.String? = nil
+            message: Swift.String? = nil,
+            ontapError: FSxClientTypes.OntapError? = nil
         ) {
             self.message = message
+            self.ontapError = ontapError
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The configuration of an Amazon FSx for NetApp ONTAP snapshot.
+    public struct OntapSnapshotConfiguration: Swift.Sendable {
+        /// The date and time when the snapshot expires. You can't delete the snapshot before this time.
+        public var expiryTime: Foundation.Date?
+        /// The configured size of the snapshot, in megabytes (MBs).
+        public var sizeInMegabytes: Swift.Int?
+        /// The date and time until which the snapshot is locked. This setting takes effect only if snapshot locking is enabled on the volume. Snapshot locking is separate from SnapLock, and enabling SnapLock on a volume doesn't enable snapshot locking. You can't delete the snapshot before this time.
+        public var snaplockExpiryTime: Foundation.Date?
+        /// The SnapMirror label of the snapshot. SnapMirror policies use labels to select which snapshots to replicate to a destination volume.
+        public var snapmirrorLabel: Swift.String?
+        /// The snapshot's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            expiryTime: Foundation.Date? = nil,
+            sizeInMegabytes: Swift.Int? = nil,
+            snaplockExpiryTime: Foundation.Date? = nil,
+            snapmirrorLabel: Swift.String? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.expiryTime = expiryTime
+            self.sizeInMegabytes = sizeInMegabytes
+            self.snaplockExpiryTime = snaplockExpiryTime
+            self.snapmirrorLabel = snapmirrorLabel
+            self.uuid = uuid
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapshotType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ontap
+        case openzfs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotType] {
+            return [
+                .ontap,
+                .openzfs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ontap: return "ONTAP"
+            case .openzfs: return "OPENZFS"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1897,6 +1988,25 @@ extension FSxClientTypes {
         ) {
             self.aggregates = aggregates
             self.totalConstituents = totalConstituents
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the parent volume, and the snapshot if one was specified, that an FSx for ONTAP volume clone was created from.
+    public struct CloneConfiguration: Swift.Sendable {
+        /// The ID of the parent volume that the clone was created from.
+        public var parentVolumeId: Swift.String?
+        /// The ID of the snapshot of the parent volume that the clone was created from, if you specified one when you created the clone.
+        public var snapshotId: Swift.String?
+
+        public init(
+            parentVolumeId: Swift.String? = nil,
+            snapshotId: Swift.String? = nil
+        ) {
+            self.parentVolumeId = parentVolumeId
+            self.snapshotId = snapshotId
         }
     }
 }
@@ -2387,6 +2497,8 @@ extension FSxClientTypes {
     public struct OntapVolumeConfiguration: Swift.Sendable {
         /// This structure specifies configuration options for a volume’s storage aggregate or aggregates.
         public var aggregateConfiguration: FSxClientTypes.AggregateConfiguration?
+        /// The clone configuration of the volume, if the volume is a clone. This property doesn't appear for a volume that isn't a clone, or for a clone that has been split from its parent volume.
+        public var cloneConfiguration: FSxClientTypes.CloneConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the FlexCache endpoint type of the volume. Valid values are the following:
@@ -2441,6 +2553,7 @@ extension FSxClientTypes {
 
         public init(
             aggregateConfiguration: FSxClientTypes.AggregateConfiguration? = nil,
+            cloneConfiguration: FSxClientTypes.CloneConfiguration? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             flexCacheEndpointType: FSxClientTypes.FlexCacheEndpointType? = nil,
             junctionPath: Swift.String? = nil,
@@ -2458,6 +2571,7 @@ extension FSxClientTypes {
             volumeStyle: FSxClientTypes.VolumeStyle? = nil
         ) {
             self.aggregateConfiguration = aggregateConfiguration
+            self.cloneConfiguration = cloneConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.flexCacheEndpointType = flexCacheEndpointType
             self.junctionPath = junctionPath
@@ -2782,6 +2896,38 @@ extension FSxClientTypes {
             switch self {
             case .ontap: return "ONTAP"
             case .openzfs: return "OPENZFS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum AllowedSvmMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case specified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowedSvmMode] {
+            return [
+                .all,
+                .none,
+                .specified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case .specified: return "SPECIFIED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4266,6 +4412,195 @@ public struct CreateBackupInput: Swift.Sendable {
         self.fileSystemId = fileSystemId
         self.tags = tags
         self.volumeId = volumeId
+    }
+}
+
+public struct CreateClusterPeerInput: Swift.Sendable {
+    /// Specifies the IDs of the SVMs on the file system that are preauthorized for SVM peering with the peer cluster. You can specify AllowedSvmIds only when AllowedSvmMode is SPECIFIED.
+    public var allowedSvmIds: [Swift.String]?
+    /// Specifies which SVMs on the file system are preauthorized for SVM peering with the peer cluster.
+    ///
+    /// * ALL – All SVMs on the file system are preauthorized. You can't specify AllowedSvmIds along with this property.
+    ///
+    /// * NONE – No SVMs on the file system are preauthorized. You can't specify AllowedSvmIds along with this property.
+    ///
+    /// * SPECIFIED – Only the SVMs in AllowedSvmIds are preauthorized. You must specify AllowedSvmIds along with this property.
+    /// This member is required.
+    public var allowedSvmMode: FSxClientTypes.AllowedSvmMode?
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the ID of the Amazon FSx for NetApp ONTAP file system on which to create the cluster peer relationship.
+    /// This member is required.
+    public var fileSystemId: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the cluster peering passphrase. Store the passphrase as a plaintext secret value, not as a key-value pair. The secret must be in the same Amazon Web Services Region as the file system. You must use the same passphrase when you create the cluster peer relationship on the peer cluster.
+    /// This member is required.
+    public var passphraseSecretArn: Swift.String?
+    /// Specifies the IP addresses of the intercluster logical interfaces (LIFs) on the peer cluster.
+    /// This member is required.
+    public var peerAddresses: [Swift.String]?
+    /// Specifies the name that the file system uses to identify the peer cluster.
+    public var peerClusterName: Swift.String?
+    /// A list of Tag values, with a maximum of 50 elements.
+    public var tags: [FSxClientTypes.Tag]?
+
+    public init(
+        allowedSvmIds: [Swift.String]? = nil,
+        allowedSvmMode: FSxClientTypes.AllowedSvmMode? = nil,
+        clientRequestToken: Swift.String? = nil,
+        fileSystemId: Swift.String? = nil,
+        passphraseSecretArn: Swift.String? = nil,
+        peerAddresses: [Swift.String]? = nil,
+        peerClusterName: Swift.String? = nil,
+        tags: [FSxClientTypes.Tag]? = nil
+    ) {
+        self.allowedSvmIds = allowedSvmIds
+        self.allowedSvmMode = allowedSvmMode
+        self.clientRequestToken = clientRequestToken
+        self.fileSystemId = fileSystemId
+        self.passphraseSecretArn = passphraseSecretArn
+        self.peerAddresses = peerAddresses
+        self.peerClusterName = peerClusterName
+        self.tags = tags
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the authentication status of an Amazon FSx for NetApp ONTAP cluster peer relationship.
+    public struct ClusterPeerAuthenticationStatus: Swift.Sendable {
+        /// The status of the authentication that the cluster peer relationship is using.
+        public var inUse: Swift.String?
+        /// The authentication state of the cluster peer relationship.
+        public var state: Swift.String?
+
+        public init(
+            inUse: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.inUse = inUse
+            self.state = state
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum ClusterPeerLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterPeerLifecycle] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes an Amazon FSx for NetApp ONTAP cluster peer relationship.
+    public struct ClusterPeer: Swift.Sendable {
+        /// The IDs of the SVMs on the file system that are preauthorized for SVM peering with the peer cluster, if AllowedSvmMode is SPECIFIED.
+        public var allowedSvmIds: [Swift.String]?
+        /// Indicates which SVMs on the file system are preauthorized for SVM peering with the peer cluster.
+        public var allowedSvmMode: FSxClientTypes.AllowedSvmMode?
+        /// The authentication status of the cluster peer relationship.
+        public var authenticationStatus: FSxClientTypes.ClusterPeerAuthenticationStatus?
+        /// The system-generated, unique ID of the cluster peer.
+        public var clusterPeerId: Swift.String?
+        /// The globally unique ID of the file system, assigned by Amazon FSx.
+        public var fileSystemId: Swift.String?
+        /// The lifecycle status of the cluster peer can be one of the following:
+        ///
+        /// * CREATED – The cluster peer is fully available for use.
+        ///
+        /// * CREATING – Amazon FSx is creating the cluster peer.
+        ///
+        /// * DELETING – Amazon FSx is deleting the cluster peer.
+        ///
+        /// * FAILED – Amazon FSx was unable to create the cluster peer.
+        public var lifecycle: FSxClientTypes.ClusterPeerLifecycle?
+        /// The reason why the cluster peer lifecycle status changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the cluster peering passphrase.
+        public var passphraseSecretArn: Swift.String?
+        /// The IP addresses of the intercluster logical interfaces (LIFs) on the peer cluster.
+        public var peerAddresses: [Swift.String]?
+        /// The name that the file system uses to identify the peer cluster.
+        public var peerClusterName: Swift.String?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var resourceARN: Swift.String?
+        /// The status of the connection to the peer cluster.
+        public var status: Swift.String?
+        /// A list of Tag values, with a maximum of 50 elements.
+        public var tags: [FSxClientTypes.Tag]?
+        /// The cluster peer's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            allowedSvmIds: [Swift.String]? = nil,
+            allowedSvmMode: FSxClientTypes.AllowedSvmMode? = nil,
+            authenticationStatus: FSxClientTypes.ClusterPeerAuthenticationStatus? = nil,
+            clusterPeerId: Swift.String? = nil,
+            fileSystemId: Swift.String? = nil,
+            lifecycle: FSxClientTypes.ClusterPeerLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            passphraseSecretArn: Swift.String? = nil,
+            peerAddresses: [Swift.String]? = nil,
+            peerClusterName: Swift.String? = nil,
+            resourceARN: Swift.String? = nil,
+            status: Swift.String? = nil,
+            tags: [FSxClientTypes.Tag]? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.allowedSvmIds = allowedSvmIds
+            self.allowedSvmMode = allowedSvmMode
+            self.authenticationStatus = authenticationStatus
+            self.clusterPeerId = clusterPeerId
+            self.fileSystemId = fileSystemId
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.passphraseSecretArn = passphraseSecretArn
+            self.peerAddresses = peerAddresses
+            self.peerClusterName = peerClusterName
+            self.resourceARN = resourceARN
+            self.status = status
+            self.tags = tags
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct CreateClusterPeerOutput: Swift.Sendable {
+    /// A description of the cluster peer.
+    public var clusterPeer: FSxClientTypes.ClusterPeer?
+
+    public init(
+        clusterPeer: FSxClientTypes.ClusterPeer? = nil
+    ) {
+        self.clusterPeer = clusterPeer
     }
 }
 
@@ -6310,12 +6645,690 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     }
 }
 
+/// No FSx for ONTAP SVMs were found based upon the supplied parameters.
+public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageVirtualMachineNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies a snapshot retention rule for an Amazon FSx for NetApp ONTAP SnapMirror policy.
+    public struct SnapmirrorPolicyRetentionRule: Swift.Sendable {
+        /// The number of snapshots with the label to retain on the destination volume.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The name of the ONTAP schedule on which SnapMirror creates snapshots with the label directly on the destination volume.
+        public var creationSchedule: Swift.String?
+        /// The SnapMirror label of the snapshots that the rule applies to.
+        /// This member is required.
+        public var label: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            creationSchedule: Swift.String? = nil,
+            label: Swift.String? = nil
+        ) {
+            self.count = count
+            self.creationSchedule = creationSchedule
+            self.label = label
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorPolicySnapshotCopyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case copyAllSourceSnapshots
+        case copyLatestSourceSnapshot
+        case noCreateSnapshotOnSource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorPolicySnapshotCopyMode] {
+            return [
+                .copyAllSourceSnapshots,
+                .copyLatestSourceSnapshot,
+                .noCreateSnapshotOnSource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .copyAllSourceSnapshots: return "COPY_ALL_SOURCE_SNAPSHOTS"
+            case .copyLatestSourceSnapshot: return "COPY_LATEST_SOURCE_SNAPSHOT"
+            case .noCreateSnapshotOnSource: return "NO_CREATE_SNAPSHOT_ON_SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSnapmirrorPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the ID of the Amazon FSx for NetApp ONTAP file system on which to create the SnapMirror policy. You must specify either a FileSystemId or a StorageVirtualMachineId, but not both.
+    public var fileSystemId: Swift.String?
+    /// Specifies the name of the SnapMirror policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether SnapMirror compresses data when it transfers the data over the network. This value defaults to false.
+    public var networkCompressionEnabled: Swift.Bool?
+    /// Specifies the rules that determine which snapshots SnapMirror retains on the destination volume, based on their SnapMirror labels.
+    public var retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]?
+    /// Specifies which snapshots SnapMirror transfers to the destination volume:
+    ///
+    /// * COPY_ALL_SOURCE_SNAPSHOTS – SnapMirror copies all snapshots of the source volume to the destination volume on a transfer. You can't specify RetentionRules along with this property.
+    ///
+    /// * COPY_LATEST_SOURCE_SNAPSHOT – SnapMirror copies the latest snapshot of the source volume to the destination volume on a transfer. You can't specify RetentionRules along with this property.
+    ///
+    /// * NO_CREATE_SNAPSHOT_ON_SOURCE – SnapMirror doesn't create a snapshot on the source volume at beginning of an update or resync operation. You must specify RetentionRules along with this property.
+    ///
+    ///
+    /// If you don't specify a SnapshotCopyMode, SnapMirror creates a new snapshot of the source volume and copies it, along with any snapshots that match RetentionRules, to the destination volume on a transfer. RetentionRules is optional.
+    public var snapshotCopyMode: FSxClientTypes.SnapmirrorPolicySnapshotCopyMode?
+    /// Specifies the ID of the SVM on which to create the SnapMirror policy. You must specify either a FileSystemId or a StorageVirtualMachineId, but not both.
+    public var storageVirtualMachineId: Swift.String?
+    /// A list of Tag values, with a maximum of 50 elements.
+    public var tags: [FSxClientTypes.Tag]?
+    /// Specifies the maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data. A value of 0 means that the bandwidth is unlimited.
+    public var throttleInKbps: Swift.Int?
+    /// Specifies the name of the ONTAP schedule that determines when SnapMirror transfers data.
+    public var transferSchedule: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        fileSystemId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        networkCompressionEnabled: Swift.Bool? = nil,
+        retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]? = nil,
+        snapshotCopyMode: FSxClientTypes.SnapmirrorPolicySnapshotCopyMode? = nil,
+        storageVirtualMachineId: Swift.String? = nil,
+        tags: [FSxClientTypes.Tag]? = nil,
+        throttleInKbps: Swift.Int? = nil,
+        transferSchedule: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.fileSystemId = fileSystemId
+        self.name = name
+        self.networkCompressionEnabled = networkCompressionEnabled
+        self.retentionRules = retentionRules
+        self.snapshotCopyMode = snapshotCopyMode
+        self.storageVirtualMachineId = storageVirtualMachineId
+        self.tags = tags
+        self.throttleInKbps = throttleInKbps
+        self.transferSchedule = transferSchedule
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorPolicyLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorPolicyLifecycle] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorPolicyScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case filesystem
+        case svm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorPolicyScope] {
+            return [
+                .filesystem,
+                .svm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .filesystem: return "FILESYSTEM"
+            case .svm: return "SVM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes an Amazon FSx for NetApp ONTAP SnapMirror policy.
+    public struct SnapmirrorPolicy: Swift.Sendable {
+        /// The globally unique ID of the file system, assigned by Amazon FSx.
+        public var fileSystemId: Swift.String?
+        /// The lifecycle status of the SnapMirror policy can be one of the following:
+        ///
+        /// * CREATED – The SnapMirror policy is fully available for use.
+        ///
+        /// * CREATING – Amazon FSx is creating the SnapMirror policy.
+        ///
+        /// * DELETING – Amazon FSx is deleting the SnapMirror policy.
+        ///
+        /// * FAILED – Amazon FSx was unable to create the SnapMirror policy.
+        public var lifecycle: FSxClientTypes.SnapmirrorPolicyLifecycle?
+        /// The reason why the SnapMirror policy lifecycle status changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The name of the SnapMirror policy.
+        public var name: Swift.String?
+        /// Specifies whether SnapMirror compresses data when it transfers the data over the network. This value defaults to false.
+        public var networkCompressionEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var resourceARN: Swift.String?
+        /// The rules that determine which snapshots SnapMirror retains on the destination volume.
+        public var retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]?
+        /// The scope of the SnapMirror policy can be one of the following:
+        ///
+        /// * FILESYSTEM – The SnapMirror policy was created on the file system.
+        ///
+        /// * SVM – The SnapMirror policy was created on an SVM.
+        public var scope: FSxClientTypes.SnapmirrorPolicyScope?
+        /// The system-generated, unique ID of the SnapMirror policy.
+        public var snapmirrorPolicyId: Swift.String?
+        /// The snapshot copy mode of the SnapMirror policy, which determines which snapshots SnapMirror transfers to the destination volume.
+        public var snapshotCopyMode: FSxClientTypes.SnapmirrorPolicySnapshotCopyMode?
+        /// The ID of the SnapMirror policy's storage virtual machine, if you created the SnapMirror policy on a storage virtual machine.
+        public var storageVirtualMachineId: Swift.String?
+        /// A list of Tag values, with a maximum of 50 elements.
+        public var tags: [FSxClientTypes.Tag]?
+        /// The maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data. A value of 0 means that the bandwidth is unlimited.
+        public var throttleInKbps: Swift.Int?
+        /// The name of the ONTAP schedule that determines when SnapMirror transfers data.
+        public var transferSchedule: Swift.String?
+        /// The SnapMirror policy's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            fileSystemId: Swift.String? = nil,
+            lifecycle: FSxClientTypes.SnapmirrorPolicyLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            name: Swift.String? = nil,
+            networkCompressionEnabled: Swift.Bool? = nil,
+            resourceARN: Swift.String? = nil,
+            retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]? = nil,
+            scope: FSxClientTypes.SnapmirrorPolicyScope? = nil,
+            snapmirrorPolicyId: Swift.String? = nil,
+            snapshotCopyMode: FSxClientTypes.SnapmirrorPolicySnapshotCopyMode? = nil,
+            storageVirtualMachineId: Swift.String? = nil,
+            tags: [FSxClientTypes.Tag]? = nil,
+            throttleInKbps: Swift.Int? = nil,
+            transferSchedule: Swift.String? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.fileSystemId = fileSystemId
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.name = name
+            self.networkCompressionEnabled = networkCompressionEnabled
+            self.resourceARN = resourceARN
+            self.retentionRules = retentionRules
+            self.scope = scope
+            self.snapmirrorPolicyId = snapmirrorPolicyId
+            self.snapshotCopyMode = snapshotCopyMode
+            self.storageVirtualMachineId = storageVirtualMachineId
+            self.tags = tags
+            self.throttleInKbps = throttleInKbps
+            self.transferSchedule = transferSchedule
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct CreateSnapmirrorPolicyOutput: Swift.Sendable {
+    /// A description of the SnapMirror policy.
+    public var snapmirrorPolicy: FSxClientTypes.SnapmirrorPolicy?
+
+    public init(
+        snapmirrorPolicy: FSxClientTypes.SnapmirrorPolicy? = nil
+    ) {
+        self.snapmirrorPolicy = snapmirrorPolicy
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the destination endpoint of the Amazon FSx for NetApp ONTAP SnapMirror relationship that you are creating.
+    public struct CreateSnapmirrorDestination: Swift.Sendable {
+        /// Specifies the ID of the destination volume.
+        /// This member is required.
+        public var volumeId: Swift.String?
+
+        public init(
+            volumeId: Swift.String? = nil
+        ) {
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the source endpoint of the Amazon FSx for NetApp ONTAP SnapMirror relationship that you are creating.
+    public struct CreateSnapmirrorSource: Swift.Sendable {
+        /// Specifies the path of the source volume, in the format svm_name:volume_name.
+        /// This member is required.
+        public var path: Swift.String?
+
+        public init(
+            path: Swift.String? = nil
+        ) {
+            self.path = path
+        }
+    }
+}
+
+public struct CreateSnapmirrorRelationshipInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the destination endpoint of the SnapMirror relationship.
+    /// This member is required.
+    public var destination: FSxClientTypes.CreateSnapmirrorDestination?
+    /// Specifies the ID of the SnapMirror policy that the SnapMirror relationship uses.
+    public var policyId: Swift.String?
+    /// Specifies the source endpoint of the SnapMirror relationship.
+    /// This member is required.
+    public var source: FSxClientTypes.CreateSnapmirrorSource?
+    /// A list of Tag values, with a maximum of 50 elements.
+    public var tags: [FSxClientTypes.Tag]?
+    /// Specifies the maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data for the relationship. A value of 0 means that the bandwidth is unlimited. This value overrides the throttle of the SnapMirror policy.
+    public var throttleInKbps: Swift.Int?
+    /// Specifies the name of the ONTAP schedule that determines when SnapMirror transfers data for the relationship. This schedule overrides the transfer schedule of the SnapMirror policy.
+    public var transferSchedule: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        destination: FSxClientTypes.CreateSnapmirrorDestination? = nil,
+        policyId: Swift.String? = nil,
+        source: FSxClientTypes.CreateSnapmirrorSource? = nil,
+        tags: [FSxClientTypes.Tag]? = nil,
+        throttleInKbps: Swift.Int? = nil,
+        transferSchedule: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.destination = destination
+        self.policyId = policyId
+        self.source = source
+        self.tags = tags
+        self.throttleInKbps = throttleInKbps
+        self.transferSchedule = transferSchedule
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the destination endpoint of an Amazon FSx for NetApp ONTAP SnapMirror relationship. The destination volume is always an Amazon FSx for NetApp ONTAP volume.
+    public struct SnapmirrorDestination: Swift.Sendable {
+        /// The path of the destination volume, in the format svm_name:volume_name.
+        public var path: Swift.String?
+        /// The ID of the destination volume.
+        public var volumeId: Swift.String?
+
+        public init(
+            path: Swift.String? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.path = path
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the latest snapshot that SnapMirror transferred to the destination volume of an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+    public struct SnapmirrorExportedSnapshot: Swift.Sendable {
+        /// The ID of the snapshot, if Amazon FSx manages the snapshot.
+        public var snapshotId: Swift.String?
+        /// The name of the snapshot in ONTAP.
+        public var snapshotName: Swift.String?
+
+        public init(
+            snapshotId: Swift.String? = nil,
+            snapshotName: Swift.String? = nil
+        ) {
+            self.snapshotId = snapshotId
+            self.snapshotName = snapshotName
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorRelationshipLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorRelationshipLifecycle] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the SnapMirror policy that an Amazon FSx for NetApp ONTAP SnapMirror relationship uses.
+    public struct SnapmirrorRelationshipPolicy: Swift.Sendable {
+        /// The ID of the SnapMirror policy.
+        public var policyId: Swift.String?
+        /// The name of the SnapMirror policy in ONTAP.
+        public var policyName: Swift.String?
+
+        public init(
+            policyId: Swift.String? = nil,
+            policyName: Swift.String? = nil
+        ) {
+            self.policyId = policyId
+            self.policyName = policyName
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the source endpoint of an Amazon FSx for NetApp ONTAP SnapMirror relationship. The source volume can be on an Amazon FSx for NetApp ONTAP file system or on another ONTAP cluster.
+    public struct SnapmirrorSource: Swift.Sendable {
+        /// The path of the source volume, in the format svm_name:volume_name.
+        public var path: Swift.String?
+
+        public init(
+            path: Swift.String? = nil
+        ) {
+            self.path = path
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorRelationshipState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case brokenOff
+        case paused
+        case snapmirrored
+        case transferring
+        case uninitialized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorRelationshipState] {
+            return [
+                .brokenOff,
+                .paused,
+                .snapmirrored,
+                .transferring,
+                .uninitialized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .brokenOff: return "BROKEN_OFF"
+            case .paused: return "PAUSED"
+            case .snapmirrored: return "SNAPMIRRORED"
+            case .transferring: return "TRANSFERRING"
+            case .uninitialized: return "UNINITIALIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the latest transfer of an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+    public struct SnapmirrorTransferState: Swift.Sendable {
+        /// The number of bytes that the transfer transferred.
+        public var bytesTransferred: Swift.Int?
+        /// The duration of the transfer, in ISO 8601 duration format.
+        public var duration: Swift.String?
+        /// The time that the transfer ended.
+        public var endTime: Foundation.Date?
+        /// The state of the transfer that ONTAP reports.
+        public var state: Swift.String?
+        /// The type of the transfer that ONTAP reports.
+        public var type: Swift.String?
+
+        public init(
+            bytesTransferred: Swift.Int? = nil,
+            duration: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            state: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.bytesTransferred = bytesTransferred
+            self.duration = duration
+            self.endTime = endTime
+            self.state = state
+            self.type = type
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes an Amazon FSx for NetApp ONTAP SnapMirror relationship.
+    public struct SnapmirrorRelationship: Swift.Sendable {
+        /// The destination endpoint of the SnapMirror relationship.
+        public var destination: FSxClientTypes.SnapmirrorDestination?
+        /// The latest snapshot that SnapMirror transferred to the destination volume.
+        public var exportedSnapshot: FSxClientTypes.SnapmirrorExportedSnapshot?
+        /// The globally unique ID of the file system that the destination volume is on, assigned by Amazon FSx.
+        public var fileSystemId: Swift.String?
+        /// Indicates whether ONTAP reports the SnapMirror relationship as healthy.
+        public var healthy: Swift.Bool?
+        /// The time, in minutes, since ONTAP created the latest snapshot that SnapMirror transferred to the destination volume.
+        public var lagTimeInMinutes: Swift.Int?
+        /// The lifecycle status of the SnapMirror relationship can be one of the following:
+        ///
+        /// * CREATED – The SnapMirror relationship is fully available for use.
+        ///
+        /// * CREATING – Amazon FSx is creating the SnapMirror relationship.
+        ///
+        /// * DELETING – Amazon FSx is deleting the SnapMirror relationship.
+        ///
+        /// * FAILED – Amazon FSx was unable to create the SnapMirror relationship.
+        public var lifecycle: FSxClientTypes.SnapmirrorRelationshipLifecycle?
+        /// The reason why the SnapMirror relationship lifecycle status changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var resourceARN: Swift.String?
+        /// The SnapMirror policy that the SnapMirror relationship uses.
+        public var snapmirrorPolicy: FSxClientTypes.SnapmirrorRelationshipPolicy?
+        /// The system-generated, unique ID of the SnapMirror relationship.
+        public var snapmirrorRelationshipId: Swift.String?
+        /// The source endpoint of the SnapMirror relationship.
+        public var source: FSxClientTypes.SnapmirrorSource?
+        /// The state of the SnapMirror relationship in ONTAP can be one of the following:
+        ///
+        /// * UNINITIALIZED – SnapMirror hasn't transferred the baseline copy of the source volume to the destination volume.
+        ///
+        /// * TRANSFERRING – SnapMirror is transferring data to the destination volume.
+        ///
+        /// * SNAPMIRRORED – SnapMirror transferred the baseline copy, and the destination volume receives updates from the source volume.
+        ///
+        /// * PAUSED – SnapMirror transfers for the relationship are paused.
+        ///
+        /// * BROKEN_OFF – The relationship is broken off, and the destination volume is writable. SnapMirror doesn't transfer data to the destination volume.
+        public var state: FSxClientTypes.SnapmirrorRelationshipState?
+        /// A list of Tag values, with a maximum of 50 elements.
+        public var tags: [FSxClientTypes.Tag]?
+        /// The maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data for the relationship. A value of 0 means that the bandwidth is unlimited. This value overrides the throttle of the SnapMirror policy.
+        public var throttleInKbps: Swift.Int?
+        /// The name of the ONTAP schedule that determines when SnapMirror transfers data for the relationship. This schedule overrides the transfer schedule of the SnapMirror policy.
+        public var transferSchedule: Swift.String?
+        /// The latest SnapMirror transfer for the relationship. If a transfer is in progress, this is the in-progress transfer. Otherwise, it's the most recently completed transfer.
+        public var transferState: FSxClientTypes.SnapmirrorTransferState?
+        /// The reason that ONTAP reports for why the SnapMirror relationship is unhealthy, if Healthy is false.
+        public var unhealthyReason: Swift.String?
+        /// The SnapMirror relationship's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            destination: FSxClientTypes.SnapmirrorDestination? = nil,
+            exportedSnapshot: FSxClientTypes.SnapmirrorExportedSnapshot? = nil,
+            fileSystemId: Swift.String? = nil,
+            healthy: Swift.Bool? = nil,
+            lagTimeInMinutes: Swift.Int? = nil,
+            lifecycle: FSxClientTypes.SnapmirrorRelationshipLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            resourceARN: Swift.String? = nil,
+            snapmirrorPolicy: FSxClientTypes.SnapmirrorRelationshipPolicy? = nil,
+            snapmirrorRelationshipId: Swift.String? = nil,
+            source: FSxClientTypes.SnapmirrorSource? = nil,
+            state: FSxClientTypes.SnapmirrorRelationshipState? = nil,
+            tags: [FSxClientTypes.Tag]? = nil,
+            throttleInKbps: Swift.Int? = nil,
+            transferSchedule: Swift.String? = nil,
+            transferState: FSxClientTypes.SnapmirrorTransferState? = nil,
+            unhealthyReason: Swift.String? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.destination = destination
+            self.exportedSnapshot = exportedSnapshot
+            self.fileSystemId = fileSystemId
+            self.healthy = healthy
+            self.lagTimeInMinutes = lagTimeInMinutes
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.resourceARN = resourceARN
+            self.snapmirrorPolicy = snapmirrorPolicy
+            self.snapmirrorRelationshipId = snapmirrorRelationshipId
+            self.source = source
+            self.state = state
+            self.tags = tags
+            self.throttleInKbps = throttleInKbps
+            self.transferSchedule = transferSchedule
+            self.transferState = transferState
+            self.unhealthyReason = unhealthyReason
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct CreateSnapmirrorRelationshipOutput: Swift.Sendable {
+    /// A description of the SnapMirror relationship.
+    public var snapmirrorRelationship: FSxClientTypes.SnapmirrorRelationship?
+
+    public init(
+        snapmirrorRelationship: FSxClientTypes.SnapmirrorRelationship? = nil
+    ) {
+        self.snapmirrorRelationship = snapmirrorRelationship
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the configuration of the ONTAP snapshot that you are creating.
+    public struct CreateOntapSnapshotConfiguration: Swift.Sendable {
+        /// Specifies the date and time when the snapshot expires. You can't delete the snapshot before this time.
+        public var expiryTime: Foundation.Date?
+        /// Specifies the date and time until which the snapshot is locked. This setting takes effect only if snapshot locking is enabled on the volume. Snapshot locking is separate from SnapLock, and enabling SnapLock on a volume doesn't enable snapshot locking. You can't delete the snapshot before this time.
+        public var snaplockExpiryTime: Foundation.Date?
+        /// Specifies the SnapMirror label to assign to the snapshot. SnapMirror policies use labels to select which snapshots to replicate to a destination volume.
+        public var snapmirrorLabel: Swift.String?
+
+        public init(
+            expiryTime: Foundation.Date? = nil,
+            snaplockExpiryTime: Foundation.Date? = nil,
+            snapmirrorLabel: Swift.String? = nil
+        ) {
+            self.expiryTime = expiryTime
+            self.snaplockExpiryTime = snaplockExpiryTime
+            self.snapmirrorLabel = snapmirrorLabel
+        }
+    }
+}
+
 public struct CreateSnapshotInput: Swift.Sendable {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the configuration to use when creating the ONTAP snapshot.
+    public var ontapConfiguration: FSxClientTypes.CreateOntapSnapshotConfiguration?
     /// A list of Tag values, with a maximum of 50 elements.
     public var tags: [FSxClientTypes.Tag]?
     /// The ID of the volume that you are taking a snapshot of.
@@ -6325,13 +7338,295 @@ public struct CreateSnapshotInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        ontapConfiguration: FSxClientTypes.CreateOntapSnapshotConfiguration? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         volumeId: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
+        self.ontapConfiguration = ontapConfiguration
         self.tags = tags
         self.volumeId = volumeId
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapshotPolicyRetentionPeriodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case infinite
+        case minutes
+        case months
+        case seconds
+        case years
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotPolicyRetentionPeriodType] {
+            return [
+                .days,
+                .hours,
+                .infinite,
+                .minutes,
+                .months,
+                .seconds,
+                .years
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case .infinite: return "INFINITE"
+            case .minutes: return "MINUTES"
+            case .months: return "MONTHS"
+            case .seconds: return "SECONDS"
+            case .years: return "YEARS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The length of time that snapshots created by this schedule are locked. This setting applies only to volumes that have snapshot locking enabled.
+    public struct SnapshotPolicyRetentionPeriod: Swift.Sendable {
+        /// The unit of time for the retention period. If you set it to INFINITE, the snapshots are retained forever.
+        /// This member is required.
+        public var type: FSxClientTypes.SnapshotPolicyRetentionPeriodType?
+        /// Defines the amount of time for the retention period. You can't set a value for INFINITE.
+        public var value: Swift.Int?
+
+        public init(
+            type: FSxClientTypes.SnapshotPolicyRetentionPeriodType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies a schedule for an Amazon FSx for NetApp ONTAP snapshot policy.
+    public struct SnapshotPolicySchedule: Swift.Sendable {
+        /// The number of snapshots to retain for the schedule.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The name of the ONTAP schedule that determines when snapshots are created.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The prefix for the schedule to use when creating snapshots.
+        public var `prefix`: Swift.String?
+        /// The length of time that the snapshots that the schedule creates are locked. This setting applies only to volumes that have snapshot locking enabled.
+        public var retentionPeriod: FSxClientTypes.SnapshotPolicyRetentionPeriod?
+        /// The SnapMirror label to assign to the snapshots that the schedule creates. SnapMirror policies use labels to select which snapshots to replicate to a destination volume.
+        public var snapmirrorLabel: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            retentionPeriod: FSxClientTypes.SnapshotPolicyRetentionPeriod? = nil,
+            snapmirrorLabel: Swift.String? = nil
+        ) {
+            self.count = count
+            self.name = name
+            self.`prefix` = `prefix`
+            self.retentionPeriod = retentionPeriod
+            self.snapmirrorLabel = snapmirrorLabel
+        }
+    }
+}
+
+public struct CreateSnapshotPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies whether the snapshot policy is enabled. This value defaults to true.
+    public var enabled: Swift.Bool?
+    /// Specifies the ID of the Amazon FSx for NetApp ONTAP file system on which to create the snapshot policy. You must specify either a FileSystemId or a StorageVirtualMachineId, but not both.
+    public var fileSystemId: Swift.String?
+    /// Specifies the name of the snapshot policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies the schedules on which ONTAP creates snapshots for the snapshot policy.
+    /// This member is required.
+    public var schedules: [FSxClientTypes.SnapshotPolicySchedule]?
+    /// Specifies the ID of the SVM on which to create the snapshot policy. You must specify either a FileSystemId or a StorageVirtualMachineId, but not both.
+    public var storageVirtualMachineId: Swift.String?
+    /// A list of Tag values, with a maximum of 50 elements.
+    public var tags: [FSxClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
+        fileSystemId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schedules: [FSxClientTypes.SnapshotPolicySchedule]? = nil,
+        storageVirtualMachineId: Swift.String? = nil,
+        tags: [FSxClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.enabled = enabled
+        self.fileSystemId = fileSystemId
+        self.name = name
+        self.schedules = schedules
+        self.storageVirtualMachineId = storageVirtualMachineId
+        self.tags = tags
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapshotPolicyLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotPolicyLifecycle] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapshotPolicyScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case filesystem
+        case svm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotPolicyScope] {
+            return [
+                .filesystem,
+                .svm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .filesystem: return "FILESYSTEM"
+            case .svm: return "SVM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes an Amazon FSx for NetApp ONTAP snapshot policy.
+    public struct SnapshotPolicy: Swift.Sendable {
+        /// Specifies whether the snapshot policy is enabled. This value defaults to true.
+        public var enabled: Swift.Bool?
+        /// The globally unique ID of the file system, assigned by Amazon FSx.
+        public var fileSystemId: Swift.String?
+        /// The lifecycle status of the snapshot policy can be one of the following:
+        ///
+        /// * CREATED – The snapshot policy is fully available for use.
+        ///
+        /// * CREATING – Amazon FSx is creating the snapshot policy.
+        ///
+        /// * DELETING – Amazon FSx is deleting the snapshot policy.
+        ///
+        /// * FAILED – Amazon FSx was unable to create the snapshot policy.
+        public var lifecycle: FSxClientTypes.SnapshotPolicyLifecycle?
+        /// The reason why the snapshot policy lifecycle status changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The name of the snapshot policy.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var resourceARN: Swift.String?
+        /// The schedules on which ONTAP creates snapshots for the snapshot policy.
+        public var schedules: [FSxClientTypes.SnapshotPolicySchedule]?
+        /// The scope of the snapshot policy can be one of the following:
+        ///
+        /// * FILESYSTEM – The snapshot policy was created on the file system.
+        ///
+        /// * SVM – The snapshot policy was created on an SVM.
+        public var scope: FSxClientTypes.SnapshotPolicyScope?
+        /// The system-generated, unique ID of the snapshot policy.
+        public var snapshotPolicyId: Swift.String?
+        /// The ID of the snapshot policy's storage virtual machine, if you created the snapshot policy on a storage virtual machine.
+        public var storageVirtualMachineId: Swift.String?
+        /// A list of Tag values, with a maximum of 50 elements.
+        public var tags: [FSxClientTypes.Tag]?
+        /// The snapshot policy's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            fileSystemId: Swift.String? = nil,
+            lifecycle: FSxClientTypes.SnapshotPolicyLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            name: Swift.String? = nil,
+            resourceARN: Swift.String? = nil,
+            schedules: [FSxClientTypes.SnapshotPolicySchedule]? = nil,
+            scope: FSxClientTypes.SnapshotPolicyScope? = nil,
+            snapshotPolicyId: Swift.String? = nil,
+            storageVirtualMachineId: Swift.String? = nil,
+            tags: [FSxClientTypes.Tag]? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.fileSystemId = fileSystemId
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.name = name
+            self.resourceARN = resourceARN
+            self.schedules = schedules
+            self.scope = scope
+            self.snapshotPolicyId = snapshotPolicyId
+            self.storageVirtualMachineId = storageVirtualMachineId
+            self.tags = tags
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct CreateSnapshotPolicyOutput: Swift.Sendable {
+    /// A description of the snapshot policy.
+    public var snapshotPolicy: FSxClientTypes.SnapshotPolicy?
+
+    public init(
+        snapshotPolicy: FSxClientTypes.SnapshotPolicy? = nil
+    ) {
+        self.snapshotPolicy = snapshotPolicy
     }
 }
 
@@ -6661,6 +7956,257 @@ public struct CreateStorageVirtualMachineOutput: Swift.Sendable {
     }
 }
 
+extension FSxClientTypes {
+
+    public enum StorageVirtualMachinePeerApplication: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileCopy
+        case flexcache
+        case lunCopy
+        case snapmirror
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachinePeerApplication] {
+            return [
+                .fileCopy,
+                .flexcache,
+                .lunCopy,
+                .snapmirror
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileCopy: return "FILE_COPY"
+            case .flexcache: return "FLEXCACHE"
+            case .lunCopy: return "LUN_COPY"
+            case .snapmirror: return "SNAPMIRROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateStorageVirtualMachinePeerInput: Swift.Sendable {
+    /// Specifies the applications that the SVM peer relationship authorizes.
+    /// This member is required.
+    public var applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]?
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the name of the peer cluster that the peer SVM is on.
+    public var peerClusterName: Swift.String?
+    /// Specifies the name that the local cluster uses to identify the peer SVM.
+    public var peerSvmAlias: Swift.String?
+    /// Specifies the name of the SVM to peer with.
+    /// This member is required.
+    public var peerSvmName: Swift.String?
+    /// Specifies the ID of the SVM on which to create the SVM peer relationship.
+    /// This member is required.
+    public var storageVirtualMachineId: Swift.String?
+    /// A list of Tag values, with a maximum of 50 elements.
+    public var tags: [FSxClientTypes.Tag]?
+
+    public init(
+        applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]? = nil,
+        clientRequestToken: Swift.String? = nil,
+        peerClusterName: Swift.String? = nil,
+        peerSvmAlias: Swift.String? = nil,
+        peerSvmName: Swift.String? = nil,
+        storageVirtualMachineId: Swift.String? = nil,
+        tags: [FSxClientTypes.Tag]? = nil
+    ) {
+        self.applications = applications
+        self.clientRequestToken = clientRequestToken
+        self.peerClusterName = peerClusterName
+        self.peerSvmAlias = peerSvmAlias
+        self.peerSvmName = peerSvmName
+        self.storageVirtualMachineId = storageVirtualMachineId
+        self.tags = tags
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum StorageVirtualMachinePeerLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachinePeerLifecycle] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum StorageVirtualMachinePeerState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case initializing
+        case initiated
+        case peered
+        case pending
+        case rejected
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachinePeerState] {
+            return [
+                .initializing,
+                .initiated,
+                .peered,
+                .pending,
+                .rejected,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .initializing: return "INITIALIZING"
+            case .initiated: return "INITIATED"
+            case .peered: return "PEERED"
+            case .pending: return "PENDING"
+            case .rejected: return "REJECTED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes an Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peer relationship.
+    public struct StorageVirtualMachinePeer: Swift.Sendable {
+        /// The applications that the SVM peer relationship authorizes. The applications can be one or more of the following:
+        ///
+        /// * SNAPMIRROR – SnapMirror replication.
+        ///
+        /// * FILE_COPY – File copy.
+        ///
+        /// * LUN_COPY – LUN copy.
+        ///
+        /// * FLEXCACHE – FlexCache.
+        public var applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]?
+        /// The globally unique ID of the file system, assigned by Amazon FSx.
+        public var fileSystemId: Swift.String?
+        /// The lifecycle status of the SVM peer can be one of the following:
+        ///
+        /// * CREATED – The SVM peer is fully available for use.
+        ///
+        /// * CREATING – Amazon FSx is creating the SVM peer.
+        ///
+        /// * DELETING – Amazon FSx is deleting the SVM peer.
+        ///
+        /// * FAILED – Amazon FSx was unable to create the SVM peer.
+        public var lifecycle: FSxClientTypes.StorageVirtualMachinePeerLifecycle?
+        /// The reason why the SVM peer lifecycle status changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The name of the peer cluster that the peer SVM is on.
+        public var peerClusterName: Swift.String?
+        /// The name that the local cluster uses to identify the peer SVM.
+        public var peerSvmAlias: Swift.String?
+        /// The name of the SVM on the peer cluster.
+        public var peerSvmName: Swift.String?
+        /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var resourceARN: Swift.String?
+        /// The state of the SVM peer relationship in ONTAP can be one of the following:
+        ///
+        /// * PEERED – The SVM peer relationship is established.
+        ///
+        /// * INITIATED – The local cluster sent a peering request to the peer SVM.
+        ///
+        /// * PENDING – A peering request from the peer SVM is waiting for acceptance.
+        ///
+        /// * INITIALIZING – ONTAP is setting up the SVM peer relationship.
+        ///
+        /// * SUSPENDED – The SVM peer relationship is suspended.
+        ///
+        /// * REJECTED – The peering request was rejected.
+        public var state: FSxClientTypes.StorageVirtualMachinePeerState?
+        /// The ID of the SVM on the file system that the SVM peer relationship belongs to.
+        public var storageVirtualMachineId: Swift.String?
+        /// The system-generated, unique ID of the SVM peer.
+        public var storageVirtualMachinePeerId: Swift.String?
+        /// A list of Tag values, with a maximum of 50 elements.
+        public var tags: [FSxClientTypes.Tag]?
+        /// The SVM peer's universally unique identifier (UUID).
+        public var uuid: Swift.String?
+
+        public init(
+            applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]? = nil,
+            fileSystemId: Swift.String? = nil,
+            lifecycle: FSxClientTypes.StorageVirtualMachinePeerLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            peerClusterName: Swift.String? = nil,
+            peerSvmAlias: Swift.String? = nil,
+            peerSvmName: Swift.String? = nil,
+            resourceARN: Swift.String? = nil,
+            state: FSxClientTypes.StorageVirtualMachinePeerState? = nil,
+            storageVirtualMachineId: Swift.String? = nil,
+            storageVirtualMachinePeerId: Swift.String? = nil,
+            tags: [FSxClientTypes.Tag]? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.applications = applications
+            self.fileSystemId = fileSystemId
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.peerClusterName = peerClusterName
+            self.peerSvmAlias = peerSvmAlias
+            self.peerSvmName = peerSvmName
+            self.resourceARN = resourceARN
+            self.state = state
+            self.storageVirtualMachineId = storageVirtualMachineId
+            self.storageVirtualMachinePeerId = storageVirtualMachinePeerId
+            self.tags = tags
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct CreateStorageVirtualMachinePeerOutput: Swift.Sendable {
+    /// A description of the SVM peer.
+    public var storageVirtualMachinePeer: FSxClientTypes.StorageVirtualMachinePeer?
+
+    public init(
+        storageVirtualMachinePeer: FSxClientTypes.StorageVirtualMachinePeer? = nil
+    ) {
+        self.storageVirtualMachinePeer = storageVirtualMachinePeer
+    }
+}
+
 /// A volume configuration is required for this operation.
 public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6671,30 +8217,6 @@ public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientR
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "MissingVolumeConfiguration" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// No FSx for ONTAP SVMs were found based upon the supplied parameters.
-public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A detailed error message.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "StorageVirtualMachineNotFound" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -6724,6 +8246,26 @@ extension FSxClientTypes {
         ) {
             self.aggregates = aggregates
             self.constituentsPerAggregate = constituentsPerAggregate
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the parent volume, and optionally the snapshot, that an FSx for ONTAP volume clone is created from.
+    public struct CreateCloneConfiguration: Swift.Sendable {
+        /// Specifies the ID of the volume to clone.
+        /// This member is required.
+        public var parentVolumeId: Swift.String?
+        /// Specifies the ID of a snapshot of the parent volume to create the clone from. The snapshot's lifecycle state must be AVAILABLE. If you don't specify a snapshot, ONTAP creates a new snapshot of the parent volume and creates the clone from it.
+        public var snapshotId: Swift.String?
+
+        public init(
+            parentVolumeId: Swift.String? = nil,
+            snapshotId: Swift.String? = nil
+        ) {
+            self.parentVolumeId = parentVolumeId
+            self.snapshotId = snapshotId
         }
     }
 }
@@ -6803,6 +8345,8 @@ extension FSxClientTypes {
     public struct CreateOntapVolumeConfiguration: Swift.Sendable {
         /// Use to specify configuration options for a volume’s storage aggregate or aggregates.
         public var aggregateConfiguration: FSxClientTypes.CreateAggregateConfiguration?
+        /// Specifies the configuration to use when creating the volume as a clone of another FSx for ONTAP volume. A clone is a writable, point-in-time copy of its parent volume.
+        public var cloneConfiguration: FSxClientTypes.CreateCloneConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the location in the SVM's namespace where the volume is mounted. This parameter is required. The JunctionPath must have a leading forward slash, such as /vol3.
@@ -6874,6 +8418,7 @@ extension FSxClientTypes {
 
         public init(
             aggregateConfiguration: FSxClientTypes.CreateAggregateConfiguration? = nil,
+            cloneConfiguration: FSxClientTypes.CreateCloneConfiguration? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             junctionPath: Swift.String? = nil,
             ontapVolumeType: FSxClientTypes.InputOntapVolumeType? = nil,
@@ -6888,6 +8433,7 @@ extension FSxClientTypes {
             volumeStyle: FSxClientTypes.VolumeStyle? = nil
         ) {
             self.aggregateConfiguration = aggregateConfiguration
+            self.cloneConfiguration = cloneConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.ontapVolumeType = ontapVolumeType
@@ -7140,6 +8686,61 @@ public struct DeleteBackupOutput: Swift.Sendable {
         lifecycle: FSxClientTypes.BackupLifecycle? = nil
     ) {
         self.backupId = backupId
+        self.lifecycle = lifecycle
+    }
+}
+
+/// No Amazon FSx cluster peers were found based on the supplied parameters.
+public struct ClusterPeerNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterPeerNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteClusterPeerInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the cluster peer that you are deleting.
+    /// This member is required.
+    public var clusterPeerId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        clusterPeerId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.clusterPeerId = clusterPeerId
+    }
+}
+
+public struct DeleteClusterPeerOutput: Swift.Sendable {
+    /// The ID of the cluster peer that's being deleted.
+    public var clusterPeerId: Swift.String?
+    /// The lifecycle state of the cluster peer being deleted. If the DeleteClusterPeer operation is successful, this value is DELETING.
+    public var lifecycle: FSxClientTypes.ClusterPeerLifecycle?
+
+    public init(
+        clusterPeerId: Swift.String? = nil,
+        lifecycle: FSxClientTypes.ClusterPeerLifecycle? = nil
+    ) {
+        self.clusterPeerId = clusterPeerId
         self.lifecycle = lifecycle
     }
 }
@@ -7463,6 +9064,116 @@ public struct DeleteFileSystemOutput: Swift.Sendable {
     }
 }
 
+/// No Amazon FSx SnapMirror policies were found based on the supplied parameters.
+public struct SnapmirrorPolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapmirrorPolicyNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSnapmirrorPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the SnapMirror policy that you are deleting.
+    /// This member is required.
+    public var snapmirrorPolicyId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        snapmirrorPolicyId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.snapmirrorPolicyId = snapmirrorPolicyId
+    }
+}
+
+public struct DeleteSnapmirrorPolicyOutput: Swift.Sendable {
+    /// The lifecycle state of the SnapMirror policy being deleted. If the DeleteSnapmirrorPolicy operation is successful, this value is DELETING.
+    public var lifecycle: FSxClientTypes.SnapmirrorPolicyLifecycle?
+    /// The ID of the SnapMirror policy that's being deleted.
+    public var snapmirrorPolicyId: Swift.String?
+
+    public init(
+        lifecycle: FSxClientTypes.SnapmirrorPolicyLifecycle? = nil,
+        snapmirrorPolicyId: Swift.String? = nil
+    ) {
+        self.lifecycle = lifecycle
+        self.snapmirrorPolicyId = snapmirrorPolicyId
+    }
+}
+
+/// No Amazon FSx SnapMirror relationships were found based on the supplied parameters.
+public struct SnapmirrorRelationshipNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapmirrorRelationshipNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSnapmirrorRelationshipInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the SnapMirror relationship that you are deleting.
+    /// This member is required.
+    public var snapmirrorRelationshipId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        snapmirrorRelationshipId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.snapmirrorRelationshipId = snapmirrorRelationshipId
+    }
+}
+
+public struct DeleteSnapmirrorRelationshipOutput: Swift.Sendable {
+    /// The lifecycle state of the SnapMirror relationship being deleted. If the DeleteSnapmirrorRelationship operation is successful, this value is DELETING.
+    public var lifecycle: FSxClientTypes.SnapmirrorRelationshipLifecycle?
+    /// The ID of the SnapMirror relationship that's being deleted.
+    public var snapmirrorRelationshipId: Swift.String?
+
+    public init(
+        lifecycle: FSxClientTypes.SnapmirrorRelationshipLifecycle? = nil,
+        snapmirrorRelationshipId: Swift.String? = nil
+    ) {
+        self.lifecycle = lifecycle
+        self.snapmirrorRelationshipId = snapmirrorRelationshipId
+    }
+}
+
 /// No Amazon FSx snapshots were found based on the supplied parameters.
 public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7518,6 +9229,61 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
     }
 }
 
+/// No Amazon FSx snapshot policies were found based on the supplied parameters.
+public struct SnapshotPolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapshotPolicyNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSnapshotPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the snapshot policy that you are deleting.
+    /// This member is required.
+    public var snapshotPolicyId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        snapshotPolicyId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.snapshotPolicyId = snapshotPolicyId
+    }
+}
+
+public struct DeleteSnapshotPolicyOutput: Swift.Sendable {
+    /// The lifecycle state of the snapshot policy being deleted. If the DeleteSnapshotPolicy operation is successful, this value is DELETING.
+    public var lifecycle: FSxClientTypes.SnapshotPolicyLifecycle?
+    /// The ID of the snapshot policy that's being deleted.
+    public var snapshotPolicyId: Swift.String?
+
+    public init(
+        lifecycle: FSxClientTypes.SnapshotPolicyLifecycle? = nil,
+        snapshotPolicyId: Swift.String? = nil
+    ) {
+        self.lifecycle = lifecycle
+        self.snapshotPolicyId = snapshotPolicyId
+    }
+}
+
 public struct DeleteStorageVirtualMachineInput: Swift.Sendable {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
@@ -7546,6 +9312,61 @@ public struct DeleteStorageVirtualMachineOutput: Swift.Sendable {
     ) {
         self.lifecycle = lifecycle
         self.storageVirtualMachineId = storageVirtualMachineId
+    }
+}
+
+/// No Amazon FSx storage virtual machine (SVM) peers were found based on the supplied parameters.
+public struct StorageVirtualMachinePeerNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageVirtualMachinePeerNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteStorageVirtualMachinePeerInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the SVM peer that you are deleting.
+    /// This member is required.
+    public var storageVirtualMachinePeerId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        storageVirtualMachinePeerId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.storageVirtualMachinePeerId = storageVirtualMachinePeerId
+    }
+}
+
+public struct DeleteStorageVirtualMachinePeerOutput: Swift.Sendable {
+    /// The lifecycle state of the SVM peer being deleted. If the DeleteStorageVirtualMachinePeer operation is successful, this value is DELETING.
+    public var lifecycle: FSxClientTypes.StorageVirtualMachinePeerLifecycle?
+    /// The ID of the SVM peer that's being deleted.
+    public var storageVirtualMachinePeerId: Swift.String?
+
+    public init(
+        lifecycle: FSxClientTypes.StorageVirtualMachinePeerLifecycle? = nil,
+        storageVirtualMachinePeerId: Swift.String? = nil
+    ) {
+        self.lifecycle = lifecycle
+        self.storageVirtualMachinePeerId = storageVirtualMachinePeerId
     }
 }
 
@@ -7759,6 +9580,89 @@ public struct DescribeBackupsInput: Swift.Sendable {
         self.backupIds = backupIds
         self.filters = filters
         self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum ClusterPeerFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSystemId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterPeerFilterName] {
+            return [
+                .fileSystemId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSystemId: return "file-system-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP cluster peers.
+    public struct ClusterPeerFilter: Swift.Sendable {
+        /// The name for this filter.
+        public var name: FSxClientTypes.ClusterPeerFilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.ClusterPeerFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeClusterPeersInput: Swift.Sendable {
+    /// The IDs of the cluster peers that you want to retrieve. If you also specify Filters, only cluster peers that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a ClusterPeerNotFound error occurs.
+    public var clusterPeerIds: [Swift.String]?
+    /// The filters structure. The supported name is file-system-id.
+    public var filters: [FSxClientTypes.ClusterPeerFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterPeerIds: [Swift.String]? = nil,
+        filters: [FSxClientTypes.ClusterPeerFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterPeerIds = clusterPeerIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeClusterPeersOutput: Swift.Sendable {
+    /// Describes each cluster peer returned by the DescribeClusterPeers operation.
+    public var clusterPeers: [FSxClientTypes.ClusterPeer]?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterPeers: [FSxClientTypes.ClusterPeer]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterPeers = clusterPeers
         self.nextToken = nextToken
     }
 }
@@ -8232,6 +10136,264 @@ public struct DescribeSharedVpcConfigurationOutput: Swift.Sendable {
 
 extension FSxClientTypes {
 
+    public enum SnapmirrorPolicyFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSystemId
+        case storageVirtualMachineId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorPolicyFilterName] {
+            return [
+                .fileSystemId,
+                .storageVirtualMachineId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSystemId: return "file-system-id"
+            case .storageVirtualMachineId: return "storage-virtual-machine-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP SnapMirror policies.
+    public struct SnapmirrorPolicyFilter: Swift.Sendable {
+        /// The name for this filter.
+        public var name: FSxClientTypes.SnapmirrorPolicyFilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.SnapmirrorPolicyFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeSnapmirrorPoliciesInput: Swift.Sendable {
+    /// The filters structure. The supported names are file-system-id or storage-virtual-machine-id.
+    public var filters: [FSxClientTypes.SnapmirrorPolicyFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// The IDs of the SnapMirror policies that you want to retrieve. If you also specify Filters, only SnapMirror policies that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a SnapmirrorPolicyNotFound error occurs.
+    public var snapmirrorPolicyIds: [Swift.String]?
+
+    public init(
+        filters: [FSxClientTypes.SnapmirrorPolicyFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        snapmirrorPolicyIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.snapmirrorPolicyIds = snapmirrorPolicyIds
+    }
+}
+
+public struct DescribeSnapmirrorPoliciesOutput: Swift.Sendable {
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// Describes each SnapMirror policy returned by the DescribeSnapmirrorPolicies operation.
+    public var snapmirrorPolicies: [FSxClientTypes.SnapmirrorPolicy]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        snapmirrorPolicies: [FSxClientTypes.SnapmirrorPolicy]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.snapmirrorPolicies = snapmirrorPolicies
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapmirrorRelationshipFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case destinationVolumeId
+        case fileSystemId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapmirrorRelationshipFilterName] {
+            return [
+                .destinationVolumeId,
+                .fileSystemId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .destinationVolumeId: return "destination-volume-id"
+            case .fileSystemId: return "file-system-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP SnapMirror relationships.
+    public struct SnapmirrorRelationshipFilter: Swift.Sendable {
+        /// The name for this filter.
+        public var name: FSxClientTypes.SnapmirrorRelationshipFilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.SnapmirrorRelationshipFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeSnapmirrorRelationshipsInput: Swift.Sendable {
+    /// The filters structure. The supported names are file-system-id or destination-volume-id.
+    public var filters: [FSxClientTypes.SnapmirrorRelationshipFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// The IDs of the SnapMirror relationships that you want to retrieve. If you also specify Filters, only SnapMirror relationships that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a SnapmirrorRelationshipNotFound error occurs.
+    public var snapmirrorRelationshipIds: [Swift.String]?
+
+    public init(
+        filters: [FSxClientTypes.SnapmirrorRelationshipFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        snapmirrorRelationshipIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.snapmirrorRelationshipIds = snapmirrorRelationshipIds
+    }
+}
+
+public struct DescribeSnapmirrorRelationshipsOutput: Swift.Sendable {
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// Describes each SnapMirror relationship returned by the DescribeSnapmirrorRelationships operation.
+    public var snapmirrorRelationships: [FSxClientTypes.SnapmirrorRelationship]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        snapmirrorRelationships: [FSxClientTypes.SnapmirrorRelationship]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.snapmirrorRelationships = snapmirrorRelationships
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum SnapshotPolicyFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSystemId
+        case storageVirtualMachineId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotPolicyFilterName] {
+            return [
+                .fileSystemId,
+                .storageVirtualMachineId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSystemId: return "file-system-id"
+            case .storageVirtualMachineId: return "storage-virtual-machine-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP snapshot policies.
+    public struct SnapshotPolicyFilter: Swift.Sendable {
+        /// The name for this filter.
+        public var name: FSxClientTypes.SnapshotPolicyFilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.SnapshotPolicyFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeSnapshotPoliciesInput: Swift.Sendable {
+    /// The filters structure. The supported names are file-system-id or storage-virtual-machine-id.
+    public var filters: [FSxClientTypes.SnapshotPolicyFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// The IDs of the snapshot policies that you want to retrieve. If you also specify Filters, only snapshot policies that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a SnapshotPolicyNotFound error occurs.
+    public var snapshotPolicyIds: [Swift.String]?
+
+    public init(
+        filters: [FSxClientTypes.SnapshotPolicyFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        snapshotPolicyIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.snapshotPolicyIds = snapshotPolicyIds
+    }
+}
+
+public struct DescribeSnapshotPoliciesOutput: Swift.Sendable {
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// Describes each snapshot policy returned by the DescribeSnapshotPolicies operation.
+    public var snapshotPolicies: [FSxClientTypes.SnapshotPolicy]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        snapshotPolicies: [FSxClientTypes.SnapshotPolicy]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.snapshotPolicies = snapshotPolicies
+    }
+}
+
+extension FSxClientTypes {
+
     public enum SnapshotFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fileSystemId
         case volumeId
@@ -8287,7 +10449,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
-    /// The IDs of the snapshots that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
+    /// The IDs of the snapshots that you want to retrieve. You can include snapshots of Amazon FSx for OpenZFS and Amazon FSx for NetApp ONTAP volumes in the same request. If you also specify Filters, only snapshots that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a SnapshotNotFound error occurs.
     public var snapshotIds: [Swift.String]?
 
     public init(
@@ -8302,6 +10464,92 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.snapshotIds = snapshotIds
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum StorageVirtualMachinePeerFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSystemId
+        case storageVirtualMachineId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachinePeerFilterName] {
+            return [
+                .fileSystemId,
+                .storageVirtualMachineId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSystemId: return "file-system-id"
+            case .storageVirtualMachineId: return "storage-virtual-machine-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP storage virtual machine (SVM) peers.
+    public struct StorageVirtualMachinePeerFilter: Swift.Sendable {
+        /// The name for this filter.
+        public var name: FSxClientTypes.StorageVirtualMachinePeerFilterName?
+        /// The values of the filter. These are all the values for any of the applied filters.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.StorageVirtualMachinePeerFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeStorageVirtualMachinePeersInput: Swift.Sendable {
+    /// The filters structure. The supported names are file-system-id or storage-virtual-machine-id.
+    public var filters: [FSxClientTypes.StorageVirtualMachinePeerFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// The IDs of the SVM peers that you want to retrieve. If you also specify Filters, only SVM peers that match both the IDs and the filters are returned. If any IDs aren't found, or if a filter excludes any of them, a StorageVirtualMachinePeerNotFound error occurs.
+    public var storageVirtualMachinePeerIds: [Swift.String]?
+
+    public init(
+        filters: [FSxClientTypes.StorageVirtualMachinePeerFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        storageVirtualMachinePeerIds: [Swift.String]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.storageVirtualMachinePeerIds = storageVirtualMachinePeerIds
+    }
+}
+
+public struct DescribeStorageVirtualMachinePeersOutput: Swift.Sendable {
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// Describes each SVM peer returned by the DescribeStorageVirtualMachinePeers operation.
+    public var storageVirtualMachinePeers: [FSxClientTypes.StorageVirtualMachinePeer]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        storageVirtualMachinePeers: [FSxClientTypes.StorageVirtualMachinePeer]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.storageVirtualMachinePeers = storageVirtualMachinePeers
     }
 }
 
@@ -8784,6 +11032,41 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateClusterPeerInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the cluster peer that you want to update.
+    /// This member is required.
+    public var clusterPeerId: Swift.String?
+    /// Specifies the IP addresses of the intercluster logical interfaces (LIFs) on the peer cluster. The addresses that you specify replace the existing peer addresses.
+    public var peerAddresses: [Swift.String]?
+    /// Specifies the name that the file system uses to identify the peer cluster.
+    public var peerClusterName: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        clusterPeerId: Swift.String? = nil,
+        peerAddresses: [Swift.String]? = nil,
+        peerClusterName: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.clusterPeerId = clusterPeerId
+        self.peerAddresses = peerAddresses
+        self.peerClusterName = peerClusterName
+    }
+}
+
+public struct UpdateClusterPeerOutput: Swift.Sendable {
+    /// A description of the cluster peer that was just updated.
+    public var clusterPeer: FSxClientTypes.ClusterPeer?
+
+    public init(
+        clusterPeer: FSxClientTypes.ClusterPeer? = nil
+    ) {
+        self.clusterPeer = clusterPeer
+    }
 }
 
 public struct UpdateDataRepositoryAssociationInput: Swift.Sendable {
@@ -9282,12 +11565,163 @@ public struct UpdateSharedVpcConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateSnapmirrorPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies whether SnapMirror compresses data when it transfers the data over the network.
+    public var networkCompressionEnabled: Swift.Bool?
+    /// Specifies the rules that determine which snapshots SnapMirror retains on the destination volume, based on their SnapMirror labels. The rules that you specify replace all the SnapMirror policy's existing retention rules. To keep an existing rule, include it in the list. To remove all retention rules, specify an empty list.
+    public var retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]?
+    /// The ID of the SnapMirror policy that you want to update.
+    /// This member is required.
+    public var snapmirrorPolicyId: Swift.String?
+    /// Specifies the maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data. A value of 0 means that the bandwidth is unlimited.
+    public var throttleInKbps: Swift.Int?
+    /// Specifies the name of the ONTAP schedule that determines when SnapMirror transfers data. To remove the transfer schedule, specify an empty string.
+    public var transferSchedule: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        networkCompressionEnabled: Swift.Bool? = nil,
+        retentionRules: [FSxClientTypes.SnapmirrorPolicyRetentionRule]? = nil,
+        snapmirrorPolicyId: Swift.String? = nil,
+        throttleInKbps: Swift.Int? = nil,
+        transferSchedule: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.networkCompressionEnabled = networkCompressionEnabled
+        self.retentionRules = retentionRules
+        self.snapmirrorPolicyId = snapmirrorPolicyId
+        self.throttleInKbps = throttleInKbps
+        self.transferSchedule = transferSchedule
+    }
+}
+
+public struct UpdateSnapmirrorPolicyOutput: Swift.Sendable {
+    /// A description of the SnapMirror policy that was just updated.
+    public var snapmirrorPolicy: FSxClientTypes.SnapmirrorPolicy?
+
+    public init(
+        snapmirrorPolicy: FSxClientTypes.SnapmirrorPolicy? = nil
+    ) {
+        self.snapmirrorPolicy = snapmirrorPolicy
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum UpdatableSnapmirrorRelationshipState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case brokenOff
+        case paused
+        case snapmirrored
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdatableSnapmirrorRelationshipState] {
+            return [
+                .brokenOff,
+                .paused,
+                .snapmirrored
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .brokenOff: return "BROKEN_OFF"
+            case .paused: return "PAUSED"
+            case .snapmirrored: return "SNAPMIRRORED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateSnapmirrorRelationshipInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the ID of the SnapMirror policy that the SnapMirror relationship uses.
+    public var policyId: Swift.String?
+    /// The ID of the SnapMirror relationship that you want to update.
+    /// This member is required.
+    public var snapmirrorRelationshipId: Swift.String?
+    /// Specifies the state to set for the SnapMirror relationship:
+    ///
+    /// * SNAPMIRRORED – Resumes a paused SnapMirror relationship, or resynchronizes a broken-off SnapMirror relationship.
+    ///
+    /// * PAUSED – Pauses SnapMirror transfers for the relationship.
+    ///
+    /// * BROKEN_OFF – Breaks off the SnapMirror relationship, which makes the destination volume writable.
+    ///
+    ///
+    /// Setting State to SNAPMIRRORED on a relationship that is BROKEN_OFF might resynchronize the relationship. A resync overwrites the destination volume with data from the source volume, and discards any data written to the destination volume that isn't present on the source volume. Use caution when you resynchronize a relationship.
+    public var state: FSxClientTypes.UpdatableSnapmirrorRelationshipState?
+    /// Specifies the maximum bandwidth, in kilobytes per second (KBps), that SnapMirror uses to transfer data for the relationship. A value of 0 means that the bandwidth is unlimited. This value overrides the throttle of the SnapMirror policy.
+    public var throttleInKbps: Swift.Int?
+    /// Specifies the name of the ONTAP schedule that determines when SnapMirror transfers data for the relationship. This schedule overrides the transfer schedule of the SnapMirror policy.
+    public var transferSchedule: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        policyId: Swift.String? = nil,
+        snapmirrorRelationshipId: Swift.String? = nil,
+        state: FSxClientTypes.UpdatableSnapmirrorRelationshipState? = nil,
+        throttleInKbps: Swift.Int? = nil,
+        transferSchedule: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.policyId = policyId
+        self.snapmirrorRelationshipId = snapmirrorRelationshipId
+        self.state = state
+        self.throttleInKbps = throttleInKbps
+        self.transferSchedule = transferSchedule
+    }
+}
+
+public struct UpdateSnapmirrorRelationshipOutput: Swift.Sendable {
+    /// A description of the SnapMirror relationship that was just updated.
+    public var snapmirrorRelationship: FSxClientTypes.SnapmirrorRelationship?
+
+    public init(
+        snapmirrorRelationship: FSxClientTypes.SnapmirrorRelationship? = nil
+    ) {
+        self.snapmirrorRelationship = snapmirrorRelationship
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Used to specify changes to the ONTAP configuration for the snapshot you are updating.
+    public struct UpdateOntapSnapshotConfiguration: Swift.Sendable {
+        /// Specifies the date and time when the snapshot expires. You can't delete the snapshot before this time.
+        public var expiryTime: Foundation.Date?
+        /// Specifies the date and time until which the snapshot is locked. This setting takes effect only if snapshot locking is enabled on the volume. Snapshot locking is separate from SnapLock, and enabling SnapLock on a volume doesn't enable snapshot locking. You can't delete the snapshot before this time.
+        public var snaplockExpiryTime: Foundation.Date?
+        /// Specifies the SnapMirror label for the snapshot. SnapMirror policies use labels to select which snapshots to replicate to a destination volume.
+        public var snapmirrorLabel: Swift.String?
+
+        public init(
+            expiryTime: Foundation.Date? = nil,
+            snaplockExpiryTime: Foundation.Date? = nil,
+            snapmirrorLabel: Swift.String? = nil
+        ) {
+            self.expiryTime = expiryTime
+            self.snaplockExpiryTime = snaplockExpiryTime
+            self.snapmirrorLabel = snapmirrorLabel
+        }
+    }
+}
+
 public struct UpdateSnapshotInput: Swift.Sendable {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot to update.
-    /// This member is required.
     public var name: Swift.String?
+    /// The configuration of the ONTAP snapshot that you are updating.
+    public var ontapConfiguration: FSxClientTypes.UpdateOntapSnapshotConfiguration?
     /// The ID of the snapshot that you want to update, in the format fsvolsnap-0123456789abcdef0.
     /// This member is required.
     public var snapshotId: Swift.String?
@@ -9295,11 +11729,44 @@ public struct UpdateSnapshotInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        ontapConfiguration: FSxClientTypes.UpdateOntapSnapshotConfiguration? = nil,
         snapshotId: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
+        self.ontapConfiguration = ontapConfiguration
         self.snapshotId = snapshotId
+    }
+}
+
+public struct UpdateSnapshotPolicyInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies whether the snapshot policy is enabled.
+    public var enabled: Swift.Bool?
+    /// The ID of the snapshot policy that you want to update.
+    /// This member is required.
+    public var snapshotPolicyId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
+        snapshotPolicyId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.enabled = enabled
+        self.snapshotPolicyId = snapshotPolicyId
+    }
+}
+
+public struct UpdateSnapshotPolicyOutput: Swift.Sendable {
+    /// A description of the snapshot policy that was just updated.
+    public var snapshotPolicy: FSxClientTypes.SnapshotPolicy?
+
+    public init(
+        snapshotPolicy: FSxClientTypes.SnapshotPolicy? = nil
+    ) {
+        self.snapshotPolicy = snapshotPolicy
     }
 }
 
@@ -9359,6 +11826,133 @@ public struct UpdateStorageVirtualMachineOutput: Swift.Sendable {
 
 extension FSxClientTypes {
 
+    public enum StorageVirtualMachinePeerUpdateState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case peered
+        case rejected
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachinePeerUpdateState] {
+            return [
+                .peered,
+                .rejected,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .peered: return "PEERED"
+            case .rejected: return "REJECTED"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateStorageVirtualMachinePeerInput: Swift.Sendable {
+    /// Specifies the applications that the SVM peer relationship authorizes. The applications that you specify replace the existing applications.
+    public var applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]?
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// Specifies the name that the local cluster uses to identify the peer SVM.
+    public var peerSvmAlias: Swift.String?
+    /// Specifies the state to set for the SVM peer relationship:
+    ///
+    /// * PEERED – Accepts a pending peering request, or resumes a suspended SVM peer relationship.
+    ///
+    /// * SUSPENDED – Suspends the SVM peer relationship.
+    ///
+    /// * REJECTED – Rejects a pending peering request.
+    public var state: FSxClientTypes.StorageVirtualMachinePeerUpdateState?
+    /// The ID of the SVM peer that you want to update.
+    /// This member is required.
+    public var storageVirtualMachinePeerId: Swift.String?
+
+    public init(
+        applications: [FSxClientTypes.StorageVirtualMachinePeerApplication]? = nil,
+        clientRequestToken: Swift.String? = nil,
+        peerSvmAlias: Swift.String? = nil,
+        state: FSxClientTypes.StorageVirtualMachinePeerUpdateState? = nil,
+        storageVirtualMachinePeerId: Swift.String? = nil
+    ) {
+        self.applications = applications
+        self.clientRequestToken = clientRequestToken
+        self.peerSvmAlias = peerSvmAlias
+        self.state = state
+        self.storageVirtualMachinePeerId = storageVirtualMachinePeerId
+    }
+}
+
+public struct UpdateStorageVirtualMachinePeerOutput: Swift.Sendable {
+    /// A description of the SVM peer that was just updated.
+    public var storageVirtualMachinePeer: FSxClientTypes.StorageVirtualMachinePeer?
+
+    public init(
+        storageVirtualMachinePeer: FSxClientTypes.StorageVirtualMachinePeer? = nil
+    ) {
+        self.storageVirtualMachinePeer = storageVirtualMachinePeer
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum CloneSplitAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case start
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloneSplitAction] {
+            return [
+                .start
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .start: return "START"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies changes to the clone configuration of an FSx for ONTAP volume.
+    public struct UpdateCloneConfiguration: Swift.Sendable {
+        /// Set to START to split the clone from its parent volume. Splitting copies the data that the clone shares with the parent volume, so that the clone becomes an independent volume that no longer depends on the parent. After the split, the volume uses storage for all of its data. When you split a clone, keep the following in mind:
+        ///
+        /// * SplitAction must be the only property that you change in the UpdateVolume request.
+        ///
+        /// * You can't split a data protection (DP) clone.
+        ///
+        /// * The split fails if the clone has locked snapshots, such as snapshots that a SnapMirror relationship uses or that a retention period protects, or if a backup of the clone is in progress. To allow the split, Amazon FSx deletes the snapshots that it created for backups of the clone, so the next backup transfers more data. Amazon FSx doesn't delete snapshots that you created.
+        ///
+        ///
+        /// The split runs in the background. To monitor its progress, use the VOLUME_CLONE_SPLIT administrative action in the volume's AdministrativeActions. When the split completes, the volume no longer has a CloneConfiguration.
+        public var splitAction: FSxClientTypes.CloneSplitAction?
+
+        public init(
+            splitAction: FSxClientTypes.CloneSplitAction? = nil
+        ) {
+            self.splitAction = splitAction
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// Updates the SnapLock configuration for an existing FSx for ONTAP volume.
     public struct UpdateSnaplockConfiguration: Swift.Sendable {
         /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default value is false. If you set AuditLogVolume to true, the SnapLock volume is created as an audit log volume. The minimum retention period for an audit log volume is six months. For more information, see [ SnapLock audit log volumes](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume).
@@ -9392,6 +11986,8 @@ extension FSxClientTypes {
 
     /// Used to specify changes to the ONTAP configuration for the volume you are updating.
     public struct UpdateOntapVolumeConfiguration: Swift.Sendable {
+        /// Specifies the clone configuration changes to make to the volume. Use this property to split a clone from its parent volume.
+        public var cloneConfiguration: FSxClientTypes.UpdateCloneConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the location in the SVM's namespace where the volume is mounted. The JunctionPath must have a leading forward slash, such as /vol3.
@@ -9421,6 +12017,7 @@ extension FSxClientTypes {
         public var tieringPolicy: FSxClientTypes.TieringPolicy?
 
         public init(
+            cloneConfiguration: FSxClientTypes.UpdateCloneConfiguration? = nil,
             copyTagsToBackups: Swift.Bool? = nil,
             junctionPath: Swift.String? = nil,
             securityStyle: FSxClientTypes.SecurityStyle? = nil,
@@ -9431,6 +12028,7 @@ extension FSxClientTypes {
             storageEfficiencyEnabled: Swift.Bool? = nil,
             tieringPolicy: FSxClientTypes.TieringPolicy? = nil
         ) {
+            self.cloneConfiguration = cloneConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.securityStyle = securityStyle
@@ -9557,12 +12155,14 @@ extension FSxClientTypes {
         /// * VOLUME_INITIALIZE_WITH_SNAPSHOT - A volume is being created from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CreateVolume), or CLI (create-volume) when using the using the FULL_COPY strategy.
         ///
         /// * VOLUME_UPDATE_WITH_SNAPSHOT - A volume is being updated from a snapshot on a different FSx for OpenZFS file system. You can initiate this from the Amazon FSx console, API (CopySnapshotAndUpdateVolume), or CLI (copy-snapshot-and-update-volume).
+        ///
+        /// * VOLUME_CLONE_SPLIT - An FSx for ONTAP volume clone is being split from its parent volume. You can initiate this from the Amazon FSx console, Amazon FSx API (UpdateVolume) or CLI (update-volume) by setting SplitAction to START in the volume's CloneConfiguration.
         public var administrativeActionType: FSxClientTypes.AdministrativeActionType?
         /// Provides information about a failed administrative action.
         public var failureDetails: FSxClientTypes.AdministrativeActionFailureDetails?
         /// A detailed error message.
         public var message: Swift.String?
-        /// The percentage-complete status of a STORAGE_OPTIMIZATION or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
+        /// The percentage-complete status of a STORAGE_OPTIMIZATION, DOWNLOAD_DATA_FROM_BACKUP, or VOLUME_CLONE_SPLIT administrative action. Does not apply to any other administrative action type.
         public var progressPercent: Swift.Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
         public var remainingTransferBytes: Swift.Int?
@@ -9586,7 +12186,7 @@ extension FSxClientTypes {
         public var status: FSxClientTypes.Status?
         /// The target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public var targetFileSystemValues: FSxClientTypes.FileSystem?
-        /// A snapshot of an Amazon FSx for OpenZFS volume.
+        /// A snapshot of an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP volume.
         public var targetSnapshotValues: FSxClientTypes.Snapshot?
         /// Describes an Amazon FSx volume.
         public var targetVolumeValues: FSxClientTypes.Volume?
@@ -9750,7 +12350,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// A snapshot of an Amazon FSx for OpenZFS volume.
+    /// A snapshot of an Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP volume.
     public struct Snapshot: Swift.Sendable {
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
         public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
@@ -9765,15 +12365,21 @@ extension FSxClientTypes {
         /// * DELETING - Amazon FSx is deleting the snapshot.
         ///
         /// * AVAILABLE - The snapshot is fully available.
+        ///
+        /// * FAILED - Amazon FSx was unable to create the snapshot.
         public var lifecycle: FSxClientTypes.SnapshotLifecycle?
-        /// Describes why a resource lifecycle state changed.
+        /// The reason why the snapshot lifecycle status changed.
         public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
         /// The name of the snapshot.
         public var name: Swift.String?
+        /// The configuration of an Amazon FSx for NetApp ONTAP snapshot.
+        public var ontapConfiguration: FSxClientTypes.OntapSnapshotConfiguration?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var resourceARN: Swift.String?
         /// The ID of the snapshot.
         public var snapshotId: Swift.String?
+        /// The type of the snapshot.
+        public var snapshotType: FSxClientTypes.SnapshotType?
         /// A list of Tag values, with a maximum of 50 elements.
         public var tags: [FSxClientTypes.Tag]?
         /// The ID of the volume that the snapshot is of.
@@ -9785,8 +12391,10 @@ extension FSxClientTypes {
             lifecycle: FSxClientTypes.SnapshotLifecycle? = nil,
             lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
             name: Swift.String? = nil,
+            ontapConfiguration: FSxClientTypes.OntapSnapshotConfiguration? = nil,
             resourceARN: Swift.String? = nil,
             snapshotId: Swift.String? = nil,
+            snapshotType: FSxClientTypes.SnapshotType? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             volumeId: Swift.String? = nil
         ) {
@@ -9795,8 +12403,10 @@ extension FSxClientTypes {
             self.lifecycle = lifecycle
             self.lifecycleTransitionReason = lifecycleTransitionReason
             self.name = name
+            self.ontapConfiguration = ontapConfiguration
             self.resourceARN = resourceARN
             self.snapshotId = snapshotId
+            self.snapshotType = snapshotType
             self.tags = tags
             self.volumeId = volumeId
         }
