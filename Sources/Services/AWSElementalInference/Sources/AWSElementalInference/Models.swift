@@ -677,6 +677,7 @@ extension ElementalInferenceClientTypes {
 extension ElementalInferenceClientTypes {
 
     public enum TranscriptionLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ara
         case deu
         case eng
         case engAu
@@ -690,6 +691,7 @@ extension ElementalInferenceClientTypes {
 
         public static var allCases: [TranscriptionLanguage] {
             return [
+                .ara,
                 .deu,
                 .eng,
                 .engAu,
@@ -709,6 +711,7 @@ extension ElementalInferenceClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .ara: return "ara"
             case .deu: return "deu"
             case .eng: return "eng"
             case .engAu: return "eng-au"
@@ -764,7 +767,27 @@ extension ElementalInferenceClientTypes {
         public var aspectRatio: ElementalInferenceClientTypes.AspectRatio?
         /// The ID of a custom dictionary to improve transcription accuracy for domain-specific terminology. Use the CreateDictionary operation to create a dictionary.
         public var dictionary: Swift.String?
-        /// The language of the audio in the source media. Elemental Inference uses this setting to optimize transcription accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por.
+        /// The language of the audio in the source media. Elemental Inference uses this setting to optimize transcription accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values:
+        ///
+        /// * eng – English
+        ///
+        /// * eng-au – English (Australia)
+        ///
+        /// * eng-gb – English (United Kingdom)
+        ///
+        /// * eng-us – English (United States)
+        ///
+        /// * fra – French
+        ///
+        /// * ita – Italian
+        ///
+        /// * deu – German
+        ///
+        /// * spa – Spanish
+        ///
+        /// * por – Portuguese
+        ///
+        /// * ara – Arabic
         /// This member is required.
         public var language: ElementalInferenceClientTypes.TranscriptionLanguage?
         /// Controls how profanity is handled in the generated subtitles. Valid values: DISABLED (no filtering, default), CENSOR (replace profanity with asterisks), DROP (remove profanity from the transcript).
@@ -1078,6 +1101,7 @@ extension ElementalInferenceClientTypes {
 extension ElementalInferenceClientTypes {
 
     public enum DictionaryLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ara
         case deu
         case eng
         case fra
@@ -1088,6 +1112,7 @@ extension ElementalInferenceClientTypes {
 
         public static var allCases: [DictionaryLanguage] {
             return [
+                .ara,
                 .deu,
                 .eng,
                 .fra,
@@ -1104,6 +1129,7 @@ extension ElementalInferenceClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .ara: return "ara"
             case .deu: return "deu"
             case .eng: return "eng"
             case .fra: return "fra"
@@ -1119,7 +1145,21 @@ extension ElementalInferenceClientTypes {
 public struct CreateDictionaryInput: Swift.Sendable {
     /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters.
     public var entries: Swift.String?
-    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por.
+    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values:
+    ///
+    /// * eng – English
+    ///
+    /// * fra – French
+    ///
+    /// * ita – Italian
+    ///
+    /// * deu – German
+    ///
+    /// * spa – Spanish
+    ///
+    /// * por – Portuguese
+    ///
+    /// * ara – Arabic
     /// This member is required.
     public var language: ElementalInferenceClientTypes.DictionaryLanguage?
     /// A user-friendly name for this dictionary.

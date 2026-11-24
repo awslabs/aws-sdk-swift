@@ -9719,6 +9719,50 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum ResponseInterceptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buffered
+        case stream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseInterceptionMode] {
+            return [
+                .buffered,
+                .stream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buffered: return "BUFFERED"
+            case .stream: return "STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the settings that the gateway uses to send a streamed target response to the interceptor in batches.
+    public struct ResponseStreamingConfiguration: Swift.Sendable {
+        /// Specifies the maximum number of response events that the gateway sends to the interceptor in one invocation. The interceptor's output for the first batch determines the status code and headers of the response. The gateway ignores the status code and headers that the interceptor returns for later batches.
+        public var maxEventsPerInvocation: Swift.Int?
+
+        public init(
+            maxEventsPerInvocation: Swift.Int? = nil
+        ) {
+            self.maxEventsPerInvocation = maxEventsPerInvocation
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The configuration for an interceptor on a gateway. This structure defines settings for an interceptor that will be invoked during the invocation of the gateway.
     public struct GatewayInterceptorConfiguration: Swift.Sendable {
         /// The configuration for the input of the interceptor. This field specifies how the input to the interceptor is constructed
@@ -9729,15 +9773,27 @@ extension BedrockAgentCoreControlClientTypes {
         /// The infrastructure settings of an interceptor configuration. This structure defines how the interceptor can be invoked.
         /// This member is required.
         public var interceptor: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?
+        /// Specifies how the interceptor processes streamed target responses. You can set this field only on an interceptor that includes the RESPONSE interception point. Valid values include:
+        ///
+        /// * BUFFERED - The gateway collects the complete target response and then invokes the interceptor once. This is the default.
+        ///
+        /// * STREAM - The gateway sends a streamed target response to the interceptor in batches of events and returns each processed batch to the client as soon as it's ready. Non-streamed responses still use BUFFERED processing. If you specify STREAM, you must also specify responseStreamingConfiguration, and the input configuration can't exclude the response body.
+        public var responseInterceptionMode: BedrockAgentCoreControlClientTypes.ResponseInterceptionMode?
+        /// Specifies the batching settings for a streamed response. Specify this field only when responseInterceptionMode is STREAM. You must specify it for STREAM.
+        public var responseStreamingConfiguration: BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration?
 
         public init(
             inputConfiguration: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration? = nil,
             interceptionPoints: [BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint]? = nil,
-            interceptor: BedrockAgentCoreControlClientTypes.InterceptorConfiguration? = nil
+            interceptor: BedrockAgentCoreControlClientTypes.InterceptorConfiguration? = nil,
+            responseInterceptionMode: BedrockAgentCoreControlClientTypes.ResponseInterceptionMode? = nil,
+            responseStreamingConfiguration: BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration? = nil
         ) {
             self.inputConfiguration = inputConfiguration
             self.interceptionPoints = interceptionPoints
             self.interceptor = interceptor
+            self.responseInterceptionMode = responseInterceptionMode
+            self.responseStreamingConfiguration = responseStreamingConfiguration
         }
     }
 }
@@ -38000,6 +38056,8 @@ extension BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
         try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.write(value:to:))
         try writer["interceptionPoints"].writeList(value.interceptionPoints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["interceptor"].write(value.interceptor, with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.write(value:to:))
+        try writer["responseInterceptionMode"].write(value.responseInterceptionMode)
+        try writer["responseStreamingConfiguration"].write(value.responseStreamingConfiguration, with: BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
@@ -38008,6 +38066,8 @@ extension BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
         value.interceptor = try reader["interceptor"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.read(from:))
         value.interceptionPoints = try reader["interceptionPoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.read(from:))
+        value.responseInterceptionMode = try reader["responseInterceptionMode"].readIfPresent()
+        value.responseStreamingConfiguration = try reader["responseStreamingConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration.read(from:))
         return value
     }
 }
@@ -41703,6 +41763,21 @@ extension BedrockAgentCoreControlClientTypes.ResourceLocation {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxEventsPerInvocation"].write(value.maxEventsPerInvocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ResponseStreamingConfiguration()
+        value.maxEventsPerInvocation = try reader["maxEventsPerInvocation"].readIfPresent()
+        return value
     }
 }
 

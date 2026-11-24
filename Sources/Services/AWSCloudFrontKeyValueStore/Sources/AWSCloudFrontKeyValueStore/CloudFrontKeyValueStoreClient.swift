@@ -634,11 +634,11 @@ extension CloudFrontKeyValueStoreClient {
 extension CloudFrontKeyValueStoreClient {
     /// Performs the `DeleteKey` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Deletes the key value pair specified by the key.
+    /// Deletes the key-value pair specified by the key.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
-    /// - Returns: Metadata information about a Key Value Store. (Type: `DeleteKeyOutput`)
+    /// - Returns: Metadata information about a key value store. (Type: `DeleteKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,11 +707,11 @@ extension CloudFrontKeyValueStoreClient {
 
     /// Performs the `DescribeKeyValueStore` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Returns metadata information about Key Value Store.
+    /// Returns metadata information about the key value store.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeKeyValueStoreInput`)
     ///
-    /// - Returns: Metadata information about a Key Value Store. (Type: `DescribeKeyValueStoreOutput`)
+    /// - Returns: Metadata information about a key value store. (Type: `DescribeKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,11 +777,11 @@ extension CloudFrontKeyValueStoreClient {
 
     /// Performs the `GetKey` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Returns a key value pair.
+    /// Returns a key-value pair.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetKeyInput`)
     ///
-    /// - Returns: A key value pair. (Type: `GetKeyOutput`)
+    /// - Returns: A key-value pair. (Type: `GetKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +847,7 @@ extension CloudFrontKeyValueStoreClient {
 
     /// Performs the `ListKeys` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Returns a list of key value pairs.
+    /// Returns a list of key-value pairs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
@@ -919,11 +919,11 @@ extension CloudFrontKeyValueStoreClient {
 
     /// Performs the `PutKey` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Creates a new key value pair or replaces the value of an existing key.
+    /// Creates a new key-value pair or replaces the value of an existing key.
     ///
-    /// - Parameter input: A key value pair. (Type: `PutKeyInput`)
+    /// - Parameter input: A key-value pair. (Type: `PutKeyInput`)
     ///
-    /// - Returns: Metadata information about a Key Value Store. (Type: `PutKeyOutput`)
+    /// - Returns: Metadata information about a key value store. (Type: `PutKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,11 +995,11 @@ extension CloudFrontKeyValueStoreClient {
 
     /// Performs the `UpdateKeys` operation on the `CloudFrontKeyValueStore` service.
     ///
-    /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
+    /// Puts or deletes multiple key-value pairs in a single, all-or-nothing operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateKeysInput`)
     ///
-    /// - Returns: Metadata information about a Key Value Store. (Type: `UpdateKeysOutput`)
+    /// - Returns: Metadata information about a key value store. (Type: `UpdateKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

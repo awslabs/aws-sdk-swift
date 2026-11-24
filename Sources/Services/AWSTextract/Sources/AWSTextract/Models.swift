@@ -1693,6 +1693,157 @@ extension TextractClientTypes {
     }
 }
 
+extension TextractClientTypes {
+
+    /// A filter used to limit results to a specific blueprint, and optionally a specific version.
+    public struct BlueprintFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the blueprint to filter by.
+        /// This member is required.
+        public var blueprintArn: Swift.String?
+        /// The version of the blueprint to filter by.
+        public var blueprintVersion: Swift.String?
+
+        public init(
+            blueprintArn: Swift.String? = nil,
+            blueprintVersion: Swift.String? = nil
+        ) {
+            self.blueprintArn = blueprintArn
+            self.blueprintVersion = blueprintVersion
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Associates a blueprint, and optionally a specific blueprint version, with a project for custom output extraction.
+    public struct BlueprintItem: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the blueprint.
+        /// This member is required.
+        public var blueprintArn: Swift.String?
+        /// The version of the blueprint. If omitted, the latest version is used.
+        public var blueprintVersion: Swift.String?
+
+        public init(
+            blueprintArn: Swift.String? = nil,
+            blueprintVersion: Swift.String? = nil
+        ) {
+            self.blueprintArn = blueprintArn
+            self.blueprintVersion = blueprintVersion
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum ResourceOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwner] {
+            return [
+                .account,
+                .service
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// A summary of a blueprint, returned in the results of ListBlueprints.
+    public struct BlueprintSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the blueprint.
+        /// This member is required.
+        public var blueprintArn: Swift.String?
+        /// The name of the blueprint.
+        public var blueprintName: Swift.String?
+        /// The version of the blueprint.
+        public var blueprintVersion: Swift.String?
+        /// The date and time that the blueprint was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the blueprint was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// Whether the blueprint is owned by your account or provided by Amazon Textract.
+        public var resourceOwner: TextractClientTypes.ResourceOwner?
+
+        public init(
+            blueprintArn: Swift.String? = nil,
+            blueprintName: Swift.String? = nil,
+            blueprintVersion: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            resourceOwner: TextractClientTypes.ResourceOwner? = nil
+        ) {
+            self.blueprintArn = blueprintArn
+            self.blueprintName = blueprintName
+            self.blueprintVersion = blueprintVersion
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.resourceOwner = resourceOwner
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls whether bounding box geometry is returned in the extraction output.
+    public struct BoundingBoxConfiguration: Swift.Sendable {
+        /// Set to ENABLED to return bounding box geometry, or DISABLED to omit it.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
 /// Updating or deleting a resource can cause an inconsistent state.
 public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1988,6 +2139,674 @@ public struct CreateAdapterVersionOutput: Swift.Sendable {
     }
 }
 
+extension TextractClientTypes {
+
+    /// Specifies the AWS Key Management Service (AWS KMS) key and encryption context used to encrypt a resource at rest. When omitted, Amazon Textract encrypts the resource using an AWS owned key.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// A set of key-value pairs that Amazon Textract includes as the AWS KMS encryption context when encrypting and decrypting the resource. On UpdateProject and UpdateBlueprint, this member is the one exception to replacing a supplied configuration whole. If you omit it, the stored encryption context is kept. To clear a custom encryption context, specify an empty map ({}).
+        public var kmsEncryptionContext: [Swift.String: Swift.String]?
+        /// The identifier of the AWS KMS key to use for encryption. This can be a key ID, key ARN, alias name, or alias ARN.
+        /// This member is required.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+public struct CreateBlueprintInput: Swift.Sendable {
+    /// A unique name for the blueprint.
+    /// This member is required.
+    public var blueprintName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you use the same token for a request that matches a previous request, the service ignores the request, but does not return an error.
+    public var clientRequestToken: Swift.String?
+    /// The AWS KMS encryption configuration used to encrypt the blueprint at rest.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The schema of the blueprint, which defines the fields to extract and their expected structure.
+    /// This member is required.
+    public var schema: Swift.String?
+    /// A set of tags (key-value pairs) to assign to the blueprint.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        blueprintName: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        schema: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.blueprintName = blueprintName
+        self.clientRequestToken = clientRequestToken
+        self.encryptionConfiguration = encryptionConfiguration
+        self.schema = schema
+        self.tags = tags
+    }
+}
+
+public struct CreateBlueprintOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint that was created.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+    }
+}
+
+public struct CreateBlueprintVersionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint to create a new version of.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you use the same token for a request that matches a previous request, the service ignores the request, but does not return an error.
+    public var clientRequestToken: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.clientRequestToken = clientRequestToken
+    }
+}
+
+public struct CreateBlueprintVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// The version of the blueprint that was created.
+    /// This member is required.
+    public var blueprintVersion: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        blueprintVersion: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.blueprintVersion = blueprintVersion
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Associates blueprints with a project to produce custom structured output. A fallback blueprint can be supplied for documents that do not match a primary blueprint.
+    public struct CustomConfiguration: Swift.Sendable {
+        /// The blueprints used to extract custom structured output.
+        /// This member is required.
+        public var blueprints: [TextractClientTypes.BlueprintItem]?
+        /// The blueprint used when a document does not match any of the primary blueprints. Requires at least one blueprint in Blueprints.
+        public var fallbackBlueprints: [TextractClientTypes.BlueprintItem]?
+
+        public init(
+            blueprints: [TextractClientTypes.BlueprintItem]? = nil,
+            fallbackBlueprints: [TextractClientTypes.BlueprintItem]? = nil
+        ) {
+            self.blueprints = blueprints
+            self.fallbackBlueprints = fallbackBlueprints
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum ExtractionGranularityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case document
+        case element
+        case line
+        case page
+        case word
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractionGranularityType] {
+            return [
+                .document,
+                .element,
+                .line,
+                .page,
+                .word
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .document: return "DOCUMENT"
+            case .element: return "ELEMENT"
+            case .line: return "LINE"
+            case .page: return "PAGE"
+            case .word: return "WORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Specifies the granularity levels at which Amazon Textract extracts content from a document.
+    public struct ExtractionGranularity: Swift.Sendable {
+        /// The granularity levels at which Amazon Textract extracts content, from the whole document down to individual lines of text. Each type can appear only once.
+        public var types: [TextractClientTypes.ExtractionGranularityType]?
+
+        public init(
+            types: [TextractClientTypes.ExtractionGranularityType]? = nil
+        ) {
+            self.types = types
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls whether an additional file format is produced alongside the primary extraction output.
+    public struct OutputAdditionalFileFormat: Swift.Sendable {
+        /// Set to ENABLED to produce an additional file format, or DISABLED to omit it.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum OutputTextFormatType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case html
+        case markdown
+        case plainText
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputTextFormatType] {
+            return [
+                .csv,
+                .html,
+                .markdown,
+                .plainText
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .html: return "HTML"
+            case .markdown: return "MARKDOWN"
+            case .plainText: return "PLAIN_TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Specifies the text formats produced in the extraction output.
+    public struct OutputTextFormat: Swift.Sendable {
+        /// The text formats produced in the extraction output. Each type can appear only once, and CSV can't be the only type.
+        public var types: [TextractClientTypes.OutputTextFormatType]?
+
+        public init(
+            types: [TextractClientTypes.OutputTextFormatType]? = nil
+        ) {
+            self.types = types
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls the format of the extraction output, including the text format and any additional file formats.
+    public struct OutputFormat: Swift.Sendable {
+        /// Controls whether an additional file format is produced alongside the primary output.
+        /// This member is required.
+        public var additionalFileFormat: TextractClientTypes.OutputAdditionalFileFormat?
+        /// Controls the text formats produced in the extraction output.
+        /// This member is required.
+        public var textFormat: TextractClientTypes.OutputTextFormat?
+
+        public init(
+            additionalFileFormat: TextractClientTypes.OutputAdditionalFileFormat? = nil,
+            textFormat: TextractClientTypes.OutputTextFormat? = nil
+        ) {
+            self.additionalFileFormat = additionalFileFormat
+            self.textFormat = textFormat
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls how Amazon Textract extracts content from a document, including whether bounding boxes are returned, the granularity of extraction, and the output format.
+    public struct ExtractionConfiguration: Swift.Sendable {
+        /// Controls whether bounding box geometry is included in the extraction output.
+        /// This member is required.
+        public var boundingBox: TextractClientTypes.BoundingBoxConfiguration?
+        /// Controls the granularity levels at which content is extracted.
+        /// This member is required.
+        public var granularity: TextractClientTypes.ExtractionGranularity?
+        /// Controls the format of the extraction output.
+        /// This member is required.
+        public var outputFormat: TextractClientTypes.OutputFormat?
+
+        public init(
+            boundingBox: TextractClientTypes.BoundingBoxConfiguration? = nil,
+            granularity: TextractClientTypes.ExtractionGranularity? = nil,
+            outputFormat: TextractClientTypes.OutputFormat? = nil
+        ) {
+            self.boundingBox = boundingBox
+            self.granularity = granularity
+            self.outputFormat = outputFormat
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls whether generative captions are produced for figures detected in the document.
+    public struct FigureCaptionConfiguration: Swift.Sendable {
+        /// Set to ENABLED to produce figure captions, or DISABLED to omit them.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls whether a generative summary of the document is produced.
+    public struct SummarizationConfiguration: Swift.Sendable {
+        /// Set to ENABLED to produce a summary, or DISABLED to omit it.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls the generative capabilities applied during a document insights job, such as summarization and figure captioning.
+    public struct GenerativeConfiguration: Swift.Sendable {
+        /// Controls whether generative captions are produced for figures detected in the document. If you omit it, no figure captions are produced.
+        public var figureCaption: TextractClientTypes.FigureCaptionConfiguration?
+        /// Controls whether a generative summary of the document is produced. If you omit it, no summary is produced.
+        public var summarization: TextractClientTypes.SummarizationConfiguration?
+
+        public init(
+            figureCaption: TextractClientTypes.FigureCaptionConfiguration? = nil,
+            summarization: TextractClientTypes.SummarizationConfiguration? = nil
+        ) {
+            self.figureCaption = figureCaption
+            self.summarization = summarization
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum SensitiveDataDetectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detection
+        case detectionAndRedaction
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SensitiveDataDetectionMode] {
+            return [
+                .detection,
+                .detectionAndRedaction,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detection: return "DETECTION"
+            case .detectionAndRedaction: return "DETECTION_AND_REDACTION"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum PIIEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case address
+        case age
+        case all
+        case awsAccessKey
+        case awsSecretKey
+        case caHealthNumber
+        case caSocialInsuranceNumber
+        case creditDebitCardCvv
+        case creditDebitCardExpiry
+        case creditDebitCardNumber
+        case driverId
+        case email
+        case internationalBankAccountNumber
+        case ipAddress
+        case licensePlate
+        case macAddress
+        case name
+        case password
+        case phone
+        case pin
+        case swiftCode
+        case ukNationalHealthServiceNumber
+        case ukNationalInsuranceNumber
+        case ukUniqueTaxpayerReferenceNumber
+        case url
+        case username
+        case usBankAccountNumber
+        case usBankRoutingNumber
+        case usIndividualTaxIdentificationNumber
+        case usPassportNumber
+        case usSocialSecurityNumber
+        case vehicleIdentificationNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PIIEntityType] {
+            return [
+                .address,
+                .age,
+                .all,
+                .awsAccessKey,
+                .awsSecretKey,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
+                .creditDebitCardCvv,
+                .creditDebitCardExpiry,
+                .creditDebitCardNumber,
+                .driverId,
+                .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
+                .name,
+                .password,
+                .phone,
+                .pin,
+                .swiftCode,
+                .ukNationalHealthServiceNumber,
+                .ukNationalInsuranceNumber,
+                .ukUniqueTaxpayerReferenceNumber,
+                .url,
+                .username,
+                .usBankAccountNumber,
+                .usBankRoutingNumber,
+                .usIndividualTaxIdentificationNumber,
+                .usPassportNumber,
+                .usSocialSecurityNumber,
+                .vehicleIdentificationNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .address: return "ADDRESS"
+            case .age: return "AGE"
+            case .all: return "ALL"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
+            case .creditDebitCardCvv: return "CREDIT_DEBIT_CARD_CVV"
+            case .creditDebitCardExpiry: return "CREDIT_DEBIT_CARD_EXPIRY"
+            case .creditDebitCardNumber: return "CREDIT_DEBIT_CARD_NUMBER"
+            case .driverId: return "DRIVER_ID"
+            case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
+            case .name: return "NAME"
+            case .password: return "PASSWORD"
+            case .phone: return "PHONE"
+            case .pin: return "PIN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .ukNationalHealthServiceNumber: return "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+            case .ukNationalInsuranceNumber: return "UK_NATIONAL_INSURANCE_NUMBER"
+            case .ukUniqueTaxpayerReferenceNumber: return "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usBankAccountNumber: return "US_BANK_ACCOUNT_NUMBER"
+            case .usBankRoutingNumber: return "US_BANK_ROUTING_NUMBER"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .usPassportNumber: return "US_PASSPORT_NUMBER"
+            case .usSocialSecurityNumber: return "US_SOCIAL_SECURITY_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum PIIRedactionMaskMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entityType
+        case pii
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PIIRedactionMaskMode] {
+            return [
+                .entityType,
+                .pii
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityType: return "ENTITY_TYPE"
+            case .pii: return "PII"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Specifies which personally identifiable information (PII) entity types to detect and how to mask them.
+    public struct PIIEntitiesConfiguration: Swift.Sendable {
+        /// The list of PII entity types to detect. Each type can appear only once.
+        /// This member is required.
+        public var piiEntityTypes: [TextractClientTypes.PIIEntityType]?
+        /// How detected PII is masked in the redacted output.
+        /// This member is required.
+        public var redactionMaskMode: TextractClientTypes.PIIRedactionMaskMode?
+
+        public init(
+            piiEntityTypes: [TextractClientTypes.PIIEntityType]? = nil,
+            redactionMaskMode: TextractClientTypes.PIIRedactionMaskMode? = nil
+        ) {
+            self.piiEntityTypes = piiEntityTypes
+            self.redactionMaskMode = redactionMaskMode
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls detection and redaction of sensitive data, such as personally identifiable information (PII), in the output.
+    public struct SensitiveDataConfiguration: Swift.Sendable {
+        /// The detection mode. Valid values:
+        ///
+        /// * DETECTION - Only detects sensitive data.
+        ///
+        /// * DETECTION_AND_REDACTION - Detects and redacts sensitive data in the output.
+        ///
+        /// * DISABLED - Does not detect sensitive data.
+        /// This member is required.
+        public var detectionMode: TextractClientTypes.SensitiveDataDetectionMode?
+        /// The configuration that specifies which PII entity types to detect and how to mask them. If you omit it, Amazon Textract detects all PII entity types (ALL) and masks them with ENTITY_TYPE.
+        public var piiEntitiesConfiguration: TextractClientTypes.PIIEntitiesConfiguration?
+
+        public init(
+            detectionMode: TextractClientTypes.SensitiveDataDetectionMode? = nil,
+            piiEntitiesConfiguration: TextractClientTypes.PIIEntitiesConfiguration? = nil
+        ) {
+            self.detectionMode = detectionMode
+            self.piiEntitiesConfiguration = piiEntitiesConfiguration
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Controls whether a multi-document packet is split into individual documents before analysis.
+    public struct SplitterConfiguration: Swift.Sendable {
+        /// Set to ENABLED to split multi-document packets, or DISABLED to treat the input as a single document.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+public struct CreateProjectInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you use the same token for a request that matches a previous request, the service ignores the request, but does not return an error.
+    public var clientRequestToken: Swift.String?
+    /// The configuration that associates blueprints with the project for custom output extraction.
+    public var customConfiguration: TextractClientTypes.CustomConfiguration?
+    /// The AWS KMS encryption configuration used to encrypt the project at rest. If you don't specify a value, Amazon Textract encrypts the project using an AWS owned key.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The configuration that controls how Amazon Textract extracts content from the document, including bounding boxes, granularity, and output format.
+    /// This member is required.
+    public var extractionConfiguration: TextractClientTypes.ExtractionConfiguration?
+    /// The configuration that controls generative capabilities such as summarization and figure captioning.
+    public var generativeConfiguration: TextractClientTypes.GenerativeConfiguration?
+    /// A description of the project.
+    public var projectDescription: Swift.String?
+    /// A unique name for the project.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The configuration that controls detection and redaction of sensitive data, such as personally identifiable information (PII).
+    public var sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration?
+    /// The configuration that controls whether multi-document packets are split into individual documents.
+    public var splitterConfiguration: TextractClientTypes.SplitterConfiguration?
+    /// A set of tags (key-value pairs) to assign to the project.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        customConfiguration: TextractClientTypes.CustomConfiguration? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        extractionConfiguration: TextractClientTypes.ExtractionConfiguration? = nil,
+        generativeConfiguration: TextractClientTypes.GenerativeConfiguration? = nil,
+        projectDescription: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration? = nil,
+        splitterConfiguration: TextractClientTypes.SplitterConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.customConfiguration = customConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
+        self.extractionConfiguration = extractionConfiguration
+        self.generativeConfiguration = generativeConfiguration
+        self.projectDescription = projectDescription
+        self.projectName = projectName
+        self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        self.splitterConfiguration = splitterConfiguration
+        self.tags = tags
+    }
+}
+
+extension TextractClientTypes {
+
+    public enum ProjectStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectStatus] {
+            return [
+                .completed,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateProjectOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the project that was created.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// The status of the project, indicating whether creation completed successfully or failed.
+    public var status: TextractClientTypes.ProjectStatus?
+
+    public init(
+        projectArn: Swift.String? = nil,
+        status: TextractClientTypes.ProjectStatus? = nil
+    ) {
+        self.projectArn = projectArn
+        self.status = status
+    }
+}
+
 public struct DeleteAdapterInput: Swift.Sendable {
     /// A string containing a unique ID for the adapter to be deleted.
     /// This member is required.
@@ -2023,6 +2842,44 @@ public struct DeleteAdapterVersionInput: Swift.Sendable {
 }
 
 public struct DeleteAdapterVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteBlueprintInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint to delete.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// The version of the blueprint to delete. If omitted, the entire blueprint and all of its versions are deleted.
+    public var blueprintVersion: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        blueprintVersion: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.blueprintVersion = blueprintVersion
+    }
+}
+
+public struct DeleteBlueprintOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteProjectInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the project to delete.
+    /// This member is required.
+    public var projectArn: Swift.String?
+
+    public init(
+        projectArn: Swift.String? = nil
+    ) {
+        self.projectArn = projectArn
+    }
+}
+
+public struct DeleteProjectOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2145,6 +3002,22 @@ extension TextractClientTypes {
             s3Object: TextractClientTypes.S3Object? = nil
         ) {
             self.s3Object = s3Object
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Event bus settings for a job.
+    public struct EventBridgeConfiguration: Swift.Sendable {
+        /// Set to ENABLED to send events to an event bus, or DISABLED to not send them.
+        /// This member is required.
+        public var state: TextractClientTypes.State?
+
+        public init(
+            state: TextractClientTypes.State? = nil
+        ) {
+            self.state = state
         }
     }
 }
@@ -2375,6 +3248,66 @@ public struct GetAdapterVersionOutput: Swift.Sendable {
     }
 }
 
+public struct GetBlueprintInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint to retrieve.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// The version of the blueprint to retrieve. If omitted, the latest version is returned.
+    public var blueprintVersion: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        blueprintVersion: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.blueprintVersion = blueprintVersion
+    }
+}
+
+public struct GetBlueprintOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// The name of the blueprint.
+    /// This member is required.
+    public var blueprintName: Swift.String?
+    /// The version of the blueprint.
+    public var blueprintVersion: Swift.String?
+    /// The date and time that the blueprint was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The AWS KMS encryption context used when encrypting the blueprint.
+    public var kmsEncryptionContext: [Swift.String: Swift.String]?
+    /// The identifier of the AWS KMS key used to encrypt the blueprint.
+    public var kmsKeyId: Swift.String?
+    /// The date and time that the blueprint was last modified.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The schema of the blueprint, which defines the fields to extract and their expected structure.
+    /// This member is required.
+    public var schema: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        blueprintName: Swift.String? = nil,
+        blueprintVersion: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        schema: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.blueprintName = blueprintName
+        self.blueprintVersion = blueprintVersion
+        self.creationTime = creationTime
+        self.kmsEncryptionContext = kmsEncryptionContext
+        self.kmsKeyId = kmsKeyId
+        self.lastModifiedTime = lastModifiedTime
+        self.schema = schema
+    }
+}
+
 /// An invalid job identifier was passed to an asynchronous analysis operation.
 public struct InvalidJobIdException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2507,6 +3440,58 @@ public struct GetDocumentAnalysisOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.statusMessage = statusMessage
         self.warnings = warnings
+    }
+}
+
+public struct GetDocumentInsightsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the document insights job to retrieve.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+    }
+}
+
+extension TextractClientTypes {
+
+    /// The Amazon S3 location where the results of a document insights job are written.
+    public struct OutputConfiguration: Swift.Sendable {
+        /// The Amazon S3 URI where the analysis results are written.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+public struct GetDocumentInsightsOutput: Swift.Sendable {
+    /// A human-readable description of the error that caused the job to fail. Present only when the job status is a failure state.
+    public var errorMessage: Swift.String?
+    /// The type of error that caused the job to fail. Present only when the job status is a failure state.
+    public var errorType: Swift.String?
+    /// The Amazon S3 location where the analysis results are written.
+    public var outputConfiguration: TextractClientTypes.OutputConfiguration?
+    /// The current status of the document insights job, indicating whether it is still running, has completed, or has failed. When the job has failed, inspect ErrorType and ErrorMessage for details.
+    /// This member is required.
+    public var status: TextractClientTypes.JobStatus?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        errorType: Swift.String? = nil,
+        outputConfiguration: TextractClientTypes.OutputConfiguration? = nil,
+        status: TextractClientTypes.JobStatus? = nil
+    ) {
+        self.errorMessage = errorMessage
+        self.errorType = errorType
+        self.outputConfiguration = outputConfiguration
+        self.status = status
     }
 }
 
@@ -2800,6 +3785,94 @@ public struct GetLendingAnalysisSummaryOutput: Swift.Sendable {
     }
 }
 
+public struct GetProjectInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the project to retrieve.
+    /// This member is required.
+    public var projectArn: Swift.String?
+
+    public init(
+        projectArn: Swift.String? = nil
+    ) {
+        self.projectArn = projectArn
+    }
+}
+
+public struct GetProjectOutput: Swift.Sendable {
+    /// The date and time that the project was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The configuration that associates blueprints with the project for custom output extraction.
+    public var customConfiguration: TextractClientTypes.CustomConfiguration?
+    /// The AWS KMS encryption configuration used to encrypt the project at rest.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The configuration that controls how Amazon Textract extracts content from the document, including bounding boxes, granularity, and output format.
+    public var extractionConfiguration: TextractClientTypes.ExtractionConfiguration?
+    /// The configuration that controls generative capabilities such as summarization and figure captioning.
+    public var generativeConfiguration: TextractClientTypes.GenerativeConfiguration?
+    /// The date and time that the project was last modified.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the project.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// The description of the project.
+    public var projectDescription: Swift.String?
+    /// The name of the project.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The configuration that controls detection and redaction of sensitive data, such as personally identifiable information (PII).
+    public var sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration?
+    /// The configuration that controls whether multi-document packets are split into individual documents.
+    public var splitterConfiguration: TextractClientTypes.SplitterConfiguration?
+    /// The status of the project, indicating whether it was created successfully or failed.
+    /// This member is required.
+    public var status: TextractClientTypes.ProjectStatus?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        customConfiguration: TextractClientTypes.CustomConfiguration? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        extractionConfiguration: TextractClientTypes.ExtractionConfiguration? = nil,
+        generativeConfiguration: TextractClientTypes.GenerativeConfiguration? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        projectArn: Swift.String? = nil,
+        projectDescription: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration? = nil,
+        splitterConfiguration: TextractClientTypes.SplitterConfiguration? = nil,
+        status: TextractClientTypes.ProjectStatus? = nil
+    ) {
+        self.creationTime = creationTime
+        self.customConfiguration = customConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
+        self.extractionConfiguration = extractionConfiguration
+        self.generativeConfiguration = generativeConfiguration
+        self.lastModifiedTime = lastModifiedTime
+        self.projectArn = projectArn
+        self.projectDescription = projectDescription
+        self.projectName = projectName
+        self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        self.splitterConfiguration = splitterConfiguration
+        self.status = status
+    }
+}
+
+extension TextractClientTypes {
+
+    /// The Amazon S3 location of the input document for a document insights job.
+    public struct InputConfiguration: Swift.Sendable {
+        /// The Amazon S3 URI of the input document.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
 public struct ListAdaptersInput: Swift.Sendable {
     /// Specifies the lower bound for the ListAdapters operation. Ensures ListAdapters returns only adapters created after the specified creation time.
     public var afterCreationTime: Foundation.Date?
@@ -2880,6 +3953,129 @@ public struct ListAdapterVersionsOutput: Swift.Sendable {
     }
 }
 
+extension TextractClientTypes {
+
+    /// A filter used to limit results to a specific project.
+    public struct ProjectFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the project to filter by.
+        /// This member is required.
+        public var projectArn: Swift.String?
+
+        public init(
+            projectArn: Swift.String? = nil
+        ) {
+            self.projectArn = projectArn
+        }
+    }
+}
+
+public struct ListBlueprintsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a blueprint to filter the results by.
+    public var blueprintArn: Swift.String?
+    /// The maximum number of blueprints to return in each page of results. If you don't specify a value, the service selects a default page size. Use the NextToken value in the response to retrieve any remaining results.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to ListBlueprints. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A filter that limits the results to blueprints associated with the specified project.
+    public var projectFilter: TextractClientTypes.ProjectFilter?
+    /// A filter that limits the results to blueprints owned by your account or to blueprints provided by Amazon Textract.
+    public var resourceOwner: TextractClientTypes.ResourceOwner?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectFilter: TextractClientTypes.ProjectFilter? = nil,
+        resourceOwner: TextractClientTypes.ResourceOwner? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectFilter = projectFilter
+        self.resourceOwner = resourceOwner
+    }
+}
+
+public struct ListBlueprintsOutput: Swift.Sendable {
+    /// A list of blueprint summaries that match the request.
+    /// This member is required.
+    public var blueprints: [TextractClientTypes.BlueprintSummary]?
+    /// A pagination token to use in a subsequent call to ListBlueprints to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        blueprints: [TextractClientTypes.BlueprintSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.blueprints = blueprints
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListProjectsInput: Swift.Sendable {
+    /// A filter that limits the results to projects associated with the specified blueprint.
+    public var blueprintFilter: TextractClientTypes.BlueprintFilter?
+    /// The maximum number of projects to return in each page of results. If you don't specify a value, the service selects a default page size. Use the NextToken value in the response to retrieve any remaining results.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to ListProjects. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        blueprintFilter: TextractClientTypes.BlueprintFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.blueprintFilter = blueprintFilter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension TextractClientTypes {
+
+    /// A summary of a project, returned in the results of ListProjects.
+    public struct ProjectSummary: Swift.Sendable {
+        /// The date and time that the project was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the project was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the project.
+        /// This member is required.
+        public var projectArn: Swift.String?
+        /// The name of the project.
+        public var projectName: Swift.String?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            projectArn: Swift.String? = nil,
+            projectName: Swift.String? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.projectArn = projectArn
+            self.projectName = projectName
+        }
+    }
+}
+
+public struct ListProjectsOutput: Swift.Sendable {
+    /// A pagination token to use in a subsequent call to ListProjects to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of project summaries that match the request.
+    /// This member is required.
+    public var projects: [TextractClientTypes.ProjectSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        projects: [TextractClientTypes.ProjectSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.projects = projects
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that specifies the resource to list tags for.
     /// This member is required.
@@ -2920,6 +4116,22 @@ extension TextractClientTypes {
         ) {
             self.roleArn = roleArn
             self.snsTopicArn = snsTopicArn
+        }
+    }
+}
+
+extension TextractClientTypes {
+
+    /// Notification settings for a job.
+    public struct NotificationConfiguration: Swift.Sendable {
+        /// Event bus settings.
+        /// This member is required.
+        public var eventBridgeConfiguration: TextractClientTypes.EventBridgeConfiguration?
+
+        public init(
+            eventBridgeConfiguration: TextractClientTypes.EventBridgeConfiguration? = nil
+        ) {
+            self.eventBridgeConfiguration = eventBridgeConfiguration
         }
     }
 }
@@ -2977,6 +4189,55 @@ public struct StartDocumentAnalysisOutput: Swift.Sendable {
         jobId: Swift.String? = nil
     ) {
         self.jobId = jobId
+    }
+}
+
+public struct StartDocumentInsightsInput: Swift.Sendable {
+    /// The blueprints used to extract custom structured output from the document.
+    public var blueprints: [TextractClientTypes.BlueprintItem]?
+    /// The AWS KMS encryption configuration used to encrypt the analysis output. If you don't specify a value, Amazon Textract encrypts the output using an AWS owned key.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The Amazon S3 location of the input document to analyze.
+    /// This member is required.
+    public var inputConfiguration: TextractClientTypes.InputConfiguration?
+    /// Notification settings for the job.
+    public var notificationConfiguration: TextractClientTypes.NotificationConfiguration?
+    /// The Amazon S3 location where the analysis results are written.
+    /// This member is required.
+    public var outputConfiguration: TextractClientTypes.OutputConfiguration?
+    /// The Amazon Resource Name (ARN) of the project whose configuration is used to analyze the document.
+    public var projectArn: Swift.String?
+    /// A set of tags (key-value pairs) to assign to the document insights job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        blueprints: [TextractClientTypes.BlueprintItem]? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        inputConfiguration: TextractClientTypes.InputConfiguration? = nil,
+        notificationConfiguration: TextractClientTypes.NotificationConfiguration? = nil,
+        outputConfiguration: TextractClientTypes.OutputConfiguration? = nil,
+        projectArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.blueprints = blueprints
+        self.encryptionConfiguration = encryptionConfiguration
+        self.inputConfiguration = inputConfiguration
+        self.notificationConfiguration = notificationConfiguration
+        self.outputConfiguration = outputConfiguration
+        self.projectArn = projectArn
+        self.tags = tags
+    }
+}
+
+public struct StartDocumentInsightsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the document insights job that was started. Use it with [GetDocumentInsights] to retrieve the results.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
     }
 }
 
@@ -3205,6 +4466,94 @@ public struct UpdateAdapterOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.featureTypes = featureTypes
+    }
+}
+
+public struct UpdateBlueprintInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint to update.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+    /// The AWS KMS encryption configuration used to encrypt the blueprint at rest.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The updated schema of the blueprint, which defines the fields to extract and their expected structure.
+    public var schema: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        schema: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+        self.encryptionConfiguration = encryptionConfiguration
+        self.schema = schema
+    }
+}
+
+public struct UpdateBlueprintOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the blueprint that was updated.
+    /// This member is required.
+    public var blueprintArn: Swift.String?
+
+    public init(
+        blueprintArn: Swift.String? = nil
+    ) {
+        self.blueprintArn = blueprintArn
+    }
+}
+
+public struct UpdateProjectInput: Swift.Sendable {
+    /// The configuration that associates blueprints with the project for custom output extraction. Replaces the stored custom configuration. To disable custom configuration, specify an empty Blueprints list.
+    public var customConfiguration: TextractClientTypes.CustomConfiguration?
+    /// The AWS KMS encryption configuration used to encrypt the project at rest.
+    public var encryptionConfiguration: TextractClientTypes.EncryptionConfiguration?
+    /// The configuration that controls how Amazon Textract extracts content from the document, including bounding boxes, granularity, and output format. Replaces the stored extraction configuration.
+    public var extractionConfiguration: TextractClientTypes.ExtractionConfiguration?
+    /// The configuration that controls generative capabilities such as summarization and figure captioning. Replaces the stored generative configuration, so a capability that you omit is turned off.
+    public var generativeConfiguration: TextractClientTypes.GenerativeConfiguration?
+    /// The Amazon Resource Name (ARN) of the project to update.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// The updated description of the project.
+    public var projectDescription: Swift.String?
+    /// The configuration that controls detection and redaction of sensitive data, such as personally identifiable information (PII). Replaces the stored sensitive data configuration. To turn off detection, set DetectionMode to DISABLED.
+    public var sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration?
+    /// The configuration that controls whether multi-document packets are split into individual documents. Replaces the stored splitter configuration.
+    public var splitterConfiguration: TextractClientTypes.SplitterConfiguration?
+
+    public init(
+        customConfiguration: TextractClientTypes.CustomConfiguration? = nil,
+        encryptionConfiguration: TextractClientTypes.EncryptionConfiguration? = nil,
+        extractionConfiguration: TextractClientTypes.ExtractionConfiguration? = nil,
+        generativeConfiguration: TextractClientTypes.GenerativeConfiguration? = nil,
+        projectArn: Swift.String? = nil,
+        projectDescription: Swift.String? = nil,
+        sensitiveDataConfiguration: TextractClientTypes.SensitiveDataConfiguration? = nil,
+        splitterConfiguration: TextractClientTypes.SplitterConfiguration? = nil
+    ) {
+        self.customConfiguration = customConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
+        self.extractionConfiguration = extractionConfiguration
+        self.generativeConfiguration = generativeConfiguration
+        self.projectArn = projectArn
+        self.projectDescription = projectDescription
+        self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        self.splitterConfiguration = splitterConfiguration
+    }
+}
+
+public struct UpdateProjectOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the project that was updated.
+    /// This member is required.
+    public var projectArn: Swift.String?
+    /// The status of the project after the update.
+    public var status: TextractClientTypes.ProjectStatus?
+
+    public init(
+        projectArn: Swift.String? = nil,
+        status: TextractClientTypes.ProjectStatus? = nil
+    ) {
+        self.projectArn = projectArn
+        self.status = status
     }
 }
 

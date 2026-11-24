@@ -3426,6 +3426,45 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Controls what the embedded encoder generates.
+    ///
+    /// * "embedded_608_only": CEA-608 CC pairs only
+    ///
+    /// * "embedded_708_only": CEA-708 service blocks only
+    ///
+    /// * "embedded_608_and_708": Both 608 and 708
+    public enum EmbeddedModeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case embedded608And708
+        case embedded608Only
+        case embedded708Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddedModeType] {
+            return [
+                .embedded608And708,
+                .embedded608Only,
+                .embedded708Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .embedded608And708: return "EMBEDDED_608_AND_708"
+            case .embedded608Only: return "EMBEDDED_608_ONLY"
+            case .embedded708Only: return "EMBEDDED_708_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Embedded Caption Position Settings
     public struct EmbeddedCaptionPositionSettings: Swift.Sendable {
         /// Specifies the vertical position of the caption as a row counted from the top of the output. Row 1 is the topmost row. Acceptable values are 1 through 15.
@@ -3477,6 +3516,16 @@ extension MediaLiveClientTypes {
 
     /// Embedded Destination Settings
     public struct EmbeddedDestinationSettings: Swift.Sendable {
+        /// CC Channel / Service number for 608/708 encode mode. Serves as both the 608 CC channel and the 708 service number (e.g., 1 = CC1 + Service 1). Only takes effect when the source is non-embedded (teletext, smart captions, etc.) — ignored in passthrough mode. Range 1-4: valid for embedded608Only, embedded708Only, or embedded608And708. Range 5-63: valid for embedded708Only.
+        public var captionServiceChannel: Swift.Int?
+        /// Controls what the encoder generates when in encode mode (non-embedded source → embedded destination). Ignored in passthrough mode (embedded source → embedded destination).
+        ///
+        /// * "embedded608Only": Generate CEA-608 CC pairs only (channel must be 1-4)
+        ///
+        /// * "embedded708Only": Generate CEA-708 service blocks only (channel 1-63)
+        ///
+        /// * "embedded608And708": Generate both 608 CC pairs and 708 service blocks (channel 1-4 gets both, 5-63 gets 708 only)
+        public var embeddedMode: MediaLiveClientTypes.EmbeddedModeType?
         /// Specifies the position of the output captions. Applies only when styleControl is set to manual.
         public var position: MediaLiveClientTypes.EmbeddedCaptionPositionSettings?
         /// Controls the source of position and style information for the output captions.
@@ -3487,9 +3536,13 @@ extension MediaLiveClientTypes {
         public var styleControl: MediaLiveClientTypes.EmbeddedDestinationStyleControl?
 
         public init(
+            captionServiceChannel: Swift.Int? = nil,
+            embeddedMode: MediaLiveClientTypes.EmbeddedModeType? = nil,
             position: MediaLiveClientTypes.EmbeddedCaptionPositionSettings? = nil,
             styleControl: MediaLiveClientTypes.EmbeddedDestinationStyleControl? = nil
         ) {
+            self.captionServiceChannel = captionServiceChannel
+            self.embeddedMode = embeddedMode
             self.position = position
             self.styleControl = styleControl
         }
@@ -3656,7 +3709,7 @@ extension MediaLiveClientTypes {
     public struct WebvttDestinationSettings: Swift.Sendable {
         /// Specifies the position of the output captions. Applies only when styleControl is set to manual.
         public var position: MediaLiveClientTypes.TextCaptionPositionSettings?
-        /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED, TELETEXT, or SMART SUBTITLES. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information. MANUAL - Applies the specified styling and positioning. All other styling and positioning is given default values.
+        /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED, TELETEXT, SMART SUBTITLES, or WEBVTT. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information. MANUAL - Applies the specified styling and positioning. All other styling and positioning is given default values.
         public var styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl?
 
         public init(
@@ -4194,6 +4247,25 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Webvtt Source Settings
+    public struct WebvttSourceSettings: Swift.Sendable {
+        /// Optional. The "GROUP-ID" attribute of the #EXT-X-MEDIA subtitle rendition to use from the HLS source. Specify it together with name; the pair must exactly match one rendition, otherwise this caption selector produces no captions. If neither groupId nor name is specified, MediaLive selects the rendition whose LANGUAGE matches the caption selector's language code (case-insensitive), then the DEFAULT=YES rendition, then the first subtitle rendition listed in the master playlist.
+        public var groupId: Swift.String?
+        /// Optional. The "NAME" attribute of the #EXT-X-MEDIA subtitle rendition to use from the HLS source. Specify it together with groupId; the pair must exactly match one rendition, otherwise this caption selector produces no captions. If neither groupId nor name is specified, MediaLive selects the rendition whose LANGUAGE matches the caption selector's language code (case-insensitive), then the DEFAULT=YES rendition, then the first subtitle rendition listed in the master playlist.
+        public var name: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.groupId = groupId
+            self.name = name
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Caption Selector Settings
     public struct CaptionSelectorSettings: Swift.Sendable {
         /// Ancillary Source Settings
@@ -4212,6 +4284,8 @@ extension MediaLiveClientTypes {
         public var smartSubtitleSourceSettings: MediaLiveClientTypes.SmartSubtitleSourceSettings?
         /// Teletext Source Settings
         public var teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings?
+        /// Webvtt Source Settings
+        public var webvttSourceSettings: MediaLiveClientTypes.WebvttSourceSettings?
 
         public init(
             ancillarySourceSettings: MediaLiveClientTypes.AncillarySourceSettings? = nil,
@@ -4221,7 +4295,8 @@ extension MediaLiveClientTypes {
             scte20SourceSettings: MediaLiveClientTypes.Scte20SourceSettings? = nil,
             scte27SourceSettings: MediaLiveClientTypes.Scte27SourceSettings? = nil,
             smartSubtitleSourceSettings: MediaLiveClientTypes.SmartSubtitleSourceSettings? = nil,
-            teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings? = nil
+            teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings? = nil,
+            webvttSourceSettings: MediaLiveClientTypes.WebvttSourceSettings? = nil
         ) {
             self.ancillarySourceSettings = ancillarySourceSettings
             self.aribSourceSettings = aribSourceSettings
@@ -4231,6 +4306,7 @@ extension MediaLiveClientTypes {
             self.scte27SourceSettings = scte27SourceSettings
             self.smartSubtitleSourceSettings = smartSubtitleSourceSettings
             self.teletextSourceSettings = teletextSourceSettings
+            self.webvttSourceSettings = webvttSourceSettings
         }
     }
 }
@@ -37103,6 +37179,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings {
         try writer["scte27SourceSettings"].write(value.scte27SourceSettings, with: MediaLiveClientTypes.Scte27SourceSettings.write(value:to:))
         try writer["smartSubtitleSourceSettings"].write(value.smartSubtitleSourceSettings, with: MediaLiveClientTypes.SmartSubtitleSourceSettings.write(value:to:))
         try writer["teletextSourceSettings"].write(value.teletextSourceSettings, with: MediaLiveClientTypes.TeletextSourceSettings.write(value:to:))
+        try writer["webvttSourceSettings"].write(value.webvttSourceSettings, with: MediaLiveClientTypes.WebvttSourceSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionSelectorSettings {
@@ -37116,6 +37193,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings {
         value.scte27SourceSettings = try reader["scte27SourceSettings"].readIfPresent(with: MediaLiveClientTypes.Scte27SourceSettings.read(from:))
         value.teletextSourceSettings = try reader["teletextSourceSettings"].readIfPresent(with: MediaLiveClientTypes.TeletextSourceSettings.read(from:))
         value.smartSubtitleSourceSettings = try reader["smartSubtitleSourceSettings"].readIfPresent(with: MediaLiveClientTypes.SmartSubtitleSourceSettings.read(from:))
+        value.webvttSourceSettings = try reader["webvttSourceSettings"].readIfPresent(with: MediaLiveClientTypes.WebvttSourceSettings.read(from:))
         return value
     }
 }
@@ -37905,6 +37983,8 @@ extension MediaLiveClientTypes.EmbeddedDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.EmbeddedDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["captionServiceChannel"].write(value.captionServiceChannel)
+        try writer["embeddedMode"].write(value.embeddedMode)
         try writer["position"].write(value.position, with: MediaLiveClientTypes.EmbeddedCaptionPositionSettings.write(value:to:))
         try writer["styleControl"].write(value.styleControl)
     }
@@ -37914,6 +37994,8 @@ extension MediaLiveClientTypes.EmbeddedDestinationSettings {
         var value = MediaLiveClientTypes.EmbeddedDestinationSettings()
         value.position = try reader["position"].readIfPresent(with: MediaLiveClientTypes.EmbeddedCaptionPositionSettings.read(from:))
         value.styleControl = try reader["styleControl"].readIfPresent()
+        value.captionServiceChannel = try reader["captionServiceChannel"].readIfPresent()
+        value.embeddedMode = try reader["embeddedMode"].readIfPresent()
         return value
     }
 }
@@ -42891,6 +42973,23 @@ extension MediaLiveClientTypes.WebvttDestinationSettings {
         var value = MediaLiveClientTypes.WebvttDestinationSettings()
         value.styleControl = try reader["styleControl"].readIfPresent()
         value.position = try reader["position"].readIfPresent(with: MediaLiveClientTypes.TextCaptionPositionSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.WebvttSourceSettings {
+
+    static func write(value: MediaLiveClientTypes.WebvttSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupId"].write(value.groupId)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.WebvttSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.WebvttSourceSettings()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }

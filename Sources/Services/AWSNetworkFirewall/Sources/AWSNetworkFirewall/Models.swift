@@ -320,6 +320,25 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    /// The public IP addresses that an internet gateway firewall uses for network address translation in one Availability Zone. Resources that don't have a public IP address reach the internet through these addresses. Network Firewall manages the addresses for you: it allocates them in your account and adds or removes addresses automatically based on traffic.
+    public struct AddressTranslations: Swift.Sendable {
+        /// The public IPv4 addresses that the internet gateway firewall uses for network address translation in this Availability Zone.
+        public var publicIPv4Addresses: [Swift.String]?
+        /// The public IPv6 addresses that the internet gateway firewall uses for network address translation in this Availability Zone.
+        public var publicIPv6Addresses: [Swift.String]?
+
+        public init(
+            publicIPv4Addresses: [Swift.String]? = nil,
+            publicIPv6Addresses: [Swift.String]? = nil
+        ) {
+            self.publicIPv4Addresses = publicIPv4Addresses
+            self.publicIPv6Addresses = publicIPv6Addresses
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum EnabledAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpHost
         case tlsSni
@@ -584,6 +603,35 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    public enum FirewallType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case firewall
+        case igwFirewall
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirewallType] {
+            return [
+                .firewall,
+                .igwFirewall
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .firewall: return "FIREWALL"
+            case .igwFirewall: return "IGW_FIREWALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AssociateAvailabilityZonesInput: Swift.Sendable {
     /// Required. The Availability Zones where you want to create firewall endpoints. You must specify at least one Availability Zone.
     /// This member is required.
@@ -592,6 +640,15 @@ public struct AssociateAvailabilityZonesInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -599,11 +656,13 @@ public struct AssociateAvailabilityZonesInput: Swift.Sendable {
         availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.availabilityZoneMappings = availabilityZoneMappings
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -639,6 +698,15 @@ public struct AssociateFirewallPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall policy.
     /// This member is required.
     public var firewallPolicyArn: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -646,11 +714,13 @@ public struct AssociateFirewallPolicyInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -814,6 +884,7 @@ extension NetworkFirewallClientTypes {
         case failed
         case ready
         case scaling
+        case standby
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AttachmentStatus] {
@@ -823,7 +894,8 @@ extension NetworkFirewallClientTypes {
                 .error,
                 .failed,
                 .ready,
-                .scaling
+                .scaling,
+                .standby
             ]
         }
 
@@ -840,6 +912,7 @@ extension NetworkFirewallClientTypes {
             case .failed: return "FAILED"
             case .ready: return "READY"
             case .scaling: return "SCALING"
+            case .standby: return "STANDBY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -858,7 +931,7 @@ extension NetworkFirewallClientTypes {
         public var dnsName: Swift.String?
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
-        /// The current status of the firewall endpoint instantiation in the subnet. When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
+        /// The current status of the firewall endpoint instantiation in the subnet. When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING. For an internet gateway firewall, STANDBY indicates an Availability Zone that has no resources yet. Network Firewall provisions the endpoint there when the first resource is launched in that Availability Zone.
         public var status: NetworkFirewallClientTypes.AttachmentStatus?
         /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it. A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
         public var statusMessage: Swift.String?
@@ -1600,6 +1673,48 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum EnforcementMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case policyControlled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnforcementMode] {
+            return [
+                .policyControlled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .policyControlled: return "POLICY_CONTROLLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Contains the settings that configure an internet gateway firewall. An internet gateway firewall inspects all traffic between your VPC and its internet gateway, without changes to your subnets or route tables. You can describe and list internet gateway firewalls in Network Firewall, but you can't create, modify, or delete them directly, because Amazon Web Services Network Security Manager creates and manages them on your behalf.
+    public struct IgwFirewallConfiguration: Swift.Sendable {
+        /// How the internet gateway firewall enforces its rules. The only supported value is POLICY_CONTROLLED, which means that the enforcement mode is set by the firewall policy that Amazon Web Services Network Security Manager associates with the firewall.
+        /// This member is required.
+        public var enforcementMode: NetworkFirewallClientTypes.EnforcementMode?
+
+        public init(
+            enforcementMode: NetworkFirewallClientTypes.EnforcementMode? = nil
+        ) {
+            self.enforcementMode = enforcementMode
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum ListenerPropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http
         case https
@@ -1741,6 +1856,8 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var firewallPolicyArn: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var firewallPolicyChangeProtection: Swift.Bool?
+    /// Settings that make this firewall an internet gateway firewall. An internet gateway firewall inspects all traffic between a VPC and its internet gateway, without changes to your subnets or route tables. Amazon Web Services Network Security Manager creates and manages internet gateway firewalls on your behalf, so you don't include this setting when you create a standard Network Firewall firewall. When this setting is present, FirewallName must equal the VpcId, AvailabilityZoneMappings is required and must use Availability Zone IDs, and you can't specify SubnetMappings or a transit gateway.
+    public var igwFirewallConfiguration: NetworkFirewallClientTypes.IgwFirewallConfiguration?
     /// The NAT gateways that Network Firewall creates for a proxy mode firewall, one for each Availability Zone. When you specify this, you create a proxy mode firewall. Destinations see the IP address of the NAT gateway in the client's Availability Zone as the source of the traffic. Specify one mapping for each Availability Zone in VpcEndpoint, and no other Availability Zones. Each NAT gateway subnet must be in the VpcEndpoint VPC and can't be one of the firewall endpoint subnets. You need permission to call the Amazon EC2 CreateNatGateway action. If Network Firewall can't set up an Availability Zone, for example because Amazon EC2 rejects the NAT gateway, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status is FAILED, and its status message explains why. You can add the Availability Zone again with AssociateSubnets. If no Availability Zone can be set up, the firewall status is FAILED.
     public var natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]?
     /// The proxy settings for a proxy mode firewall: the ports and protocols on which the firewall's proxy listens for traffic, and optionally your own domain name and certificate. If you don't specify listeners, the firewall listens for HTTP on port 3128 and HTTPS on port 8443. To change the listeners later, use UpdateProxySettings.
@@ -1777,6 +1894,7 @@ public struct CreateFirewallInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool? = false,
+        igwFirewallConfiguration: NetworkFirewallClientTypes.IgwFirewallConfiguration? = nil,
         natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]? = nil,
         proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
         subnetChangeProtection: Swift.Bool? = false,
@@ -1796,6 +1914,7 @@ public struct CreateFirewallInput: Swift.Sendable {
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+        self.igwFirewallConfiguration = igwFirewallConfiguration
         self.natGatewayCreateMappings = natGatewayCreateMappings
         self.proxySettings = proxySettings
         self.subnetChangeProtection = subnetChangeProtection
@@ -1840,6 +1959,8 @@ extension NetworkFirewallClientTypes {
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var firewallPolicyChangeProtection: Swift.Bool
+        /// Contains the settings that configure an internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC. Network Firewall returns this setting only for an internet gateway firewall. For a standard firewall, this setting isn't present.
+        public var igwFirewallConfiguration: NetworkFirewallClientTypes.IgwFirewallConfiguration?
         /// The NAT gateways that you specified for Network Firewall to create for a proxy mode firewall. To get the IDs and status of the NAT gateways that are attached to the firewall, see NatGatewayAttachments in the firewall's SyncStates.
         public var natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]?
         /// The number of VpcEndpointAssociation resources that use this firewall.
@@ -1879,6 +2000,7 @@ extension NetworkFirewallClientTypes {
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyChangeProtection: Swift.Bool = false,
+            igwFirewallConfiguration: NetworkFirewallClientTypes.IgwFirewallConfiguration? = nil,
             natGatewayCreateMappings: [NetworkFirewallClientTypes.NatGatewayCreateMapping]? = nil,
             numberOfAssociations: Swift.Int? = nil,
             proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
@@ -1904,6 +2026,7 @@ extension NetworkFirewallClientTypes {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.igwFirewallConfiguration = igwFirewallConfiguration
             self.natGatewayCreateMappings = natGatewayCreateMappings
             self.numberOfAssociations = numberOfAssociations
             self.proxySettings = proxySettings
@@ -1926,6 +2049,7 @@ extension NetworkFirewallClientTypes {
         case failed
         case provisioning
         case ready
+        case standby
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FirewallStatusValue] {
@@ -1933,7 +2057,8 @@ extension NetworkFirewallClientTypes {
                 .deleting,
                 .failed,
                 .provisioning,
-                .ready
+                .ready,
+                .standby
             ]
         }
 
@@ -1948,6 +2073,7 @@ extension NetworkFirewallClientTypes {
             case .failed: return "FAILED"
             case .provisioning: return "PROVISIONING"
             case .ready: return "READY"
+            case .standby: return "STANDBY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2089,6 +2215,8 @@ extension NetworkFirewallClientTypes {
     ///
     /// When you update a firewall, for example to add a subnet association or change a rule group in the firewall policy, the affected sync states reflect out-of-sync or not ready status until the changes are complete.
     public struct SyncState: Swift.Sendable {
+        /// The public IP addresses that an internet gateway firewall uses for network address translation in this Availability Zone. Network Firewall allocates these addresses in your account and adds or removes addresses automatically based on traffic. This setting is only present for an internet gateway firewall.
+        public var addressTranslations: NetworkFirewallClientTypes.AddressTranslations?
         /// The configuration and status for a single firewall subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic.
         public var attachment: NetworkFirewallClientTypes.Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
@@ -2097,10 +2225,12 @@ extension NetworkFirewallClientTypes {
         public var natGatewayAttachments: [NetworkFirewallClientTypes.NatGatewayAttachment]?
 
         public init(
+            addressTranslations: NetworkFirewallClientTypes.AddressTranslations? = nil,
             attachment: NetworkFirewallClientTypes.Attachment? = nil,
             config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]? = nil,
             natGatewayAttachments: [NetworkFirewallClientTypes.NatGatewayAttachment]? = nil
         ) {
+            self.addressTranslations = addressTranslations
             self.attachment = attachment
             self.config = config
             self.natGatewayAttachments = natGatewayAttachments
@@ -2181,7 +2311,7 @@ extension NetworkFirewallClientTypes {
         public var configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState?
         /// The synchronization state of the context sets in the firewall's rule groups with the firewall's context store. This field is only present when the firewall has a context store and its rule groups reference context sets.
         public var contextStoreSyncState: NetworkFirewallClientTypes.ContextStoreSyncState?
-        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY. For an internet gateway firewall, this setting is STANDBY while no Availability Zone in the VPC has resources that need the firewall. Network Firewall provisions the firewall in an Availability Zone when the first resource is launched there.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.FirewallStatusValue?
         /// Status for the subnets that you've configured in the firewall. This contains one array element per Availability Zone where you've configured a subnet in the firewall. These objects provide detailed information for the settings ConfigurationSyncStateSummary and Status.
@@ -5722,15 +5852,26 @@ public struct DeleteFirewallInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
 
     public init(
         deleteAssociatedNatGateways: Swift.Bool? = false,
         firewallArn: Swift.String? = nil,
-        firewallName: Swift.String? = nil
+        firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil
     ) {
         self.deleteAssociatedNatGateways = deleteAssociatedNatGateways
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
     }
 }
 
@@ -6096,13 +6237,24 @@ public struct DescribeFirewallInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
 
     public init(
         firewallArn: Swift.String? = nil,
-        firewallName: Swift.String? = nil
+        firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil
     ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
     }
 }
 
@@ -6143,7 +6295,7 @@ public struct DescribeFirewallMetadataOutput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the firewall policy.
     public var firewallPolicyArn: Swift.String?
-    /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+    /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY. For an internet gateway firewall, this setting is STANDBY while no Availability Zone in the VPC has resources that need the firewall. Network Firewall provisions the firewall in an Availability Zone when the first resource is launched there.
     public var status: NetworkFirewallClientTypes.FirewallStatusValue?
     /// The Availability Zones that the firewall currently supports. This includes all Availability Zones for which the firewall has a subnet defined.
     public var supportedAvailabilityZones: [Swift.String: NetworkFirewallClientTypes.AvailabilityZoneMetadata]?
@@ -6475,13 +6627,24 @@ public struct DescribeLoggingConfigurationInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
 
     public init(
         firewallArn: Swift.String? = nil,
-        firewallName: Swift.String? = nil
+        firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil
     ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
     }
 }
 
@@ -7202,6 +7365,15 @@ public struct DisassociateAvailabilityZonesInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -7209,11 +7381,13 @@ public struct DisassociateAvailabilityZonesInput: Swift.Sendable {
         availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.availabilityZoneMappings = availabilityZoneMappings
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -7643,6 +7817,15 @@ public struct ListFirewallPoliciesV2Output: Swift.Sendable {
 }
 
 public struct ListFirewallsInput: Swift.Sendable {
+    /// Specifies the firewall type to filter the results by. You can specify one of the following values:
+    ///
+    /// * IGW_FIREWALL - Returns only internet gateway firewalls, which Amazon Web Services Network Security Manager creates and manages for your VPCs.
+    ///
+    /// * FIREWALL - Returns only standard Network Firewall firewalls.
+    ///
+    ///
+    /// If you don't specify a type, the default is to return firewalls of both types.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -7651,10 +7834,12 @@ public struct ListFirewallsInput: Swift.Sendable {
     public var vpcIds: [Swift.String]?
 
     public init(
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vpcIds: [Swift.String]? = nil
     ) {
+        self.firewallType = firewallType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vpcIds = vpcIds
@@ -8668,6 +8853,15 @@ public struct UpdateFirewallAnalysisSettingsInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -8675,11 +8869,13 @@ public struct UpdateFirewallAnalysisSettingsInput: Swift.Sendable {
         enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.enabledAnalysisTypes = enabledAnalysisTypes
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -8715,6 +8911,15 @@ public struct UpdateFirewallDeleteProtectionInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -8722,11 +8927,13 @@ public struct UpdateFirewallDeleteProtectionInput: Swift.Sendable {
         deleteProtection: Swift.Bool? = false,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.deleteProtection = deleteProtection
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -8761,6 +8968,15 @@ public struct UpdateFirewallDescriptionInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -8768,11 +8984,13 @@ public struct UpdateFirewallDescriptionInput: Swift.Sendable {
         description: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.description = description
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -8807,6 +9025,15 @@ public struct UpdateFirewallEncryptionConfigurationInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -8814,11 +9041,13 @@ public struct UpdateFirewallEncryptionConfigurationInput: Swift.Sendable {
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -8908,6 +9137,15 @@ public struct UpdateFirewallPolicyChangeProtectionInput: Swift.Sendable {
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     /// This member is required.
     public var firewallPolicyChangeProtection: Swift.Bool?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
@@ -8915,11 +9153,13 @@ public struct UpdateFirewallPolicyChangeProtectionInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool? = false,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         updateToken: Swift.String? = nil
     ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+        self.firewallType = firewallType
         self.updateToken = updateToken
     }
 }
@@ -9008,6 +9248,15 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     public var firewallName: Swift.String?
+    /// The type of firewall that the request targets. Network Firewall supports the following firewall types:
+    ///
+    /// * IGW_FIREWALL - An internet gateway firewall, which Amazon Web Services Network Security Manager creates and manages for a VPC.
+    ///
+    /// * FIREWALL - A standard Network Firewall firewall.
+    ///
+    ///
+    /// If you specify the firewall ARN, the type must match the resource type in the ARN. If you specify only the firewall name, Network Firewall uses this value to identify the firewall. If you don't specify a type, the default is FIREWALL.
+    public var firewallType: NetworkFirewallClientTypes.FirewallType?
     /// Defines how Network Firewall performs logging for a firewall. If you omit this setting, Network Firewall disables logging for the firewall.
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
@@ -9015,11 +9264,13 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
         enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
+        firewallType: NetworkFirewallClientTypes.FirewallType? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
         self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.firewallType = firewallType
         self.loggingConfiguration = loggingConfiguration
     }
 }

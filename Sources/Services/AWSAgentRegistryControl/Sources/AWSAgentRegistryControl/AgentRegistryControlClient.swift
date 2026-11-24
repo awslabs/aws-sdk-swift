@@ -616,6 +616,155 @@ extension AgentRegistryControlClient {
 }
 
 extension AgentRegistryControlClient {
+    /// Performs the `AssociatePublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Associate a registry record with a publisher and assign the record a public identifier under the publisher's domain. The registry record must be APPROVED and the publisher must be ACTIVE. A registry record can have only one publisher association. The new association starts in PENDING_APPROVAL until a curator approves or rejects it. A ConflictException (HTTP 409) means the publisher is not ACTIVE yet, the registry record already has an association, or another registry record already holds the public identifier. To retry safely, repeat the request with the same clientToken; a retry returns the original association. If the publisher has reached its association quota, the request fails with ServiceQuotaExceededException (HTTP 402). Remove an unused association or request a quota increase.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociatePublisherInput`)
+    ///
+    /// - Returns: The new association between the registry record and the publisher, including the record's public identifier. A retry with the original clientToken returns the original association. (Type: `AssociatePublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `DependencyException` : This exception is thrown on a database (or other dependency) error. Modeled as a server error so SDKs retry it (5xx) and it feeds server-error alarming. Marked @retryable because it represents a transient downstream failure that is safe to retry (matches the forwarder's own retry-on-DependencyException behavior).
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func associatePublisher(input: AssociatePublisherInput) async throws -> AssociatePublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associatePublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociatePublisherInput, AssociatePublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(AssociatePublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociatePublisherInput, AssociatePublisherOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociatePublisherInput, AssociatePublisherOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociatePublisherInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePublisherInput, AssociatePublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePublisherOutput>(AssociatePublisherOutput.httpOutput(from:), AssociatePublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociatePublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociatePublisherInput, AssociatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociatePublisherInput, AssociatePublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociatePublisher")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreatePublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Create a publisher for a domain you control. The publisher starts in ACTION_REQUIRED, and the response includes a domainChallenge. To verify the domain, create a DNS TXT record with the challenge's recordName and recordValue. When the registry finds the record, the publisher becomes ACTIVE and you can associate registry records with it. Your account can have one publisher per domain. Creating a second publisher for the same domain fails with ConflictException unless the request repeats the original clientToken, which returns the existing publisher. The request also fails with ConflictException when another account has already verified the domain. If your account has reached its Publisher quota, the request fails with ServiceQuotaExceededException (HTTP 402). Delete an unused Publisher or request a quota increase.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePublisherInput`)
+    ///
+    /// - Returns: The new publisher, in ACTION_REQUIRED, with the domainChallenge to publish as a DNS TXT record. A retry with the original clientToken returns the existing publisher. (Type: `CreatePublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func createPublisher(input: CreatePublisherInput) async throws -> CreatePublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePublisherInput, CreatePublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreatePublisherInput, CreatePublisherOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePublisherInput, CreatePublisherOutput>(CreatePublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePublisherInput, CreatePublisherOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePublisherInput, CreatePublisherOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePublisherInput, CreatePublisherOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePublisherInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublisherInput, CreatePublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublisherOutput>(CreatePublisherOutput.httpOutput(from:), CreatePublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublisherInput, CreatePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePublisherInput, CreatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePublisherInput, CreatePublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePublisherInput, CreatePublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePublisher")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateRegistry` operation on the `AgentRegistryControl` service.
     ///
     /// Creates a new registry, a catalog that organizes registry records and defines their discovery authorization and record approval behavior. Creation is asynchronous: the registry begins in the CREATING status and becomes usable once it reaches READY.
@@ -753,6 +902,76 @@ extension AgentRegistryControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRegistryRecord")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Delete a publisher. A successful call returns an empty response. You can't delete a publisher that has registry record associations; disassociate every registry record from it first. The request fails with ConflictException while the publisher has associations or another delete is in progress. Association removals can take a few seconds to be reflected, so a delete that follows a disassociation can briefly fail with ConflictException; retry after a short wait. If the publisher ARN names your account and the publisher doesn't exist, the request fails with ResourceNotFoundException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePublisherInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func deletePublisher(input: DeletePublisherInput) async throws -> DeletePublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePublisherInput, DeletePublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePublisherInput, DeletePublisherOutput>(DeletePublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePublisherInput, DeletePublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublisherOutput>(DeletePublisherOutput.httpOutput(from:), DeletePublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublisherInput, DeletePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePublisherInput, DeletePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePublisherInput, DeletePublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePublisherInput, DeletePublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePublisher")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -905,6 +1124,143 @@ extension AgentRegistryControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociatePublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Remove a registry record's publisher association and release its public identifier. A successful call returns an empty response. Disassociating a registry record that has no association succeeds. If another account created the association, the request fails with AccessDeniedException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePublisherInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociatePublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func disassociatePublisher(input: DisassociatePublisherInput) async throws -> DisassociatePublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociatePublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociatePublisherInput, DisassociatePublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>(DisassociatePublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePublisherOutput>(DisassociatePublisherOutput.httpOutput(from:), DisassociatePublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociatePublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociatePublisherInput, DisassociatePublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociatePublisher")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Get a publisher, including its verification status and the DNS challenge for its domain. If the publisher ARN names your account and the publisher doesn't exist, the request fails with ResourceNotFoundException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPublisherInput`)
+    ///
+    /// - Returns: A publisher, including its verification status and the DNS challenge for its domain. (Type: `GetPublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func getPublisher(input: GetPublisherInput) async throws -> GetPublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPublisherInput, GetPublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPublisherInput, GetPublisherOutput>(GetPublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublisherInput, GetPublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublisherOutput>(GetPublisherOutput.httpOutput(from:), GetPublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublisherInput, GetPublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPublisherInput, GetPublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPublisherInput, GetPublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPublisherInput, GetPublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPublisher")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRegistry` operation on the `AgentRegistryControl` service.
     ///
     /// Gets a registry by identifier (ARN or ID)
@@ -1032,6 +1388,144 @@ extension AgentRegistryControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRegistryRecord")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPublisherAssociations` operation on the `AgentRegistryControl` service.
+    ///
+    /// List the registry record associations your account created. Pass publisherArn to list only the associations for that publisher; omit it to list associations across all publishers. Results are eventually consistent, so an association you just created or removed can take a few seconds to appear in or disappear from the list.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPublisherAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPublisherAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func listPublisherAssociations(input: ListPublisherAssociationsInput) async throws -> ListPublisherAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPublisherAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPublisherAssociationsInput, ListPublisherAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>(ListPublisherAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>(ListPublisherAssociationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublisherAssociationsOutput>(ListPublisherAssociationsOutput.httpOutput(from:), ListPublisherAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPublisherAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPublisherAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPublisherAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPublisherAssociationsInput, ListPublisherAssociationsOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPublisherAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPublishers` operation on the `AgentRegistryControl` service.
+    ///
+    /// List the publishers your account owns, followed by the ACTIVE publishers shared with your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPublishersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPublishersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func listPublishers(input: ListPublishersInput) async throws -> ListPublishersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPublishers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPublishersInput, ListPublishersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPublishersInput, ListPublishersOutput>(ListPublishersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPublishersInput, ListPublishersOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPublishersInput, ListPublishersOutput>(ListPublishersInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublishersOutput>(ListPublishersOutput.httpOutput(from:), ListPublishersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublishersInput, ListPublishersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPublishersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPublishersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPublishersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPublishersInput, ListPublishersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPublishersInput, ListPublishersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPublishersInput, ListPublishersOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPublishers")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1470,6 +1964,78 @@ extension AgentRegistryControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdatePublisherAssociationApprovalStatus` operation on the `AgentRegistryControl` service.
+    ///
+    /// Record the curator's decision (APPROVED or REJECTED) on a registry record's publisher association. A successful call returns an empty response. Repeating the decision the association already holds changes nothing; the same approvalStatus with a different approvalStatusReason updates the reason. If the caller has no publisher association for the registry record, the request fails with AccessDeniedException. A ConflictException (HTTP 409) means the association is not in a state that accepts the decision (e.g. not PENDING_APPROVAL/APPROVED/REJECTED) or it changed while the request was being applied; read it again before deciding whether to resubmit.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublisherAssociationApprovalStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePublisherAssociationApprovalStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func updatePublisherAssociationApprovalStatus(input: UpdatePublisherAssociationApprovalStatusInput) async throws -> UpdatePublisherAssociationApprovalStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePublisherAssociationApprovalStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>(UpdatePublisherAssociationApprovalStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePublisherAssociationApprovalStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublisherAssociationApprovalStatusOutput>(UpdatePublisherAssociationApprovalStatusOutput.httpOutput(from:), UpdatePublisherAssociationApprovalStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePublisherAssociationApprovalStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePublisherAssociationApprovalStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePublisherAssociationApprovalStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePublisherAssociationApprovalStatusInput, UpdatePublisherAssociationApprovalStatusOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePublisherAssociationApprovalStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateRegistry` operation on the `AgentRegistryControl` service.
     ///
     /// Updates an existing registry. This operation uses PATCH semantics: specify only the fields you want to change, and omit the rest to leave them unchanged. Updates are applied asynchronously and the registry transitions to the UPDATING status while they are processed.
@@ -1678,6 +2244,75 @@ extension AgentRegistryControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRegistryRecordStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ValidatePublisher` operation on the `AgentRegistryControl` service.
+    ///
+    /// Restart domain verification for a publisher in FAILED or SUSPENDED. The publisher returns to ACTION_REQUIRED with a new domainChallenge, which the response includes. Update the DNS TXT record with the new recordValue; the previous value no longer verifies the domain. The request fails with ConflictException when the publisher is ACTIVE, verification is already in progress (ACTION_REQUIRED), or the publisher is being deleted.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ValidatePublisherInput`)
+    ///
+    /// - Returns: The publisher after verification restarts, in ACTION_REQUIRED with a new domainChallenge. (Type: `ValidatePublisherOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller is not authorized to perform the requested action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `InternalServerException` : The request failed due to an unexpected internal error; the caller may retry.
+    /// - `ThrottlingException` : The request was denied due to request throttling; the caller may retry after a delay.
+    /// - `ValidationException` : The request failed validation of one or more input fields.
+    public func validatePublisher(input: ValidatePublisherInput) async throws -> ValidatePublisherOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "validatePublisher")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "agent-registry")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ValidatePublisherInput, ValidatePublisherOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidatePublisherInput, ValidatePublisherOutput>(ValidatePublisherInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidatePublisherInput, ValidatePublisherOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePublisherOutput>(ValidatePublisherOutput.httpOutput(from:), ValidatePublisherOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePublisherInput, ValidatePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePublisherOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Agent Registry Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidatePublisherOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidatePublisherInput, ValidatePublisherOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidatePublisherInput, ValidatePublisherOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Agent Registry Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidatePublisherInput, ValidatePublisherOutput>(serviceID: serviceName, version: AgentRegistryControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AgentRegistryControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidatePublisher")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

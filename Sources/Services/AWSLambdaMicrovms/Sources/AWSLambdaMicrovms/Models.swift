@@ -685,6 +685,15 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
     public var environmentVariables: [Swift.String: Swift.String]?
     /// Lifecycle hook configuration for MicroVMs and MicroVM images.
     public var hooks: LambdaMicrovmsClientTypes.Hooks?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. You must have permission to use the key. Specify the key in one of the following formats:
+    ///
+    /// * Key ARN
+    ///
+    /// * Alias ARN
+    ///
+    ///
+    /// If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
     public var logging: LambdaMicrovmsClientTypes.Logging?
     /// The name of the MicroVM image. Must be unique within the AWS account.
@@ -707,6 +716,7 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
         egressNetworkConnectors: [Swift.String]? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
         name: Swift.String? = nil,
         resources: [LambdaMicrovmsClientTypes.Resources]? = nil,
@@ -723,6 +733,7 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
         self.egressNetworkConnectors = egressNetworkConnectors
         self.environmentVariables = environmentVariables
         self.hooks = hooks
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logging = logging
         self.name = name
         self.resources = resources
@@ -732,7 +743,7 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
 
 extension CreateMicrovmImageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), tags: \(Swift.String(describing: tags)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "CreateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), tags: \(Swift.String(describing: tags)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 extension LambdaMicrovmsClientTypes {
@@ -818,6 +829,8 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
     /// The version of the MicroVM image.
     /// This member is required.
     public var imageVersion: Swift.String?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The latest active version of the MicroVM image.
     public var latestActiveImageVersion: Swift.String?
     /// The latest failed version of the MicroVM image, if any.
@@ -851,6 +864,7 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         latestActiveImageVersion: Swift.String? = nil,
         latestFailedImageVersion: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
@@ -873,6 +887,7 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
         self.hooks = hooks
         self.imageArn = imageArn
         self.imageVersion = imageVersion
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.latestActiveImageVersion = latestActiveImageVersion
         self.latestFailedImageVersion = latestFailedImageVersion
         self.logging = logging
@@ -886,7 +901,7 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
 
 extension CreateMicrovmImageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "CreateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct CreateMicrovmShellAuthTokenInput: Swift.Sendable {
@@ -1133,6 +1148,8 @@ public struct GetMicrovmOutput: Swift.Sendable {
     public var imageVersion: Swift.String?
     /// The list of ingress network connectors configured for the MicroVM.
     public var ingressNetworkConnectors: [Swift.String]?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts your MicroVM configuration at rest. If you don't specify a key, your MicroVM uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform.
     /// This member is required.
     public var maximumDurationInSeconds: Swift.Int?
@@ -1158,6 +1175,7 @@ public struct GetMicrovmOutput: Swift.Sendable {
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
         ingressNetworkConnectors: [Swift.String]? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         maximumDurationInSeconds: Swift.Int? = nil,
         microvmId: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
@@ -1172,6 +1190,7 @@ public struct GetMicrovmOutput: Swift.Sendable {
         self.imageArn = imageArn
         self.imageVersion = imageVersion
         self.ingressNetworkConnectors = ingressNetworkConnectors
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.maximumDurationInSeconds = maximumDurationInSeconds
         self.microvmId = microvmId
         self.startedAt = startedAt
@@ -1417,6 +1436,8 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
     /// The version of the MicroVM image.
     /// This member is required.
     public var imageVersion: Swift.String?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration for this version.
     public var logging: LambdaMicrovmsClientTypes.Logging?
     /// The resource requirements for the MicroVM.
@@ -1448,6 +1469,7 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
         resources: [LambdaMicrovmsClientTypes.Resources]? = nil,
         state: LambdaMicrovmsClientTypes.MicrovmImageVersionState? = nil,
@@ -1469,6 +1491,7 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
         self.hooks = hooks
         self.imageArn = imageArn
         self.imageVersion = imageVersion
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logging = logging
         self.resources = resources
         self.state = state
@@ -1481,7 +1504,7 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
 
 extension GetMicrovmImageVersionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "GetMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 /// There is insufficient capacity to fulfill the request. Retry the request later.
@@ -1776,6 +1799,8 @@ public struct RunMicrovmInput: Swift.Sendable {
     public var imageVersion: Swift.String?
     /// The list of ingress network connectors to configure for the MicroVM.
     public var ingressNetworkConnectors: [Swift.String]?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts your MicroVM configuration at rest. To use this operation, you must have permission to use the key. Specify the key ARN or the alias ARN. If you don't specify a key, your MicroVM uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration for this MicroVM instance. Specify {"cloudWatch": {"logGroup": "..."}} to stream application logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
     public var logging: LambdaMicrovmsClientTypes.Logging?
     /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform. Valid range: 1–28,800 (8 hours).
@@ -1791,6 +1816,7 @@ public struct RunMicrovmInput: Swift.Sendable {
         imageIdentifier: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
         ingressNetworkConnectors: [Swift.String]? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
         maximumDurationInSeconds: Swift.Int? = nil,
         runHookPayload: Swift.String? = nil
@@ -1802,6 +1828,7 @@ public struct RunMicrovmInput: Swift.Sendable {
         self.imageIdentifier = imageIdentifier
         self.imageVersion = imageVersion
         self.ingressNetworkConnectors = ingressNetworkConnectors
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logging = logging
         self.maximumDurationInSeconds = maximumDurationInSeconds
         self.runHookPayload = runHookPayload
@@ -1810,7 +1837,7 @@ public struct RunMicrovmInput: Swift.Sendable {
 
 extension RunMicrovmInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RunMicrovmInput(clientToken: \(Swift.String(describing: clientToken)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), idlePolicy: \(Swift.String(describing: idlePolicy)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), imageVersion: \(Swift.String(describing: imageVersion)), ingressNetworkConnectors: \(Swift.String(describing: ingressNetworkConnectors)), logging: \(Swift.String(describing: logging)), maximumDurationInSeconds: \(Swift.String(describing: maximumDurationInSeconds)), runHookPayload: \"CONTENT_REDACTED\")"}
+        "RunMicrovmInput(clientToken: \(Swift.String(describing: clientToken)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), idlePolicy: \(Swift.String(describing: idlePolicy)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), imageVersion: \(Swift.String(describing: imageVersion)), ingressNetworkConnectors: \(Swift.String(describing: ingressNetworkConnectors)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), maximumDurationInSeconds: \(Swift.String(describing: maximumDurationInSeconds)), runHookPayload: \"CONTENT_REDACTED\")"}
 }
 
 public struct RunMicrovmOutput: Swift.Sendable {
@@ -1831,6 +1858,8 @@ public struct RunMicrovmOutput: Swift.Sendable {
     public var imageVersion: Swift.String?
     /// The list of ingress network connectors configured for the MicroVM.
     public var ingressNetworkConnectors: [Swift.String]?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts your MicroVM configuration at rest. If you don't specify a key, your MicroVM uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The maximum duration in seconds that the MicroVM can exist.
     /// This member is required.
     public var maximumDurationInSeconds: Swift.Int?
@@ -1856,6 +1885,7 @@ public struct RunMicrovmOutput: Swift.Sendable {
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
         ingressNetworkConnectors: [Swift.String]? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         maximumDurationInSeconds: Swift.Int? = nil,
         microvmId: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
@@ -1870,6 +1900,7 @@ public struct RunMicrovmOutput: Swift.Sendable {
         self.imageArn = imageArn
         self.imageVersion = imageVersion
         self.ingressNetworkConnectors = ingressNetworkConnectors
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.maximumDurationInSeconds = maximumDurationInSeconds
         self.microvmId = microvmId
         self.startedAt = startedAt
@@ -2260,6 +2291,8 @@ extension LambdaMicrovmsClientTypes {
         /// The version of the MicroVM image.
         /// This member is required.
         public var imageVersion: Swift.String?
+        /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+        public var kmsKeyIdentifier: Swift.String?
         /// The logging configuration for this version.
         public var logging: LambdaMicrovmsClientTypes.Logging?
         /// The resource requirements for the MicroVM.
@@ -2291,6 +2324,7 @@ extension LambdaMicrovmsClientTypes {
             hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
             imageArn: Swift.String? = nil,
             imageVersion: Swift.String? = nil,
+            kmsKeyIdentifier: Swift.String? = nil,
             logging: LambdaMicrovmsClientTypes.Logging? = nil,
             resources: [LambdaMicrovmsClientTypes.Resources]? = nil,
             state: LambdaMicrovmsClientTypes.MicrovmImageVersionState? = nil,
@@ -2312,6 +2346,7 @@ extension LambdaMicrovmsClientTypes {
             self.hooks = hooks
             self.imageArn = imageArn
             self.imageVersion = imageVersion
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.logging = logging
             self.resources = resources
             self.state = state
@@ -2325,7 +2360,7 @@ extension LambdaMicrovmsClientTypes {
 
 extension LambdaMicrovmsClientTypes.MicrovmImageVersionSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MicrovmImageVersionSummary(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "MicrovmImageVersionSummary(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct ListMicrovmImageVersionsOutput: Swift.Sendable {
@@ -2373,6 +2408,15 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
     /// The unique identifier (ARN or ID) of the MicroVM image to update.
     /// This member is required.
     public var imageIdentifier: Swift.String?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. You must have permission to use the key. Specify the key in one of the following formats:
+    ///
+    /// * Key ARN
+    ///
+    /// * Alias ARN
+    ///
+    ///
+    /// If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
     public var logging: LambdaMicrovmsClientTypes.Logging?
     /// The resource requirements for the MicroVM.
@@ -2391,6 +2435,7 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
         environmentVariables: [Swift.String: Swift.String]? = nil,
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
         imageIdentifier: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
         resources: [LambdaMicrovmsClientTypes.Resources]? = nil
     ) {
@@ -2406,6 +2451,7 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
         self.environmentVariables = environmentVariables
         self.hooks = hooks
         self.imageIdentifier = imageIdentifier
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logging = logging
         self.resources = resources
     }
@@ -2413,7 +2459,7 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
 
 extension UpdateMicrovmImageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "UpdateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct UpdateMicrovmImageOutput: Swift.Sendable {
@@ -2449,6 +2495,8 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
     /// The version of the MicroVM image.
     /// This member is required.
     public var imageVersion: Swift.String?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The latest active version of the MicroVM image.
     public var latestActiveImageVersion: Swift.String?
     /// The latest failed version of the MicroVM image, if any.
@@ -2481,6 +2529,7 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         latestActiveImageVersion: Swift.String? = nil,
         latestFailedImageVersion: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
@@ -2502,6 +2551,7 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
         self.hooks = hooks
         self.imageArn = imageArn
         self.imageVersion = imageVersion
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.latestActiveImageVersion = latestActiveImageVersion
         self.latestFailedImageVersion = latestFailedImageVersion
         self.logging = logging
@@ -2514,7 +2564,7 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
 
 extension UpdateMicrovmImageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "UpdateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct UpdateMicrovmImageVersionInput: Swift.Sendable {
@@ -2572,6 +2622,8 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
     /// The version of the MicroVM image.
     /// This member is required.
     public var imageVersion: Swift.String?
+    /// The customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that encrypts the contents and metadata of your MicroVM image version. If you don't specify a key, your MicroVM image version uses an Amazon Web Services owned key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The logging configuration for this version.
     public var logging: LambdaMicrovmsClientTypes.Logging?
     /// The resource requirements for the MicroVM.
@@ -2603,6 +2655,7 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
         hooks: LambdaMicrovmsClientTypes.Hooks? = nil,
         imageArn: Swift.String? = nil,
         imageVersion: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         logging: LambdaMicrovmsClientTypes.Logging? = nil,
         resources: [LambdaMicrovmsClientTypes.Resources]? = nil,
         state: LambdaMicrovmsClientTypes.MicrovmImageVersionState? = nil,
@@ -2624,6 +2677,7 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
         self.hooks = hooks
         self.imageArn = imageArn
         self.imageVersion = imageVersion
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.logging = logging
         self.resources = resources
         self.state = state
@@ -2636,7 +2690,7 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
 
 extension UpdateMicrovmImageVersionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+        "UpdateMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 /// The resource already exists, or another operation is in progress.
@@ -3103,6 +3157,7 @@ extension CreateMicrovmImageInput {
         try writer["egressNetworkConnectors"].writeList(value.egressNetworkConnectors, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["hooks"].write(value.hooks, with: LambdaMicrovmsClientTypes.Hooks.write(value:to:))
+        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["logging"].write(value.logging, with: LambdaMicrovmsClientTypes.Logging.write(value:to:))
         try writer["name"].write(value.name)
         try writer["resources"].writeList(value.resources, memberWritingClosure: LambdaMicrovmsClientTypes.Resources.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3129,6 +3184,7 @@ extension RunMicrovmInput {
         try writer["imageIdentifier"].write(value.imageIdentifier)
         try writer["imageVersion"].write(value.imageVersion)
         try writer["ingressNetworkConnectors"].writeList(value.ingressNetworkConnectors, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["logging"].write(value.logging, with: LambdaMicrovmsClientTypes.Logging.write(value:to:))
         try writer["maximumDurationInSeconds"].write(value.maximumDurationInSeconds)
         try writer["runHookPayload"].write(value.runHookPayload)
@@ -3158,6 +3214,7 @@ extension UpdateMicrovmImageInput {
         try writer["egressNetworkConnectors"].writeList(value.egressNetworkConnectors, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["hooks"].write(value.hooks, with: LambdaMicrovmsClientTypes.Hooks.write(value:to:))
+        try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["logging"].write(value.logging, with: LambdaMicrovmsClientTypes.Logging.write(value:to:))
         try writer["resources"].writeList(value.resources, memberWritingClosure: LambdaMicrovmsClientTypes.Resources.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -3203,6 +3260,7 @@ extension CreateMicrovmImageOutput {
         value.hooks = try reader["hooks"].readIfPresent(with: LambdaMicrovmsClientTypes.Hooks.read(from:))
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.latestActiveImageVersion = try reader["latestActiveImageVersion"].readIfPresent()
         value.latestFailedImageVersion = try reader["latestFailedImageVersion"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent(with: LambdaMicrovmsClientTypes.Logging.read(from:))
@@ -3268,6 +3326,7 @@ extension GetMicrovmOutput {
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
         value.ingressNetworkConnectors = try reader["ingressNetworkConnectors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.maximumDurationInSeconds = try reader["maximumDurationInSeconds"].readIfPresent() ?? 0
         value.microvmId = try reader["microvmId"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -3338,6 +3397,7 @@ extension GetMicrovmImageVersionOutput {
         value.hooks = try reader["hooks"].readIfPresent(with: LambdaMicrovmsClientTypes.Hooks.read(from:))
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent(with: LambdaMicrovmsClientTypes.Logging.read(from:))
         value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: LambdaMicrovmsClientTypes.Resources.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
@@ -3460,6 +3520,7 @@ extension RunMicrovmOutput {
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
         value.ingressNetworkConnectors = try reader["ingressNetworkConnectors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.maximumDurationInSeconds = try reader["maximumDurationInSeconds"].readIfPresent() ?? 0
         value.microvmId = try reader["microvmId"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -3518,6 +3579,7 @@ extension UpdateMicrovmImageOutput {
         value.hooks = try reader["hooks"].readIfPresent(with: LambdaMicrovmsClientTypes.Hooks.read(from:))
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.latestActiveImageVersion = try reader["latestActiveImageVersion"].readIfPresent()
         value.latestFailedImageVersion = try reader["latestFailedImageVersion"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent(with: LambdaMicrovmsClientTypes.Logging.read(from:))
@@ -3549,6 +3611,7 @@ extension UpdateMicrovmImageVersionOutput {
         value.hooks = try reader["hooks"].readIfPresent(with: LambdaMicrovmsClientTypes.Hooks.read(from:))
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.logging = try reader["logging"].readIfPresent(with: LambdaMicrovmsClientTypes.Logging.read(from:))
         value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: LambdaMicrovmsClientTypes.Resources.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
@@ -4478,6 +4541,7 @@ extension LambdaMicrovmsClientTypes.MicrovmImageVersionSummary {
         value.additionalOsCapabilities = try reader["additionalOsCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaMicrovmsClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.hooks = try reader["hooks"].readIfPresent(with: LambdaMicrovmsClientTypes.Hooks.read(from:))
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")

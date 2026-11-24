@@ -1352,6 +1352,8 @@ extension MediaConvertClientTypes {
         case ac3
         case ac4
         case aiff
+        case dtsc
+        case dtsx
         case eac3
         case eac3Atmos
         case flac
@@ -1369,6 +1371,8 @@ extension MediaConvertClientTypes {
                 .ac3,
                 .ac4,
                 .aiff,
+                .dtsc,
+                .dtsx,
                 .eac3,
                 .eac3Atmos,
                 .flac,
@@ -1392,6 +1396,8 @@ extension MediaConvertClientTypes {
             case .ac3: return "AC3"
             case .ac4: return "AC4"
             case .aiff: return "AIFF"
+            case .dtsc: return "DTSC"
+            case .dtsx: return "DTSX"
             case .eac3: return "EAC3"
             case .eac3Atmos: return "EAC3_ATMOS"
             case .flac: return "FLAC"
@@ -1403,6 +1409,78 @@ extension MediaConvertClientTypes {
             case .wav: return "WAV"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Required when you set Codec to the value DTSC.
+    public struct DtscSettings: Swift.Sendable {
+        /// Specify the bitrate for the DTS Digital Surround stream, in bits per second. The only valid value is 768000.
+        public var bitrate: Swift.Int?
+        /// This value must be 48000. It represents the sample rate in Hz.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitrate: Swift.Int? = nil,
+            sampleRate: Swift.Int? = nil
+        ) {
+            self.bitrate = bitrate
+            self.sampleRate = sampleRate
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// DTS:X coding mode. Determines the number of input channels and the channel layout that the encoder emits. - CODING_MODE_5_1: 5.1 surround - CODING_MODE_5_1_4: 5.1.4 immersive
+    public enum DtsxCodingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codingMode51
+        case codingMode514
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DtsxCodingMode] {
+            return [
+                .codingMode51,
+                .codingMode514
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codingMode51: return "CODING_MODE_5_1"
+            case .codingMode514: return "CODING_MODE_5_1_4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Required when you set Codec to the value DTSX.
+    public struct DtsxSettings: Swift.Sendable {
+        /// Specify the average bitrate for the DTS:X Profile 2 stream, in bits per second. Valid values depend on the coding mode: 160000, 192000, 224000, 256000, 288000 and 320000 for CODING_MODE_5_1, and 288000, 384000 and 448000 for CODING_MODE_5_1_4.
+        public var bitrate: Swift.Int?
+        /// DTS:X coding mode. Determines the number of input channels and the channel layout that the encoder emits. - CODING_MODE_5_1: 5.1 surround - CODING_MODE_5_1_4: 5.1.4 immersive
+        public var codingMode: MediaConvertClientTypes.DtsxCodingMode?
+        /// This value must be 48000. It represents the sample rate in Hz.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitrate: Swift.Int? = nil,
+            codingMode: MediaConvertClientTypes.DtsxCodingMode? = nil,
+            sampleRate: Swift.Int? = nil
+        ) {
+            self.bitrate = bitrate
+            self.codingMode = codingMode
+            self.sampleRate = sampleRate
         }
     }
 }
@@ -2658,6 +2736,10 @@ extension MediaConvertClientTypes {
         public var aiffSettings: MediaConvertClientTypes.AiffSettings?
         /// Choose the audio codec for this output. Note that the option passthrough applies only to Dolby Digital, Dolby Digital Plus, AAC LC, AAC HEV1, and AAC HEV2 audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
         public var codec: MediaConvertClientTypes.AudioCodec?
+        /// Required when you set Codec to the value DTSC.
+        public var dtscSettings: MediaConvertClientTypes.DtscSettings?
+        /// Required when you set Codec to the value DTSX.
+        public var dtsxSettings: MediaConvertClientTypes.DtsxSettings?
         /// Required when you set Codec to the value EAC3_ATMOS.
         public var eac3AtmosSettings: MediaConvertClientTypes.Eac3AtmosSettings?
         /// Required when you set Codec to the value EAC3.
@@ -2681,6 +2763,8 @@ extension MediaConvertClientTypes {
             ac4Settings: MediaConvertClientTypes.Ac4Settings? = nil,
             aiffSettings: MediaConvertClientTypes.AiffSettings? = nil,
             codec: MediaConvertClientTypes.AudioCodec? = nil,
+            dtscSettings: MediaConvertClientTypes.DtscSettings? = nil,
+            dtsxSettings: MediaConvertClientTypes.DtsxSettings? = nil,
             eac3AtmosSettings: MediaConvertClientTypes.Eac3AtmosSettings? = nil,
             eac3Settings: MediaConvertClientTypes.Eac3Settings? = nil,
             flacSettings: MediaConvertClientTypes.FlacSettings? = nil,
@@ -2695,6 +2779,8 @@ extension MediaConvertClientTypes {
             self.ac4Settings = ac4Settings
             self.aiffSettings = aiffSettings
             self.codec = codec
+            self.dtscSettings = dtscSettings
+            self.dtsxSettings = dtsxSettings
             self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
             self.flacSettings = flacSettings
@@ -14947,8 +15033,9 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization.
+    /// Specify whether MediaConvert applies adaptive quantization in this output. With AV1, adaptive quantization is on or off; there is no strength to choose. Choose Auto to let MediaConvert manage adaptive quantization for you. MediaConvert enables both Spatial adaptive quantization and Temporal adaptive quantization, and you can't specify either one yourself. To choose the filters yourself, set Adaptive quantization to any of the strength values, Low, Medium, High, Higher or Max, and then use the related settings Spatial adaptive quantization and Temporal adaptive quantization. With AV1 these strength values all behave the same, because AV1 adaptive quantization has no strength. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: Av1SpatialAdaptiveQuantization and Av1TemporalAdaptiveQuantization.
     public enum Av1AdaptiveQuantization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
         case high
         case higher
         case low
@@ -14959,6 +15046,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Av1AdaptiveQuantization] {
             return [
+                .auto,
                 .high,
                 .higher,
                 .low,
@@ -14975,6 +15063,7 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auto: return "AUTO"
             case .high: return "HIGH"
             case .higher: return "HIGHER"
             case .low: return "LOW"
@@ -15011,6 +15100,36 @@ extension MediaConvertClientTypes {
             switch self {
             case .bit10: return "BIT_10"
             case .bit8: return "BIT_8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Choose Enabled to limit the AV1 feature set that MediaConvert uses, which reduces the complexity of decoding your output in software. Keep the default value, Disabled, unless your playback devices need the simpler bitstream. Encoding with Fast decode is slightly slower and gives comparable video quality.
+    public enum Av1FastDecode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1FastDecode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15115,6 +15234,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify the units for GOP size. If you don't specify a value, MediaConvert treats GOP size as a number of frames. With AV1, MediaConvert can't choose the GOP length for you, so there is no automatic option here: specify the GOP length in the related setting GOP size, in frames or in seconds.
+    public enum Av1GopSizeUnits: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case frames
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1GopSizeUnits] {
+            return [
+                .frames,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .frames: return "FRAMES"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Settings for quality-defined variable bitrate encoding with the AV1 codec. Use these settings only when you set QVBR for Rate control mode.
     public struct Av1QvbrSettings: Swift.Sendable {
         /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
@@ -15164,7 +15313,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Optional. Use this setting to have the service insert I-frames at scene changes that it automatically detects. For AV1, scene change detection is disabled by default. Choose Enabled to insert I-frames at detected scene changes, which can improve video quality. If this output uses QVBR, you can instead choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+    /// Keep the default value, Enabled, to have MediaConvert insert I-frames at scene changes that it automatically detects, which improves video quality. Choose Disabled if you need a strictly fixed keyframe cadence instead. With AV1, MediaConvert doesn't support Transition detection. Transition detection is accepted for backward compatibility but behaves exactly the same as Enabled, so we recommend that you use Enabled instead. It also keeps the QVBR requirement it has for other codecs: if you choose Transition detection in an AV1 output, Rate control mode must be QVBR. Choose Enabled to get the same result with any rate control mode.
     public enum Av1SceneChangeDetect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -15197,7 +15346,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+    /// Only use this setting when you set Adaptive quantization to one of the strength values, Low, Medium, High, Higher or Max. When you set Adaptive quantization to Auto, MediaConvert enables this feature for you and you can't specify it manually. When you enable adaptive quantization, the default value for Av1SpatialAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: With AV1 this filter is on or off; the Adaptive quantization value does not change its strength.
     public enum Av1SpatialAdaptiveQuantization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -15227,14 +15376,46 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Only use this setting when you set Adaptive quantization to one of the strength values, Low, Medium, High, Higher or Max. When you set Adaptive quantization to Auto, MediaConvert enables this feature for you and you can't specify it manually. When you enable adaptive quantization, the default value for Av1TemporalAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to set Av1TemporalAdaptiveQuantization to Disabled. Related setting: With AV1 this filter is on or off; the Adaptive quantization value does not change its strength.
+    public enum Av1TemporalAdaptiveQuantization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1TemporalAdaptiveQuantization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
     public struct Av1Settings: Swift.Sendable {
-        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization.
+        /// Specify whether MediaConvert applies adaptive quantization in this output. With AV1, adaptive quantization is on or off; there is no strength to choose. Choose Auto to let MediaConvert manage adaptive quantization for you. MediaConvert enables both Spatial adaptive quantization and Temporal adaptive quantization, and you can't specify either one yourself. To choose the filters yourself, set Adaptive quantization to any of the strength values, Low, Medium, High, Higher or Max, and then use the related settings Spatial adaptive quantization and Temporal adaptive quantization. With AV1 these strength values all behave the same, because AV1 adaptive quantization has no strength. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: Av1SpatialAdaptiveQuantization and Av1TemporalAdaptiveQuantization.
         public var adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization?
         /// Specify the Bit depth. You can choose 8-bit or 10-bit.
         public var bitDepth: MediaConvertClientTypes.Av1BitDepth?
         /// Specify the average bitrate in bits per second. Required when Rate control mode is CBR.
         public var bitrate: Swift.Int?
+        /// Choose Enabled to limit the AV1 feature set that MediaConvert uses, which reduces the complexity of decoding your output in software. Keep the default value, Disabled, unless your playback devices need the simpler bitstream. Encoding with Fast decode is slightly slower and gives comparable video quality.
+        public var fastDecode: MediaConvertClientTypes.Av1FastDecode?
         /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
         public var filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -15245,11 +15426,13 @@ extension MediaConvertClientTypes {
         public var framerateDenominator: Swift.Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateNumerator: Swift.Int?
-        /// Specify the GOP length (keyframe interval) in frames. With AV1, MediaConvert doesn't support GOP length in seconds. This value must be greater than zero and preferably equal to 1 + ((numberBFrames + 1) * x), where x is an integer value.
+        /// Specify the GOP length (keyframe interval). Use GOP size units to say whether this value is in frames or in seconds. This value must be greater than zero. With AV1, MediaConvert can't choose the GOP length for you, so you must specify it.
         public var gopSize: Swift.Double?
+        /// Specify the units for GOP size. If you don't specify a value, MediaConvert treats GOP size as a number of frames. With AV1, MediaConvert can't choose the GOP length for you, so there is no automatic option here: specify the GOP length in the related setting GOP size, in frames or in seconds.
+        public var gopSizeUnits: MediaConvertClientTypes.Av1GopSizeUnits?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public var maxBitrate: Swift.Int?
-        /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
+        /// Specify the number of B-frames between reference frames, in the range of 0-15. For AV1 encoding, we recommend the default value, 15, which gives the lowest bitrate and smallest file size. Choose a smaller number for better video quality at a higher bitrate.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
         /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
@@ -15257,7 +15440,7 @@ extension MediaConvertClientTypes {
         public var qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings?
         /// 'With AV1 outputs, for rate control mode, MediaConvert supports quality-defined variable bitrate (QVBR) and constant bitrate (CBR). You can''t use VBR.'
         public var rateControlMode: MediaConvertClientTypes.Av1RateControlMode?
-        /// Optional. Use this setting to have the service insert I-frames at scene changes that it automatically detects. For AV1, scene change detection is disabled by default. Choose Enabled to insert I-frames at detected scene changes, which can improve video quality. If this output uses QVBR, you can instead choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+        /// Keep the default value, Enabled, to have MediaConvert insert I-frames at scene changes that it automatically detects, which improves video quality. Choose Disabled if you need a strictly fixed keyframe cadence instead. With AV1, MediaConvert doesn't support Transition detection. Transition detection is accepted for backward compatibility but behaves exactly the same as Enabled, so we recommend that you use Enabled instead. It also keeps the QVBR requirement it has for other codecs: if you choose Transition detection in an AV1 output, Rate control mode must be QVBR. Choose Enabled to get the same result with any rate control mode.
         public var sceneChangeDetect: MediaConvertClientTypes.Av1SceneChangeDetect?
         /// Specify the number of slices per picture. This value must be 1, 2, 4, 8, 16, or 32. For progressive pictures, this value must be less than or equal to the number of macroblock rows. For interlaced pictures, this value must be less than or equal to half the number of macroblock rows.
         public var slices: Swift.Int?
@@ -15265,19 +15448,23 @@ extension MediaConvertClientTypes {
         public var slidingWindowMs: Swift.Int?
         /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the QVBR rate control mode. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
         public var slidingWindowPeakBitrate: Swift.Int?
-        /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// Only use this setting when you set Adaptive quantization to one of the strength values, Low, Medium, High, Higher or Max. When you set Adaptive quantization to Auto, MediaConvert enables this feature for you and you can't specify it manually. When you enable adaptive quantization, the default value for Av1SpatialAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: With AV1 this filter is on or off; the Adaptive quantization value does not change its strength.
         public var spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization?
+        /// Only use this setting when you set Adaptive quantization to one of the strength values, Low, Medium, High, Higher or Max. When you set Adaptive quantization to Auto, MediaConvert enables this feature for you and you can't specify it manually. When you enable adaptive quantization, the default value for Av1TemporalAdaptiveQuantization is Enabled. Keep this default value to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to set Av1TemporalAdaptiveQuantization to Disabled. Related setting: With AV1 this filter is on or off; the Adaptive quantization value does not change its strength.
+        public var temporalAdaptiveQuantization: MediaConvertClientTypes.Av1TemporalAdaptiveQuantization?
 
         public init(
             adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization? = nil,
             bitDepth: MediaConvertClientTypes.Av1BitDepth? = nil,
             bitrate: Swift.Int? = nil,
+            fastDecode: MediaConvertClientTypes.Av1FastDecode? = nil,
             filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis? = nil,
             framerateControl: MediaConvertClientTypes.Av1FramerateControl? = nil,
             framerateConversionAlgorithm: MediaConvertClientTypes.Av1FramerateConversionAlgorithm? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
             gopSize: Swift.Double? = nil,
+            gopSizeUnits: MediaConvertClientTypes.Av1GopSizeUnits? = nil,
             maxBitrate: Swift.Int? = nil,
             numberBFramesBetweenReferenceFrames: Swift.Int? = nil,
             perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
@@ -15287,17 +15474,20 @@ extension MediaConvertClientTypes {
             slices: Swift.Int? = nil,
             slidingWindowMs: Swift.Int? = nil,
             slidingWindowPeakBitrate: Swift.Int? = nil,
-            spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization? = nil
+            spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization? = nil,
+            temporalAdaptiveQuantization: MediaConvertClientTypes.Av1TemporalAdaptiveQuantization? = nil
         ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
             self.bitrate = bitrate
+            self.fastDecode = fastDecode
             self.filmGrainSynthesis = filmGrainSynthesis
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.gopSize = gopSize
+            self.gopSizeUnits = gopSizeUnits
             self.maxBitrate = maxBitrate
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
             self.perFrameMetrics = perFrameMetrics
@@ -15308,6 +15498,7 @@ extension MediaConvertClientTypes {
             self.slidingWindowMs = slidingWindowMs
             self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
+            self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
         }
     }
 }
@@ -16081,7 +16272,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames.
+    /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames. How MediaConvert applies Adaptive depends on your output frame rate. At 30 fps and below, MediaConvert uses at most 3 B-frames, even when you specify a larger value for B frames between reference frames. Above 30 fps, consecutive frames are similar enough that varying the B-frame count costs more bits than it saves, so MediaConvert keeps the B-frame count you specified and Adaptive has no effect. To always use the B-frame count you specify, choose Static.
     public enum H264DynamicSubGop: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adaptive
         case `static`
@@ -17313,7 +17504,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames.
+    /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames. How MediaConvert applies Adaptive depends on your output frame rate. At 30 fps and below, MediaConvert uses at most 3 B-frames, even when you specify a larger value for B frames between reference frames. Above 30 fps, consecutive frames are similar enough that varying the B-frame count costs more bits than it saves, so MediaConvert keeps the B-frame count you specified and Adaptive has no effect. To always use the B-frame count you specify, choose Static.
     public enum H265DynamicSubGop: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adaptive
         case `static`
@@ -21599,6 +21790,55 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose Enabled to encode this video output for Dynamic Multiview. With no regions, the whole frame is one view in the presentation. With regions, only those rectangles can be replaced. Keep the default value, Disabled, to leave Dynamic Multiview off; regions must then be empty. Dynamic Multiview outputs must be progressive and use a Dynamic sub-GOP of Static. MediaConvert also overrides some encoder settings on these outputs: Explicit weighted prediction for H.264, and Tree block size and MV temporal predictor for H.265.
+    public enum DynamicMultiviewSettingsEnabled: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicMultiviewSettingsEnabled] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Dynamic Multiview settings. Encodes this video output so that a downstream packager can combine it with other outputs in a Dynamic Multiview presentation, or replace parts of it. Available for H.264 and H.265 outputs. Enabling Dynamic Multiview reduces compression efficiency.
+    public struct DynamicMultiviewSettings: Swift.Sendable {
+        /// Choose Enabled to encode this video output for Dynamic Multiview. With no regions, the whole frame is one view in the presentation. With regions, only those rectangles can be replaced. Keep the default value, Disabled, to leave Dynamic Multiview off; regions must then be empty. Dynamic Multiview outputs must be progressive and use a Dynamic sub-GOP of Static. MediaConvert also overrides some encoder settings on these outputs: Explicit weighted prediction for H.264, and Tree block size and MV temporal predictor for H.265.
+        public var enabled: MediaConvertClientTypes.DynamicMultiviewSettingsEnabled?
+        /// Optional rectangles that a downstream packager can replace with other content, such as an ad. MediaConvert fills each region with black and encodes it independently of the rest of the frame. Leave empty to use the whole frame as one view. H.264 outputs support up to 8 regions; H.265 outputs support 1.
+        public var regions: [MediaConvertClientTypes.Rectangle]?
+
+        public init(
+            enabled: MediaConvertClientTypes.DynamicMultiviewSettingsEnabled? = nil,
+            regions: [MediaConvertClientTypes.Rectangle]? = nil
+        ) {
+            self.enabled = enabled
+            self.regions = regions
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Use Respond to AFD to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to NONE. A preferred implementation of this workflow is to set RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove all input AFD values from this output.
     public enum RespondToAfd: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
@@ -22488,7 +22728,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
+    /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. When you enable Noise reducer, you must also select a value for Noise reducer filter. Note that MediaConvert applies the Perceptual filter at Strength 1 by default to AVC, HEVC, AV1, MPEG-2, VP8, and VP9 outputs, whether or not you enable Noise reducer. To turn that off, enable Noise reducer and set Noise reducer filter to None. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
     public struct NoiseReducer: Swift.Sendable {
         /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion. * Perceptual exploits perceptual masking, avoiding encoding bits spent on imperceptible detail. * None disables noise reduction, including the perceptual filter that MediaConvert otherwise applies by default for AVC, HEVC, AV1, MPEG-2, VP8, and VP9 outputs. MediaConvert doesn't apply that default to mezzanine and archival outputs (AVC-Intra, XAVC, Apple ProRes, VC3, Uncompressed), to frame capture outputs, or to outputs that use Dolby Vision, which doesn't support any noise reducer.
         public var filter: MediaConvertClientTypes.NoiseReducerFilter?
@@ -22733,6 +22973,8 @@ extension MediaConvertClientTypes {
         public var crop: MediaConvertClientTypes.Rectangle?
         /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion or Timecode track is enabled.
         public var dropFrameTimecode: MediaConvertClientTypes.DropFrameTimecode?
+        /// Dynamic Multiview settings. Encodes this video output so that a downstream packager can combine it with other outputs in a Dynamic Multiview presentation, or replace parts of it. Available for H.264 and H.265 outputs. Enabling Dynamic Multiview reduces compression efficiency.
+        public var dynamicMultiviewSettings: MediaConvertClientTypes.DynamicMultiviewSettings?
         /// Applies only if you set AFD Signaling to Fixed. Use Fixed to specify a four-bit AFD value which the service will write on all frames of this video output.
         public var fixedAfd: Swift.Int?
         /// Use Height to define the video resolution height, in pixels, for this output. To use the same resolution as your input: Leave both Width and Height blank. To evenly scale from your input resolution: Leave Height blank and enter a value for Width. For example, if your input is 1920x1080 and you set Width to 1280, your output will be 1280x720.
@@ -22762,6 +23004,7 @@ extension MediaConvertClientTypes {
             colorMetadata: MediaConvertClientTypes.ColorMetadata? = nil,
             crop: MediaConvertClientTypes.Rectangle? = nil,
             dropFrameTimecode: MediaConvertClientTypes.DropFrameTimecode? = nil,
+            dynamicMultiviewSettings: MediaConvertClientTypes.DynamicMultiviewSettings? = nil,
             fixedAfd: Swift.Int? = nil,
             height: Swift.Int? = nil,
             position: MediaConvertClientTypes.Rectangle? = nil,
@@ -22780,6 +23023,7 @@ extension MediaConvertClientTypes {
             self.colorMetadata = colorMetadata
             self.crop = crop
             self.dropFrameTimecode = dropFrameTimecode
+            self.dynamicMultiviewSettings = dynamicMultiviewSettings
             self.fixedAfd = fixedAfd
             self.height = height
             self.position = position
@@ -28581,6 +28825,8 @@ extension MediaConvertClientTypes.AudioCodecSettings {
         try writer["ac4Settings"].write(value.ac4Settings, with: MediaConvertClientTypes.Ac4Settings.write(value:to:))
         try writer["aiffSettings"].write(value.aiffSettings, with: MediaConvertClientTypes.AiffSettings.write(value:to:))
         try writer["codec"].write(value.codec)
+        try writer["dtscSettings"].write(value.dtscSettings, with: MediaConvertClientTypes.DtscSettings.write(value:to:))
+        try writer["dtsxSettings"].write(value.dtsxSettings, with: MediaConvertClientTypes.DtsxSettings.write(value:to:))
         try writer["eac3AtmosSettings"].write(value.eac3AtmosSettings, with: MediaConvertClientTypes.Eac3AtmosSettings.write(value:to:))
         try writer["eac3Settings"].write(value.eac3Settings, with: MediaConvertClientTypes.Eac3Settings.write(value:to:))
         try writer["flacSettings"].write(value.flacSettings, with: MediaConvertClientTypes.FlacSettings.write(value:to:))
@@ -28599,6 +28845,8 @@ extension MediaConvertClientTypes.AudioCodecSettings {
         value.ac4Settings = try reader["ac4Settings"].readIfPresent(with: MediaConvertClientTypes.Ac4Settings.read(from:))
         value.aiffSettings = try reader["aiffSettings"].readIfPresent(with: MediaConvertClientTypes.AiffSettings.read(from:))
         value.codec = try reader["codec"].readIfPresent()
+        value.dtscSettings = try reader["dtscSettings"].readIfPresent(with: MediaConvertClientTypes.DtscSettings.read(from:))
+        value.dtsxSettings = try reader["dtsxSettings"].readIfPresent(with: MediaConvertClientTypes.DtsxSettings.read(from:))
         value.eac3AtmosSettings = try reader["eac3AtmosSettings"].readIfPresent(with: MediaConvertClientTypes.Eac3AtmosSettings.read(from:))
         value.eac3Settings = try reader["eac3Settings"].readIfPresent(with: MediaConvertClientTypes.Eac3Settings.read(from:))
         value.flacSettings = try reader["flacSettings"].readIfPresent(with: MediaConvertClientTypes.FlacSettings.read(from:))
@@ -28848,12 +29096,14 @@ extension MediaConvertClientTypes.Av1Settings {
         try writer["adaptiveQuantization"].write(value.adaptiveQuantization)
         try writer["bitDepth"].write(value.bitDepth)
         try writer["bitrate"].write(value.bitrate)
+        try writer["fastDecode"].write(value.fastDecode)
         try writer["filmGrainSynthesis"].write(value.filmGrainSynthesis)
         try writer["framerateControl"].write(value.framerateControl)
         try writer["framerateConversionAlgorithm"].write(value.framerateConversionAlgorithm)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
         try writer["gopSize"].write(value.gopSize)
+        try writer["gopSizeUnits"].write(value.gopSizeUnits)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["numberBFramesBetweenReferenceFrames"].write(value.numberBFramesBetweenReferenceFrames)
         try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -28864,6 +29114,7 @@ extension MediaConvertClientTypes.Av1Settings {
         try writer["slidingWindowMs"].write(value.slidingWindowMs)
         try writer["slidingWindowPeakBitrate"].write(value.slidingWindowPeakBitrate)
         try writer["spatialAdaptiveQuantization"].write(value.spatialAdaptiveQuantization)
+        try writer["temporalAdaptiveQuantization"].write(value.temporalAdaptiveQuantization)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Av1Settings {
@@ -28872,12 +29123,14 @@ extension MediaConvertClientTypes.Av1Settings {
         value.adaptiveQuantization = try reader["adaptiveQuantization"].readIfPresent()
         value.bitDepth = try reader["bitDepth"].readIfPresent()
         value.bitrate = try reader["bitrate"].readIfPresent()
+        value.fastDecode = try reader["fastDecode"].readIfPresent()
         value.filmGrainSynthesis = try reader["filmGrainSynthesis"].readIfPresent()
         value.framerateControl = try reader["framerateControl"].readIfPresent()
         value.framerateConversionAlgorithm = try reader["framerateConversionAlgorithm"].readIfPresent()
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         value.gopSize = try reader["gopSize"].readIfPresent()
+        value.gopSizeUnits = try reader["gopSizeUnits"].readIfPresent()
         value.maxBitrate = try reader["maxBitrate"].readIfPresent()
         value.numberBFramesBetweenReferenceFrames = try reader["numberBFramesBetweenReferenceFrames"].readIfPresent()
         value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -28888,6 +29141,7 @@ extension MediaConvertClientTypes.Av1Settings {
         value.slidingWindowMs = try reader["slidingWindowMs"].readIfPresent()
         value.slidingWindowPeakBitrate = try reader["slidingWindowPeakBitrate"].readIfPresent()
         value.spatialAdaptiveQuantization = try reader["spatialAdaptiveQuantization"].readIfPresent()
+        value.temporalAdaptiveQuantization = try reader["temporalAdaptiveQuantization"].readIfPresent()
         return value
     }
 }
@@ -29819,6 +30073,42 @@ extension MediaConvertClientTypes.DolbyVisionMetadata {
     }
 }
 
+extension MediaConvertClientTypes.DtscSettings {
+
+    static func write(value: MediaConvertClientTypes.DtscSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bitrate"].write(value.bitrate)
+        try writer["sampleRate"].write(value.sampleRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DtscSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DtscSettings()
+        value.bitrate = try reader["bitrate"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DtsxSettings {
+
+    static func write(value: MediaConvertClientTypes.DtsxSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bitrate"].write(value.bitrate)
+        try writer["codingMode"].write(value.codingMode)
+        try writer["sampleRate"].write(value.sampleRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DtsxSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DtsxSettings()
+        value.bitrate = try reader["bitrate"].readIfPresent()
+        value.codingMode = try reader["codingMode"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.DurationControl {
 
     static func write(value: MediaConvertClientTypes.DurationControl?, to writer: SmithyJSON.Writer) throws {
@@ -30002,6 +30292,23 @@ extension MediaConvertClientTypes.DynamicAudioSelector {
         value.languageCode = try reader["languageCode"].readIfPresent()
         value.offset = try reader["offset"].readIfPresent()
         value.selectorType = try reader["selectorType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DynamicMultiviewSettings {
+
+    static func write(value: MediaConvertClientTypes.DynamicMultiviewSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: MediaConvertClientTypes.Rectangle.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DynamicMultiviewSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DynamicMultiviewSettings()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Rectangle.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -33234,6 +33541,7 @@ extension MediaConvertClientTypes.VideoDescription {
         try writer["colorMetadata"].write(value.colorMetadata)
         try writer["crop"].write(value.crop, with: MediaConvertClientTypes.Rectangle.write(value:to:))
         try writer["dropFrameTimecode"].write(value.dropFrameTimecode)
+        try writer["dynamicMultiviewSettings"].write(value.dynamicMultiviewSettings, with: MediaConvertClientTypes.DynamicMultiviewSettings.write(value:to:))
         try writer["fixedAfd"].write(value.fixedAfd)
         try writer["height"].write(value.height)
         try writer["position"].write(value.position, with: MediaConvertClientTypes.Rectangle.write(value:to:))
@@ -33256,6 +33564,7 @@ extension MediaConvertClientTypes.VideoDescription {
         value.colorMetadata = try reader["colorMetadata"].readIfPresent()
         value.crop = try reader["crop"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
         value.dropFrameTimecode = try reader["dropFrameTimecode"].readIfPresent()
+        value.dynamicMultiviewSettings = try reader["dynamicMultiviewSettings"].readIfPresent(with: MediaConvertClientTypes.DynamicMultiviewSettings.read(from:))
         value.fixedAfd = try reader["fixedAfd"].readIfPresent()
         value.height = try reader["height"].readIfPresent()
         value.position = try reader["position"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))

@@ -2319,6 +2319,7 @@ extension CloudWatchOmniClientTypes {
 
     /// The type of external system that an integration connects to, such as a source of configuration data, a messaging destination, or a model provider.
     public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsConfigAzureSlrec
         case awsConfigSlrec
         case awsIntegration
         case externalAgent
@@ -2327,6 +2328,7 @@ extension CloudWatchOmniClientTypes {
 
         public static var allCases: [IntegrationType] {
             return [
+                .awsConfigAzureSlrec,
                 .awsConfigSlrec,
                 .awsIntegration,
                 .externalAgent,
@@ -2341,6 +2343,7 @@ extension CloudWatchOmniClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsConfigAzureSlrec: return "AWS_CONFIG_AZURE_SLREC"
             case .awsConfigSlrec: return "AWS_CONFIG_SLREC"
             case .awsIntegration: return "AWS_INTEGRATION"
             case .externalAgent: return "EXTERNAL_AGENT"

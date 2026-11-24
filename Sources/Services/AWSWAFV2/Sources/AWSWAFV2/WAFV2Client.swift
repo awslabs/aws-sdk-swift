@@ -2472,6 +2472,176 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetEvent` operation on the `WAFV2` service.
+    ///
+    /// Retrieves the details of the specified event for the specified web ACL, including the event actors that are associated with the event and the event timeline. Currently, this operation supports API Security Amazon Web Services Managed Rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetEventInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetEventOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getEvent(input: GetEventInput) async throws -> GetEventOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getEventOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEvent")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventInput, GetEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventInput, GetEventOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventInput, GetEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEventOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventInput, GetEventOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetEvent"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventInput, GetEventOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventInput, GetEventOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEventInput, GetEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEventInput, GetEventOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEvent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetEventActor` operation on the `WAFV2` service.
+    ///
+    /// Retrieves the details of the specified event actor. An event actor is a client that is associated with one or more events. The details include the latest observed attributes of the event actor, the events that it's associated with, and the history of changes to its attributes. Currently, this operation supports API Security Amazon Web Services Managed Rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetEventActorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetEventActorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getEventActor(input: GetEventActorInput) async throws -> GetEventActorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getEventActorOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEventActor")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventActorInput, GetEventActorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventActorInput, GetEventActorOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventActorInput, GetEventActorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEventActorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventActorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventActorInput, GetEventActorOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetEventActor"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventActorInput, GetEventActorOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventActorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventActorInput, GetEventActorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEventActorInput, GetEventActorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEventActorInput, GetEventActorOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEventActor")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetIPSet` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [IPSet].
@@ -3990,6 +4160,259 @@ extension WAFV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAvailableManagedRuleGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListEventActors` operation on the `WAFV2` service.
+    ///
+    /// Retrieves a paginated list of the event actors in your account that are associated with events in the specified time window. An event actor is a client that is associated with one or more events. The operation returns up to the top 100 event actors by event count. Results are paginated. Use the NextMarker value from the response to retrieve the next batch of results. Currently, this operation supports API Security Amazon Web Services Managed Rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEventActorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEventActorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    public func listEventActors(input: ListEventActorsInput) async throws -> ListEventActorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.listEventActorsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEventActors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventActorsInput, ListEventActorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventActorsInput, ListEventActorsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventActorsInput, ListEventActorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEventActorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventActorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventActorsInput, ListEventActorsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.ListEventActors"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventActorsInput, ListEventActorsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventActorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventActorsInput, ListEventActorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEventActorsInput, ListEventActorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEventActorsInput, ListEventActorsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEventActors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListEvents` operation on the `WAFV2` service.
+    ///
+    /// Retrieves a paginated list of event summaries for your account. Use this operation to monitor and investigate potential threats to the resources that your web ACLs protect. Results are paginated. Use the NextMarker value from the response to retrieve the next batch of results. Currently, this operation supports API Security Amazon Web Services Managed Rules. You can filter the results by time window, event category, resource, and API pattern, and sort them by start time, end time, or confidence. To retrieve the events for a single web ACL, use [ListEventsByWebACL]. To retrieve the full details of a single event, use [GetEvent].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEventsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEventsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    public func listEvents(input: ListEventsInput) async throws -> ListEventsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.listEventsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEvents")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventsInput, ListEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventsInput, ListEventsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventsInput, ListEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEventsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventsInput, ListEventsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.ListEvents"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventsInput, ListEventsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventsInput, ListEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEventsInput, ListEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEventsInput, ListEventsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListEventsByWebACL` operation on the `WAFV2` service.
+    ///
+    /// Retrieves a paginated list of event summaries for the specified web ACL. Use this operation to monitor and investigate potential threats to the resources that the web ACL protects. Results are paginated. Use the NextMarker value from the response to retrieve the next batch of results. Currently, this operation supports API Security Amazon Web Services Managed Rules. You can filter the results by time window, event category, resource, and API pattern, and sort them by start time, end time, or confidence. To retrieve the events for all of the web ACLs in your account, use [ListEvents]. To retrieve the full details of a single event, use [GetEvent].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEventsByWebACLInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEventsByWebACLOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func listEventsByWebACL(input: ListEventsByWebACLInput) async throws -> ListEventsByWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.listEventsByWebACLOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEventsByWebACL")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEventsByWebACLOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventsByWebACLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.ListEventsByWebACL"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventsByWebACLOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEventsByWebACLInput, ListEventsByWebACLOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEventsByWebACL")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

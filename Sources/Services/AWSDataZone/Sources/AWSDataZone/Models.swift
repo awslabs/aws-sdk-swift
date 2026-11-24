@@ -2056,6 +2056,79 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The state of an asset ownership transfer, which indicates whether the transfer is in progress, succeeded, or failed.
+    public enum AssetOwnershipTransferStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetOwnershipTransferStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details of an asset ownership transfer.
+    public struct AssetOwnershipTransfer: Swift.Sendable {
+        /// The ID of the project that owned the asset when the transfer started.
+        /// This member is required.
+        public var sourceProjectId: Swift.String?
+        /// The timestamp of when the transfer started.
+        public var startedAt: Foundation.Date?
+        /// The status of the ownership transfer. Valid values:
+        ///
+        /// * IN_PROGRESS — The transfer is in progress. Requests that change the asset or its listing fail until the transfer completes.
+        ///
+        /// * SUCCEEDED — The transfer completed. The target project owns the asset, its listing, and the subscriptions to the asset.
+        ///
+        /// * FAILED — The transfer didn't complete, and the service rolled back its changes. The source project owns the asset.
+        /// This member is required.
+        public var status: DataZoneClientTypes.AssetOwnershipTransferStatus?
+        /// The ID of the project that the asset is transferred to.
+        /// This member is required.
+        public var targetProjectId: Swift.String?
+        /// The timestamp of when the status of the transfer was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            sourceProjectId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: DataZoneClientTypes.AssetOwnershipTransferStatus? = nil,
+            targetProjectId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.sourceProjectId = sourceProjectId
+            self.startedAt = startedAt
+            self.status = status
+            self.targetProjectId = targetProjectId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The details of a metadata form.
     public struct FormInput: Swift.Sendable {
         /// The content of the metadata form.
@@ -2543,6 +2616,8 @@ public struct GetAssetOutput: Swift.Sendable {
     /// The name of the asset.
     /// This member is required.
     public var name: Swift.String?
+    /// The most recent ownership transfer of the asset. The response omits this member if the asset has never had an ownership transfer.
+    public var ownershipTransfer: DataZoneClientTypes.AssetOwnershipTransfer?
     /// The ID of the project that owns the asset.
     /// This member is required.
     public var owningProjectId: Swift.String?
@@ -2573,6 +2648,7 @@ public struct GetAssetOutput: Swift.Sendable {
         latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
         name: Swift.String? = nil,
+        ownershipTransfer: DataZoneClientTypes.AssetOwnershipTransfer? = nil,
         owningProjectId: Swift.String? = nil,
         readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         revision: Swift.String? = nil,
@@ -2593,6 +2669,7 @@ public struct GetAssetOutput: Swift.Sendable {
         self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
         self.name = name
+        self.ownershipTransfer = ownershipTransfer
         self.owningProjectId = owningProjectId
         self.readOnlyFormsOutput = readOnlyFormsOutput
         self.revision = revision
@@ -2603,7 +2680,55 @@ public struct GetAssetOutput: Swift.Sendable {
 
 extension GetAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), ownershipTransfer: \(Swift.String(describing: ownershipTransfer)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAssetOwnerInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request while its transfer is in progress, the service returns that transfer and doesn't start a new one. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The ID of the Amazon DataZone domain that contains the asset.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the asset whose ownership is transferred.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The ID of the project that the asset is transferred to. The project must be in the same domain and must be different from the project that currently owns the asset. If the domain's administration project owns the asset, the target can be any project. Otherwise, the target must be the administration project.
+    /// This member is required.
+    public var targetProjectIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        targetProjectIdentifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.targetProjectIdentifier = targetProjectIdentifier
+    }
+}
+
+public struct UpdateAssetOwnerOutput: Swift.Sendable {
+    /// The ID of the asset.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The state of the ownership transfer that the request started.
+    /// This member is required.
+    public var ownershipTransfer: DataZoneClientTypes.AssetOwnershipTransfer?
+    /// The revision of the asset that was created when the transfer started.
+    /// This member is required.
+    public var revision: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ownershipTransfer: DataZoneClientTypes.AssetOwnershipTransfer? = nil,
+        revision: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ownershipTransfer = ownershipTransfer
+        self.revision = revision
+    }
 }
 
 extension DataZoneClientTypes {
@@ -10720,6 +10845,8 @@ extension DataZoneClientTypes {
 
     /// The environment configuration user parameters.
     public struct EnvironmentConfigurationUserParameter: Swift.Sendable {
+        /// The ID of the environment blueprint.
+        public var environmentBlueprintId: Swift.String?
         /// The environment configuration name.
         public var environmentConfigurationName: Swift.String?
         /// The ID of the environment.
@@ -10730,11 +10857,13 @@ extension DataZoneClientTypes {
         public var environmentResolvedAccount: DataZoneClientTypes.EnvironmentResolvedAccount?
 
         public init(
+            environmentBlueprintId: Swift.String? = nil,
             environmentConfigurationName: Swift.String? = nil,
             environmentId: Swift.String? = nil,
             environmentParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil,
             environmentResolvedAccount: DataZoneClientTypes.EnvironmentResolvedAccount? = nil
         ) {
+            self.environmentBlueprintId = environmentBlueprintId
             self.environmentConfigurationName = environmentConfigurationName
             self.environmentId = environmentId
             self.environmentParameters = environmentParameters
@@ -10745,7 +10874,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.EnvironmentConfigurationUserParameter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentConfigurationUserParameter(environmentId: \(Swift.String(describing: environmentId)), environmentParameters: \(Swift.String(describing: environmentParameters)), environmentResolvedAccount: \(Swift.String(describing: environmentResolvedAccount)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
+        "EnvironmentConfigurationUserParameter(environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentId: \(Swift.String(describing: environmentId)), environmentParameters: \(Swift.String(describing: environmentParameters)), environmentResolvedAccount: \(Swift.String(describing: environmentResolvedAccount)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProjectInput: Swift.Sendable {
@@ -26220,6 +26349,32 @@ extension UpdateGroupProfileOutput: Swift.CustomDebugStringConvertible {
         "UpdateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
+extension DataZoneClientTypes {
+
+    public enum ProjectProfileAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disassociate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectProfileAction] {
+            return [
+                .disassociate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disassociate: return "DISASSOCIATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateProjectInput: Swift.Sendable {
     /// The description to be updated as part of the UpdateProject action.
     public var description: Swift.String?
@@ -26237,6 +26392,8 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// The name to be updated as part of the UpdateProject action.
     public var name: Swift.String?
+    /// The action to perform on the project profile of the project. Specify DISASSOCIATE to disassociate the project from its project profile.
+    public var projectProfileAction: DataZoneClientTypes.ProjectProfileAction?
     /// The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
     public var projectProfileVersion: Swift.String?
     /// The resource tags of the project.
@@ -26252,6 +26409,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        projectProfileAction: DataZoneClientTypes.ProjectProfileAction? = nil,
         projectProfileVersion: Swift.String? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
@@ -26263,6 +26421,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         self.glossaryTerms = glossaryTerms
         self.identifier = identifier
         self.name = name
+        self.projectProfileAction = projectProfileAction
         self.projectProfileVersion = projectProfileVersion
         self.resourceTags = resourceTags
         self.userParameters = userParameters
@@ -26271,7 +26430,7 @@ public struct UpdateProjectInput: Swift.Sendable {
 
 extension UpdateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileAction: \(Swift.String(describing: projectProfileAction)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectOutput: Swift.Sendable {
@@ -30902,6 +31061,19 @@ extension UpdateAssetFilterInput {
     }
 }
 
+extension UpdateAssetOwnerInput {
+
+    static func urlPathProvider(_ value: UpdateAssetOwnerInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/assets/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateConnectionInput {
 
     static func urlPathProvider(_ value: UpdateConnectionInput) -> Swift.String? {
@@ -31946,6 +32118,15 @@ extension UpdateAssetFilterInput {
     }
 }
 
+extension UpdateAssetOwnerInput {
+
+    static func write(value: UpdateAssetOwnerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["targetProjectIdentifier"].write(value.targetProjectIdentifier)
+    }
+}
+
 extension UpdateConnectionInput {
 
     static func write(value: UpdateConnectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -32108,6 +32289,7 @@ extension UpdateProjectInput {
         try writer["environmentDeploymentDetails"].write(value.environmentDeploymentDetails, with: DataZoneClientTypes.EnvironmentDeploymentDetails.write(value:to:))
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectProfileAction"].write(value.projectProfileAction)
         try writer["projectProfileVersion"].write(value.projectProfileVersion)
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -33331,6 +33513,7 @@ extension GetAssetOutput {
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.ownershipTransfer = try reader["ownershipTransfer"].readIfPresent(with: DataZoneClientTypes.AssetOwnershipTransfer.read(from:))
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.revision = try reader["revision"].readIfPresent() ?? ""
@@ -35122,6 +35305,20 @@ extension UpdateAssetFilterOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateAssetOwnerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssetOwnerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAssetOwnerOutput()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ownershipTransfer = try reader["ownershipTransfer"].readIfPresent(with: DataZoneClientTypes.AssetOwnershipTransfer.read(from:))
+        value.revision = try reader["revision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -38995,6 +39192,27 @@ enum UpdateAssetFilterOutputError {
     }
 }
 
+enum UpdateAssetOwnerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -39908,6 +40126,20 @@ extension DataZoneClientTypes.AssetListingItemAdditionalAttributes {
         value.forms = try reader["forms"].readIfPresent()
         value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetOwnershipTransfer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetOwnershipTransfer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetOwnershipTransfer()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceProjectId = try reader["sourceProjectId"].readIfPresent() ?? ""
+        value.targetProjectId = try reader["targetProjectId"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -41253,6 +41485,7 @@ extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
 
     static func write(value: DataZoneClientTypes.EnvironmentConfigurationUserParameter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["environmentBlueprintId"].write(value.environmentBlueprintId)
         try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["environmentId"].write(value.environmentId)
         try writer["environmentParameters"].writeList(value.environmentParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -41263,6 +41496,7 @@ extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentConfigurationUserParameter()
         value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentResolvedAccount = try reader["environmentResolvedAccount"].readIfPresent(with: DataZoneClientTypes.EnvironmentResolvedAccount.read(from:))
         value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentParameters = try reader["environmentParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)

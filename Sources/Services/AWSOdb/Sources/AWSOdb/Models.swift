@@ -3181,6 +3181,33 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
+    /// A summary of a refreshable clone of an Autonomous Database.
+    public struct AutonomousDatabaseRefreshableCloneSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the refreshable clone Autonomous Database.
+        public var autonomousDatabaseArn: Swift.String?
+        /// The unique identifier of the refreshable clone Autonomous Database.
+        public var autonomousDatabaseId: Swift.String?
+        /// The Oracle Cloud Identifier (OCID) of the refreshable clone Autonomous Database.
+        public var ocid: Swift.String?
+        /// The Amazon Web Services Region where the refreshable clone Autonomous Database is located.
+        public var region: Swift.String?
+
+        public init(
+            autonomousDatabaseArn: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.ocid = ocid
+            self.region = region
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use for an Autonomous Database.
     public struct AwsEncryptionKeyConfigurationInput: Swift.Sendable {
         /// The type of external identifier associated with the encryption key.
@@ -4078,6 +4105,42 @@ public struct ListAutonomousDatabasePeersOutput: Swift.Sendable {
     }
 }
 
+public struct ListAutonomousDatabaseRefreshableClonesInput: Swift.Sendable {
+    /// The unique identifier of the source Autonomous Database whose refreshable clones you want to list.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabaseRefreshableClonesOutput: Swift.Sendable {
+    /// The list of refreshable clones for the Autonomous Database.
+    /// This member is required.
+    public var autonomousDatabaseRefreshableClones: [OdbClientTypes.AutonomousDatabaseRefreshableCloneSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseRefreshableClones: [OdbClientTypes.AutonomousDatabaseRefreshableCloneSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseRefreshableClones = autonomousDatabaseRefreshableClones
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAutonomousDatabasesInput: Swift.Sendable {
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     public var maxResults: Swift.Int?
@@ -4257,6 +4320,50 @@ public struct StartAutonomousDatabaseOutput: Swift.Sendable {
     ) {
         self.autonomousDatabaseId = autonomousDatabaseId
         self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct StartAutonomousDatabaseRefreshInput: Swift.Sendable {
+    /// The unique identifier of the refreshable clone Autonomous Database to refresh.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The date and time up to which the refreshable clone Autonomous Database is refreshed from its source database. Data committed on the source database after this time isn't applied to the refreshable clone. The time must be at least 1 minute and at most 7 days in the past, and later than the clone's last refresh point.
+    public var timeOfRefreshCutoff: Foundation.Date?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        timeOfRefreshCutoff: Foundation.Date? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.timeOfRefreshCutoff = timeOfRefreshCutoff
+    }
+}
+
+public struct StartAutonomousDatabaseRefreshOutput: Swift.Sendable {
+    /// The unique identifier of the refreshable clone Autonomous Database that is being refreshed.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The refresh status of the refreshable clone Autonomous Database.
+    public var refreshableStatus: OdbClientTypes.RefreshableStatus?
+    /// The current status of the Autonomous Database.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the current status of the Autonomous Database.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        refreshableStatus: OdbClientTypes.RefreshableStatus? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.refreshableStatus = refreshableStatus
         self.status = status
         self.statusReason = statusReason
     }

@@ -660,16 +660,152 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
-    /// A reference to a form type that is included in an asset type.
-    public struct AssetTypeFormReference: Swift.Sendable {
-        /// The identifier of the referenced form type.
-        /// This member is required.
+    /// A form to set on an asset, consisting of the form type identifier and its JSON content.
+    public struct AssetFormInput: Swift.Sendable {
+        /// The JSON content of the form, conforming to the schema of the specified form type.
+        public var content: Swift.String?
+        /// The identifier of the form type that defines this form's schema. This field is required.
         public var formTypeIdentifier: Swift.String?
 
         public init(
+            content: Swift.String? = nil,
             formTypeIdentifier: Swift.String? = nil
         ) {
+            self.content = content
             self.formTypeIdentifier = formTypeIdentifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The export setting for the data catalog.
+    public enum ExportSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportSetting] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The export setting for asset metadata.
+    public struct AssetsExport: Swift.Sendable {
+        /// Whether asset metadata is exported to S3 Tables. Valid values are ENABLED and DISABLED.
+        public var s3TablesExport: GlueClientTypes.ExportSetting?
+
+        public init(
+            s3TablesExport: GlueClientTypes.ExportSetting? = nil
+        ) {
+            self.s3TablesExport = s3TablesExport
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current status of the data catalog export.
+    public enum ExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The state of an export to S3 Tables. Glue sets this state.
+    public struct S3TablesExportState: Swift.Sendable {
+        /// The current status of the export. Valid values are ENABLING, ENABLED, DISABLING, DISABLED, and FAILED.
+        public var status: GlueClientTypes.ExportStatus?
+
+        public init(
+            status: GlueClientTypes.ExportStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The export setting and current export state for asset metadata.
+    public struct AssetsExportResult: Swift.Sendable {
+        /// Whether asset metadata is exported to S3 Tables. Valid values are ENABLED and DISABLED.
+        public var s3TablesExport: GlueClientTypes.ExportSetting?
+        /// The current state of the asset metadata export to S3 Tables.
+        public var s3TablesExportState: GlueClientTypes.S3TablesExportState?
+
+        public init(
+            s3TablesExport: GlueClientTypes.ExportSetting? = nil,
+            s3TablesExportState: GlueClientTypes.S3TablesExportState? = nil
+        ) {
+            self.s3TablesExport = s3TablesExport
+            self.s3TablesExportState = s3TablesExportState
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A form that is included in an asset type, identified by the form type that defines its schema.
+    public struct AssetTypeFormOutput: Swift.Sendable {
+        /// The identifier of the form type that defines the form's schema.
+        public var formTypeId: Swift.String?
+
+        public init(
+            formTypeId: Swift.String? = nil
+        ) {
+            self.formTypeId = formTypeId
         }
     }
 }
@@ -852,23 +988,23 @@ public struct AssociateGlossaryTermsInput: Swift.Sendable {
 
 public struct AssociateGlossaryTermsOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var assetIdentifier: Swift.String?
+    public var assetId: Swift.String?
     /// The glossary terms now associated with the asset.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the item within the iterable form, if applicable.
-    public var itemIdentifier: Swift.String?
+    public var itemId: Swift.String?
     /// The name of the iterable form, if the association targets an item.
     public var iterableFormName: Swift.String?
 
     public init(
-        assetIdentifier: Swift.String? = nil,
+        assetId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
-        itemIdentifier: Swift.String? = nil,
+        itemId: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
-        self.assetIdentifier = assetIdentifier
+        self.assetId = assetId
         self.glossaryTerms = glossaryTerms
-        self.itemIdentifier = itemIdentifier
+        self.itemId = itemId
         self.iterableFormName = iterableFormName
     }
 }
@@ -17141,23 +17277,6 @@ public struct DeleteAssetOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteAssetTypeInput: Swift.Sendable {
-    /// The identifier of the asset type to delete.
-    /// This member is required.
-    public var identifier: Swift.String?
-
-    public init(
-        identifier: Swift.String? = nil
-    ) {
-        self.identifier = identifier
-    }
-}
-
-public struct DeleteAssetTypeOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct DeleteAttachmentInput: Swift.Sendable {
     /// The unique identifier of the asset from which to delete the attachment.
     /// This member is required.
@@ -17185,19 +17304,19 @@ public struct DeleteAttachmentInput: Swift.Sendable {
 
 public struct DeleteAttachmentOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var assetIdentifier: Swift.String?
+    public var assetId: Swift.String?
     /// The identifier of the item within the iterable form, if applicable.
-    public var itemIdentifier: Swift.String?
+    public var itemId: Swift.String?
     /// The name of the iterable form, if the deletion targets an item.
     public var iterableFormName: Swift.String?
 
     public init(
-        assetIdentifier: Swift.String? = nil,
-        itemIdentifier: Swift.String? = nil,
+        assetId: Swift.String? = nil,
+        itemId: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
-        self.assetIdentifier = assetIdentifier
-        self.itemIdentifier = itemIdentifier
+        self.assetId = assetId
+        self.itemId = itemId
         self.iterableFormName = iterableFormName
     }
 }
@@ -19482,23 +19601,23 @@ public struct DisassociateGlossaryTermsInput: Swift.Sendable {
 
 public struct DisassociateGlossaryTermsOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var assetIdentifier: Swift.String?
+    public var assetId: Swift.String?
     /// The remaining glossary terms associated with the asset.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the item within the iterable form, if applicable.
-    public var itemIdentifier: Swift.String?
+    public var itemId: Swift.String?
     /// The name of the iterable form, if the disassociation targets an item.
     public var iterableFormName: Swift.String?
 
     public init(
-        assetIdentifier: Swift.String? = nil,
+        assetId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
-        itemIdentifier: Swift.String? = nil,
+        itemId: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
-        self.assetIdentifier = assetIdentifier
+        self.assetId = assetId
         self.glossaryTerms = glossaryTerms
-        self.itemIdentifier = itemIdentifier
+        self.itemId = itemId
         self.iterableFormName = iterableFormName
     }
 }
@@ -19594,14 +19713,14 @@ public struct GetAssetTypeInput: Swift.Sendable {
 
 public struct GetAssetTypeOutput: Swift.Sendable {
     /// The forms that make up the asset type, keyed by form name.
-    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
+    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormOutput]?
     /// The identifier of the asset type.
     public var id: Swift.String?
     /// The name of the asset type.
     public var name: Swift.String?
 
     public init(
-        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetTypeFormOutput]? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
@@ -22026,101 +22145,43 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
-    /// The export setting for the data catalog.
-    public enum ExportSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
+    /// The S3 Tables configuration for a data catalog export, including the table bucket that holds the exported catalog metadata.
+    public struct S3TablesConfigurationResult: Swift.Sendable {
+        /// The encryption configuration for the table bucket that holds the exported catalog metadata.
+        public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
+        /// The ARN of the S3 table bucket that holds the exported catalog metadata.
+        public var tableBucketArn: Swift.String?
 
-        public static var allCases: [ExportSetting] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// The current status of the data catalog export.
-    public enum ExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case failed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExportStatus] {
-            return [
-                .disabled,
-                .disabling,
-                .enabled,
-                .enabling,
-                .failed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .disabling: return "DISABLING"
-            case .enabled: return "ENABLED"
-            case .enabling: return "ENABLING"
-            case .failed: return "FAILED"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
+            tableBucketArn: Swift.String? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.tableBucketArn = tableBucketArn
         }
     }
 }
 
 /// The export configuration returned by the GetDataCatalogExportConfiguration operation.
 public struct GetDataCatalogExportConfigurationOutput: Swift.Sendable {
+    /// The export setting and current export state for asset metadata.
+    public var assets: GlueClientTypes.AssetsExportResult?
     /// The timestamp at which the export configuration was created.
     public var createdAt: Foundation.Date?
-    /// The encryption configuration for the exported data.
-    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
-    /// The export setting for the data catalog. Valid values are ENABLED and DISABLED.
-    public var exportSetting: GlueClientTypes.ExportSetting?
-    /// The ARN of the S3 Tables bucket where catalog metadata is exported.
-    public var s3TableBucketArn: Swift.String?
-    /// The current status of the export. Valid values are ENABLING, ENABLED, DISABLING, DISABLED, and FAILED.
-    public var status: GlueClientTypes.ExportStatus?
+    /// The S3 Tables configuration for the export, including the table bucket that holds the exported catalog metadata and its encryption configuration.
+    public var s3TablesConfiguration: GlueClientTypes.S3TablesConfigurationResult?
     /// The timestamp at which the export configuration was last updated.
     public var updatedAt: Foundation.Date?
 
     public init(
+        assets: GlueClientTypes.AssetsExportResult? = nil,
         createdAt: Foundation.Date? = nil,
-        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
-        exportSetting: GlueClientTypes.ExportSetting? = nil,
-        s3TableBucketArn: Swift.String? = nil,
-        status: GlueClientTypes.ExportStatus? = nil,
+        s3TablesConfiguration: GlueClientTypes.S3TablesConfigurationResult? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.assets = assets
         self.createdAt = createdAt
-        self.encryptionConfiguration = encryptionConfiguration
-        self.exportSetting = exportSetting
-        self.s3TableBucketArn = s3TableBucketArn
-        self.status = status
+        self.s3TablesConfiguration = s3TablesConfiguration
         self.updatedAt = updatedAt
     }
 }
@@ -29835,16 +29896,15 @@ public struct PublishDataQualityResultV2Output: Swift.Sendable {
 }
 
 public struct PutAssetInput: Swift.Sendable {
-    /// The identifier of the asset type for the asset.
-    /// This member is required.
-    public var assetTypeId: Swift.String?
+    /// The identifier of the asset type for the asset. This field is required.
+    public var assetTypeIdentifier: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The description of the asset.
     public var description: Swift.String?
     /// The forms to set on the asset, keyed by form name. Each entry specifies the form type and its JSON content.
     /// This member is required.
-    public var forms: [Swift.String: GlueClientTypes.AssetFormEntry]?
+    public var forms: [Swift.String: GlueClientTypes.AssetFormInput]?
     /// The unique identifier of the asset. If an asset with this identifier already exists, it is updated.
     /// This member is required.
     public var identifier: Swift.String?
@@ -29853,14 +29913,14 @@ public struct PutAssetInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
-        assetTypeId: Swift.String? = nil,
+        assetTypeIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetFormInput]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
-        self.assetTypeId = assetTypeId
+        self.assetTypeIdentifier = assetTypeIdentifier
         self.clientToken = clientToken
         self.description = description
         self.forms = forms
@@ -29870,6 +29930,9 @@ public struct PutAssetInput: Swift.Sendable {
 }
 
 public struct PutAssetOutput: Swift.Sendable {
+    /// The identifier of the asset type for this asset.
+    /// This member is required.
+    public var assetTypeId: Swift.String?
     /// The timestamp at which the asset was created.
     public var createdAt: Foundation.Date?
     /// The description of the asset.
@@ -29884,54 +29947,16 @@ public struct PutAssetOutput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        assetTypeId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.assetTypeId = assetTypeId
         self.createdAt = createdAt
         self.description = description
-        self.forms = forms
-        self.id = id
-        self.name = name
-    }
-}
-
-public struct PutAssetTypeInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-    public var clientToken: Swift.String?
-    /// The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema.
-    /// This member is required.
-    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
-    /// The name of the asset type.
-    /// This member is required.
-    public var name: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.forms = forms
-        self.name = name
-    }
-}
-
-public struct PutAssetTypeOutput: Swift.Sendable {
-    /// The forms that make up the asset type, keyed by form name.
-    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
-    /// The identifier of the asset type.
-    public var id: Swift.String?
-    /// The name of the asset type.
-    public var name: Swift.String?
-
-    public init(
-        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil
-    ) {
         self.forms = forms
         self.id = id
         self.name = name
@@ -29950,9 +29975,8 @@ public struct PutAttachmentInput: Swift.Sendable {
     /// The JSON content of the form, conforming to the schema of the specified form type.
     /// This member is required.
     public var content: Swift.String?
-    /// The identifier of the form type for this attachment.
-    /// This member is required.
-    public var formTypeId: Swift.String?
+    /// The identifier of the form type for this attachment. This field is required.
+    public var formTypeIdentifier: Swift.String?
     /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
     public var itemIdentifier: Swift.String?
     /// The name of the iterable form. When specified along with itemIdentifier, the attachment targets an item within the iterable form rather than the asset itself.
@@ -29963,7 +29987,7 @@ public struct PutAttachmentInput: Swift.Sendable {
         attachmentName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         content: Swift.String? = nil,
-        formTypeId: Swift.String? = nil,
+        formTypeIdentifier: Swift.String? = nil,
         itemIdentifier: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
@@ -29971,7 +29995,7 @@ public struct PutAttachmentInput: Swift.Sendable {
         self.attachmentName = attachmentName
         self.clientToken = clientToken
         self.content = content
-        self.formTypeId = formTypeId
+        self.formTypeIdentifier = formTypeIdentifier
         self.itemIdentifier = itemIdentifier
         self.iterableFormName = iterableFormName
     }
@@ -29979,27 +30003,27 @@ public struct PutAttachmentInput: Swift.Sendable {
 
 public struct PutAttachmentOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var assetIdentifier: Swift.String?
+    public var assetId: Swift.String?
     /// The name of the attachment.
     public var attachmentName: Swift.String?
     /// The identifier of the form type for this attachment.
     public var formTypeId: Swift.String?
     /// The identifier of the item within the iterable form, if applicable.
-    public var itemIdentifier: Swift.String?
+    public var itemId: Swift.String?
     /// The name of the iterable form, if the attachment targets an item.
     public var iterableFormName: Swift.String?
 
     public init(
-        assetIdentifier: Swift.String? = nil,
+        assetId: Swift.String? = nil,
         attachmentName: Swift.String? = nil,
         formTypeId: Swift.String? = nil,
-        itemIdentifier: Swift.String? = nil,
+        itemId: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
-        self.assetIdentifier = assetIdentifier
+        self.assetId = assetId
         self.attachmentName = attachmentName
         self.formTypeId = formTypeId
-        self.itemIdentifier = itemIdentifier
+        self.itemId = itemId
         self.iterableFormName = iterableFormName
     }
 }
@@ -30025,39 +30049,53 @@ public struct PutDataCatalogEncryptionSettingsOutput: Swift.Sendable {
     public init() { }
 }
 
+extension GlueClientTypes {
+
+    /// The S3 Tables configuration for a data catalog export.
+    public struct S3TablesConfiguration: Swift.Sendable {
+        /// The encryption configuration for the table bucket that holds the exported catalog metadata. It applies only when Glue creates the table bucket.
+        public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
+
+        public init(
+            encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
 public struct PutDataCatalogExportConfigurationInput: Swift.Sendable {
+    /// The export setting for asset metadata. Set S3TablesExport to ENABLED to start exporting asset metadata to S3 Tables, or to DISABLED to stop exporting.
+    public var assets: GlueClientTypes.AssetsExport?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    /// The encryption configuration for the exported data. If not specified, the default encryption settings are used.
-    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
-    /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required.
-    /// This member is required.
-    public var exportSetting: GlueClientTypes.ExportSetting?
+    /// The S3 Tables configuration for the export. The encryption configuration applies only when Glue creates the table bucket that holds the exported catalog metadata. If not specified, the default encryption settings are used.
+    public var s3TablesConfiguration: GlueClientTypes.S3TablesConfiguration?
 
     public init(
+        assets: GlueClientTypes.AssetsExport? = nil,
         clientToken: Swift.String? = nil,
-        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
-        exportSetting: GlueClientTypes.ExportSetting? = nil
+        s3TablesConfiguration: GlueClientTypes.S3TablesConfiguration? = nil
     ) {
+        self.assets = assets
         self.clientToken = clientToken
-        self.encryptionConfiguration = encryptionConfiguration
-        self.exportSetting = exportSetting
+        self.s3TablesConfiguration = s3TablesConfiguration
     }
 }
 
 /// The export configuration returned by the PutDataCatalogExportConfiguration operation.
 public struct PutDataCatalogExportConfigurationOutput: Swift.Sendable {
-    /// The encryption configuration for the exported data.
-    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
-    /// The export setting for the data catalog.
-    public var exportSetting: GlueClientTypes.ExportSetting?
+    /// The export setting for asset metadata.
+    public var assets: GlueClientTypes.AssetsExport?
+    /// The S3 Tables configuration for the export.
+    public var s3TablesConfiguration: GlueClientTypes.S3TablesConfiguration?
 
     public init(
-        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
-        exportSetting: GlueClientTypes.ExportSetting? = nil
+        assets: GlueClientTypes.AssetsExport? = nil,
+        s3TablesConfiguration: GlueClientTypes.S3TablesConfiguration? = nil
     ) {
-        self.encryptionConfiguration = encryptionConfiguration
-        self.exportSetting = exportSetting
+        self.assets = assets
+        self.s3TablesConfiguration = s3TablesConfiguration
     }
 }
 
@@ -31079,23 +31117,23 @@ public struct RunStatementOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
-    public enum SearchFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SearchFilterComparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case equals
-        case greaterthan
-        case greaterthanorequals
-        case lessthan
-        case lessthanorequals
-        case notexists
+        case greaterThan
+        case greaterThanOrEquals
+        case lessThan
+        case lessThanOrEquals
+        case notExists
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [SearchFilterOperator] {
+        public static var allCases: [SearchFilterComparator] {
             return [
                 .equals,
-                .greaterthan,
-                .greaterthanorequals,
-                .lessthan,
-                .lessthanorequals,
-                .notexists
+                .greaterThan,
+                .greaterThanOrEquals,
+                .lessThan,
+                .lessThanOrEquals,
+                .notExists
             ]
         }
 
@@ -31106,12 +31144,12 @@ extension GlueClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .equals: return "equals"
-            case .greaterthan: return "greaterThan"
-            case .greaterthanorequals: return "greaterThanOrEquals"
-            case .lessthan: return "lessThan"
-            case .lessthanorequals: return "lessThanOrEquals"
-            case .notexists: return "notExists"
+            case .equals: return "EQUALS"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEquals: return "GREATER_THAN_OR_EQUALS"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEquals: return "LESS_THAN_OR_EQUALS"
+            case .notExists: return "NOT_EXISTS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -31137,19 +31175,18 @@ extension GlueClientTypes {
         /// The attribute name to filter on.
         /// This member is required.
         public var attribute: Swift.String?
-        /// The comparison operator. Valid values are equals, greaterThan, greaterThanOrEquals, lessThan, lessThanOrEquals, and notExists.
-        /// This member is required.
-        public var `operator`: GlueClientTypes.SearchFilterOperator?
+        /// The comparison operator. Valid values are EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS, and NOT_EXISTS. This field is required.
+        public var comparator: GlueClientTypes.SearchFilterComparator?
         /// The value to compare against.
         public var value: GlueClientTypes.SearchFilterValue?
 
         public init(
             attribute: Swift.String? = nil,
-            `operator`: GlueClientTypes.SearchFilterOperator? = nil,
+            comparator: GlueClientTypes.SearchFilterComparator? = nil,
             value: GlueClientTypes.SearchFilterValue? = nil
         ) {
             self.attribute = attribute
-            self.`operator` = `operator`
+            self.comparator = comparator
             self.value = value
         }
     }
@@ -31244,28 +31281,32 @@ extension GlueClientTypes {
 
     /// A single search result item representing a matched asset.
     public struct SearchResultItem: Swift.Sendable {
-        /// The description of the matched asset.
-        public var assetDescription: Swift.String?
-        /// The name of the matched asset.
-        public var assetName: Swift.String?
         /// The identifier of the asset type for the matched asset.
         public var assetTypeId: Swift.String?
+        /// The timestamp at which the matched asset was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the matched asset.
+        public var description: Swift.String?
         /// The unique identifier of the matched asset.
         public var id: Swift.String?
+        /// The name of the matched asset.
+        public var name: Swift.String?
         /// The timestamp at which the matched asset was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
-            assetDescription: Swift.String? = nil,
-            assetName: Swift.String? = nil,
             assetTypeId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
             id: Swift.String? = nil,
+            name: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
-            self.assetDescription = assetDescription
-            self.assetName = assetName
             self.assetTypeId = assetTypeId
+            self.createdAt = createdAt
+            self.description = description
             self.id = id
+            self.name = name
             self.updatedAt = updatedAt
         }
     }
@@ -33471,7 +33512,7 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
 public struct UpdateGlossaryInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    /// The updated description of the glossary.
+    /// The new description. Omit it to keep the current description; set it to an empty string to clear it.
     public var description: Swift.String?
     /// The unique identifier of the glossary to update.
     /// This member is required.
@@ -33517,11 +33558,11 @@ public struct UpdateGlossaryTermInput: Swift.Sendable {
     /// The unique identifier of the glossary term to update.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The updated long description of the glossary term.
+    /// The new long description. Omit it to keep the current one; set it to an empty string to clear it.
     public var longDescription: Swift.String?
     /// The updated name of the glossary term.
     public var name: Swift.String?
-    /// The updated short description of the glossary term.
+    /// The new short description. Omit it to keep the current one; set it to an empty string to clear it.
     public var shortDescription: Swift.String?
 
     public init(

@@ -75,6 +75,39 @@ extension PaginatorSequence where OperationStackInput == ListFulfillmentOptionsI
     }
 }
 extension MarketplaceDiscoveryClient {
+    /// Paginate over `[ListListingAttributesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListListingAttributesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListListingAttributesOutput`
+    public func listListingAttributesPaginated(input: ListListingAttributesInput) -> ClientRuntime.PaginatorSequence<ListListingAttributesInput, ListListingAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<ListListingAttributesInput, ListListingAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listListingAttributes(input:))
+    }
+}
+
+extension ListListingAttributesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListListingAttributesInput {
+        return ListListingAttributesInput(
+            attributeTypes: self.attributeTypes,
+            listingId: self.listingId,
+            locale: self.locale,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListListingAttributesInput, OperationStackOutput == ListListingAttributesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listListingAttributesPaginated`
+    /// to access the nested member `[MarketplaceDiscoveryClientTypes.ListingAttributeResults]`
+    /// - Returns: `[MarketplaceDiscoveryClientTypes.ListingAttributeResults]`
+    public func listingAttributes() async throws -> [MarketplaceDiscoveryClientTypes.ListingAttributeResults] {
+        return try await self.asyncCompactMap { item in item.listingAttributes }
+    }
+}
+extension MarketplaceDiscoveryClient {
     /// Paginate over `[ListPurchaseOptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

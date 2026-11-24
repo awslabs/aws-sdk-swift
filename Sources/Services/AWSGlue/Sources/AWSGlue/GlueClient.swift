@@ -5339,84 +5339,6 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssetType` operation on the `Glue` service.
-    ///
-    /// Deletes an asset type from Glue Data Catalog.
-    ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteAssetTypeInput`)
-    ///
-    /// - Returns: [no documentation found] (Type: `DeleteAssetTypeOutput`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access to a resource was denied.
-    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
-    /// - `InternalServiceException` : An internal service error occurred.
-    /// - `InvalidInputException` : The input provided was not valid.
-    /// - `ThrottlingException` : The throttling threshhold was exceeded.
-    public func deleteAssetType(input: DeleteAssetTypeInput) async throws -> DeleteAssetTypeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GlueClient.deleteAssetTypeOperation
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "deleteAssetType")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "glue")
-                      .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
-                      .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetTypeOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAssetTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.DeleteAssetType"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAssetTypeOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.retryStrategy(self.retryStrategy)
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAssetType")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `DeleteAttachment` operation on the `Glue` service.
     ///
     /// Deletes a form attachment from an asset in Glue Data Catalog.
@@ -10631,6 +10553,7 @@ extension GlueClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -11876,6 +11799,7 @@ extension GlueClient {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottlingException` : The throttling threshhold was exceeded.
     public func getGlossary(input: GetGlossaryInput) async throws -> GetGlossaryOutput {
         var config = config
@@ -11953,6 +11877,7 @@ extension GlueClient {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottlingException` : The throttling threshhold was exceeded.
     public func getGlossaryTerm(input: GetGlossaryTermInput) async throws -> GetGlossaryTermOutput {
         var config = config
@@ -19013,86 +18938,6 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAssetType` operation on the `Glue` service.
-    ///
-    /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated.
-    ///
-    /// - Parameter input: [no documentation found] (Type: `PutAssetTypeInput`)
-    ///
-    /// - Returns: [no documentation found] (Type: `PutAssetTypeOutput`)
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access to a resource was denied.
-    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
-    /// - `EntityNotFoundException` : A specified entity does not exist
-    /// - `InternalServiceException` : An internal service error occurred.
-    /// - `InvalidInputException` : The input provided was not valid.
-    /// - `ThrottlingException` : The throttling threshhold was exceeded.
-    public func putAssetType(input: PutAssetTypeInput) async throws -> PutAssetTypeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GlueClient.putAssetTypeOperation
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "putAssetType")
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSmithyDefaultConfig(config)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "glue")
-                      .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
-                      .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.applySigner(ClientRuntime.SignerMiddleware<PutAssetTypeOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAssetTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(overrides: ["X-Amz-Target": "AWSGlue.PutAssetType"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAssetTypeOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAssetTypeInput, PutAssetTypeOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.retryStrategy(self.retryStrategy)
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAssetTypeInput, PutAssetTypeOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAssetType")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `PutAttachment` operation on the `Glue` service.
     ///
     /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten.
@@ -20276,7 +20121,7 @@ extension GlueClient {
 
     /// Performs the `SearchAssets` operation on the `Glue` service.
     ///
-    /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
+    /// Searches for assets in Glue Data Catalog using full-text search, filters, and sorting. Returns matching assets with relevance-ranked results.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchAssetsInput`)
     ///
