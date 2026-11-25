@@ -330,7 +330,7 @@ extension WAFV2ClientTypes {
         ///
         /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
-        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
         /// * For Amplify, use the CloudFront limit.
         ///
@@ -521,7 +521,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
+    /// Available for use with Amazon CloudFront distributions, Application Load Balancers, and Elastic Load Balancing for Envoy proxies. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
     public struct JA3Fingerprint: Swift.Sendable {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
         ///
@@ -541,7 +541,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
+    /// Available for use with Amazon CloudFront distributions, Application Load Balancers, and Elastic Load Balancing for Envoy proxies. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
     public struct JA4Fingerprint: Swift.Sendable {
         /// The match status to assign to the web request if the request doesn't have a JA4 fingerprint. You can specify the following fallback behaviors:
         ///
@@ -669,7 +669,7 @@ extension WAFV2ClientTypes {
         ///
         /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
-        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
         /// * For Amplify, use the CloudFront limit.
         ///
@@ -805,7 +805,7 @@ extension WAFV2ClientTypes {
         ///
         /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
-        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
         /// * For Amplify, use the CloudFront limit.
         ///
@@ -818,9 +818,9 @@ extension WAFV2ClientTypes {
         public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
-        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
+        /// Available for use with Amazon CloudFront distributions, Application Load Balancers, and Elastic Load Balancing for Envoy proxies. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
         public var ja3Fingerprint: WAFV2ClientTypes.JA3Fingerprint?
-        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
+        /// Available for use with Amazon CloudFront distributions, Application Load Balancers, and Elastic Load Balancing for Envoy proxies. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration. To match a group of TLS configurations with a single pattern, use a regex statement.
         public var ja4Fingerprint: WAFV2ClientTypes.JA4Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
@@ -828,7 +828,7 @@ extension WAFV2ClientTypes {
         ///
         /// * For Application Load Balancer, the default limit is 8 KB (8,192 bytes), and you can change the limit in the web ACL AssociationConfig.
         ///
-        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
         /// * For Amplify, use the CloudFront limit.
         ///
@@ -1141,7 +1141,7 @@ extension WAFV2ClientTypes {
         ///
         /// * UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.
         ///
-        /// * JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
+        /// * JA3Fingerprint: Available for use with Amazon CloudFront distributions, Application Load Balancers, and Elastic Load Balancing for Envoy proxies. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice with a ByteMatchStatement, RegexMatchStatement, RegexPatternSetReferenceStatement, or SizeConstraintStatement. You can't use it with SqliMatchStatement or XssMatchStatement. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
         ///
         /// * HeaderOrder: The list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
         ///
@@ -3829,6 +3829,7 @@ extension WAFV2ClientTypes {
         case appRunnerService
         case cloudfront
         case cognitoUserPool
+        case elbProxy
         case verifiedAccessInstance
         case sdkUnknown(Swift.String)
 
@@ -3840,6 +3841,7 @@ extension WAFV2ClientTypes {
                 .appRunnerService,
                 .cloudfront,
                 .cognitoUserPool,
+                .elbProxy,
                 .verifiedAccessInstance
             ]
         }
@@ -3857,6 +3859,7 @@ extension WAFV2ClientTypes {
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cloudfront: return "CLOUDFRONT"
             case .cognitoUserPool: return "COGNITO_USER_POOL"
+            case .elbProxy: return "ELB_PROXY"
             case .verifiedAccessInstance: return "VERIFIED_ACCESS_INSTANCE"
             case let .sdkUnknown(s): return s
             }
@@ -4340,6 +4343,8 @@ public struct AssociateWebACLInput: Swift.Sendable {
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
     ///
+    /// * For an Elastic Load Balancing for Envoy proxy: arn:partition:elasticloadbalancing:region:account-id:proxy/proxy-name:proxy-id
+    ///
     /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
     /// * For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId
@@ -4422,9 +4427,9 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes). This is used in the AssociationConfig of the web ACL.
+    /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes). This is used in the AssociationConfig of the web ACL.
     public struct RequestBodyAssociatedResourceTypeConfig: Swift.Sendable {
-        /// Specifies the maximum size of the web request body component that an associated Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. You can specify KB_8 only for Application Load Balancer, with the APPLICATION_LOAD_BALANCER resource type. Default: 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types
+        /// Specifies the maximum size of the web request body component that an associated Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, or Elastic Load Balancing for Envoy resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. You can specify KB_8 only for Application Load Balancer, with the APPLICATION_LOAD_BALANCER resource type. Default: 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types
         /// This member is required.
         public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
 
@@ -4438,7 +4443,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, or Elastic Load Balancing for Envoy resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public struct AssociationConfig: Swift.Sendable {
         /// Specifies the CloudFront distributions that insert the WAF challenge JavaScript SDK into the HTML responses that they return. When you enable this setting for a distribution, you do not add the SDK to your web pages yourself. You can configure this setting only for CloudFront distributions, using the CLOUDFRONT map key. WAF rejects any other resource type, and the setting is not available for regional resources. To configure it, use the CloudFront scope. Your web ACL must also contain at least one of the following qualifying managed rule groups. WAF Bot Control qualifies only at the TARGETED inspection level, not at COMMON:
         ///
@@ -4451,7 +4456,7 @@ extension WAFV2ClientTypes {
         ///
         /// If you remove the last qualifying managed rule group from the web ACL, or lower the WAF Bot Control inspection level from TARGETED to COMMON, you must remove this setting in the same update. Otherwise, WAF rejects the update. Example JSON:  { "CLOUDFRONT": {} } If you omit this setting, CloudFront does not insert the SDK. When you omit it from a web ACL that previously used it, cached HTML that already contains the SDK is still served until it expires, or until you invalidate the cache for that distribution. For more information, see [Automatic SDK integration for CloudFront distributions](https://docs.aws.amazon.com/waf/latest/developerguide/waf-challenge-javascript-sdk-injection.html) in the WAF Developer Guide.
         public var challengeJavascriptSdkInjection: [Swift.String: WAFV2ClientTypes.ChallengeJavascriptSdkInjectionConfig]?
-        /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Customizes the maximum size of the request body that your protected Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, and Elastic Load Balancing for Envoy resources forward to WAF for inspection. The default size is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32", "APPLICATION_LOAD_BALANCER": "KB_16" } For AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public var requestBody: [Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
 
         public init(
@@ -6218,6 +6223,8 @@ public struct DisassociateWebACLInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. The ARN must be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+    ///
+    /// * For an Elastic Load Balancing for Envoy proxy: arn:partition:elasticloadbalancing:region:account-id:proxy/proxy-name:proxy-id
     ///
     /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
@@ -8264,7 +8271,7 @@ public struct GetTopPathStatisticsByTrafficInput: Swift.Sendable {
     /// The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10.
     /// This member is required.
     public var numberOfTopTrafficBotsPerPath: Swift.Int?
-    /// Specifies whether the web ACL is for an Amazon Web Services CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services App Runner service, or an Amazon Web Services Verified Access instance.
+    /// Specifies whether the web ACL is for an Amazon Web Services CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer, an Elastic Load Balancing for Envoy proxy, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services App Runner service, or an Amazon Web Services Verified Access instance.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
     /// The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL.
@@ -8440,6 +8447,8 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve. The ARN must be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+    ///
+    /// * For an Elastic Load Balancing for Envoy proxy: arn:partition:elasticloadbalancing:region:account-id:proxy/proxy-name:proxy-id
     ///
     /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
@@ -9296,6 +9305,7 @@ extension WAFV2ClientTypes {
         case appsync
         case appRunnerService
         case cognitioUserPool
+        case elbProxy
         case verifiedAccessInstance
         case sdkUnknown(Swift.String)
 
@@ -9308,6 +9318,7 @@ extension WAFV2ClientTypes {
                 .appsync,
                 .appRunnerService,
                 .cognitioUserPool,
+                .elbProxy,
                 .verifiedAccessInstance
             ]
         }
@@ -9326,6 +9337,7 @@ extension WAFV2ClientTypes {
             case .appsync: return "APPSYNC"
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cognitioUserPool: return "COGNITO_USER_POOL"
+            case .elbProxy: return "ELB_PROXY"
             case .verifiedAccessInstance: return "VERIFIED_ACCESS_INSTANCE"
             case let .sdkUnknown(s): return s
             }
@@ -10757,7 +10769,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
     /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
     public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, or Elastic Load Balancing for Envoy resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -10896,7 +10908,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     ///
     /// * If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
     public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, or Elastic Load Balancing for Envoy resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -10997,7 +11009,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
 extension WAFV2ClientTypes {
 
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, Elastic Load Balancing for Envoy proxy, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
     public struct WebACL: Swift.Sendable {
         /// The security analytics configuration for the web ACL. For more information, see [AnalyticsConfig].
         public var analyticsConfig: WAFV2ClientTypes.AnalyticsConfig?
@@ -11006,7 +11018,7 @@ extension WAFV2ClientTypes {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for Application Load Balancer, CloudFront, API Gateway, Amazon Cognito, App Runner, Verified Access, or Elastic Load Balancing for Envoy resources. The default setting is 8 KB (8,192 bytes) for Application Load Balancer and 16 KB (16,384 bytes) for the other resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public var associationConfig: WAFV2ClientTypes.AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         public var capacity: Swift.Int

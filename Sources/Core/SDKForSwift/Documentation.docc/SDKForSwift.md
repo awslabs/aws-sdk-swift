@@ -399,6 +399,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEKSAuth](/sdk-for-swift/latest/api/awseksauth/documentation/awseksauth)
 
+[AWSELBProxy](/sdk-for-swift/latest/api/awselbproxy/documentation/awselbproxy)
+
 [AWSEMR](/sdk-for-swift/latest/api/awsemr/documentation/awsemr)
 
 [AWSEMRServerless](/sdk-for-swift/latest/api/awsemrserverless/documentation/awsemrserverless)
