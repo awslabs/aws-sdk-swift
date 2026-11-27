@@ -39,8 +39,11 @@ extension Target.Dependency {
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
     static var smithyAWSJSON: Self { .product(name: "SmithyAWSJSON", package: "smithy-swift") }
+    static var smithyAWSQuery: Self { .product(name: "SmithyAWSQuery", package: "smithy-swift") }
+    static var smithyEC2Query: Self { .product(name: "SmithyEC2Query", package: "smithy-swift") }
     static var smithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
     static var smithyRestJSON1: Self { .product(name: "SmithyRestJSON1", package: "smithy-swift") }
+    static var smithyRestXML: Self { .product(name: "SmithyRestXML", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -93,9 +96,13 @@ private var protocolTestTargets: [Target] {
         .init(name: "AWSJson10TestSDK", basePath: baseDir),
         .init(name: "AWSJson11TestSDK", basePath: baseDir),
         .init(name: "RestXmlTestSDK", basePath: baseDir),
+        .init(name: "RestXmlTestSDKSchemaBased", basePath: baseDir),
         .init(name: "RestXmlWithNamespaceTestSDK", basePath: baseDir),
+        .init(name: "RestXmlWithNamespaceTestSDKSchemaBased", basePath: baseDir),
         .init(name: "Ec2QueryTestSDK", basePath: baseDir),
+        .init(name: "Ec2QueryTestSDKSchemaBased", basePath: baseDir),
         .init(name: "AWSQueryTestSDK", basePath: baseDir),
+        .init(name: "AWSQueryTestSDKSchemaBased", basePath: baseDir),
         .init(name: "APIGatewayTestSDK", basePath: baseDir),
         .init(name: "APIGatewayTestSDKSchemaBased", basePath: baseDir),
         .init(name: "GlacierTestSDK", basePath: baseDir),
@@ -121,8 +128,11 @@ private var protocolTestTargets: [Target] {
                 .clientRuntime,
                 .awsClientRuntime,
                 .smithyAWSJSON,
+                .smithyAWSQuery,
+                .smithyEC2Query,
                 .smithyRPCv2CBOR,
                 .smithyRestJSON1,
+                .smithyRestXML,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .smithy,

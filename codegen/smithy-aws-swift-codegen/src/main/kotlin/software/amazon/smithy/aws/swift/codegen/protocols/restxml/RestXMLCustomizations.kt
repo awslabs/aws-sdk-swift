@@ -6,15 +6,33 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.plugins.UnknownAWSHTTPServiceErrorPlugin
+import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HTTPProtocolCustomizable.ServiceErrorCustomRenderer
+import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRestXMLTypes
 
 class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
     override val baseErrorSymbol: Symbol = ClientRuntimeTypes.RestXML.RestXMLError
+
+    override val plugins: List<Plugin> = listOf(UnknownAWSHTTPServiceErrorPlugin())
+
+    // Error responses are unwrapped when the service's restXml trait sets noErrorWrapping.
+    override fun renderClientProtocol(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ): String =
+        if (ctx.service.getTrait<RestXmlTrait>()?.isNoErrorWrapping == true) {
+            writer.format("\$N(noErrorWrapping: true)", SmithyRestXMLTypes.HTTPClientProtocol)
+        } else {
+            writer.format("\$N()", SmithyRestXMLTypes.HTTPClientProtocol)
+        }
 
     private class S3Empty404Renderer : ServiceErrorCustomRenderer {
         override fun render(writer: SwiftWriter) {
