@@ -3908,6 +3908,8 @@ extension CloudWatchClientTypes {
 public struct GetOTelEnrichmentOutput: Swift.Sendable {
     /// The date and time that enrichment started for the account. This parameter is omitted when enrichment is stopped.
     public var createdAt: Foundation.Date?
+    /// Specifies whether enriched metrics include resource tag labels for the account. This parameter is omitted when enrichment is stopped.
+    public var enableTagEnrichment: Swift.Bool?
     /// The metric namespaces, and the metric names, that are left unenriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no exclude filters, which means that nothing is excluded.
     public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The metric namespaces, and the metric names, that are enriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no include filters, which means that every supported namespace is in scope.
@@ -3920,12 +3922,14 @@ public struct GetOTelEnrichmentOutput: Swift.Sendable {
 
     public init(
         createdAt: Foundation.Date? = nil,
+        enableTagEnrichment: Swift.Bool? = nil,
         excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         status: CloudWatchClientTypes.OTelEnrichmentStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.createdAt = createdAt
+        self.enableTagEnrichment = enableTagEnrichment
         self.excludeFilters = excludeFilters
         self.includeFilters = includeFilters
         self.status = status
@@ -4212,7 +4216,7 @@ public struct ListMetricsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// When you use this operation in a monitoring account, use this field to return metrics only from one source account. To do so, specify that source account ID in this field, and also specify true for IncludeLinkedAccounts.
     public var owningAccount: Swift.String?
-    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 50 minutes more than the specified time interval.
+    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 50 minutes more than the specified time interval. A namespace can contain many metrics that published data in the past two weeks but not in the past three hours. In this case, a page of results can contain few or no metrics and still include a NextToken. You need to continue making calls with the returned NextToken until no token is returned. If you need a continuous feed of active metrics across namespaces, use metric streams. For more information, see [Use metric streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Streams.html).
     public var recentlyActive: CloudWatchClientTypes.RecentlyActive?
 
     public init(
@@ -5357,15 +5361,19 @@ public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.Ser
 }
 
 public struct StartOTelEnrichmentInput: Swift.Sendable {
+    /// Specifies whether enriched metrics include resource tag labels. If true, enriched metrics include resource tag labels. If false, they include resource ARN labels but no resource tag labels. If you omit this parameter, the default is true. When EnableTagEnrichment is true, enriched metrics that carry resource tag labels are charged at the OTel enrichment rate. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
+    public var enableTagEnrichment: Swift.Bool?
     /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
     public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
     public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
 
     public init(
+        enableTagEnrichment: Swift.Bool? = nil,
         excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil
     ) {
+        self.enableTagEnrichment = enableTagEnrichment
         self.excludeFilters = excludeFilters
         self.includeFilters = includeFilters
     }
@@ -5374,6 +5382,8 @@ public struct StartOTelEnrichmentInput: Swift.Sendable {
 public struct StartOTelEnrichmentOutput: Swift.Sendable {
     /// The date and time that enrichment started for the account.
     public var createdAt: Foundation.Date?
+    /// Specifies whether enriched metrics include resource tag labels for the account.
+    public var enableTagEnrichment: Swift.Bool?
     /// The exclude filters that are stored for the account.
     public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The include filters that are stored for the account.
@@ -5383,11 +5393,13 @@ public struct StartOTelEnrichmentOutput: Swift.Sendable {
 
     public init(
         createdAt: Foundation.Date? = nil,
+        enableTagEnrichment: Swift.Bool? = nil,
         excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.createdAt = createdAt
+        self.enableTagEnrichment = enableTagEnrichment
         self.excludeFilters = excludeFilters
         self.includeFilters = includeFilters
         self.updatedAt = updatedAt
@@ -5466,15 +5478,19 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateOTelEnrichmentInput: Swift.Sendable {
+    /// Specifies whether enriched metrics include resource tag labels. If true, enriched metrics include resource tag labels. If false, they include resource ARN labels but no resource tag labels. If you omit this parameter, the stored value is not changed. The operation also replaces the stored filters, so to change only this setting, specify the current IncludeFilters and ExcludeFilters in the same request. When EnableTagEnrichment is true, enriched metrics that carry resource tag labels are charged at the OTel enrichment rate. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
+    public var enableTagEnrichment: Swift.Bool?
     /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
     public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
     public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
 
     public init(
+        enableTagEnrichment: Swift.Bool? = nil,
         excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil
     ) {
+        self.enableTagEnrichment = enableTagEnrichment
         self.excludeFilters = excludeFilters
         self.includeFilters = includeFilters
     }
@@ -5483,6 +5499,8 @@ public struct UpdateOTelEnrichmentInput: Swift.Sendable {
 public struct UpdateOTelEnrichmentOutput: Swift.Sendable {
     /// The date and time that enrichment started for the account.
     public var createdAt: Foundation.Date?
+    /// Specifies whether enriched metrics include resource tag labels for the account after the update. If the request omits EnableTagEnrichment, this is the value that was already stored.
+    public var enableTagEnrichment: Swift.Bool?
     /// The exclude filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the exclude filters, which means that nothing is excluded.
     public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The include filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the include filters, which means that every supported namespace is in scope.
@@ -5492,11 +5510,13 @@ public struct UpdateOTelEnrichmentOutput: Swift.Sendable {
 
     public init(
         createdAt: Foundation.Date? = nil,
+        enableTagEnrichment: Swift.Bool? = nil,
         excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.createdAt = createdAt
+        self.enableTagEnrichment = enableTagEnrichment
         self.excludeFilters = excludeFilters
         self.includeFilters = includeFilters
         self.updatedAt = updatedAt

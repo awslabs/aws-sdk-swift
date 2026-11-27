@@ -1387,6 +1387,70 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// Specifies the encryption settings for the tables in a service-managed Amazon S3 Tables catalog.
+    public struct S3TablesEncryptionConfiguration: Swift.Sendable {
+        /// Whether to encrypt the tables with the AWS KMS key specified in KmsKeyArn. Accepted values true or false
+        public var enabled: Swift.Bool?
+        /// The ARN of the AWS KMS key to encrypt the tables with. Takes the form arn:aws:kms:region:account-id:key/key-id.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Specifies the configuration for an Amazon S3 Tables catalog that the service creates and manages for the domain.
+    public struct ServiceManagedS3TablesCatalog: Swift.Sendable {
+        /// Encryption settings for the tables in the catalog.
+        public var encryptionConfiguration: ElasticsearchClientTypes.S3TablesEncryptionConfiguration?
+
+        public init(
+            encryptionConfiguration: ElasticsearchClientTypes.S3TablesEncryptionConfiguration? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// The catalog that a domain publishes to. Specify exactly one catalog type.
+    public enum CatalogConfiguration: Swift.Sendable {
+        /// An Amazon S3 Tables catalog that the service creates and manages for the domain.
+        case servicemanageds3tables(ElasticsearchClientTypes.ServiceManagedS3TablesCatalog)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Specifies the configuration for integrating the domain with a data catalog, so that the domain can publish its data as tables. The only supported catalog is an Amazon S3 Tables catalog that the service creates and manages for the domain.
+    public struct CatalogOptions: Swift.Sendable {
+        /// The catalog that the domain publishes to.
+        public var catalog: ElasticsearchClientTypes.CatalogConfiguration?
+        /// Whether the domain publishes data to the catalog. Accepted values true or false
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            catalog: ElasticsearchClientTypes.CatalogConfiguration? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.catalog = catalog
+            self.enabled = enabled
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public struct CognitoOptions: Swift.Sendable {
         /// Specifies the option to enable Cognito for Kibana authentication.
@@ -2135,6 +2199,8 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput?
     /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
     public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions?
+    /// Options for publishing the domain's data to a data catalog, such as a service-managed Amazon S3 Tables catalog.
+    public var catalogOptions: ElasticsearchClientTypes.CatalogOptions?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
     /// Specifies the deployment strategy options.
@@ -2173,6 +2239,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput? = nil,
         automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
+        catalogOptions: ElasticsearchClientTypes.CatalogOptions? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
@@ -2194,6 +2261,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
         self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+        self.catalogOptions = catalogOptions
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
@@ -2604,6 +2672,8 @@ extension ElasticsearchClientTypes {
         public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsOutput?
         /// The current status of the Elasticsearch domain's automated snapshot pause options.
         public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions?
+        /// The catalog options for the given domain.
+        public var catalogOptions: ElasticsearchClientTypes.CatalogOptions?
         /// Specifies change details of the domain configuration change.
         public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
         /// The CognitoOptions for the specified domain. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
@@ -2664,6 +2734,7 @@ extension ElasticsearchClientTypes {
             arn: Swift.String? = nil,
             autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsOutput? = nil,
             automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
+            catalogOptions: ElasticsearchClientTypes.CatalogOptions? = nil,
             changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
             cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
             created: Swift.Bool? = nil,
@@ -2696,6 +2767,7 @@ extension ElasticsearchClientTypes {
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
             self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+            self.catalogOptions = catalogOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
             self.created = created
@@ -3933,6 +4005,25 @@ extension ElasticsearchClientTypes {
 
 extension ElasticsearchClientTypes {
 
+    /// The configured catalog options for the domain and their current status.
+    public struct CatalogOptionsStatus: Swift.Sendable {
+        /// The catalog options configured for the domain.
+        public var options: ElasticsearchClientTypes.CatalogOptions?
+        /// The status of the catalog options for the domain.
+        public var status: ElasticsearchClientTypes.OptionStatus?
+
+        public init(
+            options: ElasticsearchClientTypes.CatalogOptions? = nil,
+            status: ElasticsearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Status of the Cognito options for the specified Elasticsearch domain.
     public struct CognitoOptionsStatus: Swift.Sendable {
         /// Specifies the Cognito options for the specified Elasticsearch domain.
@@ -4216,6 +4307,8 @@ extension ElasticsearchClientTypes {
         public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsStatus?
         /// Specifies AutomatedSnapshotPauseOptions for the domain.
         public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus?
+        /// The catalog options configured for the given domain and their current status.
+        public var catalogOptions: ElasticsearchClientTypes.CatalogOptionsStatus?
         /// Specifies change details of the domain configuration change.
         public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
         /// The CognitoOptions for the specified domain. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
@@ -4253,6 +4346,7 @@ extension ElasticsearchClientTypes {
             advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsStatus? = nil,
             autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsStatus? = nil,
             automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus? = nil,
+            catalogOptions: ElasticsearchClientTypes.CatalogOptionsStatus? = nil,
             changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
             cognitoOptions: ElasticsearchClientTypes.CognitoOptionsStatus? = nil,
             deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus? = nil,
@@ -4274,6 +4368,7 @@ extension ElasticsearchClientTypes {
             self.advancedSecurityOptions = advancedSecurityOptions
             self.autoTuneOptions = autoTuneOptions
             self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+            self.catalogOptions = catalogOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
             self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -6194,6 +6289,8 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions?
     /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
     public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions?
+    /// Options for publishing the domain's data to a data catalog, such as a service-managed Amazon S3 Tables catalog.
+    public var catalogOptions: ElasticsearchClientTypes.CatalogOptions?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
     /// Specifies the deployment strategy options.
@@ -6230,6 +6327,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions? = nil,
         automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
+        catalogOptions: ElasticsearchClientTypes.CatalogOptions? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
@@ -6250,6 +6348,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
         self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+        self.catalogOptions = catalogOptions
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
@@ -7237,6 +7336,7 @@ extension CreateElasticsearchDomainInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptionsInput.write(value:to:))
         try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
+        try writer["CatalogOptions"].write(value.catalogOptions, with: ElasticsearchClientTypes.CatalogOptions.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
@@ -7386,6 +7486,7 @@ extension UpdateElasticsearchDomainConfigInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptions.write(value:to:))
         try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
+        try writer["CatalogOptions"].write(value.catalogOptions, with: ElasticsearchClientTypes.CatalogOptions.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
@@ -9352,6 +9453,58 @@ extension ElasticsearchClientTypes.CancelledChangeProperty {
     }
 }
 
+extension ElasticsearchClientTypes.CatalogConfiguration {
+
+    static func write(value: ElasticsearchClientTypes.CatalogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .servicemanageds3tables(servicemanageds3tables):
+                try writer["ServiceManagedS3Tables"].write(servicemanageds3tables, with: ElasticsearchClientTypes.ServiceManagedS3TablesCatalog.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.CatalogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ServiceManagedS3Tables":
+                return .servicemanageds3tables(try reader["ServiceManagedS3Tables"].read(with: ElasticsearchClientTypes.ServiceManagedS3TablesCatalog.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ElasticsearchClientTypes.CatalogOptions {
+
+    static func write(value: ElasticsearchClientTypes.CatalogOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog, with: ElasticsearchClientTypes.CatalogConfiguration.write(value:to:))
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.CatalogOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.CatalogOptions()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.catalog = try reader["Catalog"].readIfPresent(with: ElasticsearchClientTypes.CatalogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.CatalogOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.CatalogOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.CatalogOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: ElasticsearchClientTypes.CatalogOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension ElasticsearchClientTypes.ChangeProgressDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ChangeProgressDetails {
@@ -9773,6 +9926,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainConfig {
         value.nodeToNodeEncryptionOptions = try reader["NodeToNodeEncryptionOptions"].readIfPresent(with: ElasticsearchClientTypes.NodeToNodeEncryptionOptionsStatus.read(from:))
         value.advancedOptions = try reader["AdvancedOptions"].readIfPresent(with: ElasticsearchClientTypes.AdvancedOptionsStatus.read(from:))
         value.logPublishingOptions = try reader["LogPublishingOptions"].readIfPresent(with: ElasticsearchClientTypes.LogPublishingOptionsStatus.read(from:))
+        value.catalogOptions = try reader["CatalogOptions"].readIfPresent(with: ElasticsearchClientTypes.CatalogOptionsStatus.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: ElasticsearchClientTypes.DomainEndpointOptionsStatus.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: ElasticsearchClientTypes.AdvancedSecurityOptionsStatus.read(from:))
         value.autoTuneOptions = try reader["AutoTuneOptions"].readIfPresent(with: ElasticsearchClientTypes.AutoTuneOptionsStatus.read(from:))
@@ -9811,6 +9965,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainStatus {
         value.nodeToNodeEncryptionOptions = try reader["NodeToNodeEncryptionOptions"].readIfPresent(with: ElasticsearchClientTypes.NodeToNodeEncryptionOptions.read(from:))
         value.advancedOptions = try reader["AdvancedOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.logPublishingOptions = try reader["LogPublishingOptions"].readMapIfPresent(valueReadingClosure: ElasticsearchClientTypes.LogPublishingOption.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.catalogOptions = try reader["CatalogOptions"].readIfPresent(with: ElasticsearchClientTypes.CatalogOptions.read(from:))
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: ElasticsearchClientTypes.ServiceSoftwareOptions.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: ElasticsearchClientTypes.DomainEndpointOptions.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: ElasticsearchClientTypes.AdvancedSecurityOptions.read(from:))
@@ -10186,6 +10341,23 @@ extension ElasticsearchClientTypes.RetentionOptions {
     }
 }
 
+extension ElasticsearchClientTypes.S3TablesEncryptionConfiguration {
+
+    static func write(value: ElasticsearchClientTypes.S3TablesEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.S3TablesEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.S3TablesEncryptionConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ElasticsearchClientTypes.SAMLIdp {
 
     static func write(value: ElasticsearchClientTypes.SAMLIdp?, to writer: SmithyJSON.Writer) throws {
@@ -10240,6 +10412,21 @@ extension ElasticsearchClientTypes.ScheduledAutoTuneDetails {
         value.actionType = try reader["ActionType"].readIfPresent()
         value.action = try reader["Action"].readIfPresent()
         value.severity = try reader["Severity"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.ServiceManagedS3TablesCatalog {
+
+    static func write(value: ElasticsearchClientTypes.ServiceManagedS3TablesCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: ElasticsearchClientTypes.S3TablesEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.ServiceManagedS3TablesCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.ServiceManagedS3TablesCatalog()
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: ElasticsearchClientTypes.S3TablesEncryptionConfiguration.read(from:))
         return value
     }
 }

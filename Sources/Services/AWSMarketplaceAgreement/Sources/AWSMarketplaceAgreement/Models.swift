@@ -1135,19 +1135,44 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
+    /// A per-Region price override for a product dimension in a rate card.
+    public struct RegionalPrice: Swift.Sendable {
+        /// The per unit price for the product dimension in the specified AWS Region.
+        /// This member is required.
+        public var price: Swift.String?
+        /// The AWS Region that the price override applies to.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            price: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.price = price
+            self.region = region
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// Defines the per unit rates for each individual product dimension.
     public struct RateCardItem: Swift.Sendable {
         /// Dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public var dimensionKey: Swift.String?
         /// Per unit price for the product dimension that's used for calculating the amount to be charged.
         public var price: Swift.String?
+        /// The per-Region price overrides for the product dimension. When a Regional price is present for an AWS Region, it replaces the default price. This field is absent when the offer doesn't define regional price overrides.
+        public var regionalPrices: [MarketplaceAgreementClientTypes.RegionalPrice]?
 
         public init(
             dimensionKey: Swift.String? = nil,
-            price: Swift.String? = nil
+            price: Swift.String? = nil,
+            regionalPrices: [MarketplaceAgreementClientTypes.RegionalPrice]? = nil
         ) {
             self.dimensionKey = dimensionKey
             self.price = price
+            self.regionalPrices = regionalPrices
         }
     }
 }

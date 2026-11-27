@@ -11223,6 +11223,23 @@ public struct DeleteDBClusterInput: Swift.Sendable {
     public var dbClusterIdentifier: Swift.String?
     /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted, unless the Amazon Web Services Backup policy specifies a point-in-time restore rule.
     public var deleteAutomatedBackups: Swift.Bool?
+    /// Specifies whether to delete all DB instances in the DB cluster together with the DB cluster. If you set this value to true, RDS deletes every DB instance in the DB cluster and then deletes the DB cluster. You don't need to call DeleteDBInstance for each DB instance first. If you set this value to false or don't specify it, RDS deletes the DB cluster only after you delete each of its DB instances. You must have permission to call DeleteDBInstance on every DB instance in the DB cluster. If RDS can't delete a DB instance in the DB cluster, the request fails and RDS doesn't delete the DB cluster or any of its DB instances. Constraints:
+    ///
+    /// * You can't specify this parameter for a DB cluster that is a member of an Aurora global database. Remove the DB cluster from the global database first.
+    ///
+    /// * You can't specify this parameter for an Aurora Limitless Database DB cluster.
+    ///
+    /// * Deletion protection must be turned off for the DB cluster.
+    ///
+    /// * No DB instance in the DB cluster can be in the deleting state or be switching over, be the blue DB instance of an active blue/green deployment, or have an active zero-ETL integration.
+    ///
+    /// * No DB instance in the DB cluster can be the source of an Aurora read replica DB cluster, or have a read replica that is being created or a cross-Region read replica that is being restored.
+    ///
+    /// * The DB cluster can't be in the stopping state.
+    ///
+    ///
+    /// If the DB cluster doesn't contain any DB instances, RDS deletes the DB cluster the same way as when you don't specify this parameter. Default: false Valid for Cluster Type: Aurora MySQL and Aurora PostgreSQL DB clusters only
+    public var deleteDBInstances: Swift.Bool?
     /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
@@ -11237,11 +11254,13 @@ public struct DeleteDBClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         deleteAutomatedBackups: Swift.Bool? = nil,
+        deleteDBInstances: Swift.Bool? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
     ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.deleteAutomatedBackups = deleteAutomatedBackups
+        self.deleteDBInstances = deleteDBInstances
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
         self.skipFinalSnapshot = skipFinalSnapshot
     }
@@ -25773,6 +25792,7 @@ extension DeleteDBClusterInput {
         guard let value else { return }
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DeleteAutomatedBackups"].write(value.deleteAutomatedBackups)
+        try writer["DeleteDBInstances"].write(value.deleteDBInstances)
         try writer["FinalDBSnapshotIdentifier"].write(value.finalDBSnapshotIdentifier)
         try writer["SkipFinalSnapshot"].write(value.skipFinalSnapshot)
         try writer["Action"].write("DeleteDBCluster")

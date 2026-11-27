@@ -827,7 +827,11 @@ extension NeptuneGraphClient {
 
     /// Performs the `CreateGraph` operation on the `NeptuneGraph` service.
     ///
-    /// Creates a new Neptune Analytics graph.
+    /// Creates a new Neptune Analytics graph. Neptune Analytics supports two types of graphs, selected using computeConfiguration:
+    ///
+    /// * Provisioned graphs use dedicated compute that is always available. Use provisioned graphs for workloads that require higher memory or predictable latency.
+    ///
+    /// * Graph sessions use ephemeral compute that is bootstrapped when a query is sent to the graph. The compute is automatically stopped after a few minutes with no traffic. The next query sent to the graph bootstraps the compute again, so queries that bootstrap the compute are subject to cold start latency.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateGraphInput`)
     ///
@@ -972,7 +976,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `CreateGraphUsingImportTask` operation on the `NeptuneGraph` service.
     ///
-    /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+    /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html). Graph session cannot be created using this API. Create an empty Graph Session using [CreateGraph](https://docs.aws.amazon.com/neptune-analytics/latest/apiref/API_CreateGraph.html) or restore a snapshot as Graph Session using [RestoreGraphFromSnapshot](https://docs.aws.amazon.com/neptune-analytics/latest/apiref/API_RestoreGraphFromSnapshot.html) and use [neptune.load CALL procedure](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/batch-load.html) to load data into the Graph Session instead.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateGraphUsingImportTaskInput`)
     ///
@@ -2585,7 +2589,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `StartGraph` operation on the `NeptuneGraph` service.
     ///
-    /// Starts the specific graph.
+    /// Starts the specific graph. Graph sessions are started automatically when a query is sent to the graph. While this API is supported for graph sessions, it isn't required.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartGraphInput`)
     ///
@@ -2654,7 +2658,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `StartImportTask` operation on the `NeptuneGraph` service.
     ///
-    /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
+    /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state. Graph sessions don't support this API. Use [neptune.load CALL procedure](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/batch-load.html) to load data into the Graph Session instead.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartImportTaskInput`)
     ///
@@ -2726,7 +2730,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `StopGraph` operation on the `NeptuneGraph` service.
     ///
-    /// Stops the specific graph.
+    /// Stops the specific graph. Graph sessions are stopped automatically after a few minutes with no traffic. While this API is supported for graph sessions, it isn't required.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopGraphInput`)
     ///

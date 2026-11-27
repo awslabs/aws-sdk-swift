@@ -326,6 +326,7 @@ extension NeptuneGraphClientTypes {
 public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the unprocessable exception.
@@ -741,6 +742,7 @@ public struct GetQueryOutput: Swift.Sendable {
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service quota code of the resource for which quota was exceeded.
@@ -779,6 +781,49 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension NeptuneGraphClientTypes {
 
+    /// The compute configuration for a graph session.
+    public struct GraphSessionConfiguration: Swift.Sendable {
+        /// The minimum Session Neptune Capacity Units (s-NCUs) available to the graph session. A graph session can burst up to 2x the configured min memory. For example, a minMemory of 4 can burst up to 8 s-NCUs, and a minMemory of 8 can burst up to 16 s-NCUs.
+        public var minMemory: Swift.Int?
+
+        public init(
+            minMemory: Swift.Int? = nil
+        ) {
+            self.minMemory = minMemory
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
+
+    /// The compute configuration for a provisioned graph.
+    public struct ProvisionedGraphConfiguration: Swift.Sendable {
+        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph.
+        /// This member is required.
+        public var memory: Swift.Int?
+
+        public init(
+            memory: Swift.Int? = nil
+        ) {
+            self.memory = memory
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
+
+    /// The compute configuration of a graph. A graph is either a provisioned graph or a graph session.
+    public enum ComputeConfiguration: Swift.Sendable {
+        /// Configuration for a provisioned graph. A provisioned graph uses dedicated compute that is always available. Use provisioned graphs for workloads that require higher memory or predictable latency.
+        case provisionedgraph(NeptuneGraphClientTypes.ProvisionedGraphConfiguration)
+        /// Configuration for a graph session. A graph session uses ephemeral compute that is bootstrapped when a query is sent to the graph. The compute is automatically stopped after a few minutes with no traffic; the next query bootstraps the compute again. Queries that bootstrap the compute are subject to cold start latency.
+        case graphsession(NeptuneGraphClientTypes.GraphSessionConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension NeptuneGraphClientTypes {
+
     /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
     public struct VectorSearchConfiguration: Swift.Sendable {
         /// The number of dimensions.
@@ -794,6 +839,8 @@ extension NeptuneGraphClientTypes {
 }
 
 public struct CreateGraphInput: Swift.Sendable {
+    /// The compute configuration for the new graph. Specify provisionedGraph to create a provisioned graph with dedicated, always-available compute, or graphSession to create a graph session that uses ephemeral compute bootstrapped on demand when a query is sent, and is subject to cold start latency.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
     /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
@@ -801,8 +848,8 @@ public struct CreateGraphInput: Swift.Sendable {
     public var graphName: Swift.String?
     /// Specifies a KMS key to use to encrypt data in the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
-    /// This member is required.
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 This field is deprecated. We recommend using computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Use ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
@@ -814,6 +861,7 @@ public struct CreateGraphInput: Swift.Sendable {
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         deletionProtection: Swift.Bool? = nil,
         graphName: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
@@ -823,6 +871,7 @@ public struct CreateGraphInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
     ) {
+        self.computeConfiguration = computeConfiguration
         self.deletionProtection = deletionProtection
         self.graphName = graphName
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -896,6 +945,8 @@ public struct CreateGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph software.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time when the graph was created.
     public var createTime: Foundation.Date?
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
@@ -910,7 +961,8 @@ public struct CreateGraphOutput: Swift.Sendable {
     /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. If enabling public connectivity for the first time, there will be a delay while it is enabled.
     public var publicConnectivity: Swift.Bool?
@@ -928,6 +980,7 @@ public struct CreateGraphOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -944,6 +997,7 @@ public struct CreateGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -983,6 +1037,8 @@ public struct DeleteGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number associated with the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection was enabled for the graph.
@@ -997,7 +1053,8 @@ public struct DeleteGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1009,12 +1066,13 @@ public struct DeleteGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason for the status of the graph.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1031,6 +1089,7 @@ public struct DeleteGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1065,6 +1124,8 @@ public struct GetGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1079,7 +1140,8 @@ public struct GetGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1091,12 +1153,13 @@ public struct GetGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1113,6 +1176,7 @@ public struct GetGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1151,6 +1215,8 @@ extension NeptuneGraphClientTypes {
         /// The ARN associated with the graph.
         /// This member is required.
         public var arn: Swift.String?
+        /// The compute configuration of the graph: either a provisioned graph or a graph session.
+        public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
         /// If true, deletion protection is enabled for the graph.
         public var deletionProtection: Swift.Bool?
         /// The graph endpoint.
@@ -1163,7 +1229,8 @@ extension NeptuneGraphClientTypes {
         /// The name of the graph.
         /// This member is required.
         public var name: Swift.String?
-        /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+        /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+        @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
         public var provisionedMemory: Swift.Int?
         /// If true, the graph has a public endpoint, otherwise not.
         public var publicConnectivity: Swift.Bool?
@@ -1174,6 +1241,7 @@ extension NeptuneGraphClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
             deletionProtection: Swift.Bool? = nil,
             endpoint: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -1185,6 +1253,7 @@ extension NeptuneGraphClientTypes {
             status: NeptuneGraphClientTypes.GraphStatus? = nil
         ) {
             self.arn = arn
+            self.computeConfiguration = computeConfiguration
             self.deletionProtection = deletionProtection
             self.endpoint = endpoint
             self.id = id
@@ -1237,6 +1306,8 @@ public struct ResetGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1251,7 +1322,8 @@ public struct ResetGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1263,12 +1335,13 @@ public struct ResetGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1285,6 +1358,7 @@ public struct ResetGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1302,12 +1376,15 @@ public struct ResetGraphOutput: Swift.Sendable {
 }
 
 public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
+    /// The compute configuration for the restored graph. A snapshot can be restored into either a provisioned graph or a graph session, regardless of the compute type of the source graph. A snapshot taken from a provisioned graph can be restored into a graph session as long as the data in the snapshot fits within the graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 This field is deprecated. We recommend using computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Use ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
@@ -1320,6 +1397,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         deletionProtection: Swift.Bool? = nil,
         graphName: Swift.String? = nil,
         provisionedMemory: Swift.Int? = nil,
@@ -1328,6 +1406,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
         snapshotIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.computeConfiguration = computeConfiguration
         self.deletionProtection = deletionProtection
         self.graphName = graphName
         self.provisionedMemory = provisionedMemory
@@ -1344,6 +1423,8 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1358,7 +1439,8 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1370,12 +1452,13 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1392,6 +1475,7 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1426,6 +1510,8 @@ public struct StartGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1440,7 +1526,8 @@ public struct StartGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1452,12 +1539,13 @@ public struct StartGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1474,6 +1562,7 @@ public struct StartGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1508,6 +1597,8 @@ public struct StopGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1522,7 +1613,8 @@ public struct StopGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1534,12 +1626,13 @@ public struct StopGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1556,6 +1649,7 @@ public struct StopGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -1573,22 +1667,27 @@ public struct StopGraphOutput: Swift.Sendable {
 }
 
 public struct UpdateGraphInput: Swift.Sendable {
+    /// The updated compute configuration for the graph. A graph session can be scaled up to a provisioned graph, and a provisioned graph can be scaled down to a graph session, as long as the data in the graph fits within the graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16 This field is deprecated. We recommend using computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Use ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
 
     public init(
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         deletionProtection: Swift.Bool? = nil,
         graphIdentifier: Swift.String? = nil,
         provisionedMemory: Swift.Int? = nil,
         publicConnectivity: Swift.Bool? = nil
     ) {
+        self.computeConfiguration = computeConfiguration
         self.deletionProtection = deletionProtection
         self.graphIdentifier = graphIdentifier
         self.provisionedMemory = provisionedMemory
@@ -1602,6 +1701,8 @@ public struct UpdateGraphOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The build number of the graph.
     public var buildNumber: Swift.String?
+    /// The compute configuration of the graph: either a provisioned graph or a graph session.
+    public var computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration?
     /// The time at which the graph was created.
     public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
@@ -1616,7 +1717,8 @@ public struct UpdateGraphOutput: Swift.Sendable {
     /// The name of the graph.
     /// This member is required.
     public var name: Swift.String?
-    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph. This field is deprecated. For backward compatibility, it returns memory for a provisionedGraph and minMemory for a graphSession. Use computeConfiguration instead.
+    @available(*, deprecated, message: "ProvisionedMemory is deprecated. Refer to ComputeConfiguration instead. API deprecated since 2026-11-25")
     public var provisionedMemory: Swift.Int?
     /// If true, the graph has a public endpoint, otherwise not.
     public var publicConnectivity: Swift.Bool?
@@ -1628,12 +1730,13 @@ public struct UpdateGraphOutput: Swift.Sendable {
     public var status: NeptuneGraphClientTypes.GraphStatus?
     /// The reason that the graph has this status.
     public var statusReason: Swift.String?
-    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
     public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
 
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
+        computeConfiguration: NeptuneGraphClientTypes.ComputeConfiguration? = nil,
         createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
@@ -1650,6 +1753,7 @@ public struct UpdateGraphOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.buildNumber = buildNumber
+        self.computeConfiguration = computeConfiguration
         self.createTime = createTime
         self.deletionProtection = deletionProtection
         self.endpoint = endpoint
@@ -3405,7 +3509,7 @@ public struct StartImportTaskInput: Swift.Sendable {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// Options for how to perform an import.
+    /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
     public var importOptions: NeptuneGraphClientTypes.ImportOptions?
     /// The parquet type of the import task.
     public var parquetType: NeptuneGraphClientTypes.ParquetType?
@@ -3442,7 +3546,7 @@ public struct StartImportTaskOutput: Swift.Sendable {
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     public var graphId: Swift.String?
-    /// Options for how to perform an import.
+    /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
     public var importOptions: NeptuneGraphClientTypes.ImportOptions?
     /// The parquet type of the import task.
     public var parquetType: NeptuneGraphClientTypes.ParquetType?
@@ -4026,6 +4130,7 @@ extension CreateGraphInput {
 
     static func write(value: CreateGraphInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: NeptuneGraphClientTypes.ComputeConfiguration.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["graphName"].write(value.graphName)
         try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
@@ -4105,6 +4210,7 @@ extension RestoreGraphFromSnapshotInput {
 
     static func write(value: RestoreGraphFromSnapshotInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: NeptuneGraphClientTypes.ComputeConfiguration.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["graphName"].write(value.graphName)
         try writer["provisionedMemory"].write(value.provisionedMemory)
@@ -4155,6 +4261,7 @@ extension UpdateGraphInput {
 
     static func write(value: UpdateGraphInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: NeptuneGraphClientTypes.ComputeConfiguration.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["provisionedMemory"].write(value.provisionedMemory)
         try writer["publicConnectivity"].write(value.publicConnectivity)
@@ -4215,6 +4322,7 @@ extension CreateGraphOutput {
         var value = CreateGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4293,6 +4401,7 @@ extension DeleteGraphOutput {
         var value = DeleteGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4390,6 +4499,7 @@ extension GetGraphOutput {
         var value = GetGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4590,6 +4700,7 @@ extension ResetGraphOutput {
         var value = ResetGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4616,6 +4727,7 @@ extension RestoreGraphFromSnapshotOutput {
         var value = RestoreGraphFromSnapshotOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4663,6 +4775,7 @@ extension StartGraphOutput {
         var value = StartGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4708,6 +4821,7 @@ extension StopGraphOutput {
         var value = StopGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -4748,6 +4862,7 @@ extension UpdateGraphOutput {
         var value = UpdateGraphOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
@@ -5477,6 +5592,34 @@ extension UnprocessableException {
     }
 }
 
+extension NeptuneGraphClientTypes.ComputeConfiguration {
+
+    static func write(value: NeptuneGraphClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .graphsession(graphsession):
+                try writer["graphSession"].write(graphsession, with: NeptuneGraphClientTypes.GraphSessionConfiguration.write(value:to:))
+            case let .provisionedgraph(provisionedgraph):
+                try writer["provisionedGraph"].write(provisionedgraph, with: NeptuneGraphClientTypes.ProvisionedGraphConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.ComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "provisionedGraph":
+                return .provisionedgraph(try reader["provisionedGraph"].read(with: NeptuneGraphClientTypes.ProvisionedGraphConfiguration.read(from:)))
+            case "graphSession":
+                return .graphsession(try reader["graphSession"].read(with: NeptuneGraphClientTypes.GraphSessionConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension NeptuneGraphClientTypes.EdgeStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.EdgeStructure {
@@ -5594,6 +5737,21 @@ extension NeptuneGraphClientTypes.GraphDataSummary {
     }
 }
 
+extension NeptuneGraphClientTypes.GraphSessionConfiguration {
+
+    static func write(value: NeptuneGraphClientTypes.GraphSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["minMemory"].write(value.minMemory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSessionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneGraphClientTypes.GraphSessionConfiguration()
+        value.minMemory = try reader["minMemory"].readIfPresent()
+        return value
+    }
+}
+
 extension NeptuneGraphClientTypes.GraphSnapshotSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.GraphSnapshotSummary {
@@ -5625,6 +5783,7 @@ extension NeptuneGraphClientTypes.GraphSummary {
         value.replicaCount = try reader["replicaCount"].readIfPresent()
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.ComputeConfiguration.read(from:))
         return value
     }
 }
@@ -5728,6 +5887,21 @@ extension NeptuneGraphClientTypes.PrivateGraphEndpointSummary {
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneGraphClientTypes.ProvisionedGraphConfiguration {
+
+    static func write(value: NeptuneGraphClientTypes.ProvisionedGraphConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["memory"].write(value.memory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptuneGraphClientTypes.ProvisionedGraphConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneGraphClientTypes.ProvisionedGraphConfiguration()
+        value.memory = try reader["memory"].readIfPresent() ?? 0
         return value
     }
 }

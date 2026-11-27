@@ -2861,6 +2861,70 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Encryption settings for the tables in a service-managed Amazon S3 Tables catalog.
+    public struct S3TablesEncryptionConfiguration: Swift.Sendable {
+        /// Whether to encrypt the tables with the AWS KMS key specified in KmsKeyArn.
+        public var enabled: Swift.Bool?
+        /// The ARN of the AWS KMS key to encrypt the tables with. Takes the form arn:aws:kms:region:account-id:key/key-id.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Configuration for an Amazon S3 Tables catalog that OpenSearch Service creates and manages for the domain.
+    public struct ServiceManagedS3TablesCatalog: Swift.Sendable {
+        /// Encryption settings for the tables in the catalog.
+        public var encryptionConfiguration: OpenSearchClientTypes.S3TablesEncryptionConfiguration?
+
+        public init(
+            encryptionConfiguration: OpenSearchClientTypes.S3TablesEncryptionConfiguration? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The catalog that a domain publishes to. Specify exactly one catalog type.
+    public enum CatalogConfiguration: Swift.Sendable {
+        /// An Amazon S3 Tables catalog that OpenSearch Service creates and manages for the domain.
+        case servicemanageds3tables(OpenSearchClientTypes.ServiceManagedS3TablesCatalog)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Container for the parameters that configure the domain's integration with a data catalog, so that the domain can publish its data as tables. The only supported catalog is an Amazon S3 Tables catalog that OpenSearch Service creates and manages for the domain.
+    public struct CatalogOptions: Swift.Sendable {
+        /// The catalog that the domain publishes to.
+        public var catalog: OpenSearchClientTypes.CatalogConfiguration?
+        /// Whether the domain publishes data to the catalog.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            catalog: OpenSearchClientTypes.CatalogConfiguration? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.catalog = catalog
+            self.enabled = enabled
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Container for the parameters required to enable cold storage for an OpenSearch Service domain. For more information, see [Cold storage for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html).
     public struct ColdStorageOptions: Swift.Sendable {
         /// Whether to enable or disable cold storage on the domain. You must enable UltraWarm storage to enable cold storage.
@@ -4058,6 +4122,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput?
     /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
     public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
+    /// Options for publishing the domain's data to a data catalog, such as a service-managed Amazon S3 Tables catalog.
+    public var catalogOptions: OpenSearchClientTypes.CatalogOptions?
     /// Container for the cluster configuration of a domain.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
@@ -4105,6 +4171,7 @@ public struct CreateDomainInput: Swift.Sendable {
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput? = nil,
         automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
+        catalogOptions: OpenSearchClientTypes.CatalogOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -4131,6 +4198,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
         self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+        self.catalogOptions = catalogOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -4595,6 +4663,8 @@ extension OpenSearchClientTypes {
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput?
         /// The current status of the domain's automated snapshot pause options.
         public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions?
+        /// The catalog options for the domain.
+        public var catalogOptions: OpenSearchClientTypes.CatalogOptions?
         /// Information about a configuration change happening on the domain.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of the domain.
@@ -4673,6 +4743,7 @@ extension OpenSearchClientTypes {
             arn: Swift.String? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput? = nil,
             automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
+            catalogOptions: OpenSearchClientTypes.CatalogOptions? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
@@ -4712,6 +4783,7 @@ extension OpenSearchClientTypes {
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
             self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+            self.catalogOptions = catalogOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -6573,6 +6645,25 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The configured catalog options for the domain and their current status.
+    public struct CatalogOptionsStatus: Swift.Sendable {
+        /// The catalog options configured for the domain.
+        public var options: OpenSearchClientTypes.CatalogOptions?
+        /// The status of the catalog options for the domain.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.CatalogOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The cluster configuration status for a domain.
     public struct ClusterConfigStatus: Swift.Sendable {
         /// Cluster configuration options for the specified domain.
@@ -6938,6 +7029,8 @@ extension OpenSearchClientTypes {
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus?
         /// Specifies AutomatedSnapshotPauseOptions for the domain.
         public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus?
+        /// The catalog options configured for the domain and their current status.
+        public var catalogOptions: OpenSearchClientTypes.CatalogOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of a the domain.
@@ -6984,6 +7077,7 @@ extension OpenSearchClientTypes {
             aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus? = nil,
             automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus? = nil,
+            catalogOptions: OpenSearchClientTypes.CatalogOptionsStatus? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfigStatus? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus? = nil,
@@ -7010,6 +7104,7 @@ extension OpenSearchClientTypes {
             self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
             self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+            self.catalogOptions = catalogOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -11930,6 +12025,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
     /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
     public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
+    /// Options for publishing the domain's data to a data catalog, such as a service-managed Amazon S3 Tables catalog.
+    public var catalogOptions: OpenSearchClientTypes.CatalogOptions?
     /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
@@ -11982,6 +12079,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions? = nil,
         automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
+        catalogOptions: OpenSearchClientTypes.CatalogOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -12009,6 +12107,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
         self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
+        self.catalogOptions = catalogOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -13903,6 +14002,7 @@ extension CreateDomainInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsInput.write(value:to:))
         try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
+        try writer["CatalogOptions"].write(value.catalogOptions, with: OpenSearchClientTypes.CatalogOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -14245,6 +14345,7 @@ extension UpdateDomainConfigInput {
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptions.write(value:to:))
         try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
+        try writer["CatalogOptions"].write(value.catalogOptions, with: OpenSearchClientTypes.CatalogOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -18132,6 +18233,58 @@ extension OpenSearchClientTypes.CapabilityFailure {
     }
 }
 
+extension OpenSearchClientTypes.CatalogConfiguration {
+
+    static func write(value: OpenSearchClientTypes.CatalogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .servicemanageds3tables(servicemanageds3tables):
+                try writer["ServiceManagedS3Tables"].write(servicemanageds3tables, with: OpenSearchClientTypes.ServiceManagedS3TablesCatalog.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CatalogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ServiceManagedS3Tables":
+                return .servicemanageds3tables(try reader["ServiceManagedS3Tables"].read(with: OpenSearchClientTypes.ServiceManagedS3TablesCatalog.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension OpenSearchClientTypes.CatalogOptions {
+
+    static func write(value: OpenSearchClientTypes.CatalogOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog, with: OpenSearchClientTypes.CatalogConfiguration.write(value:to:))
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CatalogOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CatalogOptions()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.catalog = try reader["Catalog"].readIfPresent(with: OpenSearchClientTypes.CatalogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.CatalogOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CatalogOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CatalogOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.CatalogOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.CategoryDiffResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CategoryDiffResult {
@@ -18630,6 +18783,7 @@ extension OpenSearchClientTypes.DomainConfig {
         value.nodeToNodeEncryptionOptions = try reader["NodeToNodeEncryptionOptions"].readIfPresent(with: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus.read(from:))
         value.advancedOptions = try reader["AdvancedOptions"].readIfPresent(with: OpenSearchClientTypes.AdvancedOptionsStatus.read(from:))
         value.logPublishingOptions = try reader["LogPublishingOptions"].readIfPresent(with: OpenSearchClientTypes.LogPublishingOptionsStatus.read(from:))
+        value.catalogOptions = try reader["CatalogOptions"].readIfPresent(with: OpenSearchClientTypes.CatalogOptionsStatus.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: OpenSearchClientTypes.DomainEndpointOptionsStatus.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: OpenSearchClientTypes.AdvancedSecurityOptionsStatus.read(from:))
         value.identityCenterOptions = try reader["IdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IdentityCenterOptionsStatus.read(from:))
@@ -18789,6 +18943,7 @@ extension OpenSearchClientTypes.DomainStatus {
         value.nodeToNodeEncryptionOptions = try reader["NodeToNodeEncryptionOptions"].readIfPresent(with: OpenSearchClientTypes.NodeToNodeEncryptionOptions.read(from:))
         value.advancedOptions = try reader["AdvancedOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.logPublishingOptions = try reader["LogPublishingOptions"].readMapIfPresent(valueReadingClosure: OpenSearchClientTypes.LogPublishingOption.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.catalogOptions = try reader["CatalogOptions"].readIfPresent(with: OpenSearchClientTypes.CatalogOptions.read(from:))
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: OpenSearchClientTypes.DomainEndpointOptions.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: OpenSearchClientTypes.AdvancedSecurityOptions.read(from:))
@@ -19794,6 +19949,23 @@ extension OpenSearchClientTypes.S3GlueDataCatalog {
     }
 }
 
+extension OpenSearchClientTypes.S3TablesEncryptionConfiguration {
+
+    static func write(value: OpenSearchClientTypes.S3TablesEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.S3TablesEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.S3TablesEncryptionConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.S3VectorsEngine {
 
     static func write(value: OpenSearchClientTypes.S3VectorsEngine?, to writer: SmithyJSON.Writer) throws {
@@ -19920,6 +20092,21 @@ extension OpenSearchClientTypes.ServerlessVectorAcceleration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ServerlessVectorAcceleration()
         value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ServiceManagedS3TablesCatalog {
+
+    static func write(value: OpenSearchClientTypes.ServiceManagedS3TablesCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: OpenSearchClientTypes.S3TablesEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServiceManagedS3TablesCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ServiceManagedS3TablesCatalog()
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: OpenSearchClientTypes.S3TablesEncryptionConfiguration.read(from:))
         return value
     }
 }
