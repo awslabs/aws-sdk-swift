@@ -36,6 +36,7 @@ data class ProtocolTest(
 
 val enabledProtocols = listOf(
     ProtocolTest("Ec2QueryTestSDK", "aws.protocoltests.ec2#AwsEc2"),
+    ProtocolTest("Ec2QueryTestSDKSchemaBased", "aws.protocoltests.ec2#AwsEc2", forceSchemaBased = true),
     ProtocolTest("AWSJson10TestSDK", "aws.protocoltests.json10#JsonRpc10"),
     ProtocolTest("AWSJson11TestSDK", "aws.protocoltests.json#JsonProtocol"),
     ProtocolTest("AWSRestJsonTestSDK", "aws.protocoltests.restjson#RestJson"),
@@ -43,8 +44,15 @@ val enabledProtocols = listOf(
     ProtocolTest("AWSRestJsonValidationTestSDK", "aws.protocoltests.restjson.validation#RestJsonValidation"),
     ProtocolTest("AWSRestJsonValidationTestSDKSchemaBased", "aws.protocoltests.restjson.validation#RestJsonValidation", forceSchemaBased = true),
     ProtocolTest("RestXmlTestSDK", "aws.protocoltests.restxml#RestXml"),
+    ProtocolTest("RestXmlTestSDKSchemaBased", "aws.protocoltests.restxml#RestXml", forceSchemaBased = true),
     ProtocolTest("RestXmlWithNamespaceTestSDK", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace"),
+    ProtocolTest(
+        "RestXmlWithNamespaceTestSDKSchemaBased",
+        "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace",
+        forceSchemaBased = true,
+    ),
     ProtocolTest("AWSQueryTestSDK", "aws.protocoltests.query#AwsQuery"),
+    ProtocolTest("AWSQueryTestSDKSchemaBased", "aws.protocoltests.query#AwsQuery", forceSchemaBased = true),
     ProtocolTest("RPCV2CBORTestSDK", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol"),
     ProtocolTest("AWSJson10TestQueryCompatSDK", "aws.protocoltests.json10#QueryCompatibleJsonRpc10"),
     ProtocolTest("RPCV2CBORTestQueryCompatSDK", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol"),
