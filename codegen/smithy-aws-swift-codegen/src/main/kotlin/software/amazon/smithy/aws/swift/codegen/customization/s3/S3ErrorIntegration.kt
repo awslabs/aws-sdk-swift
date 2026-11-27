@@ -7,7 +7,6 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
-import software.amazon.smithy.swift.codegen.StructureGenerator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
@@ -34,7 +33,6 @@ class S3ErrorIntegration : SwiftIntegration {
         get() =
             listOf(
                 SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
-                SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
             )
 
     private val s3MembersParams =
@@ -48,13 +46,6 @@ class S3ErrorIntegration : SwiftIntegration {
                 SwiftTypes.String,
                 SwiftTypes.Error,
             )
-        }
-
-    private val s3Members =
-        SectionWriter { writer, _ ->
-            // Read from the HTTP response, so that it is available with schema-based serde too, which
-            // doesn't use the legacy error initializer.  The value is the same as legacy serde assigned.
-            writer.write("public var requestID2: \$T { httpResponse.requestID2 }", SwiftTypes.String)
         }
 
     private val httpResponseBinding =

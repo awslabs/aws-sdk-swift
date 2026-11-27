@@ -59,7 +59,6 @@ extension ComplexXMLError {
         value.properties.nested = try reader["Nested"].readIfPresent(with: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.read(from:))
         value.properties.topLevel = try reader["TopLevel"].readIfPresent()
         value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
         value.message = baseError.message
         return value
     }
@@ -89,7 +88,6 @@ public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
-    public var requestID: Swift.String?
 
     public init(
         header: Swift.String? = nil,
@@ -123,7 +121,6 @@ extension ComplexXMLErrorNoErrorWrapping {
         value.properties.nested = try reader["Nested"].readIfPresent(with: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.read(from:))
         value.properties.topLevel = try reader["TopLevel"].readIfPresent()
         value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
         value.message = baseError.message
         return value
     }

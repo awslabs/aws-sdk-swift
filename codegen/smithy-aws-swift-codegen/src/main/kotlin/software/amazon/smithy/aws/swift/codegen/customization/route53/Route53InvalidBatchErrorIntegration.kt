@@ -108,7 +108,6 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
             writer.openBlock("init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HTTPResponse) {", "}") {
                 writer.write("self.init(messages: customError.messages)")
                 writer.write("self.message = customError.message")
-                writer.write("self.requestID = customError.requestID")
                 writer.write("self.httpResponse = httpResponse")
             }
         }
