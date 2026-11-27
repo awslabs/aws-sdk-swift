@@ -13,6 +13,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
+import software.amazon.smithy.swift.codegen.integration.serde.SerdeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
@@ -39,6 +40,9 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
         // (DeleteObjects).
         // Instead of playing whack-a-mole broadly apply this interceptor to everything but streaming responses
         // which adds a small amount of overhead to response processing.
+        // With schema-based serde, S3Plugin handles these responses instead.
+        if (SerdeUtils.useSchemaBased(ctx)) return
+
         val output = ctx.model.expectShape(operationShape.output.get())
         val outputIsNotAStreamingShape = output.members().none { ctx.model.expectShape(it.target).isStreaming }
 

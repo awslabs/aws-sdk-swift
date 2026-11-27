@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.plugins.S3Plugin
 import software.amazon.smithy.aws.swift.codegen.plugins.UnknownAWSHTTPServiceErrorPlugin
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
@@ -22,6 +23,10 @@ class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
     override val baseErrorSymbol: Symbol = ClientRuntimeTypes.RestXML.RestXMLError
 
     override val plugins: List<Plugin> = listOf(UnknownAWSHTTPServiceErrorPlugin())
+
+    // S3's response customizations are applied by a plugin when serde is schema-based.
+    override fun plugins(ctx: ProtocolGenerator.GenerationContext): List<Plugin> =
+        if (serviceIsS3(ctx)) plugins + S3Plugin() else plugins
 
     // Error responses are unwrapped when the service's restXml trait sets noErrorWrapping.
     override fun renderClientProtocol(

@@ -109,6 +109,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "GlacierTestSDKSchemaBased", basePath: baseDir),
         .init(name: "MachineLearningTestSDK", basePath: baseDir),
         .init(name: "S3TestSDK", basePath: baseDir),
+        .init(name: "S3TestSDKSchemaBased", basePath: baseDir),
         .init(name: "RestJsonExtras", basePath: baseDirLocal),
         .init(name: "RestJsonExtrasSchemaBased", basePath: baseDirLocal),
         .init(name: "AwsQueryExtras", basePath: baseDirLocal),

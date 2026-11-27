@@ -71,6 +71,7 @@ val enabledProtocols = listOf(
     ProtocolTest("GlacierTestSDK", "com.amazonaws.glacier#Glacier"),
     ProtocolTest("GlacierTestSDKSchemaBased", "com.amazonaws.glacier#Glacier", forceSchemaBased = true),
     ProtocolTest("S3TestSDK", "com.amazonaws.s3#AmazonS3"),
+    ProtocolTest("S3TestSDKSchemaBased", "com.amazonaws.s3#AmazonS3", forceSchemaBased = true),
     ProtocolTest("MachineLearningTestSDK", "com.amazonaws.machinelearning#AmazonML_20141212"),
 )
 
