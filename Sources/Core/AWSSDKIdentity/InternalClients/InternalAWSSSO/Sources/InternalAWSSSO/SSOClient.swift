@@ -658,7 +658,7 @@ extension SSOClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRoleCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRoleCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase, socketTimeout: config.httpClientConfiguration.socketTimeout))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSO"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(serviceID: serviceName, version: SSOClient.version, config: config))

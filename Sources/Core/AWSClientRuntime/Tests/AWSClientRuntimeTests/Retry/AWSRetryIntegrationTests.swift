@@ -34,8 +34,6 @@ final class RetryIntegrationTests: XCTestCase {
         // Setup the HTTP context, used by the retry middleware
         context = Context(attributes: Attributes())
         context.partitionID = partitionID
-        context.socketTimeout = 60.0
-        context.estimatedSkew = 30.0
 
         // Create the test output handler, which is the "next" middleware called by the retry middleware
         next = TestOutputHandler()
@@ -73,7 +71,7 @@ final class RetryIntegrationTests: XCTestCase {
             })
             .executeRequest(next)
         builder.interceptors.add(AmzSdkInvocationIdMiddleware())
-        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase))
+        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase, socketTimeout: 60.0))
 
         // Set the quota on the test output handler so it can verify state during tests
         next.quota = await quota
@@ -240,8 +238,6 @@ final class RetryIntegrationTests: XCTestCase {
     ) async {
         context = Context(attributes: Attributes())
         context.partitionID = partitionID
-        context.socketTimeout = 60.0
-        context.estimatedSkew = 30.0
         if let serviceName { context.set(key: SmithyHTTPAPIKeys.serviceName, value: serviceName) }
         if let operationName { context.set(key: SmithyHTTPAPIKeys.operation, value: operationName) }
 
@@ -281,7 +277,7 @@ final class RetryIntegrationTests: XCTestCase {
             })
             .executeRequest(next)
         builder.interceptors.add(AmzSdkInvocationIdMiddleware())
-        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase))
+        builder.interceptors.add(AmzSdkRequestMiddleware(maxRetries: subject.options.maxRetriesBase, socketTimeout: 60.0))
 
         next.quota = await quota
     }
@@ -342,24 +338,6 @@ final class RetryIntegrationTests: XCTestCase {
         let recorded = await delays.delays
         XCTAssertEqual(recorded.count, 1)
         return try XCTUnwrap(recorded.first)
-    }
-
-    // Test getTTLutility method.
-    func test_getTTL() {
-        let nowDateString = "Mon, 15 Jul 2024 01:24:12 GMT"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-        let nowDate: Date = dateFormatter.date(from: nowDateString)!
-
-        // The two timeintervals below add up to 34  minutes 59 seconds, rounding to closest second.
-        let estimatedSkew = 2039.34
-        let socketTimeout = 60.0
-
-        // Verify calculated TTL is nowDate + (34 minutes and 59 seconds).
-        let ttl = awsGetTTL(now: nowDate, estimatedSkew: estimatedSkew, socketTimeout: socketTimeout)
-        XCTAssertEqual(ttl, "20240715T015911Z")
     }
 }
 
@@ -554,9 +532,10 @@ private class TestOutputHandler: ExecuteRequest {
                     .components(separatedBy: "=")[1]
             )
         )
-        // For attempts 2+, TTL must be present.
-        if (attemptNum > 1) {
-            ttl = try XCTUnwrap(requestPairs.first { $0.hasPrefix("ttl") }).components(separatedBy: "=")[1]
+        // TTL is present only once a skew has been measured from a response's Date header,
+        // which these test responses don't have.  Ttl behavior is tested in AmzSdkRequestMiddlewareTests.
+        if let ttlPair = requestPairs.first(where: { $0.hasPrefix("ttl=") }) {
+            ttl = ttlPair.components(separatedBy: "=")[1]
             // Check that TTL date is in strftime format.
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
