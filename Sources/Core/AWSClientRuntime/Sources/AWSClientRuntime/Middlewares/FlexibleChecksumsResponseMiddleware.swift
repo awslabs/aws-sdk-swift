@@ -94,9 +94,8 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
                 checksumAlgorithm: responseChecksum
             )
 
-            // Set the response to a validating stream
-            attributes.httpResponse = response
-            attributes.httpResponse?.body = validatingStream
+            // Set the response body to a validating stream
+            response.body = validatingStream
         case .noStream:
             logger.debug("Response body is empty. Skipping response checksum validation...")
             return
