@@ -34,10 +34,6 @@ class S3ErrorIntegration : SwiftIntegration {
         get() =
             listOf(
                 SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
-                SectionWriterBinding(
-                    HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment,
-                    s3MembersAssignment,
-                ),
                 SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
             )
 
@@ -54,14 +50,11 @@ class S3ErrorIntegration : SwiftIntegration {
             )
         }
 
-    private val s3MembersAssignment =
-        SectionWriter { writer, _ ->
-            writer.write("value.requestID2 = baseError.requestID2")
-        }
-
     private val s3Members =
         SectionWriter { writer, _ ->
-            writer.write("public internal(set) var requestID2: \$T", SwiftTypes.String)
+            // Read from the HTTP response, so that it is available with schema-based serde too, which
+            // doesn't use the legacy error initializer.  The value is the same as legacy serde assigned.
+            writer.write("public var requestID2: \$T { httpResponse.requestID2 }", SwiftTypes.String)
         }
 
     private val httpResponseBinding =

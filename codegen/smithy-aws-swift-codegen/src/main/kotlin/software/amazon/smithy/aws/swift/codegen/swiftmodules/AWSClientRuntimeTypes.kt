@@ -10,6 +10,7 @@ object AWSClientRuntimeTypes {
         object S3 {
             val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError", SwiftDeclaration.PROTOCOL, listOf("SmithyReadWrite"))
             val AWSS3ErrorWith200StatusXMLMiddleware = runtimeSymbol("AWSS3ErrorWith200StatusXMLMiddleware", SwiftDeclaration.STRUCT)
+            val S3Plugin = runtimeSymbol("S3Plugin", SwiftDeclaration.STRUCT)
         }
     }
 
